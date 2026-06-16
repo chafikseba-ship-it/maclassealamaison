@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calcul littéral — Le parcours des lettres (3ème)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#FFC93C; --or-bas:#E0A41E; --vert:#8BC34A; --vert-bas:#5E9426;
+  --orange:#FF8A4C; --orange-bas:#E0672E; --teal:#46BECB; --teal-bas:#2E8A98;
+  --violet:#A78BC4; --violet-bas:#7E61A1; --rouge:#EF5D60; --rouge-bas:#c43e41;
+  --bleu:#4FA3D1; --bleu-bas:#2f7ba8;
+  --bois:#5C3D2E; --bois-clair:#8a6650; --creme:#FFF4DC; --blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18), 0 14px 22px rgba(92,61,46,.12);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
+  background:linear-gradient(160deg,#FFF7E2 0%,#FFE6BC 55%,#FFD9A0 100%);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 90px;position:relative;z-index:1}
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.5;z-index:0}
+.b1{width:180px;height:180px;background:#FFE08A;top:-40px;left:-50px}
+.b2{width:140px;height:140px;background:#FFC1A0;bottom:40px;right:-40px}
+.b3{width:120px;height:120px;background:#BCE29A;top:40%;left:-50px}
+.screen{display:none;animation:pop .35s ease}
+.screen.active{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
+  padding:14px 22px;cursor:pointer;background:var(--or);box-shadow:0 6px 0 var(--or-bas);
+  transition:transform .08s, box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--or-bas)}
+.btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
+.btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
+.btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
+.btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
+.btn.bleu{background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)}
+.btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
+.btn:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.back{background:var(--blanc);color:var(--bois);border:none;border-radius:14px;width:48px;height:48px;
+  font-size:1.5rem;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;font-family:'Fredoka'}
+.back:active{transform:translateY(4px);box-shadow:0 1px 0 #e7d3a8}
+.card{background:var(--blanc);border-radius:26px;padding:22px;box-shadow:var(--ombre);margin:16px 0}
+.tag{display:inline-block;font-family:'Fredoka';font-weight:600;color:#fff;padding:5px 14px;border-radius:30px;font-size:.85rem;margin-bottom:8px}
+.hero{text-align:center;padding:26px 16px 8px}
+.hero h1{font-size:2.5rem;line-height:1.05;margin:.1em 0;color:var(--bois)}
+.hero .sub{font-size:1.1rem;color:var(--bois-clair);font-weight:700;max-width:560px;margin:6px auto 0}
+.coin{font-size:3.4rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
+.map{display:grid;gap:16px;margin-top:8px}
+.etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;
+  box-shadow:var(--ombre);cursor:pointer;border:4px solid transparent;transition:transform .12s}
+.etape:hover{transform:translateY(-3px)}
+.etape:active{transform:translateY(1px)}
+.etape.lock{opacity:.6;filter:grayscale(.35)}
+.etape .num{flex:0 0 60px;height:60px;border-radius:18px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.7rem;color:#fff}
+.etape .txt h3{margin:0 0 2px;font-size:1.16rem}
+.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.92rem}
+.etape .status{margin-left:auto;font-size:1.5rem}
+.e1 .num{background:var(--violet);box-shadow:0 5px 0 var(--violet-bas)}
+.e2 .num{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
+.e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
+.e4 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
+.e5 .num{background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)}
+.e6 .num{background:var(--or);box-shadow:0 5px 0 var(--or-bas)}
+.lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
+.mid{text-align:center;margin:16px 0}
+.formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;
+  padding:12px 22px;font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois)}
+.note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
+.exemple{font-size:.96rem;color:var(--bois-clair);font-weight:700;line-height:1.45;margin:8px 0 0}
+.exemple b{color:var(--bois)}
+.expr{font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois);text-align:center;margin:6px 0}
+/* machine substitution */
+.machine{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
+.mpod{background:var(--creme);border:3px solid var(--or-bas);border-radius:16px;min-width:60px;height:56px;padding:0 10px;
+  display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.3rem;color:var(--bois)}
+.marrow{font-size:1.6rem;color:var(--bois-clair)}
+.mbox{background:var(--violet);color:#fff;border-radius:16px;padding:14px 16px;font-family:'Fredoka';font-weight:700;
+  box-shadow:0 6px 0 var(--violet-bas);text-align:center}
+.msteps{display:flex;flex-direction:column;gap:8px;margin:14px auto 2px;max-width:440px}
+.mstep{background:var(--creme);border-radius:14px;padding:10px 14px;font-family:'Fredoka';font-weight:700;
+  color:var(--bois);opacity:0;transform:translateY(8px);transition:.35s;font-size:1.05rem;text-align:center}
+.mstep.on{opacity:1;transform:none}
+.minput{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:10px 0}
+.minput input{font-family:'Fredoka';font-weight:700;font-size:1.3rem;text-align:center;border:3px solid #f0dca8;
+  border-radius:14px;padding:10px;width:90px;color:var(--bois)}
+.minput input:focus{outline:none;border-color:var(--or-bas)}
+.fnpick{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 4px}
+.fnchip{font-family:'Fredoka';font-weight:700;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
+  border-radius:14px;padding:9px 14px;cursor:pointer;font-size:1.05rem}
+.fnchip:active{transform:translateY(2px)}
+.fnchip.act{border-color:var(--violet-bas);background:#f3edf9}
+.bigres{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.3rem;margin-top:10px;min-height:1.5em;color:var(--bois);line-height:1.4}
+.bigres b{color:var(--orange-bas)}
+/* termes colorés (réduire) */
+.termline{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.5rem;margin:14px 0;line-height:1.6}
+.tt{padding:2px 6px;border-radius:8px;transition:background .3s}
+.tt.x{background:#dff0d2;color:var(--vert-bas)}
+.tt.x2{background:#e3f5f8;color:var(--teal-bas)}
+.tt.k{background:#ffe6cf;color:var(--orange-bas)}
+/* tableau d'aires (développer / factoriser) */
+.area{margin:14px auto;width:fit-content}
+.arow{display:flex}
+.acorner{width:54px;height:40px}
+.ahead{width:84px;height:40px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;color:var(--bois)}
+.aside{width:54px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;color:var(--bois)}
+.acell{width:84px;height:64px;display:grid;place-items:center;border:3px solid #e7d3a8;background:var(--blanc);
+  font-family:'Fredoka';font-weight:700;font-size:1.15rem;color:var(--bois);opacity:0;transition:.3s}
+.acell.on{opacity:1}
+.acell.c1{background:#e3f5f8}.acell.c2{background:#fff0e2}.acell.c3{background:#f3edf9}.acell.c4{background:#dff0d2}
+/* tester égalité */
+.teq{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin:12px 0}
+.tval{font-family:'Fredoka';font-weight:700;font-size:1.2rem;background:var(--creme);border-radius:12px;padding:10px 14px;color:var(--bois)}
+.verdict{font-family:'Fredoka';font-weight:700;font-size:1.6rem;text-align:center;min-height:1.4em;margin-top:8px}
+.verdict.eq{color:var(--vert-bas)}.verdict.ne{color:var(--orange-bas)}
+input[type=range]{width:70%;max-width:320px;height:30px;accent-color:var(--bleu)}
+/* quiz */
+.scorebar{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:4px 0 14px;font-family:'Fredoka';font-weight:700}
+.scorebar .pill{background:var(--creme);border-radius:16px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8}
+.qcard{text-align:center}
+.prog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:10px;min-height:1.3em;font-size:1.05rem}
+.qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
+.helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px}
+.ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
+.ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:160px;color:var(--bois)}
+.ansrow input:focus{outline:none;border-color:var(--or-bas)}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.1rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
+  border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
+.opt.bad{background:var(--orange);color:#fff;border-color:var(--orange-bas);box-shadow:0 5px 0 var(--orange-bas)}
+.feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
+.feedback.ok{color:var(--vert-bas)}
+.feedback.no{color:var(--orange-bas)}
+.feedlab{font-family:'Nunito';font-weight:800;font-size:.92rem;color:var(--bois-clair);margin-top:6px}
+.stars{font-size:1.5rem;letter-spacing:3px;margin-top:8px;min-height:1.6em}
+.catgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:6px}
+@media(min-width:640px){.catgrid{grid-template-columns:repeat(3,1fr)}}
+.cat{border:none;border-radius:20px;padding:16px 8px;cursor:pointer;color:#fff;font-family:'Fredoka';font-weight:700;font-size:1rem;line-height:1.2;text-align:center}
+.cat .ic{font-size:1.6rem;display:block;margin-bottom:4px}
+.conf{position:fixed;width:12px;height:12px;top:-20px;z-index:50;border-radius:3px;pointer-events:none}
+.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+button,input{touch-action:manipulation}
+@media (max-width:480px){
+  .wrap{padding:14px 12px 80px}
+  .hero{padding:18px 10px 4px}
+  .hero h1{font-size:2rem}.hero .sub{font-size:1rem}.coin{font-size:2.8rem}
+  .card{padding:16px;border-radius:20px}
+  .topbar h2{font-size:1.2rem}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem;border-radius:14px}
+  .etape .txt h3{font-size:1.02rem}.etape .txt p{font-size:.82rem}
+  .formule{font-size:1rem;padding:10px 14px;white-space:normal}
+  .lead{font-size:1rem}.question{font-size:1.18rem}
+  .ansrow input{width:60%;max-width:200px}
+  .btn{font-size:1rem;padding:13px 18px}
+  .ahead{width:64px}.acell{width:64px;height:54px;font-size:1rem}.aside{width:44px}.acorner{width:44px}
+  .termline{font-size:1.25rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===================== CALCULATRICE COLLÈGE ===================== */
+.kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);transition:transform .1s}
+.kc-fab:active{transform:translateY(4px)}
+.kc-fab:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(320px,calc(100vw - 32px));
+  background:var(--blanc);border-radius:22px;padding:14px;box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);animation:kcpop .25s ease}
+.kc-panel[hidden]{display:none}
+@keyframes kcpop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.kc-head{display:flex;align-items:center;justify-content:space-between;font-family:'Fredoka';font-weight:700;color:var(--bois);margin:2px 4px 10px;font-size:1.05rem}
+.kc-x{border:none;background:var(--creme);color:var(--bois);width:32px;height:32px;border-radius:10px;font-size:1rem;cursor:pointer;font-family:'Fredoka';box-shadow:0 3px 0 #e7d3a8}
+.kc-x:active{transform:translateY(2px);box-shadow:0 1px 0 #e7d3a8}
+.kc-screen{background:#2b2b2b;border-radius:14px;padding:10px 14px;text-align:right;margin-bottom:12px;min-height:74px;display:flex;flex-direction:column;justify-content:center}
+.kc-expr{font-family:'Fredoka';font-weight:600;color:#cfe6ee;font-size:1rem;min-height:1.2em;word-break:break-all;line-height:1.25}
+.kc-res{font-family:'Fredoka';font-weight:700;color:#fff;font-size:1.7rem;line-height:1.1;margin-top:2px}
+.kc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kc-key{border:none;border-radius:14px;padding:14px 0;font-family:'Fredoka';font-weight:700;font-size:1.2rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.kc-key:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.kc-key.op{background:var(--creme);color:var(--orange-bas)}
+.kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1.05rem}
+.kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
+.kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="wrap">
+
+<!-- ===== ACCUEIL ===== -->
+<section id="accueil" class="screen active">
+  <div class="hero">
+    <div class="coin">✖️🔤</div>
+    <h1>Calcul littéral</h1>
+    <p class="sub">Le parcours des lettres. Cinq mondes : on explique, on manipule, on s'entraîne. L'arène finale t'attend au bout !</p>
+  </div>
+  <div class="map">
+    <div class="etape e1" id="mapEcrire" onclick="tapTheme('ecrire')">
+      <div class="num">🔤</div>
+      <div class="txt"><h3>1 · Écrire &amp; calculer</h3><p>Conventions · valeur d'une expression</p></div>
+      <div class="status">▶</div>
+    </div>
+    <div class="etape e2" id="mapReduire" onclick="tapTheme('reduire')">
+      <div class="num">🧹</div>
+      <div class="txt"><h3>2 · Réduire</h3><p>Regrouper les termes semblables</p></div>
+      <div class="status">🔒</div>
+    </div>
+    <div class="etape e3" id="mapDev" onclick="tapTheme('developper')">
+      <div class="num">📦</div>
+      <div class="txt"><h3>3 · Développer</h3><p>Distributivité simple et double</p></div>
+      <div class="status">🔒</div>
+    </div>
+    <div class="etape e4" id="mapFac" onclick="tapTheme('factoriser')">
+      <div class="num">🎁</div>
+      <div class="txt"><h3>4 · Factoriser</h3><p>Mettre en évidence un facteur commun</p></div>
+      <div class="status">🔒</div>
+    </div>
+    <div class="etape e5" id="mapTest" onclick="tapTheme('tester')">
+      <div class="num">⚖️</div>
+      <div class="txt"><h3>5 · Tester une égalité</h3><p>Vraie ou fausse ?</p></div>
+      <div class="status">🔒</div>
+    </div>
+    <div class="etape e6" id="mapArene" onclick="tapArene()">
+      <div class="num">⚔️</div>
+      <div class="txt"><h3>Arène finale</h3><p>Tous les thèmes, au choix</p></div>
+      <div class="status">🔒</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ÉCRIRE : explication ===== -->
+<section id="expEcrire" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Écrire &amp; calculer</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">Définition</span>
+    <p class="lead">Une <b>expression littérale</b> est un calcul qui contient une ou plusieurs <b>lettres</b> (des nombres qu'on ne connaît pas encore).</p>
+    <p class="exemple">Exemple : <b>2x + 5</b>, ou encore <b>3a − b</b>. La lettre s'appelle une <b>variable</b>.</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">Conventions d'écriture</span>
+    <p class="lead">Devant une lettre, on <b>supprime le signe ×</b>. Et un facteur répété s'écrit en <b>puissance</b>.</p>
+    <p class="exemple"><b>3 × x = 3x</b> · <b>a × b = ab</b> · <b>1 × x = x</b> · <b>x × x = x²</b> · <b>x × x × x = x³</b>.</p>
+    <p class="note">Dans 3x, le nombre 3 est le <b>coefficient</b> ; x est la variable.</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">Calculer la valeur</span>
+    <p class="lead">Pour calculer la <b>valeur</b> d'une expression, on <b>remplace</b> la lettre par un nombre.</p>
+    <div class="machine">
+      <div class="mpod" id="demoIn">x = 4</div>
+      <span class="marrow">➜</span>
+      <div class="mbox">2x + 5</div>
+      <span class="marrow">➜</span>
+      <div class="mpod" id="demoOut">?</div>
+    </div>
+    <div class="msteps" id="demoSteps">
+      <div class="mstep" id="ds0">On remplace x par 4 :  2 × 4 + 5</div>
+      <div class="mstep" id="ds1">2 × 4 = 8,  donc  8 + 5</div>
+      <div class="mstep" id="ds2">= 13  →  l'expression vaut 13 quand x = 4</div>
+    </div>
+    <div class="mid"><button class="btn violet" id="btnDemo" onclick="animDemo()">▶️ Calculer</button></div>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="go('toolEcrire')">À l'outil ➜</button></div>
+</section>
+
+<!-- ===== ÉCRIRE : outil ===== -->
+<section id="toolEcrire" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>La machine à substituer</h2></div>
+  <div class="card">
+    <p class="lead" style="text-align:center">Choisis une expression, entre une valeur de x, et regarde le calcul se faire pas à pas.</p>
+    <div class="fnpick" id="fnPick"></div>
+    <div class="minput">
+      <span style="font-family:Fredoka;font-weight:700">x =</span>
+      <input id="machX" inputmode="numeric" placeholder="4" value="4">
+      <button class="btn violet" onclick="runMachine()">Calculer ▶️</button>
+    </div>
+    <div class="msteps" id="machSteps"></div>
+    <div class="bigres" id="machRes"></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('ecrire')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ===== RÉDUIRE : explication ===== -->
+<section id="expReduire" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Réduire</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">Définition</span>
+    <p class="lead"><b>Réduire</b> une expression, c'est la rendre plus courte en <b>regroupant les termes semblables</b>.</p>
+    <p class="exemple">Des termes sont <b>semblables</b> quand ils ont la même partie « lettre » : les <b>x</b> avec les <b>x</b>, les <b>x²</b> avec les <b>x²</b>, et les <b>nombres seuls</b> entre eux.</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">À retenir</span>
+    <p class="lead">On additionne (ou soustrait) seulement les <b>coefficients</b> de termes semblables. On ne mélange jamais des x avec des nombres seuls.</p>
+    <p class="exemple">⚠️ Erreur fréquente : 3x + 5 ne fait <b>pas</b> 8x ! On ne peut pas regrouper 3x (des x) avec 5 (un nombre seul).</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">Exemple animé</span>
+    <p class="lead" style="text-align:center">On regroupe par couleur, puis on additionne chaque groupe.</p>
+    <div class="termline" id="redLine"></div>
+    <div class="mid"><button class="btn teal" onclick="redStep()">▶️ Réduire pas à pas</button> <button class="btn fant" onclick="redNew()">Autre exemple</button></div>
+    <div class="bigres" id="redRes"></div>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="go('toolReduire')">À l'outil ➜</button></div>
+</section>
+
+<!-- ===== RÉDUIRE : outil ===== -->
+<section id="toolReduire" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'atelier de tri</h2></div>
+  <div class="card">
+    <p class="lead" style="text-align:center">Une nouvelle expression à chaque fois. Touche « Réduire » pour voir les termes se regrouper, puis vérifie le résultat.</p>
+    <div class="termline" id="toolRedLine"></div>
+    <div class="mid"><button class="btn teal" onclick="toolRedStep()">Réduire</button> <button class="btn fant" onclick="toolRedNew()">Nouvelle expression</button></div>
+    <div class="bigres" id="toolRedRes"></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('reduire')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ===== DÉVELOPPER : explication ===== -->
+<section id="expDev" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Développer</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">Définition</span>
+    <p class="lead"><b>Développer</b>, c'est transformer un <b>produit</b> (avec des parenthèses) en une <b>somme</b> (sans parenthèses).</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">Distributivité simple</span>
+    <div class="mid"><span class="formule" style="border-color:var(--orange-bas)">k(a + b) = ka + kb</span></div>
+    <p class="exemple">On multiplie le facteur de devant par <b>chaque</b> terme de la parenthèse.<br>Exemple : 3(x + 4) = 3·x + 3·4 = <b>3x + 12</b>.</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">Distributivité double</span>
+    <div class="mid"><span class="formule" style="border-color:var(--orange-bas)">(a + b)(c + d) = ac + ad + bc + bd</span></div>
+    <p class="lead" style="text-align:center">Chaque terme de la 1ʳᵉ parenthèse multiplie chaque terme de la 2ᵉ. Le <b>tableau d'aires</b> le montre bien :</p>
+    <div class="area" id="devArea"></div>
+    <div class="mid"><button class="btn orange" id="btnDevArea" onclick="devAreaAnim()">▶️ Montrer les 4 morceaux</button></div>
+    <div class="bigres" id="devAreaRes"></div>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="go('toolDev')">À l'outil ➜</button></div>
+</section>
+
+<!-- ===== DÉVELOPPER : outil ===== -->
+<section id="toolDev" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'usine à développer</h2></div>
+  <div class="card">
+    <p class="lead" style="text-align:center">Une nouvelle expression à développer à chaque fois. Touche « Développer » pour voir les étapes.</p>
+    <div class="expr" id="toolDevExpr"></div>
+    <div class="msteps" id="toolDevSteps"></div>
+    <div class="mid"><button class="btn orange" onclick="toolDevStep()">Développer</button> <button class="btn fant" onclick="toolDevNew()">Nouvelle expression</button></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('developper')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ===== FACTORISER : explication ===== -->
+<section id="expFac" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Factoriser</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">Définition</span>
+    <p class="lead"><b>Factoriser</b>, c'est l'inverse de développer : on transforme une <b>somme</b> en <b>produit</b>, en mettant en évidence un <b>facteur commun</b>.</p>
+    <div class="mid"><span class="formule" style="border-color:var(--vert-bas)">ka + kb = k(a + b)</span></div>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">Trouver le facteur commun</span>
+    <p class="lead">Le facteur commun est ce qui apparaît dans <b>tous</b> les termes : un nombre, une lettre, ou une parenthèse entière.</p>
+    <p class="exemple">Exemple : dans 6x + 9, les deux termes sont divisibles par <b>3</b> → 6x + 9 = 3(2x + 3).</p>
+    <div class="termline" id="facLine"></div>
+    <div class="mid"><button class="btn vert" onclick="facAnim()">▶️ Mettre 3 en facteur</button></div>
+    <div class="bigres" id="facRes"></div>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">Vérifier</span>
+    <p class="lead">Pour vérifier une factorisation, il suffit de <b>développer le résultat</b> : on doit retrouver l'expression de départ.</p>
+    <p class="exemple">3(2x + 3) = 6x + 9 ✓</p>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="go('toolFac')">À l'outil ➜</button></div>
+</section>
+
+<!-- ===== FACTORISER : outil ===== -->
+<section id="toolFac" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'atelier d'emballage</h2></div>
+  <div class="card">
+    <p class="lead" style="text-align:center">Une somme à factoriser à chaque fois. Touche « Factoriser » pour voir le facteur commun se mettre en évidence.</p>
+    <div class="expr" id="toolFacExpr"></div>
+    <div class="msteps" id="toolFacSteps"></div>
+    <div class="mid"><button class="btn vert" onclick="toolFacStep()">Factoriser</button> <button class="btn fant" onclick="toolFacNew()">Nouvelle expression</button></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('factoriser')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ===== TESTER : explication ===== -->
+<section id="expTest" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Tester une égalité</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">L'idée</span>
+    <p class="lead">Pour savoir si une égalité entre deux expressions est <b>vraie</b>, on <b>remplace x</b> par un nombre dans les deux membres et on compare.</p>
+    <p class="exemple">⚠️ Un seul contre-exemple suffit à prouver qu'une égalité est <b>fausse</b>. Mais un seul exemple qui marche ne prouve pas qu'elle est <b>toujours</b> vraie.</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">Démonstration</span>
+    <p class="lead" style="text-align:center">Teste l'égalité <b>3(x + 2) = 3x + 6</b> avec la valeur de ton choix.</p>
+    <div class="teq">
+      <span style="font-family:Fredoka;font-weight:700">x =</span>
+      <input type="range" id="testRange" min="-5" max="5" value="2" oninput="updateTest()">
+      <span class="tval" id="testX">2</span>
+    </div>
+    <div class="teq">
+      <span class="tval" id="testL"></span>
+      <span style="font-family:Fredoka;font-weight:700;font-size:1.4rem" id="testSign">?</span>
+      <span class="tval" id="testR"></span>
+    </div>
+    <div class="verdict" id="testVerdict"></div>
+    <p class="note">Quelle que soit la valeur, les deux membres sont égaux : l'égalité est vraie (c'est la distributivité).</p>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="go('toolTest')">À l'outil ➜</button></div>
+</section>
+
+<!-- ===== TESTER : outil ===== -->
+<section id="toolTest" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Le juge des égalités</h2></div>
+  <div class="card">
+    <p class="lead" style="text-align:center">Une égalité s'affiche : à toi de tester plusieurs valeurs de x pour décider si elle est vraie ou fausse.</p>
+    <div class="expr" id="toolTestEq"></div>
+    <div class="teq">
+      <span style="font-family:Fredoka;font-weight:700">x =</span>
+      <input type="range" id="toolTestRange" min="-5" max="5" value="1" oninput="toolTestUpdate()">
+      <span class="tval" id="toolTestX">1</span>
+    </div>
+    <div class="teq">
+      <span class="tval" id="toolTestL"></span>
+      <span style="font-family:Fredoka;font-weight:700;font-size:1.4rem" id="toolTestSign">?</span>
+      <span class="tval" id="toolTestR"></span>
+    </div>
+    <div class="mid"><button class="btn fant" onclick="toolTestNew()">Nouvelle égalité</button></div>
+    <div class="bigres" id="toolTestRes"></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('tester')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ===== ENTRAÎNEMENT ===== -->
+<section id="ecranTrain" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="card">
+    <div class="scorebar">
+      <span class="pill">⭐ <span id="tq_score">0</span></span>
+      <span class="pill">🔥 <span id="tq_streak">0</span></span>
+    </div>
+    <div class="qcard">
+      <div class="prog" id="tq_prog"></div>
+      <div class="helpnote" id="tq_help"></div>
+      <div class="qcat" id="tq_cat"></div>
+      <div class="question" id="tq_text"></div>
+      <div class="opts" id="tq_opts" style="display:none"></div>
+      <div class="ansrow" id="tq_ansrow">
+        <input id="tq_input" inputmode="text" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="feedback" id="tq_feed"></div>
+      <div class="stars" id="tq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_cont" style="display:none" onclick="trainDone()">Continuer ➜</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ARÈNE ===== -->
+<section id="arene" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'arène des lettres</h2></div>
+  <div class="card" id="areneMenu">
+    <p class="lead" style="text-align:center">Bravo, parcours terminé ! Choisis ton entraînement libre.</p>
+    <div class="catgrid">
+      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('ecrire')"><span class="ic">🔤</span>Écrire</button>
+      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('reduire')"><span class="ic">🧹</span>Réduire</button>
+      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('developper')"><span class="ic">📦</span>Développer</button>
+      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('factoriser')"><span class="ic">🎁</span>Factoriser</button>
+      <button class="cat" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="startArene('tester')"><span class="ic">⚖️</span>Tester</button>
+    </div>
+    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
+  </div>
+  <div class="card" id="areneJeu" style="display:none">
+    <div class="scorebar">
+      <span class="pill">⭐ <span id="aq_score">0</span></span>
+      <span class="pill">🔥 <span id="aq_streak">0</span></span>
+      <span class="pill">🎯 <span id="aq_corr">0</span>/<span id="aq_tot">0</span></span>
+    </div>
+    <div class="qcard">
+      <div class="qcat" id="aq_cat"></div>
+      <div class="question" id="aq_text"></div>
+      <div class="opts" id="aq_opts" style="display:none"></div>
+      <div class="ansrow" id="aq_ansrow">
+        <input id="aq_input" inputmode="text" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="feedback" id="aq_feed"></div>
+      <div class="stars" id="aq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn fant" onclick="finArene()">Changer de catégorie</button></div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- ===================== CALCULATRICE COLLÈGE ===================== -->
+<button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">🧮</button>
+<div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
+  <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
+  <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
+  <div class="kc-keys" id="kcKeys"></div>
+</div>
+
+<script>
+/* ============ navigation & progression ============ */
+const ORDER=['ecrire','reduire','developper','factoriser','tester'];
+const EXP={ecrire:'expEcrire',reduire:'expReduire',developper:'expDev',factoriser:'expFac',tester:'expTest'};
+const MAPID={ecrire:'mapEcrire',reduire:'mapReduire',developper:'mapDev',factoriser:'mapFac',tester:'mapTest'};
+const TITLE={ecrire:'Écrire & calculer',reduire:'Réduire',developper:'Développer',factoriser:'Factoriser',tester:'Tester une égalité'};
+const unlocked={ecrire:true,reduire:false,developper:false,factoriser:false,tester:false,arene:false};
+const themeDone={ecrire:false,reduire:false,developper:false,factoriser:false,tester:false};
+let currentTheme='ecrire';
+const REQUIRED=6;
+function gid(x){return document.getElementById(x);}
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();}
+function wiggle(id){const el=gid(id);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}
+function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
+function tapArene(){if(unlocked.arene)go('arene');else wiggle('mapArene');}
+function openTheme(t){currentTheme=t;go(EXP[t]);}
+function updateMap(){
+  ORDER.forEach(t=>{const card=gid(MAPID[t]);card.classList.toggle('lock',!(unlocked[t]||themeDone[t]));
+    card.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');});
+  const ar=gid('mapArene');ar.classList.toggle('lock',!unlocked.arene);
+  ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';
+}
+
+/* ============ utilitaires algèbre ============ */
+const MIN='\u2212';
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function rint(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function rnz(min,max){let v=0;while(v===0)v=rint(min,max);return v;}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function num(x){return (x<0?MIN:'')+Math.abs(x);}
+/* polynôme [a2,a1,a0] -> texte */
+function fmtPoly(c){
+  const terms=[[c[0],'x\u00b2'],[c[1],'x'],[c[2],'']];
+  const parts=[];
+  for(const [k,v] of terms){
+    if(k===0)continue;
+    let body=(v==='')?(''+Math.abs(k)):((Math.abs(k)===1?'':''+Math.abs(k))+v);
+    parts.push({neg:k<0,body});
+  }
+  if(parts.length===0)return '0';
+  let s=parts[0].neg?MIN+parts[0].body:parts[0].body;
+  for(let i=1;i<parts.length;i++)s+=(parts[i].neg?' '+MIN+' ':' + ')+parts[i].body;
+  return s;
+}
+/* (αx+β) -> texte, sans terme x² */
+function fmtLin(a,b){return fmtPoly([0,a,b]);}
+
+/* ============ démo écrire (machine fixe) ============ */
+let demoDone=false;
+function animDemo(){
+  if(demoDone)return;demoDone=true;
+  setTimeout(()=>gid('ds0').classList.add('on'),200);
+  setTimeout(()=>gid('ds1').classList.add('on'),1100);
+  setTimeout(()=>{gid('ds2').classList.add('on');gid('demoOut').textContent='13';gid('btnDemo').textContent='✅ = 13';},2000);
+}
+
+/* ============ outil écrire (substitution) ============ */
+const MACHINES=[
+  {label:'2x + 5',a2:0,a1:2,a0:5},
+  {label:'3x '+MIN+' 1',a2:0,a1:3,a0:-1},
+  {label:'x\u00b2 + 2',a2:1,a1:0,a0:2},
+  {label:MIN+'2x + 7',a2:0,a1:-2,a0:7}
+];
+let machSel=0;
+(function(){const box=gid('fnPick');MACHINES.forEach((m,i)=>{const b=document.createElement('button');
+  b.className='fnchip'+(i===0?' act':'');b.textContent=m.label;
+  b.onclick=()=>{machSel=i;document.querySelectorAll('#fnPick .fnchip').forEach(x=>x.classList.remove('act'));b.classList.add('act');gid('machSteps').innerHTML='';gid('machRes').innerHTML='';};
+  box.appendChild(b);});})();
+function runMachine(){
+  const m=MACHINES[machSel];
+  const raw=gid('machX').value.trim().replace(/\u2212/g,'-').replace(',','.').replace(/\s/g,'');
+  const x=parseFloat(raw);
+  const steps=gid('machSteps'),res=gid('machRes');steps.innerHTML='';res.innerHTML='';
+  if(!isFinite(x)){res.innerHTML='Entre un nombre pour x.';return;}
+  const xs=(x<0?'('+MIN+Math.abs(x)+')':''+x);
+  const val=m.a2*x*x+m.a1*x+m.a0;
+  const lines=[];
+  lines.push('On remplace x par '+num(x)+' dans  '+m.label);
+  let calc='';
+  if(m.a2)calc+=xs+'\u00b2';
+  if(m.a1)calc+=(calc?' ':'')+(m.a1<0?MIN:(calc?'+ ':''))+Math.abs(m.a1)+'\u00d7'+xs;
+  if(m.a0)calc+=(calc?' ':'')+(m.a0<0?MIN+' ':(calc?'+ ':''))+Math.abs(m.a0);
+  lines.push('= '+calc);
+  lines.push('= '+num(val));
+  lines.forEach((t,i)=>{const d=document.createElement('div');d.className='mstep';d.textContent=t;steps.appendChild(d);
+    setTimeout(()=>d.classList.add('on'),200+i*650);});
+  setTimeout(()=>{res.innerHTML='L\u2019expression vaut <b>'+num(val)+'</b> quand x = '+num(x)+'.';},200+lines.length*650);
+}
+
+/* ============ réduire : exemple animé (explication) ============ */
+function makeReduce(){ // renvoie {terms:[{k,deg}], red:[a2,a1,a0]}
+  const n=rint(3,4);const terms=[];let a1=0,a0=0,a2=0;
+  for(let i=0;i<n;i++){const deg=pick([1,1,0,2]);const k=rnz(-6,6);
+    terms.push({k,deg});if(deg===1)a1+=k;else if(deg===0)a0+=k;else a2+=k;}
+  // au moins deux x pour que ce soit intéressant
+  if(terms.filter(t=>t.deg===1).length<2){terms.push({k:rnz(-5,5),deg:1});a1+=terms[terms.length-1].k;}
+  return {terms,red:[a2,a1,a0]};
+}
+function termsHTML(terms){
+  return terms.map((t,i)=>{
+    const cls=t.deg===2?'x2':(t.deg===1?'x':'k');
+    const body=t.deg===0?(''+Math.abs(t.k)):((Math.abs(t.k)===1?'':''+Math.abs(t.k))+(t.deg===2?'x\u00b2':'x'));
+    const sign=i===0?(t.k<0?MIN:''):(t.k<0?' '+MIN+' ':' + ');
+    return sign+'<span class="tt '+cls+'">'+body+'</span>';
+  }).join('');
+}
+let redData=null;
+function redNew(){redData=makeReduce();gid('redLine').innerHTML=termsHTML(redData.terms);gid('redRes').innerHTML='';gid('redData_step')&&0;redData.step=0;}
+function redStep(){
+  if(!redData)redNew();
+  gid('redLine').innerHTML=termsHTML(redData.terms); // re-colore
+  gid('redRes').innerHTML='On additionne chaque couleur  →  <b>'+fmtPoly(redData.red)+'</b>';
+}
+redNew();
+
+/* ============ outil réduire ============ */
+let toolRed=null;
+function toolRedNew(){toolRed=makeReduce();gid('toolRedLine').innerHTML=termsHTML(toolRed.terms);gid('toolRedRes').innerHTML='';}
+function toolRedStep(){if(!toolRed)toolRedNew();gid('toolRedRes').innerHTML='Résultat réduit :  <b>'+fmtPoly(toolRed.red)+'</b>';}
+toolRedNew();
+
+/* ============ développer : tableau d'aires (explication) ============ */
+function renderArea(p,q,reveal){ // (x+p)(x+q)
+  const cells=[['x\u00b2','c1'],[num(q).replace(MIN,MIN)+'x'.replace('1x','x'),'c2'],[num(p)+'x','c3'],[num(p*q),'c4']];
+  // libellés en-têtes
+  const head=v=>'<div class="ahead">'+v+'</div>';
+  const side=v=>'<div class="aside">'+v+'</div>';
+  const cell=(t,c,on)=>'<div class="acell '+c+(on?' on':'')+'" data-ac>'+t+'</div>';
+  let h='';
+  h+='<div class="arow"><div class="acorner"></div>'+head('x')+head(fmtLin(0,q).replace('0 ',''))+'</div>';
+  // ligne 1 : x
+  h+='<div class="arow">'+side('x')+cell('x\u00b2','c1',reveal>0)+cell((Math.abs(q)===1?'':Math.abs(q))+'x','c2',reveal>1)+'</div>';
+  // ligne 2 : p
+  h+='<div class="arow">'+side(num(p))+cell((Math.abs(p)===1?'':Math.abs(p))+'x','c3',reveal>2)+cell(num(p*q),'c4',reveal>3)+'</div>';
+  return h;
+}
+let devReveal=0;
+function devAreaAnim(){
+  if(devReveal>=4){return;}
+  devReveal++;
+  gid('devArea').innerHTML=renderArea(2,3,devReveal);
+  if(devReveal<4){setTimeout(devAreaAnim,650);}
+  else{gid('devAreaRes').innerHTML='(x + 2)(x + 3) = x\u00b2 + 3x + 2x + 6 = <b>x\u00b2 + 5x + 6</b>';gid('btnDevArea').textContent='✅ x\u00b2 + 5x + 6';}
+}
+gid('devArea').innerHTML=renderArea(2,3,0);
+
+/* ============ outil développer ============ */
+function makeDev(){
+  const kind=pick(['simple','simple','double']);
+  if(kind==='simple'){
+    const k=rnz(2,6),a=rnz(1,6),b=rnz(-6,6);
+    const src=k+'('+fmtLin(a,b)+')';
+    const res=[0,k*a,k*b];
+    const steps=[k+' \u00d7 '+ (a===1?'x':a+'x')+'  +  '+k+' \u00d7 ('+num(b)+')', '= '+fmtPoly(res)];
+    return {src,res,steps,kind};
+  }else{
+    const a=1,p=rnz(-6,6),q=rnz(-6,6); // (x+p)(x+q)
+    const src='('+fmtLin(1,p)+')('+fmtLin(1,q)+')';
+    const res=[1,p+q,p*q];
+    const steps=['x\u00d7x + x\u00d7('+num(q)+') + ('+num(p)+')\u00d7x + ('+num(p)+')\u00d7('+num(q)+')',
+      '= x\u00b2 '+(p>=0?'+ '+p:MIN+' '+Math.abs(p))+'x '+(q>=0?'+ '+q:MIN+' '+Math.abs(q))+'x '+(p*q>=0?'+ '+(p*q):MIN+' '+Math.abs(p*q)),
+      '= '+fmtPoly(res)];
+    return {src,res,steps,kind};
+  }
+}
+let toolDev=null;
+function toolDevNew(){toolDev=makeDev();gid('toolDevExpr').textContent=toolDev.src;gid('toolDevSteps').innerHTML='';}
+function toolDevStep(){
+  if(!toolDev)toolDevNew();const box=gid('toolDevSteps');box.innerHTML='';
+  toolDev.steps.forEach((t,i)=>{const d=document.createElement('div');d.className='mstep';d.textContent=t;box.appendChild(d);
+    setTimeout(()=>d.classList.add('on'),150+i*600);});
+}
+toolDevNew();
+
+/* ============ factoriser : exemple animé (explication) ============ */
+function facHTML(reveal){
+  if(!reveal)return '<span class="tt k">6</span>x + <span class="tt k">9</span>';
+  return '<span class="tt k">3</span>(2x + 3)';
+}
+let facShown=false;
+function facAnim(){facShown=!facShown;gid('facLine').innerHTML=facHTML(facShown);
+  gid('facRes').innerHTML=facShown?'6x + 9 = <b>3(2x + 3)</b>  (car 6 = 3\u00d72 et 9 = 3\u00d73)':'';}
+gid('facLine').innerHTML=facHTML(false);
+
+/* ============ outil factoriser ============ */
+function makeFac(){
+  const k=rnz(2,6),a=rnz(1,6),b=rnz(-6,6);
+  const src=fmtPoly([0,k*a,k*b]);              // ka x + kb
+  const fac=k+'('+fmtLin(a,b)+')';
+  const steps=[num(k*a)+'x = '+k+'\u00d7'+(a===1?'x':a+'x')+'   et   '+num(k*b)+' = '+k+'\u00d7('+num(b)+')',
+    '= '+fac];
+  return {src,fac,steps,k,a,b};
+}
+let toolFac=null;
+function toolFacNew(){toolFac=makeFac();gid('toolFacExpr').textContent=toolFac.src;gid('toolFacSteps').innerHTML='';}
+function toolFacStep(){
+  if(!toolFac)toolFacNew();const box=gid('toolFacSteps');box.innerHTML='';
+  toolFac.steps.forEach((t,i)=>{const d=document.createElement('div');d.className='mstep';d.textContent=t;box.appendChild(d);
+    setTimeout(()=>d.classList.add('on'),150+i*600);});
+}
+toolFacNew();
+
+/* ============ tester : démo (3(x+2)=3x+6) ============ */
+function evalPoly(c,x){return c[0]*x*x+c[1]*x+c[2];}
+function updateTest(){
+  const x=+gid('testRange').value;gid('testX').textContent=num(x);
+  const L=3*(x+2),R=3*x+6;
+  gid('testL').textContent='3('+num(x)+'+2) = '+num(L);
+  gid('testR').textContent='3\u00d7'+num(x)+'+6 = '+num(R);
+  const eq=L===R;gid('testSign').textContent=eq?'=':'\u2260';
+  gid('testVerdict').className='verdict '+(eq?'eq':'ne');gid('testVerdict').textContent=eq?'Égalité vérifiée ✓':'Pas égal ✗';
+}
+updateTest();
+
+/* ============ outil tester ============ */
+function makeTestEq(){
+  const k=rnz(2,5),p=rnz(-5,5);
+  const L=[0,k,k*p];                 // k(x+p) = kx + kp
+  const vraie=Math.random()<0.5;
+  let R;
+  if(vraie)R=[0,k,k*p];
+  else{const wrong=pick([[0,k,p],[0,k,k*p+rnz(1,4)],[0,k+1,k*p]]);R=wrong;}
+  const eqStr=k+'('+fmtLin(1,p)+') = '+fmtPoly(R);
+  return {L,R,eqStr,vraie:L[0]===R[0]&&L[1]===R[1]&&L[2]===R[2]};
+}
+let toolTest=null;
+function toolTestNew(){toolTest=makeTestEq();gid('toolTestEq').textContent=toolTest.eqStr;gid('toolTestRes').innerHTML='';gid('toolTestRange').value=1;toolTestUpdate();}
+function toolTestUpdate(){
+  if(!toolTest)return;const x=+gid('toolTestRange').value;gid('toolTestX').textContent=num(x);
+  const L=evalPoly(toolTest.L,x),R=evalPoly(toolTest.R,x);
+  gid('toolTestL').textContent='gauche = '+num(L);gid('toolTestR').textContent='droite = '+num(R);
+  const eq=Math.abs(L-R)<1e-9;gid('toolTestSign').textContent=eq?'=':'\u2260';
+  if(!eq)gid('toolTestRes').innerHTML='Avec x = '+num(x)+', les deux membres diffèrent : l\u2019égalité est <b>fausse</b>.';
+}
+toolTestNew();
+
+/* ============ GÉNÉRATEURS DE QUESTIONS ============ */
+const CATNOM={ecrire:'Écrire & calculer',reduire:'Réduire',developper:'Développer',factoriser:'Factoriser',tester:'Tester'};
+const THEME_CATS={ecrire:['ecrire'],reduire:['reduire'],developper:['developper'],factoriser:['factoriser'],tester:['tester']};
+const HELP={
+  ecrire:'Rappel : pour calculer la valeur, on remplace la lettre par le nombre.',
+  reduire:'Rappel : on regroupe seulement les termes semblables (les x avec les x, les nombres avec les nombres).',
+  developper:'Rappel : k(a+b)=ka+kb, et (a+b)(c+d)=ac+ad+bc+bd.',
+  factoriser:'Rappel : on cherche le facteur commun à tous les termes. ka+kb = k(a+b).',
+  tester:'Rappel : on remplace x par un nombre dans les deux membres et on compare.'
+};
+/* fabrique un QCM à partir de polynômes (correct + distracteurs) */
+function polyQCM(correct,distr,cat,text,explain){
+  const opts=[fmtPoly(correct)];
+  for(const d of distr){const s=fmtPoly(d);if(!opts.includes(s))opts.push(s);if(opts.length>=3)break;}
+  let i=0;while(opts.length<3){const d=[correct[0],correct[1]+pick([-1,1,2]),correct[2]+pick([-2,-1,1,2,3])];const s=fmtPoly(d);if(!opts.includes(s))opts.push(s);if(++i>30)break;}
+  const correctStr=fmtPoly(correct);const sh=shuffle(opts);
+  return {type:'qcm',cat,text,options:sh,correct:sh.indexOf(correctStr),explain,src:text};
+}
+
+function genEcrire(){
+  const r=Math.random();
+  if(r<0.4){
+    const q=pick([
+      {t:'Comment écrit-on 3 × a ?',o:['3a','a3','3 + a'],c:0,e:'On supprime le signe × : 3a.'},
+      {t:'a × a se simplifie en…',o:['2a','a\u00b2','a + a'],c:1,e:'Un facteur répété s\u2019écrit en puissance : a × a = a\u00b2.'},
+      {t:'1 × x s\u2019écrit…',o:['1x','x','x\u00b9'],c:1,e:'Multiplier par 1 ne change rien : on écrit simplement x.'},
+      {t:'x × x × x = …',o:['3x','x\u00b3','x + x + x'],c:1,e:'Trois facteurs x : x\u00b3.'},
+      {t:'Dans 5x, le nombre 5 s\u2019appelle…',o:['le coefficient','l\u2019exposant','la variable'],c:0,e:'5 est le coefficient ; x est la variable.'},
+      {t:'2 × x × 4 = …',o:['8x','6x','2x4'],c:0,e:'On multiplie les nombres entre eux : 2×4 = 8, donc 8x.'}
+    ]);
+    return {type:'qcm',cat:'ecrire',text:q.t,options:q.o,correct:q.c,explain:q.e};
+  }
+  // valeur d'une expression (numérique)
+  const useSq=Math.random()<0.35;
+  const a2=useSq?1:0, a1=rnz(-5,6), a0=rnz(-6,6), x=rint(-4,5);
+  const val=a2*x*x+a1*x+a0;
+  return {type:'num',cat:'ecrire',
+    text:'Calcule la valeur de  '+fmtPoly([a2,a1,a0])+'  quand x = '+num(x)+'.',
+    answer:val,disp:num(val),
+    explain:'On remplace x par '+num(x)+' : '+fmtPoly([a2,a1,a0])+' = '+num(val)+'.'};
+}
+
+function genReduire(){
+  const r=Math.random();
+  const d=makeReduce();
+  if(r<0.7){
+    const correct=d.red;
+    const distr=[
+      [correct[0],correct[1]+rnz(1,3),correct[2]],      // erreur coeff x
+      [correct[0],correct[1],correct[2]+rnz(1,4)],       // erreur constante
+      [correct[0],correct[1]+correct[2],0]               // a mélangé x et nombres
+    ];
+    const src=termsHTML(d.terms).replace(/<[^>]+>/g,''); // version texte simple
+    return polyQCM(correct,distr,'reduire',
+      'Réduis l\u2019expression :  '+fmtPlain(d.terms),
+      'On additionne les coefficients de chaque type : résultat '+fmtPoly(correct)+'.');
+  }
+  // coefficient de x après réduction (numérique)
+  return {type:'num',cat:'reduire',
+    text:'Après réduction de  '+fmtPlain(d.terms)+' , quel est le coefficient de x ?',
+    answer:d.red[1],disp:num(d.red[1]),
+    explain:'On additionne tous les termes en x : on obtient '+num(d.red[1])+'x.'};
+}
+/* expression non réduite en texte simple */
+function fmtPlain(terms){
+  return terms.map((t,i)=>{
+    const body=t.deg===0?(''+Math.abs(t.k)):((Math.abs(t.k)===1?'':''+Math.abs(t.k))+(t.deg===2?'x\u00b2':'x'));
+    const sign=i===0?(t.k<0?MIN:''):(t.k<0?' '+MIN+' ':' + ');
+    return sign+body;
+  }).join('');
+}
+
+function genDevelopper(){
+  const d=makeDev();
+  if(Math.random()<0.78){
+    const correct=d.res;
+    let distr;
+    if(d.kind==='simple'){
+      distr=[[0,correct[1],-correct[2]],[0,correct[1],correct[2]+rnz(1,3)],[0,correct[1]+rnz(1,2),correct[2]]];
+    }else{
+      distr=[[1,0,correct[2]],[1,-correct[1],correct[2]],[1,correct[1],correct[2]+rnz(1,4)]];
+    }
+    distr=distr.filter(x=>fmtPoly(x)!==fmtPoly(correct));
+    return polyQCM(correct,distr,'developper','Développe et réduis :  '+d.src,
+      'On distribue : '+d.src+' = '+fmtPoly(correct)+'.');
+  }
+  // fill-in numérique sur simple distributivité
+  const k=rnz(2,6),b=rnz(-6,6);
+  return {type:'num',cat:'developper',
+    text:'Développe :  '+k+'(x '+(b>=0?'+ '+b:MIN+' '+Math.abs(b))+') = '+k+'x + ___  (donne le nombre, signe compris)',
+    answer:k*b,disp:num(k*b),
+    explain:k+' × ('+num(b)+') = '+num(k*b)+'.'};
+}
+
+function genFactoriser(){
+  const r=Math.random();
+  if(r<0.45){
+    const f=makeFac();
+    const correctStr=f.k+'('+fmtLin(f.a,f.b)+')';
+    const opts=[correctStr];
+    const o2=f.k+'('+fmtLin(f.a,-f.b)+')'; if(o2!==correctStr)opts.push(o2);
+    const k2=f.k>2?f.k-1:f.k+1; const o3=k2+'('+fmtLin(f.a,f.b)+')'; if(!opts.includes(o3))opts.push(o3);
+    const o4=f.k+'('+fmtLin(f.a+1,f.b)+')'; if(opts.length<3&&!opts.includes(o4))opts.push(o4);
+    const sh=shuffle(opts.slice(0,3));
+    return {type:'qcm',cat:'factoriser',text:'Factorise :  '+f.src,options:sh,correct:sh.indexOf(correctStr),
+      explain:f.src+' = '+correctStr+' (facteur commun '+f.k+').',src:f.src};
+  }
+  if(r<0.72){
+    // facteur commun de type (x+p)
+    const p=rnz(-5,5),u=rnz(2,6);
+    const src='x('+fmtLin(1,p)+') + '+u+'('+fmtLin(1,p)+')';
+    const correctStr='('+fmtLin(1,p)+')('+fmtLin(1,u)+')';
+    const opts=[correctStr];
+    const o2='('+fmtLin(1,p)+')('+fmtLin(1,-u)+')'; if(o2!==correctStr)opts.push(o2);
+    const o3='('+fmtLin(1,-p)+')('+fmtLin(1,u)+')'; if(!opts.includes(o3))opts.push(o3);
+    const sh=shuffle(opts.slice(0,3));
+    return {type:'qcm',cat:'factoriser',text:'Factorise :  '+src,options:sh,correct:sh.indexOf(correctStr),
+      explain:'Le facteur commun est ('+fmtLin(1,p)+') : '+src+' = '+correctStr+'.',src};
+  }
+  // identifier le facteur commun (numérique simple)
+  const k=rnz(2,9),a=rnz(2,6),b=rnz(2,6);
+  return {type:'num',cat:'factoriser',
+    text:'Quel est le plus grand facteur commun (un nombre) de  '+num(k*a)+'x + '+num(k*b)+' ?',
+    answer:bigGcd(k*a,k*b),disp:num(bigGcd(k*a,k*b)),
+    explain:'On cherche le plus grand nombre qui divise '+num(k*a)+' et '+num(k*b)+' : c\u2019est '+num(bigGcd(k*a,k*b))+'.'};
+}
+function bigGcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a||1;}
+
+function genTester(){
+  if(Math.random()<0.6){
+    const t=makeTestEq();
+    return {type:'qcm',cat:'tester',text:'Cette égalité est-elle vraie pour toute valeur de x ?\n'+t.eqStr,
+      options:['Vraie','Fausse'],correct:t.vraie?0:1,
+      explain:t.vraie?'En développant le membre de gauche, on retrouve exactement le membre de droite.'
+                      :'En testant une valeur (par exemple x = 1), les deux membres diffèrent : l\u2019égalité est fausse.'};
+  }
+  // substitution numérique
+  const k=rnz(2,5),p=rnz(-5,5),x=rint(-4,5);
+  const L=k*(x+p);
+  return {type:'num',cat:'tester',
+    text:'Pour tester une égalité, on calcule chaque membre. Combien vaut  '+k+'(x '+(p>=0?'+ '+p:MIN+' '+Math.abs(p))+')  quand x = '+num(x)+' ?',
+    answer:L,disp:num(L),
+    explain:k+'('+num(x)+' '+(p>=0?'+ '+p:MIN+' '+Math.abs(p))+') = '+k+'\u00d7('+num(x+p)+') = '+num(L)+'.'};
+}
+
+const GEN={ecrire:genEcrire,reduire:genReduire,developper:genDevelopper,factoriser:genFactoriser,tester:genTester};
+
+/* ============ moteur de quiz ============ */
+let Q={cats:[],target:0,guided:false,els:null,score:0,streak:0,total:0,correct:0,locked:false,cur:null};
+function elsTrain(){return{score:gid('tq_score'),streak:gid('tq_streak'),prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),cont:gid('tq_cont')};}
+function elsArene(){return{score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars')};}
+function quizStart(cats,target,guided,els){Q.cats=cats;Q.target=target;Q.guided=guided;Q.els=els;Q.score=0;Q.streak=0;Q.total=0;Q.correct=0;Q.locked=false;if(els.cont)els.cont.style.display='none';quizScore();quizNext();}
+function quizScore(){const e=Q.els;if(e.score)e.score.textContent=Q.score;if(e.streak)e.streak.textContent=Q.streak;if(e.corr)e.corr.textContent=Q.correct;if(e.tot)e.tot.textContent=Q.total;if(Q.guided&&e.prog)e.prog.innerHTML='🎯 Réussites : <b>'+Math.min(Q.correct,Q.target)+' / '+Q.target+'</b>';}
+function quizNext(){
+  Q.locked=false;const e=Q.els;e.feed.textContent='';e.feed.className='feedback';if(e.stars)e.stars.textContent='';
+  const cat=pick(Q.cats);const cur=GEN[cat]();Q.cur=cur;
+  e.cat.textContent=CATNOM[cat];e.text.textContent=cur.text;
+  if(cur.type==='qcm'){e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';
+    cur.options.forEach((o,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>quizPick(i);e.opts.appendChild(b);});}
+  else{e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
+}
+function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',', '.');if(s==='')return null;
+  if(s.includes('/')){const p=s.split('/');if(p.length!==2)return null;const a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;return a/b;}
+  const v=parseFloat(s);return isFinite(v)?v:null;}
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;const e=Q.els;const v=parseNum(e.input.value);
+  if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre (ex : 7, '+MIN+'3).';return;}
+  e.input.disabled=true;e.valid.disabled=true;quizResolve(Math.abs(v-Q.cur.answer)<0.001,'La réponse est '+Q.cur.disp+'.');}
+function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;const e=Q.els;const btns=[...e.opts.children];
+  btns.forEach((b,j)=>{if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');
+  quizResolve(i===Q.cur.correct,'La bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');}
+function quizResolve(ok,correctTxt){Q.locked=true;Q.total++;const e=Q.els;
+  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';
+    e.feed.innerHTML='✅ Bravo !<div class="feedlab">'+Q.cur.explain+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='❌ '+correctTxt+'<div class="feedlab">'+Q.cur.explain+'</div>';
+    if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(()=>e.input.classList.remove('shake'),400);}}
+  quizScore();
+  if(Q.guided&&Q.correct>=Q.target){if(e.cont)e.cont.style.display='inline-flex';if(e.prog)e.prog.innerHTML='🎉 Objectif atteint ! Tu peux continuer (ou t\u2019entraîner encore).';}
+  setTimeout(quizNext, ok?1700:3200);
+}
+function confettis(){const cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];
+  for(let i=0;i<26;i++){const d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';
+    document.body.appendChild(d);const fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout(()=>d.remove(),fall);}}
+function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entraînement — '+TITLE[t];go('ecranTrain');const els=elsTrain();els.help.textContent=HELP[t];quizStart(THEME_CATS[t],REQUIRED,true,els);}
+function trainDone(){const t=currentTheme;themeDone[t]=true;const idx=ORDER.indexOf(t);
+  if(idx<ORDER.length-1){const nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{unlocked.arene=true;updateMap();go('arene');}}
+function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';
+  const cats=cat==='mix'?ORDER.slice():[cat];quizStart(cats,0,false,elsArene());}
+function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
+document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;
+  if(!gid('kcPanel').hidden)return;
+  const onTrain=gid('ecranTrain').classList.contains('active');
+  const onArene=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
+  if((onTrain||onArene)&&!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
+
+/* ============ CALCULATRICE ============ */
+function kcEval(expr){
+  let s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
+  const toks=[]; let i=0; const isD=c=>c>='0'&&c<='9';
+  while(i<s.length){const c=s[i];
+    if(isD(c)||c==='.'){let j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
+    if(c==='\u03c0'){toks.push({t:'pi'});i++;continue;}
+    if(c==='\u221a'){toks.push({t:'sqrt'});i++;continue;}
+    if('+-*/^()'.includes(c)){toks.push({t:c});i++;continue;}
+    return null;}
+  let p=0,err=false;const peek=()=>toks[p],next=()=>toks[p++];
+  function E(){let v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){const o=next().t;const r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
+  function T(){let v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){const o=next().t;const r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}
+  function U(){const t=peek();if(t&&t.t==='-'){next();return -U();}if(t&&t.t==='+'){next();return U();}if(t&&t.t==='sqrt'){next();const a=U();if(err)return 0;if(a<0){err=true;return 0;}return Math.sqrt(a);}return P();}
+  function P(){let b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();const e=U();if(err)return 0;b=Math.pow(b,e);}return b;}
+  function PR(){const t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='pi')return Math.PI;if(t.t==='('){const v=E();if(err)return 0;const c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}err=true;return 0;}
+  const val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;}
+function kcFmt(v){let s=(Math.round(v*1e10)/1e10).toString();return s.replace('-','\u2212').replace('.',',');}
+let kcS='',kcJust=false;
+function kcRender(){gid('kcExpr').textContent=kcS;const v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
+function kcIns(ch){if(kcJust&&/[0-9.\u03c0(\u221a]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
+function kcClear(){kcS='';kcJust=false;kcRender();}
+function kcBack(){if(kcJust)kcJust=false;kcS=kcS.slice(0,-1);kcRender();}
+function kcEq(){const v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
+function kcToggle(){gid('kcPanel').hidden=!gid('kcPanel').hidden;}
+const KEYS2=[
+  {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
+  {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},
+  {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'},
+  {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'\u2212',a:'\u2212',c:'op'},
+  {l:'0',a:'0'},{l:',',a:','},{l:'\u221a',a:'\u221a',c:'fn'},{l:'+',a:'+',c:'op'},
+  {l:'x\u00b2',a:'^2',c:'fn'},{l:'x\u02b8',a:'^',c:'fn'},{l:'\u03c0',a:'\u03c0',c:'fn'},{l:'=',a:'eq',c:'eq'}
+];
+(function(){const box=gid('kcKeys');KEYS2.forEach(k=>{const b=document.createElement('button');b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;
+  b.onclick=()=>{if(k.a==='clr')kcClear();else if(k.a==='back')kcBack();else if(k.a==='eq')kcEq();else kcIns(k.a);};box.appendChild(b);});kcRender();})();
+document.addEventListener('keydown',e=>{if(gid('kcPanel').hidden)return;
+  if(e.key==='Enter'){e.preventDefault();kcEq();}else if(e.key==='Escape')kcToggle();
+  else if(e.key==='Backspace'){e.preventDefault();kcBack();}
+  else if(/[0-9.+\-*/()^]/.test(e.key)){const map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[e.key]||e.key);}});
+
+/* ============ init ============ */
+updateMap();
+</script>
+</body>
+</html>
