@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
+<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aires &amp; Volumes — Le parcours des conversions</title>
@@ -181,6 +181,8 @@ button,input,.tslot{touch-action:manipulation}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16);margin-left:4px}
 .home:active{transform:translateY(1px)}
+.mid{text-align:center;margin:10px 0}
+.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -188,7 +190,7 @@ button,input,.tslot{touch-action:manipulation}
 <div class="wrap">
 
 <!-- ===== ACCUEIL ===== -->
-<section id="accueil" class="screen active">
+<section id="accueil" class="screen active"><div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
   <div class="hero">
     <div class="coin">📐🧊</div>
     <h1>Aires &amp; Volumes</h1>
@@ -220,7 +222,7 @@ button,input,.tslot{touch-action:manipulation}
 
 <!-- ===== LONGUEUR : explication ===== -->
 <section id="expL" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>Longueur</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Longueur</h2></div>
   <div class="card">
     <span class="tag" style="background:var(--vert)">Explication</span>
     <p class="lead">Pour les longueurs, chaque fois qu'on change d'unité on multiplie ou on divise par <b>10</b>. Découpons 1 m en dm.</p>
@@ -234,7 +236,7 @@ button,input,.tslot{touch-action:manipulation}
 
 <!-- ===== AIRE : explication ===== -->
 <section id="expA" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>Aire</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Aire</h2></div>
   <div class="card">
     <span class="tag" style="background:var(--orange)">Explication</span>
     <p class="lead">Un carré de <b>1 m</b> de côté a une aire de <b>1 m²</b>. Découpons-le en carrés de <b>1 dm</b> de côté.</p>
@@ -260,7 +262,7 @@ button,input,.tslot{touch-action:manipulation}
 
 <!-- ===== VOLUME : explication ===== -->
 <section id="expV" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>Volume</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Volume</h2></div>
   <div class="card">
     <span class="tag" style="background:var(--teal)">Explication</span>
     <p class="lead">Un cube de <b>1 m</b> d'arête a un volume de <b>1 m³</b>. On le remplit de petits cubes de <b>1 dm</b> : une <b>ligne</b> = 10, un <b>étage</b> = 100, et il faut 10 étages.</p>
@@ -286,7 +288,7 @@ button,input,.tslot{touch-action:manipulation}
 
 <!-- ===== TABLEAU (générique) ===== -->
 <section id="ecranTable" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2 id="tableTitle">Le tableau</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="tableTitle">Le tableau</h2></div>
   <div class="card">
     <p class="lead">Écris ton nombre, <b>un chiffre par case</b>. Place le chiffre des unités dans la colonne de ton unité de départ. Puis <b>clique entre deux cases pour placer la virgule</b> ; clique à un autre endroit pour la déplacer jusqu'à l'unité d'arrivée.</p>
     <div class="tablescroll"><div id="tableHolder"></div></div>
@@ -302,7 +304,7 @@ button,input,.tslot{touch-action:manipulation}
 
 <!-- ===== ENTRAÎNEMENT imposé (générique) ===== -->
 <section id="ecranTrain" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card">
     <div class="scorebar">
       <span class="pill">⭐ <span id="tq_score">0</span></span>
@@ -327,7 +329,7 @@ button,input,.tslot{touch-action:manipulation}
 
 <!-- ===== ARÈNE finale ===== -->
 <section id="arene" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>L'arène des conversions</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'arène des conversions</h2></div>
   <div class="card" id="areneMenu">
     <p class="lead" style="text-align:center">Bravo, tu as fini le parcours ! Choisis ton entraînement libre.</p>
     <div class="catgrid">
@@ -362,6 +364,9 @@ button,input,.tslot{touch-action:manipulation}
 
 </div>
 <script>
+/* ===== SUIVI ===== */
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Aires & Volumes'};
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
 /* ---------- navigation & progression ---------- */
 const ORDER=['longueur','aire','volume'];
 const EXP={longueur:'expL',aire:'expA',volume:'expV'};
@@ -643,7 +648,7 @@ function trainDone(){
   const t=currentTheme;themeDone[t]=true;
   const idx=ORDER.indexOf(t);
   if(idx<ORDER.length-1){const nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}
-  else{unlocked.arene=true;updateMap();go('arene');}
+  else{try{suiviEnvoi('Terminé','','');}catch(_){}unlocked.arene=true;updateMap();go('arene');}
 }
 
 /* ---------- arène finale ---------- */

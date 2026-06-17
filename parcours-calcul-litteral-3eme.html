@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
+<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calcul littéral — 3ème</title>
@@ -213,7 +213,7 @@ button,input{touch-action:manipulation}
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="wrap">
 <section id="accueil" class="screen active">
-  <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu des chapitres</button></div>
+  <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
   <div class="hero">
     <div class="coin">🔤➕</div>
     <h1>Calcul littéral</h1>
@@ -239,31 +239,31 @@ button,input{touch-action:manipulation}
 </section>
 
 <section id="expSubstituer" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>Substituer</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Substituer</h2></div>
   <div class="card"><span class="tag" style="background:var(--violet)">La leçon</span><p class='lead'>Substituer, c’est <b>remplacer la lettre x par un nombre</b>, puis calculer. On respecte les priorités (puissances, ×, ÷, puis + et −).</p><p class='note'>Exemple : pour x = 4, l’expression 3x + 5 vaut 3 × 4 + 5 = 17.</p></div>
   <div class="mid"><button class="btn vert" onclick="startTrain('substituer')">Je m’entraîne ➜</button></div>
 </section>
 
 <section id="expReduire" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>Réduire</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Réduire</h2></div>
   <div class="card"><span class="tag" style="background:var(--teal)">La leçon</span><p class='lead'>Réduire, c’est <b>regrouper les termes semblables</b> : les « x » avec les « x », les « x² » avec les « x² », et les nombres entre eux. On n’additionne jamais des x avec des x².</p><p class='note'>Exemple : 3x + 5 + 2x − 1 = 5x + 4. Pour écrire un carré dans ta réponse, utilise le bouton <b>x²</b>.</p></div>
   <div class="mid"><button class="btn vert" onclick="startTrain('reduire')">Je m’entraîne ➜</button></div>
 </section>
 
 <section id="expParentheses" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>Parenthèses</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Parenthèses</h2></div>
   <div class="card"><span class="tag" style="background:var(--orange)">La leçon</span><p class='lead'>Pour supprimer une parenthèse, tout dépend du signe devant :</p><div style='text-align:center'><span class='regle'>+ ( … ) : on ne change rien</span><br><span class='regle'>− ( … ) : on change tous les signes</span></div><p class='note'>Exemple : 5x − (2x − 3) = 5x − 2x + 3 = 3x + 3.</p></div>
   <div class="mid"><button class="btn vert" onclick="startTrain('parentheses')">Je m’entraîne ➜</button></div>
 </section>
 
 <section id="expDevelopper" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>Développer</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Développer</h2></div>
   <div class="card"><span class="tag" style="background:var(--vert)">La leçon</span><p class='lead'>Développer, c’est <b>transformer un produit en somme</b> grâce à la distributivité : k(a + b) = k×a + k×b, et (a + b)(c + d) = ac + ad + bc + bd.</p><p class='note'>Exemples : 3(2x + 5) = 6x + 15 ; (x + 2)(x + 3) = x² + 5x + 6.</p></div>
   <div class="mid"><button class="btn vert" onclick="startTrain('developper')">Je m’entraîne ➜</button></div>
 </section>
 
 <section id="ecranTrain" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card" id="tq_card">
     <div class="serieprog" id="tq_prog"></div>
     <div class="helpnote" id="tq_help"></div>
@@ -290,7 +290,7 @@ button,input{touch-action:manipulation}
 </section>
 
 <section id="arene" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>L’arène du calcul littéral</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L’arène du calcul littéral</h2></div>
   <div class="card" id="areneMenu">
     <p class="lead" style="text-align:center">Bravo, séquence terminée ! Entraînement libre, sans note.</p>
     <div class="catgrid">

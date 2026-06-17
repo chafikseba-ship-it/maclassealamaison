@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
+<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Probabilités — Le parcours du hasard (3ème)</title>
@@ -203,6 +203,8 @@ button,input{touch-action:manipulation}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16);margin-left:4px}
 .home:active{transform:translateY(1px)}
+.mid{text-align:center;margin:10px 0}
+.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -210,7 +212,7 @@ button,input{touch-action:manipulation}
 <div class="wrap">
 
 <!-- ===== ACCUEIL ===== -->
-<section id="accueil" class="screen active">
+<section id="accueil" class="screen active"><div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
   <div class="hero">
     <div class="coin">🎲🎯</div>
     <h1>Probabilités</h1>
@@ -242,7 +244,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== VOCAB : explication ===== -->
 <section id="expVocab" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>Vocabulaire &amp; échelle</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Vocabulaire &amp; échelle</h2></div>
 
   <div class="card">
     <span class="tag" style="background:var(--violet)">Définition</span>
@@ -287,7 +289,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== VOCAB : outil ===== -->
 <section id="toolVocab" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>Place les événements</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Place les événements</h2></div>
   <div class="card">
     <p class="lead">Touche un événement : la flèche se place à sa probabilité sur l'échelle.</p>
     <div class="scale-wrap">
@@ -306,7 +308,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== CALCUL : explication ===== -->
 <section id="expCalc" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>Calculer une probabilité</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Calculer une probabilité</h2></div>
 
   <div class="card">
     <span class="tag" style="background:var(--teal)">Définition</span>
@@ -354,7 +356,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== CALCUL : outil (urne) ===== -->
 <section id="toolCalc" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>L'atelier des tirages</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'atelier des tirages</h2></div>
   <div class="card">
     <p class="lead">Change le nombre de boules, puis touche une couleur : la probabilité de tirer cette couleur s'affiche.</p>
     <div class="urn" id="urn"></div>
@@ -371,7 +373,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== CONTRAIRE : explication ===== -->
 <section id="expCont" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>Événement contraire</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Événement contraire</h2></div>
 
   <div class="card">
     <span class="tag" style="background:var(--orange)">Définition</span>
@@ -392,7 +394,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== CONTRAIRE : outil ===== -->
 <section id="toolCont" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>Le partage 1 − P</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Le partage 1 − P</h2></div>
   <div class="card">
     <p class="lead">Déplace le curseur : tu choisis P(A). Le reste, c'est la probabilité de l'événement contraire.</p>
     <div class="cbar"><div class="pa" id="tpa" style="width:30%">A</div><div class="pnota" id="tpnota" style="width:70%">non A</div></div>
@@ -404,7 +406,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== ENTRAÎNEMENT (générique) ===== -->
 <section id="ecranTrain" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card">
     <div class="scorebar">
       <span class="pill">⭐ <span id="tq_score">0</span></span>
@@ -443,7 +445,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== ARÈNE ===== -->
 <section id="arene" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><button class="home" onclick="location.href='index.html'">🏠</button><h2>L'arène du hasard</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'arène du hasard</h2></div>
   <div class="card" id="areneMenu">
     <p class="lead" style="text-align:center">Bravo, parcours terminé ! Choisis ton entraînement libre.</p>
     <div class="catgrid">
@@ -488,6 +490,9 @@ button,input{touch-action:manipulation}
 
 </div>
 <script>
+/* ===== SUIVI ===== */
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Probabilités'};
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
 /* ---------- navigation & progression ---------- */
 const ORDER=['vocab','calcul','contraire'];
 const EXP={vocab:'expVocab',calcul:'expCalc',contraire:'expCont'};
@@ -866,7 +871,7 @@ function trainDone(){
   const t=currentTheme;themeDone[t]=true;
   const idx=ORDER.indexOf(t);
   if(idx<ORDER.length-1){const nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}
-  else{unlocked.arene=true;updateMap();go('arene');}
+  else{try{suiviEnvoi('Terminé','','');}catch(_){}unlocked.arene=true;updateMap();go('arene');}
 }
 function startArene(cat){
   gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';
