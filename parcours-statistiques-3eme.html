@@ -205,6 +205,12 @@ button,input{touch-action:manipulation}
 .result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
 .rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
 .menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+.idov{position:fixed;inset:0;background:rgba(92,61,46,.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px}
+.idbox{background:var(--blanc);border-radius:20px;padding:22px;max-width:340px;width:100%;box-shadow:var(--ombre);text-align:center}
+.idbox h3{font-family:'Fredoka',sans-serif;margin:0 0 6px;color:var(--bois)}
+.idbox p{color:var(--bois-clair);font-weight:700;margin:0 0 12px;font-size:.92rem}
+.idbox input{width:100%;box-sizing:border-box;border:2px solid #e7d3a8;border-radius:12px;padding:11px;font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.05rem;color:var(--bois);margin-bottom:10px;text-align:center}
+.idbox input:focus{outline:none;border-color:var(--orange-bas)}
 </style>
 </head>
 <body>
@@ -319,6 +325,15 @@ button,input{touch-action:manipulation}
 
 </div>
 
+<div id="idov" class="idov" hidden>
+  <div class="idbox">
+    <h3>Avant de commencer 👋</h3>
+    <p>Indique ton prénom et ta classe pour enregistrer ta progression.</p>
+    <input id="idPrenom" placeholder="Ton prénom" autocomplete="off">
+    <input id="idClasse" placeholder="Ta classe (ex : 3eA)" autocomplete="off">
+    <button class="btn vert" onclick="suiviSave()">C’est parti ➜</button>
+  </div>
+</div>
 <button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">🧮</button>
 <div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
   <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
@@ -326,6 +341,11 @@ button,input{touch-action:manipulation}
   <div class="kc-keys" id="kcKeys"></div>
 </div>
 <script>
+/* ===== SUIVI ===== */
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Statistiques'};
+function suiviInitIdentite(){try{var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe');if(!e||!c)gid('idov').hidden=false;}catch(_){}}
+function suiviSave(){var p=(gid('idPrenom').value||'').trim(),c=(gid('idClasse').value||'').trim();if(!p||!c)return;try{localStorage.setItem('kc_eleve',p);localStorage.setItem('kc_classe',c);}catch(_){}gid('idov').hidden=true;}
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
 
 const ORDER=['nature','freq','mmm','classes'];
 const EXP={nature:'expNature',freq:'expFreq',mmm:'expMmm',classes:'expClasses'};
@@ -450,7 +470,7 @@ function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
   else{if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}
 }
 function quizResult(){var e=Q.els;if(!e.result){return;}e.card.style.display='none';e.result.style.display='block';
-  var sc=Q.correct, ok=sc>=SEUIL;e.rbig.textContent=sc+' / '+SERIE;e.rbig.className='big '+(ok?'ok':'no');
+  var sc=Q.correct, ok=sc>=SEUIL;try{suiviEnvoi(ok?'Validé':'Échoué',sc,SERIE);}catch(_){}e.rbig.textContent=sc+' / '+SERIE;e.rbig.className='big '+(ok?'ok':'no');
   e.rmsg.innerHTML= ok ? 'Parcours validé ! Tu as obtenu <b>'+sc+'/'+SERIE+'</b>. Bravo 👏' : 'Il faut <b>'+SEUIL+'/'+SERIE+'</b> pour valider, et tu as eu '+sc+'/'+SERIE+'. Tu peux recommencer avec une nouvelle série, ou passer à la suite si tu préfères.';
   e.rbtns.innerHTML='';
   if(ok){var b=document.createElement('button');b.className='btn vert';b.textContent='Continuer ➜';b.onclick=trainDone;e.rbtns.appendChild(b);}
@@ -511,6 +531,7 @@ document.addEventListener('keydown',e=>{if(gid('kcPanel').hidden)return;
 gid('expFreq').innerHTML=gid('expFreq').innerHTML.replace('__TBL_T__', stab('Couleur',['Rouge','Bleu','Vert','Jaune'],'Effectif',[6,5,7,2]));
 gid('expClasses').innerHTML=gid('expClasses').innerHTML.replace('__TBL_C__', stab('Classe',['[0 ; 10[','[10 ; 20[','[20 ; 30['],'Effectif',[4,9,5]));
 updateMap();
+suiviInitIdentite();
 </script>
 </body>
 </html>
