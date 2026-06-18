@@ -923,16 +923,45 @@ buildMathPad('tq_pad');buildMathPad('aq_pad');
 ['tq_brouillon','aq_brouillon'].forEach(function(id){var el=gid(id);if(el)el.addEventListener('keydown',function(ev){ev.stopPropagation();});});
 </script>
 <script>
-/* ===== sauvegarde et reprise de la progression ===== */
-function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}
-  var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;
-  return 'prog_'+e+'_'+nom;}
-function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone,u:unlocked}));}catch(_){}}
-function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);
-  if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});
-  if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
-if(typeof updateMap==='function'){var _um=updateMap;updateMap=function(){var r=_um.apply(this,arguments);try{progSave();}catch(_){}return r;};}
-try{progLoad();if(typeof updateMap==='function')updateMap();}catch(_){}
+/* ===== Sauvegarde et reprise de la progression (version robuste) ===== */
+(function(){
+  function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}
+    var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;
+    return 'prog_'+e+'_'+nom;}
+  function activeScreen(){var s=document.querySelector('.screen.active');return s?s.id:'';}
+  var HOME=activeScreen(); /* l'ecran de la carte au demarrage */
+  function progSave(){try{
+    var theme=(typeof currentTheme!=='undefined')?currentTheme:'';
+    localStorage.setItem(_progKey(),JSON.stringify({d:themeDone,u:unlocked,t:theme,p:activeScreen()}));
+  }catch(_){}}
+  var SAVED=null;
+  function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);SAVED=o;
+    if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});
+    if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});
+    if(o&&o.t&&typeof currentTheme!=='undefined'&&(o.t in themeDone||o.t in unlocked))currentTheme=o.t;
+  }catch(_){}}
+  /* enrober les fonctions qui changent l'etat -> sauvegarde en continu */
+  function wrap(name){var f=window[name];if(typeof f==='function'){window[name]=function(){var r=f.apply(this,arguments);try{progSave();}catch(_){}return r;};}}
+  wrap('updateMap');wrap('go');wrap('quizResolve');wrap('trainDone');
+  function resume(){var p=SAVED&&SAVED.p;
+    if(p==='ecranTrain'&&typeof startTrain==='function'&&typeof currentTheme!=='undefined'&&currentTheme){startTrain(currentTheme);return;}
+    if(p&&document.getElementById(p)&&typeof go==='function'){go(p);return;}}
+  function showResume(){
+    if(!SAVED||!SAVED.p||SAVED.p===HOME)return;
+    if(SAVED.p!=='ecranTrain'&&!document.getElementById(SAVED.p))return;
+    var bar=document.createElement('div');bar.id='resumeBar';
+    bar.style.cssText='position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:70;display:flex;align-items:center;gap:8px;background:var(--blanc,#FFFDF6);border-radius:30px;padding:7px 8px 7px 16px;box-shadow:0 6px 0 rgba(92,61,46,.15),0 10px 20px rgba(92,61,46,.18);font-family:Fredoka,sans-serif;font-weight:700;color:var(--bois,#5C3D2E);font-size:.95rem;max-width:calc(100vw - 24px)';
+    var txt=document.createElement('span');txt.textContent='Tu etais en train de travailler';txt.style.whiteSpace='nowrap';
+    var b=document.createElement('button');b.textContent='Reprendre \u2794';
+    b.style.cssText='border:none;border-radius:22px;padding:8px 16px;font-family:Fredoka,sans-serif;font-weight:700;font-size:.95rem;color:#fff;background:var(--vert,#8BC34A);box-shadow:0 4px 0 var(--vert-bas,#5E9426);cursor:pointer;white-space:nowrap';
+    b.onclick=function(){bar.remove();resume();};
+    var x=document.createElement('button');x.textContent='\u2715';x.setAttribute('aria-label','Fermer');
+    x.style.cssText='border:none;border-radius:50%;width:30px;height:30px;background:var(--creme,#FFF4DC);color:var(--bois,#5C3D2E);font-family:Fredoka,sans-serif;cursor:pointer;box-shadow:0 3px 0 #e7d3a8';
+    x.onclick=function(){bar.remove();};
+    bar.appendChild(txt);bar.appendChild(b);bar.appendChild(x);document.body.appendChild(bar);
+  }
+  try{progLoad();if(typeof updateMap==='function')updateMap();showResume();}catch(_){}
+})();
 </script>
 </body>
 </html>

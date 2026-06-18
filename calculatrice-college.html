@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculatrice collège</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#FFC93C; --or-bas:#E0A41E; --vert:#8BC34A; --vert-bas:#5E9426;
+  --orange:#FF8A4C; --orange-bas:#E0672E; --teal:#46BECB; --teal-bas:#2E8A98;
+  --violet:#A78BC4; --violet-bas:#7E61A1; --rouge:#EF5D60; --rouge-bas:#c43e41;
+  --bois:#5C3D2E; --bois-clair:#8a6650; --creme:#FFF4DC; --blanc:#FFFDF6;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
+  background:linear-gradient(160deg,#FFF7E2 0%,#FFE6BC 55%,#FFD9A0 100%);min-height:100vh}
+.demo{max-width:640px;margin:0 auto;padding:40px 20px;text-align:center}
+.demo h1{font-family:'Fredoka';font-weight:700;font-size:2.2rem;margin:.2em 0}
+.demo p{font-weight:700;color:var(--bois-clair);line-height:1.5}
+
+/* ===================== CALCULATRICE COLLÈGE (bloc autonome) ===================== */
+.kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:60px;height:60px;border:none;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:1.7rem;cursor:pointer;box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);
+  transition:transform .1s}
+.kc-fab:active{transform:translateY(4px)}
+.kc-fab:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.kc-panel{position:fixed;right:18px;bottom:90px;z-index:60;width:min(320px,calc(100vw - 32px));
+  background:var(--blanc);border-radius:22px;padding:14px;box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);
+  animation:kcpop .25s ease}
+.kc-panel[hidden]{display:none}
+@keyframes kcpop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.kc-head{display:flex;align-items:center;justify-content:space-between;font-family:'Fredoka';font-weight:700;
+  color:var(--bois);margin:2px 4px 10px;font-size:1.05rem}
+.kc-x{border:none;background:var(--creme);color:var(--bois);width:32px;height:32px;border-radius:10px;
+  font-size:1rem;cursor:pointer;font-family:'Fredoka';box-shadow:0 3px 0 #e7d3a8}
+.kc-x:active{transform:translateY(2px);box-shadow:0 1px 0 #e7d3a8}
+.kc-screen{background:#2b2b2b;border-radius:14px;padding:10px 14px;text-align:right;margin-bottom:12px;min-height:74px;
+  display:flex;flex-direction:column;justify-content:center}
+.kc-expr{font-family:'Fredoka';font-weight:600;color:#cfe6ee;font-size:1rem;min-height:1.2em;
+  word-break:break-all;line-height:1.25}
+.kc-res{font-family:'Fredoka';font-weight:700;color:#fff;font-size:1.7rem;line-height:1.1;margin-top:2px}
+.kc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kc-key{border:none;border-radius:14px;padding:14px 0;font-family:'Fredoka';font-weight:700;font-size:1.2rem;
+  cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.kc-key:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.kc-key.op{background:var(--creme);color:var(--orange-bas)}
+.kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1.05rem}
+.kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
+.kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* =================== fin du bloc calculatrice =================== */
+</style>
+</head>
+<body>
+
+<div class="demo">
+  <h1>🧮 Calculatrice collège</h1>
+  <p>Voici la calculatrice telle qu'elle apparaîtra dans tes fiches : un bouton rond en bas à droite, qu'on déplie au besoin.<br><br>Touche-le pour l'ouvrir, et fais quelques calculs : parenthèses, racine carrée √, puissances ^, carré x², et π sont gérés, avec les bonnes priorités.</p>
+</div>
+
+<!-- ===================== CALCULATRICE COLLÈGE (bloc à copier dans une fiche) ===================== -->
+<button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">🧮</button>
+<div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
+  <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
+  <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
+  <div class="kc-keys" id="kcKeys"></div>
+</div>
+<script>
+/* --- évaluateur (analyse récursive, priorités correctes) --- */
+function kcEval(expr){
+  let s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
+  const toks=[]; let i=0; const isD=c=>c>='0'&&c<='9';
+  while(i<s.length){const c=s[i];
+    if(isD(c)||c==='.'){let j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
+    if(c==='\u03c0'){toks.push({t:'pi'});i++;continue;}
+    if(c==='\u221a'){toks.push({t:'sqrt'});i++;continue;}
+    if('+-*/^()'.includes(c)){toks.push({t:c});i++;continue;}
+    return null;
+  }
+  let p=0, err=false;
+  const peek=()=>toks[p], next=()=>toks[p++];
+  function E(){let v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){const o=next().t;const r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
+  function T(){let v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){const o=next().t;const r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}
+  function U(){const t=peek();
+    if(t&&t.t==='-'){next();return -U();}
+    if(t&&t.t==='+'){next();return U();}
+    if(t&&t.t==='sqrt'){next();const a=U();if(err)return 0;if(a<0){err=true;return 0;}return Math.sqrt(a);}
+    return P();}
+  function P(){let b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();const e=U();if(err)return 0;b=Math.pow(b,e);}return b;}
+  function PR(){const t=next();if(!t){err=true;return 0;}
+    if(t.t==='num')return t.v; if(t.t==='pi')return Math.PI;
+    if(t.t==='('){const v=E();if(err)return 0;const c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}
+    err=true;return 0;}
+  const val=E();
+  if(err||p!==toks.length||toks.length===0)return null;
+  return isFinite(val)?val:null;
+}
+function kcFmt(v){
+  let s=(Math.round(v*1e10)/1e10).toString();
+  return s.replace('-','\u2212').replace('.',',');
+}
+/* --- état & affichage --- */
+let kcS='', kcJust=false;
+const kcGid=x=>document.getElementById(x);
+function kcRender(){
+  kcGid('kcExpr').textContent=kcS;
+  const v=kcEval(kcS);
+  kcGid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));
+}
+function kcIns(ch){
+  if(kcJust && /[0-9.\u03c0(\u221a]/.test(ch)){kcS='';} // nouveau calcul après "="
+  kcJust=false; kcS+=ch; kcRender();
+}
+function kcClear(){kcS='';kcJust=false;kcRender();}
+function kcBack(){if(kcJust){kcJust=false;}kcS=kcS.slice(0,-1);kcRender();}
+function kcEq(){const v=kcEval(kcS);if(v===null){kcGid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;kcGid('kcExpr').textContent='';kcGid('kcRes').textContent=kcS;}
+function kcToggle(){const p=kcGid('kcPanel');p.hidden=!p.hidden;}
+/* --- clavier tactile --- */
+const KEYS2=[
+  {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
+  {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},
+  {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'},
+  {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'\u2212',a:'\u2212',c:'op'},
+  {l:'0',a:'0'},{l:',',a:','},{l:'\u221a',a:'\u221a',c:'fn'},{l:'+',a:'+',c:'op'},
+  {l:'x\u00b2',a:'^2',c:'fn'},{l:'x\u02b8',a:'^',c:'fn'},{l:'\u03c0',a:'\u03c0',c:'fn'},{l:'=',a:'eq',c:'eq'}
+];
+(function(){
+  const box=kcGid('kcKeys');
+  KEYS2.forEach(k=>{
+    const b=document.createElement('button');
+    b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;
+    b.onclick=()=>{ if(k.a==='clr')kcClear(); else if(k.a==='back')kcBack(); else if(k.a==='eq')kcEq(); else kcIns(k.a); };
+    box.appendChild(b);
+  });
+  kcRender();
+})();
+document.addEventListener('keydown',e=>{
+  if(kcGid('kcPanel').hidden)return;
+  if(e.key==='Enter'){e.preventDefault();kcEq();}
+  else if(e.key==='Escape')kcToggle();
+  else if(e.key==='Backspace'){e.preventDefault();kcBack();}
+  else if(/[0-9.+\-*/()^]/.test(e.key)){
+    const map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};
+    kcIns(map[e.key]||e.key);
+  }
+});
+</script>
+<!-- =================== fin du bloc calculatrice =================== -->
+<script>
+/* ===== Calculatrice : touches en plus (x3, +/-) + envoi vers reponse/brouillon ===== */
+(function(){
+  var M='\u2212', X='\u00d7', D='\u00f7';
+  var PLUS='+'+M+X+D+'^(';
+  function $(id){return document.getElementById(id);}
+  function vis(el){return el && el.offsetParent!==null && !el.disabled;}
+  function answerField(){var a=$('tq_input'),b=$('aq_input');if(vis(a))return a;if(vis(b))return b;return null;}
+  function brouillonField(){var a=$('tq_brouillon'),b=$('aq_brouillon');if(vis(a))return a;if(vis(b))return b;return null;}
+  function put(el,txt){if(!el)return;try{if(typeof insertAtCursor==='function'){insertAtCursor(el,txt);return;}}catch(_){}el.value=(el.value||'')+txt;}
+  function curResult(){try{var v=kcEval(kcS);return v===null?null:kcFmt(v);}catch(_){return null;}}
+
+  /* --- touche changement de signe --- */
+  window.kcSign=function(){
+    if(kcJust){ kcS=(kcS.charAt(0)===M)?kcS.slice(1):M+kcS; $('kcRes').textContent=kcS; $('kcExpr').textContent=''; return; }
+    var s=kcS, m=s.match(/(\d+(?:[.,]\d+)?)$/);
+    if(!m){ var last=s.slice(-1); if(s===''||PLUS.includes(last)) kcS=s+M; }
+    else{
+      var start=m.index, prev=s[start-1], prev2=s[start-2];
+      if(prev===undefined) kcS=M+s;
+      else if(prev==='+') kcS=s.slice(0,start-1)+M+s.slice(start);
+      else if(prev===M){ var binary=(prev2!==undefined)&&/[0-9,)\u03c0]/.test(prev2);
+        kcS = binary ? s.slice(0,start-1)+'+'+s.slice(start) : s.slice(0,start-1)+s.slice(start); }
+      else kcS=s.slice(0,start)+'('+M+m[1]+')';
+    }
+    kcJust=false; kcRender();
+  };
+
+  /* --- envoi vers la case reponse / le brouillon --- */
+  function feedback(msg){var r=$('kcRes'); if(!r)return; var old=r.textContent; r.textContent=msg; setTimeout(function(){ if(r.textContent===msg) kcRender(); },1100);}
+  window.kcSendRes=function(){var t=answerField(); if(!t){feedback('Ouvre une question'); return;} var v=curResult(); if(v===null){feedback('Calcul a finir'); return;} put(t,v); t.focus();};
+  window.kcSendExpr=function(){var b=brouillonField()||answerField(); if(!b){feedback('Ouvre une question'); return;} if(kcS===''){feedback('Rien a copier'); return;} var v=curResult(); var line=kcS+(v!==null?' = '+v:''); put(b,(b.value?'\n':'')+line);};
+
+  /* --- ajout des touches dans le clavier --- */
+  var keys=$('kcKeys');
+  if(keys){
+    [['x\u00b3',function(){kcIns('^3');},'fn'],['+/\u2212',function(){kcSign();},'fn']].forEach(function(k){
+      var b=document.createElement('button'); b.className='kc-key '+k[2]; b.textContent=k[0]; b.onclick=k[1]; keys.appendChild(b);
+    });
+  }
+
+  /* --- barre d'envoi, seulement si une case reponse existe sur la page --- */
+  var panel=$('kcPanel');
+  if(panel && keys && (document.getElementById('tq_input')||document.getElementById('aq_input'))){
+    var row=document.createElement('div');
+    row.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px';
+    function mk(label,fn){var b=document.createElement('button'); b.textContent=label;
+      b.style.cssText='border:none;border-radius:14px;padding:10px 6px;font-family:Fredoka,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;color:#fff;background:var(--teal,#46BECB);box-shadow:0 4px 0 var(--teal-bas,#2E8A98);line-height:1.1';
+      b.onclick=fn; return b;}
+    row.appendChild(mk('R\u00e9sultat \u2794 r\u00e9ponse', function(){kcSendRes();}));
+    row.appendChild(mk('Calcul \u2794 brouillon', function(){kcSendExpr();}));
+    panel.insertBefore(row, keys);
+  }
+})();
+</script>
+</body>
+</html>

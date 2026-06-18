@@ -217,6 +217,15 @@ button,input{touch-action:manipulation}
 .mkey.fn{background:#eef6f8;color:var(--teal-bas)}
 .mkey.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas);font-size:1rem}
 .mkey.nl{background:var(--violet);color:#fff;box-shadow:0 4px 0 var(--violet-bas);font-size:.82rem}
+.demo{background:var(--creme);border-radius:16px;padding:12px 16px;margin:12px 0}
+.demo .step{display:block;font-family:'Fredoka',sans-serif;font-weight:600;color:var(--bois);margin:3px 0;font-size:1.02rem}
+.demo .step b{color:var(--orange-bas)}
+.demo .lab{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois-clair);font-size:.85rem;margin-bottom:4px}
+.piege{background:#FFF0EE;border:2px solid var(--rouge);border-radius:14px;padding:11px 14px;margin:11px 0;color:var(--bois);font-weight:700;font-size:.97rem;line-height:1.45}
+.piege .t{font-family:'Fredoka',sans-serif;color:var(--rouge-bas);display:block;margin-bottom:3px}
+.astuce{background:#EEF7F0;border:2px solid var(--vert-bas);border-radius:14px;padding:11px 14px;margin:11px 0;color:var(--bois);font-weight:700;font-size:.97rem;line-height:1.45}
+.astuce .t{font-family:'Fredoka',sans-serif;color:var(--vert-bas);display:block;margin-bottom:3px}
+
 </style>
 </head>
 <body>
@@ -250,26 +259,79 @@ button,input{touch-action:manipulation}
 
 <section id="expSubstituer" class="screen">
   <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Substituer</h2></div>
-  <div class="card"><span class="tag" style="background:var(--violet)">La leçon</span><p class='lead'>Substituer, c’est <b>remplacer la lettre x par un nombre</b>, puis calculer. On respecte les priorités (puissances, ×, ÷, puis + et −).</p><p class='note'>Exemple : pour x = 4, l’expression 3x + 5 vaut 3 × 4 + 5 = 17.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('substituer')">Je m’entraîne ➜</button></div>
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">La leçon</span>
+    <p class="lead">Une lettre comme <b>x</b>, c'est une <b>case où l'on range un nombre</b>. <b>Substituer</b>, c'est remplacer cette lettre par le nombre donné, puis calculer en respectant les priorités (puissances, ×, ÷, puis + et −).</p>
+    <div class="demo">
+      <div class="lab">Exemple : calculer 3x + 5 pour x = 4</div>
+      <span class="step">On remplace x par 4 : 3<b>×</b>4 + 5</span>
+      <span class="step">= 12 + 5</span>
+      <span class="step">= <b>17</b></span>
+    </div>
+    <div class="piege"><span class="t">⚠️ Le piège du signe ×</span>3x veut dire 3 <b>×</b> x, ce n'est pas « 3 collé à x ». Pour x = 3, on écrit 3×3 = 9… et surtout pas 33 ! Quand tu remplaces, <b>refais toujours apparaître le signe ×</b>.</div>
+    <div class="piege"><span class="t">⚠️ Les nombres négatifs</span>Si x = −3, on range le nombre négatif <b>entre parenthèses</b> : 2x devient 2×(−3) = −6.</div>
+    <div class="piege"><span class="t">⚠️ Le carré d'un négatif</span>(−3)² = (−3)×(−3) = <b>9</b> (positif !). Sans les parenthèses, −3² vaudrait −9. La parenthèse change tout.</div>
+    <div class="astuce"><span class="t">🧮 Astuce calculatrice</span>Tape l'expression avec les parenthèses, puis appuie sur « Résultat ➔ réponse » pour la recopier sans erreur.</div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('substituer')">Je m'entraîne ➜</button></div>
 </section>
 
 <section id="expReduire" class="screen">
   <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Réduire</h2></div>
-  <div class="card"><span class="tag" style="background:var(--teal)">La leçon</span><p class='lead'>Réduire, c’est <b>regrouper les termes semblables</b> : les « x » avec les « x », les « x² » avec les « x² », et les nombres entre eux. On n’additionne jamais des x avec des x².</p><p class='note'>Exemple : 3x + 5 + 2x − 1 = 5x + 4. Pour écrire un carré dans ta réponse, utilise le bouton <b>x²</b>.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('reduire')">Je m’entraîne ➜</button></div>
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">La leçon</span>
+    <p class="lead"><b>Réduire</b>, c'est <b>regrouper les termes semblables</b> : les « x » avec les « x », les « x² » avec les « x² », et les nombres tout seuls entre eux.</p>
+    <div class="demo">
+      <div class="lab">Exemple : réduire 3x + 5 + 2x − 1</div>
+      <span class="step">Les x ensemble : 3x + 2x = <b>5x</b></span>
+      <span class="step">Les nombres ensemble : 5 − 1 = <b>4</b></span>
+      <span class="step">Résultat : <b>5x + 4</b></span>
+    </div>
+    <div class="piege"><span class="t">⚠️ On ne mélange pas les familles</span>3x et 2x² ne sont <b>pas</b> semblables : 3x + 2x² reste 3x + 2x² (et ce n'est jamais 5x³).</div>
+    <div class="piege"><span class="t">⚠️ x + x</span>x + x = <b>2x</b> (on en a deux), surtout pas x².</div>
+    <div class="astuce"><span class="t">✍️ Pour écrire un carré</span>Sers-toi du bouton <b>x²</b> à côté de la case réponse.</div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('reduire')">Je m'entraîne ➜</button></div>
 </section>
 
 <section id="expParentheses" class="screen">
   <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Parenthèses</h2></div>
-  <div class="card"><span class="tag" style="background:var(--orange)">La leçon</span><p class='lead'>Pour supprimer une parenthèse, tout dépend du signe devant :</p><div style='text-align:center'><span class='regle'>+ ( … ) : on ne change rien</span><br><span class='regle'>− ( … ) : on change tous les signes</span></div><p class='note'>Exemple : 5x − (2x − 3) = 5x − 2x + 3 = 3x + 3.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('parentheses')">Je m’entraîne ➜</button></div>
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">La leçon</span>
+    <p class="lead">Pour <b>supprimer une parenthèse</b>, tout dépend du signe juste devant :</p>
+    <div style="text-align:center">
+      <span class="regle">+ ( … ) : on ne change rien</span><br>
+      <span class="regle">− ( … ) : on change tous les signes</span>
+    </div>
+    <div class="demo">
+      <div class="lab">Exemple : 5x − (2x − 3)</div>
+      <span class="step">Le − change <b>tous</b> les signes : 5x <b>−</b> 2x <b>+</b> 3</span>
+      <span class="step">On réduit : <b>3x + 3</b></span>
+    </div>
+    <div class="piege"><span class="t">⚠️ Tous les termes, pas seulement le premier</span>− (2x − 3) devient −2x <b>+ 3</b>. Beaucoup oublient de changer le signe du deuxième terme.</div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('parentheses')">Je m'entraîne ➜</button></div>
 </section>
 
 <section id="expDevelopper" class="screen">
   <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Développer</h2></div>
-  <div class="card"><span class="tag" style="background:var(--vert)">La leçon</span><p class='lead'>Développer, c’est <b>transformer un produit en somme</b> grâce à la distributivité : k(a + b) = k×a + k×b, et (a + b)(c + d) = ac + ad + bc + bd.</p><p class='note'>Exemples : 3(2x + 5) = 6x + 15 ; (x + 2)(x + 3) = x² + 5x + 6.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('developper')">Je m’entraîne ➜</button></div>
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">La leçon</span>
+    <p class="lead"><b>Développer</b>, c'est transformer un <b>produit</b> en <b>somme</b> grâce à la distributivité : k(a + b) = k×a + k×b, et (a + b)(c + d) = ac + ad + bc + bd.</p>
+    <div class="demo">
+      <div class="lab">Exemple simple : 3(2x + 5)</div>
+      <span class="step">On distribue le 3 : 3×2x + 3×5</span>
+      <span class="step">= <b>6x + 15</b></span>
+    </div>
+    <div class="demo">
+      <div class="lab">Exemple double : (x + 2)(x + 3)</div>
+      <span class="step">Chaque terme du premier × chaque terme du second :</span>
+      <span class="step">x×x + x×3 + 2×x + 2×3 = x² + 3x + 2x + 6</span>
+      <span class="step">On réduit : <b>x² + 5x + 6</b></span>
+    </div>
+    <div class="piege"><span class="t">⚠️ Le facteur négatif se distribue partout</span>−3(2x + 5) = −6x <b>− 15</b> : le − touche les deux termes.</div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('developper')">Je m'entraîne ➜</button></div>
 </section>
 
 <section id="ecranTrain" class="screen">
@@ -413,11 +475,27 @@ function split2nz(c){var p;do{p=rint(-7,7);}while(p===0||p===c);return [p,c-p];}
 
 /* ===== générateurs ===== */
 function exprStr(c2,c1,c0){return polyStr({2:c2,1:c1,0:c0});}
+function nstr(n){return (n<0?'\u2212':'')+Math.abs(n);}
+function substShow(c2,c1,c0,v){
+  var V='('+nstr(v)+')';var parts=[];
+  function add(c,suf){if(c===0)return;var abs=Math.abs(c);var co=(abs===1&&suf!=='')?'':(nstr(abs)+(suf!==''?'\u00d7':''));parts.push({neg:c<0,txt:co+suf});}
+  add(c2,V+'\u00b2');add(c1,V);
+  if(c0!==0||parts.length===0)parts.push({neg:c0<0,txt:''+Math.abs(c0)});
+  var s=(parts[0].neg?'\u2212':'')+parts[0].txt;
+  for(var k=1;k<parts.length;k++)s+=(parts[k].neg?' \u2212 ':' + ')+parts[k].txt;
+  return s;
+}
 function genSubstituer(){
-  var v=rint(-5,6);var c2,c1,c0,src,ans;
-  if(Math.random()<0.5){c1=rint(-6,9);if(c1===0)c1=3;c0=rint(-9,9);src=exprStr(0,c1,c0);ans=c1*v+c0;}
-  else{c2=pick([1,1,2,-1]);c1=rint(-5,6);c0=rint(-6,6);src=exprStr(c2,c1,c0);ans=c2*v*v+c1*v+c0;}
-  return {type:'num',cat:'substituer',text:'Calcule '+src+' pour x = '+v+'.',answer:ans,disp:''+ans,explain:'On remplace x par '+v+' : on obtient '+ans+'.',raw:{kind:'subst',src:src,v:v}};
+  var i=(typeof Q!=='undefined'&&Q&&Q.guided&&typeof Q.answered==='number')?Q.answered:99;
+  var v,c2=0,c1,c0;
+  if(i<3){v=rint(1,6);c1=rint(2,6);c0=rint(1,9);}
+  else if(i<6){v=rint(-6,6);if(v===0)v=-2;c1=rint(-6,8);if(c1===0)c1=3;c0=rint(-9,9);}
+  else{v=rint(-5,5);if(v===0)v=-3;c2=pick([1,1,2,-1]);c1=rint(-6,6);c0=rint(-6,6);}
+  var src=exprStr(c2,c1,c0);
+  var ans=c2*v*v+c1*v+c0;
+  var subst=substShow(c2,c1,c0,v);
+  return {type:'num',cat:'substituer',text:'Calcule '+src+' pour x = '+nstr(v)+'.',answer:ans,disp:nstr(ans),
+    explain:'On remplace x par ('+nstr(v)+') : '+subst+' = '+nstr(ans)+'.',raw:{kind:'subst',src:src,v:v}};
 }
 function genReduire(){
   if(Math.random()<0.12){var pool=[
@@ -568,16 +646,100 @@ updateMap();
 
 </script>
 <script>
-/* ===== sauvegarde et reprise de la progression ===== */
-function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}
-  var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;
-  return 'prog_'+e+'_'+nom;}
-function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone,u:unlocked}));}catch(_){}}
-function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);
-  if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});
-  if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
-if(typeof updateMap==='function'){var _um=updateMap;updateMap=function(){var r=_um.apply(this,arguments);try{progSave();}catch(_){}return r;};}
-try{progLoad();if(typeof updateMap==='function')updateMap();}catch(_){}
+/* ===== Sauvegarde et reprise de la progression (version robuste) ===== */
+(function(){
+  function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}
+    var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;
+    return 'prog_'+e+'_'+nom;}
+  function activeScreen(){var s=document.querySelector('.screen.active');return s?s.id:'';}
+  var HOME=activeScreen(); /* l'ecran de la carte au demarrage */
+  function progSave(){try{
+    var theme=(typeof currentTheme!=='undefined')?currentTheme:'';
+    localStorage.setItem(_progKey(),JSON.stringify({d:themeDone,u:unlocked,t:theme,p:activeScreen()}));
+  }catch(_){}}
+  var SAVED=null;
+  function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);SAVED=o;
+    if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});
+    if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});
+    if(o&&o.t&&typeof currentTheme!=='undefined'&&(o.t in themeDone||o.t in unlocked))currentTheme=o.t;
+  }catch(_){}}
+  /* enrober les fonctions qui changent l'etat -> sauvegarde en continu */
+  function wrap(name){var f=window[name];if(typeof f==='function'){window[name]=function(){var r=f.apply(this,arguments);try{progSave();}catch(_){}return r;};}}
+  wrap('updateMap');wrap('go');wrap('quizResolve');wrap('trainDone');
+  function resume(){var p=SAVED&&SAVED.p;
+    if(p==='ecranTrain'&&typeof startTrain==='function'&&typeof currentTheme!=='undefined'&&currentTheme){startTrain(currentTheme);return;}
+    if(p&&document.getElementById(p)&&typeof go==='function'){go(p);return;}}
+  function showResume(){
+    if(!SAVED||!SAVED.p||SAVED.p===HOME)return;
+    if(SAVED.p!=='ecranTrain'&&!document.getElementById(SAVED.p))return;
+    var bar=document.createElement('div');bar.id='resumeBar';
+    bar.style.cssText='position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:70;display:flex;align-items:center;gap:8px;background:var(--blanc,#FFFDF6);border-radius:30px;padding:7px 8px 7px 16px;box-shadow:0 6px 0 rgba(92,61,46,.15),0 10px 20px rgba(92,61,46,.18);font-family:Fredoka,sans-serif;font-weight:700;color:var(--bois,#5C3D2E);font-size:.95rem;max-width:calc(100vw - 24px)';
+    var txt=document.createElement('span');txt.textContent='Tu etais en train de travailler';txt.style.whiteSpace='nowrap';
+    var b=document.createElement('button');b.textContent='Reprendre \u2794';
+    b.style.cssText='border:none;border-radius:22px;padding:8px 16px;font-family:Fredoka,sans-serif;font-weight:700;font-size:.95rem;color:#fff;background:var(--vert,#8BC34A);box-shadow:0 4px 0 var(--vert-bas,#5E9426);cursor:pointer;white-space:nowrap';
+    b.onclick=function(){bar.remove();resume();};
+    var x=document.createElement('button');x.textContent='\u2715';x.setAttribute('aria-label','Fermer');
+    x.style.cssText='border:none;border-radius:50%;width:30px;height:30px;background:var(--creme,#FFF4DC);color:var(--bois,#5C3D2E);font-family:Fredoka,sans-serif;cursor:pointer;box-shadow:0 3px 0 #e7d3a8';
+    x.onclick=function(){bar.remove();};
+    bar.appendChild(txt);bar.appendChild(b);bar.appendChild(x);document.body.appendChild(bar);
+  }
+  try{progLoad();if(typeof updateMap==='function')updateMap();showResume();}catch(_){}
+})();
+</script>
+<script>
+/* ===== Calculatrice : touches en plus (x3, +/-) + envoi vers reponse/brouillon ===== */
+(function(){
+  var M='\u2212', X='\u00d7', D='\u00f7';
+  var PLUS='+'+M+X+D+'^(';
+  function $(id){return document.getElementById(id);}
+  function vis(el){return el && el.offsetParent!==null && !el.disabled;}
+  function answerField(){var a=$('tq_input'),b=$('aq_input');if(vis(a))return a;if(vis(b))return b;return null;}
+  function brouillonField(){var a=$('tq_brouillon'),b=$('aq_brouillon');if(vis(a))return a;if(vis(b))return b;return null;}
+  function put(el,txt){if(!el)return;try{if(typeof insertAtCursor==='function'){insertAtCursor(el,txt);return;}}catch(_){}el.value=(el.value||'')+txt;}
+  function curResult(){try{var v=kcEval(kcS);return v===null?null:kcFmt(v);}catch(_){return null;}}
+
+  /* --- touche changement de signe --- */
+  window.kcSign=function(){
+    if(kcJust){ kcS=(kcS.charAt(0)===M)?kcS.slice(1):M+kcS; $('kcRes').textContent=kcS; $('kcExpr').textContent=''; return; }
+    var s=kcS, m=s.match(/(\d+(?:[.,]\d+)?)$/);
+    if(!m){ var last=s.slice(-1); if(s===''||PLUS.includes(last)) kcS=s+M; }
+    else{
+      var start=m.index, prev=s[start-1], prev2=s[start-2];
+      if(prev===undefined) kcS=M+s;
+      else if(prev==='+') kcS=s.slice(0,start-1)+M+s.slice(start);
+      else if(prev===M){ var binary=(prev2!==undefined)&&/[0-9,)\u03c0]/.test(prev2);
+        kcS = binary ? s.slice(0,start-1)+'+'+s.slice(start) : s.slice(0,start-1)+s.slice(start); }
+      else kcS=s.slice(0,start)+'('+M+m[1]+')';
+    }
+    kcJust=false; kcRender();
+  };
+
+  /* --- envoi vers la case reponse / le brouillon --- */
+  function feedback(msg){var r=$('kcRes'); if(!r)return; var old=r.textContent; r.textContent=msg; setTimeout(function(){ if(r.textContent===msg) kcRender(); },1100);}
+  window.kcSendRes=function(){var t=answerField(); if(!t){feedback('Ouvre une question'); return;} var v=curResult(); if(v===null){feedback('Calcul a finir'); return;} put(t,v); t.focus();};
+  window.kcSendExpr=function(){var b=brouillonField()||answerField(); if(!b){feedback('Ouvre une question'); return;} if(kcS===''){feedback('Rien a copier'); return;} var v=curResult(); var line=kcS+(v!==null?' = '+v:''); put(b,(b.value?'\n':'')+line);};
+
+  /* --- ajout des touches dans le clavier --- */
+  var keys=$('kcKeys');
+  if(keys){
+    [['x\u00b3',function(){kcIns('^3');},'fn'],['+/\u2212',function(){kcSign();},'fn']].forEach(function(k){
+      var b=document.createElement('button'); b.className='kc-key '+k[2]; b.textContent=k[0]; b.onclick=k[1]; keys.appendChild(b);
+    });
+  }
+
+  /* --- barre d'envoi, seulement si une case reponse existe sur la page --- */
+  var panel=$('kcPanel');
+  if(panel && keys && (document.getElementById('tq_input')||document.getElementById('aq_input'))){
+    var row=document.createElement('div');
+    row.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px';
+    function mk(label,fn){var b=document.createElement('button'); b.textContent=label;
+      b.style.cssText='border:none;border-radius:14px;padding:10px 6px;font-family:Fredoka,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;color:#fff;background:var(--teal,#46BECB);box-shadow:0 4px 0 var(--teal-bas,#2E8A98);line-height:1.1';
+      b.onclick=fn; return b;}
+    row.appendChild(mk('R\u00e9sultat \u2794 r\u00e9ponse', function(){kcSendRes();}));
+    row.appendChild(mk('Calcul \u2794 brouillon', function(){kcSendExpr();}));
+    panel.insertBefore(row, keys);
+  }
+})();
 </script>
 </body>
 </html>
