@@ -922,5 +922,17 @@ buildMathPad('tq_pad');buildMathPad('aq_pad');
 ['tq_input','aq_input','tq_brouillon','aq_brouillon'].forEach(function(id){var el=gid(id);if(el)el.addEventListener('focus',function(){MATHTARGET=el;});});
 ['tq_brouillon','aq_brouillon'].forEach(function(id){var el=gid(id);if(el)el.addEventListener('keydown',function(ev){ev.stopPropagation();});});
 </script>
+<script>
+/* ===== sauvegarde et reprise de la progression ===== */
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}
+  var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;
+  return 'prog_'+e+'_'+nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone,u:unlocked}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);
+  if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});
+  if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
+if(typeof updateMap==='function'){var _um=updateMap;updateMap=function(){var r=_um.apply(this,arguments);try{progSave();}catch(_){}return r;};}
+try{progLoad();if(typeof updateMap==='function')updateMap();}catch(_){}
+</script>
 </body>
 </html>
