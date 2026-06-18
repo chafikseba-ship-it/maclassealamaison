@@ -227,6 +227,17 @@ button,input{touch-action:manipulation}
 .home:active{transform:translateY(1px)}
 .mid{text-align:center;margin:10px 0}
 .menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+
+.brouillon-lab{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.88rem;text-align:left;margin:12px 0 4px}
+.brouillon{width:100%;box-sizing:border-box;min-height:96px;resize:vertical;border:3px dashed #e7d3a8;border-radius:16px;padding:10px 14px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.15rem;line-height:1.9;color:var(--bois);background:var(--blanc)}
+.brouillon:focus{outline:none;border-color:var(--orange-bas)}
+.mathpad{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;max-width:300px;margin:12px auto 0}
+.mkey{border:none;border-radius:13px;padding:13px 0;font-family:'Fredoka';font-weight:700;font-size:1.18rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.mkey:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.mkey.op{background:var(--creme);color:var(--orange-bas)}
+.mkey.fn{background:#eef6f8;color:var(--teal-bas)}
+.mkey.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas);font-size:1rem}
+.mkey.nl{background:var(--violet);color:#fff;box-shadow:0 4px 0 var(--violet-bas);font-size:.82rem}
 </style>
 </head>
 <body>
@@ -416,6 +427,11 @@ button,input{touch-action:manipulation}
         <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
         <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
       </div>
+      <div id="tq_work">
+  <div class="mathpad" id="tq_pad"></div>
+  <div class="brouillon-lab">✏️ Brouillon — pose tes calculs ligne par ligne (facultatif)</div>
+  <textarea id="tq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici, une par ligne…"></textarea>
+</div>
       <div class="feedback" id="tq_feed"></div>
       <div class="stars" id="tq_stars"></div>
       <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_cont" style="display:none" onclick="trainDone()">Continuer ➜</button></div>
@@ -448,6 +464,11 @@ button,input{touch-action:manipulation}
         <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
         <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
       </div>
+      <div id="aq_work">
+  <div class="mathpad" id="aq_pad"></div>
+  <div class="brouillon-lab">✏️ Brouillon — pose tes calculs ligne par ligne (facultatif)</div>
+  <textarea id="aq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici, une par ligne…"></textarea>
+</div>
       <div class="feedback" id="aq_feed"></div>
       <div class="stars" id="aq_stars"></div>
       <div class="mid" style="margin-top:14px"><button class="btn fant" onclick="finArene()">Changer de catégorie</button></div>
@@ -469,6 +490,8 @@ button,input{touch-action:manipulation}
 /* ===== SUIVI ===== */
 var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Formules d’aires & volumes'};
 function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+var SSDONE={};
+function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom+' › '+label);b.append(SUIVI.f.statut,'Terminé');b.append(SUIVI.f.score,'');b.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
 /* ===== navigation & progression ===== */
 const ORDER=['polygones','disque','solides','paves','prismes'];
 const EXP={polygones:'expPoly',disque:'expDisque',solides:'expSolides',paves:'expPave',prismes:'expPrisme'};
@@ -676,7 +699,7 @@ function confettis(){const cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC
   for(let i=0;i<24;i++){const d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';
     document.body.appendChild(d);const fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout(()=>d.remove(),fall);}}
 function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entraînement — '+TITLE[t];go('ecranTrain');const els=elsTrain();els.help.textContent=HELP[t];quizStart(THEME_CATS[t],REQUIRED,true,els);}
-function trainDone(){const t=currentTheme;themeDone[t]=true;const idx=ORDER.indexOf(t);
+function trainDone(){const t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}const idx=ORDER.indexOf(t);
   if(idx<ORDER.length-1){const nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{try{suiviEnvoi('Terminé','','');}catch(_){}unlocked.arene=true;updateMap();go('arene');}}
 function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';const cats=cat==='mix'?ORDER.slice():[cat];quizStart(cats,0,false,elsArene());}
 function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
@@ -728,6 +751,29 @@ document.addEventListener('keydown',e=>{if(gid('kcPanel').hidden)return;
 toolInit('pg');toolInit('dq');toolInit('pv');toolInit('pr');
 vocInit();gid('perspFig').innerHTML=cubeSVG({persp:true});
 updateMap();
+</script>
+<script>
+/* ===== clavier maths + brouillon (ajout) ===== */
+var MATHTARGET=null;
+function _isVis(el){return !!(el&&(el.offsetWidth||el.offsetHeight||el.getClientRects().length));}
+function _activeInput(){var t=gid('tq_input'),a=gid('aq_input');if(_isVis(t))return t;if(_isVis(a))return a;return t||a;}
+function insertAtCursor(el,txt){if(!el)return;el.focus();var s=el.selectionStart,e=el.selectionEnd,v=el.value;if(typeof s==='number'){el.value=v.slice(0,s)+txt+v.slice(e);var p=s+txt.length;el.selectionStart=el.selectionEnd=p;}else{el.value=v+txt;}}
+function mathBack(el){if(!el)return;el.focus();var s=el.selectionStart,e=el.selectionEnd,v=el.value;if(typeof s!=='number'){el.value=v.slice(0,-1);return;}if(s!==e){el.value=v.slice(0,s)+v.slice(e);el.selectionStart=el.selectionEnd=s;}else if(s>0){el.value=v.slice(0,s-1)+v.slice(s);el.selectionStart=el.selectionEnd=s-1;}}
+function mathAction(a){var t=MATHTARGET||_activeInput();if(!t)return;if(a==='BACK')mathBack(t);else if(a==='CLR'){t.value='';t.focus();}else if(a==='NL')insertAtCursor(t,'\n');else insertAtCursor(t,a);}
+var PADKEYS=[
+ {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u232b',a:'BACK',c:'act'},
+ {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'C',a:'CLR',c:'act'},
+ {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'x',a:'x',c:'fn'},
+ {l:'0',a:'0'},{l:',',a:','},{l:'x\u00b2',a:'x\u00b2',c:'fn'},{l:'/',a:'/',c:'op'},
+ {l:'+',a:'+',c:'op'},{l:'\u2212',a:'\u2212',c:'op'},{l:'\u00d7',a:'\u00d7',c:'op'},{l:'\u00f7',a:'\u00f7',c:'op'},
+ {l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},{l:'=',a:'=',c:'op'},{l:'\u23ce ligne',a:'NL',c:'nl'}
+];
+function buildMathPad(padId){var box=gid(padId);if(!box)return;box.innerHTML='';PADKEYS.forEach(function(k){var b=document.createElement('button');b.type='button';b.className='mkey'+(k.c?' '+k.c:'');b.textContent=k.l;b.addEventListener('mousedown',function(ev){ev.preventDefault();});b.onclick=function(){mathAction(k.a);};box.appendChild(b);});}
+function afterQuizNext(){['tq','aq'].forEach(function(pfx){var ans=gid(pfx+'_ansrow'),work=gid(pfx+'_work'),inp=gid(pfx+'_input'),brou=gid(pfx+'_brouillon');if(!ans||!work)return;var answering=(ans.style.display!=='none')&&_isVis(ans);work.style.display=answering?'block':'none';if(answering){if(brou)brou.value='';if(inp){try{inp.inputMode='none';}catch(_){}}MATHTARGET=inp;}});}
+if(typeof quizNext==='function'){var _qnOrig=quizNext;quizNext=function(){var r=_qnOrig.apply(this,arguments);try{afterQuizNext();}catch(_){}return r;};}
+buildMathPad('tq_pad');buildMathPad('aq_pad');
+['tq_input','aq_input','tq_brouillon','aq_brouillon'].forEach(function(id){var el=gid(id);if(el)el.addEventListener('focus',function(){MATHTARGET=el;});});
+['tq_brouillon','aq_brouillon'].forEach(function(id){var el=gid(id);if(el)el.addEventListener('keydown',function(ev){ev.stopPropagation();});});
 </script>
 </body>
 </html>
