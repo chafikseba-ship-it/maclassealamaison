@@ -210,7 +210,7 @@ button,input{touch-action:manipulation}
 .brouillon-lab{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.88rem;text-align:left;margin:12px 0 4px}
 .brouillon{width:100%;box-sizing:border-box;min-height:96px;resize:vertical;border:3px dashed #e7d3a8;border-radius:16px;padding:10px 14px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.15rem;line-height:1.9;color:var(--bois);background:var(--blanc)}
 .brouillon:focus{outline:none;border-color:var(--orange-bas)}
-.mathpad{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;max-width:300px;margin:12px auto 0}
+.mathpad{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;max-width:360px;margin:12px auto 0}
 .mkey{border:none;border-radius:13px;padding:13px 0;font-family:'Fredoka';font-weight:700;font-size:1.18rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
 .mkey:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
 .mkey.op{background:var(--creme);color:var(--orange-bas)}
@@ -513,12 +513,11 @@ function insertAtCursor(el,txt){if(!el)return;el.focus();var s=el.selectionStart
 function mathBack(el){if(!el)return;el.focus();var s=el.selectionStart,e=el.selectionEnd,v=el.value;if(typeof s!=='number'){el.value=v.slice(0,-1);return;}if(s!==e){el.value=v.slice(0,s)+v.slice(e);el.selectionStart=el.selectionEnd=s;}else if(s>0){el.value=v.slice(0,s-1)+v.slice(s);el.selectionStart=el.selectionEnd=s-1;}}
 function mathAction(a){var t=MATHTARGET||activeInput();if(!t)return;if(a==='BACK')mathBack(t);else if(a==='CLR'){t.value='';t.focus();}else if(a==='NL')insertAtCursor(t,'\n');else insertAtCursor(t,a);}
 var PADKEYS=[
- {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u232b',a:'BACK',c:'act'},
- {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'C',a:'CLR',c:'act'},
- {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'x',a:'x',c:'fn'},
- {l:'0',a:'0'},{l:',',a:','},{l:'x\u00b2',a:'x\u00b2',c:'fn'},{l:'/',a:'/',c:'op'},
- {l:'+',a:'+',c:'op'},{l:'\u2212',a:'\u2212',c:'op'},{l:'\u00d7',a:'\u00d7',c:'op'},{l:'\u00f7',a:'\u00f7',c:'op'},
- {l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},{l:'=',a:'=',c:'op'},{l:'\u23ce ligne',a:'NL',c:'nl'}
+ {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'⌫',a:'BACK',c:'act'},{l:'C',a:'CLR',c:'act'},
+ {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
+ {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'x',a:'x',c:'fn'},{l:'x²',a:'x²',c:'fn'},
+ {l:'0',a:'0'},{l:',',a:','},{l:'^',a:'^',c:'fn'},{l:'+',a:'+',c:'op'},{l:'−',a:'−',c:'op'},
+ {l:'/',a:'/',c:'op'},{l:'×',a:'×',c:'op'},{l:'÷',a:'÷',c:'op'},{l:'=',a:'=',c:'op'},{l:'⏎',a:'NL',c:'nl'}
 ];
 function buildMathPad(padId){var box=gid(padId);if(!box)return;box.innerHTML='';PADKEYS.forEach(function(k){var b=document.createElement('button');b.type='button';b.className='mkey'+(k.c?' '+k.c:'');b.textContent=k.l;b.addEventListener('mousedown',function(ev){ev.preventDefault();});b.onclick=function(){mathAction(k.a);};box.appendChild(b);});}
 buildMathPad('tq_pad');buildMathPad('aq_pad');

@@ -75,6 +75,10 @@ tbody tr{border-bottom:1px solid #f0e2c4}
 .bar{height:10px;border-radius:6px;background:#eadfc6;overflow:hidden;margin-top:3px}
 .bar i{display:block;height:100%;background:var(--vert);border-radius:6px}
 .progtxt{font-family:'Fredoka';font-weight:700;font-size:.85rem;color:var(--bois)}
+.subs{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:5px}
+.sub{font-family:'Nunito';font-weight:700;font-size:.66rem;padding:2px 6px;border-radius:8px;white-space:nowrap}
+.sub.sok{background:#E4F4D2;color:var(--vert-bas)}
+.sub.sno{background:#f2e7cf;color:#b8a079}
 </style>
 </head>
 <body>
@@ -147,6 +151,19 @@ var CAT={
   '5':['Aires, Volumes & Longueurs','Formules d\u2019aires & volumes','Figures usuelles & propriétés'],
   '4':[],
   '3':['Probabilités','Aires & Volumes','Fonctions','Calcul littéral','Thalès','Statistiques']
+};
+/* Sous-sections connues par parcours (pour l'avancement détaillé) */
+var SUBSEP=' \u203a ';
+var SUBCAT={
+  'Probabilités':['Vocabulaire & échelle','Calculer une probabilité','Événement contraire'],
+  'Aires & Volumes':['Longueur','Aire','Volume'],
+  'Aires, Volumes & Longueurs':['Longueur','Aire','Volume'],
+  'Fonctions':['La notion de fonction','La fonction linéaire','La fonction affine'],
+  'Calcul littéral':['Substituer','Réduire','Parenthèses','Développer'],
+  'Thalès':['Comprendre Thalès','Les rapports','Calculer une longueur','Problèmes','La réciproque','La rédaction'],
+  'Statistiques':['Qualitatif ou quantitatif','Effectifs & fréquences','Moyenne, médiane, étendue','Données en classes'],
+  'Formules d\u2019aires & volumes':['Aires des polygones','Aire du disque','Vocabulaire des solides','Volumes : pavé & cube','Volumes : prisme & cylindre'],
+  'Figures usuelles & propriétés':['Le parallélogramme','Le rectangle','Le losange','Le carré','Reconnaître & classer']
 };
 function isNote(n){return !!NOTED[n];}
 function gid(x){return document.getElementById(x);}
@@ -240,12 +257,17 @@ function ingest(text){
     tree[college]=tree[college]||{};
     tree[college][classe]=tree[college][classe]||{};
     tree[college][classe][eleve]=tree[college][classe][eleve]||{};
-    var p=tree[college][classe][eleve][parc]=tree[college][classe][eleve][parc]||{best:null,att:0,valide:false,termine:false};
-    p.att++;
-    if(!isNaN(score)){ if(p.best===null||score>p.best) p.best=score; }
-    var s=stat.toLowerCase();
-    if(s.indexOf('valid')>=0) p.valide=true;
-    if(s.indexOf('termin')>=0) p.termine=true;
+    var base=parc, sub=null, si=parc.indexOf(SUBSEP);
+    if(si>=0){base=parc.slice(0,si).trim();sub=parc.slice(si+SUBSEP.length).trim();}
+    var p=tree[college][classe][eleve][base]=tree[college][classe][eleve][base]||{best:null,att:0,valide:false,termine:false,subs:{}};
+    if(sub){ if(sub) p.subs[sub]=true; }
+    else{
+      p.att++;
+      if(!isNaN(score)){ if(p.best===null||score>p.best) p.best=score; }
+      var s=stat.toLowerCase();
+      if(s.indexOf('valid')>=0) p.valide=true;
+      if(s.indexOf('termin')>=0) p.termine=true;
+    }
   }
   DATA={tree:tree,total:total,last:last};
 }
@@ -292,6 +314,14 @@ function cellFor(p,note){
   }
   if(p.termine) return '<span class="cell done">✅ Terminé</span>';
   return '<span class="cell mid">en cours<span class="att">'+p.att+' passage'+(p.att>1?'s':'')+'</span></span>';
+}
+/* pastilles de sous-sections sous la case d'un parcours */
+function subChips(parcName,p){
+  var list=SUBCAT[parcName]; if(!list||!list.length) return '';
+  var done=(p&&p.subs)||{};
+  var h='<div class="subs">';
+  list.forEach(function(s){var ok=!!done[s];h+='<span class="sub '+(ok?'sok':'sno')+'">'+(ok?'✓ ':'· ')+esc(s)+'</span>';});
+  return h+'</div>';
 }
 /* avancement d'un élève sur les parcours de SON niveau */
 function avancement(classe,parcMap){
@@ -358,7 +388,7 @@ function render(){
       out+='<th>Avancement</th></tr></thead><tbody>';
       eleves.forEach(function(e){
         out+='<tr><td>'+esc(e)+'</td>';
-        cols.forEach(function(pn){out+='<td>'+cellFor(elv[e][pn],isNote(pn))+'</td>';});
+        cols.forEach(function(pn){out+='<td>'+cellFor(elv[e][pn],isNote(pn))+subChips(pn,elv[e][pn])+'</td>';});
         out+='<td>'+progCell(avancement(cl,elv[e]))+'</td>';
         out+='</tr>';
       });
