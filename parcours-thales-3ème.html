@@ -3,7 +3,7 @@
 <head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calcul littéral — 3ème</title>
+<title>Théorème de Thalès — 3ème</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
@@ -189,9 +189,19 @@ button,input{touch-action:manipulation}
 .kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
 .kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
 
-.expr{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.35rem;color:var(--bois);background:var(--creme);border-radius:12px;padding:10px 14px;display:inline-block;margin:6px 0}
-.sqbtn{min-width:46px;font-size:1.05rem;padding:10px 12px}
-.regle{display:inline-block;background:var(--creme);border:2px dashed var(--orange-bas);border-radius:12px;padding:8px 14px;font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois);margin:6px 0}
+/* ===== figures Thalès ===== */
+.figbox{margin:8px auto 4px;text-align:center}
+.fig{width:100%;max-width:340px;height:auto;display:inline-block}
+.fig .seg{stroke:var(--bois);stroke-width:3;fill:none;stroke-linecap:round}
+.fig .par{stroke:var(--rouge);stroke-width:3.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.fig text.vlbl{font-family:'Fredoka',sans-serif;font-weight:700;font-size:18px;fill:var(--bois);stroke:#fff;stroke-width:4;paint-order:stroke;stroke-linejoin:round}
+.fig text.vlbl.q{fill:var(--rouge)}
+.fig text.plbl{font-family:'Fredoka',sans-serif;font-weight:700;font-size:17px;fill:var(--orange-bas);stroke:#fff;stroke-width:3.5;paint-order:stroke;stroke-linejoin:round}
+.formule{display:inline-block;background:var(--creme);border:2px dashed var(--teal-bas);border-radius:12px;padding:8px 14px;font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois);font-size:1.15rem;margin:6px 0}
+.steps{list-style:none;padding:0;margin:8px 0;counter-reset:st}
+.steps li{position:relative;padding:8px 8px 8px 42px;margin:6px 0;background:var(--blanc);border-radius:12px;box-shadow:0 3px 0 rgba(92,61,46,.1);font-weight:700;color:var(--bois)}
+.steps li::before{counter-increment:st;content:counter(st);position:absolute;left:8px;top:8px;width:26px;height:26px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-family:'Fredoka'}
+/* ===== nouveau moteur : UI ===== */
 .home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16)}
 .home:active{transform:translateY(1px)}
 .serieprog{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
@@ -212,25 +222,32 @@ button,input{touch-action:manipulation}
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="wrap">
+
 <section id="accueil" class="screen active">
   <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
   <div class="hero">
-    <div class="coin">🔤➕</div>
-    <h1>Calcul littéral</h1>
-    <p class="sub">Substituer, réduire, enlever les parenthèses, développer. Tu écris toi-même tes expressions (bouton x²). Chaque entraînement est noté sur 10 — il faut 8/10 !</p>
+    <div class="coin">📐✨</div>
+    <h1>Théorème de Thalès</h1>
+    <p class="sub">Comprendre, écrire les rapports, calculer, résoudre des problèmes, la réciproque et la rédaction. Chaque entraînement est noté sur 10 — il faut 8/10 pour valider !</p>
   </div>
   <div class="map">
-    <div class="etape e1" id="mapSubstituer" onclick="tapTheme('substituer')">
-      <div class="num">🔢</div><div class="txt"><h3>1 · Substituer</h3><p>Calculer pour une valeur de x</p></div><div class="status">▶</div>
+    <div class="etape e1" id="mapComprendre" onclick="tapTheme('comprendre')">
+      <div class="num">🔎</div><div class="txt"><h3>1 · Comprendre Thalès</h3><p>Configuration et conditions</p></div><div class="status">▶</div>
     </div>
-    <div class="etape e2" id="mapReduire" onclick="tapTheme('reduire')">
-      <div class="num">🟰</div><div class="txt"><h3>2 · Réduire</h3><p>Regrouper les termes semblables</p></div><div class="status">🔒</div>
+    <div class="etape e2" id="mapRapports" onclick="tapTheme('rapports')">
+      <div class="num">🟰</div><div class="txt"><h3>2 · Les rapports</h3><p>Écrire l’égalité des 3 rapports</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e3" id="mapParentheses" onclick="tapTheme('parentheses')">
-      <div class="num">( )</div><div class="txt"><h3>3 · Parenthèses</h3><p>Les règles de suppression</p></div><div class="status">🔒</div>
+    <div class="etape e3" id="mapCalculer" onclick="tapTheme('calculer')">
+      <div class="num">📏</div><div class="txt"><h3>3 · Calculer une longueur</h3><p>Le produit en croix</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e4" id="mapDevelopper" onclick="tapTheme('developper')">
-      <div class="num">✖️</div><div class="txt"><h3>4 · Développer</h3><p>La distributivité</p></div><div class="status">🔒</div>
+    <div class="etape e4" id="mapProblemes" onclick="tapTheme('problemes')">
+      <div class="num">🧩</div><div class="txt"><h3>4 · Problèmes</h3><p>Situations concrètes</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e5" id="mapReciproque" onclick="tapTheme('reciproque')">
+      <div class="num">↔️</div><div class="txt"><h3>5 · La réciproque</h3><p>Parallèles ou non ?</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e6" id="mapRedaction" onclick="tapTheme('redaction')">
+      <div class="num">✍️</div><div class="txt"><h3>6 · La rédaction</h3><p>Bien présenter sa solution</p></div><div class="status">🔒</div>
     </div>
     <div class="etape e6" id="mapArene" onclick="tapArene()">
       <div class="num" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Tout, au choix (entraînement libre)</p></div><div class="status">🔒</div>
@@ -238,28 +255,40 @@ button,input{touch-action:manipulation}
   </div>
 </section>
 
-<section id="expSubstituer" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Substituer</h2></div>
-  <div class="card"><span class="tag" style="background:var(--violet)">La leçon</span><p class='lead'>Substituer, c’est <b>remplacer la lettre x par un nombre</b>, puis calculer. On respecte les priorités (puissances, ×, ÷, puis + et −).</p><p class='note'>Exemple : pour x = 4, l’expression 3x + 5 vaut 3 × 4 + 5 = 17.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('substituer')">Je m’entraîne ➜</button></div>
+<section id="expComprendre" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Comprendre Thalès</h2></div>
+  <div class="card"><span class="tag" style="background:var(--violet)">La leçon</span><div class='figbox' id='figCo'></div><p class='lead'>Le théorème de Thalès sert à <b>calculer des longueurs</b>. On le reconnaît à deux configurations : « en triangle » (emboîtée) et « en papillon ».</p><p class='note'>Pour l’appliquer, il faut deux conditions : les <b>points alignés</b> sur chaque droite, et les deux droites en travers <b>parallèles</b>. Il met alors en relation des longueurs <b>proportionnelles</b>.</p></div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('comprendre')">Je m’entraîne ➜</button></div>
 </section>
 
-<section id="expReduire" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Réduire</h2></div>
-  <div class="card"><span class="tag" style="background:var(--teal)">La leçon</span><p class='lead'>Réduire, c’est <b>regrouper les termes semblables</b> : les « x » avec les « x », les « x² » avec les « x² », et les nombres entre eux. On n’additionne jamais des x avec des x².</p><p class='note'>Exemple : 3x + 5 + 2x − 1 = 5x + 4. Pour écrire un carré dans ta réponse, utilise le bouton <b>x²</b>.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('reduire')">Je m’entraîne ➜</button></div>
+<section id="expRapports" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Les rapports</h2></div>
+  <div class="card"><span class="tag" style="background:var(--teal)">La leçon</span><div class='figbox' id='figRa'></div><p class='lead'>Quand les conditions sont réunies, Thalès donne une égalité de <b>trois rapports</b> :</p><div style='text-align:center'><span class='formule' id='eqRa'></span></div><p class='note'>On lit les longueurs « du même côté » : sommet→premier point sur sommet→deuxième point, et enfin les deux segments parallèles.</p></div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('rapports')">Je m’entraîne ➜</button></div>
 </section>
 
-<section id="expParentheses" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Parenthèses</h2></div>
-  <div class="card"><span class="tag" style="background:var(--orange)">La leçon</span><p class='lead'>Pour supprimer une parenthèse, tout dépend du signe devant :</p><div style='text-align:center'><span class='regle'>+ ( … ) : on ne change rien</span><br><span class='regle'>− ( … ) : on change tous les signes</span></div><p class='note'>Exemple : 5x − (2x − 3) = 5x − 2x + 3 = 3x + 3.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('parentheses')">Je m’entraîne ➜</button></div>
+<section id="expCalculer" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Calculer une longueur</h2></div>
+  <div class="card"><span class="tag" style="background:var(--orange)">La leçon</span><div class='figbox' id='figCa'></div><p class='lead'>On écrit l’égalité, on remplace par les valeurs connues, puis on utilise le <b>produit en croix</b>.</p><p class='note'>Exemple : si AM = 4, AB = 10 et BC = 15, alors MN = (4 × 15) ÷ 10 = <b>6</b>. Attention : si on donne AM et MB séparément, il faut d’abord les additionner pour avoir AB.</p></div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('calculer')">Je m’entraîne ➜</button></div>
 </section>
 
-<section id="expDevelopper" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Développer</h2></div>
-  <div class="card"><span class="tag" style="background:var(--vert)">La leçon</span><p class='lead'>Développer, c’est <b>transformer un produit en somme</b> grâce à la distributivité : k(a + b) = k×a + k×b, et (a + b)(c + d) = ac + ad + bc + bd.</p><p class='note'>Exemples : 3(2x + 5) = 6x + 15 ; (x + 2)(x + 3) = x² + 5x + 6.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('developper')">Je m’entraîne ➜</button></div>
+<section id="expProblemes" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Problèmes</h2></div>
+  <div class="card"><span class="tag" style="background:var(--vert)">La leçon</span><p class='lead'>Beaucoup de situations réelles se résolvent avec Thalès (ou la proportionnalité des longueurs) : hauteur d’un arbre par son ombre, largeur d’une rivière, hauteur d’un immeuble par visée…</p><p class='note'>La méthode est toujours la même : repérer les deux « triangles » proportionnels, écrire le rapport, puis le produit en croix.</p></div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('problemes')">Je m’entraîne ➜</button></div>
+</section>
+
+<section id="expReciproque" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>La réciproque</h2></div>
+  <div class="card"><span class="tag" style="background:var(--bleu)">La leçon</span><div class='figbox' id='figRe'></div><p class='lead'>La <b>réciproque</b> sert à prouver que deux droites sont parallèles. On compare deux rapports : <span class='formule'>AM/AB</span> et <span class='formule'>AN/AC</span>.</p><p class='note'>S’ils sont <b>égaux</b> (et les points dans le même ordre), les droites sont parallèles. S’ils sont différents, elles ne le sont pas.</p></div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('reciproque')">Je m’entraîne ➜</button></div>
+</section>
+
+<section id="expRedaction" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>La rédaction</h2></div>
+  <div class="card"><span class="tag" style="background:var(--or)">La leçon</span><div class='figbox' id='figRd'></div><p class='lead'>Une bonne rédaction Thalès suit toujours les mêmes étapes :</p><ol class='steps'><li>J’indique que les points sont alignés et que les deux droites sont parallèles.</li><li>J’écris : « D’après le théorème de Thalès », puis l’égalité des trois rapports.</li><li>Je remplace par les valeurs connues et j’utilise le produit en croix.</li><li>Je conclus avec la longueur trouvée, sans oublier l’unité.</li></ol></div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('redaction')">Je m’entraîne ➜</button></div>
 </section>
 
 <section id="ecranTrain" class="screen">
@@ -274,7 +303,6 @@ button,input{touch-action:manipulation}
       <div class="opts" id="tq_opts" style="display:none"></div>
       <div class="ansrow" id="tq_ansrow">
         <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
-        <button class="btn fant sqbtn" id="tq_sq" style="display:none" onclick="insertSq('tq')">x²</button>
         <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
       </div>
       <div class="feedback" id="tq_feed"></div>
@@ -290,14 +318,16 @@ button,input{touch-action:manipulation}
 </section>
 
 <section id="arene" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L’arène du calcul littéral</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L’arène de Thalès</h2></div>
   <div class="card" id="areneMenu">
     <p class="lead" style="text-align:center">Bravo, séquence terminée ! Entraînement libre, sans note.</p>
     <div class="catgrid">
-      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('substituer')"><span class="ic">🔢</span>Substituer</button>
-      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('reduire')"><span class="ic">🟰</span>Réduire</button>
-      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('parentheses')"><span class="ic">( )</span>Parenthèses</button>
-      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('developper')"><span class="ic">✖️</span>Développer</button>
+      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('comprendre')"><span class="ic">🔎</span>Comprendre</button>
+      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('rapports')"><span class="ic">🟰</span>Rapports</button>
+      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('calculer')"><span class="ic">📏</span>Calculer</button>
+      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('problemes')"><span class="ic">🧩</span>Problèmes</button>
+      <button class="cat" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="startArene('reciproque')"><span class="ic">↔️</span>Réciproque</button>
+      <button class="cat" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('redaction')"><span class="ic">✍️</span>Rédaction</button>
     </div>
     <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
   </div>
@@ -310,7 +340,6 @@ button,input{touch-action:manipulation}
       <div class="opts" id="aq_opts" style="display:none"></div>
       <div class="ansrow" id="aq_ansrow">
         <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
-        <button class="btn fant sqbtn" id="aq_sq" style="display:none" onclick="insertSq('aq')">x²</button>
         <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
       </div>
       <div class="feedback" id="aq_feed"></div>
@@ -319,7 +348,9 @@ button,input{touch-action:manipulation}
     </div>
   </div>
 </section>
+
 </div>
+
 <button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">🧮</button>
 <div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
   <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
@@ -328,26 +359,28 @@ button,input{touch-action:manipulation}
 </div>
 <script>
 /* ===== SUIVI ===== */
-var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Calcul littéral'};
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Thalès'};
 function suiviInitIdentite(){try{var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe');if(!e||!c)gid('idov').hidden=false;}catch(_){}}
 function suiviSave(){var p=(gid('idPrenom').value||'').trim(),c=(gid('idClasse').value||'').trim();if(!p||!c)return;try{localStorage.setItem('kc_eleve',p);localStorage.setItem('kc_classe',c);}catch(_){}gid('idov').hidden=true;}
 function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
 
-const ORDER=['substituer','reduire','parentheses','developper'];
-const EXP={substituer:'expSubstituer',reduire:'expReduire',parentheses:'expParentheses',developper:'expDevelopper'};
-const MAPID={substituer:'mapSubstituer',reduire:'mapReduire',parentheses:'mapParentheses',developper:'mapDevelopper'};
-const TITLE={substituer:'Substituer',reduire:'Réduire',parentheses:'Parenthèses',developper:'Développer'};
-const unlocked={substituer:true,reduire:false,parentheses:false,developper:false,arene:false};
-const themeDone={substituer:false,reduire:false,parentheses:false,developper:false};
-let currentTheme='substituer';const REQUIRED=6;
+const ORDER=['comprendre','rapports','calculer','problemes','reciproque','redaction'];
+const EXP={comprendre:'expComprendre',rapports:'expRapports',calculer:'expCalculer',problemes:'expProblemes',reciproque:'expReciproque',redaction:'expRedaction'};
+const MAPID={comprendre:'mapComprendre',rapports:'mapRapports',calculer:'mapCalculer',problemes:'mapProblemes',reciproque:'mapReciproque',redaction:'mapRedaction'};
+const TITLE={comprendre:'Comprendre Thalès',rapports:'Les rapports',calculer:'Calculer une longueur',problemes:'Problèmes',reciproque:'La réciproque',redaction:'La rédaction'};
+const unlocked={comprendre:true,rapports:false,calculer:false,problemes:false,reciproque:false,redaction:false,arene:false};
+const themeDone={comprendre:false,rapports:false,calculer:false,problemes:false,reciproque:false,redaction:false};
+let currentTheme='comprendre';const REQUIRED=6;
 const SERIE=10, SEUIL=8;
-const CATNOM={substituer:'Substituer',reduire:'Réduire',parentheses:'Parenthèses',developper:'Développer'};
-const THEME_CATS={substituer:['substituer'],reduire:['reduire'],parentheses:['parentheses'],developper:['developper']};
+const CATNOM={comprendre:'Comprendre',rapports:'Rapports',calculer:'Calculer',problemes:'Problèmes',reciproque:'Réciproque',redaction:'Rédaction'};
+const THEME_CATS={comprendre:['comprendre'],rapports:['rapports'],calculer:['calculer'],problemes:['problemes'],reciproque:['reciproque'],redaction:['redaction']};
 const HELP={
-  substituer:'Remplace x par le nombre, puis calcule en respectant les priorités.',
-  reduire:'Regroupe les x avec les x, les x² avec les x², les nombres ensemble. Bouton x² pour le carré.',
-  parentheses:'+( ) : on garde les signes. −( ) : on change tous les signes. Puis on réduit.',
-  developper:'k(a+b)=ka+kb. (a+b)(c+d)=ac+ad+bc+bd. Puis on réduit.'
+  comprendre:'Thalès calcule des longueurs. Conditions : points alignés + droites parallèles.',
+  rapports:'On écrit l’égalité des 3 rapports « du même côté ».',
+  calculer:'On remplace par les valeurs puis produit en croix. Pense à additionner si on donne les deux morceaux.',
+  problemes:'Repère les deux triangles proportionnels, écris le rapport, fais le produit en croix.',
+  reciproque:'On compare deux rapports : égaux → parallèles ; différents → non parallèles.',
+  redaction:'Ordre : conditions → « d’après Thalès » + égalité → produit en croix → conclusion avec l’unité.'
 };
 function gid(x){return document.getElementById(x);}
 function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();}
@@ -365,84 +398,127 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 function fmtDec(v){if(!isFinite(v))return '?';return (Math.round(v*100)/100).toString().replace('.',',');}
 function r2(v){return Math.round(v*100)/100;}
 
+function svg(c,vb){return '<svg class="fig" viewBox="'+vb+'" xmlns="http://www.w3.org/2000/svg">'+c+'</svg>';}
 function qcm(cat,t,opts,ci,e,viz){const o=shuffle(opts);return {type:'qcm',cat,text:t,options:o,correct:o.indexOf(opts[ci]),explain:e,viz};}
 
-/* ===== polynômes (degré <= 2) ===== */
-function parsePoly(s){s=String(s).toLowerCase().replace(/\s/g,'').replace(/\u00b2/g,'^2').replace(/\u00d7/g,'').replace(/\u2212/g,'-').replace(/\*/g,'');
-  if(s==='')return null;if(s[0]!=='+'&&s[0]!=='-')s='+'+s;
-  var re=/([+-])([^+-]+)/g,m,b={0:0,1:0,2:0},any=false;
-  while((m=re.exec(s))){var sign=m[1]==='-'?-1:1,body=m[2],deg,coef;
-    if(body.indexOf('x^2')>=0){deg=2;var c=body.replace('x^2','');coef=(c===''?1:parseFloat(c));}
-    else if(body.indexOf('x')>=0){deg=1;var c2=body.replace('x','');coef=(c2===''?1:parseFloat(c2));}
-    else{deg=0;coef=parseFloat(body);}
-    if(!isFinite(coef))return null;b[deg]+=sign*coef;any=true;}
-  return any?b:null;}
-function polyEq(b,t){return Math.abs(b[0]-(t[0]||0))<1e-9&&Math.abs(b[1]-(t[1]||0))<1e-9&&Math.abs(b[2]-(t[2]||0))<1e-9;}
-function polyStr(t){var parts=[];function add(c,suf){if(Math.abs(c)<1e-9)return;var a=Math.abs(c);var co=(a===1&&suf!=='')?'':a;parts.push([c<0,co+suf]);}
-  add(t[2]||0,'x\u00b2');add(t[1]||0,'x');add(t[0]||0,'');
-  if(parts.length===0)return '0';
-  var s=(parts[0][0]?'\u2212':'')+parts[0][1];
-  for(var i=1;i<parts.length;i++)s+=(parts[i][0]?' \u2212 ':' + ')+parts[i][1];return s;}
-function insertSq(which){var inp=gid(which+'_input');inp.value+='\u00b2';inp.focus();}
-function tStr(c,deg){var suf=deg===2?'x\u00b2':deg===1?'x':'';var a=Math.abs(c);var co=(a===1&&suf!=='')?'':a;return co+suf;}
-function termsToStr(list){var s='';for(var i=0;i<list.length;i++){var c=list[i].c,deg=list[i].deg,p=tStr(c,deg);if(i===0)s+=(c<0?'\u2212':'')+p;else s+=(c<0?' \u2212 ':' + ')+p;}return s;}
-function split2(c){if(c===0){var k=rint(1,6);return [k,-k];}var p=rint(-6,6);return [p,c-p];}
-function split2nz(c){var p;do{p=rint(-7,7);}while(p===0||p===c);return [p,c-p];}
+/* ===== figures Thalès ===== */
+function lerp(a,b,t){return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];}
+function midp(a,b){return [(a[0]+b[0])/2,(a[1]+b[1])/2];}
+function uni(a,b){var dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1;return [dx/l,dy/l];}
+function seg(a,b){return '<line x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'" class="seg"/>';}
+function pmark(a,b){var m=midp(a,b),u=uni(a,b),n=[-u[1],u[0]],s='';for(var o=-3;o<=3;o+=6){var c=[m[0]+u[0]*o,m[1]+u[1]*o];var tip=[c[0]+u[0]*5,c[1]+u[1]*5];var w1=[c[0]-u[0]+n[0]*5,c[1]-u[1]+n[1]*5];var w2=[c[0]-u[0]-n[0]*5,c[1]-u[1]-n[1]*5];s+='<polyline points="'+w1[0]+','+w1[1]+' '+tip[0]+','+tip[1]+' '+w2[0]+','+w2[1]+'" class="par" fill="none"/>';}return s;}
+function vlabAuto(a,b,text,c0){var m=midp(a,b),u=uni(a,b),n=[-u[1],u[0]],d=20;var p1=[m[0]+n[0]*d,m[1]+n[1]*d],p2=[m[0]-n[0]*d,m[1]-n[1]*d];var f1=Math.hypot(p1[0]-c0[0],p1[1]-c0[1]),f2=Math.hypot(p2[0]-c0[0],p2[1]-c0[1]);var p=f1>f2?p1:p2;var cls='vlbl'+(text==='?'?' q':'');return '<text x="'+p[0]+'" y="'+(p[1]+6)+'" text-anchor="middle" class="'+cls+'">'+text+'</text>';}
+function vlabAt(a,b,text,ox,oy){var m=midp(a,b);var cls='vlbl'+(text==='?'?' q':'');return '<text x="'+(m[0]+ox)+'" y="'+(m[1]+oy)+'" text-anchor="middle" class="'+cls+'">'+text+'</text>';}
+function plab(p,t,ox,oy){return '<text x="'+(p[0]+ox)+'" y="'+(p[1]+oy)+'" text-anchor="middle" class="plbl">'+t+'</text>';}
+function figThales(cfg){var L=cfg.L,e=cfg.e||{},cf=cfg.config||'triangle';var s='';
+  if(cf==='triangle'){
+    var O=[170,30],B=[45,232],C=[297,232];var M=lerp(O,B,0.52),N=lerp(O,C,0.52);var c0=[170,150];
+    s+=seg(O,B)+seg(O,C)+seg(B,C)+seg(M,N)+pmark(M,N)+pmark(B,C);
+    if(e.OB)s+=vlabAuto(O,B,e.OB,c0);
+    if(e.OM)s+=vlabAuto(O,M,e.OM,c0); if(e.MB)s+=vlabAuto(M,B,e.MB,c0);
+    if(e.OC)s+=vlabAuto(O,C,e.OC,c0);
+    if(e.ON)s+=vlabAuto(O,N,e.ON,c0); if(e.NC)s+=vlabAuto(N,C,e.NC,c0);
+    if(e.MN)s+=vlabAuto(M,N,e.MN,c0); if(e.BC)s+=vlabAuto(B,C,e.BC,c0);
+    s+=plab(O,L.O,0,-10)+plab(B,L.B,-13,9)+plab(C,L.C,13,9)+plab(M,L.M,-15,4)+plab(N,L.N,15,4);
+    return svg(s,'0 0 340 256');
+  }
+  var O=[170,130],M=[58,42],N=[282,42],B=[282,218],C=[58,218];
+  s+=seg(O,M)+seg(O,N)+seg(O,B)+seg(O,C)+seg(M,N)+seg(B,C)+pmark(M,N)+pmark(C,B);
+  if(e.OM)s+=vlabAt(O,M,e.OM,-16,-4); if(e.ON)s+=vlabAt(O,N,e.ON,16,-4);
+  if(e.OB)s+=vlabAt(O,B,e.OB,16,10); if(e.OC)s+=vlabAt(O,C,e.OC,-16,10);
+  if(e.MN)s+=vlabAt(M,N,e.MN,0,-12); if(e.BC)s+=vlabAt(B,C,e.BC,0,22);
+  s+=plab(M,L.M,-12,-6)+plab(N,L.N,12,-6)+plab(B,L.B,14,8)+plab(C,L.C,-14,8)+plab(O,L.O,12,-6);
+  return svg(s,'0 0 340 256');
+}
+var LPOOL=['A','B','C','D','E','F','G','I','J','K','L','M','N','P','R','S','T','U','V'];
+function letters(){var p=shuffle(LPOOL).slice(0,5);return {O:p[0],M:p[1],N:p[2],B:p[3],C:p[4]};}
+function segName(L,a,b){return L[a]+L[b];}
 
 /* ===== générateurs ===== */
-function exprStr(c2,c1,c0){return polyStr({2:c2,1:c1,0:c0});}
-function genSubstituer(){
-  var v=rint(-5,6);var c2,c1,c0,src,ans;
-  if(Math.random()<0.5){c1=rint(-6,9);if(c1===0)c1=3;c0=rint(-9,9);src=exprStr(0,c1,c0);ans=c1*v+c0;}
-  else{c2=pick([1,1,2,-1]);c1=rint(-5,6);c0=rint(-6,6);src=exprStr(c2,c1,c0);ans=c2*v*v+c1*v+c0;}
-  return {type:'num',cat:'substituer',text:'Calcule '+src+' pour x = '+v+'.',answer:ans,disp:''+ans,explain:'On remplace x par '+v+' : on obtient '+ans+'.',raw:{kind:'subst',src:src,v:v}};
+var RAT=[[1,2],[2,3],[3,4],[2,5],[3,5],[1,3],[4,5],[3,4]];
+function genComprendre(){
+  var r=Math.random();
+  if(r<0.22){var L=letters();var cf=pick(['triangle','papillon']);return qcm('comprendre','Quelle est cette configuration de Thalès ?',['Configuration en triangle','Configuration en papillon'],cf==='triangle'?0:1,'On reconnaît la configuration « en '+cf+' ».',figThales({config:cf,L:L,e:{}}));}
+  var pool=[
+   ['À quoi sert le théorème de Thalès ?',['À calculer des longueurs','À calculer des angles','À tracer un cercle'],'Thalès permet de calculer des longueurs.'],
+   ['Pour appliquer Thalès, les deux droites « en travers » doivent être…',['parallèles','perpendiculaires','sécantes'],'Il faut que les deux droites soient parallèles.'],
+   ['Pour appliquer Thalès, sur chaque droite les points doivent être…',['alignés','un triangle','un cercle'],'Les points doivent être alignés.'],
+   ['Si les droites ne sont pas parallèles, peut-on appliquer le théorème de Thalès ?',['Non','Oui','Seulement parfois'],'Sans parallélisme, on ne peut pas appliquer Thalès.'],
+   ['Le théorème de Thalès met en relation des longueurs…',['proportionnelles','égales','opposées'],'Les longueurs sont proportionnelles.'],
+   ['Combien de rapports égaux donne le théorème de Thalès ?',['3','2','4'],'Il donne une égalité de 3 rapports.']
+  ];
+  var q=pick(pool);return qcm('comprendre',q[0],q[1],0,q[2],null);
 }
-function genReduire(){
-  if(Math.random()<0.12){var pool=[
-    ['Peut-on additionner 3x et 2x\u00b2 ?',['Non, ce ne sont pas des termes semblables','Oui, cela fait 5x\u00b3','Oui, cela fait 5x'],'x et x\u00b2 ne sont pas semblables : on ne les regroupe pas.'],
-    ['Combien vaut x + x ?',['2x','x\u00b2','2x\u00b2'],'x + x = 2x.'],
-    ['Combien vaut 5x \u2212 5x ?',['0','x','10x'],'5x \u2212 5x = 0.']];
-    var q=pick(pool);return qcm('reduire',q[0],q[1],0,q[2],null);}
-  var c2=pick([0,0,0,1,-1,2]),c1=rint(-9,9);if(c1===0)c1=pick([4,-4,6,7]);var c0=rint(-9,9);
-  var list=[];var s1=split2nz(c1);list.push({c:s1[0],deg:1},{c:s1[1],deg:1});
-  var s0=split2(c0);if(s0[0]!==0)list.push({c:s0[0],deg:0});if(s0[1]!==0)list.push({c:s0[1],deg:0});
-  if(s0[0]===0&&s0[1]===0&&c0!==0)list.push({c:c0,deg:0});
-  if(c2!==0){if(Math.random()<0.5){var s2=split2nz(c2);list.push({c:s2[0],deg:2},{c:s2[1],deg:2});}else list.push({c:c2,deg:2});}
-  else if(Math.random()<0.3){var k=rint(1,4);list.push({c:k,deg:2},{c:-k,deg:2});}
-  list=shuffle(list);var src=termsToStr(list);var target={2:c2,1:c1,0:c0};
-  return {type:'free',cat:'reduire',text:'Réduis l’expression : '+src,target:target,disp:polyStr(target),explain:'On regroupe les termes semblables : '+polyStr(target)+'.',raw:{kind:'free',src:src,target:target}};
+function genRapports(){
+  var L=letters(),cf=pick(['triangle','papillon']);
+  var eq=L.O+L.M+'/'+L.O+L.B+' = '+L.O+L.N+'/'+L.O+L.C+' = '+L.M+L.N+'/'+L.B+L.C;
+  var d1=L.O+L.M+'/'+L.M+L.B+' = '+L.O+L.N+'/'+L.N+L.C+' = '+L.M+L.N+'/'+L.B+L.C;
+  var d2=L.O+L.M+'/'+L.O+L.B+' = '+L.O+L.C+'/'+L.O+L.N+' = '+L.M+L.N+'/'+L.B+L.C;
+  return qcm('rapports','Les droites ('+L.M+L.N+') et ('+L.B+L.C+') sont parallèles. Quelle égalité est correcte ?',[eq,d1,d2],0,'On lit du même côté : '+eq+'.',figThales({config:cf,L:L,e:{}}));
 }
-function genParentheses(){
-  if(Math.random()<0.18){var pool=[
-    ['Pour enlever une parenthèse précédée d’un « + », on…',['ne change rien aux signes','change tous les signes','supprime un terme'],'Un + devant : on garde les signes.'],
-    ['Pour enlever une parenthèse précédée d’un « − », on…',['change le signe de tous les termes à l’intérieur','ne change rien','garde seulement le premier terme'],'Un − devant : on change tous les signes.']];
-    var q=pick(pool);return qcm('parentheses',q[0],q[1],0,q[2],null);}
-  var a=rint(-6,8);if(a===0)a=3;var b=rint(-6,7);if(b===0)b=2;var c=rint(-8,8);if(c===0)c=4;var mode=pick(['A','B','C']);var src,target;
-  if(mode==='A'){src=termsToStr([{c:a,deg:1}])+' + ('+termsToStr([{c:b,deg:1},{c:c,deg:0}])+')';target={1:a+b,0:c};}
-  else if(mode==='B'){src=termsToStr([{c:a,deg:1}])+' \u2212 ('+termsToStr([{c:b,deg:1},{c:c,deg:0}])+')';target={1:a-b,0:-c};}
-  else{var d=rint(-6,7);if(d===0)d=5;var c1=rint(-8,8);src='('+termsToStr([{c:a,deg:1},{c:c1,deg:0}])+') \u2212 ('+termsToStr([{c:b,deg:1},{c:c,deg:0}])+')';target={1:a-b,0:c1-c};}
-  return {type:'free',cat:'parentheses',text:'Supprime les parenthèses et réduis : '+src,target:target,disp:polyStr(target),explain:'Après avoir enlevé les parenthèses et réduit : '+polyStr(target)+'.',raw:{kind:'free',src:src,target:target}};
+function crossQ(cat,text,x,y,d,name,cfg,explain,unit){
+  var ans=x*y/d;return {type:'num',cat:cat,text:text,answer:ans,disp:ans+(unit||''),viz:cfg?figThales(cfg):null,explain:explain,kind:'cross',raw:{x:x,y:y,d:d}};
 }
-function genDevelopper(){
-  if(Math.random()<0.14){var pool=[
-    ['Développer, c’est…',['transformer un produit en somme','factoriser','réduire une fraction'],'Développer = transformer un produit en somme.'],
-    ['k(a + b) est égal à…',['k×a + k×b','k×a + b','k + a + b'],'On distribue : k×a + k×b.']];
-    var q=pick(pool);return qcm('developper',q[0],q[1],0,q[2],null);}
-  if(Math.random()<0.55){var k=pick([-5,-4,-3,-2,2,3,4,5]),a=rint(1,6),b=rint(-6,6);if(b===0)b=3;
-    var src=(k<0?'\u2212':'')+Math.abs(k)+'('+termsToStr([{c:a,deg:1},{c:b,deg:0}])+')';var target={1:k*a,0:k*b};
-    return {type:'free',cat:'developper',text:'Développe et réduis : '+src,target:target,disp:polyStr(target),explain:'On distribue : '+polyStr(target)+'.',raw:{kind:'free',src:src,target:target}};}
-  var a2=rint(-6,6);if(a2===0)a2=2;var b2=rint(-6,6);if(b2===0)b2=3;
-  var src2='('+termsToStr([{c:1,deg:1},{c:a2,deg:0}])+')('+termsToStr([{c:1,deg:1},{c:b2,deg:0}])+')';
-  var target2={2:1,1:a2+b2,0:a2*b2};
-  return {type:'free',cat:'developper',text:'Développe et réduis : '+src2,target:target2,disp:polyStr(target2),explain:'Double distributivité : '+polyStr(target2)+'.',raw:{kind:'free',src:src2,target:target2}};
+function genCalculer(){
+  var L=letters();var rp=pick(RAT),p=rp[0],q=rp[1];var a=rint(2,6),b=rint(2,6),c=rint(2,6);
+  var v=Math.random();
+  if(v<0.30){ // triangle : trouver MN avec OM,OB,BC
+    var e={OM:''+(p*a),OB:''+(q*a),BC:''+(q*c),MN:'?'};
+    return crossQ('calculer','Les droites ('+L.M+L.N+') et ('+L.B+L.C+') sont parallèles. Calcule '+L.M+L.N+'.',p*a,q*c,q*a,L.M+L.N,{config:'triangle',L:L,e:e},
+      'Thalès : '+L.O+L.M+'/'+L.O+L.B+' = '+L.M+L.N+'/'+L.B+L.C+'. Donc '+L.M+L.N+' = ('+(p*a)+' × '+(q*c)+') ÷ '+(q*a)+' = '+(p*c)+'.');
+  }
+  if(v<0.55){ // triangle : trouver OC avec OM,OB,ON
+    var e2={OM:''+(p*a),OB:''+(q*a),ON:''+(p*b),OC:'?'};
+    return crossQ('calculer','Les droites ('+L.M+L.N+') et ('+L.B+L.C+') sont parallèles. Calcule '+L.O+L.C+'.',q*a,p*b,p*a,L.O+L.C,{config:'triangle',L:L,e:e2},
+      'Thalès : '+L.O+L.M+'/'+L.O+L.B+' = '+L.O+L.N+'/'+L.O+L.C+'. Donc '+L.O+L.C+' = ('+(q*a)+' × '+(p*b)+') ÷ '+(p*a)+' = '+(q*b)+'.');
+  }
+  if(v<0.78){ // piège : OM et MB donnés
+    var e3={OM:''+(p*a),MB:''+((q-p)*a),BC:''+(q*c),MN:'?'};
+    return crossQ('calculer','Les droites ('+L.M+L.N+') et ('+L.B+L.C+') sont parallèles. On donne '+L.O+L.M+' et '+L.M+L.B+'. Calcule '+L.M+L.N+'.',p*a,q*c,q*a,L.M+L.N,{config:'triangle',L:L,e:e3},
+      'D’abord '+L.O+L.B+' = '+L.O+L.M+' + '+L.M+L.B+' = '+(p*a)+' + '+((q-p)*a)+' = '+(q*a)+'. Puis '+L.M+L.N+' = ('+(p*a)+' × '+(q*c)+') ÷ '+(q*a)+' = '+(p*c)+'.');
+  }
+  // papillon : trouver BC avec OM,OB,MN
+  var e4={OM:''+(p*a),OB:''+(q*a),MN:''+(p*c),BC:'?'};
+  return crossQ('calculer','Configuration papillon : ('+L.M+L.N+') et ('+L.B+L.C+') sont parallèles. Calcule '+L.B+L.C+'.',q*a,p*c,p*a,L.B+L.C,{config:'papillon',L:L,e:e4},
+    'Thalès : '+L.O+L.M+'/'+L.O+L.B+' = '+L.M+L.N+'/'+L.B+L.C+'. Donc '+L.B+L.C+' = ('+(q*a)+' × '+(p*c)+') ÷ '+(p*a)+' = '+(q*c)+'.');
 }
-var GEN={substituer:genSubstituer,reduire:genReduire,parentheses:genParentheses,developper:genDevelopper};
+function genProblemes(){
+  var t=Math.random();
+  if(t<0.34){var h=rint(1,3),s1=rint(2,4),k=rint(2,6),s2=s1*k;return crossQ('problemes','Un piquet de '+h+' m projette une ombre de '+s1+' m. Au même moment, un arbre projette une ombre de '+s2+' m. Quelle est la hauteur de l’arbre (en m) ?',h,s2,s1,'',null,'On utilise la proportionnalité : hauteur = ('+h+' × '+s2+') ÷ '+s1+' = '+(h*s2/s1)+' m.',' m');}
+  if(t<0.67){var sc=pick([2,3,4,5,10]),small=rint(2,8),big=rint(2,9),realS=small*sc;return crossQ('problemes','Sur un plan, une distance mesurée est de '+small+' cm pour une longueur réelle de '+realS+' m. Une autre distance mesure '+big+' cm. Quelle longueur réelle (en m) représente-t-elle ?',big,realS,small,'',null,'Proportionnalité : ('+big+' × '+realS+') ÷ '+small+' = '+(big*realS/small)+' m.',' m');}
+  var d1=rint(2,5),d2=d1*rint(2,5),hh=rint(2,6);return crossQ('problemes','Pour mesurer la largeur d’une rivière, on utilise deux triangles semblables. Le petit côté vaut '+d1+' m pour une visée de '+hh+' m ; le grand côté vaut '+d2+' m. Quelle est la largeur cherchée (en m) ?',d2,hh,d1,'',null,'Proportionnalité : ('+d2+' × '+hh+') ÷ '+d1+' = '+(d2*hh/d1)+' m.',' m');
+}
+function genReciproque(){
+  var L=letters();var rp=pick(RAT),p=rp[0],q=rp[1];var a=rint(2,6),b=rint(2,6);
+  var par=Math.random()<0.5;
+  var OM,OB,ON,OC;
+  OM=p*a;OB=q*a;
+  if(par){ON=p*b;OC=q*b;}
+  else{var rp2;do{rp2=pick(RAT);}while(Math.abs(rp2[0]/rp2[1]-p/q)<0.08);ON=rp2[0]*b;OC=rp2[1]*b;}
+  var e={OM:''+OM,OB:''+OB,ON:''+ON,OC:''+OC};
+  var r1=OM/OB,r2=ON/OC;
+  return {type:'qcm',cat:'reciproque',text:'Les points sont alignés. Les droites ('+L.M+L.N+') et ('+L.B+L.C+') sont-elles parallèles ?',
+    options:['Oui, elles sont parallèles','Non, elles ne sont pas parallèles'],correct:par?0:1,
+    explain:L.O+L.M+'/'+L.O+L.B+' = '+OM+'/'+OB+' = '+(Math.round(r1*1000)/1000+'').replace('.',',')+' et '+L.O+L.N+'/'+L.O+L.C+' = '+ON+'/'+OC+' = '+(Math.round(r2*1000)/1000+'').replace('.',',')+' → '+(par?'égaux : parallèles.':'différents : non parallèles.'),
+    viz:figThales({config:'triangle',L:L,e:e}),kind:'recip',raw:{r1:r1,r2:r2,par:par}};
+}
+function genRedaction(){
+  var pool=[
+   ['Par quoi commence-t-on une rédaction utilisant Thalès ?',['On précise que les points sont alignés et que les droites sont parallèles','On calcule directement','On trace un cercle'],'On commence par vérifier les conditions.'],
+   ['Quelle phrase introduit l’égalité des rapports ?',['« D’après le théorème de Thalès »','« D’après Pythagore »','« Car le triangle est isocèle »'],'On écrit « D’après le théorème de Thalès ».'],
+   ['Pour trouver la longueur une fois l’égalité posée, on utilise…',['le produit en croix','une racine carrée','le théorème de Pythagore'],'On isole l’inconnue avec le produit en croix.'],
+   ['Quelle est la toute dernière étape de la rédaction ?',['Conclure avec la longueur et son unité','Mesurer à la règle','Tracer la hauteur'],'On conclut avec la longueur trouvée et l’unité.'],
+   ['Avant d’écrire l’égalité, que doit-on absolument avoir justifié ?',['Le parallélisme des droites','La couleur de la figure','La nature des angles'],'Le parallélisme (et l’alignement) doit être justifié avant.']
+  ];
+  var q=pick(pool);return qcm('redaction',q[0],q[1],0,q[2],null);
+}
+var GEN={comprendre:genComprendre,rapports:genRapports,calculer:genCalculer,problemes:genProblemes,reciproque:genReciproque,redaction:genRedaction};
 /* ===== moteur de quiz (série notée) ===== */
 function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
 function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;if(s.indexOf('/')>=0){var p=s.split('/');if(p.length!==2)return null;var a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;return a/b;}var v=parseFloat(s);return isFinite(v)?v:null;}
 var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastText:'',timer:0};
-function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),sq:gid('tq_sq'),next:gid('tq_next'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
-function elsArene(){return {score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),sq:gid('aq_sq'),next:gid('aq_next')};}
+function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),next:gid('tq_next'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
+function elsArene(){return {score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next')};}
 function quizStart(cats,guided,els){Q.cats=cats;Q.guided=guided;Q.els=els;Q.score=0;Q.answered=0;Q.correct=0;Q.streak=0;Q.locked=false;Q.lastText='';
   if(els.result)els.result.style.display='none';if(els.card)els.card.style.display='block';
   quizScore();quizNext();}
@@ -455,9 +531,9 @@ function quizNext(){clearTimeout(Q.timer);
   Q.cur=cur;Q.lastText=cur.text;e.cat.textContent=CATNOM[cat];e.text.textContent=cur.text;
   if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
   if(cur.type==='qcm'){e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';cur.options.forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=function(){quizPick(i);};e.opts.appendChild(b);});}
-  else{e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.placeholder=(cur.type==='free')?'ex : 2x²+3x-1':'ta réponse';e.input.inputMode=(cur.type==='free')?'text':'decimal';if(e.sq)e.sq.style.display=(cur.type==='free')?'inline-flex':'none';e.input.focus();}
+  else{e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
   quizScore();}
-function quizValidate(){if(Q.locked||!Q.cur)return;var e=Q.els;if(Q.cur.type==='free'){var pr=parsePoly(e.input.value);if(pr===null){e.feed.className='feedback no';e.feed.textContent='Écris une expression (ex : 2x²+3x-1).';return;}e.input.disabled=true;e.valid.disabled=true;if(e.sq)e.sq.style.display='none';quizResolve(polyEq(pr,Q.cur.target),'La forme réduite est : '+Q.cur.disp+'.');return;}if(Q.cur.type!=='num')return;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La réponse est '+Q.cur.disp+'.');}
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La réponse est '+Q.cur.disp+'.');}
 function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'La bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');}
 function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
   if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Bravo !<div class="feedlab">'+Q.cur.explain+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
@@ -483,7 +559,7 @@ document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(!gi
   var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
   if(!(onT||onA))return;var nx=onT?gid('tq_next'):gid('aq_next');
   if(nx&&nx.style.display!=='none'){quizNext();return;}
-  if(!Q.locked&&Q.cur&&(Q.cur.type==='num'||Q.cur.type==='free'))quizValidate();});
+  if(!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
 /* ===== CALCULATRICE ===== */
 function kcEval(expr){
   let s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
@@ -526,6 +602,13 @@ document.addEventListener('keydown',e=>{if(gid('kcPanel').hidden)return;
 
 
 
+/* figures des leçons */
+gid('figCo').innerHTML=figThales({config:'triangle',L:{O:'A',M:'M',N:'N',B:'B',C:'C'},e:{}});
+gid('figRa').innerHTML=figThales({config:'triangle',L:{O:'A',M:'M',N:'N',B:'B',C:'C'},e:{}});
+gid('eqRa').textContent='AM/AB = AN/AC = MN/BC';
+gid('figCa').innerHTML=figThales({config:'triangle',L:{O:'A',M:'M',N:'N',B:'B',C:'C'},e:{OM:'4',OB:'10',BC:'15',MN:'?'}});
+gid('figRe').innerHTML=figThales({config:'triangle',L:{O:'A',M:'M',N:'N',B:'B',C:'C'},e:{OM:'3',OB:'5',ON:'6',OC:'10'}});
+gid('figRd').innerHTML=figThales({config:'triangle',L:{O:'A',M:'M',N:'N',B:'B',C:'C'},e:{OM:'6',OB:'9',MN:'4',BC:'?'}});
 updateMap();
 
 </script>

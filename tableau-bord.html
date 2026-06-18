@@ -9,11 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --or:#FFC93C; --or-bas:#E0A41E; --vert:#8BC34A; --vert-bas:#5E9426;
-  --orange:#FF8A4C; --orange-bas:#E0672E; --teal:#46BECB; --teal-bas:#2E8A98;
-  --violet:#A78BC4; --violet-bas:#7E61A1; --rouge:#EF5D60; --rouge-bas:#c43e41;
+  --or:#FFC93C; --or-bas:#E0A41E;
+  --vert:#8BC34A; --vert-bas:#5E9426;
+  --orange:#FF8A4C; --orange-bas:#E0672E;
+  --teal:#46BECB; --teal-bas:#2E8A98;
+  --violet:#A78BC4; --violet-bas:#7E61A1;
+  --rouge:#EF5D60; --rouge-bas:#c43e41;
   --bleu:#4FA3D1; --bleu-bas:#2f7ba8;
-  --bois:#5C3D2E; --bois-clair:#8a6650; --creme:#FFF4DC; --blanc:#FFFDF6;
+  --bois:#5C3D2E; --bois-clair:#8a6650;
+  --creme:#FFF4DC; --blanc:#FFFDF6;
   --ombre:0 8px 0 rgba(92,61,46,.18), 0 14px 22px rgba(92,61,46,.12);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -39,11 +43,13 @@ input:focus,select:focus{outline:none;border-color:var(--orange-bas)}
 .muted{color:var(--bois-clair);font-weight:700;font-size:.9rem}
 a{color:var(--bleu-bas)}
 
+/* ---- réglages (saisie du lien) ---- */
 #setup .step{margin:10px 0;line-height:1.5}
 #setup ol{margin:6px 0 0;padding-left:22px}
 #setup li{margin:5px 0}
 #linkInput{width:100%}
 
+/* ---- tableau ---- */
 .tablewrap{overflow-x:auto}
 table{border-collapse:separate;border-spacing:0;width:100%;min-width:680px}
 th,td{padding:10px 8px;text-align:center;font-size:.92rem}
@@ -61,8 +67,6 @@ tbody tr{border-bottom:1px solid #f0e2c4}
 .none{color:#cbb89a}
 .att{display:block;font-family:'Nunito';font-weight:700;font-size:.7rem;color:var(--bois-clair);margin-top:1px}
 .classhead{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.15rem;margin:18px 0 6px;color:var(--bois)}
-.collegehead{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.35rem;margin:22px 0 2px;color:var(--violet-bas);
-  border-left:6px solid var(--violet);padding-left:10px}
 .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
 .legend span{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;font-weight:700;color:var(--bois-clair)}
 .dot{width:14px;height:14px;border-radius:5px;display:inline-block}
@@ -70,15 +74,6 @@ tbody tr{border-bottom:1px solid #f0e2c4}
 .kpi{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
 .kpi div{background:var(--creme);border-radius:14px;padding:10px 16px;font-weight:800;text-align:center}
 .kpi b{display:block;font-family:'Fredoka';font-size:1.5rem;color:var(--bois)}
-/* barre d'avancement */
-.prog{min-width:120px}
-.bar{height:10px;border-radius:6px;background:#eadfc6;overflow:hidden;margin-top:3px}
-.bar i{display:block;height:100%;background:var(--vert);border-radius:6px}
-.progtxt{font-family:'Fredoka';font-weight:700;font-size:.85rem;color:var(--bois)}
-.subs{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:5px}
-.sub{font-family:'Nunito';font-weight:700;font-size:.66rem;padding:2px 6px;border-radius:8px;white-space:nowrap}
-.sub.sok{background:#E4F4D2;color:var(--vert-bas)}
-.sub.sno{background:#f2e7cf;color:#b8a079}
 </style>
 </head>
 <body>
@@ -90,18 +85,22 @@ tbody tr{border-bottom:1px solid #f0e2c4}
     <p class="sub">Progression des élèves, en direct</p>
   </div>
 
-  <!-- ÉCRAN DE RÉGLAGE -->
+  <!-- ÉCRAN DE RÉGLAGE : saisie du lien CSV -->
   <div class="card" id="setup" style="display:none">
     <h2 style="margin-top:0">Connexion à tes réponses</h2>
     <p class="step">Une seule fois, tu dois rendre la feuille de réponses lisible par cette page, puis coller son lien ci-dessous.</p>
     <ol>
       <li>Dans ton <b>formulaire Google</b>, onglet <b>« Réponses »</b>, clique sur l'icône verte <b>Sheets</b> pour créer la feuille de calcul.</li>
       <li>Dans cette feuille : menu <b>Fichier → Partager → Publier sur le Web</b>.</li>
-      <li>Choisis l'onglet des réponses, le format <b>« Valeurs séparées par des virgules (.csv) »</b>, puis <b>Publier</b>.</li>
-      <li>Copie le lien, colle-le ici, et valide.</li>
+      <li>Choisis l'onglet des réponses, puis le format <b>« Valeurs séparées par des virgules (.csv) »</b>, et clique sur <b>Publier</b>.</li>
+      <li>Copie le lien qui s'affiche, colle-le ici, et valide.</li>
     </ol>
-    <div class="row" style="margin-top:14px"><input id="linkInput" type="text" placeholder="Colle ici le lien CSV publié…"></div>
-    <div class="row" style="margin-top:10px"><button class="btn" onclick="saveLink()">Connecter ➜</button></div>
+    <div class="row" style="margin-top:14px">
+      <input id="linkInput" type="text" placeholder="Colle ici le lien CSV publié…">
+    </div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn" onclick="saveLink()">Connecter ➜</button>
+    </div>
     <p class="muted" id="setupMsg" style="margin-top:10px"></p>
   </div>
 
@@ -109,8 +108,6 @@ tbody tr{border-bottom:1px solid #f0e2c4}
   <div class="card" id="toolbar" style="display:none">
     <div class="row between">
       <div class="row">
-        <label class="muted" for="collSel">Collège :</label>
-        <select id="collSel" onchange="onCollege()"></select>
         <label class="muted" for="classSel">Classe :</label>
         <select id="classSel" onchange="render()"></select>
       </div>
@@ -128,7 +125,7 @@ tbody tr{border-bottom:1px solid #f0e2c4}
     <div id="boardBody"></div>
     <div class="legend">
       <span><span class="dot ok"></span> Validé (≥ 8/10)</span>
-      <span><span class="dot mid"></span> Score insuffisant / en cours</span>
+      <span><span class="dot mid"></span> Score insuffisant</span>
       <span><span class="dot done"></span> Parcours terminé</span>
       <span><span class="none">–</span> Pas encore essayé</span>
     </div>
@@ -137,39 +134,25 @@ tbody tr{border-bottom:1px solid #f0e2c4}
 </div>
 
 <script>
+/* ===== Réglages ===== */
 var LS_KEY='kc_dash_csv';
-var SEP=' \u00b7 '; /* séparateur collège · classe envoyé par les parcours */
-
-/* Parcours notés sur 10 */
-var NOTED={'Calcul littéral':1,'Thalès':1,'Statistiques':1};
-/* Ordre d'affichage des colonnes */
+/* Parcours évalués sur 10 (les autres = "terminé / en cours"). */
+var NOTED={'Calcul littéral':1,'Thalès':1,'Statistiques':1,'Trigonométrie':1,'Arithmétique':1,'Puissances':1,'Équations':1};
+/* Ordre d'affichage préféré des colonnes (3ème puis 5ème) ; les inconnus sont ajoutés à la suite. */
 var ORDER=['Probabilités','Aires & Volumes','Fonctions','Calcul littéral','Thalès','Statistiques',
+           'Trigonométrie','Arithmétique','Puissances','Équations',
            'Aires, Volumes & Longueurs','Formules d\u2019aires & volumes','Figures usuelles & propriétés'];
-/* Catalogue des parcours par niveau (pour calculer l'avancement) */
-var CAT={
-  '6':[],
-  '5':['Aires, Volumes & Longueurs','Formules d\u2019aires & volumes','Figures usuelles & propriétés'],
-  '4':[],
-  '3':['Probabilités','Aires & Volumes','Fonctions','Calcul littéral','Thalès','Statistiques']
-};
-/* Sous-sections connues par parcours (pour l'avancement détaillé) */
-var SUBSEP=' \u203a ';
-var SUBCAT={
-  'Probabilités':['Vocabulaire & échelle','Calculer une probabilité','Événement contraire'],
-  'Aires & Volumes':['Longueur','Aire','Volume'],
-  'Aires, Volumes & Longueurs':['Longueur','Aire','Volume'],
-  'Fonctions':['La notion de fonction','La fonction linéaire','La fonction affine'],
-  'Calcul littéral':['Substituer','Réduire','Parenthèses','Développer'],
-  'Thalès':['Comprendre Thalès','Les rapports','Calculer une longueur','Problèmes','La réciproque','La rédaction'],
-  'Statistiques':['Qualitatif ou quantitatif','Effectifs & fréquences','Moyenne, médiane, étendue','Données en classes'],
-  'Formules d\u2019aires & volumes':['Aires des polygones','Aire du disque','Vocabulaire des solides','Volumes : pavé & cube','Volumes : prisme & cylindre'],
-  'Figures usuelles & propriétés':['Le parallélogramme','Le rectangle','Le losange','Le carré','Reconnaître & classer']
-};
 function isNote(n){return !!NOTED[n];}
+function colsForClass(elv){
+  var set={};
+  Object.keys(elv).forEach(function(e){Object.keys(elv[e]).forEach(function(p){set[p]=1;});});
+  var cols=ORDER.filter(function(n){return set[n];});
+  Object.keys(set).sort().forEach(function(n){if(cols.indexOf(n)<0)cols.push(n);});
+  return cols;
+}
 function gid(x){return document.getElementById(x);}
-function niveauDeClasse(c){c=(c||'');for(var i=0;i<c.length;i++){var d=c[i];if(d==='6'||d==='5'||d==='4'||d==='3')return d;}return '';}
-function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
+/* ===== Lecture du lien ===== */
 function getLink(){try{return localStorage.getItem(LS_KEY)||'';}catch(_){return '';}}
 function saveLink(){
   var v=(gid('linkInput').value||'').trim();
@@ -185,13 +168,15 @@ function show(which){
   gid('board').style.display   = which==='board'?'block':'none';
 }
 
-/* ===== CSV ===== */
+/* ===== Analyse CSV (gère les virgules et guillemets) ===== */
 function parseCSV(text){
   var rows=[],row=[],cur='',i=0,q=false,c;
   while(i<text.length){
     c=text[i];
-    if(q){ if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=c; }
-    else{
+    if(q){
+      if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; }
+      else cur+=c;
+    }else{
       if(c==='"')q=true;
       else if(c===','){row.push(cur);cur='';}
       else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur='';}
@@ -203,23 +188,29 @@ function parseCSV(text){
   if(cur!==''||row.length){row.push(cur);rows.push(row);}
   return rows;
 }
+
+/* repère l'index d'une colonne d'après des mots-clés dans l'en-tête */
 function findCol(head,keys){
-  for(var j=0;j<head.length;j++){var h=head[j].toLowerCase();for(var k=0;k<keys.length;k++)if(h.indexOf(keys[k])>=0)return j;}
+  for(var j=0;j<head.length;j++){
+    var h=head[j].toLowerCase();
+    for(var k=0;k<keys.length;k++) if(h.indexOf(keys[k])>=0) return j;
+  }
   return -1;
 }
 
-var DATA=null; /* {tree:{college:{classe:{eleve:{parc:{best,att,valide,termine}}}}}, total, last} */
+var DATA=null; // {classes:{classe:{eleve:{parcours:{best,att,valide,termine}}}}, total, last}
 
 function reload(){ boot(); }
 function boot(){
   var link=getLink();
   if(!link){ show('setup'); return; }
+  gid('status')&&(gid('status').textContent='Chargement\u2026');
   show('board');
   gid('boardBody').innerHTML='<p class="muted">Chargement des réponses\u2026</p>';
   var url=link+(link.indexOf('?')>=0?'&':'?')+'_cb='+Date.now();
   fetch(url,{cache:'no-store'})
     .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
-    .then(function(t){ ingest(t); buildSelects(); render(); })
+    .then(function(t){ ingest(t); buildClassSelect(); render(); })
     .catch(function(e){
       gid('boardBody').innerHTML='<div class="err">Impossible de lire les réponses.<br>'
         +'Vérifie que le lien est bien le lien <b>CSV publié</b> de la feuille (Fichier → Partager → Publier sur le Web → CSV).<br>'
@@ -231,7 +222,7 @@ function boot(){
 
 function ingest(text){
   var rows=parseCSV(text).filter(function(r){return r.some(function(c){return (c||'').trim()!=='';});});
-  if(!rows.length){DATA={tree:{},total:0,last:''};return;}
+  if(!rows.length){DATA={classes:{},total:0,last:''};return;}
   var head=rows[0];
   var iH=findCol(head,['horodat','timestamp']);
   var iCl=findCol(head,['classe']);
@@ -239,165 +230,104 @@ function ingest(text){
   var iPa=findCol(head,['parcours','chapitre']);
   var iSt=findCol(head,['statut']);
   var iSc=findCol(head,['score']);
-  var tree={},total=0,last='';
+  var iTo=findCol(head,['total']);
+  var classes={},total=0,last='';
   for(var r=1;r<rows.length;r++){
     var row=rows[r];
-    var rawCl=((iCl>=0?row[iCl]:'')||'').trim();
-    var eleve =(((iEl>=0?row[iEl]:'')||'')||'(sans nom)').trim();
-    var parc  =(((iPa>=0?row[iPa]:'')||'')||'?').trim();
-    var stat  =((iSt>=0?row[iSt]:'')||'');
-    var score = parseInt(((iSc>=0?row[iSc]:'')||''),10);
+    var classe=(iCl>=0?row[iCl]:'')||'(sans classe)';
+    var eleve =(iEl>=0?row[iEl]:'')||'(sans nom)';
+    var parc  =(iPa>=0?row[iPa]:'')||'?';
+    var stat  =(iSt>=0?row[iSt]:'')||'';
+    var score = parseInt((iSc>=0?row[iSc]:'')||'',10);
     var hod   = iH>=0?row[iH]:'';
-    /* séparer collège et classe */
-    var college='(collège non précisé)', classe=rawCl||'(sans classe)';
-    var idx=rawCl.indexOf(SEP);
-    if(idx>=0){college=rawCl.slice(0,idx).trim()||college;classe=rawCl.slice(idx+SEP.length).trim()||'(sans classe)';}
+    classe=classe.trim(); eleve=eleve.trim(); parc=parc.trim();
     if(hod>last) last=hod;
     total++;
-    tree[college]=tree[college]||{};
-    tree[college][classe]=tree[college][classe]||{};
-    tree[college][classe][eleve]=tree[college][classe][eleve]||{};
-    var base=parc, sub=null, si=parc.indexOf(SUBSEP);
-    if(si>=0){base=parc.slice(0,si).trim();sub=parc.slice(si+SUBSEP.length).trim();}
-    var p=tree[college][classe][eleve][base]=tree[college][classe][eleve][base]||{best:null,att:0,valide:false,termine:false,subs:{}};
-    if(sub){ if(sub) p.subs[sub]=true; }
-    else{
-      p.att++;
-      if(!isNaN(score)){ if(p.best===null||score>p.best) p.best=score; }
-      var s=stat.toLowerCase();
-      if(s.indexOf('valid')>=0) p.valide=true;
-      if(s.indexOf('termin')>=0) p.termine=true;
-    }
+    classes[classe]=classes[classe]||{};
+    classes[classe][eleve]=classes[classe][eleve]||{};
+    var p=classes[classe][eleve][parc]=classes[classe][eleve][parc]||{best:null,att:0,valide:false,termine:false};
+    p.att++;
+    if(!isNaN(score)){ if(p.best===null||score>p.best) p.best=score; }
+    var s=stat.toLowerCase();
+    if(s.indexOf('valid')>=0) p.valide=true;
+    if(s.indexOf('termin')>=0) p.termine=true;
   }
-  DATA={tree:tree,total:total,last:last};
+  DATA={classes:classes,total:total,last:last};
 }
 
-function buildSelects(){
-  var cs=gid('collSel'),curC=cs.value;
-  var colleges=Object.keys(DATA.tree).sort();
-  var h='<option value="__all">Tous les collèges</option>';
-  colleges.forEach(function(n){h+='<option value="'+esc(n)+'">'+esc(n)+'</option>';});
-  cs.innerHTML=h;
-  if(curC&&(curC==='__all'||DATA.tree[curC])) cs.value=curC;
-  buildClassSelect();
-}
-function classesForSelection(){
-  var coll=gid('collSel').value||'__all';
-  var set={};
-  var colls=(coll==='__all')?Object.keys(DATA.tree):[coll];
-  colls.forEach(function(cn){var t=DATA.tree[cn]||{};Object.keys(t).forEach(function(cl){set[cl]=1;});});
-  return Object.keys(set).sort();
-}
 function buildClassSelect(){
-  var sel=gid('classSel'),cur=sel.value;
-  var names=classesForSelection();
-  var h='<option value="__all">Toutes les classes</option>';
-  names.forEach(function(n){h+='<option value="'+esc(n)+'">'+esc(n)+'</option>';});
-  sel.innerHTML=h;
-  if(cur&&(cur==='__all'||names.indexOf(cur)>=0)) sel.value=cur; else sel.value='__all';
+  var sel=gid('classSel'); var cur=sel.value;
+  var names=Object.keys(DATA.classes).sort();
+  var html='<option value="__all">Toutes les classes</option>';
+  names.forEach(function(n){html+='<option value="'+esc(n)+'">'+esc(n)+'</option>';});
+  sel.innerHTML=html;
+  if(cur && (cur==='__all'||DATA.classes[cur])) sel.value=cur;
 }
-function onCollege(){buildClassSelect();render();}
 
-function colsForEleves(elvMap){
-  var set={};
-  Object.keys(elvMap).forEach(function(e){Object.keys(elvMap[e]).forEach(function(p){set[p]=1;});});
-  var cols=ORDER.filter(function(n){return set[n];});
-  Object.keys(set).sort().forEach(function(n){if(cols.indexOf(n)<0)cols.push(n);});
-  return cols;
-}
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
 function cellFor(p,note){
   if(!p) return '<span class="none">–</span>';
   if(note){
     var cls=p.valide?'ok':'mid';
     var sc=(p.best===null?'?':p.best)+'/10';
     return '<span class="cell '+cls+'">'+sc+(p.valide?' ✅':'')+'<span class="att">'+p.att+' essai'+(p.att>1?'s':'')+'</span></span>';
+  }else{
+    if(p.termine) return '<span class="cell done">✅ Terminé</span>';
+    return '<span class="cell mid">en cours<span class="att">'+p.att+' passage'+(p.att>1?'s':'')+'</span></span>';
   }
-  if(p.termine) return '<span class="cell done">✅ Terminé</span>';
-  return '<span class="cell mid">en cours<span class="att">'+p.att+' passage'+(p.att>1?'s':'')+'</span></span>';
-}
-/* pastilles de sous-sections sous la case d'un parcours */
-function subChips(parcName,p){
-  var list=SUBCAT[parcName]; if(!list||!list.length) return '';
-  var done=(p&&p.subs)||{};
-  var h='<div class="subs">';
-  list.forEach(function(s){var ok=!!done[s];h+='<span class="sub '+(ok?'sok':'sno')+'">'+(ok?'✓ ':'· ')+esc(s)+'</span>';});
-  return h+'</div>';
-}
-/* avancement d'un élève sur les parcours de SON niveau */
-function avancement(classe,parcMap){
-  var niv=niveauDeClasse(classe);var liste=CAT[niv]||[];
-  if(!liste.length) return null;
-  var reussis=0;
-  liste.forEach(function(pn){var p=parcMap[pn];if(p&&(p.valide||(!isNote(pn)&&p.termine)))reussis++;});
-  return {reussis:reussis,total:liste.length};
-}
-function progCell(av){
-  if(!av) return '<span class="muted">–</span>';
-  var pct=av.total?Math.round(av.reussis/av.total*100):0;
-  return '<div class="prog"><span class="progtxt">'+av.reussis+' / '+av.total+'</span>'
-        +'<div class="bar"><i style="width:'+pct+'%"></i></div></div>';
 }
 
 function render(){
   if(!DATA){return;}
-  var collSel=gid('collSel').value||'__all';
-  var classSel=gid('classSel').value||'__all';
-  var colleges=(collSel==='__all')?Object.keys(DATA.tree).sort():[collSel];
+  var sel=gid('classSel').value||'__all';
+  var classNames=(sel==='__all')?Object.keys(DATA.classes).sort():[sel];
 
-  /* KPI sur la sélection */
-  var nbEleves=0,nbReussis=0,nbClasses=0;
-  colleges.forEach(function(cn){
-    var classes=DATA.tree[cn]||{};
-    Object.keys(classes).forEach(function(cl){
-      if(classSel!=='__all'&&cl!==classSel)return;
-      nbClasses++;
-      var elv=classes[cl];
-      Object.keys(elv).forEach(function(e){
-        nbEleves++;
-        Object.keys(elv[e]).forEach(function(pn){
-          var p=elv[e][pn];
-          if(p&&(p.valide||(!isNote(pn)&&p.termine)))nbReussis++;
-        });
+  // KPI
+  var nbEleves=0,nbValid=0;
+  classNames.forEach(function(cn){
+    var elv=DATA.classes[cn]||{};
+    Object.keys(elv).forEach(function(e){
+      nbEleves++;
+      Object.keys(elv[e]).forEach(function(pn){
+        var p=elv[e][pn];
+        if(p && (p.valide||(!isNote(pn)&&p.termine))) nbValid++;
       });
     });
   });
   gid('kpi').innerHTML=
      '<div><b>'+DATA.total+'</b>réponses reçues</div>'
     +'<div><b>'+nbEleves+'</b>élève'+(nbEleves>1?'s':'')+'</div>'
-    +'<div><b>'+nbClasses+'</b>classe'+(nbClasses>1?'s':'')+'</div>'
-    +'<div><b>'+nbReussis+'</b>parcours réussis</div>';
+    +'<div><b>'+nbValid+'</b>parcours validés</div>';
   gid('status').textContent=DATA.last?('Dernière réponse : '+DATA.last):'';
 
+  // Tableau par classe
   var out='';
-  if(nbEleves===0){
-    out='<p class="muted">Aucune réponse pour cette sélection. Dès qu\u2019un élève termine un parcours, ça apparaît ici (clique sur Actualiser).</p>';
+  if(!classNames.length || nbEleves===0){
+    out='<p class="muted">Aucune réponse pour le moment. Dès qu\u2019un élève termine une série, elle apparaîtra ici (clique sur Actualiser).</p>';
     gid('boardBody').innerHTML=out; return;
   }
-  colleges.forEach(function(cn){
-    var classes=DATA.tree[cn]||{};
-    var classNames=Object.keys(classes).sort().filter(function(cl){return classSel==='__all'||cl===classSel;});
-    if(!classNames.length) return;
-    if(collSel==='__all') out+='<div class="collegehead">🏫 '+esc(cn)+'</div>';
-    classNames.forEach(function(cl){
-      var elv=classes[cl];var eleves=Object.keys(elv).sort();
-      if(!eleves.length)return;
-      var cols=colsForEleves(elv);
-      out+='<div class="classhead">'+esc(cl)+'</div>';
-      out+='<div class="tablewrap"><table><thead><tr><th>Élève</th>';
-      cols.forEach(function(pn){out+='<th>'+esc(pn)+'</th>';});
-      out+='<th>Avancement</th></tr></thead><tbody>';
-      eleves.forEach(function(e){
-        out+='<tr><td>'+esc(e)+'</td>';
-        cols.forEach(function(pn){out+='<td>'+cellFor(elv[e][pn],isNote(pn))+subChips(pn,elv[e][pn])+'</td>';});
-        out+='<td>'+progCell(avancement(cl,elv[e]))+'</td>';
-        out+='</tr>';
+  classNames.forEach(function(cn){
+    var elv=DATA.classes[cn]||{}; var eleves=Object.keys(elv).sort();
+    if(!eleves.length) return;
+    var cols=colsForClass(elv);
+    out+='<div class="classhead">'+esc(cn)+'</div>';
+    out+='<div class="tablewrap"><table><thead><tr><th>Élève</th>';
+    cols.forEach(function(pn){out+='<th>'+esc(pn)+'</th>';});
+    out+='</tr></thead><tbody>';
+    eleves.forEach(function(e){
+      out+='<tr><td>'+esc(e)+'</td>';
+      cols.forEach(function(pn){
+        out+='<td>'+cellFor(elv[e][pn],isNote(pn))+'</td>';
       });
-      out+='</tbody></table></div>';
+      out+='</tr>';
     });
+    out+='</tbody></table></div>';
   });
   gid('boardBody').innerHTML=out;
 }
 
+/* go */
 gid('linkInput').value=getLink();
 boot();
 </script>

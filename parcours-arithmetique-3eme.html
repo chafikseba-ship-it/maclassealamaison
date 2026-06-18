@@ -3,7 +3,7 @@
 <head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calcul littéral — 3ème</title>
+<title>Parcours — Arithmétique 3ème</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
@@ -189,9 +189,13 @@ button,input{touch-action:manipulation}
 .kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
 .kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
 
-.expr{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.35rem;color:var(--bois);background:var(--creme);border-radius:12px;padding:10px 14px;display:inline-block;margin:6px 0}
-.sqbtn{min-width:46px;font-size:1.05rem;padding:10px 12px}
-.regle{display:inline-block;background:var(--creme);border:2px dashed var(--orange-bas);border-radius:12px;padding:8px 14px;font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois);margin:6px 0}
+/* ===== statistiques ===== */
+.tabbox{overflow-x:auto;margin:8px 0}
+.stab{border-collapse:collapse;margin:8px auto;font-family:'Fredoka',sans-serif;font-weight:700;background:var(--blanc)}
+.stab th,.stab td{border:2px solid #e0c9a0;padding:7px 12px;text-align:center;color:var(--bois);font-size:1rem}
+.stab th{background:var(--creme)}
+.stab .rowh{background:var(--creme)}
+.dlist{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.25rem;text-align:center;color:var(--bois);margin:10px 0;line-height:1.6}
 .home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16)}
 .home:active{transform:translateY(1px)}
 .serieprog{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
@@ -212,56 +216,56 @@ button,input{touch-action:manipulation}
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="wrap">
+
 <section id="accueil" class="screen active">
   <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
   <div class="hero">
-    <div class="coin">🔤➕</div>
-    <h1>Calcul littéral</h1>
-    <p class="sub">Substituer, réduire, enlever les parenthèses, développer. Tu écris toi-même tes expressions (bouton x²). Chaque entraînement est noté sur 10 — il faut 8/10 !</p>
+    <div class="coin">🔢✖️</div>
+    <h1>Arithmétique</h1>
+    <p class="sub">Multiples et divisibilité, nombres premiers, décomposition en facteurs premiers, fractions et PGCD. Chaque entraînement est noté sur 10 : il faut 8/10 pour valider !</p>
   </div>
   <div class="map">
-    <div class="etape e1" id="mapSubstituer" onclick="tapTheme('substituer')">
-      <div class="num">🔢</div><div class="txt"><h3>1 · Substituer</h3><p>Calculer pour une valeur de x</p></div><div class="status">▶</div>
+    <div class="etape e1" id="mapMult" onclick="tapTheme('mult')">
+      <div class="num">➗</div><div class="txt"><h3>1 · Multiples & divisibilité</h3><p>Critères et reste</p></div><div class="status">▶</div>
     </div>
-    <div class="etape e2" id="mapReduire" onclick="tapTheme('reduire')">
-      <div class="num">🟰</div><div class="txt"><h3>2 · Réduire</h3><p>Regrouper les termes semblables</p></div><div class="status">🔒</div>
+    <div class="etape e2" id="mapPrem" onclick="tapTheme('prem')">
+      <div class="num">🔢</div><div class="txt"><h3>2 · Nombres premiers</h3><p>Reconnaître, plus petit diviseur</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e3" id="mapParentheses" onclick="tapTheme('parentheses')">
-      <div class="num">( )</div><div class="txt"><h3>3 · Parenthèses</h3><p>Les règles de suppression</p></div><div class="status">🔒</div>
+    <div class="etape e3" id="mapDeco" onclick="tapTheme('deco')">
+      <div class="num">🧱</div><div class="txt"><h3>3 · Décomposition</h3><p>Produit de facteurs premiers</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e4" id="mapDevelopper" onclick="tapTheme('developper')">
-      <div class="num">✖️</div><div class="txt"><h3>4 · Développer</h3><p>La distributivité</p></div><div class="status">🔒</div>
+    <div class="etape e4" id="mapFrac" onclick="tapTheme('frac')">
+      <div class="num">✂️</div><div class="txt"><h3>4 · Fractions & PGCD</h3><p>Rendre irréductible</p></div><div class="status">🔒</div>
     </div>
     <div class="etape e6" id="mapArene" onclick="tapArene()">
-      <div class="num" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Tout, au choix (entraînement libre)</p></div><div class="status">🔒</div>
+      <div class="num">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Tout, au choix (entraînement libre)</p></div><div class="status">🔒</div>
     </div>
   </div>
 </section>
 
-<section id="expSubstituer" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Substituer</h2></div>
-  <div class="card"><span class="tag" style="background:var(--violet)">La leçon</span><p class='lead'>Substituer, c’est <b>remplacer la lettre x par un nombre</b>, puis calculer. On respecte les priorités (puissances, ×, ÷, puis + et −).</p><p class='note'>Exemple : pour x = 4, l’expression 3x + 5 vaut 3 × 4 + 5 = 17.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('substituer')">Je m’entraîne ➜</button></div>
+<section id="expMult" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Multiples & divisibilité</h2></div>
+  <div class="card"><span class="tag" style="background:var(--violet)">La leçon</span><p class='lead'>Un nombre est <b>divisible</b> par un autre si le reste de la division est 0. Critères utiles : par <b>2</b> (finit par 0, 2, 4, 6, 8), par <b>5</b> (finit par 0 ou 5), par <b>10</b> (finit par 0), par <b>3</b> ou <b>9</b> (la somme des chiffres l’est).</p><p class='note'>Exemple : 354 → 3 + 5 + 4 = 12, divisible par 3 → 354 est divisible par 3.</p></div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('mult')">Je m’entraîne ➜</button></div>
 </section>
 
-<section id="expReduire" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Réduire</h2></div>
-  <div class="card"><span class="tag" style="background:var(--teal)">La leçon</span><p class='lead'>Réduire, c’est <b>regrouper les termes semblables</b> : les « x » avec les « x », les « x² » avec les « x² », et les nombres entre eux. On n’additionne jamais des x avec des x².</p><p class='note'>Exemple : 3x + 5 + 2x − 1 = 5x + 4. Pour écrire un carré dans ta réponse, utilise le bouton <b>x²</b>.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('reduire')">Je m’entraîne ➜</button></div>
+<section id="expPrem" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Nombres premiers</h2></div>
+  <div class="card"><span class="tag" style="background:var(--teal)">La leçon</span><p class='lead'>Un <b>nombre premier</b> a exactement <b>deux diviseurs</b> : 1 et lui-même. Les premiers nombres premiers sont 2, 3, 5, 7, 11, 13, 17, 19, 23… Attention : <b>1 n’est pas premier</b>.</p><p class='note'>Pour tester un nombre, on essaie de le diviser par 2, 3, 5, 7… Le plus petit diviseur trouvé est toujours premier.</p></div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('prem')">Je m’entraîne ➜</button></div>
 </section>
 
-<section id="expParentheses" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Parenthèses</h2></div>
-  <div class="card"><span class="tag" style="background:var(--orange)">La leçon</span><p class='lead'>Pour supprimer une parenthèse, tout dépend du signe devant :</p><div style='text-align:center'><span class='regle'>+ ( … ) : on ne change rien</span><br><span class='regle'>− ( … ) : on change tous les signes</span></div><p class='note'>Exemple : 5x − (2x − 3) = 5x − 2x + 3 = 3x + 3.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('parentheses')">Je m’entraîne ➜</button></div>
+<section id="expDeco" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Décomposition en facteurs premiers</h2></div>
+  <div class="card"><span class="tag" style="background:var(--orange)">La leçon</span><p class='lead'>Tout nombre se décompose en un <b>produit de nombres premiers</b>. On divise par les premiers successifs (2, puis 3, puis 5…) jusqu’à arriver à 1.</p><p class='note'>Exemple : 60 = 2 × 30 = 2 × 2 × 15 = 2 × 2 × 3 × 5.</p></div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('deco')">Je m’entraîne ➜</button></div>
 </section>
 
-<section id="expDevelopper" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Développer</h2></div>
-  <div class="card"><span class="tag" style="background:var(--vert)">La leçon</span><p class='lead'>Développer, c’est <b>transformer un produit en somme</b> grâce à la distributivité : k(a + b) = k×a + k×b, et (a + b)(c + d) = ac + ad + bc + bd.</p><p class='note'>Exemples : 3(2x + 5) = 6x + 15 ; (x + 2)(x + 3) = x² + 5x + 6.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('developper')">Je m’entraîne ➜</button></div>
+<section id="expFrac" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Fractions & PGCD</h2></div>
+  <div class="card"><span class="tag" style="background:var(--vert)">La leçon</span><p class='lead'>Le <b>PGCD</b> de deux nombres est le plus grand de leurs diviseurs communs. Une fraction est <b>irréductible</b> quand on ne peut plus la simplifier : son numérateur et son dénominateur ont pour PGCD 1.</p><p class='note'>Exemple : 18/24 → PGCD(18 ; 24) = 6 → on divise par 6 → 3/4.</p></div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('frac')">Je m’entraîne ➜</button></div>
 </section>
-
 <section id="ecranTrain" class="screen">
   <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card" id="tq_card">
@@ -269,12 +273,11 @@ button,input{touch-action:manipulation}
     <div class="helpnote" id="tq_help"></div>
     <div class="qcard">
       <div class="qcat" id="tq_cat"></div>
-      <div class="figbox" id="tq_viz" style="display:none"></div>
+      <div class="tabbox" id="tq_viz" style="display:none"></div>
       <div class="question" id="tq_text"></div>
       <div class="opts" id="tq_opts" style="display:none"></div>
       <div class="ansrow" id="tq_ansrow">
         <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
-        <button class="btn fant sqbtn" id="tq_sq" style="display:none" onclick="insertSq('tq')">x²</button>
         <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
       </div>
       <div class="feedback" id="tq_feed"></div>
@@ -290,27 +293,26 @@ button,input{touch-action:manipulation}
 </section>
 
 <section id="arene" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L’arène du calcul littéral</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L’arène des stats</h2></div>
   <div class="card" id="areneMenu">
     <p class="lead" style="text-align:center">Bravo, séquence terminée ! Entraînement libre, sans note.</p>
     <div class="catgrid">
-      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('substituer')"><span class="ic">🔢</span>Substituer</button>
-      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('reduire')"><span class="ic">🟰</span>Réduire</button>
-      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('parentheses')"><span class="ic">( )</span>Parenthèses</button>
-      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('developper')"><span class="ic">✖️</span>Développer</button>
+      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('mult')"><span class="ic">➗</span>Divisibilité</button>
+      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('prem')"><span class="ic">🔢</span>Premiers</button>
+      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('deco')"><span class="ic">🧱</span>Décomposition</button>
+      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('frac')"><span class="ic">✂️</span>Fractions</button>
     </div>
-    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
+    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
   </div>
   <div class="card" id="areneJeu" style="display:none">
     <div class="scorebar"><span class="pill">⭐ <span id="aq_score">0</span></span><span class="pill">🔥 <span id="aq_streak">0</span></span><span class="pill">🎯 <span id="aq_corr">0</span>/<span id="aq_tot">0</span></span></div>
     <div class="qcard">
       <div class="qcat" id="aq_cat"></div>
-      <div class="figbox" id="aq_viz" style="display:none"></div>
+      <div class="tabbox" id="aq_viz" style="display:none"></div>
       <div class="question" id="aq_text"></div>
       <div class="opts" id="aq_opts" style="display:none"></div>
       <div class="ansrow" id="aq_ansrow">
         <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
-        <button class="btn fant sqbtn" id="aq_sq" style="display:none" onclick="insertSq('aq')">x²</button>
         <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
       </div>
       <div class="feedback" id="aq_feed"></div>
@@ -319,7 +321,9 @@ button,input{touch-action:manipulation}
     </div>
   </div>
 </section>
+
 </div>
+
 <button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">🧮</button>
 <div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
   <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
@@ -328,26 +332,26 @@ button,input{touch-action:manipulation}
 </div>
 <script>
 /* ===== SUIVI ===== */
-var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Calcul littéral'};
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Arithmétique'};
 function suiviInitIdentite(){try{var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe');if(!e||!c)gid('idov').hidden=false;}catch(_){}}
 function suiviSave(){var p=(gid('idPrenom').value||'').trim(),c=(gid('idClasse').value||'').trim();if(!p||!c)return;try{localStorage.setItem('kc_eleve',p);localStorage.setItem('kc_classe',c);}catch(_){}gid('idov').hidden=true;}
 function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
 
-const ORDER=['substituer','reduire','parentheses','developper'];
-const EXP={substituer:'expSubstituer',reduire:'expReduire',parentheses:'expParentheses',developper:'expDevelopper'};
-const MAPID={substituer:'mapSubstituer',reduire:'mapReduire',parentheses:'mapParentheses',developper:'mapDevelopper'};
-const TITLE={substituer:'Substituer',reduire:'Réduire',parentheses:'Parenthèses',developper:'Développer'};
-const unlocked={substituer:true,reduire:false,parentheses:false,developper:false,arene:false};
-const themeDone={substituer:false,reduire:false,parentheses:false,developper:false};
-let currentTheme='substituer';const REQUIRED=6;
+const ORDER=['mult','prem','deco','frac'];
+const EXP={mult:'expMult',prem:'expPrem',deco:'expDeco',frac:'expFrac'};
+const MAPID={mult:'mapMult',prem:'mapPrem',deco:'mapDeco',frac:'mapFrac'};
+const TITLE={mult:'Multiples & divisibilité',prem:'Nombres premiers',deco:'Décomposition en facteurs',frac:'Fractions & PGCD'};
+const unlocked={mult:true,prem:false,deco:false,frac:false,arene:false};
+const themeDone={mult:false,prem:false,deco:false,frac:false};
+let currentTheme='mult';const REQUIRED=6;
 const SERIE=10, SEUIL=8;
-const CATNOM={substituer:'Substituer',reduire:'Réduire',parentheses:'Parenthèses',developper:'Développer'};
-const THEME_CATS={substituer:['substituer'],reduire:['reduire'],parentheses:['parentheses'],developper:['developper']};
+const CATNOM={mult:'Divisibilité',prem:'Premiers',deco:'Décomposition',frac:'Fractions'};
+const THEME_CATS={mult:['mult'],prem:['prem'],deco:['deco'],frac:['frac']};
 const HELP={
-  substituer:'Remplace x par le nombre, puis calcule en respectant les priorités.',
-  reduire:'Regroupe les x avec les x, les x² avec les x², les nombres ensemble. Bouton x² pour le carré.',
-  parentheses:'+( ) : on garde les signes. −( ) : on change tous les signes. Puis on réduit.',
-  developper:'k(a+b)=ka+kb. (a+b)(c+d)=ac+ad+bc+bd. Puis on réduit.'
+  mult:'Par 2 : finit par 0,2,4,6,8. Par 5 : 0 ou 5. Par 10 : 0. Par 3 ou 9 : la somme des chiffres.',
+  prem:'Un nombre premier a deux diviseurs : 1 et lui-même. On teste 2, 3, 5, 7…',
+  deco:'On divise par les premiers successifs (2, 3, 5, 7…) jusqu’à 1.',
+  frac:'On divise numérateur et dénominateur par leur PGCD. Irréductible = PGCD 1.'
 };
 function gid(x){return document.getElementById(x);}
 function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();}
@@ -367,82 +371,71 @@ function r2(v){return Math.round(v*100)/100;}
 
 function qcm(cat,t,opts,ci,e,viz){const o=shuffle(opts);return {type:'qcm',cat,text:t,options:o,correct:o.indexOf(opts[ci]),explain:e,viz};}
 
-/* ===== polynômes (degré <= 2) ===== */
-function parsePoly(s){s=String(s).toLowerCase().replace(/\s/g,'').replace(/\u00b2/g,'^2').replace(/\u00d7/g,'').replace(/\u2212/g,'-').replace(/\*/g,'');
-  if(s==='')return null;if(s[0]!=='+'&&s[0]!=='-')s='+'+s;
-  var re=/([+-])([^+-]+)/g,m,b={0:0,1:0,2:0},any=false;
-  while((m=re.exec(s))){var sign=m[1]==='-'?-1:1,body=m[2],deg,coef;
-    if(body.indexOf('x^2')>=0){deg=2;var c=body.replace('x^2','');coef=(c===''?1:parseFloat(c));}
-    else if(body.indexOf('x')>=0){deg=1;var c2=body.replace('x','');coef=(c2===''?1:parseFloat(c2));}
-    else{deg=0;coef=parseFloat(body);}
-    if(!isFinite(coef))return null;b[deg]+=sign*coef;any=true;}
-  return any?b:null;}
-function polyEq(b,t){return Math.abs(b[0]-(t[0]||0))<1e-9&&Math.abs(b[1]-(t[1]||0))<1e-9&&Math.abs(b[2]-(t[2]||0))<1e-9;}
-function polyStr(t){var parts=[];function add(c,suf){if(Math.abs(c)<1e-9)return;var a=Math.abs(c);var co=(a===1&&suf!=='')?'':a;parts.push([c<0,co+suf]);}
-  add(t[2]||0,'x\u00b2');add(t[1]||0,'x');add(t[0]||0,'');
-  if(parts.length===0)return '0';
-  var s=(parts[0][0]?'\u2212':'')+parts[0][1];
-  for(var i=1;i<parts.length;i++)s+=(parts[i][0]?' \u2212 ':' + ')+parts[i][1];return s;}
-function insertSq(which){var inp=gid(which+'_input');inp.value+='\u00b2';inp.focus();}
-function tStr(c,deg){var suf=deg===2?'x\u00b2':deg===1?'x':'';var a=Math.abs(c);var co=(a===1&&suf!=='')?'':a;return co+suf;}
-function termsToStr(list){var s='';for(var i=0;i<list.length;i++){var c=list[i].c,deg=list[i].deg,p=tStr(c,deg);if(i===0)s+=(c<0?'\u2212':'')+p;else s+=(c<0?' \u2212 ':' + ')+p;}return s;}
-function split2(c){if(c===0){var k=rint(1,6);return [k,-k];}var p=rint(-6,6);return [p,c-p];}
-function split2nz(c){var p;do{p=rint(-7,7);}while(p===0||p===c);return [p,c-p];}
+function stab(l1,labels,l2,vals){var h='<table class="stab"><tr><th class="rowh">'+l1+'</th>';for(var i=0;i<labels.length;i++)h+='<th>'+labels[i]+'</th>';h+='</tr><tr><th class="rowh">'+l2+'</th>';for(var j=0;j<vals.length;j++)h+='<td>'+vals[j]+'</td>';h+='</tr></table>';return h;}
+function partition(T,k){var a=[];for(var i=0;i<k;i++)a.push(1);var rem=T-k;while(rem>0){a[rint(0,k-1)]++;rem--;}return a;}
+function maxIdxUnique(arr){var m=Math.max.apply(null,arr);var idx=arr.indexOf(m);if(arr.filter(function(x){return x===m;}).length>1)return -1;return idx;}
+
+/* ===== utilitaires arithmétique ===== */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a;}
+function isPrime(n){if(n<2)return false;for(var i=2;i*i<=n;i++)if(n%i===0)return false;return true;}
+function smallestFactor(n){for(var i=2;i*i<=n;i++)if(n%i===0)return i;return n;}
+function primeFactors(n){var f=[],d=2;while(d*d<=n){while(n%d===0){f.push(d);n=n/d;}d++;}if(n>1)f.push(n);return f;}
+function nextPrime(p){var x=p+1;while(!isPrime(x))x++;return x;}
+var PRIMES=[];(function(){for(var k=2;k<100;k++)if(isPrime(k))PRIMES.push(k);})();
+var COMPOS=[];(function(){for(var k=4;k<100;k++)if(!isPrime(k))COMPOS.push(k);})();
+var COMPO3=[12,18,20,24,28,36,40,42,44,45,48,50,52,54,56,60,63,66,68,72,75,84,90,98,99];
 
 /* ===== générateurs ===== */
-function exprStr(c2,c1,c0){return polyStr({2:c2,1:c1,0:c0});}
-function genSubstituer(){
-  var v=rint(-5,6);var c2,c1,c0,src,ans;
-  if(Math.random()<0.5){c1=rint(-6,9);if(c1===0)c1=3;c0=rint(-9,9);src=exprStr(0,c1,c0);ans=c1*v+c0;}
-  else{c2=pick([1,1,2,-1]);c1=rint(-5,6);c0=rint(-6,6);src=exprStr(c2,c1,c0);ans=c2*v*v+c1*v+c0;}
-  return {type:'num',cat:'substituer',text:'Calcule '+src+' pour x = '+v+'.',answer:ans,disp:''+ans,explain:'On remplace x par '+v+' : on obtient '+ans+'.',raw:{kind:'subst',src:src,v:v}};
+function genMult(){
+  var r=Math.random();
+  if(r<0.18) return qcm('mult','Un nombre est divisible par 3 lorsque…',['la somme de ses chiffres est divisible par 3','il se termine par 3','il est impair'],0,'Critère par 3 : la somme des chiffres est un multiple de 3.',null);
+  if(r<0.34) return qcm('mult','Un nombre est divisible par 9 lorsque…',['la somme de ses chiffres est divisible par 9','il se termine par 9','il est pair'],0,'Critère par 9 : la somme des chiffres est un multiple de 9.',null);
+  if(r<0.64){var d=pick([2,3,4,5,9,10]),n=rint(102,989),yes=(n%d===0);
+    return qcm('mult','Le nombre '+n+' est-il divisible par '+d+' ?',['Oui','Non'],yes?0:1,n+' ÷ '+d+' : reste '+(n%d)+(yes?' → divisible.':' → non divisible.'),null);}
+  var d2=pick([3,4,6,7,9,11]),n2=rint(50,400),rem=n2%d2;
+  return {type:'num',cat:'mult',text:'Quel est le reste de la division euclidienne de '+n2+' par '+d2+' ?',answer:rem,disp:rem,explain:n2+' = '+d2+' × '+Math.floor(n2/d2)+' + '+rem+'.'};
 }
-function genReduire(){
-  if(Math.random()<0.12){var pool=[
-    ['Peut-on additionner 3x et 2x\u00b2 ?',['Non, ce ne sont pas des termes semblables','Oui, cela fait 5x\u00b3','Oui, cela fait 5x'],'x et x\u00b2 ne sont pas semblables : on ne les regroupe pas.'],
-    ['Combien vaut x + x ?',['2x','x\u00b2','2x\u00b2'],'x + x = 2x.'],
-    ['Combien vaut 5x \u2212 5x ?',['0','x','10x'],'5x \u2212 5x = 0.']];
-    var q=pick(pool);return qcm('reduire',q[0],q[1],0,q[2],null);}
-  var c2=pick([0,0,0,1,-1,2]),c1=rint(-9,9);if(c1===0)c1=pick([4,-4,6,7]);var c0=rint(-9,9);
-  var list=[];var s1=split2nz(c1);list.push({c:s1[0],deg:1},{c:s1[1],deg:1});
-  var s0=split2(c0);if(s0[0]!==0)list.push({c:s0[0],deg:0});if(s0[1]!==0)list.push({c:s0[1],deg:0});
-  if(s0[0]===0&&s0[1]===0&&c0!==0)list.push({c:c0,deg:0});
-  if(c2!==0){if(Math.random()<0.5){var s2=split2nz(c2);list.push({c:s2[0],deg:2},{c:s2[1],deg:2});}else list.push({c:c2,deg:2});}
-  else if(Math.random()<0.3){var k=rint(1,4);list.push({c:k,deg:2},{c:-k,deg:2});}
-  list=shuffle(list);var src=termsToStr(list);var target={2:c2,1:c1,0:c0};
-  return {type:'free',cat:'reduire',text:'Réduis l’expression : '+src,target:target,disp:polyStr(target),explain:'On regroupe les termes semblables : '+polyStr(target)+'.',raw:{kind:'free',src:src,target:target}};
+function genPrem(){
+  var r=Math.random();
+  if(r<0.18) return qcm('prem','Un nombre premier a exactement…',['deux diviseurs : 1 et lui-même','un seul diviseur','trois diviseurs'],0,'Un nombre premier admet exactement deux diviseurs : 1 et lui-même.',null);
+  if(r<0.34) return qcm('prem','Le nombre 1 …',['n’est pas premier','est premier','est le plus petit nombre premier'],0,'1 n’a qu’un seul diviseur : il n’est pas premier. Le plus petit premier est 2.',null);
+  if(r<0.64){var n=(Math.random()<0.5)?pick(PRIMES):pick(COMPOS),p=isPrime(n);
+    var ex=p?(n+' n’a que 1 et '+n+' comme diviseurs : il est premier.'):(n+' est divisible par '+smallestFactor(n)+' : il n’est pas premier.');
+    return qcm('prem','Le nombre '+n+' est-il premier ?',['Oui','Non'],p?0:1,ex,null);}
+  if(r<0.82){var n2=pick(COMPOS),f=smallestFactor(n2);
+    return {type:'num',cat:'prem',text:'Quel est le plus petit diviseur de '+n2+' (autre que 1) ?',answer:f,disp:f,explain:'On teste 2, 3, 5, 7… : le plus petit diviseur de '+n2+' est '+f+'.'};}
+  var pr=pick(PRIMES.filter(function(x){return x>9;})),c1=pick(COMPOS),c2=pick(COMPOS);while(c2===c1)c2=pick(COMPOS);
+  return qcm('prem','Parmi ces nombres, lequel est premier ?',[''+pr,''+c1,''+c2],0,pr+' est premier ; '+c1+' et '+c2+' ont d’autres diviseurs.',null);
 }
-function genParentheses(){
-  if(Math.random()<0.18){var pool=[
-    ['Pour enlever une parenthèse précédée d’un « + », on…',['ne change rien aux signes','change tous les signes','supprime un terme'],'Un + devant : on garde les signes.'],
-    ['Pour enlever une parenthèse précédée d’un « − », on…',['change le signe de tous les termes à l’intérieur','ne change rien','garde seulement le premier terme'],'Un − devant : on change tous les signes.']];
-    var q=pick(pool);return qcm('parentheses',q[0],q[1],0,q[2],null);}
-  var a=rint(-6,8);if(a===0)a=3;var b=rint(-6,7);if(b===0)b=2;var c=rint(-8,8);if(c===0)c=4;var mode=pick(['A','B','C']);var src,target;
-  if(mode==='A'){src=termsToStr([{c:a,deg:1}])+' + ('+termsToStr([{c:b,deg:1},{c:c,deg:0}])+')';target={1:a+b,0:c};}
-  else if(mode==='B'){src=termsToStr([{c:a,deg:1}])+' \u2212 ('+termsToStr([{c:b,deg:1},{c:c,deg:0}])+')';target={1:a-b,0:-c};}
-  else{var d=rint(-6,7);if(d===0)d=5;var c1=rint(-8,8);src='('+termsToStr([{c:a,deg:1},{c:c1,deg:0}])+') \u2212 ('+termsToStr([{c:b,deg:1},{c:c,deg:0}])+')';target={1:a-b,0:c1-c};}
-  return {type:'free',cat:'parentheses',text:'Supprime les parenthèses et réduis : '+src,target:target,disp:polyStr(target),explain:'Après avoir enlevé les parenthèses et réduit : '+polyStr(target)+'.',raw:{kind:'free',src:src,target:target}};
+function genDeco(){
+  var r=Math.random();
+  if(r<0.40){var n=pick(COMPO3),f=primeFactors(n);
+    return {type:'num',cat:'deco',text:'Combien vaut le produit '+f.join(' × ')+' ?',answer:n,disp:n,explain:f.join(' × ')+' = '+n+'.'};}
+  if(r<0.80){var n2=pick(COMPO3),pf=primeFactors(n2),good=pf.join(' × ');
+    var d1=pf.slice();d1[d1.length-1]=nextPrime(d1[d1.length-1]);var d1t=d1.join(' × ');
+    var d2t=[pf[0]*pf[1]].concat(pf.slice(2)).join(' × ');
+    return qcm('deco','Quelle est la décomposition de '+n2+' en produit de facteurs premiers ?',[good,d1t,d2t],0,'On divise par les premiers successifs : '+n2+' = '+good+'.',null);}
+  var n3=pick(COMPO3),sf=smallestFactor(n3);
+  return {type:'num',cat:'deco',text:'Par quel nombre premier commence la décomposition de '+n3+' (son plus petit facteur premier) ?',answer:sf,disp:sf,explain:'Le plus petit facteur premier de '+n3+' est '+sf+'.'};
 }
-function genDevelopper(){
-  if(Math.random()<0.14){var pool=[
-    ['Développer, c’est…',['transformer un produit en somme','factoriser','réduire une fraction'],'Développer = transformer un produit en somme.'],
-    ['k(a + b) est égal à…',['k×a + k×b','k×a + b','k + a + b'],'On distribue : k×a + k×b.']];
-    var q=pick(pool);return qcm('developper',q[0],q[1],0,q[2],null);}
-  if(Math.random()<0.55){var k=pick([-5,-4,-3,-2,2,3,4,5]),a=rint(1,6),b=rint(-6,6);if(b===0)b=3;
-    var src=(k<0?'\u2212':'')+Math.abs(k)+'('+termsToStr([{c:a,deg:1},{c:b,deg:0}])+')';var target={1:k*a,0:k*b};
-    return {type:'free',cat:'developper',text:'Développe et réduis : '+src,target:target,disp:polyStr(target),explain:'On distribue : '+polyStr(target)+'.',raw:{kind:'free',src:src,target:target}};}
-  var a2=rint(-6,6);if(a2===0)a2=2;var b2=rint(-6,6);if(b2===0)b2=3;
-  var src2='('+termsToStr([{c:1,deg:1},{c:a2,deg:0}])+')('+termsToStr([{c:1,deg:1},{c:b2,deg:0}])+')';
-  var target2={2:1,1:a2+b2,0:a2*b2};
-  return {type:'free',cat:'developper',text:'Développe et réduis : '+src2,target:target2,disp:polyStr(target2),explain:'Double distributivité : '+polyStr(target2)+'.',raw:{kind:'free',src:src2,target:target2}};
+function genFrac(){
+  var r=Math.random();
+  if(r<0.18) return qcm('frac','Une fraction est irréductible quand…',['son numérateur et son dénominateur n’ont aucun diviseur commun (sauf 1)','le numérateur est plus petit que le dénominateur','le dénominateur est un nombre premier'],0,'Irréductible : numérateur et dénominateur premiers entre eux, donc PGCD = 1.',null);
+  if(r<0.55){var g=rint(2,12),p,q;do{p=rint(2,9);q=rint(2,9);}while(gcd(p,q)!==1||p===q);var a=g*p,b=g*q;
+    return {type:'num',cat:'frac',text:'Quel est le PGCD de '+a+' et '+b+' ?',answer:g,disp:g,explain:'PGCD('+a+' ; '+b+') = '+g+'.'};}
+  var g2=rint(2,9),p2,q2;do{p2=rint(2,9);q2=rint(2,9);}while(gcd(p2,q2)!==1||p2===q2);var a2=g2*p2,b2=g2*q2,good=p2+'/'+q2;
+  var opts=[good,a2+'/'+b2],dv=2;while(dv<g2&&g2%dv!==0)dv++;
+  if(g2%dv===0&&dv<g2)opts.push((a2/dv)+'/'+(b2/dv));else opts.push((p2+1)+'/'+q2);
+  return qcm('frac','Quelle est la forme irréductible de '+a2+'/'+b2+' ?',opts,0,a2+'/'+b2+' = '+good+' en divisant en haut et en bas par le PGCD ('+g2+').',null);
 }
-var GEN={substituer:genSubstituer,reduire:genReduire,parentheses:genParentheses,developper:genDevelopper};
+var GEN={mult:genMult,prem:genPrem,deco:genDeco,frac:genFrac};
+
 /* ===== moteur de quiz (série notée) ===== */
 function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
 function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;if(s.indexOf('/')>=0){var p=s.split('/');if(p.length!==2)return null;var a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;return a/b;}var v=parseFloat(s);return isFinite(v)?v:null;}
 var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastText:'',timer:0};
-function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),sq:gid('tq_sq'),next:gid('tq_next'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
-function elsArene(){return {score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),sq:gid('aq_sq'),next:gid('aq_next')};}
+function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),next:gid('tq_next'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
+function elsArene(){return {score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next')};}
 function quizStart(cats,guided,els){Q.cats=cats;Q.guided=guided;Q.els=els;Q.score=0;Q.answered=0;Q.correct=0;Q.streak=0;Q.locked=false;Q.lastText='';
   if(els.result)els.result.style.display='none';if(els.card)els.card.style.display='block';
   quizScore();quizNext();}
@@ -455,9 +448,9 @@ function quizNext(){clearTimeout(Q.timer);
   Q.cur=cur;Q.lastText=cur.text;e.cat.textContent=CATNOM[cat];e.text.textContent=cur.text;
   if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
   if(cur.type==='qcm'){e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';cur.options.forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=function(){quizPick(i);};e.opts.appendChild(b);});}
-  else{e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.placeholder=(cur.type==='free')?'ex : 2x²+3x-1':'ta réponse';e.input.inputMode=(cur.type==='free')?'text':'decimal';if(e.sq)e.sq.style.display=(cur.type==='free')?'inline-flex':'none';e.input.focus();}
+  else{e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
   quizScore();}
-function quizValidate(){if(Q.locked||!Q.cur)return;var e=Q.els;if(Q.cur.type==='free'){var pr=parsePoly(e.input.value);if(pr===null){e.feed.className='feedback no';e.feed.textContent='Écris une expression (ex : 2x²+3x-1).';return;}e.input.disabled=true;e.valid.disabled=true;if(e.sq)e.sq.style.display='none';quizResolve(polyEq(pr,Q.cur.target),'La forme réduite est : '+Q.cur.disp+'.');return;}if(Q.cur.type!=='num')return;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La réponse est '+Q.cur.disp+'.');}
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La réponse est '+Q.cur.disp+'.');}
 function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'La bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');}
 function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
   if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Bravo !<div class="feedlab">'+Q.cur.explain+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
@@ -483,7 +476,7 @@ document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(!gi
   var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
   if(!(onT||onA))return;var nx=onT?gid('tq_next'):gid('aq_next');
   if(nx&&nx.style.display!=='none'){quizNext();return;}
-  if(!Q.locked&&Q.cur&&(Q.cur.type==='num'||Q.cur.type==='free'))quizValidate();});
+  if(!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
 /* ===== CALCULATRICE ===== */
 function kcEval(expr){
   let s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
@@ -525,7 +518,7 @@ document.addEventListener('keydown',e=>{if(gid('kcPanel').hidden)return;
   else if(/[0-9.+\-*/()^]/.test(e.key)){const map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[e.key]||e.key);}});
 
 
-
+/* leçons : tableaux d'exemple */
 updateMap();
 
 </script>

@@ -33,23 +33,6 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .hero .coin{font-size:3.6rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
 .hero h1{font-size:2.6rem;line-height:1.05;margin:.12em 0;color:var(--bois)}
 .hero .sub{font-size:1.12rem;color:var(--bois-clair);font-weight:700;max-width:520px;margin:6px auto 0}
-
-/* ---- bandeau élève ---- */
-.who{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
-  background:var(--blanc);border-radius:18px;padding:10px 16px;box-shadow:var(--ombre);margin:6px auto 0;max-width:560px}
-.who .nom{font-family:'Fredoka';font-weight:700;color:var(--bois)}
-.who .tag{font-family:'Fredoka';font-weight:600;font-size:.8rem;color:#fff;background:var(--teal);padding:2px 12px;border-radius:30px}
-.who .tag.cl{background:var(--orange)}
-.who .tag.co{background:var(--violet)}
-
-/* ---- barre de retour ---- */
-.back{display:flex;align-items:center;gap:10px;margin:16px 0 4px}
-.back button{font-family:'Fredoka';font-weight:700;font-size:.95rem;color:var(--bois);background:var(--blanc);
-  border:none;border-radius:12px;padding:9px 14px;box-shadow:0 4px 0 #e7d3a8;cursor:pointer}
-.back button:active{transform:translateY(2px);box-shadow:0 2px 0 #e7d3a8}
-.back h2{margin:0;font-size:1.3rem;color:var(--bois)}
-
-/* ---- grilles ---- */
 .map{display:grid;gap:16px;margin-top:14px}
 @media(min-width:640px){.map{grid-template-columns:1fr 1fr}}
 .etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;
@@ -65,19 +48,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .etape .niv{display:inline-block;font-family:'Fredoka';font-weight:600;font-size:.72rem;color:#fff;
   padding:2px 10px;border-radius:30px;margin-top:6px}
 .etape .status{margin-left:auto;font-size:1.5rem;color:var(--bois-clair)}
-
-/* ---- cartes de niveau ---- */
-.etape.soon{opacity:.62;cursor:default}
-.etape.soon:hover{transform:none}
-.etape .badge{margin-left:auto;font-family:'Fredoka';font-weight:600;font-size:.78rem;color:var(--bois-clair);
-  background:var(--creme);padding:4px 12px;border-radius:30px;white-space:nowrap}
-.etape.dispo .badge{background:var(--vert);color:#fff}
-
 .foot{text-align:center;margin-top:30px;color:var(--bois-clair);font-weight:700;font-size:.92rem}
-.empty{text-align:center;background:var(--blanc);border-radius:20px;padding:30px 18px;box-shadow:var(--ombre);
-  color:var(--bois-clair);font-weight:700;margin-top:14px}
-.empty .big{font-size:2.4rem;display:block;margin-bottom:6px}
-
 @media (max-width:480px){
   .wrap{padding:14px 12px 50px}
   .hero{padding:22px 10px 4px}
@@ -91,184 +62,87 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .btn-go:active{transform:translateY(2px);box-shadow:0 2px 0 var(--vert-bas)}
 .idov{position:fixed;inset:0;background:rgba(92,61,46,.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px}
 .idov[hidden]{display:none}
-.idbox{background:var(--blanc);border-radius:20px;padding:24px;max-width:380px;width:100%;box-shadow:var(--ombre);text-align:center}
+.idbox{background:var(--blanc);border-radius:20px;padding:24px;max-width:360px;width:100%;box-shadow:var(--ombre);text-align:center}
 .idbox h3{font-family:'Fredoka',sans-serif;margin:0 0 6px;color:var(--bois);font-size:1.4rem}
 .idbox p{color:var(--bois-clair);font-weight:700;margin:0 0 14px;font-size:.95rem}
 .idbox input{width:100%;box-sizing:border-box;border:2px solid #e7d3a8;border-radius:12px;padding:12px;font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.05rem;color:var(--bois);margin-bottom:11px;text-align:center}
 .idbox input:focus{outline:none;border-color:var(--orange-bas)}
-.iderr{color:var(--rouge-bas);font-weight:800;font-size:.85rem;min-height:1em;margin:-4px 0 8px}
 .reslink{color:var(--bois-clair);text-decoration:underline;cursor:pointer}
 </style>
 </head>
 <body>
-
 <div id="idov" class="idov" hidden>
   <div class="idbox">
     <h3>Bienvenue 👋</h3>
-    <p>Avant de commencer, indique ton prénom, ta classe et ton collège. C'est demandé une seule fois.</p>
+    <p>Avant de commencer, indique ton prénom et ta classe. C'est demandé une seule fois.</p>
     <input id="idPrenom" placeholder="Ton prénom" autocomplete="off">
     <input id="idClasse" placeholder="Ta classe (ex : 3eA)" autocomplete="off">
-    <input id="idCollege" placeholder="Ton collège" autocomplete="off">
-    <div class="iderr" id="idErr"></div>
     <button class="btn-go" onclick="idSave()">C'est parti ➜</button>
   </div>
 </div>
-
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="wrap">
 
   <div class="hero">
     <div class="coin">🎒✨</div>
     <h1>Parcours de maths</h1>
-    <p class="sub">On explique, on manipule, on s'entraîne.</p>
-    <div class="who" id="who" hidden></div>
+    <p class="sub">Choisis un parcours : on explique, on manipule, on s'entraîne.</p>
   </div>
 
-  <!-- zone qui change : soit le menu des niveaux, soit les parcours d'un niveau -->
-  <div id="view"></div>
+  <div class="map" id="map"></div>
 
-  <p class="foot">Touche une tuile pour commencer.<br>
-     <span class="reslink" onclick="voirNiveaux()">Voir tous les niveaux</span>
-     &nbsp;·&nbsp;
-     <span class="reslink" onclick="idReset()">Changer d'élève</span>
-  </p>
+  <p class="foot"><span id="idgreet"></span><br>Touche une tuile pour commencer.<br><span class="reslink" onclick="idReset()">Changer d'élève</span></p>
 </div>
 
 <script>
 /* =======================================================================
-   PARCOURS PAR NIVEAU
-   Pour AJOUTER un parcours : copie une ligne entière dans le bon niveau,
+   LISTE DES PARCOURS
+   Pour AJOUTER un parcours : copie une ligne entière ci-dessous,
    colle-la, puis change le texte et le nom du fichier (fichier).
-   "fichier" doit être EXACTEMENT le nom du fichier .html (sans accent).
-   Couleurs : violet · teal · orange · or · vert · bleu · rouge
+   ATTENTION : "fichier" doit être EXACTEMENT le nom du fichier .html,
+   accents et tirets compris.
+   Couleurs possibles : violet · teal · orange · or · vert · bleu · rouge
    ======================================================================= */
-const NIVEAUX = {
-  '6': {emoji:'🌱', label:'6ème', parcours:[]},
-  '5': {emoji:'📐', label:'5ème', parcours:[
-    {emoji:'📐', titre:'Aires, Volumes & Longueurs', soustitre:"Le parcours des conversions", couleur:'teal',   fichier:'parcours-aires-volumes-5eme.html'},
-    {emoji:'🧊', titre:"Formules d'aires & volumes",  soustitre:"Les figures usuelles",         couleur:'orange', fichier:'parcours-formules-5eme.html'},
-    {emoji:'🔷', titre:"Figures usuelles & propriétés", soustitre:"Parallélogramme, rectangle…", couleur:'violet', fichier:'parcours-figures-5eme.html'},
-  ]},
-  '4': {emoji:'🚀', label:'4ème', parcours:[]},
-  '3': {emoji:'🎓', label:'3ème', parcours:[
-    {emoji:'🎲', titre:'Probabilités',    soustitre:"Le parcours du hasard",       couleur:'violet', fichier:'parcours-probabilites-3eme.html'},
-    {emoji:'📐', titre:'Aires & Volumes', soustitre:"Le parcours des conversions", couleur:'teal',   fichier:'parcours-aires-volumes-3eme.html'},
-    {emoji:'📈', titre:'Fonctions',       soustitre:"Les machines à nombres",      couleur:'orange', fichier:'parcours-fonctions-3eme.html'},
-    {emoji:'🔤', titre:'Calcul littéral', soustitre:"Le parcours des lettres",     couleur:'bleu',   fichier:'parcours-calcul-litteral-3eme.html'},
-    {emoji:'📐', titre:'Thalès',          soustitre:"Le parcours des parallèles",  couleur:'vert',   fichier:'parcours-thales-3eme.html'},
-    {emoji:'📊', titre:'Statistiques',    soustitre:"Le parcours des données",     couleur:'rouge',  fichier:'parcours-statistiques-3eme.html'},
-  ]},
-};
-const ORDRE_NIVEAUX = ['6','5','4','3'];
+const PARCOURS=[
+  {emoji:'🎲', titre:'Probabilités',     soustitre:"Le parcours du hasard",        niveau:'3ème', couleur:'violet', fichier:'parcours-probabilites-3eme.html'},
+  {emoji:'📐', titre:'Aires & Volumes',  soustitre:"Le parcours des conversions",  niveau:'3ème', couleur:'teal',   fichier:'parcours-aires-volumes.html'},
+  {emoji:'📈', titre:'Fonctions',        soustitre:"Les machines à nombres",        niveau:'3ème', couleur:'orange', fichier:'parcours-fonctions-3ème.html'},
+  {emoji:'🔤', titre:'Calcul littéral',  soustitre:"Le parcours des lettres",        niveau:'3ème', couleur:'bleu',   fichier:'parcours-calcul-litteral-3eme.html'},
+  {emoji:'📐', titre:'Thalès',           soustitre:"Le parcours des parallèles",     niveau:'3ème', couleur:'vert',   fichier:'parcours-thales-3ème.html'},
+  {emoji:'📊', titre:'Statistiques',     soustitre:"Le parcours des données",        niveau:'3ème', couleur:'rouge',  fichier:'parcours-statistiques-3eme.html'},
+  {emoji:'🔺', titre:'Trigonométrie',    soustitre:"Le parcours du triangle rectangle", niveau:'3ème', couleur:'or',     fichier:'parcours-trigonometrie-3eme.html'},
+  {emoji:'🔢', titre:'Arithmétique',     soustitre:"Premiers, PGCD & fractions",     niveau:'3ème', couleur:'bleu',   fichier:'parcours-arithmetique-3eme.html'},
+  {emoji:'🔟', titre:'Puissances',       soustitre:"Et écriture scientifique",       niveau:'3ème', couleur:'teal',   fichier:'parcours-puissances-3eme.html'},
+  {emoji:'⚖️', titre:'Équations',        soustitre:"Premier degré, produit, x²",     niveau:'3ème', couleur:'rouge',  fichier:'parcours-equations-3eme.html'},
+];
 
-/* --- couleurs --- */
+/* --- construction des tuiles (ne pas modifier) --- */
 const COUL={
-  violet:['var(--violet)','var(--violet-bas)'], teal:['var(--teal)','var(--teal-bas)'],
-  orange:['var(--orange)','var(--orange-bas)'], or:['var(--or)','var(--or-bas)'],
-  vert:['var(--vert)','var(--vert-bas)'], bleu:['var(--bleu)','var(--bleu-bas)'],
+  violet:['var(--violet)','var(--violet-bas)'],
+  teal:['var(--teal)','var(--teal-bas)'],
+  orange:['var(--orange)','var(--orange-bas)'],
+  or:['var(--or)','var(--or-bas)'],
+  vert:['var(--vert)','var(--vert-bas)'],
+  bleu:['var(--bleu)','var(--bleu-bas)'],
   rouge:['var(--rouge)','var(--rouge-bas)']
 };
+const map=document.getElementById('map');
+PARCOURS.forEach(p=>{
+  const c=COUL[p.couleur]||COUL.or;
+  const a=document.createElement('a');
+  a.className='etape';a.href=p.fichier;
+  a.innerHTML='<div class="num" style="background:'+c[0]+';box-shadow:0 5px 0 '+c[1]+'">'+p.emoji+'</div>'
+    +'<div class="txt"><h3>'+p.titre+'</h3><p>'+p.soustitre+'</p>'
+    +'<span class="niv" style="background:'+c[0]+'">'+p.niveau+'</span></div>'
+    +'<div class="status">▶</div>';
+  map.appendChild(a);
+});
 function gid(x){return document.getElementById(x);}
-
-/* --- repère le niveau d'après la classe (premier chiffre 6/5/4/3) --- */
-function niveauDeClasse(c){
-  c=(c||'');
-  for(var i=0;i<c.length;i++){var d=c[i];if(d==='6'||d==='5'||d==='4'||d==='3')return d;}
-  return '';
-}
-
-/* --- affiche les parcours d'un niveau --- */
-function voirNiveau(n){
-  var niv=NIVEAUX[n]; if(!niv)return voirNiveaux();
-  var v=gid('view'); var html='';
-  html+='<div class="back"><button onclick="voirNiveaux()">⬅ Niveaux</button><h2>'+niv.emoji+' Parcours de '+niv.label+'</h2></div>';
-  if(!niv.parcours.length){
-    html+='<div class="empty"><span class="big">🚧</span>Les parcours de '+niv.label+' arrivent bientôt !</div>';
-    v.innerHTML=html; window.scrollTo(0,0); return;
-  }
-  html+='<div class="map">';
-  niv.parcours.forEach(function(p){
-    var c=COUL[p.couleur]||COUL.or;
-    html+='<a class="etape" href="'+p.fichier+'">'
-      +'<div class="num" style="background:'+c[0]+';box-shadow:0 5px 0 '+c[1]+'">'+p.emoji+'</div>'
-      +'<div class="txt"><h3>'+p.titre+'</h3><p>'+p.soustitre+'</p>'
-      +'<span class="niv" style="background:'+c[0]+'">'+niv.label+'</span></div>'
-      +'<div class="status">▶</div></a>';
-  });
-  html+='</div>';
-  v.innerHTML=html; window.scrollTo(0,0);
-}
-
-/* --- affiche le menu des 4 niveaux --- */
-function voirNiveaux(){
-  var v=gid('view'); var monNiv=niveauDeClasse(localStorage.getItem('kc_classe'));
-  var html='<div class="map">';
-  ORDRE_NIVEAUX.forEach(function(n){
-    var niv=NIVEAUX[n]; var dispo=niv.parcours.length>0;
-    var moi=(n===monNiv)?' style="border-color:var(--orange)"':'';
-    var badge = dispo ? '<span class="badge">'+niv.parcours.length+' parcours</span>'
-                      : '<span class="badge">Bientôt 🚧</span>';
-    html+='<a class="etape '+(dispo?'dispo':'soon')+'"'+moi
-      +(dispo?(' href="javascript:void(0)" onclick="voirNiveau(\''+n+'\')"'):'')+'>'
-      +'<div class="num" style="background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)">'+niv.emoji+'</div>'
-      +'<div class="txt"><h3>'+niv.label+(n===monNiv?' · ton niveau':'')+'</h3>'
-      +'<p>'+(dispo?'Choisis un parcours':'En préparation')+'</p></div>'
-      +badge+'</a>';
-  });
-  html+='</div>';
-  v.innerHTML=html; window.scrollTo(0,0);
-}
-
-/* --- bandeau élève + démarrage --- */
-function refreshWho(){
-  var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe'),co=localStorage.getItem('kc_college');
-  var w=gid('who');
-  if(e&&c&&co){
-    w.hidden=false;
-    w.innerHTML='<span class="nom">Bonjour '+esc(e)+' 👋</span>'
-      +'<span class="tag cl">'+esc(c)+'</span><span class="tag co">'+esc(co)+'</span>';
-  }else{w.hidden=true;w.innerHTML='';}
-}
-function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-function demarrer(){
-  var monNiv=niveauDeClasse(localStorage.getItem('kc_classe'));
-  if(monNiv && NIVEAUX[monNiv] && NIVEAUX[monNiv].parcours.length) voirNiveau(monNiv);
-  else voirNiveaux();
-}
-
-/* --- inscription --- */
-function idShow(){
-  var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe'),co=localStorage.getItem('kc_college');
-  var complet=!!(e&&c&&co);
-  gid('idov').hidden=complet;
-  if(!complet){ // pré-remplir ce qu'on connaît déjà (élève venant de l'ancien portail)
-    if(e)gid('idPrenom').value=e;
-    if(c)gid('idClasse').value=c;
-    if(co)gid('idCollege').value=co;
-  }
-}
-function idSave(){
-  var p=(gid('idPrenom').value||'').trim(),c=(gid('idClasse').value||'').trim(),co=(gid('idCollege').value||'').trim();
-  if(!p||!c||!co){gid('idErr').textContent='Remplis les trois champs.';return;}
-  if(!niveauDeClasse(c)){gid('idErr').textContent='Ta classe doit contenir ton niveau (ex : 3eA, 5e2).';return;}
-  try{localStorage.setItem('kc_eleve',p);localStorage.setItem('kc_classe',c);localStorage.setItem('kc_college',co);}catch(_){}
-  gid('idErr').textContent=''; gid('idov').hidden=true;
-  refreshWho(); demarrer();
-}
-function idReset(){
-  try{localStorage.removeItem('kc_eleve');localStorage.removeItem('kc_classe');localStorage.removeItem('kc_college');}catch(_){}
-  gid('idPrenom').value='';gid('idClasse').value='';gid('idCollege').value='';gid('idErr').textContent='';
-  gid('idov').hidden=false; refreshWho();
-}
-
-/* --- au chargement --- */
-idShow(); refreshWho();
-if(localStorage.getItem('kc_eleve')&&localStorage.getItem('kc_classe')&&localStorage.getItem('kc_college')){
-  demarrer();
-}else{
-  voirNiveaux(); // visible derrière l'inscription
-}
+function idGreet(){var e=localStorage.getItem('kc_eleve');var g=gid('idgreet');if(g)g.textContent=e?('Bonjour '+e+' 👋'):'';}
+function idShow(){try{var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe');gid('idov').hidden=!!(e&&c);}catch(_){gid('idov').hidden=false;}}
+function idSave(){var p=(gid('idPrenom').value||'').trim(),c=(gid('idClasse').value||'').trim();if(!p||!c)return;try{localStorage.setItem('kc_eleve',p);localStorage.setItem('kc_classe',c);}catch(_){}gid('idov').hidden=true;idGreet();}
+function idReset(){try{localStorage.removeItem('kc_eleve');localStorage.removeItem('kc_classe');}catch(_){}gid('idPrenom').value='';gid('idClasse').value='';gid('idov').hidden=false;idGreet();}
+idShow();idGreet();
 </script>
 </body>
 </html>
