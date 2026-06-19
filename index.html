@@ -89,7 +89,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
   <div class="hero">
     <div class="coin">🎒✨</div>
     <h1>Parcours de maths</h1>
-    <p class="sub">Choisis un parcours : on explique, on manipule, on s'entraîne.</p>
+    <p class="sub">Choisis ton niveau, puis ton parcours : on explique, on manipule, on s'entraîne.</p>
   </div>
 
   <div id="map"></div>
@@ -144,17 +144,36 @@ function tileFor(p){
   return a;
 }
 const LEVELS=['3ème','5ème'];
-LEVELS.forEach(function(niv){
-  var items=PARCOURS.filter(function(p){return p.niveau===niv;});
-  if(!items.length)return;
+function buildLevelChooser(){
+  mapWrap.innerHTML='';
+  var h=document.createElement('h2');h.className='niveau-h';h.textContent='Choisis ton niveau';
+  mapWrap.appendChild(h);
+  var grid=document.createElement('div');grid.className='map';
+  LEVELS.forEach(function(niv){
+    if(!PARCOURS.some(function(p){return p.niveau===niv;}))return;
+    var c=COUL[niv==='3ème'?'teal':'violet'];
+    var a=document.createElement('a');a.className='etape';a.href='javascript:void(0)';
+    a.onclick=function(){chooseLevel(niv);};
+    a.innerHTML='<div class="num" style="background:'+c[0]+';box-shadow:0 5px 0 '+c[1]+'">'+(niv==='3ème'?'🎓':'📘')+'</div>'
+      +'<div class="txt"><h3>'+niv+'</h3><p>Voir les parcours</p></div><div class="status">▶</div>';
+    grid.appendChild(a);
+  });
+  mapWrap.appendChild(grid);
+}
+function chooseLevel(niv){
+  mapWrap.innerHTML='';
+  var back=document.createElement('a');back.className='reslink';back.href='javascript:void(0)';
+  back.style.display='inline-block';back.style.margin='2px 6px 8px';back.textContent='← Choisir un autre niveau';
+  back.onclick=buildLevelChooser;
+  mapWrap.appendChild(back);
   var h=document.createElement('h2');h.className='niveau-h';h.textContent='Niveau '+niv;
   mapWrap.appendChild(h);
   var grid=document.createElement('div');grid.className='map';
-  items.forEach(function(p){grid.appendChild(tileFor(p));});
+  PARCOURS.filter(function(p){return p.niveau===niv;}).forEach(function(p){grid.appendChild(tileFor(p));});
   mapWrap.appendChild(grid);
-});
-var others=PARCOURS.filter(function(p){return LEVELS.indexOf(p.niveau)<0;});
-if(others.length){var g2=document.createElement('div');g2.className='map';others.forEach(function(p){g2.appendChild(tileFor(p));});mapWrap.appendChild(g2);}
+  window.scrollTo(0,0);
+}
+buildLevelChooser();
 function gid(x){return document.getElementById(x);}
 function idGreet(){var e=localStorage.getItem('kc_eleve');var g=gid('idgreet');if(g)g.textContent=e?('Bonjour '+e+' 👋'):'';}
 function idShow(){try{var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe'),col=localStorage.getItem('kc_college');gid('idov').hidden=!!(e&&c&&col);}catch(_){gid('idov').hidden=false;}}
