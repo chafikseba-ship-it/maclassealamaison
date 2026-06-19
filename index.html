@@ -68,15 +68,18 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .idbox input{width:100%;box-sizing:border-box;border:2px solid #e7d3a8;border-radius:12px;padding:12px;font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.05rem;color:var(--bois);margin-bottom:11px;text-align:center}
 .idbox input:focus{outline:none;border-color:var(--orange-bas)}
 .reslink{color:var(--bois-clair);text-decoration:underline;cursor:pointer}
+.niveau-h{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.3rem;color:var(--bois);margin:26px 6px 4px;display:flex;align-items:center;gap:10px}
+.niveau-h::before{content:"";flex:0 0 24px;height:6px;border-radius:4px;background:var(--or)}
 </style>
 </head>
 <body>
 <div id="idov" class="idov" hidden>
   <div class="idbox">
     <h3>Bienvenue 👋</h3>
-    <p>Avant de commencer, indique ton prénom et ta classe. C'est demandé une seule fois.</p>
-    <input id="idPrenom" placeholder="Ton prénom" autocomplete="off">
+    <p>Avant de commencer, indique ton collège, ta classe et ton prénom. C'est demandé une seule fois.</p>
+    <input id="idCollege" placeholder="Ton collège" autocomplete="off">
     <input id="idClasse" placeholder="Ta classe (ex : 3eA)" autocomplete="off">
+    <input id="idPrenom" placeholder="Ton prénom" autocomplete="off">
     <button class="btn-go" onclick="idSave()">C'est parti ➜</button>
   </div>
 </div>
@@ -89,7 +92,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
     <p class="sub">Choisis un parcours : on explique, on manipule, on s'entraîne.</p>
   </div>
 
-  <div class="map" id="map"></div>
+  <div id="map"></div>
 
   <p class="foot"><span id="idgreet"></span><br>Touche une tuile pour commencer.<br><span class="reslink" onclick="idReset()">Changer d'élève</span></p>
 </div>
@@ -114,6 +117,9 @@ const PARCOURS=[
   {emoji:'🔢', titre:'Arithmétique',     soustitre:"Premiers, PGCD & fractions",     niveau:'3ème', couleur:'bleu',   fichier:'parcours-arithmetique-3eme.html'},
   {emoji:'🔟', titre:'Puissances',       soustitre:"Et écriture scientifique",       niveau:'3ème', couleur:'teal',   fichier:'parcours-puissances-3eme.html'},
   {emoji:'⚖️', titre:'Équations',        soustitre:"Premier degré, produit, x²",     niveau:'3ème', couleur:'rouge',  fichier:'parcours-equations-3eme.html'},
+  {emoji:'🔷', titre:'Figures usuelles',  soustitre:"Reconnaître & décrire",          niveau:'5ème', couleur:'violet', fichier:'parcours-figures-5eme.html'},
+  {emoji:'📐', titre:'Formules d’aires & volumes', soustitre:"Aires et volumes",      niveau:'5ème', couleur:'teal',   fichier:'parcours-formules-5eme.html'},
+  {emoji:'📏', titre:'Aires, Volumes & Longueurs', soustitre:"Le parcours des conversions", niveau:'5ème', couleur:'or', fichier:'parcours-aires-volumes-5eme.html'},
 ];
 
 /* --- construction des tuiles (ne pas modifier) --- */
@@ -126,8 +132,8 @@ const COUL={
   bleu:['var(--bleu)','var(--bleu-bas)'],
   rouge:['var(--rouge)','var(--rouge-bas)']
 };
-const map=document.getElementById('map');
-PARCOURS.forEach(p=>{
+const mapWrap=document.getElementById('map');
+function tileFor(p){
   const c=COUL[p.couleur]||COUL.or;
   const a=document.createElement('a');
   a.className='etape';a.href=p.fichier;
@@ -135,13 +141,25 @@ PARCOURS.forEach(p=>{
     +'<div class="txt"><h3>'+p.titre+'</h3><p>'+p.soustitre+'</p>'
     +'<span class="niv" style="background:'+c[0]+'">'+p.niveau+'</span></div>'
     +'<div class="status">▶</div>';
-  map.appendChild(a);
+  return a;
+}
+const LEVELS=['3ème','5ème'];
+LEVELS.forEach(function(niv){
+  var items=PARCOURS.filter(function(p){return p.niveau===niv;});
+  if(!items.length)return;
+  var h=document.createElement('h2');h.className='niveau-h';h.textContent='Niveau '+niv;
+  mapWrap.appendChild(h);
+  var grid=document.createElement('div');grid.className='map';
+  items.forEach(function(p){grid.appendChild(tileFor(p));});
+  mapWrap.appendChild(grid);
 });
+var others=PARCOURS.filter(function(p){return LEVELS.indexOf(p.niveau)<0;});
+if(others.length){var g2=document.createElement('div');g2.className='map';others.forEach(function(p){g2.appendChild(tileFor(p));});mapWrap.appendChild(g2);}
 function gid(x){return document.getElementById(x);}
 function idGreet(){var e=localStorage.getItem('kc_eleve');var g=gid('idgreet');if(g)g.textContent=e?('Bonjour '+e+' 👋'):'';}
-function idShow(){try{var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe');gid('idov').hidden=!!(e&&c);}catch(_){gid('idov').hidden=false;}}
-function idSave(){var p=(gid('idPrenom').value||'').trim(),c=(gid('idClasse').value||'').trim();if(!p||!c)return;try{localStorage.setItem('kc_eleve',p);localStorage.setItem('kc_classe',c);}catch(_){}gid('idov').hidden=true;idGreet();}
-function idReset(){try{localStorage.removeItem('kc_eleve');localStorage.removeItem('kc_classe');}catch(_){}gid('idPrenom').value='';gid('idClasse').value='';gid('idov').hidden=false;idGreet();}
+function idShow(){try{var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe'),col=localStorage.getItem('kc_college');gid('idov').hidden=!!(e&&c&&col);}catch(_){gid('idov').hidden=false;}}
+function idSave(){var col=(gid('idCollege').value||'').trim(),c=(gid('idClasse').value||'').trim(),p=(gid('idPrenom').value||'').trim();if(!col||!c||!p)return;try{localStorage.setItem('kc_college',col);localStorage.setItem('kc_classe',c);localStorage.setItem('kc_eleve',p);}catch(_){}gid('idov').hidden=true;idGreet();}
+function idReset(){try{localStorage.removeItem('kc_eleve');localStorage.removeItem('kc_classe');localStorage.removeItem('kc_college');}catch(_){}gid('idPrenom').value='';gid('idClasse').value='';gid('idCollege').value='';gid('idov').hidden=false;idGreet();}
 idShow();idGreet();
 </script>
 </body>
