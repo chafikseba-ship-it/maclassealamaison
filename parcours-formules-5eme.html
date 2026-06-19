@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formules d'aires et de volumes — 5ème</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --or:#FFC93C; --or-bas:#E0A41E; --vert:#8BC34A; --vert-bas:#5E9426;
+  --orange:#FF8A4C; --orange-bas:#E0672E; --teal:#46BECB; --teal-bas:#2E8A98;
+  --violet:#A78BC4; --violet-bas:#7E61A1; --rouge:#EF5D60; --rouge-bas:#c43e41;
+  --bleu:#4FA3D1; --bleu-bas:#2f7ba8;
+  --bois:#5C3D2E; --bois-clair:#8a6650; --creme:#FFF4DC; --blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18), 0 14px 22px rgba(92,61,46,.12);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
+  background:linear-gradient(160deg,#FFF7E2 0%,#FFE6BC 55%,#FFD9A0 100%);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 90px;position:relative;z-index:1}
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.5;z-index:0}
+.b1{width:180px;height:180px;background:#FFE08A;top:-40px;left:-50px}
+.b2{width:140px;height:140px;background:#FFC1A0;bottom:40px;right:-40px}
+.b3{width:120px;height:120px;background:#BCE29A;top:40%;left:-50px}
+.screen{display:none;animation:pop .35s ease}
+.screen.active{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
+  padding:14px 22px;cursor:pointer;background:var(--or);box-shadow:0 6px 0 var(--or-bas);
+  transition:transform .08s, box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--or-bas)}
+.btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
+.btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
+.btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
+.btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
+.btn.bleu{background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)}
+.btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
+.btn:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.back{background:var(--blanc);color:var(--bois);border:none;border-radius:14px;width:48px;height:48px;
+  font-size:1.5rem;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;font-family:'Fredoka'}
+.back:active{transform:translateY(4px);box-shadow:0 1px 0 #e7d3a8}
+.card{background:var(--blanc);border-radius:26px;padding:22px;box-shadow:var(--ombre);margin:16px 0}
+.tag{display:inline-block;font-family:'Fredoka';font-weight:600;color:#fff;padding:5px 14px;border-radius:30px;font-size:.85rem;margin-bottom:8px}
+.hero{text-align:center;padding:26px 16px 8px}
+.hero h1{font-size:2.5rem;line-height:1.05;margin:.1em 0;color:var(--bois)}
+.hero .sub{font-size:1.1rem;color:var(--bois-clair);font-weight:700;max-width:560px;margin:6px auto 0}
+.coin{font-size:3.4rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
+.map{display:grid;gap:16px;margin-top:8px}
+.etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;
+  box-shadow:var(--ombre);cursor:pointer;border:4px solid transparent;transition:transform .12s}
+.etape:hover{transform:translateY(-3px)}
+.etape:active{transform:translateY(1px)}
+.etape.lock{opacity:.6;filter:grayscale(.35)}
+.etape .num{flex:0 0 60px;height:60px;border-radius:18px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.7rem;color:#fff}
+.etape .txt h3{margin:0 0 2px;font-size:1.16rem}
+.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.92rem}
+.etape .status{margin-left:auto;font-size:1.5rem}
+.e1 .num{background:var(--violet);box-shadow:0 5px 0 var(--violet-bas)}
+.e2 .num{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
+.e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
+.e4 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
+.e5 .num{background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)}
+.e6 .num{background:var(--or);box-shadow:0 5px 0 var(--or-bas)}
+.lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
+.mid{text-align:center;margin:16px 0}
+.formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;
+  padding:12px 22px;font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois)}
+.note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
+.exemple{font-size:.96rem;color:var(--bois-clair);font-weight:700;line-height:1.45;margin:8px 0 0}
+.exemple b{color:var(--bois)}
+.expr{font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois);text-align:center;margin:6px 0}
+/* machine substitution */
+.machine{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
+.mpod{background:var(--creme);border:3px solid var(--or-bas);border-radius:16px;min-width:60px;height:56px;padding:0 10px;
+  display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.3rem;color:var(--bois)}
+.marrow{font-size:1.6rem;color:var(--bois-clair)}
+.mbox{background:var(--violet);color:#fff;border-radius:16px;padding:14px 16px;font-family:'Fredoka';font-weight:700;
+  box-shadow:0 6px 0 var(--violet-bas);text-align:center}
+.msteps{display:flex;flex-direction:column;gap:8px;margin:14px auto 2px;max-width:440px}
+.mstep{background:var(--creme);border-radius:14px;padding:10px 14px;font-family:'Fredoka';font-weight:700;
+  color:var(--bois);opacity:0;transform:translateY(8px);transition:.35s;font-size:1.05rem;text-align:center}
+.mstep.on{opacity:1;transform:none}
+.minput{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:10px 0}
+.minput input{font-family:'Fredoka';font-weight:700;font-size:1.3rem;text-align:center;border:3px solid #f0dca8;
+  border-radius:14px;padding:10px;width:90px;color:var(--bois)}
+.minput input:focus{outline:none;border-color:var(--or-bas)}
+.fnpick{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 4px}
+.fnchip{font-family:'Fredoka';font-weight:700;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
+  border-radius:14px;padding:9px 14px;cursor:pointer;font-size:1.05rem}
+.fnchip:active{transform:translateY(2px)}
+.fnchip.act{border-color:var(--violet-bas);background:#f3edf9}
+.bigres{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.3rem;margin-top:10px;min-height:1.5em;color:var(--bois);line-height:1.4}
+.bigres b{color:var(--orange-bas)}
+/* termes colorés (réduire) */
+.termline{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.5rem;margin:14px 0;line-height:1.6}
+.tt{padding:2px 6px;border-radius:8px;transition:background .3s}
+.tt.x{background:#dff0d2;color:var(--vert-bas)}
+.tt.x2{background:#e3f5f8;color:var(--teal-bas)}
+.tt.k{background:#ffe6cf;color:var(--orange-bas)}
+/* tableau d'aires (développer / factoriser) */
+.area{margin:14px auto;width:fit-content}
+.arow{display:flex}
+.acorner{width:54px;height:40px}
+.ahead{width:84px;height:40px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;color:var(--bois)}
+.aside{width:54px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;color:var(--bois)}
+.acell{width:84px;height:64px;display:grid;place-items:center;border:3px solid #e7d3a8;background:var(--blanc);
+  font-family:'Fredoka';font-weight:700;font-size:1.15rem;color:var(--bois);opacity:0;transition:.3s}
+.acell.on{opacity:1}
+.acell.c1{background:#e3f5f8}.acell.c2{background:#fff0e2}.acell.c3{background:#f3edf9}.acell.c4{background:#dff0d2}
+/* tester égalité */
+.teq{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin:12px 0}
+.tval{font-family:'Fredoka';font-weight:700;font-size:1.2rem;background:var(--creme);border-radius:12px;padding:10px 14px;color:var(--bois)}
+.verdict{font-family:'Fredoka';font-weight:700;font-size:1.6rem;text-align:center;min-height:1.4em;margin-top:8px}
+.verdict.eq{color:var(--vert-bas)}.verdict.ne{color:var(--orange-bas)}
+input[type=range]{width:70%;max-width:320px;height:30px;accent-color:var(--bleu)}
+/* quiz */
+.scorebar{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:4px 0 14px;font-family:'Fredoka';font-weight:700}
+.scorebar .pill{background:var(--creme);border-radius:16px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8}
+.qcard{text-align:center}
+.prog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:10px;min-height:1.3em;font-size:1.05rem}
+.qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
+.helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px}
+.ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
+.ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:160px;color:var(--bois)}
+.ansrow input:focus{outline:none;border-color:var(--or-bas)}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.1rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
+  border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
+.opt.bad{background:var(--orange);color:#fff;border-color:var(--orange-bas);box-shadow:0 5px 0 var(--orange-bas)}
+.feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
+.feedback.ok{color:var(--vert-bas)}
+.feedback.no{color:var(--orange-bas)}
+.feedlab{font-family:'Nunito';font-weight:800;font-size:.92rem;color:var(--bois-clair);margin-top:6px}
+.stars{font-size:1.5rem;letter-spacing:3px;margin-top:8px;min-height:1.6em}
+.catgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:6px}
+@media(min-width:640px){.catgrid{grid-template-columns:repeat(3,1fr)}}
+.cat{border:none;border-radius:20px;padding:16px 8px;cursor:pointer;color:#fff;font-family:'Fredoka';font-weight:700;font-size:1rem;line-height:1.2;text-align:center}
+.cat .ic{font-size:1.6rem;display:block;margin-bottom:4px}
+.conf{position:fixed;width:12px;height:12px;top:-20px;z-index:50;border-radius:3px;pointer-events:none}
+.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+button,input{touch-action:manipulation}
+@media (max-width:480px){
+  .wrap{padding:14px 12px 80px}
+  .hero{padding:18px 10px 4px}
+  .hero h1{font-size:2rem}.hero .sub{font-size:1rem}.coin{font-size:2.8rem}
+  .card{padding:16px;border-radius:20px}
+  .topbar h2{font-size:1.2rem}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem;border-radius:14px}
+  .etape .txt h3{font-size:1.02rem}.etape .txt p{font-size:.82rem}
+  .formule{font-size:1rem;padding:10px 14px;white-space:normal}
+  .lead{font-size:1rem}.question{font-size:1.18rem}
+  .ansrow input{width:60%;max-width:200px}
+  .btn{font-size:1rem;padding:13px 18px}
+  .ahead{width:64px}.acell{width:64px;height:54px;font-size:1rem}.aside{width:44px}.acorner{width:44px}
+  .termline{font-size:1.25rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===================== CALCULATRICE COLLÈGE ===================== */
+.kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);transition:transform .1s}
+.kc-fab:active{transform:translateY(4px)}
+.kc-fab:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(320px,calc(100vw - 32px));
+  background:var(--blanc);border-radius:22px;padding:14px;box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);animation:kcpop .25s ease}
+.kc-panel[hidden]{display:none}
+@keyframes kcpop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.kc-head{display:flex;align-items:center;justify-content:space-between;font-family:'Fredoka';font-weight:700;color:var(--bois);margin:2px 4px 10px;font-size:1.05rem}
+.kc-x{border:none;background:var(--creme);color:var(--bois);width:32px;height:32px;border-radius:10px;font-size:1rem;cursor:pointer;font-family:'Fredoka';box-shadow:0 3px 0 #e7d3a8}
+.kc-x:active{transform:translateY(2px);box-shadow:0 1px 0 #e7d3a8}
+.kc-screen{background:#2b2b2b;border-radius:14px;padding:10px 14px;text-align:right;margin-bottom:12px;min-height:74px;display:flex;flex-direction:column;justify-content:center}
+.kc-expr{font-family:'Fredoka';font-weight:600;color:#cfe6ee;font-size:1rem;min-height:1.2em;word-break:break-all;line-height:1.25}
+.kc-res{font-family:'Fredoka';font-weight:700;color:#fff;font-size:1.7rem;line-height:1.1;margin-top:2px}
+.kc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kc-key{border:none;border-radius:14px;padding:14px 0;font-family:'Fredoka';font-weight:700;font-size:1.2rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.kc-key:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.kc-key.op{background:var(--creme);color:var(--orange-bas)}
+.kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1.05rem}
+.kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
+.kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
+
+/* ===== figures ===== */
+.figbox{margin:10px auto 4px;text-align:center}
+.fig{width:100%;max-width:300px;height:auto;display:inline-block}
+.fig .face{fill:#fff3df;stroke:var(--bois);stroke-width:3;stroke-linejoin:round}
+.fig .face2{fill:#ffe9c9;stroke:var(--bois);stroke-width:3;stroke-linejoin:round}
+.fig .face3{fill:#ffdca8;stroke:var(--bois);stroke-width:3;stroke-linejoin:round}
+.fig .edge{stroke:var(--bois);stroke-width:3;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.fig .dash{stroke:var(--rouge);stroke-width:2.5;stroke-dasharray:6 4;fill:none}
+.fig text{font-family:'Fredoka',sans-serif;font-weight:700}
+.fig .lbl{font-size:14px;fill:var(--orange-bas)}
+.fig .rad{stroke:var(--rouge);stroke-width:2.5}
+/* ===== calculatrice de formule (outil) ===== */
+.chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 2px}
+.fields{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.field{display:flex;flex-direction:column;align-items:center}
+.field label{font-family:'Fredoka';font-weight:700;font-size:.82rem;color:var(--bois-clair);margin-bottom:3px}
+.field input{width:90px;text-align:center;border:2px solid #e7d3a8;border-radius:10px;font-family:'Fredoka';font-weight:700;font-size:1.1rem;padding:8px;color:var(--bois)}
+.field input:focus{outline:none;border-color:var(--orange-bas)}
+.formbox{font-family:'Fredoka';font-weight:700;font-size:1.15rem;text-align:center;color:var(--bois);margin:8px 0;line-height:1.7}
+.formbox .big{color:var(--orange-bas);font-size:1.35rem}
+/* ===== cube vocabulaire ===== */
+.fig .vtx{fill:var(--bois)}
+.fig .face-hl{fill:rgba(255,138,76,.45)}
+.fig .edge-hl{stroke:var(--orange-bas);stroke-width:6;fill:none;stroke-linecap:round}
+.fig .edge-hl-d{stroke:var(--orange-bas);stroke-width:5;fill:none;stroke-linecap:round;stroke-dasharray:7 5}
+.fig .vtx-hl{fill:var(--orange-bas);stroke:#fff;stroke-width:2}
+.fig .red{stroke:var(--rouge);stroke-width:6;fill:none;stroke-linecap:round}
+.fig .red-face{fill:rgba(239,93,96,.5);stroke:var(--rouge);stroke-width:3}
+.fig .red-vtx{fill:var(--rouge);stroke:#fff;stroke-width:2}
+.voc-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0}
+.voc-count{font-family:'Fredoka';font-weight:700;font-size:1.35rem;text-align:center;color:var(--orange-bas);margin-top:4px}
+.voc-def{font-family:'Nunito';font-weight:700;text-align:center;color:var(--bois);margin:6px auto 0;max-width:440px;line-height:1.5;min-height:2.6em}
+.voc-def b{color:var(--orange-bas)}
+
+.home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16);margin-left:4px}
+.home:active{transform:translateY(1px)}
+.mid{text-align:center;margin:10px 0}
+.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+
+.brouillon-lab{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.88rem;text-align:left;margin:12px 0 4px}
+.brouillon{width:100%;box-sizing:border-box;min-height:96px;resize:vertical;border:3px dashed #e7d3a8;border-radius:16px;padding:10px 14px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.15rem;line-height:1.9;color:var(--bois);background:var(--blanc)}
+.brouillon:focus{outline:none;border-color:var(--orange-bas)}
+.mathpad{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;max-width:360px;margin:12px auto 0}
+.mkey{border:none;border-radius:13px;padding:13px 0;font-family:'Fredoka';font-weight:700;font-size:1.18rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.mkey:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.mkey.op{background:var(--creme);color:var(--orange-bas)}
+.mkey.fn{background:#eef6f8;color:var(--teal-bas)}
+.mkey.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas);font-size:1rem}
+.mkey.nl{background:var(--violet);color:#fff;box-shadow:0 4px 0 var(--violet-bas);font-size:.82rem}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="wrap">
+
+<!-- ===== ACCUEIL ===== -->
+<section id="accueil" class="screen active"><div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
+  <div class="hero">
+    <div class="coin">📐🧊</div>
+    <h1>Formules d'aires et de volumes</h1>
+    <p class="sub">Programme de 5ème. On découvre la formule, on calcule avec l'atelier, on s'entraîne. Puis l'arène !</p>
+  </div>
+  <div class="map">
+    <div class="etape e1" id="mapPoly" onclick="tapTheme('polygones')">
+      <div class="num">🟦</div><div class="txt"><h3>1 · Aires des polygones</h3><p>Rectangle, carré, triangle, parallélogramme</p></div><div class="status">▶</div>
+    </div>
+    <div class="etape e2" id="mapDisque" onclick="tapTheme('disque')">
+      <div class="num">⚪</div><div class="txt"><h3>2 · Aire du disque</h3><p>π × r²</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e3" id="mapSolides" onclick="tapTheme('solides')">
+      <div class="num">🧱</div><div class="txt"><h3>3 · Vocabulaire des solides</h3><p>Face, arête, sommet, perspective</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e4" id="mapPave" onclick="tapTheme('paves')">
+      <div class="num">📦</div><div class="txt"><h3>4 · Volumes : pavé &amp; cube</h3><p>L × l × h et c³</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e5" id="mapPrisme" onclick="tapTheme('prismes')">
+      <div class="num">🛢️</div><div class="txt"><h3>5 · Volumes : prisme &amp; cylindre</h3><p>aire de base × hauteur</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e6" id="mapArene" onclick="tapArene()">
+      <div class="num">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Toutes les figures, au choix</p></div><div class="status">🔒</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== POLYGONES : explication ===== -->
+<section id="expPoly" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Aires des polygones</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">Rectangle &amp; carré</span>
+    <div class="figbox" id="figR"></div>
+    <div class="mid"><span class="formule" style="border-color:var(--violet-bas)">Rectangle : A = L × l&nbsp;&nbsp;·&nbsp;&nbsp;Carré : A = c × c</span></div>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">Triangle</span>
+    <div class="figbox" id="figT"></div>
+    <div class="mid"><span class="formule" style="border-color:var(--violet-bas)">A = (base × hauteur) ÷ 2</span></div>
+    <p class="note">La hauteur est perpendiculaire à la base (en pointillé).</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">Parallélogramme</span>
+    <div class="figbox" id="figP"></div>
+    <div class="mid"><span class="formule" style="border-color:var(--violet-bas)">A = base × hauteur</span></div>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="go('toolPoly')">À l'atelier ➜</button></div>
+</section>
+<section id="toolPoly" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'atelier des aires</h2></div>
+  <div class="card">
+    <p class="lead" style="text-align:center">Choisis une figure, entre les longueurs, et l'aire se calcule toute seule.</p>
+    <div class="chips" id="pgChips"></div>
+    <div class="figbox" id="pgFig"></div>
+    <div class="fields" id="pgFields"></div>
+    <div class="formbox" id="pgRes"></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('polygones')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ===== DISQUE ===== -->
+<section id="expDisque" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Aire du disque</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">La formule</span>
+    <div class="figbox" id="figD"></div>
+    <div class="mid"><span class="formule" style="border-color:var(--teal-bas)">A = π × r²</span></div>
+    <p class="note">r est le <b>rayon</b>. On peut donner l'aire <b>en fonction de π</b> (valeur exacte) ou avec <b>π ≈ 3,14</b> (valeur approchée).</p>
+    <p class="exemple">Exemple : rayon 5 cm → A = π × 5² = <b>25π cm²</b> ≈ 78,5 cm².</p>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="go('toolDisque')">À l'atelier ➜</button></div>
+</section>
+<section id="toolDisque" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'atelier du disque</h2></div>
+  <div class="card">
+    <p class="lead" style="text-align:center">Entre le rayon et regarde l'aire exacte (en π) et la valeur approchée.</p>
+    <div class="chips" id="dqChips"></div>
+    <div class="figbox" id="dqFig"></div>
+    <div class="fields" id="dqFields"></div>
+    <div class="formbox" id="dqRes"></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('disque')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ===== VOCABULAIRE DES SOLIDES ===== -->
+<section id="expSolides" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Vocabulaire des solides</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">Explore le cube</span>
+    <p class="lead" style="text-align:center">Touche un bouton : le cube met en valeur ses faces, ses arêtes ou ses sommets.</p>
+    <div class="voc-btns" id="vocBtns"></div>
+    <div class="figbox" id="vocFig"></div>
+    <div class="voc-count" id="vocCount"></div>
+    <div class="voc-def" id="vocDef"></div>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">La perspective cavalière</span>
+    <div class="figbox" id="perspFig"></div>
+    <p class="note">On dessine le solide « en biais » pour le voir en relief. Les arêtes que l'on voit sont en <b>trait plein</b>, celles cachées derrière sont en <b>pointillés</b>. La face avant garde sa vraie forme (un carré), mais les arêtes qui s'éloignent — les fuyantes — sont tracées en oblique : les angles droits et les longueurs ne sont pas toujours respectés.</p>
+    <div class="mid"><button class="btn fant" id="perspToggle" onclick="perspFlip()">Cacher les arêtes cachées</button></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('solides')">Je vérifie mes connaissances ➜</button></div>
+</section>
+
+<!-- ===== PAVES ===== -->
+<section id="expPave" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Volumes : pavé &amp; cube</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">Pavé droit</span>
+    <div class="figbox" id="figPv"></div>
+    <div class="mid"><span class="formule" style="border-color:var(--vert-bas)">V = L × l × h</span></div>
+    <p class="note">L (longueur), l (largeur), h (hauteur). Le volume est en cm³.</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">Cube</span>
+    <div class="figbox" id="figC"></div>
+    <div class="mid"><span class="formule" style="border-color:var(--vert-bas)">V = c × c × c = c³</span></div>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="go('toolPave')">À l'atelier ➜</button></div>
+</section>
+<section id="toolPave" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'atelier des volumes</h2></div>
+  <div class="card">
+    <p class="lead" style="text-align:center">Choisis le solide, entre les dimensions, le volume se calcule.</p>
+    <div class="chips" id="pvChips"></div>
+    <div class="figbox" id="pvFig"></div>
+    <div class="fields" id="pvFields"></div>
+    <div class="formbox" id="pvRes"></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('paves')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ===== PRISMES ===== -->
+<section id="expPrisme" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Volumes : prisme &amp; cylindre</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">La règle commune</span>
+    <div class="mid"><span class="formule" style="border-color:var(--bleu-bas)">V = aire de base × hauteur</span></div>
+    <p class="note">Pour le prisme droit comme pour le cylindre, on multiplie l'aire d'une base par la hauteur.</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">Prisme droit (base triangle)</span>
+    <div class="figbox" id="figPr"></div>
+    <div class="mid"><span class="formule" style="border-color:var(--bleu-bas)">V = (b × h ÷ 2) × H</span></div>
+    <p class="note">b et h sont la base et la hauteur du triangle ; H la hauteur du prisme.</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">Cylindre</span>
+    <div class="figbox" id="figCy"></div>
+    <div class="mid"><span class="formule" style="border-color:var(--bleu-bas)">V = π × r² × h</span></div>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="go('toolPrisme')">À l'atelier ➜</button></div>
+</section>
+<section id="toolPrisme" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'atelier des solides</h2></div>
+  <div class="card">
+    <p class="lead" style="text-align:center">Choisis le solide, entre les dimensions, le volume se calcule (exact en π pour le cylindre).</p>
+    <div class="chips" id="prChips"></div>
+    <div class="figbox" id="prFig"></div>
+    <div class="fields" id="prFields"></div>
+    <div class="formbox" id="prRes"></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('prismes')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ===== ENTRAÎNEMENT ===== -->
+<section id="ecranTrain" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="card">
+    <div class="scorebar"><span class="pill">⭐ <span id="tq_score">0</span></span><span class="pill">🔥 <span id="tq_streak">0</span></span></div>
+    <div class="qcard">
+      <div class="prog" id="tq_prog"></div>
+      <div class="helpnote" id="tq_help"></div>
+      <div class="qcat" id="tq_cat"></div>
+      <div class="figbox" id="tq_viz" style="display:none"></div>
+      <div class="question" id="tq_text"></div>
+      <div class="opts" id="tq_opts" style="display:none"></div>
+      <div class="ansrow" id="tq_ansrow">
+        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div id="tq_work">
+  <div class="mathpad" id="tq_pad"></div>
+  <div class="brouillon-lab">✏️ Brouillon — pose tes calculs ligne par ligne (facultatif)</div>
+  <textarea id="tq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici, une par ligne…"></textarea>
+</div>
+      <div class="feedback" id="tq_feed"></div>
+      <div class="stars" id="tq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_cont" style="display:none" onclick="trainDone()">Continuer ➜</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ARÈNE ===== -->
+<section id="arene" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'arène des formules</h2></div>
+  <div class="card" id="areneMenu">
+    <p class="lead" style="text-align:center">Bravo, séquence terminée ! Choisis ton entraînement libre.</p>
+    <div class="catgrid">
+      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('polygones')"><span class="ic">🟦</span>Polygones</button>
+      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('disque')"><span class="ic">⚪</span>Disque</button>
+      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('solides')"><span class="ic">🧱</span>Solides</button>
+      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('paves')"><span class="ic">📦</span>Pavé &amp; cube</button>
+      <button class="cat" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="startArene('prismes')"><span class="ic">🛢️</span>Prisme &amp; cylindre</button>
+    </div>
+    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
+  </div>
+  <div class="card" id="areneJeu" style="display:none">
+    <div class="scorebar"><span class="pill">⭐ <span id="aq_score">0</span></span><span class="pill">🔥 <span id="aq_streak">0</span></span><span class="pill">🎯 <span id="aq_corr">0</span>/<span id="aq_tot">0</span></span></div>
+    <div class="qcard">
+      <div class="qcat" id="aq_cat"></div>
+      <div class="figbox" id="aq_viz" style="display:none"></div>
+      <div class="question" id="aq_text"></div>
+      <div class="opts" id="aq_opts" style="display:none"></div>
+      <div class="ansrow" id="aq_ansrow">
+        <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div id="aq_work">
+  <div class="mathpad" id="aq_pad"></div>
+  <div class="brouillon-lab">✏️ Brouillon — pose tes calculs ligne par ligne (facultatif)</div>
+  <textarea id="aq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici, une par ligne…"></textarea>
+</div>
+      <div class="feedback" id="aq_feed"></div>
+      <div class="stars" id="aq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn fant" onclick="finArene()">Changer de catégorie</button></div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- ===== CALCULATRICE ===== -->
+<button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">🧮</button>
+<div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
+  <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
+  <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
+  <div class="kc-keys" id="kcKeys"></div>
+</div>
+
+<script>
+/* ===== SUIVI ===== */
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Formules d’aires & volumes'};
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+var SSDONE={};
+function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom+' › '+label);b.append(SUIVI.f.statut,'Terminé');b.append(SUIVI.f.score,'');b.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+/* ===== navigation & progression ===== */
+const ORDER=['polygones','disque','solides','paves','prismes'];
+const EXP={polygones:'expPoly',disque:'expDisque',solides:'expSolides',paves:'expPave',prismes:'expPrisme'};
+const MAPID={polygones:'mapPoly',disque:'mapDisque',solides:'mapSolides',paves:'mapPave',prismes:'mapPrisme'};
+const TITLE={polygones:'Aires des polygones',disque:'Aire du disque',solides:'Vocabulaire des solides',paves:'Volumes : pavé & cube',prismes:'Volumes : prisme & cylindre'};
+const unlocked={polygones:true,disque:false,solides:false,paves:false,prismes:false,arene:false};
+const themeDone={polygones:false,disque:false,solides:false,paves:false,prismes:false};
+let currentTheme='polygones';const REQUIRED=6;
+function gid(x){return document.getElementById(x);}
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();}
+function wiggle(id){const el=gid(id);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}
+function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
+function tapArene(){if(unlocked.arene)go('arene');else wiggle('mapArene');}
+function openTheme(t){currentTheme=t;go(EXP[t]);}
+function updateMap(){ORDER.forEach(t=>{const c=gid(MAPID[t]);c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');});
+  const ar=gid('mapArene');ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';}
+
+/* ===== utilitaires ===== */
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function rint(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function fmtDec(v){if(!isFinite(v))return '?';return (Math.round(v*100)/100).toString().replace('.',',');}
+function r2(v){return Math.round(v*100)/100;}
+
+/* ===== figures ===== */
+function svg(c,vb){return '<svg class="fig" viewBox="'+vb+'" xmlns="http://www.w3.org/2000/svg">'+c+'</svg>';}
+function txt(x,y,s,a,cls){return '<text x="'+x+'" y="'+y+'" text-anchor="'+a+'" class="'+cls+'">'+s+'</text>';}
+function lab(v,letter){return (v!==undefined&&v!==''&&v!==null)?(letter+' = '+v):letter;}
+function figRect(o){o=o||{};return svg('<rect x="50" y="55" width="200" height="100" class="face"/>'+txt(150,178,lab(o.L,'L'),'middle','lbl')+txt(40,112,lab(o.l,'l'),'end','lbl'),'0 0 300 200');}
+function figCarre(o){o=o||{};return svg('<rect x="90" y="45" width="120" height="120" class="face"/>'+txt(150,188,lab(o.c,'c'),'middle','lbl')+txt(78,112,lab(o.c,'c'),'end','lbl'),'0 0 300 210');}
+function figTri(o){o=o||{};return svg('<polygon points="50,160 250,160 150,40" class="face"/><line x1="150" y1="40" x2="150" y2="160" class="dash"/>'+txt(150,180,lab(o.b,'b'),'middle','lbl')+txt(160,104,lab(o.h,'h'),'start','lbl'),'0 0 300 198');}
+function figPara(o){o=o||{};return svg('<polygon points="70,150 230,150 270,60 110,60" class="face"/><line x1="110" y1="60" x2="110" y2="150" class="dash"/>'+txt(150,170,lab(o.b,'b'),'middle','lbl')+txt(122,110,lab(o.h,'h'),'start','lbl'),'0 0 300 190');}
+function figDisque(o){o=o||{};return svg('<circle cx="150" cy="100" r="72" class="face"/><line x1="150" y1="100" x2="222" y2="100" class="rad"/><circle cx="150" cy="100" r="3" fill="#5C3D2E"/>'+txt(186,92,lab(o.r,'r'),'middle','lbl'),'0 0 300 200');}
+function figPave(o){o=o||{};return svg('<polygon points="60,80 200,80 245,45 105,45" class="face2"/><polygon points="200,80 245,45 245,145 200,180" class="face3"/><rect x="60" y="80" width="140" height="100" class="face"/>'+txt(130,198,lab(o.L,'L'),'middle','lbl')+txt(48,134,lab(o.h,'h'),'end','lbl')+txt(230,58,lab(o.l,'l'),'start','lbl'),'0 0 300 210');}
+function figCube(o){o=o||{};return svg('<polygon points="70,80 190,80 235,45 115,45" class="face2"/><polygon points="190,80 235,45 235,165 190,200" class="face3"/><rect x="70" y="80" width="120" height="120" class="face"/>'+txt(125,222,lab(o.c,'c'),'middle','lbl'),'0 0 300 232');}
+function figPrisme(o){o=o||{};return svg('<polygon points="105,150 235,150 170,65" class="face2"/><line x1="60" y1="180" x2="105" y2="150" class="edge"/><line x1="190" y1="180" x2="235" y2="150" class="edge"/><line x1="125" y1="95" x2="170" y2="65" class="edge"/><polygon points="60,180 190,180 125,95" class="face"/><line x1="125" y1="95" x2="125" y2="180" class="dash"/>'+txt(125,198,lab(o.b,'b'),'middle','lbl')+txt(133,150,lab(o.hb,'h'),'start','lbl')+txt(74,160,lab(o.H,'H'),'end','lbl'),'0 0 300 210');}
+function figCylindre(o){o=o||{};return svg('<path d="M95,55 L95,165 A55 18 0 0 0 205,165 L205,55 Z" class="face"/><ellipse cx="150" cy="55" rx="55" ry="18" class="face2"/><path d="M95,165 A55 18 0 0 1 205,165" class="dash"/><line x1="150" y1="55" x2="205" y2="55" class="rad"/><line x1="216" y1="55" x2="216" y2="165" class="dash"/>'+txt(178,48,lab(o.r,'r'),'middle','lbl')+txt(226,116,lab(o.h,'h'),'start','lbl'),'0 0 300 200');}
+
+/* ===== config des formules ===== */
+const CALC={
+  rectangle:{label:'Rectangle',fields:[['L','Longueur'],['l','largeur']],fn:v=>v.L*v.l,fmt:v=>'A = L × l = '+v.L+' × '+v.l,unit:'cm²',fig:figRect},
+  carre:{label:'Carré',fields:[['c','côté']],fn:v=>v.c*v.c,fmt:v=>'A = c × c = '+v.c+' × '+v.c,unit:'cm²',fig:figCarre},
+  triangle:{label:'Triangle',fields:[['b','base'],['h','hauteur']],fn:v=>v.b*v.h/2,fmt:v=>'A = (b × h) ÷ 2 = ('+v.b+' × '+v.h+') ÷ 2',unit:'cm²',fig:figTri},
+  para:{label:'Parallélogramme',fields:[['b','base'],['h','hauteur']],fn:v=>v.b*v.h,fmt:v=>'A = b × h = '+v.b+' × '+v.h,unit:'cm²',fig:figPara},
+  disque:{label:'Disque',fields:[['r','rayon']],fn:v=>Math.PI*v.r*v.r,fmt:v=>'A = π × r² = π × '+v.r+'²',unit:'cm²',fig:figDisque,piExact:v=>v.r*v.r},
+  pave:{label:'Pavé droit',fields:[['L','Longueur'],['l','largeur'],['h','hauteur']],fn:v=>v.L*v.l*v.h,fmt:v=>'V = L × l × h = '+v.L+' × '+v.l+' × '+v.h,unit:'cm³',fig:figPave},
+  cube:{label:'Cube',fields:[['c','arête']],fn:v=>v.c*v.c*v.c,fmt:v=>'V = c³ = '+v.c+' × '+v.c+' × '+v.c,unit:'cm³',fig:figCube},
+  prisme:{label:'Prisme (base triangle)',fields:[['b','base du triangle'],['hb','hauteur du triangle'],['H','hauteur du prisme']],fn:v=>v.b*v.hb/2*v.H,fmt:v=>'V = (b × h ÷ 2) × H = ('+v.b+' × '+v.hb+' ÷ 2) × '+v.H,unit:'cm³',fig:figPrisme},
+  cylindre:{label:'Cylindre',fields:[['r','rayon'],['h','hauteur']],fn:v=>Math.PI*v.r*v.r*v.h,fmt:v=>'V = π × r² × h = π × '+v.r+'² × '+v.h,unit:'cm³',fig:figCylindre,piExact:v=>v.r*v.r*v.h}
+};
+
+/* ===== atelier (outil interactif) ===== */
+const TOOLCFG={pg:['rectangle','carre','triangle','para'],dq:['disque'],pv:['pave','cube'],pr:['prisme','cylindre']};
+const TOOLST={};
+function toolInit(pfx){const shapes=TOOLCFG[pfx];const chips=gid(pfx+'Chips');chips.innerHTML='';
+  shapes.forEach((s,i)=>{const b=document.createElement('button');b.className='fnchip'+(i===0?' act':'');b.textContent=CALC[s].label;b.onclick=()=>toolPick(pfx,s,b);chips.appendChild(b);});
+  toolPick(pfx,shapes[0],chips.firstChild);}
+function toolPick(pfx,shape,btn){TOOLST[pfx]=shape;
+  gid(pfx+'Chips').querySelectorAll('.fnchip').forEach(x=>x.classList.remove('act'));if(btn)btn.classList.add('act');
+  const f=CALC[shape];const ff=gid(pfx+'Fields');ff.innerHTML='';
+  f.fields.forEach(([k,l])=>{const d=document.createElement('div');d.className='field';
+    d.innerHTML='<label>'+l+' (cm)</label><input inputmode="decimal" data-k="'+k+'" oninput="toolUpdate(\''+pfx+'\')">';ff.appendChild(d);});
+  toolUpdate(pfx);}
+function toolUpdate(pfx){const shape=TOOLST[pfx];const f=CALC[shape];
+  const v={},vd={},lbl={};
+  gid(pfx+'Fields').querySelectorAll('input').forEach(inp=>{const raw=inp.value.trim().replace(',','.');const k=inp.dataset.k;
+    const num=parseFloat(raw);v[k]=isFinite(num)?num:NaN;vd[k]=isFinite(num)?inp.value.trim():'?';lbl[k]=inp.value.trim();});
+  gid(pfx+'Fig').innerHTML=f.fig(lbl);
+  const allOK=f.fields.every(([k])=>isFinite(v[k]));
+  let html=f.fmt(vd);
+  if(allOK){const res=f.fn(v);
+    if(f.piExact)html+=' = <span class="big">'+f.piExact(v)+'π '+f.unit+'</span> ≈ '+fmtDec(res)+' '+f.unit;
+    else html+=' = <span class="big">'+fmtDec(res)+' '+f.unit+'</span>';}
+  gid(pfx+'Res').innerHTML=html;}
+
+/* figures des cartes d'explication */
+gid('figR').innerHTML=figRect({L:'L',l:'l'});gid('figT').innerHTML=figTri({b:'b',h:'h'});gid('figP').innerHTML=figPara({b:'b',h:'h'});
+gid('figD').innerHTML=figDisque({r:'r'});gid('figPv').innerHTML=figPave({L:'L',l:'l',h:'h'});gid('figC').innerHTML=figCube({c:'c'});
+gid('figPr').innerHTML=figPrisme({b:'b',hb:'h',H:'H'});gid('figCy').innerHTML=figCylindre({r:'r',h:'h'});
+
+/* ===== générateurs ===== */
+const CATNOM={polygones:'Polygones',disque:'Disque',solides:'Solides',paves:'Pavé & cube',prismes:'Prisme & cylindre'};
+const THEME_CATS={polygones:['polygones'],disque:['disque'],solides:['solides'],paves:['paves'],prismes:['prismes']};
+const HELP={
+  polygones:'Rappel : rectangle L×l, carré c², triangle (b×h)÷2, parallélogramme b×h.',
+  disque:'Rappel : A = π × r². « En fonction de π » → donne le nombre devant π (c\u2019est r²).',
+  paves:'Rappel : pavé V = L×l×h, cube V = c³. Volume en cm³.',
+  prismes:'Rappel : V = aire de base × hauteur.',
+  solides:'Rappel : face = surface plane, arête = segment entre deux faces, sommet = point. Cube : 6 faces, 12 arêtes, 8 sommets. Arêtes cachées → pointillés.'
+};
+function qcm(cat,t,opts,ci,e,viz){const o=shuffle(opts);return {type:'qcm',cat,text:t,options:o,correct:o.indexOf(opts[ci]),explain:e,viz};}
+
+function genPoly(){
+  const r=Math.random();
+  if(r<0.2)return qcm('polygones','Quelle est la formule de l\u2019aire d\u2019un triangle ?',['(base × hauteur) ÷ 2','base × hauteur','côté × côté'],0,'L\u2019aire du triangle = (base × hauteur) ÷ 2.',figTri({b:'b',h:'h'}));
+  const shape=pick(['rectangle','carre','triangle','para']);const f=CALC[shape];
+  if(shape==='rectangle'){const L=rint(3,15),l=rint(2,12);return {type:'num',cat:'polygones',text:'Calcule l\u2019aire de ce rectangle (en cm²).',answer:L*l,disp:(L*l)+' cm²',viz:figRect({L,l}),explain:f.fmt({L,l})+' = '+(L*l)+' cm².'};}
+  if(shape==='carre'){const c=rint(2,14);return {type:'num',cat:'polygones',text:'Calcule l\u2019aire de ce carré (en cm²).',answer:c*c,disp:(c*c)+' cm²',viz:figCarre({c}),explain:f.fmt({c})+' = '+(c*c)+' cm².'};}
+  if(shape==='triangle'){let b=rint(3,16),h=rint(2,14);if((b*h)%2)h+=(h<14?1:-1);return {type:'num',cat:'polygones',text:'Calcule l\u2019aire de ce triangle (en cm²).',answer:b*h/2,disp:(b*h/2)+' cm²',viz:figTri({b,h}),explain:f.fmt({b,h})+' = '+(b*h/2)+' cm².'};}
+  const b=rint(3,15),h=rint(2,12);return {type:'num',cat:'polygones',text:'Calcule l\u2019aire de ce parallélogramme (en cm²).',answer:b*h,disp:(b*h)+' cm²',viz:figPara({b,h}),explain:f.fmt({b,h})+' = '+(b*h)+' cm².'};
+}
+function genDisque(){
+  const r=Math.random();
+  if(r<0.2)return qcm('disque','Quelle est la formule de l\u2019aire d\u2019un disque ?',['π × r²','2 × π × r','π × d'],0,'A = π × r² (r = rayon).',figDisque({r:'r'}));
+  const ray=rint(2,12);
+  if(r<0.6)return {type:'num',cat:'disque',text:'Aire du disque de rayon '+ray+' cm, en fonction de π : donne le nombre devant π.',answer:ray*ray,disp:(ray*ray)+' (aire = '+(ray*ray)+'π cm²)',viz:figDisque({r:ray}),explain:'A = π × r² = π × '+ray+'² = '+(ray*ray)+'π cm².'};
+  const v=r2(3.14*ray*ray);return {type:'num',cat:'disque',piCoef:ray*ray,text:'Aire du disque de rayon '+ray+' cm, avec π ≈ 3,14 (arrondis au centième, en cm²).',answer:v,disp:fmtDec(v)+' cm²',viz:figDisque({r:ray}),explain:'A = π × r² ≈ 3,14 × '+ray+'² = 3,14 × '+(ray*ray)+' = '+fmtDec(v)+' cm².'};
+}
+function genPave(){
+  const r=Math.random();
+  if(r<0.2)return qcm('paves','Quelle est la formule du volume d\u2019un pavé droit ?',['L × l × h','L × l','L + l + h'],0,'V = L × l × h.',figPave({L:'L',l:'l',h:'h'}));
+  if(r<0.65){const L=rint(2,12),l=rint(2,10),h=rint(2,10);return {type:'num',cat:'paves',text:'Calcule le volume de ce pavé droit (en cm³).',answer:L*l*h,disp:(L*l*h)+' cm³',viz:figPave({L,l,h}),explain:'V = L × l × h = '+L+' × '+l+' × '+h+' = '+(L*l*h)+' cm³.'};}
+  const c=rint(2,9);return {type:'num',cat:'paves',text:'Calcule le volume de ce cube (en cm³).',answer:c*c*c,disp:(c*c*c)+' cm³',viz:figCube({c}),explain:'V = c³ = '+c+' × '+c+' × '+c+' = '+(c*c*c)+' cm³.'};
+}
+function genPrisme(){
+  const r=Math.random();
+  if(r<0.2)return qcm('prismes','Le volume d\u2019un prisme droit ou d\u2019un cylindre se calcule par…',['aire de base × hauteur','périmètre × hauteur','base + hauteur'],0,'V = aire de base × hauteur.',null);
+  if(r<0.6){let b=rint(3,12),hb=rint(2,10);if((b*hb)%2)hb+=(hb<10?1:-1);const H=rint(2,10);const V=b*hb/2*H;
+    return {type:'num',cat:'prismes',text:'Prisme droit à base triangulaire. Calcule son volume (en cm³).',answer:V,disp:V+' cm³',viz:figPrisme({b,hb,H}),explain:'Aire de base = (b × h) ÷ 2 = ('+b+' × '+hb+') ÷ 2 = '+(b*hb/2)+' cm². V = aire de base × H = '+(b*hb/2)+' × '+H+' = '+V+' cm³.'};}
+  const ray=rint(2,10),h=rint(2,12);
+  if(r<0.8)return {type:'num',cat:'prismes',text:'Cylindre de rayon '+ray+' cm et hauteur '+h+' cm. Volume en fonction de π : donne le nombre devant π.',answer:ray*ray*h,disp:(ray*ray*h)+' (V = '+(ray*ray*h)+'π cm³)',viz:figCylindre({r:ray,h}),explain:'V = π × r² × h = π × '+ray+'² × '+h+' = '+(ray*ray*h)+'π cm³.'};
+  const v=r2(3.14*ray*ray*h);return {type:'num',cat:'prismes',piCoef:ray*ray*h,text:'Cylindre de rayon '+ray+' cm et hauteur '+h+' cm, avec π ≈ 3,14 (arrondis au centième, en cm³).',answer:v,disp:fmtDec(v)+' cm³',viz:figCylindre({r:ray,h}),explain:'V = π × r² × h ≈ 3,14 × '+ray+'² × '+h+' = '+fmtDec(v)+' cm³.'};
+}
+/* ===== cube : vocabulaire & perspective ===== */
+const CP={A:[70,98],B:[185,98],C:[185,212],D:[70,212],E:[125,58],F:[240,58],G:[240,172],H:[125,172]};
+function cpoly(ks,cls){return '<polygon points="'+ks.map(k=>CP[k][0]+','+CP[k][1]).join(' ')+'" class="'+cls+'"/>';}
+function cln(a,b,cls){return '<line x1="'+CP[a][0]+'" y1="'+CP[a][1]+'" x2="'+CP[b][0]+'" y2="'+CP[b][1]+'" class="'+cls+'"/>';}
+function cdot(a,cls,r){return '<circle cx="'+CP[a][0]+'" cy="'+CP[a][1]+'" r="'+r+'" class="'+cls+'"/>';}
+const CVIS=[['A','B'],['B','C'],['C','D'],['D','A'],['E','F'],['F','G'],['A','E'],['B','F'],['C','G']];
+const CHID=[['G','H'],['H','E'],['D','H']];
+const CVTX=['A','B','C','D','E','F','G','H'];
+function cubeSVG(o){o=o||{};const persp=o.persp!==false;let s='';
+  s+=cpoly(['A','B','C','D'],'face')+cpoly(['A','B','F','E'],'face2')+cpoly(['B','C','G','F'],'face3');
+  if(persp)CHID.forEach(e=>s+=cln(e[0],e[1],'dash'));
+  CVIS.forEach(e=>s+=cln(e[0],e[1],'edge'));
+  CVTX.forEach(v=>s+=cdot(v,'vtx',3.5));
+  if(o.mode==='faces')s+=cpoly(['A','B','C','D'],'face-hl')+cpoly(['A','B','F','E'],'face-hl')+cpoly(['B','C','G','F'],'face-hl');
+  if(o.mode==='aretes'){CVIS.forEach(e=>s+=cln(e[0],e[1],'edge-hl'));CHID.forEach(e=>s+=cln(e[0],e[1],'edge-hl-d'));}
+  if(o.mode==='sommets')CVTX.forEach(v=>s+=cdot(v,'vtx-hl',6));
+  if(o.red==='face')s+=cpoly(['A','B','C','D'],'red-face');
+  if(o.red==='arete')s+=cln('A','B','red');
+  if(o.red==='sommet')s+=cdot('B','red-vtx',6.5);
+  return svg(s,'0 0 300 240');}
+const VOCDEF={faces:['6 faces','Une <b>face</b> est une surface plane du solide. Le cube en a <b>6</b> (3 visibles, 3 cachées).'],aretes:['12 arêtes','Une <b>arête</b> est le segment où deux faces se rejoignent. Le cube en a <b>12</b>.'],sommets:['8 sommets','Un <b>sommet</b> est un point où plusieurs arêtes se rencontrent. Le cube en a <b>8</b>.']};
+let vocMode='faces';
+function vocPick(m,btn){vocMode=m;gid('vocBtns').querySelectorAll('.fnchip').forEach(x=>x.classList.remove('act'));if(btn)btn.classList.add('act');gid('vocFig').innerHTML=cubeSVG({mode:m});gid('vocCount').textContent=VOCDEF[m][0];gid('vocDef').innerHTML=VOCDEF[m][1];}
+function vocInit(){const b=gid('vocBtns');b.innerHTML='';[['faces','Faces'],['aretes','Ar\u00eates'],['sommets','Sommets']].forEach((p,i)=>{const btn=document.createElement('button');btn.className='fnchip'+(i===0?' act':'');btn.textContent=p[1];btn.onclick=()=>vocPick(p[0],btn);b.appendChild(btn);});vocPick('faces',b.firstChild);}
+let perspOn=true;
+function perspFlip(){perspOn=!perspOn;gid('perspFig').innerHTML=cubeSVG({persp:perspOn});gid('perspToggle').textContent=perspOn?'Cacher les ar\u00eates cach\u00e9es':'Montrer les ar\u00eates cach\u00e9es';}
+const SOL={cube:{n:'cube',f:6,a:12,s:8},pave:{n:'pav\u00e9 droit',f:6,a:12,s:8},prisme:{n:'prisme droit \u00e0 base triangulaire',f:5,a:9,s:6}};
+function genSolides(){
+  const r=Math.random();
+  if(r<0.30){const k=pick(['cube','pave','prisme']);const sd=SOL[k];const el=pick([['faces',sd.f],['ar\u00eates',sd.a],['sommets',sd.s]]);
+    return {type:'num',cat:'solides',text:'Combien de '+el[0]+' poss\u00e8de un '+sd.n+' ?',answer:el[1],disp:el[1]+' '+el[0],viz:(k==='cube'?cubeSVG({}):null),explain:'Un '+sd.n+' a '+sd.f+' faces, '+sd.a+' ar\u00eates et '+sd.s+' sommets.'};}
+  if(r<0.52){const defs=[
+      ['Comment appelle-t-on le segment o\u00f9 deux faces se rejoignent ?',['une ar\u00eate','une face','un sommet'],'C\u2019est une ar\u00eate.'],
+      ['Comment appelle-t-on le point o\u00f9 plusieurs ar\u00eates se rencontrent ?',['un sommet','une ar\u00eate','une face'],'C\u2019est un sommet.'],
+      ['Comment appelle-t-on une surface plane d\u2019un solide ?',['une face','une ar\u00eate','un sommet'],'C\u2019est une face.']];
+    const d=pick(defs);return qcm('solides',d[0],d[1],0,d[2],null);}
+  if(r<0.76){const m=pick(['face','arete','sommet']);const nom={face:'une face',arete:'une ar\u00eate',sommet:'un sommet'}[m];
+    return qcm('solides','Sur ce cube, l\u2019\u00e9l\u00e9ment rouge est\u2026',['une face','une ar\u00eate','un sommet'],['face','arete','sommet'].indexOf(m),'L\u2019\u00e9l\u00e9ment rouge est '+nom+'.',cubeSVG({red:m}));}
+  const pe=[
+    ['En perspective cavali\u00e8re, les ar\u00eates cach\u00e9es sont repr\u00e9sent\u00e9es\u2026',['en pointill\u00e9s','en trait plein','en rouge'],'Les ar\u00eates cach\u00e9es se tracent en pointill\u00e9s.'],
+    ['En perspective cavali\u00e8re, les ar\u00eates visibles sont trac\u00e9es\u2026',['en trait plein','en pointill\u00e9s','en double'],'Les ar\u00eates visibles se tracent en trait plein.'],
+    ['En perspective cavali\u00e8re, la face avant d\u2019un cube est dessin\u00e9e\u2026',['en vraie grandeur','aplatie','en triangle'],'La face avant garde sa vraie forme : un carr\u00e9.'],
+    ['En perspective cavali\u00e8re, les angles droits du solide\u2026',['ne sont pas toujours conserv\u00e9s','sont toujours conserv\u00e9s','disparaissent'],'Sur les fuyantes, les angles droits ne sont pas conserv\u00e9s.']];
+  const q=pick(pe);return qcm('solides',q[0],q[1],0,q[2],cubeSVG({persp:true}));
+}
+const GEN={polygones:genPoly,disque:genDisque,solides:genSolides,paves:genPave,prismes:genPrisme};
+
+/* ===== moteur de quiz ===== */
+let Q={cats:[],target:0,guided:false,els:null,score:0,streak:0,total:0,correct:0,locked:false,cur:null,lastText:'',timer:0};
+function elsTrain(){return{score:gid('tq_score'),streak:gid('tq_streak'),prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),cont:gid('tq_cont')};}
+function elsArene(){return{score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars')};}
+function quizStart(cats,target,guided,els){Q.cats=cats;Q.target=target;Q.guided=guided;Q.els=els;Q.score=0;Q.streak=0;Q.total=0;Q.correct=0;Q.locked=false;Q.lastText='';if(els.cont)els.cont.style.display='none';quizScore();quizNext();}
+function quizScore(){const e=Q.els;if(e.score)e.score.textContent=Q.score;if(e.streak)e.streak.textContent=Q.streak;if(e.corr)e.corr.textContent=Q.correct;if(e.tot)e.tot.textContent=Q.total;if(Q.guided&&e.prog)e.prog.innerHTML='🎯 Réussites : <b>'+Math.min(Q.correct,Q.target)+' / '+Q.target+'</b>';}
+function quizNext(){
+  clearTimeout(Q.timer);Q.locked=false;const e=Q.els;e.feed.textContent='';e.feed.className='feedback';if(e.stars)e.stars.textContent='';
+  let cat,cur,tries=0;do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while(cur.text===Q.lastText&&tries<6);
+  Q.cur=cur;Q.lastText=cur.text;e.cat.textContent=CATNOM[cat];e.text.textContent=cur.text;
+  if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
+  if(cur.type==='qcm'){e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';
+    cur.options.forEach((o,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>quizPick(i);e.opts.appendChild(b);});}
+  else{e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
+}
+function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;
+  if(s.includes('/')){const p=s.split('/');if(p.length!==2)return null;const a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;return a/b;}
+  const v=parseFloat(s);return isFinite(v)?v:null;}
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;const e=Q.els;const v=parseNum(e.input.value);
+  if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre.';return;}
+  e.input.disabled=true;e.valid.disabled=true;
+  var ok;
+  if(typeof Q.cur.piCoef==='number'){
+    var a314=3.14*Q.cur.piCoef, aPi=Math.PI*Q.cur.piCoef, tol=Math.max(0.5,0.01*aPi);
+    ok=(Math.abs(v-a314)<tol)||(Math.abs(v-aPi)<tol);
+  } else { ok=Math.abs(v-Q.cur.answer)<0.01; }
+  quizResolve(ok,'La réponse est '+Q.cur.disp+'.');}
+function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;const e=Q.els;const btns=[...e.opts.children];
+  btns.forEach((b,j)=>{if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');
+  quizResolve(i===Q.cur.correct,'La bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');}
+function quizResolve(ok,correctTxt){Q.locked=true;Q.total++;const e=Q.els;
+  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';
+    e.feed.innerHTML='✅ Bravo !<div class="feedlab">'+Q.cur.explain+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='❌ '+correctTxt+'<div class="feedlab">'+Q.cur.explain+'</div>';
+    if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(()=>e.input.classList.remove('shake'),400);}}
+  quizScore();
+  if(Q.guided&&Q.correct>=Q.target){if(e.cont)e.cont.style.display='inline-flex';if(e.prog)e.prog.innerHTML='🎉 Objectif atteint ! Tu peux continuer (ou t\u2019entraîner encore).';}
+  Q.timer=setTimeout(quizNext, ok?1800:3600);
+}
+function confettis(){const cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];
+  for(let i=0;i<24;i++){const d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';
+    document.body.appendChild(d);const fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout(()=>d.remove(),fall);}}
+function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entraînement — '+TITLE[t];go('ecranTrain');const els=elsTrain();els.help.textContent=HELP[t];quizStart(THEME_CATS[t],REQUIRED,true,els);}
+function trainDone(){const t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}const idx=ORDER.indexOf(t);
+  if(idx<ORDER.length-1){const nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{try{suiviEnvoi('Terminé','','');}catch(_){}unlocked.arene=true;updateMap();go('arene');}}
+function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';const cats=cat==='mix'?ORDER.slice():[cat];quizStart(cats,0,false,elsArene());}
+function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
+document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;if(!gid('kcPanel').hidden)return;
+  const onT=gid('ecranTrain').classList.contains('active');const onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
+  if((onT||onA)&&!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
+
+/* ===== CALCULATRICE ===== */
+function kcEval(expr){
+  let s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
+  const toks=[]; let i=0; const isD=c=>c>='0'&&c<='9';
+  while(i<s.length){const c=s[i];
+    if(isD(c)||c==='.'){let j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
+    if(c==='\u03c0'){toks.push({t:'pi'});i++;continue;}
+    if(c==='\u221a'){toks.push({t:'sqrt'});i++;continue;}
+    if('+-*/^()'.includes(c)){toks.push({t:c});i++;continue;}
+    return null;}
+  let p=0,err=false;const peek=()=>toks[p],next=()=>toks[p++];
+  function E(){let v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){const o=next().t;const r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
+  function T(){let v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){const o=next().t;const r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}
+  function U(){const t=peek();if(t&&t.t==='-'){next();return -U();}if(t&&t.t==='+'){next();return U();}if(t&&t.t==='sqrt'){next();const a=U();if(err)return 0;if(a<0){err=true;return 0;}return Math.sqrt(a);}return P();}
+  function P(){let b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();const e=U();if(err)return 0;b=Math.pow(b,e);}return b;}
+  function PR(){const t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='pi')return Math.PI;if(t.t==='('){const v=E();if(err)return 0;const c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}err=true;return 0;}
+  const val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;}
+function kcFmt(v){let s=(Math.round(v*1e10)/1e10).toString();return s.replace('-','\u2212').replace('.',',');}
+let kcS='',kcJust=false;
+function kcRender(){gid('kcExpr').textContent=kcS;const v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
+function kcIns(ch){if(kcJust&&/[0-9.\u03c0(\u221a]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
+function kcClear(){kcS='';kcJust=false;kcRender();}
+function kcBack(){if(kcJust)kcJust=false;kcS=kcS.slice(0,-1);kcRender();}
+function kcEq(){const v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
+function kcToggle(){gid('kcPanel').hidden=!gid('kcPanel').hidden;}
+const KEYS2=[
+  {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
+  {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},
+  {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'},
+  {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'\u2212',a:'\u2212',c:'op'},
+  {l:'0',a:'0'},{l:',',a:','},{l:'\u221a',a:'\u221a',c:'fn'},{l:'+',a:'+',c:'op'},
+  {l:'x\u00b2',a:'^2',c:'fn'},{l:'x\u02b8',a:'^',c:'fn'},{l:'\u03c0',a:'\u03c0',c:'fn'},{l:'=',a:'eq',c:'eq'}
+];
+(function(){const box=gid('kcKeys');KEYS2.forEach(k=>{const b=document.createElement('button');b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;
+  b.onclick=()=>{if(k.a==='clr')kcClear();else if(k.a==='back')kcBack();else if(k.a==='eq')kcEq();else kcIns(k.a);};box.appendChild(b);});kcRender();})();
+document.addEventListener('keydown',e=>{if(gid('kcPanel').hidden)return;
+  if(e.key==='Enter'){e.preventDefault();kcEq();}else if(e.key==='Escape')kcToggle();
+  else if(e.key==='Backspace'){e.preventDefault();kcBack();}
+  else if(/[0-9.+\-*/()^]/.test(e.key)){const map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[e.key]||e.key);}});
+
+/* ===== init ===== */
+toolInit('pg');toolInit('dq');toolInit('pv');toolInit('pr');
+vocInit();gid('perspFig').innerHTML=cubeSVG({persp:true});
+updateMap();
+</script>
+<script>
+/* ===== clavier maths + brouillon (ajout) ===== */
+var MATHTARGET=null;
+function _isVis(el){return !!(el&&(el.offsetWidth||el.offsetHeight||el.getClientRects().length));}
+function _activeInput(){var t=gid('tq_input'),a=gid('aq_input');if(_isVis(t))return t;if(_isVis(a))return a;return t||a;}
+function insertAtCursor(el,txt){if(!el)return;el.focus();var s=el.selectionStart,e=el.selectionEnd,v=el.value;if(typeof s==='number'){el.value=v.slice(0,s)+txt+v.slice(e);var p=s+txt.length;el.selectionStart=el.selectionEnd=p;}else{el.value=v+txt;}}
+function mathBack(el){if(!el)return;el.focus();var s=el.selectionStart,e=el.selectionEnd,v=el.value;if(typeof s!=='number'){el.value=v.slice(0,-1);return;}if(s!==e){el.value=v.slice(0,s)+v.slice(e);el.selectionStart=el.selectionEnd=s;}else if(s>0){el.value=v.slice(0,s-1)+v.slice(s);el.selectionStart=el.selectionEnd=s-1;}}
+function mathAction(a){var t=MATHTARGET||_activeInput();if(!t)return;if(a==='BACK')mathBack(t);else if(a==='CLR'){t.value='';t.focus();}else if(a==='NL')insertAtCursor(t,'\n');else insertAtCursor(t,a);}
+var PADKEYS=[
+ {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'⌫',a:'BACK',c:'act'},{l:'C',a:'CLR',c:'act'},
+ {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
+ {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'x',a:'x',c:'fn'},{l:'x²',a:'x²',c:'fn'},
+ {l:'0',a:'0'},{l:',',a:','},{l:'^',a:'^',c:'fn'},{l:'+',a:'+',c:'op'},{l:'−',a:'−',c:'op'},
+ {l:'/',a:'/',c:'op'},{l:'×',a:'×',c:'op'},{l:'÷',a:'÷',c:'op'},{l:'=',a:'=',c:'op'},{l:'⏎',a:'NL',c:'nl'}
+];
+function buildMathPad(padId){var box=gid(padId);if(!box)return;box.innerHTML='';PADKEYS.forEach(function(k){var b=document.createElement('button');b.type='button';b.className='mkey'+(k.c?' '+k.c:'');b.textContent=k.l;b.addEventListener('mousedown',function(ev){ev.preventDefault();});b.onclick=function(){mathAction(k.a);};box.appendChild(b);});}
+function afterQuizNext(){['tq','aq'].forEach(function(pfx){var ans=gid(pfx+'_ansrow'),work=gid(pfx+'_work'),inp=gid(pfx+'_input'),brou=gid(pfx+'_brouillon');if(!ans||!work)return;var answering=(ans.style.display!=='none')&&_isVis(ans);work.style.display=answering?'block':'none';if(answering){if(brou)brou.value='';if(inp){try{inp.inputMode='none';}catch(_){}}MATHTARGET=inp;}});}
+if(typeof quizNext==='function'){var _qnOrig=quizNext;quizNext=function(){var r=_qnOrig.apply(this,arguments);try{afterQuizNext();}catch(_){}return r;};}
+buildMathPad('tq_pad');buildMathPad('aq_pad');
+['tq_input','aq_input','tq_brouillon','aq_brouillon'].forEach(function(id){var el=gid(id);if(el)el.addEventListener('focus',function(){MATHTARGET=el;});});
+['tq_brouillon','aq_brouillon'].forEach(function(id){var el=gid(id);if(el)el.addEventListener('keydown',function(ev){ev.stopPropagation();});});
+</script>
+<script>
+/* ===== sauvegarde et reprise de la progression ===== */
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}
+  var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;
+  return 'prog_'+e+'_'+nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone,u:unlocked}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);
+  if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});
+  if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
+if(typeof updateMap==='function'){var _um=updateMap;updateMap=function(){var r=_um.apply(this,arguments);try{progSave();}catch(_){}return r;};}
+try{progLoad();if(typeof updateMap==='function')updateMap();}catch(_){}
+</script>
+</body>
+</html>

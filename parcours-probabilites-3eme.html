@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probabilités — Le parcours du hasard (3ème)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#FFC93C; --or-bas:#E0A41E;
+  --vert:#8BC34A; --vert-bas:#5E9426;
+  --orange:#FF8A4C; --orange-bas:#E0672E;
+  --teal:#46BECB; --teal-bas:#2E8A98;
+  --violet:#A78BC4; --violet-bas:#7E61A1;
+  --rouge:#EF5D60; --rouge-bas:#c43e41;
+  --bleu:#4FA3D1; --bleu-bas:#2f7ba8;
+  --bois:#5C3D2E; --bois-clair:#8a6650;
+  --creme:#FFF4DC; --creme2:#FFE8B8;
+  --blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18), 0 14px 22px rgba(92,61,46,.12);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
+  background:linear-gradient(160deg,#FFF7E2 0%,#FFE6BC 55%,#FFD9A0 100%);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 60px;position:relative;z-index:1}
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.5;z-index:0}
+.b1{width:180px;height:180px;background:#FFE08A;top:-40px;left:-50px}
+.b2{width:140px;height:140px;background:#FFC1A0;bottom:40px;right:-40px}
+.b3{width:120px;height:120px;background:#BCE29A;top:40%;left:-50px}
+.screen{display:none;animation:pop .35s ease}
+.screen.active{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
+  padding:14px 22px;cursor:pointer;background:var(--or);box-shadow:0 6px 0 var(--or-bas);
+  transition:transform .08s, box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--or-bas)}
+.btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
+.btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
+.btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
+.btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
+.btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
+.btn:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.back{background:var(--blanc);color:var(--bois);border:none;border-radius:14px;width:48px;height:48px;
+  font-size:1.5rem;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;font-family:'Fredoka'}
+.back:active{transform:translateY(4px);box-shadow:0 1px 0 #e7d3a8}
+.card{background:var(--blanc);border-radius:26px;padding:22px;box-shadow:var(--ombre);margin:16px 0}
+.tag{display:inline-block;font-family:'Fredoka';font-weight:600;color:#fff;padding:5px 14px;border-radius:30px;font-size:.85rem;margin-bottom:8px}
+.hero{text-align:center;padding:26px 16px 8px}
+.hero h1{font-size:2.5rem;line-height:1.05;margin:.1em 0;color:var(--bois)}
+.hero .sub{font-size:1.1rem;color:var(--bois-clair);font-weight:700;max-width:540px;margin:6px auto 0}
+.coin{font-size:3.4rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
+.map{display:grid;gap:16px;margin-top:8px}
+.etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;
+  box-shadow:var(--ombre);cursor:pointer;border:4px solid transparent;transition:transform .12s}
+.etape:hover{transform:translateY(-3px)}
+.etape:active{transform:translateY(1px)}
+.etape.lock{opacity:.6;filter:grayscale(.35)}
+.etape .num{flex:0 0 64px;height:64px;border-radius:20px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.9rem;color:#fff}
+.etape .txt h3{margin:0 0 2px;font-size:1.2rem}
+.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.95rem}
+.etape .status{margin-left:auto;font-size:1.6rem}
+.e1 .num{background:var(--violet);box-shadow:0 5px 0 var(--violet-bas)}
+.e2 .num{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
+.e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
+.e4 .num{background:var(--or);box-shadow:0 5px 0 var(--or-bas)}
+.lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
+.mid{text-align:center;margin:16px 0}
+.formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;
+  padding:12px 22px;font-family:'Fredoka';font-weight:700;font-size:1.3rem;color:var(--bois)}
+.note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
+.exemple{font-size:.96rem;color:var(--bois-clair);font-weight:700;line-height:1.45;margin:8px 0 0}
+.exemple b{color:var(--bois)}
+/* échelle 0..1 */
+.scale-wrap{margin:26px 6px 36px;position:relative}
+.scale{height:26px;border-radius:14px;position:relative;
+  background:linear-gradient(90deg,var(--rouge) 0%,var(--or) 50%,var(--vert) 100%);box-shadow:inset 0 2px 4px rgba(0,0,0,.12)}
+.scale .tick{position:absolute;top:-6px;width:3px;height:38px;background:var(--bois);opacity:.45;transform:translateX(-50%)}
+.scale .tlab{position:absolute;top:34px;transform:translateX(-50%);font-family:'Fredoka';font-weight:700;font-size:.9rem;white-space:nowrap}
+.pointer{position:absolute;top:-30px;transform:translateX(-50%);transition:left .5s cubic-bezier(.3,1.4,.5,1);text-align:center;z-index:3}
+.pointer .pin{font-size:1.5rem;line-height:1}
+.pointer .ptag{font-family:'Fredoka';font-weight:700;font-size:.85rem;background:var(--blanc);border:2px solid var(--bois);border-radius:10px;padding:2px 7px;display:inline-block;margin-top:-2px;box-shadow:0 3px 0 rgba(92,61,46,.2)}
+.marker{position:absolute;top:5px;width:16px;height:16px;border-radius:50%;background:var(--blanc);border:3px solid var(--bois);transform:translateX(-50%);opacity:0;transition:opacity .3s,left .5s;z-index:2}
+.marker.on{opacity:1}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}
+.chip{font-family:'Nunito';font-weight:800;font-size:.9rem;border:2px solid #e7d3a8;background:var(--blanc);color:var(--bois);
+  border-radius:14px;padding:9px 12px;cursor:pointer}
+.chip:active{transform:translateY(2px)}
+.chip.act{border-color:var(--violet-bas);background:#f3edf9}
+/* dés */
+.dice{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.die{width:58px;height:58px;border-radius:14px;background:var(--blanc);border:3px solid #e7d3a8;display:grid;place-items:center;
+  font-size:2.4rem;line-height:1;color:var(--bois);transition:.25s}
+.die.hot{background:var(--teal);border-color:var(--teal-bas);color:#fff;transform:translateY(-4px) scale(1.05)}
+/* urne */
+.urn{max-width:280px;margin:10px auto;background:#eaf3fb;border:4px solid var(--bleu-bas);border-radius:18px 18px 26px 26px;
+  padding:14px;min-height:150px;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-end;justify-content:center}
+.ball{width:30px;height:30px;border-radius:50%;box-shadow:inset -4px -5px 0 rgba(0,0,0,.12);animation:drop .3s ease}
+@keyframes drop{from{transform:translateY(-18px);opacity:0}to{transform:none;opacity:1}}
+.ball.r{background:var(--rouge)} .ball.v{background:var(--vert)} .ball.b{background:var(--bleu)}
+.ctrls{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:14px 0 6px}
+.ctrl{display:flex;align-items:center;gap:8px;font-family:'Fredoka';font-weight:700}
+.dot{width:20px;height:20px;border-radius:50%;display:inline-block}
+.dot.r{background:var(--rouge)} .dot.v{background:var(--vert)} .dot.b{background:var(--bleu)}
+.pm{width:34px;height:34px;border:none;border-radius:10px;background:var(--blanc);box-shadow:0 4px 0 #e7d3a8;font-family:'Fredoka';font-weight:700;font-size:1.3rem;cursor:pointer;color:var(--bois)}
+.pm:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.pickrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:8px 0}
+.pickrow .btn{font-size:.95rem;padding:10px 16px}
+/* barre complément */
+.cbar{display:flex;height:54px;border-radius:14px;overflow:hidden;border:3px solid var(--bois);margin:18px 0 6px}
+.cbar .pa{background:var(--violet);transition:width .35s;display:grid;place-items:center;color:#fff;font-family:'Fredoka';font-weight:700;min-width:0}
+.cbar .pnota{background:var(--or);transition:width .35s;display:grid;place-items:center;color:var(--bois);font-family:'Fredoka';font-weight:700;min-width:0}
+input[type=range]{width:88%;max-width:420px;accent-color:var(--violet);height:30px}
+.bigres{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.5rem;margin-top:8px;min-height:1.5em;color:var(--bois)}
+.bigres b{color:var(--orange-bas)}
+/* quiz */
+.scorebar{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:4px 0 14px;font-family:'Fredoka';font-weight:700}
+.scorebar .pill{background:var(--creme);border-radius:16px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8}
+.qcard{text-align:center}
+.prog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:10px;min-height:1.3em;font-size:1.05rem}
+.qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.4rem;margin:8px 0 4px;line-height:1.4}
+.helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px}
+.ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
+.ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:160px;color:var(--bois)}
+.ansrow input:focus{outline:none;border-color:var(--or-bas)}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.05rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
+  border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
+.opt.bad{background:var(--orange);color:#fff;border-color:var(--orange-bas);box-shadow:0 5px 0 var(--orange-bas)}
+.feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
+.feedback.ok{color:var(--vert-bas)}
+.feedback.no{color:var(--orange-bas)}
+.stars{font-size:1.5rem;letter-spacing:3px;margin-top:8px;min-height:1.6em}
+.catgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:6px}
+@media(min-width:640px){.catgrid{grid-template-columns:repeat(3,1fr)}}
+.cat{border:none;border-radius:20px;padding:18px 10px;cursor:pointer;color:#fff;font-family:'Fredoka';font-weight:700;font-size:1.05rem;line-height:1.2;text-align:center}
+.cat .ic{font-size:1.8rem;display:block;margin-bottom:4px}
+.conf{position:fixed;width:12px;height:12px;top:-20px;z-index:50;border-radius:3px;pointer-events:none}
+.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+button,input{touch-action:manipulation}
+/* ----- les 3 écritures ----- */
+.forms{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0 2px}
+.fpill{font-family:'Fredoka';font-weight:700;border-radius:14px;padding:8px 13px;font-size:1.1rem;
+  display:inline-flex;flex-direction:column;align-items:center;line-height:1.15;box-shadow:0 3px 0 rgba(92,61,46,.12)}
+.fpill .lab{font-family:'Nunito';font-size:.62rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;opacity:.75;margin-bottom:1px}
+.ffrac{background:#f3edf9;color:var(--violet-bas);border:2px solid var(--violet)}
+.fdec{background:#e3f5f8;color:var(--teal-bas);border:2px solid var(--teal)}
+.fpct{background:#fff0e2;color:var(--orange-bas);border:2px solid var(--orange)}
+.feedlab{font-family:'Nunito';font-weight:800;font-size:.92rem;color:var(--bois-clair);margin:6px 0 2px}
+/* ----- calculatrice ----- */
+.calcrow{display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0 8px}
+.cfrac{display:inline-flex;flex-direction:column;align-items:center;gap:6px}
+.cinp{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #cfe6ee;
+  border-radius:14px;padding:8px;width:92px;color:var(--bois)}
+.cinp:focus{outline:none;border-color:var(--teal-bas)}
+.cfbar{height:4px;width:96px;background:var(--bois);border-radius:2px}
+.hintbad{font-family:'Nunito';font-weight:800;color:var(--orange-bas);font-size:.95rem}
+/* ----- dessins de situation (entraînement) ----- */
+.viz{margin:12px 0 6px;display:flex;justify-content:center}
+.vizrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.vdie{font-size:2.1rem;line-height:1;color:var(--bois);background:var(--blanc);border:3px solid #e7d3a8;
+  border-radius:12px;width:48px;height:48px;display:grid;place-items:center}
+.vizurn{max-width:240px;background:#eaf3fb;border:4px solid var(--bleu-bas);border-radius:16px 16px 22px 22px;
+  padding:12px;min-height:84px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-end;justify-content:center}
+.vball{width:26px;height:26px;border-radius:50%;box-shadow:inset -4px -5px 0 rgba(0,0,0,.12);animation:drop .3s ease}
+.vball.r{background:var(--rouge)}.vball.v{background:var(--vert)}.vball.b{background:var(--bleu)}
+.vizroue{display:block}
+.vizcards{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:center}
+.vcard{font-family:'Fredoka';font-weight:700;background:var(--blanc);border:3px solid #e7d3a8;border-radius:10px;
+  padding:8px 10px;color:var(--bois);min-width:40px;text-align:center}
+.vcard.red{color:var(--rouge)}
+.vbadge{font-family:'Fredoka';font-weight:700;background:var(--creme);border-radius:12px;padding:7px 13px;
+  color:var(--bois);border:2px dashed var(--or-bas)}
+@media (max-width:480px){
+  .fpill{font-size:1rem;padding:7px 10px}
+  .cinp{width:74px;font-size:1.2rem}.cfbar{width:78px}
+  .vdie{width:42px;height:42px;font-size:1.8rem}
+}
+@media (max-width:480px){
+  .wrap{padding:14px 12px 50px}
+  .hero{padding:18px 10px 4px}
+  .hero h1{font-size:2rem}.hero .sub{font-size:1rem}.coin{font-size:2.8rem}
+  .card{padding:16px;border-radius:20px}
+  .topbar h2{font-size:1.25rem}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 52px;height:52px;font-size:1.5rem;border-radius:16px}
+  .etape .txt h3{font-size:1.05rem}.etape .txt p{font-size:.84rem}
+  .formule{font-size:1rem;padding:10px 14px;white-space:normal}
+  .lead{font-size:1rem}.question{font-size:1.25rem}
+  .ansrow input{width:60%;max-width:200px}
+  .scale .tlab{font-size:.78rem}
+  .die{width:48px;height:48px;font-size:2rem}
+  .ball{width:26px;height:26px}
+  .btn{font-size:1rem;padding:13px 18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16);margin-left:4px}
+.home:active{transform:translateY(1px)}
+.mid{text-align:center;margin:10px 0}
+.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="wrap">
+
+<!-- ===== ACCUEIL ===== -->
+<section id="accueil" class="screen active"><div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
+  <div class="hero">
+    <div class="coin">🎲🎯</div>
+    <h1>Probabilités</h1>
+    <p class="sub">Le parcours du hasard. Trois mondes : on explique, on manipule, on s'entraîne. L'arène finale t'attend au bout !</p>
+  </div>
+  <div class="map">
+    <div class="etape e1" id="mapVocab" onclick="tapTheme('vocab')">
+      <div class="num">🎯</div>
+      <div class="txt"><h3>1 · Vocabulaire &amp; échelle</h3><p>Explication → outil → entraînement</p></div>
+      <div class="status">▶</div>
+    </div>
+    <div class="etape e2" id="mapCalcul" onclick="tapTheme('calcul')">
+      <div class="num">🎲</div>
+      <div class="txt"><h3>2 · Calculer une probabilité</h3><p>Explication → outil → entraînement</p></div>
+      <div class="status">🔒</div>
+    </div>
+    <div class="etape e3" id="mapContraire" onclick="tapTheme('contraire')">
+      <div class="num">🔄</div>
+      <div class="txt"><h3>3 · Événement contraire</h3><p>Explication → outil → entraînement</p></div>
+      <div class="status">🔒</div>
+    </div>
+    <div class="etape e4" id="mapArene" onclick="tapArene()">
+      <div class="num">⚔️</div>
+      <div class="txt"><h3>Arène finale</h3><p>Tous les thèmes, au choix</p></div>
+      <div class="status">🔒</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VOCAB : explication ===== -->
+<section id="expVocab" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Vocabulaire &amp; échelle</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">Définition</span>
+    <p class="lead">Une <b>expérience aléatoire</b> est une expérience dont on connaît tous les résultats possibles, mais dont on ne peut pas prévoir le résultat à l'avance : c'est le hasard qui décide.</p>
+    <p class="exemple">Exemples : lancer un dé, tirer une carte, lancer une pièce, faire tourner une roue.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">Définition</span>
+    <p class="lead">Une <b>issue</b> est l'un des résultats possibles de l'expérience.</p>
+    <p class="exemple">Avec un dé à 6 faces, il y a 6 issues : <b>1, 2, 3, 4, 5 et 6</b>.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">Définition</span>
+    <p class="lead">Un <b>événement</b> regroupe une ou plusieurs issues : c'est quelque chose qui peut se réaliser… ou non. Un événement formé d'une <b>seule</b> issue est dit <b>élémentaire</b>.</p>
+    <p class="exemple">« Obtenir un nombre pair » regroupe les issues 2, 4 et 6. « Obtenir un 5 » est un événement élémentaire.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">À retenir</span>
+    <p class="lead">Un événement <b>certain</b> se réalise toujours ; un événement <b>impossible</b> ne se réalise jamais.</p>
+    <p class="exemple">Avec un dé : « obtenir un nombre de 1 à 6 » est certain, « obtenir 7 » est impossible.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">L'échelle des probabilités</span>
+    <p class="lead">La <b>probabilité</b> d'un événement est un nombre compris entre <b>0</b> et <b>1</b> qui mesure ses chances de se réaliser. Plus elle est proche de 1, plus l'événement est probable.</p>
+    <div class="scale-wrap">
+      <div class="pointer" id="vp" style="left:0%;opacity:0"><div class="pin">🔻</div><div class="ptag" id="vptag"></div></div>
+      <div class="scale" id="vscale">
+        <span class="tick" style="left:0%"></span><span class="tlab" style="left:0%">0<br>impossible</span>
+        <span class="tick" style="left:50%"></span><span class="tlab" style="left:50%">0,5<br>1 chance sur 2</span>
+        <span class="tick" style="left:100%"></span><span class="tlab" style="left:100%">1<br>certain</span>
+      </div>
+    </div>
+    <div class="mid" style="margin-top:36px"><button class="btn violet" id="btnVocabAnim" onclick="animVocab()">▶️ Placer des exemples</button></div>
+    <div class="mid" id="vocabConclu" style="display:none"><span class="formule" style="border-color:var(--violet-bas)">P(impossible) = 0 &nbsp;·&nbsp; P(certain) = 1</span></div>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="go('toolVocab')">À l'outil ➜</button></div>
+</section>
+
+<!-- ===== VOCAB : outil ===== -->
+<section id="toolVocab" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Place les événements</h2></div>
+  <div class="card">
+    <p class="lead">Touche un événement : la flèche se place à sa probabilité sur l'échelle.</p>
+    <div class="scale-wrap">
+      <div class="pointer" id="tp" style="left:50%;opacity:0"><div class="pin">🔻</div><div class="ptag" id="tptag"></div></div>
+      <div class="scale">
+        <span class="tick" style="left:0%"></span><span class="tlab" style="left:0%">0</span>
+        <span class="tick" style="left:50%"></span><span class="tlab" style="left:50%">0,5</span>
+        <span class="tick" style="left:100%"></span><span class="tlab" style="left:100%">1</span>
+      </div>
+    </div>
+    <div class="chips" id="vchips" style="margin-top:34px"></div>
+    <div class="bigres" id="vres"></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('vocab')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ===== CALCUL : explication ===== -->
+<section id="expCalc" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Calculer une probabilité</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">Définition</span>
+    <p class="lead">La <b>probabilité</b> d'un événement mesure ses chances de se produire, par un nombre entre <b>0</b> et <b>1</b>.</p>
+    <p class="exemple">Propriété : en additionnant les probabilités de toutes les issues d'une expérience, on trouve toujours <b>1</b>.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">Définition</span>
+    <p class="lead">Il y a <b>équiprobabilité</b> quand toutes les issues ont la <b>même chance</b> de se produire : dé équilibré, pièce non truquée, tirage « au hasard ».</p>
+    <p class="exemple">C'est dans ce cas seulement qu'on peut utiliser la formule ci-dessous.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">La formule</span>
+    <div class="mid"><span class="formule" style="border-color:var(--teal-bas)">P = nombre de cas favorables ⁄ nombre de cas possibles</span></div>
+    <p class="lead">Exemple : avec un dé à 6 faces, combien de faces donnent un <b>nombre pair</b> ?</p>
+    <div class="dice" id="cdice"></div>
+    <div class="mid"><button class="btn teal" id="btnCalcAnim" onclick="animCalc()">▶️ Montrer les nombres pairs</button></div>
+    <div id="calcConclu" style="display:none"><div class="mid"><span class="formule" style="border-color:var(--teal-bas)">3 pairs sur 6</span></div></div>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">Le savais-tu ?</span>
+    <p class="lead">Si on répète l'expérience un <b>très grand nombre de fois</b>, la <b>fréquence</b> d'un événement se rapproche de sa probabilité.</p>
+    <p class="exemple">Lance une pièce 1000 fois : la part de « pile » sera très proche de <b>0,5</b>.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">Calculatrice des 3 écritures</span>
+    <p class="lead">Une même probabilité s'écrit de <b>trois façons</b>. Entre une fraction puis touche « = » : tu obtiens la <b>fraction simplifiée</b>, la <b>valeur décimale</b> (avec ≈ quand elle ne tombe pas juste) et le <b>pourcentage</b>.</p>
+    <div class="calcrow">
+      <div class="cfrac">
+        <input class="cinp" id="ex_num" inputmode="numeric" placeholder="3" oninput="calcConvert('ex')">
+        <div class="cfbar"></div>
+        <input class="cinp" id="ex_den" inputmode="numeric" placeholder="6" oninput="calcConvert('ex')">
+      </div>
+      <button class="btn" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="calcConvert('ex')">=</button>
+    </div>
+    <div class="forms" id="ex_out"></div>
+    <p class="note">Le nombre du haut, c'est les cas favorables ; celui du bas, les cas possibles.</p>
+  </div>
+
+  <div class="mid"><button class="btn orange" onclick="go('toolCalc')">À l'outil ➜</button></div>
+</section>
+
+<!-- ===== CALCUL : outil (urne) ===== -->
+<section id="toolCalc" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'atelier des tirages</h2></div>
+  <div class="card">
+    <p class="lead">Change le nombre de boules, puis touche une couleur : la probabilité de tirer cette couleur s'affiche.</p>
+    <div class="urn" id="urn"></div>
+    <div class="ctrls" id="urnCtrls"></div>
+    <div class="pickrow">
+      <button class="btn" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)" onclick="pickColor('r')">Rouge</button>
+      <button class="btn vert" onclick="pickColor('v')">Verte</button>
+      <button class="btn" style="background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)" onclick="pickColor('b')">Bleue</button>
+    </div>
+    <div class="bigres" id="urnRes">Touche une couleur pour calculer sa probabilité.</div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('calcul')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ===== CONTRAIRE : explication ===== -->
+<section id="expCont" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Événement contraire</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">Définition</span>
+    <p class="lead">L'<b>événement contraire</b> de A (on le note « non A ») est l'événement qui se réalise exactement quand <b>A ne se réalise pas</b>.</p>
+    <p class="exemple">Dé, A = « obtenir 6 » → non A = « ne pas obtenir 6 », c'est-à-dire obtenir 1, 2, 3, 4 ou 5.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">À retenir</span>
+    <p class="lead">A et son contraire couvrent <b>toutes</b> les issues : leurs probabilités s'additionnent pour faire <b>1</b>.</p>
+    <p class="exemple">Exemple : P(« obtenir 6 ») = 1/6, donc P(« ne pas obtenir 6 ») = 5/6.</p>
+    <div class="cbar" id="ebar"><div class="pa" id="epa" style="width:0%"></div><div class="pnota" id="epnota" style="width:0%"></div></div>
+    <div class="mid"><button class="btn orange" id="btnContAnim" onclick="animCont()">▶️ Partager la probabilité</button></div>
+    <div class="mid" id="contConclu" style="display:none"><span class="formule" style="border-color:var(--orange-bas)">P(contraire de A) = 1 − P(A)</span></div>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="go('toolCont')">À l'outil ➜</button></div>
+</section>
+
+<!-- ===== CONTRAIRE : outil ===== -->
+<section id="toolCont" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Le partage 1 − P</h2></div>
+  <div class="card">
+    <p class="lead">Déplace le curseur : tu choisis P(A). Le reste, c'est la probabilité de l'événement contraire.</p>
+    <div class="cbar"><div class="pa" id="tpa" style="width:30%">A</div><div class="pnota" id="tpnota" style="width:70%">non A</div></div>
+    <div class="mid"><input type="range" id="contRange" min="0" max="10" value="3" oninput="updateCont()"></div>
+    <div class="bigres" id="contRes"></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('contraire')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ===== ENTRAÎNEMENT (générique) ===== -->
+<section id="ecranTrain" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="card">
+    <div class="scorebar">
+      <span class="pill">⭐ <span id="tq_score">0</span></span>
+      <span class="pill">🔥 <span id="tq_streak">0</span></span>
+    </div>
+    <div class="qcard">
+      <div class="prog" id="tq_prog"></div>
+      <div class="helpnote" id="tq_help"></div>
+      <div class="qcat" id="tq_cat"></div>
+      <div class="viz" id="tq_viz" style="display:none"></div>
+      <div class="question" id="tq_text"></div>
+      <div class="opts" id="tq_opts" style="display:none"></div>
+      <div class="ansrow" id="tq_ansrow">
+        <input id="tq_input" inputmode="text" placeholder="1/6, 0,17 ou 17 %" autocomplete="off">
+        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="feedback" id="tq_feed"></div>
+      <div class="stars" id="tq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_cont" style="display:none" onclick="trainDone()">Continuer ➜</button></div>
+    </div>
+  </div>
+  <div class="mid"><button class="btn fant" onclick="toggleCalc('tr')">🧮 Calculatrice des 3 écritures</button></div>
+  <div class="card" id="tr_calc" style="display:none">
+    <p class="lead" style="text-align:center">Entre une fraction pour la voir sous ses 3 formes.</p>
+    <div class="calcrow">
+      <div class="cfrac">
+        <input class="cinp" id="tr_num" inputmode="numeric" placeholder="3" oninput="calcConvert('tr')">
+        <div class="cfbar"></div>
+        <input class="cinp" id="tr_den" inputmode="numeric" placeholder="6" oninput="calcConvert('tr')">
+      </div>
+      <button class="btn" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="calcConvert('tr')">=</button>
+    </div>
+    <div class="forms" id="tr_out"></div>
+  </div>
+</section>
+
+<!-- ===== ARÈNE ===== -->
+<section id="arene" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'arène du hasard</h2></div>
+  <div class="card" id="areneMenu">
+    <p class="lead" style="text-align:center">Bravo, parcours terminé ! Choisis ton entraînement libre.</p>
+    <div class="catgrid">
+      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('vocab')"><span class="ic">🎯</span>Vocabulaire</button>
+      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('equiprob')"><span class="ic">🎲</span>Calculer P</button>
+      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('complement')"><span class="ic">🔄</span>Contraire</button>
+    </div>
+    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
+  </div>
+  <div class="card" id="areneJeu" style="display:none">
+    <div class="scorebar">
+      <span class="pill">⭐ <span id="aq_score">0</span></span>
+      <span class="pill">🔥 <span id="aq_streak">0</span></span>
+      <span class="pill">🎯 <span id="aq_corr">0</span>/<span id="aq_tot">0</span></span>
+    </div>
+    <div class="qcard">
+      <div class="qcat" id="aq_cat"></div>
+      <div class="question" id="aq_text"></div>
+      <div class="opts" id="aq_opts" style="display:none"></div>
+      <div class="ansrow" id="aq_ansrow">
+        <input id="aq_input" inputmode="text" placeholder="1/6, 0,17 ou 17 %" autocomplete="off">
+        <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="feedback" id="aq_feed"></div>
+      <div class="stars" id="aq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn fant" onclick="finArene()">Changer de catégorie</button></div>
+    </div>
+    <div class="mid"><button class="btn fant" onclick="toggleCalc('ar')">🧮 Calculatrice des 3 écritures</button></div>
+    <div id="ar_calc" style="display:none;margin-top:12px">
+      <div class="calcrow">
+        <div class="cfrac">
+          <input class="cinp" id="ar_num" inputmode="numeric" placeholder="3" oninput="calcConvert('ar')">
+          <div class="cfbar"></div>
+          <input class="cinp" id="ar_den" inputmode="numeric" placeholder="6" oninput="calcConvert('ar')">
+        </div>
+        <button class="btn" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="calcConvert('ar')">=</button>
+      </div>
+      <div class="forms" id="ar_out"></div>
+    </div>
+  </div>
+</section>
+
+</div>
+<script>
+/* ===== SUIVI ===== */
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Probabilités'};
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+/* ---------- navigation & progression ---------- */
+const ORDER=['vocab','calcul','contraire'];
+const EXP={vocab:'expVocab',calcul:'expCalc',contraire:'expCont'};
+const MAPID={vocab:'mapVocab',calcul:'mapCalcul',contraire:'mapContraire'};
+const TITLE={vocab:'Vocabulaire & échelle',calcul:'Calculer une probabilité',contraire:'Événement contraire'};
+const unlocked={vocab:true,calcul:false,contraire:false,arene:false};
+const themeDone={vocab:false,calcul:false,contraire:false};
+let currentTheme='vocab';
+const REQUIRED=6;
+
+function gid(x){return document.getElementById(x);}
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  gid(id).classList.add('active');window.scrollTo(0,0);
+  if(id==='arene')finArene();
+}
+function wiggle(id){const el=gid(id);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}
+function tapTheme(t){ if(unlocked[t]||themeDone[t]) openTheme(t); else wiggle(MAPID[t]); }
+function tapArene(){ if(unlocked.arene) go('arene'); else wiggle('mapArene'); }
+function openTheme(t){ currentTheme=t; go(EXP[t]); }
+function updateMap(){
+  ORDER.forEach(t=>{
+    const card=gid(MAPID[t]);
+    card.classList.toggle('lock',!(unlocked[t]||themeDone[t]));
+    card.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');
+  });
+  const ar=gid('mapArene');
+  ar.classList.toggle('lock',!unlocked.arene);
+  ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';
+}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function rand(n){return Math.floor(Math.random()*n);} // 0..n-1
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=b;b=a%b;a=t;}return a||1;}
+function fracStr(n,d){if(n===0)return '0';if(n===d)return '1';const g=gcd(n,d);return (n/g)+'/'+(d/g);}
+
+/* ---------- les 3 écritures (fraction / décimal / pourcentage) ---------- */
+function frNum(x,dec){let s=x.toFixed(dec);if(s.indexOf('.')>=0)s=s.replace(/0+$/,'').replace(/\.$/,'');return s.replace('.', ',');}
+function isExactDecimal(n,d){if(n===0)return true;const g=gcd(n,d);d=d/g;while(d%2===0)d/=2;while(d%5===0)d/=5;return d===1;}
+function decForm(n,d){const v=n/d;return isExactDecimal(n,d)?frNum(v,6):'≈ '+frNum(v,3);}
+function pctForm(n,d){const v=n*100/d;return isExactDecimal(n,d)?frNum(v,4)+' %':'≈ '+frNum(v,1)+' %';}
+function threeFormsHTML(n,d){
+  return '<div class="forms">'
+    +'<span class="fpill ffrac"><span class="lab">fraction</span>'+fracStr(n,d)+'</span>'
+    +'<span class="fpill fdec"><span class="lab">décimal</span>'+decForm(n,d)+'</span>'
+    +'<span class="fpill fpct"><span class="lab">pourcentage</span>'+pctForm(n,d)+'</span>'
+    +'</div>';
+}
+function threeFormsInline(n,d){return fracStr(n,d)+' ('+decForm(n,d)+' · '+pctForm(n,d)+')';}
+
+/* ---------- calculatrice (partagée par les écrans) ---------- */
+function calcConvert(p){
+  const inN=gid(p+'_num'),inD=gid(p+'_den'),out=gid(p+'_out');
+  if(inN.value===''&&inD.value===''){out.innerHTML='';return;}
+  const a=parseInt(inN.value,10),b=parseInt(inD.value,10);
+  if(!Number.isFinite(a)||!Number.isFinite(b)||b<=0||a<0){out.innerHTML='<span class="hintbad">Mets un entier en haut, et un entier plus grand que 0 en bas.</span>';return;}
+  if(a>b){out.innerHTML='<span class="hintbad">Pour une probabilité, le nombre du haut ne dépasse pas celui du bas.</span>';return;}
+  out.innerHTML=threeFormsHTML(a,b);
+}
+function toggleCalc(p){const el=gid(p+'_calc');el.style.display=el.style.display==='none'?'block':'none';}
+
+/* ---------- dessins de situation ---------- */
+function vizDie(){const f=['⚀','⚁','⚂','⚃','⚄','⚅'];return '<div class="vizrow">'+f.map(x=>'<span class="vdie">'+x+'</span>').join('')+'</div>';}
+function vizUrn(r,v,b){let s='';const add=(c,n)=>{for(let i=0;i<n;i++)s+='<span class="vball '+c+'"></span>';};add('r',r);add('v',v);add('b',b);return '<div class="vizurn">'+s+'</div>';}
+function colVar(c){return {rouges:'#EF5D60',vertes:'#8BC34A',bleues:'#4FA3D1',jaunes:'#FFC93C'}[c]||'#FFC93C';}
+function vizRoue(total,k,color){
+  const cx=70,cy=70,r=58;let p='';
+  for(let i=0;i<total;i++){
+    const a0=(i/total)*2*Math.PI-Math.PI/2,a1=((i+1)/total)*2*Math.PI-Math.PI/2;
+    const x0=cx+r*Math.cos(a0),y0=cy+r*Math.sin(a0),x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1);
+    const fill=i<k?color:'#FFF4DC';
+    p+='<path d="M'+cx+','+cy+' L'+x0.toFixed(1)+','+y0.toFixed(1)+' A'+r+','+r+' 0 0 1 '+x1.toFixed(1)+','+y1.toFixed(1)+' Z" fill="'+fill+'" stroke="#5C3D2E" stroke-width="2"/>';
+  }
+  return '<svg class="vizroue" viewBox="0 0 140 140" width="150" height="150">'+p+'</svg>';
+}
+function vizCartes(){return '<div class="vizcards"><span class="vcard">A♠</span><span class="vcard red">K♥</span><span class="vcard red">7♦</span><span class="vcard">10♣</span><span class="vbadge">jeu de 52 cartes</span></div>';}
+
+/* ---------- animation Vocab (échelle) ---------- */
+let vocabAnimDone=false;
+function animVocab(){
+  if(vocabAnimDone)return;vocabAnimDone=true;
+  const ex=[
+    {p:0,txt:'Obtenir 7 au dé'},
+    {p:1/6,txt:'Obtenir un 6'},
+    {p:0.5,txt:'Pile ou face = pile'},
+    {p:1,txt:'Le soleil se lève'}
+  ];
+  const ptr=gid('vp'),tag=gid('vptag');
+  ptr.style.opacity='1';
+  ex.forEach((e,i)=>setTimeout(()=>{
+    ptr.style.left=(e.p*100)+'%';
+    tag.textContent=e.txt;
+    // poser un repère permanent
+    const m=document.createElement('div');m.className='marker';m.style.left=(e.p*100)+'%';
+    gid('vscale').appendChild(m);requestAnimationFrame(()=>m.classList.add('on'));
+    if(i===ex.length-1){gid('vocabConclu').style.display='block';gid('btnVocabAnim').textContent='✅ De 0 (impossible) à 1 (certain)';}
+  },i*1100));
+}
+
+/* ---------- outil Vocab (chips) ---------- */
+const VCHIPS=[
+  {p:0,txt:'Obtenir 7 avec un dé à 6 faces'},
+  {p:1/6,txt:'Obtenir un 3 avec un dé'},
+  {p:0.25,txt:'Tirer un cœur dans un jeu de 52 cartes'},
+  {p:0.5,txt:'Obtenir pile avec une pièce'},
+  {p:0.75,txt:'Ne pas tirer de cœur (52 cartes)'},
+  {p:1,txt:'Obtenir un nombre de 1 à 6 avec un dé'}
+];
+(function(){
+  const box=gid('vchips');
+  VCHIPS.forEach((c,i)=>{const b=document.createElement('button');b.className='chip';b.textContent=c.txt;
+    b.onclick=()=>{document.querySelectorAll('#vchips .chip').forEach(x=>x.classList.remove('act'));b.classList.add('act');
+      const ptr=gid('tp');ptr.style.opacity='1';ptr.style.left=(c.p*100)+'%';
+      gid('tptag').textContent=fracProb(c.p);
+      gid('vres').innerHTML='P = <b>'+fracProb(c.p)+'</b>';};
+    box.appendChild(b);});
+})();
+function fracProb(p){
+  if(p===0)return '0';if(p===1)return '1';
+  if(Math.abs(p-1/6)<1e-6)return '1/6';
+  if(Math.abs(p-0.25)<1e-6)return '1/4';
+  if(Math.abs(p-0.5)<1e-6)return '1/2';
+  if(Math.abs(p-0.75)<1e-6)return '3/4';
+  return p.toString().replace('.', ',');
+}
+
+/* ---------- animation Calcul (dés) ---------- */
+(function(){const faces=['⚀','⚁','⚂','⚃','⚄','⚅'];const box=gid('cdice');faces.forEach((f,i)=>{const d=document.createElement('div');d.className='die';d.dataset.n=i+1;d.textContent=f;box.appendChild(d);});})();
+let calcAnimDone=false;
+function animCalc(){
+  if(calcAnimDone)return;calcAnimDone=true;
+  const dice=[...document.querySelectorAll('#cdice .die')];
+  let c=0;
+  dice.forEach((d,i)=>setTimeout(()=>{
+    if((+d.dataset.n)%2===0){d.classList.add('hot');c++;}
+    if(i===dice.length-1){gid('calcConclu').style.display='block';gid('calcConclu').innerHTML='<div class="mid"><span class="formule" style="border-color:var(--teal-bas)">3 faces paires sur 6</span></div>'+threeFormsHTML(3,6);gid('btnCalcAnim').textContent='✅ 3 pairs sur 6';}
+  },i*220));
+}
+
+/* ---------- outil Calcul (urne) ---------- */
+const urn={r:3,v:2,b:1};
+function renderUrn(){
+  const box=gid('urn');box.innerHTML='';
+  [['r',urn.r],['v',urn.v],['b',urn.b]].forEach(([c,n])=>{for(let i=0;i<n;i++){const e=document.createElement('div');e.className='ball '+c;box.appendChild(e);}});
+}
+(function(){
+  const ctr=gid('urnCtrls');
+  [['r','Rouge'],['v','Verte'],['b','Bleue']].forEach(([c,nom])=>{
+    const wrap=document.createElement('div');wrap.className='ctrl';
+    wrap.innerHTML='<span class="dot '+c+'"></span>';
+    const minus=document.createElement('button');minus.className='pm';minus.textContent='−';minus.onclick=()=>chg(c,-1);
+    const val=document.createElement('span');val.id='cnt_'+c;val.style.minWidth='18px';val.style.textAlign='center';
+    const plus=document.createElement('button');plus.className='pm';plus.textContent='+';plus.onclick=()=>chg(c,1);
+    wrap.appendChild(minus);wrap.appendChild(val);wrap.appendChild(plus);ctr.appendChild(wrap);
+  });
+  syncUrn();
+})();
+function chg(c,d){urn[c]=Math.max(0,Math.min(8,urn[c]+d));syncUrn();}
+function syncUrn(){gid('cnt_r').textContent=urn.r;gid('cnt_v').textContent=urn.v;gid('cnt_b').textContent=urn.b;renderUrn();gid('urnRes').innerHTML='Touche une couleur pour calculer sa probabilité.';}
+function pickColor(c){
+  const total=urn.r+urn.v+urn.b;
+  const nom={r:'rouge',v:'verte',b:'bleue'}[c];
+  if(total===0){gid('urnRes').textContent='Ajoute des boules d\u2019abord !';return;}
+  const fav=urn[c];
+  gid('urnRes').innerHTML='P(boule '+nom+') = '+fav+' sur '+total+threeFormsHTML(fav,total);
+}
+
+/* ---------- animation Contraire (barre) ---------- */
+let contAnimDone=false;
+function animCont(){
+  if(contAnimDone)return;contAnimDone=true;
+  const pa=gid('epa'),pn=gid('epnota');
+  setTimeout(()=>{pa.style.width='30%';pa.textContent='P(A) = 0,3';},200);
+  setTimeout(()=>{pn.style.width='70%';pn.textContent='P(contraire) = 0,7';},900);
+  setTimeout(()=>{gid('contConclu').style.display='block';gid('btnContAnim').textContent='✅ 0,3 + 0,7 = 1';},1500);
+}
+
+/* ---------- outil Contraire (curseur) ---------- */
+function updateCont(){
+  const k=+gid('contRange').value; // 0..10
+  gid('tpa').style.width=(k*10)+'%';gid('tpnota').style.width=((10-k)*10)+'%';
+  gid('tpa').textContent=k>0?'A':'';gid('tpnota').textContent=k<10?'non A':'';
+  gid('contRes').innerHTML='P(A) = '+fracStr(k,10)+' &nbsp;→&nbsp; P(contraire) = 1 − '+fracStr(k,10)+threeFormsHTML(10-k,10);
+}
+updateCont();
+
+/* ---------- générateurs de questions ---------- */
+const CATNOM={vocab:'Vocabulaire',equiprob:'Calculer une probabilité',complement:'Événement contraire'};
+const THEME_CATS={vocab:['vocab'],calcul:['equiprob'],contraire:['complement']};
+const HELP={vocab:'Rappel : 0 = impossible · 0,5 = une chance sur deux · 1 = certain.',
+  calcul:'Rappel : P = nombre de cas favorables ÷ nombre de cas possibles. Tu peux répondre en fraction (1/6), en nombre décimal ou en pourcentage.',
+  contraire:'Rappel : P(contraire) = 1 − P(A). Réponds en fraction, en décimal ou en pourcentage.'};
+
+function genEquiprob(){
+  const kind=pick(['de','de','urne','urne','roue','cartes']);
+  let text,fav,total,viz='';
+  if(kind==='de'){
+    total=6;
+    const c=pick([
+      ()=>{const k=1+rand(6);return{l:'le nombre '+k,f:1};},
+      ()=>({l:'un nombre pair',f:3}),
+      ()=>({l:'un nombre impair',f:3}),
+      ()=>({l:'un multiple de 3',f:2}),
+      ()=>{const k=2+rand(4);return{l:'un nombre inférieur ou égal à '+k,f:k};}
+    ])();
+    fav=c.f;text="On lance un dé équilibré à 6 faces. Quelle est la probabilité d'obtenir "+c.l+" ?";
+    viz=vizDie();
+  }else if(kind==='urne'){
+    const r=1+rand(5),v=1+rand(5),b=rand(4);total=r+v+b;
+    const cols=[['rouge',r],['verte',v]];if(b>0)cols.push(['bleue',b]);
+    const [nom,cnt]=pick(cols);fav=cnt;
+    let desc=r+' rouge(s), '+v+' verte(s)'+(b>0?', '+b+' bleue(s)':'');
+    text="Une urne contient "+desc+". On tire une boule au hasard. Quelle est la probabilité de tirer une boule "+nom+" ?";
+    viz=vizUrn(r,v,b);
+  }else if(kind==='roue'){
+    total=pick([6,8,10]);const k=1+rand(total-1);const col=pick(['rouges','vertes','bleues','jaunes']);
+    fav=k;text="Une roue est partagée en "+total+" secteurs identiques, dont "+k+" "+col+". Quelle est la probabilité que la roue s'arrête sur un secteur "+col.slice(0,-1)+" ?";
+    viz=vizRoue(total,k,colVar(col));
+  }else{
+    total=52;const ev=pick([['un roi',4],['un cœur',13],['une figure (valet, dame ou roi)',12],['une carte rouge',26],["l'as de pique",1]]);
+    fav=ev[1];text="On tire une carte au hasard dans un jeu de 52 cartes. Quelle est la probabilité d'obtenir "+ev[0]+" ?";
+    viz=vizCartes();
+  }
+  return {type:'frac',cat:'equiprob',text,answer:fav/total,disp:fracStr(fav,total),num:fav,den:total,viz,
+    explain:'Il y a '+fav+' cas favorables sur '+total+' issues, soit '+threeFormsInline(fav,total)+'.'};
+}
+function genComplement(){
+  const n=pick([4,5,6,8,10,12]);const f=1+rand(n-1);
+  const text=pick([
+    "La probabilité qu'un événement se réalise est "+fracStr(f,n)+". Quelle est la probabilité de l'événement contraire ?",
+    "Dans un jeu, la probabilité de gagner est "+fracStr(f,n)+". Quelle est la probabilité de ne pas gagner ?",
+    "La probabilité qu'il pleuve demain est "+fracStr(f,n)+". Quelle est la probabilité qu'il ne pleuve pas ?"
+  ]);
+  return {type:'frac',cat:'complement',text,answer:(n-f)/n,disp:fracStr(n-f,n),num:n-f,den:n,
+    explain:'P(contraire) = 1 − '+fracStr(f,n)+' = '+threeFormsInline(n-f,n)+'.'};
+}
+function genVocab(){
+  const r=Math.random();
+  if(r<0.34){
+    const e=pick([
+      {t:'Obtenir 7 en lançant un dé à 6 faces',a:0},
+      {t:'Obtenir un nombre de 1 à 6 avec un dé à 6 faces',a:2},
+      {t:'Obtenir un 4 en lançant un dé à 6 faces',a:1},
+      {t:'Tirer une boule rouge dans une urne ne contenant que des boules vertes',a:0},
+      {t:'Tirer une boule verte dans une urne ne contenant que des boules vertes',a:2},
+      {t:'Obtenir pile en lançant une pièce équilibrée',a:1}
+    ]);
+    return {type:'qcm',cat:'vocab',text:e.t+'. Cet événement est…',options:['Impossible','Possible','Certain'],correct:e.a,
+      explain:['Aucune issue favorable → probabilité 0.','Quelques issues favorables sur le total → entre 0 et 1.','Toutes les issues sont favorables → probabilité 1.'][e.a]};
+  }else if(r<0.67){
+    const q=pick([
+      {t:"Quelle est la probabilité d'un événement certain ?",o:['0','0,5','1'],c:2},
+      {t:"Quelle est la probabilité d'un événement impossible ?",o:['0','0,5','1'],c:0},
+      {t:'« Une chance sur deux » correspond à une probabilité de…',o:['0','0,5','1'],c:1},
+      {t:'Quelle probabilité décrit un événement très probable ?',o:['0,1','0,5','0,9'],c:2},
+      {t:'Quelle probabilité décrit un événement peu probable ?',o:['0,1','0,5','0,9'],c:0}
+    ]);
+    return {type:'qcm',cat:'vocab',text:q.t,options:q.o,correct:q.c,
+      explain:"Sur l'échelle : 0 = impossible, 1 = certain, 0,5 = une chance sur deux."};
+  }else{
+    const q=pick([
+      {t:"Comment appelle-t-on un résultat possible d'une expérience aléatoire ?",o:['Une issue','Un événement','Une probabilité'],c:0},
+      {t:"Un ensemble formé d'une ou plusieurs issues s'appelle…",o:['Une issue','Un événement','Une expérience'],c:1},
+      {t:'Une expérience dont on ne peut pas prévoir le résultat est une expérience…',o:['certaine','aléatoire','impossible'],c:1},
+      {t:"Quand toutes les issues ont la même chance, on parle d'…",o:['équiprobabilité','événement contraire','issue'],c:0},
+      {t:"L'événement contraire de A se réalise quand…",o:['A se réalise','A ne se réalise pas','A est certain'],c:1},
+      {t:'Un événement formé d\u2019une seule issue est dit…',o:['élémentaire','certain','impossible'],c:0}
+    ]);
+    return {type:'qcm',cat:'vocab',text:q.t,options:q.o,correct:q.c,
+      explain:'Revois les définitions du monde « Vocabulaire ».'};
+  }
+}
+const GEN={equiprob:genEquiprob,complement:genComplement,vocab:genVocab};
+
+/* ---------- moteur de quiz (entraînement + arène) ---------- */
+let Q={cats:[],target:0,guided:false,els:null,score:0,streak:0,total:0,correct:0,locked:false,cur:null};
+function elsTrain(){return{score:gid('tq_score'),streak:gid('tq_streak'),prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),cont:gid('tq_cont')};}
+function elsArene(){return{score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars')};}
+function quizStart(cats,target,guided,els,vizN){
+  Q.cats=cats;Q.target=target;Q.guided=guided;Q.els=els;
+  Q.score=0;Q.streak=0;Q.total=0;Q.correct=0;Q.locked=false;Q.vizLeft=vizN||0;
+  if(els.cont)els.cont.style.display='none';
+  quizScore();quizNext();
+}
+function quizScore(){
+  const e=Q.els;
+  if(e.score)e.score.textContent=Q.score;
+  if(e.streak)e.streak.textContent=Q.streak;
+  if(e.corr)e.corr.textContent=Q.correct;
+  if(e.tot)e.tot.textContent=Q.total;
+  if(Q.guided&&e.prog)e.prog.innerHTML='🎯 Réussites : <b>'+Math.min(Q.correct,Q.target)+' / '+Q.target+'</b>';
+}
+function quizNext(){
+  Q.locked=false;const e=Q.els;
+  e.feed.textContent='';e.feed.className='feedback';
+  if(e.stars)e.stars.textContent='';
+  const cat=pick(Q.cats);const cur=GEN[cat]();Q.cur=cur;
+  e.cat.textContent=CATNOM[cat];
+  e.text.textContent=cur.text;
+  if(e.viz){
+    if(Q.vizLeft>0&&cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='flex';Q.vizLeft--;}
+    else{e.viz.innerHTML='';e.viz.style.display='none';}
+  }
+  if(cur.type==='qcm'){
+    e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';
+    cur.options.forEach((o,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>quizPick(i);e.opts.appendChild(b);});
+  }else{
+    e.opts.style.display='none';e.ansrow.style.display='flex';
+    e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();
+  }
+}
+function parseAns(s){
+  s=String(s).trim().replace(/\s/g,'').replace(',', '.');
+  if(s==='')return null;
+  let pct=false;
+  if(s.endsWith('%')){pct=true;s=s.slice(0,-1);}
+  let v;
+  if(s.includes('/')){const p=s.split('/');if(p.length!==2)return null;const a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;v=a/b;}
+  else{v=parseFloat(s);if(!isFinite(v))return null;}
+  if(pct)v=v/100;
+  return v;
+}
+function quizValidate(){
+  if(Q.locked||!Q.cur||Q.cur.type!=='frac')return;
+  const e=Q.els;const v=parseAns(e.input.value);
+  if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris une fraction (1/6), un nombre décimal ou un pourcentage.';return;}
+  e.input.disabled=true;e.valid.disabled=true;
+  quizResolve(Math.abs(v-Q.cur.answer)<0.01,'La probabilité est '+Q.cur.disp+'.');
+}
+function quizPick(i){
+  if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;
+  const e=Q.els;const btns=[...e.opts.children];
+  btns.forEach((b,j)=>{if(j===Q.cur.correct)b.classList.add('good');});
+  if(i!==Q.cur.correct)btns[i].classList.add('bad');
+  quizResolve(i===Q.cur.correct,'La bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');
+}
+function quizResolve(ok,correctTxt){
+  Q.locked=true;Q.total++;const e=Q.els;
+  if(ok){
+    Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;
+    e.feed.className='feedback ok';
+    if(Q.cur.type==='frac'&&Q.cur.num!=null){
+      e.feed.innerHTML='✅ Bravo !<div class="feedlab">La même probabilité, sous ses 3 écritures :</div>'+threeFormsHTML(Q.cur.num,Q.cur.den);
+    }else{
+      e.feed.textContent='✅ Bravo ! '+correctTxt;
+    }
+    if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));
+    confettis();
+  }else{
+    Q.streak=0;e.feed.className='feedback no';
+    e.feed.innerHTML='❌ '+correctTxt+'<br><span style="font-weight:700;color:var(--bois-clair);font-size:.95rem">'+Q.cur.explain+'</span>';
+    if(Q.cur.type==='frac'){e.input.classList.add('shake');setTimeout(()=>e.input.classList.remove('shake'),400);}
+  }
+  quizScore();
+  if(Q.guided&&Q.correct>=Q.target){
+    if(e.cont)e.cont.style.display='inline-flex';
+    if(e.prog)e.prog.innerHTML='🎉 Objectif atteint ! Tu peux continuer (ou t\u2019entraîner encore).';
+  }
+  setTimeout(quizNext, ok?1200:2600);
+}
+function confettis(){
+  const cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];
+  for(let i=0;i<26;i++){const d=document.createElement('div');d.className='conf';
+    d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';
+    document.body.appendChild(d);const fall=2000+Math.random()*1200;
+    d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});
+    setTimeout(()=>d.remove(),fall);}
+}
+function startTrain(t){
+  currentTheme=t;
+  gid('trainTitle').textContent='Entraînement — '+TITLE[t];
+  go('ecranTrain');
+  const els=elsTrain();els.help.textContent=HELP[t];
+  quizStart(THEME_CATS[t],REQUIRED,true,els,t==='calcul'?3:0);
+}
+function trainDone(){
+  const t=currentTheme;themeDone[t]=true;
+  const idx=ORDER.indexOf(t);
+  if(idx<ORDER.length-1){const nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}
+  else{try{suiviEnvoi('Terminé','','');}catch(_){}unlocked.arene=true;updateMap();go('arene');}
+}
+function startArene(cat){
+  gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';
+  const cats=cat==='mix'?['vocab','equiprob','complement']:[cat];
+  quizStart(cats,0,false,elsArene());
+}
+function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
+
+/* ---------- clavier ---------- */
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter')return;
+  const onTrain=gid('ecranTrain').classList.contains('active');
+  const onArene=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
+  if((onTrain||onArene)&&!Q.locked&&Q.cur&&Q.cur.type==='frac')quizValidate();
+});
+
+updateMap();
+</script>
+</body>
+</html>

@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figures usuelles et propriétés — 5ème</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --or:#FFC93C; --or-bas:#E0A41E; --vert:#8BC34A; --vert-bas:#5E9426;
+  --orange:#FF8A4C; --orange-bas:#E0672E; --teal:#46BECB; --teal-bas:#2E8A98;
+  --violet:#A78BC4; --violet-bas:#7E61A1; --rouge:#EF5D60; --rouge-bas:#c43e41;
+  --bleu:#4FA3D1; --bleu-bas:#2f7ba8;
+  --bois:#5C3D2E; --bois-clair:#8a6650; --creme:#FFF4DC; --blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18), 0 14px 22px rgba(92,61,46,.12);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
+  background:linear-gradient(160deg,#FFF7E2 0%,#FFE6BC 55%,#FFD9A0 100%);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 90px;position:relative;z-index:1}
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.5;z-index:0}
+.b1{width:180px;height:180px;background:#FFE08A;top:-40px;left:-50px}
+.b2{width:140px;height:140px;background:#FFC1A0;bottom:40px;right:-40px}
+.b3{width:120px;height:120px;background:#BCE29A;top:40%;left:-50px}
+.screen{display:none;animation:pop .35s ease}
+.screen.active{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
+  padding:14px 22px;cursor:pointer;background:var(--or);box-shadow:0 6px 0 var(--or-bas);
+  transition:transform .08s, box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--or-bas)}
+.btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
+.btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
+.btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
+.btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
+.btn.bleu{background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)}
+.btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
+.btn:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.back{background:var(--blanc);color:var(--bois);border:none;border-radius:14px;width:48px;height:48px;
+  font-size:1.5rem;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;font-family:'Fredoka'}
+.back:active{transform:translateY(4px);box-shadow:0 1px 0 #e7d3a8}
+.card{background:var(--blanc);border-radius:26px;padding:22px;box-shadow:var(--ombre);margin:16px 0}
+.tag{display:inline-block;font-family:'Fredoka';font-weight:600;color:#fff;padding:5px 14px;border-radius:30px;font-size:.85rem;margin-bottom:8px}
+.hero{text-align:center;padding:26px 16px 8px}
+.hero h1{font-size:2.5rem;line-height:1.05;margin:.1em 0;color:var(--bois)}
+.hero .sub{font-size:1.1rem;color:var(--bois-clair);font-weight:700;max-width:560px;margin:6px auto 0}
+.coin{font-size:3.4rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
+.map{display:grid;gap:16px;margin-top:8px}
+.etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;
+  box-shadow:var(--ombre);cursor:pointer;border:4px solid transparent;transition:transform .12s}
+.etape:hover{transform:translateY(-3px)}
+.etape:active{transform:translateY(1px)}
+.etape.lock{opacity:.6;filter:grayscale(.35)}
+.etape .num{flex:0 0 60px;height:60px;border-radius:18px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.7rem;color:#fff}
+.etape .txt h3{margin:0 0 2px;font-size:1.16rem}
+.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.92rem}
+.etape .status{margin-left:auto;font-size:1.5rem}
+.e1 .num{background:var(--violet);box-shadow:0 5px 0 var(--violet-bas)}
+.e2 .num{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
+.e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
+.e4 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
+.e5 .num{background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)}
+.e6 .num{background:var(--or);box-shadow:0 5px 0 var(--or-bas)}
+.lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
+.mid{text-align:center;margin:16px 0}
+.formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;
+  padding:12px 22px;font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois)}
+.note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
+.exemple{font-size:.96rem;color:var(--bois-clair);font-weight:700;line-height:1.45;margin:8px 0 0}
+.exemple b{color:var(--bois)}
+.expr{font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois);text-align:center;margin:6px 0}
+/* machine substitution */
+.machine{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
+.mpod{background:var(--creme);border:3px solid var(--or-bas);border-radius:16px;min-width:60px;height:56px;padding:0 10px;
+  display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.3rem;color:var(--bois)}
+.marrow{font-size:1.6rem;color:var(--bois-clair)}
+.mbox{background:var(--violet);color:#fff;border-radius:16px;padding:14px 16px;font-family:'Fredoka';font-weight:700;
+  box-shadow:0 6px 0 var(--violet-bas);text-align:center}
+.msteps{display:flex;flex-direction:column;gap:8px;margin:14px auto 2px;max-width:440px}
+.mstep{background:var(--creme);border-radius:14px;padding:10px 14px;font-family:'Fredoka';font-weight:700;
+  color:var(--bois);opacity:0;transform:translateY(8px);transition:.35s;font-size:1.05rem;text-align:center}
+.mstep.on{opacity:1;transform:none}
+.minput{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:10px 0}
+.minput input{font-family:'Fredoka';font-weight:700;font-size:1.3rem;text-align:center;border:3px solid #f0dca8;
+  border-radius:14px;padding:10px;width:90px;color:var(--bois)}
+.minput input:focus{outline:none;border-color:var(--or-bas)}
+.fnpick{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 4px}
+.fnchip{font-family:'Fredoka';font-weight:700;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
+  border-radius:14px;padding:9px 14px;cursor:pointer;font-size:1.05rem}
+.fnchip:active{transform:translateY(2px)}
+.fnchip.act{border-color:var(--violet-bas);background:#f3edf9}
+.bigres{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.3rem;margin-top:10px;min-height:1.5em;color:var(--bois);line-height:1.4}
+.bigres b{color:var(--orange-bas)}
+/* termes colorés (réduire) */
+.termline{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.5rem;margin:14px 0;line-height:1.6}
+.tt{padding:2px 6px;border-radius:8px;transition:background .3s}
+.tt.x{background:#dff0d2;color:var(--vert-bas)}
+.tt.x2{background:#e3f5f8;color:var(--teal-bas)}
+.tt.k{background:#ffe6cf;color:var(--orange-bas)}
+/* tableau d'aires (développer / factoriser) */
+.area{margin:14px auto;width:fit-content}
+.arow{display:flex}
+.acorner{width:54px;height:40px}
+.ahead{width:84px;height:40px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;color:var(--bois)}
+.aside{width:54px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;color:var(--bois)}
+.acell{width:84px;height:64px;display:grid;place-items:center;border:3px solid #e7d3a8;background:var(--blanc);
+  font-family:'Fredoka';font-weight:700;font-size:1.15rem;color:var(--bois);opacity:0;transition:.3s}
+.acell.on{opacity:1}
+.acell.c1{background:#e3f5f8}.acell.c2{background:#fff0e2}.acell.c3{background:#f3edf9}.acell.c4{background:#dff0d2}
+/* tester égalité */
+.teq{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin:12px 0}
+.tval{font-family:'Fredoka';font-weight:700;font-size:1.2rem;background:var(--creme);border-radius:12px;padding:10px 14px;color:var(--bois)}
+.verdict{font-family:'Fredoka';font-weight:700;font-size:1.6rem;text-align:center;min-height:1.4em;margin-top:8px}
+.verdict.eq{color:var(--vert-bas)}.verdict.ne{color:var(--orange-bas)}
+input[type=range]{width:70%;max-width:320px;height:30px;accent-color:var(--bleu)}
+/* quiz */
+.scorebar{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:4px 0 14px;font-family:'Fredoka';font-weight:700}
+.scorebar .pill{background:var(--creme);border-radius:16px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8}
+.qcard{text-align:center}
+.prog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:10px;min-height:1.3em;font-size:1.05rem}
+.qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
+.helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px}
+.ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
+.ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:160px;color:var(--bois)}
+.ansrow input:focus{outline:none;border-color:var(--or-bas)}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.1rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
+  border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
+.opt.bad{background:var(--orange);color:#fff;border-color:var(--orange-bas);box-shadow:0 5px 0 var(--orange-bas)}
+.feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
+.feedback.ok{color:var(--vert-bas)}
+.feedback.no{color:var(--orange-bas)}
+.feedlab{font-family:'Nunito';font-weight:800;font-size:.92rem;color:var(--bois-clair);margin-top:6px}
+.stars{font-size:1.5rem;letter-spacing:3px;margin-top:8px;min-height:1.6em}
+.catgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:6px}
+@media(min-width:640px){.catgrid{grid-template-columns:repeat(3,1fr)}}
+.cat{border:none;border-radius:20px;padding:16px 8px;cursor:pointer;color:#fff;font-family:'Fredoka';font-weight:700;font-size:1rem;line-height:1.2;text-align:center}
+.cat .ic{font-size:1.6rem;display:block;margin-bottom:4px}
+.conf{position:fixed;width:12px;height:12px;top:-20px;z-index:50;border-radius:3px;pointer-events:none}
+.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+button,input{touch-action:manipulation}
+@media (max-width:480px){
+  .wrap{padding:14px 12px 80px}
+  .hero{padding:18px 10px 4px}
+  .hero h1{font-size:2rem}.hero .sub{font-size:1rem}.coin{font-size:2.8rem}
+  .card{padding:16px;border-radius:20px}
+  .topbar h2{font-size:1.2rem}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem;border-radius:14px}
+  .etape .txt h3{font-size:1.02rem}.etape .txt p{font-size:.82rem}
+  .formule{font-size:1rem;padding:10px 14px;white-space:normal}
+  .lead{font-size:1rem}.question{font-size:1.18rem}
+  .ansrow input{width:60%;max-width:200px}
+  .btn{font-size:1rem;padding:13px 18px}
+  .ahead{width:64px}.acell{width:64px;height:54px;font-size:1rem}.aside{width:44px}.acorner{width:44px}
+  .termline{font-size:1.25rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===================== CALCULATRICE COLLÈGE ===================== */
+.kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);transition:transform .1s}
+.kc-fab:active{transform:translateY(4px)}
+.kc-fab:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(320px,calc(100vw - 32px));
+  background:var(--blanc);border-radius:22px;padding:14px;box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);animation:kcpop .25s ease}
+.kc-panel[hidden]{display:none}
+@keyframes kcpop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.kc-head{display:flex;align-items:center;justify-content:space-between;font-family:'Fredoka';font-weight:700;color:var(--bois);margin:2px 4px 10px;font-size:1.05rem}
+.kc-x{border:none;background:var(--creme);color:var(--bois);width:32px;height:32px;border-radius:10px;font-size:1rem;cursor:pointer;font-family:'Fredoka';box-shadow:0 3px 0 #e7d3a8}
+.kc-x:active{transform:translateY(2px);box-shadow:0 1px 0 #e7d3a8}
+.kc-screen{background:#2b2b2b;border-radius:14px;padding:10px 14px;text-align:right;margin-bottom:12px;min-height:74px;display:flex;flex-direction:column;justify-content:center}
+.kc-expr{font-family:'Fredoka';font-weight:600;color:#cfe6ee;font-size:1rem;min-height:1.2em;word-break:break-all;line-height:1.25}
+.kc-res{font-family:'Fredoka';font-weight:700;color:#fff;font-size:1.7rem;line-height:1.1;margin-top:2px}
+.kc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kc-key{border:none;border-radius:14px;padding:14px 0;font-family:'Fredoka';font-weight:700;font-size:1.2rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.kc-key:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.kc-key.op{background:var(--creme);color:var(--orange-bas)}
+.kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1.05rem}
+.kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
+.kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
+
+/* ===== figures quadrilatères ===== */
+.figbox{margin:10px auto 4px;text-align:center}
+.fig{width:100%;max-width:320px;height:auto;display:inline-block}
+.fig .face{fill:#fff3df;stroke:var(--bois);stroke-width:3;stroke-linejoin:round}
+.fig .edge{stroke:var(--bois);stroke-width:3;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.fig .mk{stroke:var(--orange-bas);stroke-width:3.5;fill:none;stroke-linecap:round}
+.fig .mk2{stroke:var(--teal-bas);stroke-width:3.5;fill:none;stroke-linecap:round}
+.fig .diag{stroke:var(--bois-clair);stroke-width:2.5;fill:none}
+.fig .ghost{stroke:var(--violet-bas);stroke-width:2.5;fill:none;stroke-dasharray:5 5;opacity:.55}
+.fig .ctr{fill:var(--rouge);stroke:#fff;stroke-width:1.5}
+.fig .axis{stroke:var(--violet-bas);stroke-width:2;fill:none;stroke-dasharray:7 5}
+.fig text{font-family:'Fredoka',sans-serif;font-weight:700;font-size:14px;fill:var(--orange-bas)}
+.qbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0}
+.qdef{font-family:'Nunito';font-weight:700;text-align:center;color:var(--bois);margin:8px auto 0;max-width:460px;line-height:1.5;min-height:2.8em}
+.qdef b{color:var(--orange-bas)}
+/* ===== leçon guidée (étapes) ===== */
+.lesnav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:2px 0 12px}
+.lesdot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;
+  font-size:.95rem;background:var(--creme);color:var(--bois-clair);box-shadow:0 3px 0 #e7d3a8}
+.lesdot.on{background:var(--violet);color:#fff;box-shadow:0 3px 0 var(--violet-bas)}
+.lesdot.ok{background:var(--vert);color:#fff;box-shadow:0 3px 0 var(--vert-bas)}
+.lestitre{text-align:center;font-size:1.5rem;margin:2px 0 4px;color:var(--bois)}
+.lesbody{text-align:center;font-family:'Nunito';font-weight:700;color:var(--bois);line-height:1.55;font-size:1.08rem;max-width:480px;margin:10px auto 0}
+.lesbody b{color:var(--violet-bas)}
+.lesact{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:8px 0 2px;min-height:1.2em}
+.lesact .btn{font-size:.98rem;padding:11px 18px}
+.lesact label{font-family:'Fredoka';font-weight:600;color:var(--bois-clair);font-size:.95rem}
+.lesretain{margin:14px auto 0;max-width:480px;background:var(--creme);border-radius:16px;padding:12px 16px;text-align:center;
+  font-family:'Fredoka';font-weight:600;color:var(--bois);line-height:1.45;display:none}
+.lesretain.show{display:block}
+.lesretain .lab{display:block;font-size:.78rem;letter-spacing:.06em;color:var(--violet-bas);margin-bottom:3px}
+.lesmid{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.figbox.pulse .mk,.figbox.pulse .mk2,.figbox.pulse .diag{animation:lespulse .7s ease-in-out 3}
+.figbox.pulse .ctr{animation:lespulse .7s ease-in-out 3}
+@keyframes lespulse{0%,100%{opacity:1}50%{opacity:.12}}
+.famgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.famgrid figure{margin:0;text-align:center}
+.famgrid figcaption{font-family:'Fredoka';font-weight:700;color:var(--bois);font-size:.92rem;margin-top:-6px}
+.home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16);margin-left:4px}
+.home:active{transform:translateY(1px)}
+.menuret{margin:2px 0 6px}
+.menuret a{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-family:'Fredoka';font-weight:600;color:var(--bois);background:var(--blanc);padding:9px 16px;border-radius:30px;box-shadow:0 4px 0 #e7d3a8;font-size:.95rem}
+.menuret a:active{transform:translateY(2px);box-shadow:0 1px 0 #e7d3a8}
+.mid{text-align:center;margin:10px 0}
+.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+
+.brouillon-lab{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.88rem;text-align:left;margin:12px 0 4px}
+.brouillon{width:100%;box-sizing:border-box;min-height:96px;resize:vertical;border:3px dashed #e7d3a8;border-radius:16px;padding:10px 14px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.15rem;line-height:1.9;color:var(--bois);background:var(--blanc)}
+.brouillon:focus{outline:none;border-color:var(--orange-bas)}
+.mathpad{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;max-width:360px;margin:12px auto 0}
+.mkey{border:none;border-radius:13px;padding:13px 0;font-family:'Fredoka';font-weight:700;font-size:1.18rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.mkey:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.mkey.op{background:var(--creme);color:var(--orange-bas)}
+.mkey.fn{background:#eef6f8;color:var(--teal-bas)}
+.mkey.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas);font-size:1rem}
+.mkey.nl{background:var(--violet);color:#fff;box-shadow:0 4px 0 var(--violet-bas);font-size:.82rem}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="wrap">
+
+<section id="accueil" class="screen active"><div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
+  <div class="menuret"><a href="index.html">🏠 Tous les parcours</a></div>
+  <div class="hero">
+    <div class="coin">🔷📐</div>
+    <h1>Figures usuelles et propriétés</h1>
+    <p class="sub">Programme de 5ème. On explore chaque figure, on découvre ses propriétés, puis on s’entraîne. Et l’arène pour finir !</p>
+  </div>
+  <div class="map">
+    <div class="etape e1" id="mapPara" onclick="tapTheme('para')">
+      <div class="num">🔷</div><div class="txt"><h3>1 · Le parallélogramme</h3><p>Côtés, angles, diagonales, symétrie</p></div><div class="status">▶</div>
+    </div>
+    <div class="etape e2" id="mapRect" onclick="tapTheme('rect')">
+      <div class="num">▭</div><div class="txt"><h3>2 · Le rectangle</h3><p>Angles droits, diagonales égales</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e3" id="mapLos" onclick="tapTheme('los')">
+      <div class="num">◆</div><div class="txt"><h3>3 · Le losange</h3><p>Côtés égaux, diagonales perpendiculaires</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e4" id="mapCar" onclick="tapTheme('car')">
+      <div class="num">◼</div><div class="txt"><h3>4 · Le carré</h3><p>À la fois rectangle et losange</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e5" id="mapClasser" onclick="tapTheme('classer')">
+      <div class="num">🧩</div><div class="txt"><h3>5 · Reconnaître & classer</h3><p>La famille des quadrilatères</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e6" id="mapArene" onclick="tapArene()">
+      <div class="num">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Toutes les figures, au choix</p></div><div class="status">🔒</div>
+    </div>
+  </div>
+</section>
+
+<section id="expPara" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Le parallélogramme</h2></div>
+  <div class="card">
+    <div class="lesnav" id="paraNav"></div>
+    <span class="tag" id="paraTag" style="background:var(--violet)"></span>
+    <h3 class="lestitre" id="paraTitre"></h3>
+    <div class="figbox" id="paraFig"></div>
+    <div class="lesact" id="paraAct"></div>
+    <p class="lesbody" id="paraBody"></p>
+    <div class="lesretain" id="paraRetain"></div>
+  </div>
+  <div class="mid lesmid">
+    <button class="btn fant" id="paraPrev" onclick="lesPrev()">← Précédent</button>
+    <button class="btn violet" id="paraNext" onclick="lesNext()">J'ai compris ➜</button>
+    <button class="btn vert" id="paraTrain" style="display:none" onclick="startTrain('para')">Je m'entraîne ➜</button>
+  </div>
+</section>
+
+<section id="expRect" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Le rectangle</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">Explore la figure</span>
+    <p class="lead" style="text-align:center">Touche un bouton pour mettre une propriété en évidence sur la figure.</p>
+    <div class="qbtns" id="rectBtns"></div>
+    <div class="figbox" id="rectFig"></div>
+    <div class="qdef" id="rectDef"></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('rect')">Je m’entraîne ➜</button></div>
+</section>
+
+<section id="expLos" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Le losange</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">Explore la figure</span>
+    <p class="lead" style="text-align:center">Touche un bouton pour mettre une propriété en évidence sur la figure.</p>
+    <div class="qbtns" id="losBtns"></div>
+    <div class="figbox" id="losFig"></div>
+    <div class="qdef" id="losDef"></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('los')">Je m’entraîne ➜</button></div>
+</section>
+
+<section id="expCar" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Le carré</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">Explore la figure</span>
+    <p class="lead" style="text-align:center">Touche un bouton pour mettre une propriété en évidence sur la figure.</p>
+    <div class="qbtns" id="carBtns"></div>
+    <div class="figbox" id="carFig"></div>
+    <div class="qdef" id="carDef"></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('car')">Je m’entraîne ➜</button></div>
+</section>
+
+<section id="expClasser" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Reconnaître &amp; classer</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">La famille des quadrilatères</span>
+    <p class="lead">Le rectangle, le losange et le carré sont des <b>parallélogrammes particuliers</b>. Le carré est à la fois un rectangle (4 angles droits) et un losange (4 côtés de même longueur).</p>
+    <div class="famgrid" id="classerFigs"></div>
+    <p class="note">Pour reconnaître une figure, on regarde ses côtés, ses angles et ses diagonales.</p>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('classer')">Je m’entraîne ➜</button></div>
+</section>
+
+<section id="ecranTrain" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="card">
+    <div class="scorebar"><span class="pill">⭐ <span id="tq_score">0</span></span><span class="pill">🔥 <span id="tq_streak">0</span></span></div>
+    <div class="qcard">
+      <div class="prog" id="tq_prog"></div>
+      <div class="helpnote" id="tq_help"></div>
+      <div class="qcat" id="tq_cat"></div>
+      <div class="figbox" id="tq_viz" style="display:none"></div>
+      <div class="question" id="tq_text"></div>
+      <div class="opts" id="tq_opts" style="display:none"></div>
+      <div class="ansrow" id="tq_ansrow">
+        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div id="tq_work">
+  <div class="mathpad" id="tq_pad"></div>
+  <div class="brouillon-lab">✏️ Brouillon — pose tes calculs ligne par ligne (facultatif)</div>
+  <textarea id="tq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici, une par ligne…"></textarea>
+</div>
+      <div class="feedback" id="tq_feed"></div>
+      <div class="stars" id="tq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_cont" style="display:none" onclick="trainDone()">Continuer ➜</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="arene" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L’arène des figures</h2></div>
+  <div class="card" id="areneMenu">
+    <p class="lead" style="text-align:center">Bravo, séquence terminée ! Choisis ton entraînement libre.</p>
+    <div class="catgrid">
+      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('para')"><span class="ic">🔷</span>Parallélogramme</button>
+      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('rect')"><span class="ic">▭</span>Rectangle</button>
+      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('los')"><span class="ic">◆</span>Losange</button>
+      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('car')"><span class="ic">◼</span>Carré</button>
+      <button class="cat" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="startArene('classer')"><span class="ic">🧩</span>Classer</button>
+    </div>
+    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
+  </div>
+  <div class="card" id="areneJeu" style="display:none">
+    <div class="scorebar"><span class="pill">⭐ <span id="aq_score">0</span></span><span class="pill">🔥 <span id="aq_streak">0</span></span><span class="pill">🎯 <span id="aq_corr">0</span>/<span id="aq_tot">0</span></span></div>
+    <div class="qcard">
+      <div class="qcat" id="aq_cat"></div>
+      <div class="figbox" id="aq_viz" style="display:none"></div>
+      <div class="question" id="aq_text"></div>
+      <div class="opts" id="aq_opts" style="display:none"></div>
+      <div class="ansrow" id="aq_ansrow">
+        <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div id="aq_work">
+  <div class="mathpad" id="aq_pad"></div>
+  <div class="brouillon-lab">✏️ Brouillon — pose tes calculs ligne par ligne (facultatif)</div>
+  <textarea id="aq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici, une par ligne…"></textarea>
+</div>
+      <div class="feedback" id="aq_feed"></div>
+      <div class="stars" id="aq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn fant" onclick="finArene()">Changer de catégorie</button></div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">🧮</button>
+<div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
+  <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
+  <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
+  <div class="kc-keys" id="kcKeys"></div>
+</div>
+<script>
+/* ===== SUIVI ===== */
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Figures usuelles & propriétés'};
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+var SSDONE={};
+function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom+' › '+label);b.append(SUIVI.f.statut,'Terminé');b.append(SUIVI.f.score,'');b.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+
+/* ===== config de la séquence ===== */
+const ORDER=['para','rect','los','car','classer'];
+const EXP={para:'expPara',rect:'expRect',los:'expLos',car:'expCar',classer:'expClasser'};
+const MAPID={para:'mapPara',rect:'mapRect',los:'mapLos',car:'mapCar',classer:'mapClasser'};
+const TITLE={para:'Le parallélogramme',rect:'Le rectangle',los:'Le losange',car:'Le carré',classer:'Reconnaître & classer'};
+const unlocked={para:true,rect:false,los:false,car:false,classer:false,arene:false};
+const themeDone={para:false,rect:false,los:false,car:false,classer:false};
+let currentTheme='para';const REQUIRED=6;
+const CATNOM={para:'Parallélogramme',rect:'Rectangle',los:'Losange',car:'Carré',classer:'Classer'};
+const THEME_CATS={para:['para'],rect:['rect'],los:['los'],car:['car'],classer:['classer']};
+const HELP={
+  para:'Rappel : côtés opposés parallèles et égaux, angles opposés égaux, diagonales qui se coupent en leur milieu.',
+  rect:'Rappel : parallélogramme à 4 angles droits ; diagonales de même longueur.',
+  los:'Rappel : parallélogramme à 4 côtés égaux ; diagonales perpendiculaires.',
+  car:'Rappel : à la fois rectangle et losange ; diagonales égales, perpendiculaires, milieu commun.',
+  classer:'Rappel : rectangle = 4 angles droits ; losange = 4 côtés égaux ; carré = les deux.'
+};
+function gid(x){return document.getElementById(x);}
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();}
+function wiggle(id){const el=gid(id);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}
+function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
+function tapArene(){if(unlocked.arene)go('arene');else wiggle('mapArene');}
+function openTheme(t){currentTheme=t;go(EXP[t]);if(t==='para')lesStart();}
+function updateMap(){ORDER.forEach(t=>{const c=gid(MAPID[t]);c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');});
+  const ar=gid('mapArene');ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';}
+
+/* ===== utilitaires ===== */
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function rint(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function fmtDec(v){if(!isFinite(v))return '?';return (Math.round(v*100)/100).toString().replace('.',',');}
+function r2(v){return Math.round(v*100)/100;}
+
+function svg(c,vb){return '<svg class="fig" viewBox="'+vb+'" xmlns="http://www.w3.org/2000/svg">'+c+'</svg>';}
+function txt(x,y,s,a,cls){return '<text x="'+x+'" y="'+y+'" text-anchor="'+a+'" class="'+cls+'">'+s+'</text>';}
+function qcm(cat,t,opts,ci,e,viz){const o=shuffle(opts);return {type:'qcm',cat,text:t,options:o,correct:o.indexOf(opts[ci]),explain:e,viz};}
+
+/* ===== figures : helpers vectoriels ===== */
+function vsub(a,b){return [a[0]-b[0],a[1]-b[1]];}
+function vadd(a,b){return [a[0]+b[0],a[1]+b[1]];}
+function vmul(a,k){return [a[0]*k,a[1]*k];}
+function vlen(a){return Math.hypot(a[0],a[1])||1;}
+function vunit(a){const l=vlen(a);return [a[0]/l,a[1]/l];}
+function vmid(a,b){return [(a[0]+b[0])/2,(a[1]+b[1])/2];}
+function vnrm(a){return [-a[1],a[0]];}
+function LN(a,b,c){return '<line x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'" class="'+c+'"/>';}
+function PG(pts,c){return '<polygon points="'+pts.map(p=>p[0]+','+p[1]).join(' ')+'" class="'+c+'"/>';}
+function PL(pts,c){return '<polyline points="'+pts.map(p=>p[0]+','+p[1]).join(' ')+'" class="'+c+'" fill="none"/>';}
+function DT(p,c,r){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+(r||4)+'" class="'+c+'"/>';}
+function ticks(a,b,n,c){const m=vmid(a,b),u=vunit(vsub(b,a)),v=vnrm(u),tl=7;let s='';const off=n===1?[0]:n===2?[-4,4]:[-6,0,6];off.forEach(o=>{const ce=vadd(m,vmul(u,o));s+=LN(vadd(ce,vmul(v,tl)),vadd(ce,vmul(v,-tl)),c);});return s;}
+function chev(a,b,n,c){const m=vmid(a,b),u=vunit(vsub(b,a)),v=vnrm(u);let s='';const off=n===1?[0]:[-5,5];off.forEach(o=>{const ce=vadd(m,vmul(u,o));const tip=vadd(ce,vmul(u,5));const b1=vadd(vadd(ce,vmul(u,-2)),vmul(v,5));const b2=vadd(vadd(ce,vmul(u,-2)),vmul(v,-5));s+=PL([b1,tip,b2],c);});return s;}
+function rangle(V,A,B,c){const u=vunit(vsub(A,V)),w=vunit(vsub(B,V)),sz=13;const p1=vadd(V,vmul(u,sz)),p2=vadd(vadd(V,vmul(u,sz)),vmul(w,sz)),p3=vadd(V,vmul(w,sz));return PL([p1,p2,p3],c);}
+function arcm(V,A,B,c){const u=vunit(vsub(A,V)),w=vunit(vsub(B,V)),r=17;const p1=vadd(V,vmul(u,r)),p2=vadd(V,vmul(w,r));return '<path d="M'+p1[0]+','+p1[1]+' A'+r+' '+r+' 0 0 1 '+p2[0]+','+p2[1]+'" class="'+c+'" fill="none"/>';}
+const Q4={para:[[55,178],[200,178],[252,62],[107,62]],rect:[[70,60],[250,60],[250,180],[70,180]],los:[[162,38],[276,120],[162,202],[48,120]],car:[[92,52],[228,52],[228,188],[92,188]]};
+function quadSVG(shape,mode){
+  const P=Q4[shape];const P0=P[0],P1=P[1],P2=P[2],P3=P[3];const C=vmid(P0,P2);
+  let s=PG(P,'face')+LN(P0,P1,'edge')+LN(P1,P2,'edge')+LN(P2,P3,'edge')+LN(P3,P0,'edge');
+  if(mode==='cotes'){
+    if(shape==='para'||shape==='rect'){s+=ticks(P0,P1,1,'mk')+ticks(P2,P3,1,'mk')+ticks(P1,P2,2,'mk2')+ticks(P3,P0,2,'mk2');s+=chev(P0,P1,1,'mk')+chev(P3,P2,1,'mk')+chev(P1,P2,2,'mk2')+chev(P0,P3,2,'mk2');}
+    else{s+=ticks(P0,P1,1,'mk')+ticks(P1,P2,1,'mk')+ticks(P2,P3,1,'mk')+ticks(P3,P0,1,'mk');if(shape==='car'){s+=chev(P0,P1,1,'mk')+chev(P3,P2,1,'mk')+chev(P1,P2,2,'mk2')+chev(P0,P3,2,'mk2');}}
+  }
+  if(mode==='angles'){
+    if(shape==='rect'||shape==='car'){s+=rangle(P0,P3,P1,'mk')+rangle(P1,P0,P2,'mk')+rangle(P2,P1,P3,'mk')+rangle(P3,P2,P0,'mk');}
+    else{s+=arcm(P0,P3,P1,'mk')+arcm(P2,P1,P3,'mk')+arcm(P1,P0,P2,'mk2')+arcm(P3,P2,P0,'mk2');}
+  }
+  if(mode==='diagonales'){
+    s+=LN(P0,P2,'diag')+LN(P1,P3,'diag');
+    if(shape==='para'){s+=ticks(P0,C,1,'mk')+ticks(C,P2,1,'mk')+ticks(P1,C,2,'mk2')+ticks(C,P3,2,'mk2');}
+    else if(shape==='rect'){s+=ticks(P0,C,1,'mk')+ticks(C,P2,1,'mk')+ticks(P1,C,1,'mk')+ticks(C,P3,1,'mk');}
+    else if(shape==='los'){s+=ticks(P0,C,1,'mk')+ticks(C,P2,1,'mk')+ticks(P1,C,2,'mk2')+ticks(C,P3,2,'mk2')+rangle(C,P0,P1,'mk');}
+    else{s+=ticks(P0,C,1,'mk')+ticks(C,P2,1,'mk')+ticks(P1,C,1,'mk')+ticks(C,P3,1,'mk')+rangle(C,P0,P1,'mk2');}
+    s+=DT(C,'ctr',4);
+  }
+  if(mode==='symetrie'){
+    s+=DT(C,'ctr',5);
+    if(shape==='rect'){s+=LN(vmid(P0,P1),vmid(P2,P3),'axis')+LN(vmid(P1,P2),vmid(P3,P0),'axis');}
+    else if(shape==='los'){s+=LN(P0,P2,'axis')+LN(P1,P3,'axis');}
+    else if(shape==='car'){s+=LN(vmid(P0,P1),vmid(P2,P3),'axis')+LN(vmid(P1,P2),vmid(P3,P0),'axis')+LN(P0,P2,'axis')+LN(P1,P3,'axis');}
+  }
+  return svg(s,'0 0 320 220');
+}
+
+/* ===== leçons interactives ===== */
+const QMODES=[['cotes','Côtés'],['angles','Angles'],['diagonales','Diagonales'],['symetrie','Symétrie']];
+const LDEF={
+  para:{cotes:'Les <b>côtés opposés</b> sont parallèles et de même longueur.',angles:'Les <b>angles opposés</b> sont égaux.',diagonales:'Les <b>diagonales se coupent en leur milieu</b>.',symetrie:'Le point d’intersection des diagonales est un <b>centre de symétrie</b> (pas d’axe de symétrie).'},
+  rect:{cotes:'Côtés opposés parallèles et de même longueur (c’est un parallélogramme).',angles:'Ses <b>4 angles sont droits</b> (90°).',diagonales:'Ses <b>diagonales ont la même longueur</b> et se coupent en leur milieu.',symetrie:'Un centre de symétrie et <b>2 axes de symétrie</b> (les médiatrices des côtés).'},
+  los:{cotes:'Ses <b>4 côtés ont la même longueur</b>.',angles:'Les angles opposés sont égaux.',diagonales:'Ses <b>diagonales sont perpendiculaires</b> et se coupent en leur milieu.',symetrie:'Un centre de symétrie et <b>2 axes</b> : ses diagonales.'},
+  car:{cotes:'Ses <b>4 côtés sont égaux</b> et parallèles deux à deux.',angles:'Ses <b>4 angles sont droits</b>.',diagonales:'Ses diagonales sont <b>égales, perpendiculaires</b> et se coupent en leur milieu.',symetrie:'Un centre de symétrie et <b>4 axes de symétrie</b>.'}
+};
+const LST={};
+function quadPick(shape,mode,btn){LST[shape]=mode;gid(shape+'Btns').querySelectorAll('.fnchip').forEach(x=>x.classList.remove('act'));if(btn)btn.classList.add('act');gid(shape+'Fig').innerHTML=quadSVG(shape,mode);gid(shape+'Def').innerHTML=LDEF[shape][mode];}
+function quadLesson(shape){const b=gid(shape+'Btns');b.innerHTML='';QMODES.forEach((m,i)=>{const btn=document.createElement('button');btn.className='fnchip'+(i===0?' act':'');btn.textContent=m[1];btn.onclick=()=>quadPick(shape,m[0],btn);b.appendChild(btn);});quadPick(shape,'cotes',b.firstChild);}
+function buildClasser(){const box=gid('classerFigs');const f=[['para','parallélogramme'],['rect','rectangle'],['los','losange'],['car','carré']];box.innerHTML=f.map(x=>'<figure>'+quadSVG(x[0],null)+'<figcaption>'+x[1]+'</figcaption></figure>').join('');}
+
+/* ===== LEÇON GUIDÉE : le parallélogramme ===== */
+const PARA_STEPS=[
+  {tag:'Découvre',titre:'C\u2019est quoi un parallélogramme ?',
+   fig:()=>paraSkewSVG(skewVal),
+   act:'<label>Déforme la figure&nbsp;:</label><input type="range" id="paraSkew" min="-100" max="100" value="0" oninput="paraSkewMove(this.value)">',
+   body:'Un parallélogramme est un <b>quadrilatère</b> (une figure à 4 côtés) dont les <b>côtés opposés sont parallèles</b>. Bouge le curseur&nbsp;: la figure se penche, mais les côtés de même couleur restent toujours parallèles.',
+   retain:'Côtés opposés <b>parallèles</b> deux à deux.'},
+  {tag:'Les côtés',titre:'Les côtés',
+   fig:()=>quadSVG('para','cotes'),
+   act:'<button class="btn violet" onclick="lesPulse()">✨ Surligner les côtés</button>',
+   body:'Les <b>côtés opposés</b> sont parallèles <b>et de la même longueur</b>. Les petits traits indiquent les côtés égaux&nbsp;; les flèches indiquent les côtés parallèles.',
+   retain:'Côtés opposés parallèles <b>et de même longueur</b>.'},
+  {tag:'Les angles',titre:'Les angles',
+   fig:()=>quadSVG('para','angles'),
+   act:'<button class="btn violet" onclick="lesPulse()">✨ Comparer les angles</button>',
+   body:'Les <b>angles opposés sont égaux</b>. Les deux angles oranges sont égaux entre eux, et les deux angles bleus aussi.',
+   retain:'Les <b>angles opposés</b> sont égaux.'},
+  {tag:'Les diagonales',titre:'Les diagonales',
+   fig:()=>quadSVG('para','diagonales'),
+   act:'<button class="btn violet" onclick="lesPulse()">✨ Montrer le croisement</button>',
+   body:'En traçant les deux <b>diagonales</b>, on voit qu\u2019elles se croisent en un point qui est le <b>milieu de chacune</b>. Les petits traits montrent que ce point coupe chaque diagonale en deux longueurs égales.',
+   retain:'Les diagonales se <b>coupent en leur milieu</b>.'},
+  {tag:'La symétrie',titre:'La symétrie',
+   fig:()=>quadSVG('para','symetrie'),
+   act:'<button class="btn violet" onclick="paraDemiTour()">↻ Faire un demi-tour</button>',
+   body:'Le point de croisement des diagonales est un <b>centre de symétrie</b>&nbsp;: si on fait tourner la figure d\u2019un <b>demi-tour</b> autour de ce point, elle retombe exactement sur elle-même. Un parallélogramme quelconque <b>n\u2019a pas d\u2019axe de symétrie</b>.',
+   retain:'Un <b>centre de symétrie</b>, mais pas d\u2019axe.'}
+];
+let lesI=0, skewVal=0, paraSeen=false;
+function lesStart(){lesI=0;skewVal=0;lesShow();}
+function lesShow(){
+  const s=PARA_STEPS[lesI],n=PARA_STEPS.length;
+  let nav='';for(let k=0;k<n;k++){const cls=k<lesI?'ok':(k===lesI?'on':'');nav+='<span class="lesdot '+cls+'">'+(k<lesI?'✓':(k+1))+'</span>';}
+  gid('paraNav').innerHTML=nav;
+  gid('paraTag').textContent='Étape '+(lesI+1)+' / '+n+' · '+s.tag;
+  gid('paraTitre').textContent=s.titre;
+  const f=gid('paraFig');f.className='figbox';f.innerHTML=s.fig();
+  gid('paraAct').innerHTML=s.act||'';
+  gid('paraBody').innerHTML=s.body;
+  const ret=gid('paraRetain');ret.innerHTML='<span class="lab">À RETENIR</span>'+s.retain;ret.classList.add('show');
+  gid('paraPrev').style.display=lesI>0?'inline-flex':'none';
+  const last=lesI===n-1;
+  gid('paraNext').style.display=last?'none':'inline-flex';
+  gid('paraTrain').style.display=(last||paraSeen)?'inline-flex':'none';
+  window.scrollTo(0,0);
+}
+function lesNext(){if(lesI<PARA_STEPS.length-1){lesI++;if(lesI===PARA_STEPS.length-1)paraSeen=true;lesShow();}}
+function lesPrev(){if(lesI>0){lesI--;lesShow();}}
+function lesPulse(){const f=gid('paraFig');f.classList.remove('pulse');void f.offsetWidth;f.classList.add('pulse');}
+function paraSkewMove(v){skewVal=+v;gid('paraFig').innerHTML=paraSkewSVG(skewVal);}
+function paraSkewSVG(t){
+  const dx=46+(t/100)*70;
+  const P0=[60,182],P1=[208,182],P3=[60+dx,70],P2=[208+dx,70];
+  let s=PG([P0,P1,P2,P3],'face')+LN(P0,P1,'edge')+LN(P1,P2,'edge')+LN(P2,P3,'edge')+LN(P3,P0,'edge');
+  s+=chev(P0,P1,1,'mk')+chev(P3,P2,1,'mk')+chev(P1,P2,2,'mk2')+chev(P0,P3,2,'mk2');
+  return svg(s,'-10 0 360 220');
+}
+function rotpt(p,c,a){const dx=p[0]-c[0],dy=p[1]-c[1],ca=Math.cos(a),sa=Math.sin(a);return [c[0]+dx*ca-dy*sa,c[1]+dx*sa+dy*ca];}
+let paraRotBusy=false;
+function paraDemiTour(){
+  if(paraRotBusy)return;paraRotBusy=true;
+  const P=Q4.para,C=vmid(P[0],P[2]),dur=1300,t0=performance.now();
+  (function frame(now){const k=Math.min((now-t0)/dur,1),a=Math.PI*k;
+    const R=P.map(p=>rotpt(p,C,a));
+    const s=PG(P,'ghost')+PG(R,'face')+LN(R[0],R[1],'edge')+LN(R[1],R[2],'edge')+LN(R[2],R[3],'edge')+LN(R[3],R[0],'edge')+DT(C,'ctr',5);
+    gid('paraFig').innerHTML=svg(s,'0 0 320 220');
+    if(k<1)requestAnimationFrame(frame);else{paraRotBusy=false;}
+  })(t0);
+}
+
+
+/* ===== générateurs ===== */
+const NAMES=['parallélogramme','rectangle','losange','carré'];
+function vshape(s){return quadSVG(s,null);}
+function genPara(){const p=[
+  ['Dans un parallélogramme, les côtés opposés sont…',['parallèles et de même longueur','perpendiculaires','tous de longueurs différentes'],'Côtés opposés parallèles et de même longueur.'],
+  ['Dans un parallélogramme, les angles opposés sont…',['égaux','toujours droits','de mesures différentes'],'Les angles opposés sont égaux.'],
+  ['Les diagonales d’un parallélogramme…',['se coupent en leur milieu','sont perpendiculaires','ont la même longueur'],'Elles se coupent en leur milieu.'],
+  ['Combien d’axes de symétrie a un parallélogramme quelconque ?',['0','2','4'],'Un parallélogramme quelconque n’a pas d’axe de symétrie, mais un centre.'],
+  ['Le centre de symétrie d’un parallélogramme est…',['le point d’intersection des diagonales','un sommet','le milieu d’un côté'],'C’est le point d’intersection des diagonales.']];
+  const q=pick(p);return qcm('para',q[0],q[1],0,q[2],vshape('para'));}
+function genRect(){const p=[
+  ['Un rectangle est un parallélogramme qui a…',['4 angles droits','4 côtés égaux','des diagonales perpendiculaires'],'Un rectangle a 4 angles droits.'],
+  ['Les diagonales d’un rectangle…',['ont la même longueur et se coupent en leur milieu','sont perpendiculaires','ont des longueurs différentes'],'Elles ont la même longueur et se coupent en leur milieu.'],
+  ['Combien d’axes de symétrie a un rectangle (non carré) ?',['2','4','0'],'Un rectangle a 2 axes de symétrie.'],
+  ['Les angles d’un rectangle mesurent…',['90°','60°','45°'],'Tous ses angles mesurent 90°.'],
+  ['Un rectangle a-t-il toujours les côtés opposés parallèles ?',['oui, c’est un parallélogramme','non','seulement deux côtés'],'Oui : c’est un parallélogramme particulier.']];
+  const q=pick(p);return qcm('rect',q[0],q[1],0,q[2],vshape('rect'));}
+function genLos(){const p=[
+  ['Un losange est un parallélogramme qui a…',['4 côtés de même longueur','4 angles droits','des diagonales égales'],'Un losange a 4 côtés de même longueur.'],
+  ['Les diagonales d’un losange…',['sont perpendiculaires et se coupent en leur milieu','ont la même longueur','sont parallèles'],'Elles sont perpendiculaires et se coupent en leur milieu.'],
+  ['Combien d’axes de symétrie a un losange (non carré) ?',['2','4','1'],'Un losange a 2 axes de symétrie : ses diagonales.'],
+  ['Les axes de symétrie d’un losange sont…',['ses diagonales','ses côtés','les médiatrices des côtés'],'Ce sont ses diagonales.'],
+  ['Dans un losange, les angles opposés sont…',['égaux','toujours droits','tous différents'],'Les angles opposés sont égaux.']];
+  const q=pick(p);return qcm('los',q[0],q[1],0,q[2],vshape('los'));}
+function genCar(){const p=[
+  ['Le carré est à la fois…',['un rectangle et un losange','un triangle et un rectangle','seulement un losange'],'Le carré est à la fois rectangle et losange.'],
+  ['Les diagonales d’un carré…',['sont égales, perpendiculaires et se coupent en leur milieu','sont seulement égales','sont seulement perpendiculaires'],'Égales, perpendiculaires, et milieu commun.'],
+  ['Combien d’axes de symétrie a un carré ?',['4','2','1'],'Un carré a 4 axes de symétrie.'],
+  ['Un carré possède…',['4 côtés égaux et 4 angles droits','4 côtés égaux seulement','4 angles droits seulement'],'4 côtés égaux ET 4 angles droits.'],
+  ['Les angles d’un carré mesurent…',['90°','60°','120°'],'Tous ses angles mesurent 90°.']];
+  const q=pick(p);return qcm('car',q[0],q[1],0,q[2],vshape('car'));}
+function genClasser(){const r=Math.random();
+  if(r<0.4){const s=pick(['para','rect','los','car']);const nom={para:'parallélogramme',rect:'rectangle',los:'losange',car:'carré'}[s];
+    return qcm('classer','Quelle figure est dessinée ?',NAMES.slice(),NAMES.indexOf(nom),'C’est un '+nom+'.',vshape(s));}
+  const p=[
+   ['Un parallélogramme qui a 4 angles droits est un…',['rectangle','losange','trapèze'],'4 angles droits → rectangle.'],
+   ['Un parallélogramme qui a 4 côtés égaux est un…',['losange','rectangle','carré'],'4 côtés égaux → losange.'],
+   ['Quelle figure a 4 côtés égaux ET 4 angles droits ?',['le carré','le losange','le rectangle'],'Les deux à la fois → le carré.'],
+   ['Quelle figure a ses diagonales perpendiculaires ET de même longueur ?',['le carré','le losange','le rectangle'],'Perpendiculaires (losange) + égales (rectangle) → le carré.'],
+   ['Quelle figure a ses diagonales de même longueur mais non perpendiculaires ?',['le rectangle','le losange','le carré'],'Diagonales égales sans être perpendiculaires → le rectangle.']];
+  const q=pick(p);return qcm('classer',q[0],q[1],0,q[2],null);}
+const GEN={para:genPara,rect:genRect,los:genLos,car:genCar,classer:genClasser};
+/* ===== moteur de quiz ===== */
+let Q={cats:[],target:0,guided:false,els:null,score:0,streak:0,total:0,correct:0,locked:false,cur:null,lastText:'',timer:0};
+function elsTrain(){return{score:gid('tq_score'),streak:gid('tq_streak'),prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),cont:gid('tq_cont')};}
+function elsArene(){return{score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars')};}
+function quizStart(cats,target,guided,els){Q.cats=cats;Q.target=target;Q.guided=guided;Q.els=els;Q.score=0;Q.streak=0;Q.total=0;Q.correct=0;Q.locked=false;Q.lastText='';if(els.cont)els.cont.style.display='none';quizScore();quizNext();}
+function quizScore(){const e=Q.els;if(e.score)e.score.textContent=Q.score;if(e.streak)e.streak.textContent=Q.streak;if(e.corr)e.corr.textContent=Q.correct;if(e.tot)e.tot.textContent=Q.total;if(Q.guided&&e.prog)e.prog.innerHTML='🎯 Réussites : <b>'+Math.min(Q.correct,Q.target)+' / '+Q.target+'</b>';}
+function quizNext(){
+  clearTimeout(Q.timer);Q.locked=false;const e=Q.els;e.feed.textContent='';e.feed.className='feedback';if(e.stars)e.stars.textContent='';
+  let cat,cur,tries=0;do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while(cur.text===Q.lastText&&tries<6);
+  Q.cur=cur;Q.lastText=cur.text;e.cat.textContent=CATNOM[cat];e.text.textContent=cur.text;
+  if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
+  if(cur.type==='qcm'){e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';
+    cur.options.forEach((o,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>quizPick(i);e.opts.appendChild(b);});}
+  else{e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
+}
+function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;
+  if(s.includes('/')){const p=s.split('/');if(p.length!==2)return null;const a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;return a/b;}
+  const v=parseFloat(s);return isFinite(v)?v:null;}
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;const e=Q.els;const v=parseNum(e.input.value);
+  if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre.';return;}
+  e.input.disabled=true;e.valid.disabled=true;quizResolve(Math.abs(v-Q.cur.answer)<0.01,'La réponse est '+Q.cur.disp+'.');}
+function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;const e=Q.els;const btns=[...e.opts.children];
+  btns.forEach((b,j)=>{if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');
+  quizResolve(i===Q.cur.correct,'La bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');}
+function quizResolve(ok,correctTxt){Q.locked=true;Q.total++;const e=Q.els;
+  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';
+    e.feed.innerHTML='✅ Bravo !<div class="feedlab">'+Q.cur.explain+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='❌ '+correctTxt+'<div class="feedlab">'+Q.cur.explain+'</div>';
+    if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(()=>e.input.classList.remove('shake'),400);}}
+  quizScore();
+  if(Q.guided&&Q.correct>=Q.target){if(e.cont)e.cont.style.display='inline-flex';if(e.prog)e.prog.innerHTML='🎉 Objectif atteint ! Tu peux continuer (ou t\u2019entraîner encore).';}
+  Q.timer=setTimeout(quizNext, ok?1800:3600);
+}
+function confettis(){const cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];
+  for(let i=0;i<24;i++){const d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';
+    document.body.appendChild(d);const fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout(()=>d.remove(),fall);}}
+function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entraînement — '+TITLE[t];go('ecranTrain');const els=elsTrain();els.help.textContent=HELP[t];quizStart(THEME_CATS[t],REQUIRED,true,els);}
+function trainDone(){const t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}const idx=ORDER.indexOf(t);
+  if(idx<ORDER.length-1){const nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{try{suiviEnvoi('Terminé','','');}catch(_){}unlocked.arene=true;updateMap();go('arene');}}
+function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';const cats=cat==='mix'?ORDER.slice():[cat];quizStart(cats,0,false,elsArene());}
+function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
+document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;if(!gid('kcPanel').hidden)return;
+  const onT=gid('ecranTrain').classList.contains('active');const onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
+  if((onT||onA)&&!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
+
+/* ===== CALCULATRICE ===== */
+function kcEval(expr){
+  let s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
+  const toks=[]; let i=0; const isD=c=>c>='0'&&c<='9';
+  while(i<s.length){const c=s[i];
+    if(isD(c)||c==='.'){let j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
+    if(c==='\u03c0'){toks.push({t:'pi'});i++;continue;}
+    if(c==='\u221a'){toks.push({t:'sqrt'});i++;continue;}
+    if('+-*/^()'.includes(c)){toks.push({t:c});i++;continue;}
+    return null;}
+  let p=0,err=false;const peek=()=>toks[p],next=()=>toks[p++];
+  function E(){let v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){const o=next().t;const r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
+  function T(){let v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){const o=next().t;const r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}
+  function U(){const t=peek();if(t&&t.t==='-'){next();return -U();}if(t&&t.t==='+'){next();return U();}if(t&&t.t==='sqrt'){next();const a=U();if(err)return 0;if(a<0){err=true;return 0;}return Math.sqrt(a);}return P();}
+  function P(){let b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();const e=U();if(err)return 0;b=Math.pow(b,e);}return b;}
+  function PR(){const t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='pi')return Math.PI;if(t.t==='('){const v=E();if(err)return 0;const c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}err=true;return 0;}
+  const val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;}
+function kcFmt(v){let s=(Math.round(v*1e10)/1e10).toString();return s.replace('-','\u2212').replace('.',',');}
+let kcS='',kcJust=false;
+function kcRender(){gid('kcExpr').textContent=kcS;const v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
+function kcIns(ch){if(kcJust&&/[0-9.\u03c0(\u221a]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
+function kcClear(){kcS='';kcJust=false;kcRender();}
+function kcBack(){if(kcJust)kcJust=false;kcS=kcS.slice(0,-1);kcRender();}
+function kcEq(){const v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
+function kcToggle(){gid('kcPanel').hidden=!gid('kcPanel').hidden;}
+const KEYS2=[
+  {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
+  {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},
+  {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'},
+  {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'\u2212',a:'\u2212',c:'op'},
+  {l:'0',a:'0'},{l:',',a:','},{l:'\u221a',a:'\u221a',c:'fn'},{l:'+',a:'+',c:'op'},
+  {l:'x\u00b2',a:'^2',c:'fn'},{l:'x\u02b8',a:'^',c:'fn'},{l:'\u03c0',a:'\u03c0',c:'fn'},{l:'=',a:'eq',c:'eq'}
+];
+(function(){const box=gid('kcKeys');KEYS2.forEach(k=>{const b=document.createElement('button');b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;
+  b.onclick=()=>{if(k.a==='clr')kcClear();else if(k.a==='back')kcBack();else if(k.a==='eq')kcEq();else kcIns(k.a);};box.appendChild(b);});kcRender();})();
+document.addEventListener('keydown',e=>{if(gid('kcPanel').hidden)return;
+  if(e.key==='Enter'){e.preventDefault();kcEq();}else if(e.key==='Escape')kcToggle();
+  else if(e.key==='Backspace'){e.preventDefault();kcBack();}
+  else if(/[0-9.+\-*/()^]/.test(e.key)){const map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[e.key]||e.key);}});
+
+
+/* ===== init ===== */
+quadLesson('rect');quadLesson('los');quadLesson('car');buildClasser();lesStart();
+updateMap();
+</script>
+<script>
+/* ===== clavier maths + brouillon (ajout) ===== */
+var MATHTARGET=null;
+function _isVis(el){return !!(el&&(el.offsetWidth||el.offsetHeight||el.getClientRects().length));}
+function _activeInput(){var t=gid('tq_input'),a=gid('aq_input');if(_isVis(t))return t;if(_isVis(a))return a;return t||a;}
+function insertAtCursor(el,txt){if(!el)return;el.focus();var s=el.selectionStart,e=el.selectionEnd,v=el.value;if(typeof s==='number'){el.value=v.slice(0,s)+txt+v.slice(e);var p=s+txt.length;el.selectionStart=el.selectionEnd=p;}else{el.value=v+txt;}}
+function mathBack(el){if(!el)return;el.focus();var s=el.selectionStart,e=el.selectionEnd,v=el.value;if(typeof s!=='number'){el.value=v.slice(0,-1);return;}if(s!==e){el.value=v.slice(0,s)+v.slice(e);el.selectionStart=el.selectionEnd=s;}else if(s>0){el.value=v.slice(0,s-1)+v.slice(s);el.selectionStart=el.selectionEnd=s-1;}}
+function mathAction(a){var t=MATHTARGET||_activeInput();if(!t)return;if(a==='BACK')mathBack(t);else if(a==='CLR'){t.value='';t.focus();}else if(a==='NL')insertAtCursor(t,'\n');else insertAtCursor(t,a);}
+var PADKEYS=[
+ {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'⌫',a:'BACK',c:'act'},{l:'C',a:'CLR',c:'act'},
+ {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
+ {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'x',a:'x',c:'fn'},{l:'x²',a:'x²',c:'fn'},
+ {l:'0',a:'0'},{l:',',a:','},{l:'^',a:'^',c:'fn'},{l:'+',a:'+',c:'op'},{l:'−',a:'−',c:'op'},
+ {l:'/',a:'/',c:'op'},{l:'×',a:'×',c:'op'},{l:'÷',a:'÷',c:'op'},{l:'=',a:'=',c:'op'},{l:'⏎',a:'NL',c:'nl'}
+];
+function buildMathPad(padId){var box=gid(padId);if(!box)return;box.innerHTML='';PADKEYS.forEach(function(k){var b=document.createElement('button');b.type='button';b.className='mkey'+(k.c?' '+k.c:'');b.textContent=k.l;b.addEventListener('mousedown',function(ev){ev.preventDefault();});b.onclick=function(){mathAction(k.a);};box.appendChild(b);});}
+function afterQuizNext(){['tq','aq'].forEach(function(pfx){var ans=gid(pfx+'_ansrow'),work=gid(pfx+'_work'),inp=gid(pfx+'_input'),brou=gid(pfx+'_brouillon');if(!ans||!work)return;var answering=(ans.style.display!=='none')&&_isVis(ans);work.style.display=answering?'block':'none';if(answering){if(brou)brou.value='';if(inp){try{inp.inputMode='none';}catch(_){}}MATHTARGET=inp;}});}
+if(typeof quizNext==='function'){var _qnOrig=quizNext;quizNext=function(){var r=_qnOrig.apply(this,arguments);try{afterQuizNext();}catch(_){}return r;};}
+buildMathPad('tq_pad');buildMathPad('aq_pad');
+['tq_input','aq_input','tq_brouillon','aq_brouillon'].forEach(function(id){var el=gid(id);if(el)el.addEventListener('focus',function(){MATHTARGET=el;});});
+['tq_brouillon','aq_brouillon'].forEach(function(id){var el=gid(id);if(el)el.addEventListener('keydown',function(ev){ev.stopPropagation();});});
+</script>
+<script>
+/* ===== sauvegarde et reprise de la progression ===== */
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}
+  var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;
+  return 'prog_'+e+'_'+nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone,u:unlocked}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);
+  if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});
+  if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
+if(typeof updateMap==='function'){var _um=updateMap;updateMap=function(){var r=_um.apply(this,arguments);try{progSave();}catch(_){}return r;};}
+try{progLoad();if(typeof updateMap==='function')updateMap();}catch(_){}
+</script>
+</body>
+</html>

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aires &amp; Volumes — Le parcours des conversions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#FFC93C; --or-bas:#E0A41E;
+  --vert:#8BC34A; --vert-bas:#5E9426;
+  --orange:#FF8A4C; --orange-bas:#E0672E;
+  --teal:#46BECB; --teal-bas:#2E8A98;
+  --violet:#A78BC4; --violet-bas:#7E61A1;
+  --bois:#5C3D2E; --bois-clair:#8a6650;
+  --creme:#FFF4DC; --creme2:#FFE8B8;
+  --blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18), 0 14px 22px rgba(92,61,46,.12);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
+  background:linear-gradient(160deg,#FFF7E2 0%,#FFE6BC 55%,#FFD9A0 100%);
+  min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 60px;position:relative;z-index:1}
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.5;z-index:0}
+.b1{width:180px;height:180px;background:#FFE08A;top:-40px;left:-50px}
+.b2{width:140px;height:140px;background:#FFC1A0;bottom:40px;right:-40px}
+.b3{width:120px;height:120px;background:#BCE29A;top:40%;left:-50px}
+.screen{display:none;animation:pop .35s ease}
+.screen.active{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
+  padding:14px 22px;cursor:pointer;background:var(--or);box-shadow:0 6px 0 var(--or-bas);
+  transition:transform .08s, box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--or-bas)}
+.btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
+.btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
+.btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
+.btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
+.btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
+.btn:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.back{background:var(--blanc);color:var(--bois);border:none;border-radius:14px;width:48px;height:48px;
+  font-size:1.5rem;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;font-family:'Fredoka'}
+.back:active{transform:translateY(4px);box-shadow:0 1px 0 #e7d3a8}
+.card{background:var(--blanc);border-radius:26px;padding:22px;box-shadow:var(--ombre);margin:16px 0}
+.tag{display:inline-block;font-family:'Fredoka';font-weight:600;color:#fff;padding:5px 14px;border-radius:30px;font-size:.85rem;margin-bottom:8px}
+.hero{text-align:center;padding:26px 16px 8px}
+.hero h1{font-size:2.5rem;line-height:1.05;margin:.1em 0;color:var(--bois)}
+.hero .sub{font-size:1.1rem;color:var(--bois-clair);font-weight:700;max-width:520px;margin:6px auto 0}
+.coin{font-size:3.4rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
+.map{display:grid;gap:16px;margin-top:8px}
+.etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;
+  box-shadow:var(--ombre);cursor:pointer;border:4px solid transparent;transition:transform .12s}
+.etape:hover{transform:translateY(-3px)}
+.etape:active{transform:translateY(1px)}
+.etape.lock{opacity:.6;filter:grayscale(.35)}
+.etape .num{flex:0 0 64px;height:64px;border-radius:20px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.9rem;color:#fff}
+.etape .txt h3{margin:0 0 2px;font-size:1.2rem}
+.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.95rem}
+.etape .status{margin-left:auto;font-size:1.6rem}
+.e1 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
+.e2 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
+.e3 .num{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
+.e4 .num{background:var(--violet);box-shadow:0 5px 0 var(--violet-bas)}
+.lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
+.mid{text-align:center;margin:16px 0}
+.formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;
+  padding:12px 22px;font-family:'Fredoka';font-weight:700;font-size:1.3rem;color:var(--bois)}
+.compteur{font-family:'Fredoka';font-weight:700;font-size:2.6rem;color:var(--orange-bas);display:inline-block}
+.note{font-size:.92rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
+/* barre longueur */
+.barwrap{position:relative;width:300px;margin:18px auto 30px}
+.mbar{display:flex;width:300px;height:48px;border:3px solid var(--vert-bas);border-radius:10px;overflow:hidden;background:#eef6e2}
+.seg{flex:1;border-right:2px solid #fff;background:var(--vert);opacity:.12;transition:opacity .2s;display:grid;place-items:center;color:#fff;font-family:'Fredoka';font-weight:700;font-size:.62rem}
+.seg:last-child{border-right:none}
+.seg.on{opacity:1}
+.barwrap .lab{position:absolute;left:0;right:0;bottom:-26px;text-align:center;font-family:'Fredoka';font-weight:700;color:var(--bois)}
+/* carré aire */
+.carre-zone{display:grid;place-items:center;margin:16px 0 30px}
+.carre{width:230px;height:230px;background:var(--vert);border-radius:14px;position:relative;box-shadow:0 8px 0 var(--vert-bas);overflow:hidden;display:grid}
+.carre .lbl{position:absolute;inset:0;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.4rem;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.25);z-index:3;transition:.3s}
+.grille{position:absolute;inset:0;display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(10,1fr);z-index:2}
+.gcell{border:1px solid rgba(255,255,255,.55);opacity:0;transform:scale(.4);transition:.25s}
+.cote{position:absolute;font-family:'Fredoka';font-weight:700;color:var(--bois);font-size:.95rem}
+.cote-bas{left:0;right:0;bottom:-26px;text-align:center}
+.cote-g{top:0;bottom:0;left:-46px;display:grid;place-items:center}
+/* cube 3D plein, remplissage progressif */
+.scene{perspective:1000px;width:212px;height:212px;margin:24px auto 34px}
+.cube3d{position:relative;width:212px;height:212px;transform-style:preserve-3d;transform:rotateX(-24deg) rotateY(-32deg);animation:spin 26s linear infinite}
+@keyframes spin{from{transform:rotateX(-24deg) rotateY(-32deg)}to{transform:rotateX(-24deg) rotateY(328deg)}}
+.wall{position:absolute;width:212px;height:212px;border:1.5px solid rgba(46,138,152,.5);background:rgba(70,190,203,.05);
+  background-image:repeating-linear-gradient(90deg,rgba(46,138,152,.18) 0 1px,transparent 1px 21.2px),repeating-linear-gradient(0deg,rgba(46,138,152,.18) 0 1px,transparent 1px 21.2px)}
+.w-front{transform:translateZ(106px)}
+.w-back{transform:rotateY(180deg) translateZ(106px)}
+.w-right{transform:rotateY(90deg) translateZ(106px)}
+.w-left{transform:rotateY(-90deg) translateZ(106px)}
+.w-top{transform:rotateX(90deg) translateZ(106px)}
+.w-bottom{transform:rotateX(-90deg) translateZ(106px)}
+.fillface{position:absolute;width:212px;height:212px}
+.fstrip{position:absolute;left:0;width:212px;height:21.2px;background:var(--teal);border:1px solid #2e8a98;
+  background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.35) 0 1px,transparent 1px 21.2px);
+  opacity:0;transition:opacity .25s}
+.fstrip.on{opacity:1}
+.surface{position:absolute;width:212px;height:212px;background:#74d0da;border:1px solid #2e8a98;
+  background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.45) 0 1px,transparent 1px 21.2px),repeating-linear-gradient(0deg,rgba(255,255,255,.45) 0 1px,transparent 1px 21.2px);
+  opacity:0;transition:transform .25s,opacity .25s}
+.surface.on{opacity:1}
+/* tableau */
+.tablescroll{overflow-x:auto;padding:10px 2px 6px}
+.tboard{--cellw:42px;--slotw:18px;display:grid;justify-content:start;align-items:stretch;margin:0;width:max-content}
+.thead{font-family:'Fredoka';font-weight:700;background:var(--creme2);color:var(--bois);border:2px solid #f0dca8;text-align:center;padding:6px 2px;font-size:.95rem;display:grid;place-items:center}
+.thead small{display:block;font-size:.66rem;font-weight:700;margin-top:1px;line-height:1}
+.tcell{height:58px;border:2px solid #f0dca8;text-align:center;background:#fff;font-family:'Fredoka';font-weight:700;font-size:1.6rem;color:var(--bois);padding:0;outline:none;border-radius:0}
+.tcell[data-u="1"]{background:#fbf2da}
+.tcell:focus{background:#fff2cf;border-color:var(--or-bas);box-shadow:inset 0 0 0 2px var(--or-bas)}
+.tcell.pad{background:var(--blanc);border-style:dashed;border-color:#e8d9b3}
+.tcell.pad:focus{background:#fff2cf;border-style:solid;border-color:var(--or-bas);box-shadow:inset 0 0 0 2px var(--or-bas)}
+.tslot{position:relative;cursor:pointer;display:grid;place-items:center}
+.tslot .dot{width:7px;height:7px;border-radius:50%;background:#e3cf9f;align-self:end;margin-bottom:8px;transition:.15s}
+.tslot:hover .dot{background:var(--or-bas);transform:scale(1.5)}
+.tslot .comma{position:absolute;bottom:-6px;left:50%;transform:translateX(-55%) scale(.3);font-family:'Fredoka';font-weight:700;font-size:2.7rem;color:var(--orange-bas);opacity:0;transition:.2s;pointer-events:none}
+.tslot.on .comma{opacity:1;transform:translateX(-55%) scale(1)}
+.tslot.on .dot{opacity:0}
+.toolbar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0 6px}
+.toolbar .btn{font-size:.95rem;padding:10px 16px}
+.result{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.4rem;margin-top:8px;min-height:1.6em;color:var(--bois)}
+.result b{color:var(--orange-bas)}
+/* quiz */
+.scorebar{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:4px 0 14px;font-family:'Fredoka';font-weight:700}
+.scorebar .pill{background:var(--creme);border-radius:16px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8}
+.qcard{text-align:center}
+.prog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:10px;min-height:1.3em;font-size:1.05rem}
+.qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.7rem;margin:8px 0 4px;line-height:1.3}
+.question .v{color:var(--orange-bas)}
+.ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
+.ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:180px;color:var(--bois)}
+.ansrow input:focus{outline:none;border-color:var(--or-bas)}
+.feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
+.feedback.ok{color:var(--vert-bas)}
+.feedback.no{color:var(--orange-bas)}
+.stars{font-size:1.5rem;letter-spacing:3px;margin-top:8px;min-height:1.6em}
+.catgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:6px}
+@media(min-width:640px){.catgrid{grid-template-columns:repeat(3,1fr)}}
+.cat{border:none;border-radius:20px;padding:18px 10px;cursor:pointer;color:#fff;font-family:'Fredoka';font-weight:700;font-size:1.05rem;line-height:1.2;text-align:center}
+.cat .ic{font-size:1.8rem;display:block;margin-bottom:4px}
+.conf{position:fixed;width:12px;height:12px;top:-20px;z-index:50;border-radius:3px;pointer-events:none}
+.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+button,input,.tslot{touch-action:manipulation}
+.tablescroll{-webkit-overflow-scrolling:touch}
+@media (max-width:480px){
+  .wrap{padding:14px 12px 50px}
+  .hero{padding:18px 10px 4px}
+  .hero h1{font-size:2rem}
+  .hero .sub{font-size:1rem}
+  .coin{font-size:2.8rem}
+  .card{padding:16px;border-radius:20px}
+  .topbar h2{font-size:1.3rem}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 52px;height:52px;font-size:1.5rem;border-radius:16px}
+  .etape .txt h3{font-size:1.05rem}
+  .etape .txt p{font-size:.84rem}
+  .formule{font-size:1rem;padding:10px 14px;white-space:normal}
+  .lead{font-size:1rem}
+  .question{font-size:1.35rem}
+  .ansrow input{width:64%;max-width:220px}
+  .tboard{--cellw:36px;--slotw:22px}
+  .tcell{height:52px;font-size:1.4rem}
+  .thead{font-size:.82rem;padding:5px 1px}
+  .thead small{font-size:.6rem}
+  .compteur{font-size:2.2rem}
+  .btn{font-size:1rem;padding:13px 18px}
+  .scorebar{gap:10px}
+  .scorebar .pill{padding:7px 12px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16);margin-left:4px}
+.home:active{transform:translateY(1px)}
+.mid{text-align:center;margin:10px 0}
+.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="wrap">
+
+<!-- ===== ACCUEIL ===== -->
+<section id="accueil" class="screen active"><div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
+  <div class="hero">
+    <div class="coin">📐🧊</div>
+    <h1>Aires &amp; Volumes</h1>
+    <p class="sub">Un parcours en 3 mondes. Dans chacun : on explique, on manipule le tableau, puis on s'entraîne. L'arène t'attend à la fin !</p>
+  </div>
+  <div class="map">
+    <div class="etape e1" id="mapL" onclick="tapTheme('longueur')">
+      <div class="num">📏</div>
+      <div class="txt"><h3>1 · Longueur</h3><p>Explication → tableau → entraînement</p></div>
+      <div class="status">▶</div>
+    </div>
+    <div class="etape e2" id="mapA" onclick="tapTheme('aire')">
+      <div class="num">🟧</div>
+      <div class="txt"><h3>2 · Aire (et ares)</h3><p>Explication → tableau → entraînement</p></div>
+      <div class="status">🔒</div>
+    </div>
+    <div class="etape e3" id="mapV" onclick="tapTheme('volume')">
+      <div class="num">🧊</div>
+      <div class="txt"><h3>3 · Volume (et litres)</h3><p>Explication → tableau → entraînement</p></div>
+      <div class="status">🔒</div>
+    </div>
+    <div class="etape e4" id="mapArene" onclick="tapArene()">
+      <div class="num">⚔️</div>
+      <div class="txt"><h3>Arène finale</h3><p>Tous les thèmes, au choix</p></div>
+      <div class="status">🔒</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LONGUEUR : explication ===== -->
+<section id="expL" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Longueur</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">Explication</span>
+    <p class="lead">Pour les longueurs, chaque fois qu'on change d'unité on multiplie ou on divise par <b>10</b>. Découpons 1 m en dm.</p>
+    <div class="barwrap"><div class="mbar" id="mbar"></div><span class="lab" id="barLab">1 m</span></div>
+    <div class="mid"><span class="compteur" id="cptLong" style="color:var(--vert-bas)">1</span> <span class="fr" style="font-size:1.3rem">dm</span></div>
+    <div class="mid"><button class="btn vert" id="btnLong" onclick="decoupeLong()">✂️ Découper en dm</button></div>
+    <div class="mid" id="longConclu" style="display:none"><span class="formule" style="border-color:var(--vert-bas)">1 m = 10 dm → 1 colonne par unité</span></div>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="openTable('longueur')">Au tableau ➜</button></div>
+</section>
+
+<!-- ===== AIRE : explication ===== -->
+<section id="expA" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Aire</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">Explication</span>
+    <p class="lead">Un carré de <b>1 m</b> de côté a une aire de <b>1 m²</b>. Découpons-le en carrés de <b>1 dm</b> de côté.</p>
+    <div class="carre-zone">
+      <div style="position:relative">
+        <div class="carre" id="carre"><div class="lbl" id="carreLbl">1 m²</div><div class="grille" id="grille"></div></div>
+        <span class="cote cote-bas" id="coteBas">1 m</span>
+        <span class="cote cote-g" id="coteG">1 m</span>
+      </div>
+    </div>
+    <div class="mid"><span class="compteur" id="cptAire">1</span> <span class="fr" id="cptAireU" style="font-size:1.3rem">dm²</span></div>
+    <div class="mid"><button class="btn orange" id="btnAire" onclick="decoupeAire()">✂️ Découper en dm</button></div>
+    <div class="mid" id="aireConclu" style="display:none"><span class="formule" style="border-color:var(--orange-bas)">1 m² = 100 dm² → 2 colonnes par unité</span></div>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">Mesurer un terrain</span>
+    <p class="lead">L'<b>are</b> et l'<b>hectare</b> ne sont pas de nouvelles unités : ce sont d'autres noms dans le tableau des aires.</p>
+    <div class="mid"><span class="formule" style="border-color:var(--violet-bas)">1 a = 1 dam² = 100 m²</span></div>
+    <div class="mid"><span class="formule" style="border-color:var(--violet-bas)">1 ha = 1 hm² = 10 000 m²</span></div>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="openTable('aire')">Au tableau ➜</button></div>
+</section>
+
+<!-- ===== VOLUME : explication ===== -->
+<section id="expV" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Volume</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">Explication</span>
+    <p class="lead">Un cube de <b>1 m</b> d'arête a un volume de <b>1 m³</b>. On le remplit de petits cubes de <b>1 dm</b> : une <b>ligne</b> = 10, un <b>étage</b> = 100, et il faut 10 étages.</p>
+    <div class="scene">
+      <div class="cube3d" id="cube3d">
+        <div class="wall w-back"></div><div class="wall w-left"></div><div class="wall w-right"></div>
+        <div class="wall w-bottom"></div><div class="wall w-top"></div><div class="wall w-front"></div>
+      </div>
+    </div>
+    <div class="mid"><span class="compteur" id="cptVol" style="color:var(--teal-bas)">0</span> <span class="fr" id="cptVolU" style="font-size:1.3rem">cube de 1 dm</span></div>
+    <div class="mid"><button class="btn teal" id="btnDecoupeVol" onclick="decoupeVol()">🧊 Remplir le cube</button></div>
+    <div class="mid" id="volConclu" style="display:none"><span class="formule" style="border-color:var(--teal-bas)">1 m³ = 1000 dm³ → 3 colonnes par unité</span></div>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">Le litre caché</span>
+    <p class="lead">Un <b>litre</b>, c'est le volume d'un cube de <b>1 dm</b> d'arête. Le litre vit dans la colonne du <b>dm³</b>.</p>
+    <div class="mid"><span class="formule" style="border-color:var(--teal-bas)">1 L = 1 dm³</span></div>
+    <div class="mid"><span class="formule" style="border-color:var(--teal-bas)">1 mL = 1 cm³</span></div>
+    <div class="mid"><span class="formule" style="border-color:var(--teal-bas)">1 m³ = 1000 L</span></div>
+  </div>
+  <div class="mid"><button class="btn teal" onclick="openTable('volume')">Au tableau ➜</button></div>
+</section>
+
+<!-- ===== TABLEAU (générique) ===== -->
+<section id="ecranTable" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="tableTitle">Le tableau</h2></div>
+  <div class="card">
+    <p class="lead">Écris ton nombre, <b>un chiffre par case</b>. Place le chiffre des unités dans la colonne de ton unité de départ. Puis <b>clique entre deux cases pour placer la virgule</b> ; clique à un autre endroit pour la déplacer jusqu'à l'unité d'arrivée.</p>
+    <div class="tablescroll"><div id="tableHolder"></div></div>
+    <div class="toolbar">
+      <button class="btn fant" onclick="fillExample()">💡 Exemple</button>
+      <button class="btn fant" onclick="clearBoard()">🧽 Effacer</button>
+    </div>
+    <p class="note" id="tHint"></p>
+    <p class="note" id="tSpecial"></p>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain(currentTheme)">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ===== ENTRAÎNEMENT imposé (générique) ===== -->
+<section id="ecranTrain" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="card">
+    <div class="scorebar">
+      <span class="pill">⭐ <span id="tq_score">0</span></span>
+      <span class="pill">🔥 <span id="tq_streak">0</span></span>
+    </div>
+    <div class="qcard">
+      <div class="prog" id="tq_prog"></div>
+      <div class="qcat" id="tq_cat"></div>
+      <div class="question" id="tq_text"></div>
+      <div class="tablescroll" style="margin-top:14px"><div id="trainBoard"></div></div>
+      <div class="toolbar"><button class="btn fant" onclick="clearBoard()">🧽 Effacer le tableau</button></div>
+      <div class="ansrow">
+        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="feedback" id="tq_feed"></div>
+      <div class="stars" id="tq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_cont" style="display:none" onclick="trainDone()">Continuer ➜</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ARÈNE finale ===== -->
+<section id="arene" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'arène des conversions</h2></div>
+  <div class="card" id="areneMenu">
+    <p class="lead" style="text-align:center">Bravo, tu as fini le parcours ! Choisis ton entraînement libre.</p>
+    <div class="catgrid">
+      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('longueur')"><span class="ic">📏</span>Longueur</button>
+      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('aire')"><span class="ic">🟧</span>Aire</button>
+      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('volume')"><span class="ic">🧊</span>Volume</button>
+      <button class="cat" style="background:#4FA3D1;box-shadow:0 6px 0 #2f7ba8" onclick="startArene('capacite')"><span class="ic">🥤</span>Capacité</button>
+      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('agraire')"><span class="ic">🌾</span>Are &amp; ha</button>
+      <button class="cat" style="background:#E27D9B;box-shadow:0 6px 0 #b85674" onclick="startArene('croisee')"><span class="ic">🔁</span>Volume↔Litre</button>
+    </div>
+    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
+  </div>
+  <div class="card" id="areneJeu" style="display:none">
+    <div class="scorebar">
+      <span class="pill">⭐ <span id="aq_score">0</span></span>
+      <span class="pill">🔥 <span id="aq_streak">0</span></span>
+      <span class="pill">🎯 <span id="aq_corr">0</span>/<span id="aq_tot">0</span></span>
+    </div>
+    <div class="qcard">
+      <div class="qcat" id="aq_cat"></div>
+      <div class="question" id="aq_text"></div>
+      <div class="ansrow">
+        <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="feedback" id="aq_feed"></div>
+      <div class="stars" id="aq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn fant" onclick="finArene()">Changer de catégorie</button></div>
+    </div>
+  </div>
+</section>
+
+</div>
+<script>
+/* ===== SUIVI ===== */
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Aires, Volumes & Longueurs'};
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+var SSDONE={};
+function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom+' › '+label);b.append(SUIVI.f.statut,'Terminé');b.append(SUIVI.f.score,'');b.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+/* ---------- navigation & progression ---------- */
+const ORDER=['longueur','aire','volume'];
+const EXP={longueur:'expL',aire:'expA',volume:'expV'};
+const LETTER={longueur:'L',aire:'A',volume:'V'};
+const TITLE={longueur:'Longueur',aire:'Aire',volume:'Volume'};
+const unlocked={longueur:true,aire:false,volume:false,arene:false};
+const themeDone={longueur:false,aire:false,volume:false};
+let currentTheme='longueur';
+const REQUIRED=6;
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='arene') finArene();
+}
+function wiggle(id){const el=document.getElementById(id);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}
+function tapTheme(t){ if(unlocked[t]||themeDone[t]) openTheme(t); else wiggle('map'+LETTER[t]); }
+function tapArene(){ if(unlocked.arene) go('arene'); else wiggle('mapArene'); }
+function openTheme(t){ currentTheme=t; go(EXP[t]); }
+function updateMap(){
+  ORDER.forEach(t=>{
+    const card=document.getElementById('map'+LETTER[t]);
+    card.classList.toggle('lock',!(unlocked[t]||themeDone[t]));
+    card.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');
+  });
+  const ar=document.getElementById('mapArene');
+  ar.classList.toggle('lock',!unlocked.arene);
+  ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';
+}
+
+/* ---------- animation longueur ---------- */
+(function(){const b=document.getElementById('mbar');for(let i=0;i<10;i++){const s=document.createElement('div');s.className='seg';s.textContent='dm';b.appendChild(s);}})();
+let longFait=false;
+function decoupeLong(){
+  if(longFait)return;longFait=true;
+  document.getElementById('barLab').textContent='10 dm';
+  const segs=[...document.querySelectorAll('#mbar .seg')];const cpt=document.getElementById('cptLong');
+  segs.forEach((s,i)=>setTimeout(()=>{s.classList.add('on');cpt.textContent=i+1;
+    if(i===9){document.getElementById('longConclu').style.display='block';document.getElementById('btnLong').textContent='✅ 1 m = 10 dm';}},i*110));
+}
+
+/* ---------- animation aire (carré) ---------- */
+(function(){const g=document.getElementById('grille');for(let i=0;i<100;i++){const c=document.createElement('div');c.className='gcell';g.appendChild(c);}})();
+let aireFait=false;
+function decoupeAire(){
+  if(aireFait)return;aireFait=true;
+  document.getElementById('coteBas').textContent='10 dm';document.getElementById('coteG').textContent='10 dm';
+  document.getElementById('carreLbl').style.opacity='0';
+  const cells=[...document.querySelectorAll('#grille .gcell')];const cpt=document.getElementById('cptAire');let n=0;
+  cells.forEach((c,i)=>setTimeout(()=>{c.style.opacity='1';c.style.transform='scale(1)';n++;cpt.textContent=n;
+    if(n===100){document.getElementById('cptAireU').textContent='dm² !';document.getElementById('aireConclu').style.display='block';document.getElementById('btnAire').textContent='✅ 100 carrés';}},i*13));
+}
+
+/* ---------- animation volume (cube plein, progressif) ---------- */
+let levelStrips=Array.from({length:10},()=>[]); let surface;
+(function(){
+  const cube=document.getElementById('cube3d');
+  const faceT=['translateZ(105px)','rotateY(180deg) translateZ(105px)','rotateY(90deg) translateZ(105px)','rotateY(-90deg) translateZ(105px)'];
+  faceT.forEach(t=>{
+    const f=document.createElement('div');f.className='fillface';f.style.transform=t;
+    for(let i=0;i<10;i++){const s=document.createElement('div');s.className='fstrip';s.style.bottom=(i*21.2)+'px';f.appendChild(s);levelStrips[i].push(s);}
+    cube.appendChild(f);
+  });
+  surface=document.createElement('div');surface.className='surface';cube.appendChild(surface);
+})();
+let volFait=false;
+function decoupeVol(){
+  if(volFait)return;volFait=true;
+  const cpt=document.getElementById('cptVol');const u=document.getElementById('cptVolU');
+  const setSurface=i=>{surface.style.transform='rotateX(90deg) translateZ('+(-106+(i+1)*21.2)+'px)';surface.classList.add('on');};
+  const steps=[];
+  steps.push(()=>{levelStrips[0][0].classList.add('on');cpt.textContent=10;u.textContent='cubes — 1 ligne';});
+  steps.push(()=>{levelStrips[0].slice(1).forEach(s=>s.classList.add('on'));setSurface(0);cpt.textContent=100;u.textContent='cubes — 1 étage (le bas)';});
+  for(let i=1;i<10;i++){const k=i;steps.push(()=>{levelStrips[k].forEach(s=>s.classList.add('on'));setSurface(k);cpt.textContent=(k+1)*100;u.textContent='cubes — étage '+(k+1);});}
+  steps.forEach((fn,idx)=>setTimeout(()=>{fn();
+    if(idx===steps.length-1){u.textContent='cubes de 1 dm → 1 m³ = 1000 dm³';document.getElementById('volConclu').style.display='block';document.getElementById('btnDecoupeVol').textContent='✅ 10 étages × 100';}
+  },idx*440));
+}
+
+/* ---------- tableau manipulable ---------- */
+const MODES={
+  longueur:{ranks:['km','hm','dam','m','dm','cm','mm'],cells:1,pas:'×10 (1 colonne par unité)',sub:{},subcol:''},
+  aire:{ranks:['km²','hm²','dam²','m²','dm²','cm²','mm²'],cells:2,pas:'×100 (2 colonnes par unité)',sub:{1:'ha',2:'a'},subcol:'var(--violet-bas)'},
+  volume:{ranks:['km³','hm³','dam³','m³','dm³','cm³','mm³'],cells:3,pas:'×1000 (3 colonnes par unité)',sub:{4:'L',5:'mL'},subcol:'var(--teal-bas)'},
+  capacite:{ranks:['kL','hL','daL','L','dL','cL','mL'],cells:1,pas:'×10 (1 colonne par unité)',sub:{},subcol:''}
+};
+let currentMode='longueur';let currentComma=0;
+const PAD_L=3, PAD_R=3; /* cases de réserve pour les nombres qui débordent */
+let boardHolder='tableHolder';let boardResultId='tResult';
+function openTable(t){
+  currentTheme=t;
+  document.getElementById('tableTitle').textContent='Tableau — '+TITLE[t];
+  buildBoard(t,'tableHolder','tResult');
+  document.getElementById('tHint').textContent='Chaque changement d\u2019unit\u00e9 vaut '+MODES[t].pas+'.';
+  const sp=document.getElementById('tSpecial');
+  if(t==='aire') sp.innerHTML='🌾 Colonne <b>dam²</b> = les <b>ares (a)</b> ; colonne <b>hm²</b> = les <b>hectares (ha)</b>.';
+  else if(t==='volume') sp.innerHTML='💧 Colonne <b>dm³</b> = le <b>litre (L)</b> ; colonne <b>cm³</b> = le <b>millilitre (mL)</b>.';
+  else sp.textContent='';
+  go('ecranTable');
+}
+function buildBoard(m,holder,resultId){
+  boardHolder=holder;boardResultId=resultId;currentMode=m;
+  const M=MODES[m];const unitCells=M.ranks.length*M.cells;const n=PAD_L+unitCells+PAD_R;
+  let tmpl='';for(let i=0;i<n;i++)tmpl+='var(--slotw) var(--cellw) ';tmpl+='var(--slotw)';
+  let html='<div class="tboard" style="grid-template-columns:'+tmpl+'">';
+  M.ranks.forEach((r,ui)=>{
+    const k0=PAD_L+ui*M.cells,k1=k0+M.cells-1;
+    const s=M.sub[ui]?'<small style="color:'+M.subcol+'">= '+M.sub[ui]+'</small>':'';
+    html+='<div class="thead" style="grid-column:'+(2*k0+2)+'/'+(2*k1+3)+';grid-row:1">'+r+s+'</div>';
+  });
+  html+=slotHTML(0);
+  for(let k=0;k<n;k++){
+    const inUnits=(k>=PAD_L&&k<PAD_L+unitCells);
+    const ui=Math.floor((k-PAD_L)/M.cells);
+    html+='<input class="tcell'+(inUnits?'':' pad')+'" data-k="'+k+'" data-u="'+(inUnits?(ui%2):0)+'" maxlength="1" inputmode="numeric" autocomplete="off" style="grid-column:'+(2*k+2)+';grid-row:2">';
+    html+=slotHTML(k+1);}
+  html+='</div>';
+  document.getElementById(holder).innerHTML=html;
+  bindBoard();setComma(PAD_L+unitCells);readBoard();
+}
+function slotHTML(j){return '<div class="tslot" data-j="'+j+'" style="grid-column:'+(2*j+1)+';grid-row:2" onclick="setComma('+j+');readBoard()"><span class="dot"></span><span class="comma">,</span></div>';}
+function setComma(j){currentComma=j;document.querySelectorAll('#'+boardHolder+' .tslot').forEach(s=>s.classList.toggle('on',+s.dataset.j===j));}
+function bindBoard(){
+  const cells=[...document.querySelectorAll('#'+boardHolder+' .tcell')];
+  cells.forEach((c,i)=>{
+    c.addEventListener('input',()=>{c.value=c.value.replace(/[^0-9]/g,'').slice(0,1);if(c.value&&i<cells.length-1)cells[i+1].focus();readBoard();});
+    c.addEventListener('keydown',e=>{
+      if(e.key==='Backspace'&&c.value===''&&i>0)cells[i-1].focus();
+      else if(e.key==='ArrowLeft'&&i>0)cells[i-1].focus();
+      else if(e.key==='ArrowRight'&&i<cells.length-1)cells[i+1].focus();
+    });
+  });
+}
+function clearBoard(){document.querySelectorAll('#'+boardHolder+' .tcell').forEach(c=>c.value='');readBoard();const f=document.querySelector('#'+boardHolder+' .tcell');if(f)f.focus();}
+function fillExample(){
+  const M=MODES[currentMode];clearBoard();
+  const baseOnes=PAD_L+(3+1)*M.cells-1;
+  const cells=[...document.querySelectorAll('#'+boardHolder+' .tcell')];
+  if(cells[baseOnes])cells[baseOnes].value='3';setComma(PAD_L+(3+1)*M.cells);readBoard();
+}
+function readBoard(){
+  const cells=[...document.querySelectorAll('#'+boardHolder+' .tcell')];if(!cells.length)return;
+  const j=currentComma;const out=document.getElementById(boardResultId);if(!out)return;
+  if(!cells.some(c=>c.value!=='')){out.innerHTML='<span style="color:var(--bois-clair)">\u00c9cris ton nombre, puis d\u00e9place la virgule\u2026</span>';return;}
+  let intD=cells.slice(0,j).map(c=>c.value||'0').join('');
+  let frD=cells.slice(j).map(c=>c.value||'0').join('');
+  let intP=intD.replace(/^0+(?=\d)/,'')||'0';let frP=frD.replace(/0+$/,'');
+  let numFr=intP+(frP?','+frP:'');
+  const M=MODES[currentMode];let uTxt='';
+  const rel=j-PAD_L;
+  if(rel%M.cells===0&&rel>=M.cells&&rel<=M.ranks.length*M.cells)uTxt=' '+M.ranks[rel/M.cells-1];
+  out.innerHTML='<b>'+numFr+uTxt+'</b>';
+}
+
+/* ---------- outils nombres ---------- */
+function shiftDecimal(numStr,n){
+  numStr=String(numStr).replace(',', '.').trim();
+  let sign=numStr.startsWith('-')?'-':'';if(sign)numStr=numStr.slice(1);
+  let dot=numStr.indexOf('.'),intLen,digits;
+  if(dot===-1){digits=numStr;intLen=numStr.length;}else{intLen=dot;digits=numStr.slice(0,dot)+numStr.slice(dot+1);}
+  let pos=intLen+n;
+  if(pos<0){digits='0'.repeat(-pos)+digits;pos=0;}
+  if(pos>digits.length){digits=digits+'0'.repeat(pos-digits.length);}
+  let ip=digits.slice(0,pos)||'0',fp=digits.slice(pos);
+  ip=ip.replace(/^0+(?=\d)/,'');fp=fp.replace(/0+$/,'');
+  let res=ip+(fp?'.'+fp:'');return res==='0'?'0':sign+res;
+}
+function normalizeNum(s){
+  s=String(s).replace(/\s/g,'').replace(',', '.');
+  if(s===''||s==='.'||s==='-')return null;
+  if(!/^-?\d*\.?\d*$/.test(s))return null;
+  return shiftDecimal(s,0);
+}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function randVal(){
+  const r=Math.random();
+  if(r<0.45)return String(Math.floor(Math.random()*900)+1);
+  if(r<0.8){return String((Math.floor(Math.random()*99)+1)/10).replace('.', ',');}
+  return String((Math.floor(Math.random()*900)+10)/100).replace('.', ',');
+}
+
+/* ---------- catégories de conversions ---------- */
+const CATS={
+  longueur:{nom:'Longueur',units:[['km',3],['hm',2],['dam',1],['m',0],['dm',-1],['cm',-2],['mm',-3]]},
+  aire:{nom:'Aire',units:[['km²',6],['hm²',4],['dam²',2],['m²',0],['dm²',-2],['cm²',-4],['mm²',-6]]},
+  volume:{nom:'Volume',units:[['km³',9],['m³',0],['dm³',-3],['cm³',-6],['mm³',-9]]},
+  capacite:{nom:'Capacité (litre)',units:[['kL',3],['hL',2],['daL',1],['L',0],['dL',-1],['cL',-2],['mL',-3]]},
+  agraire:{nom:'Are & hectare',units:[['km²',6],['ha',4],['hm²',4],['a',2],['dam²',2],['m²',0]],must:['a','ha']},
+  croisee:{nom:'Volume ↔ Litre',units:[['m³',3],['dm³',0],['cm³',-3],['mm³',-6],['L',0],['mL',-3]],must:['L','mL']}
+};
+const THEME_CATS={longueur:['longueur'],aire:['aire','agraire'],volume:['volume','capacite','croisee']};
+const CAT_TABLE={longueur:'longueur',aire:'aire',agraire:'aire',volume:'volume',croisee:'volume',capacite:'capacite'};
+
+/* ---------- moteur de quiz (entraînement + arène) ---------- */
+let Q={cats:[],target:0,guided:false,helper:false,els:null,score:0,streak:0,total:0,correct:0,answer:null,locked:false,cur:{}};
+function elsTrain(){return{score:gid('tq_score'),streak:gid('tq_streak'),prog:gid('tq_prog'),cat:gid('tq_cat'),text:gid('tq_text'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),cont:gid('tq_cont')};}
+function elsArene(){return{score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),text:gid('aq_text'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars')};}
+function gid(x){return document.getElementById(x);}
+function quizStart(cats,target,guided,els,helper){
+  Q.cats=cats;Q.target=target;Q.guided=guided;Q.helper=!!helper;Q.els=els;
+  Q.score=0;Q.streak=0;Q.total=0;Q.correct=0;Q.locked=false;
+  if(els.cont)els.cont.style.display='none';
+  quizScore();quizNext();
+}
+function quizScore(){
+  const e=Q.els;
+  if(e.score)e.score.textContent=Q.score;
+  if(e.streak)e.streak.textContent=Q.streak;
+  if(e.corr)e.corr.textContent=Q.correct;
+  if(e.tot)e.tot.textContent=Q.total;
+  if(Q.guided&&e.prog)e.prog.innerHTML='🎯 Réussites : <b>'+Math.min(Q.correct,Q.target)+' / '+Q.target+'</b>';
+}
+function quizNext(){
+  Q.locked=false;const e=Q.els;
+  e.feed.textContent='';e.feed.className='feedback';
+  if(e.stars)e.stars.textContent='';
+  e.input.value='';e.input.disabled=false;e.input.focus();e.valid.disabled=false;
+  const cat=pick(Q.cats);const C=CATS[cat];
+  let s=pick(C.units),t=pick(C.units),g=0;while(t[0]===s[0]&&g++<20)t=pick(C.units);
+  if(C.must&&!C.must.includes(s[0])&&!C.must.includes(t[0])){const want=pick(C.must),cand=C.units.find(u=>u[0]===want);if(cand){if(Math.random()<0.5)s=cand;else t=cand;}}
+  const val=randVal();const exp=s[1]-t[1];
+  Q.answer=shiftDecimal(val,exp);
+  Q.cur={cat,s:s[0],t:t[0],val,exp};
+  e.cat.textContent=C.nom;
+  e.text.innerHTML='<span class="v">'+val+' '+s[0]+'</span> = … '+t[0];
+  if(Q.helper){
+    buildBoard(CAT_TABLE[cat],'trainBoard','tResultTrain');
+  }
+}
+function facStr(k){return ('1'+'0'.repeat(k)).replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
+function quizExplain(){
+  const c=Q.cur.cat,e=Q.cur.exp,sens=e>0?'on multiplie':'on divise';
+  if(c==='croisee')return 'rappel : 1 L = 1 dm³, 1 mL = 1 cm³, 1 m³ = 1000 L';
+  if(e===0)return 'ces deux unités sont égales (même valeur)';
+  return sens+' par '+facStr(Math.abs(e));
+}
+function quizValidate(){
+  if(Q.locked||!Q.els)return;const e=Q.els;
+  const g=normalizeNum(e.input.value);
+  if(g===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre (ex. 12,5).';return;}
+  Q.locked=true;e.input.disabled=true;e.valid.disabled=true;Q.total++;
+  const ok=g===Q.answer;
+  if(ok){
+    Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;
+    e.feed.className='feedback ok';
+    e.feed.textContent='✅ Bravo ! '+Q.cur.val+' '+Q.cur.s+' = '+Q.answer.replace('.', ',')+' '+Q.cur.t;
+    if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));
+    confettis();
+  }else{
+    Q.streak=0;e.feed.className='feedback no';
+    e.feed.innerHTML='❌ Réponse : <b>'+Q.answer.replace('.', ',')+' '+Q.cur.t+'</b><br><span style="font-weight:700;color:var(--bois-clair);font-size:.95rem">'+quizExplain()+'</span>';
+    e.input.classList.add('shake');setTimeout(()=>e.input.classList.remove('shake'),400);
+  }
+  quizScore();
+  if(Q.guided&&Q.correct>=Q.target){
+    if(e.cont)e.cont.style.display='inline-flex';
+    if(e.prog)e.prog.innerHTML='🎉 Objectif atteint ! Tu peux continuer (ou t\u2019entraîner encore).';
+  }
+  setTimeout(quizNext, ok?1100:2400);
+}
+function confettis(){
+  const cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#E27D9B'];
+  for(let i=0;i<26;i++){const d=document.createElement('div');d.className='conf';
+    d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';
+    document.body.appendChild(d);const fall=2000+Math.random()*1200;
+    d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});
+    setTimeout(()=>d.remove(),fall);}
+}
+
+/* ---------- entraînement imposé ---------- */
+function startTrain(t){
+  currentTheme=t;
+  document.getElementById('trainTitle').textContent='Entraînement — '+TITLE[t];
+  go('ecranTrain');
+  quizStart(THEME_CATS[t],REQUIRED,true,elsTrain(),true);
+}
+function trainDone(){
+  const t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}
+  const idx=ORDER.indexOf(t);
+  if(idx<ORDER.length-1){const nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}
+  else{try{suiviEnvoi('Terminé','','');}catch(_){}unlocked.arene=true;updateMap();go('arene');}
+}
+
+/* ---------- arène finale ---------- */
+function startArene(cat){
+  document.getElementById('areneMenu').style.display='none';
+  document.getElementById('areneJeu').style.display='block';
+  const cats=cat==='mix'?Object.keys(CATS):[cat];
+  quizStart(cats,0,false,elsArene(),false);
+}
+function finArene(){
+  document.getElementById('areneMenu').style.display='block';
+  document.getElementById('areneJeu').style.display='none';
+}
+
+/* ---------- clavier ---------- */
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter')return;
+  if(document.activeElement&&document.activeElement.classList.contains('tcell'))return;
+  const onTrain=document.getElementById('ecranTrain').classList.contains('active');
+  const onArene=document.getElementById('arene').classList.contains('active')&&document.getElementById('areneJeu').style.display!=='none';
+  if((onTrain||onArene)&&!Q.locked)quizValidate();
+});
+
+updateMap();
+</script>
+<script>
+/* ===== sauvegarde et reprise de la progression ===== */
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}
+  var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;
+  return 'prog_'+e+'_'+nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone,u:unlocked}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);
+  if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});
+  if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
+if(typeof updateMap==='function'){var _um=updateMap;updateMap=function(){var r=_um.apply(this,arguments);try{progSave();}catch(_){}return r;};}
+try{progLoad();if(typeof updateMap==='function')updateMap();}catch(_){}
+</script>
+</body>
+</html>
