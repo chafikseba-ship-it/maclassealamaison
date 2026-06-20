@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Statistiques — 3ème</title>
+<title>Parcours Statistiques — 3e</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-
 :root{
-  --or:#FFC93C; --or-bas:#E0A41E; --vert:#8BC34A; --vert-bas:#5E9426;
-  --orange:#FF8A4C; --orange-bas:#E0672E; --teal:#46BECB; --teal-bas:#2E8A98;
-  --violet:#A78BC4; --violet-bas:#7E61A1; --rouge:#EF5D60; --rouge-bas:#c43e41;
-  --bleu:#4FA3D1; --bleu-bas:#2f7ba8;
-  --bois:#5C3D2E; --bois-clair:#8a6650; --creme:#FFF4DC; --blanc:#FFFDF6;
-  --ombre:0 8px 0 rgba(92,61,46,.18), 0 14px 22px rgba(92,61,46,.12);
+  --or:#FFC93C;--or-bas:#E0A41E;--vert:#8BC34A;--vert-bas:#5E9426;
+  --orange:#FF8A4C;--orange-bas:#E0672E;--teal:#46BECB;--teal-bas:#2E8A98;
+  --violet:#A78BC4;--violet-bas:#7E61A1;--rouge:#EF5D60;--rouge-bas:#c43e41;
+  --bleu:#4FA3D1;--bleu-bas:#2f7ba8;
+  --bois:#5C3D2E;--bois-clair:#8a6650;--creme:#FFF4DC;--creme2:#FFF0D6;--blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18),0 14px 22px rgba(92,61,46,.12);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
@@ -31,13 +30,14 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
 .btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
   padding:14px 22px;cursor:pointer;background:var(--or);box-shadow:0 6px 0 var(--or-bas);
-  transition:transform .08s, box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+  transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
 .btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--or-bas)}
 .btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
 .btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
 .btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
 .btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
 .btn.bleu{background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)}
+.btn.rouge{background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)}
 .btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
 .btn:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
 .topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
@@ -68,69 +68,26 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .e6 .num{background:var(--or);box-shadow:0 5px 0 var(--or-bas)}
 .lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
 .mid{text-align:center;margin:16px 0}
-.formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;
-  padding:12px 22px;font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois)}
+.formule{display:inline-block;background:var(--creme);border:2px dashed var(--violet-bas);border-radius:12px;
+  padding:8px 14px;font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois);font-size:1.15rem;margin:6px 0}
 .note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
 .exemple{font-size:.96rem;color:var(--bois-clair);font-weight:700;line-height:1.45;margin:8px 0 0}
 .exemple b{color:var(--bois)}
-.expr{font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois);text-align:center;margin:6px 0}
-/* machine substitution */
-.machine{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
-.mpod{background:var(--creme);border:3px solid var(--or-bas);border-radius:16px;min-width:60px;height:56px;padding:0 10px;
-  display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.3rem;color:var(--bois)}
-.marrow{font-size:1.6rem;color:var(--bois-clair)}
-.mbox{background:var(--violet);color:#fff;border-radius:16px;padding:14px 16px;font-family:'Fredoka';font-weight:700;
-  box-shadow:0 6px 0 var(--violet-bas);text-align:center}
-.msteps{display:flex;flex-direction:column;gap:8px;margin:14px auto 2px;max-width:440px}
-.mstep{background:var(--creme);border-radius:14px;padding:10px 14px;font-family:'Fredoka';font-weight:700;
-  color:var(--bois);opacity:0;transform:translateY(8px);transition:.35s;font-size:1.05rem;text-align:center}
-.mstep.on{opacity:1;transform:none}
-.minput{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:10px 0}
-.minput input{font-family:'Fredoka';font-weight:700;font-size:1.3rem;text-align:center;border:3px solid #f0dca8;
-  border-radius:14px;padding:10px;width:90px;color:var(--bois)}
-.minput input:focus{outline:none;border-color:var(--or-bas)}
-.fnpick{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 4px}
-.fnchip{font-family:'Fredoka';font-weight:700;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
-  border-radius:14px;padding:9px 14px;cursor:pointer;font-size:1.05rem}
-.fnchip:active{transform:translateY(2px)}
-.fnchip.act{border-color:var(--violet-bas);background:#f3edf9}
-.bigres{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.3rem;margin-top:10px;min-height:1.5em;color:var(--bois);line-height:1.4}
-.bigres b{color:var(--orange-bas)}
-/* termes colorés (réduire) */
-.termline{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.5rem;margin:14px 0;line-height:1.6}
-.tt{padding:2px 6px;border-radius:8px;transition:background .3s}
-.tt.x{background:#dff0d2;color:var(--vert-bas)}
-.tt.x2{background:#e3f5f8;color:var(--teal-bas)}
-.tt.k{background:#ffe6cf;color:var(--orange-bas)}
-/* tableau d'aires (développer / factoriser) */
-.area{margin:14px auto;width:fit-content}
-.arow{display:flex}
-.acorner{width:54px;height:40px}
-.ahead{width:84px;height:40px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;color:var(--bois)}
-.aside{width:54px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;color:var(--bois)}
-.acell{width:84px;height:64px;display:grid;place-items:center;border:3px solid #e7d3a8;background:var(--blanc);
-  font-family:'Fredoka';font-weight:700;font-size:1.15rem;color:var(--bois);opacity:0;transition:.3s}
-.acell.on{opacity:1}
-.acell.c1{background:#e3f5f8}.acell.c2{background:#fff0e2}.acell.c3{background:#f3edf9}.acell.c4{background:#dff0d2}
-/* tester égalité */
-.teq{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin:12px 0}
-.tval{font-family:'Fredoka';font-weight:700;font-size:1.2rem;background:var(--creme);border-radius:12px;padding:10px 14px;color:var(--bois)}
-.verdict{font-family:'Fredoka';font-weight:700;font-size:1.6rem;text-align:center;min-height:1.4em;margin-top:8px}
-.verdict.eq{color:var(--vert-bas)}.verdict.ne{color:var(--orange-bas)}
-input[type=range]{width:70%;max-width:320px;height:30px;accent-color:var(--bleu)}
-/* quiz */
+.steps{list-style:none;padding:0;margin:8px 0;counter-reset:st}
+.steps li{position:relative;padding:8px 8px 8px 42px;margin:6px 0;background:var(--blanc);border-radius:12px;box-shadow:0 3px 0 rgba(92,61,46,.1);font-weight:700;color:var(--bois)}
+.steps li::before{counter-increment:st;content:counter(st);position:absolute;left:8px;top:8px;width:26px;height:26px;border-radius:50%;background:var(--violet);color:#fff;display:grid;place-items:center;font-family:'Fredoka'}
 .scorebar{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:4px 0 14px;font-family:'Fredoka';font-weight:700}
 .scorebar .pill{background:var(--creme);border-radius:16px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8}
+.serieprog{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
 .qcard{text-align:center}
-.prog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:10px;min-height:1.3em;font-size:1.05rem}
 .qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
-.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
 .helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
 .ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
 .ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:160px;color:var(--bois)}
-.ansrow input:focus{outline:none;border-color:var(--or-bas)}
+.ansrow input:focus{outline:none;border-color:var(--violet-bas)}
 .opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
-.opt{font-family:'Fredoka';font-weight:700;font-size:1.1rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.05rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
   border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
 .opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
 .opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
@@ -148,29 +105,61 @@ input[type=range]{width:70%;max-width:320px;height:30px;accent-color:var(--bleu)
 .shake{animation:shake .35s}
 @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
 button,input{touch-action:manipulation}
-@media (max-width:480px){
-  .wrap{padding:14px 12px 80px}
-  .hero{padding:18px 10px 4px}
-  .hero h1{font-size:2rem}.hero .sub{font-size:1rem}.coin{font-size:2.8rem}
-  .card{padding:16px;border-radius:20px}
-  .topbar h2{font-size:1.2rem}
-  .etape{gap:12px;padding:13px 14px}
-  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem;border-radius:14px}
-  .etape .txt h3{font-size:1.02rem}.etape .txt p{font-size:.82rem}
-  .formule{font-size:1rem;padding:10px 14px;white-space:normal}
-  .lead{font-size:1rem}.question{font-size:1.18rem}
-  .ansrow input{width:60%;max-width:200px}
-  .btn{font-size:1rem;padding:13px 18px}
-  .ahead{width:64px}.acell{width:64px;height:54px;font-size:1rem}.aside{width:44px}.acorner{width:44px}
-  .termline{font-size:1.25rem}
-}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-/* ===================== CALCULATRICE COLLÈGE ===================== */
+.result{text-align:center}
+.result .big{font-family:'Fredoka',sans-serif;font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
+.result .big.ok{color:var(--vert-bas)}.result .big.no{color:var(--orange-bas)}
+.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
+.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.cascade{margin:6px 0 2px;text-align:left}
+.cstep{display:none;background:var(--creme);border-radius:16px;padding:14px 16px;margin:10px 0;animation:pop .3s ease}
+.cstep.on{display:block}
+.cprompt{font-family:'Fredoka';font-weight:700;color:var(--bois);font-size:1.05rem;margin-bottom:10px;line-height:1.35}
+.cbody{display:flex;flex-direction:column;gap:8px}
+.chint{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.98rem;margin-bottom:4px;background:#fff;border-radius:10px;padding:8px 10px;line-height:1.35}
+.cfeed{font-family:'Nunito';font-weight:800;font-size:.92rem;margin-top:8px;min-height:1em;line-height:1.35}
+.cfeed.ok{color:var(--vert-bas)}.cfeed.no{color:var(--orange-bas)}
+.cline{font-family:'Fredoka';font-weight:700;font-size:1.12rem;color:var(--bois);line-height:2.1;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.cblank{font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;border:none;border-bottom:3px solid var(--or-bas);background:#fff;border-radius:8px 8px 0 0;padding:6px;color:var(--bois)}
+.cblank:focus{outline:none;border-bottom-color:var(--teal-bas);background:#fffdf3}
+.cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
+.cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
+.cverify{margin-top:10px}
+.cblank.mini{font-size:1rem;width:54px}
+.figbox{margin:8px auto 4px;text-align:center}
+.fig{width:100%;max-width:360px;height:auto;display:inline-block}
+.dtable{border-collapse:collapse;margin:12px auto;font-family:'Fredoka';font-weight:700;font-size:1rem}
+.dtable th,.dtable td{border:2px solid #e7d3a8;padding:8px 14px;text-align:center}
+.dtable th{background:var(--violet);color:#fff}
+.dtable td{background:var(--blanc);color:var(--bois)}
+.dtable tr:first-child th:first-child{background:var(--creme);color:var(--bois)}
+/* stat-table */
+.stat-table{width:100%;border-collapse:collapse;margin:12px 0;font-family:'Fredoka',sans-serif}
+.stat-table th{background:var(--or);color:#fff;padding:8px 12px}
+.stat-table td{padding:8px 12px;border-bottom:2px solid var(--creme2);text-align:center}
+.stat-table tr:last-child td{font-weight:700;background:var(--creme)}
+.stat-table tr:hover td{background:var(--creme)}
+/* leçon interactive */
+.lesson-step{display:none;animation:pop .3s ease}
+.lesson-step.on{display:block}
+.lesson-nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.bubble{background:var(--creme);border-radius:18px;padding:14px 18px;margin:10px 0;font-weight:700;line-height:1.5;font-size:1rem}
+.bubble b{color:var(--violet-bas)}
+.bubble.teal b{color:var(--teal-bas)}
+.bubble.orange b{color:var(--orange-bas)}
+.bubble.vert b{color:var(--vert-bas)}
+.bubble.bleu b{color:var(--bleu-bas)}
+.val-box{display:inline-flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.val-chip{background:#fff;border:2px solid var(--or);border-radius:10px;padding:6px 12px;font-family:'Fredoka';font-weight:700;font-size:1.1rem;color:var(--bois)}
+.val-chip.hi{background:var(--or);color:#fff}
+.val-chip.med{background:var(--teal);color:#fff;border-color:var(--teal-bas)}
+.sorted-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:12px 0}
+.sorted-chip{width:44px;height:44px;border-radius:12px;background:var(--blanc);border:2px solid #e7d3a8;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.1rem;color:var(--bois);transition:background .3s,color .3s}
+.sorted-chip.lit{background:var(--or);color:#fff;border-color:var(--or-bas)}
+.sorted-chip.mid{background:var(--rouge);color:#fff;border-color:var(--rouge-bas);transform:scale(1.18)}
+.encour{font-family:'Fredoka';font-weight:700;font-size:1.1rem;color:var(--vert-bas);text-align:center;margin:10px 0}
 .kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
   background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);transition:transform .1s}
 .kc-fab:active{transform:translateY(4px)}
-.kc-fab:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
 .kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(320px,calc(100vw - 32px));
   background:var(--blanc);border-radius:22px;padding:14px;box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);animation:kcpop .25s ease}
 .kc-panel[hidden]{display:none}
@@ -188,85 +177,304 @@ button,input{touch-action:manipulation}
 .kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1.05rem}
 .kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
 .kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
-
-/* ===== statistiques ===== */
-.tabbox{overflow-x:auto;margin:8px 0}
-.stab{border-collapse:collapse;margin:8px auto;font-family:'Fredoka',sans-serif;font-weight:700;background:var(--blanc)}
-.stab th,.stab td{border:2px solid #e0c9a0;padding:7px 12px;text-align:center;color:var(--bois);font-size:1rem}
-.stab th{background:var(--creme)}
-.stab .rowh{background:var(--creme)}
-.dlist{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.25rem;text-align:center;color:var(--bois);margin:10px 0;line-height:1.6}
+.kc-send{background:var(--or);color:#fff;box-shadow:0 4px 0 var(--or-bas);margin-top:8px;width:100%;border:none;border-radius:14px;padding:12px 0;font-family:'Fredoka';font-weight:700;font-size:1.05rem;cursor:pointer}
+.kc-send:active{transform:translateY(3px);box-shadow:0 1px 0 var(--or-bas)}
 .home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16)}
 .home:active{transform:translateY(1px)}
-.serieprog{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
-.result{text-align:center}
-.result .big{font-family:'Fredoka',sans-serif;font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
-.result .big.ok{color:var(--vert-bas)} .result .big.no{color:var(--orange-bas)}
-.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
-.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
 .menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
-.idov{position:fixed;inset:0;background:rgba(92,61,46,.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px}
-.idbox{background:var(--blanc);border-radius:20px;padding:22px;max-width:340px;width:100%;box-shadow:var(--ombre);text-align:center}
-.idbox h3{font-family:'Fredoka',sans-serif;margin:0 0 6px;color:var(--bois)}
-.idbox p{color:var(--bois-clair);font-weight:700;margin:0 0 12px;font-size:.92rem}
-.idbox input{width:100%;box-sizing:border-box;border:2px solid #e7d3a8;border-radius:12px;padding:11px;font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.05rem;color:var(--bois);margin-bottom:10px;text-align:center}
-.idbox input:focus{outline:none;border-color:var(--orange-bas)}
+@media(max-width:480px){
+  .wrap{padding:14px 12px 80px}
+  .hero h1{font-size:2rem}.hero .sub{font-size:1rem}.coin{font-size:2.8rem}
+  .card{padding:16px;border-radius:20px}
+  .topbar h2{font-size:1.2rem}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem;border-radius:14px}
+  .lead{font-size:1rem}.question{font-size:1.18rem}
+  .ansrow input{width:60%;max-width:200px}
+  .btn{font-size:1rem;padding:13px 18px}
+  .dtable th,.dtable td{padding:6px 8px;font-size:.9rem}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+<script>try{if(!localStorage.getItem("kc_eleve")||!localStorage.getItem("kc_classe"))location.replace("index.html");}catch(e){}</script>
 </head>
 <body>
+<div style="background:#3a3a3a;color:#fff;padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-family:'Fredoka',sans-serif;font-size:14px;position:sticky;top:0;z-index:999;">
+  <span style="background:#EF5D60;padding:3px 10px;border-radius:10px;font-weight:600;">VERSION TEST</span>
+  <button onclick="quizNext()" style="font-family:'Fredoka',sans-serif;font-size:14px;border:none;cursor:pointer;background:#5a5a5a;color:#fff;border-radius:12px;padding:7px 12px;">⏭ Passer question</button>
+  <button onclick="Object.keys(unlocked).forEach(function(k){unlocked[k]=true;});updateMap();" style="font-family:'Fredoka',sans-serif;font-size:14px;border:none;cursor:pointer;background:#5a5a5a;color:#fff;border-radius:12px;padding:7px 12px;">🔓 Tout débloquer</button>
+</div>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="wrap">
 
+<!-- ====== ACCUEIL ====== -->
 <section id="accueil" class="screen active">
   <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
   <div class="hero">
     <div class="coin">📊📈</div>
     <h1>Statistiques</h1>
-    <p class="sub">On apprend à lire les tableaux, calculer les indicateurs et traiter les données en intervalles. Chaque entraînement est noté sur 10 : il faut 8/10 pour valider !</p>
+    <p class="sub">Vocabulaire, étendue, moyenne, médiane, fréquences, diagrammes… Allez, on y va étape par étape ! 💪</p>
   </div>
   <div class="map">
-    <div class="etape e1" id="mapNature" onclick="tapTheme('nature')">
-      <div class="num">🔤</div><div class="txt"><h3>1 · Qualitatif ou quantitatif</h3><p>Reconnaître la nature des données</p></div><div class="status">▶</div>
+    <div class="etape e1" id="mapVocabulaire" onclick="tapTheme('vocabulaire')">
+      <div class="num">📖</div><div class="txt"><h3>1 · Vocabulaire</h3><p>Population, individu, effectif, fréquence…</p></div><div class="status">▶</div>
     </div>
-    <div class="etape e2" id="mapFreq" onclick="tapTheme('freq')">
-      <div class="num">📊</div><div class="txt"><h3>2 · Effectifs & fréquences</h3><p>Lire et compléter un tableau</p></div><div class="status">🔒</div>
+    <div class="etape e2" id="mapEtendue" onclick="tapTheme('etendue')">
+      <div class="num">📏</div><div class="txt"><h3>2 · Étendue</h3><p>Max − min : l'écart entre les valeurs</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e3" id="mapMmm" onclick="tapTheme('mmm')">
-      <div class="num">📈</div><div class="txt"><h3>3 · Moyenne, médiane, étendue</h3><p>Les indicateurs</p></div><div class="status">🔒</div>
+    <div class="etape e3" id="mapMoyenne" onclick="tapTheme('moyenne')">
+      <div class="num">➕</div><div class="txt"><h3>3 · Moyenne</h3><p>Somme ÷ nombre de valeurs</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e4" id="mapClasses" onclick="tapTheme('classes')">
-      <div class="num">📐</div><div class="txt"><h3>4 · Données en classes</h3><p>Tableaux par intervalles</p></div><div class="status">🔒</div>
+    <div class="etape e4" id="mapMediane" onclick="tapTheme('mediane')">
+      <div class="num">🎯</div><div class="txt"><h3>4 · Médiane</h3><p>La valeur du milieu</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e5" id="mapFrequences" onclick="tapTheme('frequences')">
+      <div class="num">🔢</div><div class="txt"><h3>5 · Fréquences</h3><p>Effectif ÷ total × 100 = %</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e6" id="mapDiagrammes" onclick="tapTheme('diagrammes')">
+      <div class="num">📊</div><div class="txt"><h3>6 · Diagrammes</h3><p>Lire et interpréter un graphique</p></div><div class="status">🔒</div>
     </div>
     <div class="etape e6" id="mapArene" onclick="tapArene()">
-      <div class="num">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Tout, au choix (entraînement libre)</p></div><div class="status">🔒</div>
+      <div class="num" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Entraînement libre, tout mélangé !</p></div><div class="status">🔒</div>
     </div>
   </div>
 </section>
 
-<section id="expNature" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Qualitatif ou quantitatif ?</h2></div>
-  <div class="card"><span class="tag" style="background:var(--violet)">La leçon</span><p class='lead'>Un caractère <b>qualitatif</b> ne se mesure pas par un nombre : ce sont des catégories (couleur, sport…). Un caractère <b>quantitatif</b> est un nombre. Il est <b>discret</b> si on le compte (nombre de frères), <b>continu</b> s’il se mesure et qu’on le regroupe souvent par intervalles (taille, masse, durée).</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('nature')">Je m’entraîne ➜</button></div>
+<!-- ====== LEÇON VOCABULAIRE ====== -->
+<section id="expVocabulaire" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>📖 Vocabulaire statistique</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">🌟 Notre histoire du jour</span>
+    <p class="lead">La classe de 3ème a passé un contrôle de maths ! 📝<br>Voici les notes des 10 élèves :</p>
+    <div class="val-box" id="voc_notes_display">
+      <span class="val-chip">8</span><span class="val-chip">12</span><span class="val-chip">15</span><span class="val-chip">9</span><span class="val-chip">11</span><span class="val-chip">14</span><span class="val-chip">12</span><span class="val-chip">7</span><span class="val-chip">16</span><span class="val-chip">10</span>
+    </div>
+    <p class="note">On va apprendre à décrire ces données comme un vrai statisticien ! 🧑‍🔬</p>
+  </div>
+
+  <!-- Étape 1 -->
+  <div class="card" id="voc_step1">
+    <span class="tag" style="background:var(--violet)">Étape 1 — Les définitions 📚</span>
+    <div class="bubble"><b>Population</b> = le groupe qu'on étudie.<br>👉 Ici : <b>la classe de 3ème</b> (les 10 élèves).</div>
+    <div class="bubble"><b>Individu</b> = une personne (ou un objet) de la population.<br>👉 Ici : <b>un élève</b>.</div>
+    <div class="bubble"><b>Caractère</b> = la chose qu'on mesure sur chaque individu.<br>👉 Ici : <b>la note obtenue</b>.</div>
+    <div class="bubble"><b>Valeurs</b> = les résultats possibles du caractère.<br>👉 Ici : 7, 8, 9, 10, 11, 12, 14, 15, 16.</div>
+    <div class="encour">💡 Tu vois ? C'est juste du vocabulaire pour parler de données ! Facile !</div>
+    <div class="lesson-nav"><button class="btn violet" onclick="lessonStep('voc',2)">J'ai compris, suite ! ➜</button></div>
+  </div>
+
+  <!-- Étape 2 -->
+  <div class="card lesson-step" id="voc_step2">
+    <span class="tag" style="background:var(--violet)">Étape 2 — Le tableau d'effectifs 📊</span>
+    <div class="bubble"><b>Effectif</b> d'une valeur = le nombre de fois où elle apparaît.<br>👉 La note 12 apparaît <b>2 fois</b> → son effectif est <b>2</b>.</div>
+    <p class="lead" style="text-align:center">Voici le tableau complet :</p>
+    <div style="overflow-x:auto">
+      <table class="stat-table">
+        <tr><th>Note</th><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>14</td><td>15</td><td>16</td><td><b>Total</b></td></tr>
+        <tr><th>Effectif</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td><b>2</b></td><td>1</td><td>1</td><td>1</td><td><b>10</b></td></tr>
+      </table>
+    </div>
+    <div class="encour">✅ La somme des effectifs = effectif total = nombre d'individus !</div>
+    <div class="lesson-nav"><button class="btn violet" onclick="lessonStep('voc',3)">Super, on continue ! ➜</button></div>
+  </div>
+
+  <!-- Étape 3 quiz -->
+  <div class="card lesson-step" id="voc_step3">
+    <span class="tag" style="background:var(--violet)">Étape 3 — Mini-quiz 🎯</span>
+    <p class="lead" style="text-align:center">Prouve que tu as compris !</p>
+    <div id="voc_quiz_zone"></div>
+    <div class="mid" style="margin-top:12px"><button class="btn violet" id="voc_train_btn" style="display:none" onclick="startTrain('vocabulaire')">Je m'entraîne ! ➜</button></div>
+  </div>
 </section>
 
-<section id="expFreq" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Effectifs & fréquences</h2></div>
-  <div class="card"><span class="tag" style="background:var(--teal)">La leçon</span><p class='lead'>L’<b>effectif</b> d’une valeur est le nombre de fois où elle apparaît. L’<b>effectif total</b> est la somme de tous les effectifs. La <b>fréquence</b> d’une valeur = effectif ÷ effectif total (un nombre entre 0 et 1, qu’on peut écrire en %).</p><div class='tabbox'>__TBL_T__</div><p class='note'>Ici l’effectif total est 20, et la fréquence du Bleu est 5 ÷ 20 = 0,25 = 25 %.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('freq')">Je m’entraîne ➜</button></div>
+<!-- ====== LEÇON ÉTENDUE ====== -->
+<section id="expEtendue" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>📏 L'étendue</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">C'est quoi l'étendue ? 🤔</span>
+    <div class="bubble teal"><b>L'étendue</b> = valeur <b>maximale</b> − valeur <b>minimale</b>.<br>Ça dit à quel point les valeurs sont "écartées" les unes des autres.</div>
+    <div class="mid"><span class="formule">Étendue = max − min</span></div>
+    <div class="bubble teal">On reprend nos notes : 8, 12, 15, 9, 11, 14, 12, 7, 16, 10<br>👉 La plus grande note : <b>16</b><br>👉 La plus petite note : <b>7</b><br>👉 Étendue = <b>16 − 7 = 9</b></div>
+    <div class="encour">📏 L'étendue de 9 points montre que les notes sont assez écartées !</div>
+    <div class="lesson-nav"><button class="btn teal" onclick="startTrain('etendue')">Je m'entraîne ! ➜</button></div>
+  </div>
 </section>
 
-<section id="expMmm" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Moyenne, médiane, étendue</h2></div>
-  <div class="card"><span class="tag" style="background:var(--orange)">La leçon</span><p class='lead'>La <b>moyenne</b> = somme des valeurs ÷ nombre de valeurs. L’<b>étendue</b> = plus grande valeur − plus petite valeur. La <b>médiane</b> partage la série rangée dans l’ordre en deux groupes de même effectif.</p><div class='dlist'>4 ; 7 ; 8 ; 10 ; 16</div><p class='note'>Étendue : 16 − 4 = 12. Médiane (valeur du milieu) : 8. Moyenne : 45 ÷ 5 = 9.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('mmm')">Je m’entraîne ➜</button></div>
+<!-- ====== LEÇON MOYENNE ====== -->
+<section id="expMoyenne" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>➕ La moyenne</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">Étape 1 — La formule 📐</span>
+    <div class="bubble orange"><b>Moyenne</b> = somme de toutes les valeurs ÷ nombre de valeurs.<br>C'est comme "répartir" toutes les valeurs en parts égales !</div>
+    <div class="mid"><span class="formule">Moyenne = (somme) ÷ (nombre de valeurs)</span></div>
+    <div class="bubble orange">Avec nos 10 notes :<br>
+      Somme = 8 + 12 + 15 + 9 + 11 + 14 + 12 + 7 + 16 + 10 = <b>114</b><br>
+      Nombre de valeurs = <b>10</b><br>
+      Moyenne = 114 ÷ 10 = <b>11,4</b>
+    </div>
+    <div class="encour">🎉 La moyenne de la classe est 11,4 sur 20 !</div>
+    <div class="lesson-nav"><button class="btn orange" onclick="lessonStep('moy',2)">Super, étape 2 ➜</button></div>
+  </div>
+
+  <div class="card lesson-step" id="moy_step2">
+    <span class="tag" style="background:var(--orange)">Étape 2 — Depuis un tableau d'effectifs 📊</span>
+    <div class="bubble orange">Quand on a un tableau, on <b>multiplie chaque valeur par son effectif</b> pour trouver sa contribution à la somme !</div>
+    <p class="lead" style="text-align:center">Voici comment on complète le tableau :</p>
+    <div style="overflow-x:auto">
+      <table class="stat-table">
+        <tr><th>Note</th><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>14</td><td>15</td><td>16</td><td><b>Total</b></td></tr>
+        <tr><th>Effectif</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td><b>2</b></td><td>1</td><td>1</td><td>1</td><td><b>10</b></td></tr>
+        <tr><th>Note × Eff.</th><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td style="background:#FFF4DC"><b>24</b></td><td>14</td><td>15</td><td>16</td><td><b>114</b></td></tr>
+      </table>
+    </div>
+    <div class="bubble orange">Somme = 114 &nbsp;|&nbsp; Total des élèves = 10<br>Moyenne = 114 ÷ 10 = <b>11,4</b> ✅</div>
+    <div class="encour">💡 Remarque : la note 12 compte double (effectif 2) !</div>
+    <div class="lesson-nav"><button class="btn orange" onclick="startTrain('moyenne')">Je m'entraîne ! ➜</button></div>
+  </div>
 </section>
 
-<section id="expClasses" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Données en classes</h2></div>
-  <div class="card"><span class="tag" style="background:var(--vert)">La leçon</span><p class='lead'>Quand les valeurs sont nombreuses, on les regroupe en <b>classes</b> (intervalles) comme [10 ; 20[. Le <b>centre</b> d’une classe = (borne basse + borne haute) ÷ 2. La <b>classe modale</b> est celle qui a le plus grand effectif.</p><div class='tabbox'>__TBL_C__</div><p class='note'>Le centre de [10 ; 20[ est 15. Ici la classe modale est celle qui a l’effectif le plus élevé.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('classes')">Je m’entraîne ➜</button></div>
+<!-- ====== LEÇON MÉDIANE ====== -->
+<section id="expMediane" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🎯 La médiane</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">Étape 1 — C'est quoi ? 🤔</span>
+    <div class="bubble vert"><b>La médiane</b> = la valeur du <b>MILIEU</b> quand on trie les valeurs du plus petit au plus grand.<br>Elle coupe la série en deux parties égales !</div>
+    <p class="lead" style="text-align:center">On trie nos 10 notes :</p>
+    <div class="sorted-row" id="med_sorted_demo">
+      <div class="sorted-chip" id="msd0">7</div>
+      <div class="sorted-chip" id="msd1">8</div>
+      <div class="sorted-chip" id="msd2">9</div>
+      <div class="sorted-chip" id="msd3">10</div>
+      <div class="sorted-chip lit" id="msd4">11</div>
+      <div class="sorted-chip lit" id="msd5">12</div>
+      <div class="sorted-chip" id="msd6">12</div>
+      <div class="sorted-chip" id="msd7">14</div>
+      <div class="sorted-chip" id="msd8">15</div>
+      <div class="sorted-chip" id="msd9">16</div>
+    </div>
+    <div class="bubble vert">10 valeurs → <b>nombre pair</b> → on cherche les valeurs en position <b>5</b> et <b>6</b><br>👉 5ème valeur = <b>11</b>, 6ème valeur = <b>12</b><br>👉 Médiane = (11 + 12) ÷ 2 = <b>11,5</b></div>
+    <div class="encour">🎯 La moitié de la classe a eu moins de 11,5, l'autre moitié a eu plus !</div>
+    <div class="lesson-nav"><button class="btn vert" onclick="lessonStep('med',2)">Étape 2 ➜</button></div>
+  </div>
+
+  <div class="card lesson-step" id="med_step2">
+    <span class="tag" style="background:var(--vert)">Étape 2 — Les ECC : l'outil magique 🪄</span>
+    <div class="bubble vert"><b>ECC = Effectifs Cumulés Croissants</b><br>L'ECC d'une valeur = la somme de tous les effectifs jusqu'à cette valeur (en partant du plus petit).<br>Ça dit : « combien d'individus ont une valeur ≤ à celle-ci ? »</div>
+    <p class="lead" style="text-align:center">On calcule les ECC de nos notes :</p>
+    <div style="overflow-x:auto">
+      <table class="stat-table">
+        <tr><th>Note</th><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>14</td><td>15</td><td>16</td><td><b>Total</b></td></tr>
+        <tr><th>Effectif</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td><b>2</b></td><td>1</td><td>1</td><td>1</td><td><b>10</b></td></tr>
+        <tr><th style="background:var(--vert)">ECC</th><td>1</td><td>2</td><td>3</td><td>4</td><td style="background:#eef8e3"><b>5</b></td><td style="background:#eef8e3"><b>7</b></td><td>8</td><td>9</td><td>10</td><td><b>10</b></td></tr>
+      </table>
+    </div>
+    <div class="bubble vert">🔍 <b>Comment trouver la médiane avec les ECC ?</b><br>N = 10 valeurs (pair) → on cherche les positions <b>5</b> et <b>6</b>.<br>• Premier ECC ≥ 5 : c'est <b>5</b> → valeur correspondante = <b>11</b> (5ème)<br>• Premier ECC ≥ 6 : c'est <b>7</b> → valeur correspondante = <b>12</b> (6ème)<br>• Médiane = (11 + 12) ÷ 2 = <b>11,5</b> ✅</div>
+    <div class="encour">💡 Les ECC te permettent de trouver la médiane directement dans un tableau, sans lister toutes les valeurs !</div>
+    <div class="lesson-nav"><button class="btn vert" onclick="lessonStep('med',3)">Exemple impair ➜</button></div>
+  </div>
+
+  <div class="card lesson-step" id="med_step3">
+    <span class="tag" style="background:var(--vert)">Étape 3 — Nombre impair de valeurs 💡</span>
+    <div class="bubble vert">Avec <b>N impair</b> : la médiane est en position <b>(N+1) ÷ 2</b>.<br>Exemple : N = 5 → position (5+1)÷2 = <b>3</b></div>
+    <div style="overflow-x:auto">
+      <table class="stat-table">
+        <tr><th>Valeur</th><td>3</td><td>6</td><td>8</td><td>11</td><td>15</td><td><b>Total</b></td></tr>
+        <tr><th>Effectif</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td><b>5</b></td></tr>
+        <tr><th style="background:var(--vert)">ECC</th><td>1</td><td>2</td><td style="background:#eef8e3"><b>3</b></td><td>4</td><td>5</td><td><b>5</b></td></tr>
+      </table>
+    </div>
+    <div class="bubble vert">Premier ECC ≥ 3 : c'est <b>3</b> → valeur = <b>8</b><br>→ Médiane = <b>8</b> ✅</div>
+    <div class="sorted-row">
+      <div class="sorted-chip lit">3</div>
+      <div class="sorted-chip lit">6</div>
+      <div class="sorted-chip mid">8</div>
+      <div class="sorted-chip lit">11</div>
+      <div class="sorted-chip lit">15</div>
+    </div>
+    <div class="encour">🧠 Méthode ECC : cherche le premier ECC ≥ position cherchée → lis la valeur de cette colonne !</div>
+    <div class="lesson-nav"><button class="btn vert" onclick="startTrain('mediane')">Je m'entraîne ! ➜</button></div>
+  </div>
 </section>
 
+<!-- ====== LEÇON FRÉQUENCES ====== -->
+<section id="expFrequences" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🔢 Les fréquences</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">C'est quoi une fréquence ? 📐</span>
+    <div class="bubble bleu"><b>La fréquence</b> d'une valeur, c'est sa part dans le total, exprimée en pourcentage (%).<br>Formule : <b>fréquence = effectif ÷ effectif total × 100</b></div>
+    <div class="mid"><span class="formule">f (%) = effectif ÷ total × 100</span></div>
+    <div class="bubble bleu">Exemple avec nos notes :<br>
+      La note 12 a un effectif de <b>2</b>, total = <b>10</b><br>
+      f(12) = 2 ÷ 10 × 100 = <b>20 %</b><br>
+      👉 20 % des élèves ont eu 12 !
+    </div>
+    <p class="lead" style="text-align:center">Tableau complet avec les fréquences :</p>
+    <div style="overflow-x:auto">
+      <table class="stat-table">
+        <tr><th>Note</th><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>14</td><td>15</td><td>16</td><td><b>Total</b></td></tr>
+        <tr><th>Effectif</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td><b>2</b></td><td>1</td><td>1</td><td>1</td><td><b>10</b></td></tr>
+        <tr><th>Fréq. (%)</th><td>10</td><td>10</td><td>10</td><td>10</td><td>10</td><td style="background:#FFF4DC"><b>20</b></td><td>10</td><td>10</td><td>10</td><td><b>100</b></td></tr>
+      </table>
+    </div>
+    <div class="encour">✅ La somme des fréquences fait toujours 100 % !</div>
+    <div class="lesson-nav"><button class="btn bleu" onclick="startTrain('frequences')">Je m'entraîne ! ➜</button></div>
+  </div>
+</section>
+
+<!-- ====== LEÇON DIAGRAMMES ====== -->
+<section id="expDiagrammes" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>📊 Les diagrammes</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--or)">Diagramme en barres 📊</span>
+    <div class="bubble"><b>Un diagramme en barres</b> montre les effectifs avec des barres.<br>La hauteur de chaque barre = l'effectif de cette valeur.<br>On lit les valeurs sur l'axe vertical !</div>
+    <p class="lead" style="text-align:center">Les notes de la classe :</p>
+    <div class="figbox">
+      <svg viewBox="0 0 300 200" width="300" height="200" style="font-family:'Fredoka',sans-serif">
+        <rect x="0" y="0" width="300" height="200" fill="#FFFDF6" rx="12"/>
+        <!-- axes -->
+        <line x1="36" y1="10" x2="36" y2="165" stroke="#bbb" stroke-width="2"/>
+        <line x1="36" y1="165" x2="295" y2="165" stroke="#bbb" stroke-width="2"/>
+        <!-- barres : notes 7,8,9,10,11,12,14,15,16 effectifs 1,1,1,1,1,2,1,1,1 -->
+        <!-- échelle : max=2, hauteur zone=140, 1 unité=70px -->
+        <rect x="40" y="95" width="22" height="70" fill="#A78BC4" rx="4"/>
+        <rect x="66" y="95" width="22" height="70" fill="#A78BC4" rx="4"/>
+        <rect x="92" y="95" width="22" height="70" fill="#A78BC4" rx="4"/>
+        <rect x="118" y="95" width="22" height="70" fill="#A78BC4" rx="4"/>
+        <rect x="144" y="95" width="22" height="70" fill="#A78BC4" rx="4"/>
+        <rect x="170" y="25" width="22" height="140" fill="#FFC93C" rx="4"/>
+        <rect x="196" y="95" width="22" height="70" fill="#A78BC4" rx="4"/>
+        <rect x="222" y="95" width="22" height="70" fill="#A78BC4" rx="4"/>
+        <rect x="248" y="95" width="22" height="70" fill="#A78BC4" rx="4"/>
+        <!-- labels x -->
+        <text x="51" y="178" text-anchor="middle" font-size="10" fill="#5C3D2E">7</text>
+        <text x="77" y="178" text-anchor="middle" font-size="10" fill="#5C3D2E">8</text>
+        <text x="103" y="178" text-anchor="middle" font-size="10" fill="#5C3D2E">9</text>
+        <text x="129" y="178" text-anchor="middle" font-size="10" fill="#5C3D2E">10</text>
+        <text x="155" y="178" text-anchor="middle" font-size="10" fill="#5C3D2E">11</text>
+        <text x="181" y="178" text-anchor="middle" font-size="10" fill="#FFC93C" font-weight="bold">12</text>
+        <text x="207" y="178" text-anchor="middle" font-size="10" fill="#5C3D2E">14</text>
+        <text x="233" y="178" text-anchor="middle" font-size="10" fill="#5C3D2E">15</text>
+        <text x="259" y="178" text-anchor="middle" font-size="10" fill="#5C3D2E">16</text>
+        <!-- labels y -->
+        <text x="32" y="168" text-anchor="end" font-size="10" fill="#8a6650">0</text>
+        <text x="32" y="98" text-anchor="end" font-size="10" fill="#8a6650">1</text>
+        <text x="32" y="28" text-anchor="end" font-size="10" fill="#8a6650">2</text>
+        <!-- légende -->
+        <text x="150" y="195" text-anchor="middle" font-size="9" fill="#8a6650">Notes (la barre jaune = effectif 2)</text>
+      </svg>
+    </div>
+    <div class="encour">👆 La barre jaune est la plus haute car la note 12 apparaît 2 fois !</div>
+    <div class="lesson-nav"><button class="btn" onclick="startTrain('diagrammes')">Je m'entraîne ! ➜</button></div>
+  </div>
+</section>
+
+<!-- ====== ÉCRAN ENTRAÎNEMENT ====== -->
 <section id="ecranTrain" class="screen">
   <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card" id="tq_card">
@@ -274,48 +482,53 @@ button,input{touch-action:manipulation}
     <div class="helpnote" id="tq_help"></div>
     <div class="qcard">
       <div class="qcat" id="tq_cat"></div>
-      <div class="tabbox" id="tq_viz" style="display:none"></div>
+      <div class="figbox" id="tq_viz" style="display:none"></div>
       <div class="question" id="tq_text"></div>
       <div class="opts" id="tq_opts" style="display:none"></div>
       <div class="ansrow" id="tq_ansrow">
         <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
         <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
       </div>
+      <div class="cascade" id="tq_casc" style="display:none"></div>
       <div class="feedback" id="tq_feed"></div>
       <div class="stars" id="tq_stars"></div>
       <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant ➜</button></div>
     </div>
   </div>
   <div class="card result" id="tq_result" style="display:none">
-    <div class="big" id="tq_rbig">0 / 10</div>
+    <div class="big" id="tq_rbig"></div>
     <div class="msg" id="tq_rmsg"></div>
     <div class="rbtns" id="tq_rbtns"></div>
   </div>
 </section>
 
+<!-- ====== ARÈNE ====== -->
 <section id="arene" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L’arène des stats</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>⚔️ L'arène des stats !</h2></div>
   <div class="card" id="areneMenu">
-    <p class="lead" style="text-align:center">Bravo, séquence terminée ! Entraînement libre, sans note.</p>
+    <p class="lead" style="text-align:center">🏆 Parcours terminé ! Maintenant tu t'entraînes librement. Choisis ton thème !</p>
     <div class="catgrid">
-      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('nature')"><span class="ic">🔤</span>Nature</button>
-      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('freq')"><span class="ic">📊</span>Fréquences</button>
-      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('mmm')"><span class="ic">📈</span>Indicateurs</button>
-      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('classes')"><span class="ic">📐</span>Classes</button>
+      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('vocabulaire')"><span class="ic">📖</span>Vocabulaire</button>
+      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('etendue')"><span class="ic">📏</span>Étendue</button>
+      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('moyenne')"><span class="ic">➕</span>Moyenne</button>
+      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('mediane')"><span class="ic">🎯</span>Médiane</button>
+      <button class="cat" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="startArene('frequences')"><span class="ic">🔢</span>Fréquences</button>
+      <button class="cat" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('diagrammes')"><span class="ic">📊</span>Diagrammes</button>
     </div>
-    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
+    <div class="mid" style="margin-top:18px"><button class="btn rouge" onclick="startArene('mix')">🎲 Mode mélangé (tout !)</button></div>
   </div>
   <div class="card" id="areneJeu" style="display:none">
     <div class="scorebar"><span class="pill">⭐ <span id="aq_score">0</span></span><span class="pill">🔥 <span id="aq_streak">0</span></span><span class="pill">🎯 <span id="aq_corr">0</span>/<span id="aq_tot">0</span></span></div>
     <div class="qcard">
       <div class="qcat" id="aq_cat"></div>
-      <div class="tabbox" id="aq_viz" style="display:none"></div>
+      <div class="figbox" id="aq_viz" style="display:none"></div>
       <div class="question" id="aq_text"></div>
       <div class="opts" id="aq_opts" style="display:none"></div>
       <div class="ansrow" id="aq_ansrow">
         <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
         <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
       </div>
+      <div class="cascade" id="aq_casc" style="display:none"></div>
       <div class="feedback" id="aq_feed"></div>
       <div class="stars" id="aq_stars"></div>
       <div class="mid" style="margin-top:14px"><button class="btn orange" id="aq_next" style="display:none" onclick="quizNext()">Suivant ➜</button> <button class="btn fant" onclick="finArene()">Changer</button></div>
@@ -323,186 +536,536 @@ button,input{touch-action:manipulation}
   </div>
 </section>
 
-</div>
+</div><!-- /wrap -->
 
 <button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">🧮</button>
 <div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
-  <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
+  <div class="kc-head"><span>🧮 Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
   <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
   <div class="kc-keys" id="kcKeys"></div>
+  <button class="kc-send" onclick="kcSend()" title="Envoyer le résultat dans la case active">📥 Envoyer dans la case</button>
 </div>
-<script>
-/* ===== SUIVI ===== */
-var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Statistiques'};
-function suiviInitIdentite(){try{var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe');if(!e||!c)gid('idov').hidden=false;}catch(_){}}
-function suiviSave(){var p=(gid('idPrenom').value||'').trim(),c=(gid('idClasse').value||'').trim();if(!p||!c)return;try{localStorage.setItem('kc_eleve',p);localStorage.setItem('kc_classe',c);}catch(_){}gid('idov').hidden=true;}
-function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
 
-const ORDER=['nature','freq','mmm','classes'];
-const EXP={nature:'expNature',freq:'expFreq',mmm:'expMmm',classes:'expClasses'};
-const MAPID={nature:'mapNature',freq:'mapFreq',mmm:'mapMmm',classes:'mapClasses'};
-const TITLE={nature:'Qualitatif ou quantitatif',freq:'Effectifs & fréquences',mmm:'Moyenne, médiane, étendue',classes:'Données en classes'};
-const unlocked={nature:true,freq:false,mmm:false,classes:false,arene:false};
-const themeDone={nature:false,freq:false,mmm:false,classes:false};
-let currentTheme='nature';const REQUIRED=6;
-const SERIE=10, SEUIL=8;
-const CATNOM={nature:'Nature',freq:'Fréquences',mmm:'Indicateurs',classes:'Classes'};
-const THEME_CATS={nature:['nature'],freq:['freq'],mmm:['mmm'],classes:['classes']};
-const HELP={
-  nature:'Qualitatif = catégories ; quantitatif = nombre (discret si on compte, continu si on mesure / regroupe en intervalles).',
-  freq:'Fréquence = effectif ÷ effectif total. En % : ×100.',
-  mmm:'Moyenne = somme ÷ nombre. Étendue = max − min. Médiane = valeur du milieu (série rangée).',
-  classes:'Centre de [a ; b[ = (a + b) ÷ 2. Classe modale = plus grand effectif.'
+<script>
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Statistiques'};
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+var SSDONE={};
+function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom+' › '+label);b.append(SUIVI.f.statut,'Terminé');b.append(SUIVI.f.score,'');b.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+
+var ORDER=['vocabulaire','etendue','moyenne','mediane','frequences','diagrammes'];
+var EXP={vocabulaire:'expVocabulaire',etendue:'expEtendue',moyenne:'expMoyenne',mediane:'expMediane',frequences:'expFrequences',diagrammes:'expDiagrammes'};
+var MAPID={vocabulaire:'mapVocabulaire',etendue:'mapEtendue',moyenne:'mapMoyenne',mediane:'mapMediane',frequences:'mapFrequences',diagrammes:'mapDiagrammes'};
+var TITLE={vocabulaire:'Vocabulaire',etendue:'Étendue',moyenne:'Moyenne',mediane:'Médiane',frequences:'Fréquences',diagrammes:'Diagrammes'};
+var CASCADE_THEMES={etendue:true,moyenne:true,mediane:true,frequences:true};
+var SERIE_QCM={vocabulaire:6,diagrammes:6};
+var SEUIL_QCM={vocabulaire:5,diagrammes:5};
+var SERIE_CASC={etendue:4,moyenne:4,mediane:4,frequences:4};
+var SEUIL_CASC={etendue:3,moyenne:3,mediane:3,frequences:3};
+var unlocked={vocabulaire:true,etendue:false,moyenne:false,mediane:false,frequences:false,diagrammes:false,arene:false};
+var themeDone={vocabulaire:false,etendue:false,moyenne:false,mediane:false,frequences:false,diagrammes:false};
+var currentTheme='vocabulaire';
+function serieLen(){return CASCADE_THEMES[currentTheme]?(SERIE_CASC[currentTheme]||4):(SERIE_QCM[currentTheme]||6);}
+function seuilFor(){return CASCADE_THEMES[currentTheme]?(SEUIL_CASC[currentTheme]||3):(SEUIL_QCM[currentTheme]||5);}
+
+var CATNOM={vocabulaire:'📖 Vocabulaire',etendue:'📏 Étendue',moyenne:'➕ Moyenne',mediane:'🎯 Médiane',frequences:'🔢 Fréquences',diagrammes:'📊 Diagrammes'};
+var THEME_CATS={vocabulaire:['vocabulaire'],etendue:['etendue'],moyenne:['moyenne'],mediane:['mediane'],frequences:['frequences'],diagrammes:['diagrammes']};
+var HELP={
+  vocabulaire:'💡 Rappel : effectif = combien de fois une valeur apparaît. Fréquence = effectif ÷ total.',
+  etendue:'💡 Étendue = valeur la plus grande − valeur la plus petite.',
+  moyenne:'💡 Moyenne = somme de toutes les valeurs ÷ nombre de valeurs. Utilise la calculatrice !',
+  mediane:'💡 Trie d\'abord les valeurs ! Médiane = valeur du milieu.',
+  frequences:'💡 Fréquence (%) = effectif ÷ total × 100. Utilise la calculatrice !',
+  diagrammes:'💡 Lis bien les axes ! La hauteur de la barre = l\'effectif.'
 };
+
 function gid(x){return document.getElementById(x);}
-function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();}
-function wiggle(id){const el=gid(id);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}
+function go(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();}
+function wiggle(id){var el=gid(id);el.classList.add('shake');setTimeout(function(){el.classList.remove('shake');},400);}
 function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
 function tapArene(){if(unlocked.arene)go('arene');else wiggle('mapArene');}
 function openTheme(t){currentTheme=t;go(EXP[t]);}
-function updateMap(){ORDER.forEach(t=>{const c=gid(MAPID[t]);c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');});
-  const ar=gid('mapArene');ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';}
-
-/* ===== utilitaires ===== */
+function updateMap(){ORDER.forEach(function(t){var c=gid(MAPID[t]);c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');});var ar=gid('mapArene');ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function rint(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function fmtDec(v){if(!isFinite(v))return '?';return (Math.round(v*100)/100).toString().replace('.',',');}
-function r2(v){return Math.round(v*100)/100;}
-
-function qcm(cat,t,opts,ci,e,viz){const o=shuffle(opts);return {type:'qcm',cat,text:t,options:o,correct:o.indexOf(opts[ci]),explain:e,viz};}
-
-function stab(l1,labels,l2,vals){var h='<table class="stab"><tr><th class="rowh">'+l1+'</th>';for(var i=0;i<labels.length;i++)h+='<th>'+labels[i]+'</th>';h+='</tr><tr><th class="rowh">'+l2+'</th>';for(var j=0;j<vals.length;j++)h+='<td>'+vals[j]+'</td>';h+='</tr></table>';return h;}
-function partition(T,k){var a=[];for(var i=0;i<k;i++)a.push(1);var rem=T-k;while(rem>0){a[rint(0,k-1)]++;rem--;}return a;}
-function maxIdxUnique(arr){var m=Math.max.apply(null,arr);var idx=arr.indexOf(m);if(arr.filter(function(x){return x===m;}).length>1)return -1;return idx;}
-
-/* ===== générateurs ===== */
-var QUAL=['la couleur des yeux','le sport préféré','le moyen de transport','la marque du téléphone','le genre de musique préféré','la couleur préférée','la langue parlée à la maison'];
-var DISC=['le nombre de frères et sœurs','le nombre d’animaux domestiques','le nombre de livres lus dans l’année','la note obtenue sur 20','le nombre de SMS envoyés par jour','le nombre de buts marqués'];
-var CONT=['la taille des élèves (en cm)','la masse des élèves (en kg)','le temps de trajet (en min)','la durée d’un appel (en s)','la distance maison-collège (en km)'];
-function genNature(){
-  var r=Math.random();
-  if(r<0.18) return qcm('nature','Un caractère qualitatif…',['ne se mesure pas par un nombre (des catégories)','est toujours un nombre entier','se mesure en cm'],0,'Le qualitatif décrit des catégories, pas des nombres.',null);
-  if(r<0.30) return qcm('nature','Un caractère quantitatif continu…',['se mesure et se regroupe souvent en intervalles','se compte un par un','est une couleur'],0,'Le continu (taille, masse, durée) se mesure et se regroupe en classes.',null);
-  var t=pick(['qual','disc','cont']);
-  var ctx = t==='qual'?pick(QUAL): t==='disc'?pick(DISC):pick(CONT);
-  var extra = (t==='cont'&&Math.random()<0.5)?' (les valeurs sont regroupées par intervalles)':'';
-  var good = t==='qual'?'qualitatif': t==='disc'?'quantitatif discret':'quantitatif continu';
-  var ex = t==='qual'?'On classe par catégories : c’est qualitatif.': t==='disc'?'On compte un nombre entier : quantitatif discret.':'On mesure (et on regroupe en intervalles) : quantitatif continu.';
-  return qcm('nature','On étudie « '+ctx+extra+' ». Ce caractère est…',['qualitatif','quantitatif discret','quantitatif continu'],['qualitatif','quantitatif discret','quantitatif continu'].indexOf(good),ex,null);
-}
-var FREQCTX=[{q:'Couleur préférée',labels:['Rouge','Bleu','Vert','Jaune']},{q:'Sport préféré',labels:['Foot','Tennis','Natation','Danse']},{q:'Animal préféré',labels:['Chien','Chat','Lapin','Oiseau']},{q:'Matière préférée',labels:['Maths','Français','Sport','Arts']}];
-function genFreq(){
-  var ctx=pick(FREQCTX),k=ctx.labels.length,T=pick([10,20,25,50,100]),effs=partition(T,k);
-  var viz=stab(ctx.q,ctx.labels,'Effectif',effs);
-  var r=Math.random();
-  if(r<0.18) return qcm('freq','La fréquence d’une valeur, c’est…',['effectif ÷ effectif total','effectif total ÷ effectif','effectif × 100'],0,'Fréquence = effectif ÷ effectif total.',viz);
-  if(r<0.45) return {type:'num',cat:'freq',text:'Quel est l’effectif total ?',answer:T,disp:T,viz:viz,explain:'On additionne tous les effectifs : '+effs.join(' + ')+' = '+T+'.',kind:'total',raw:{effs:effs}};
-  var i=rint(0,k-1);
-  if(r<0.75){var p=effs[i]*100/T;return {type:'num',cat:'freq',text:'Quelle est la fréquence de « '+ctx.labels[i]+' » en pourcentage ?',answer:p,disp:p+' %',viz:viz,explain:'Fréquence = '+effs[i]+' ÷ '+T+' = '+(effs[i]/T)+' = '+p+' %.',kind:'freqpct',raw:{eff:effs[i],T:T}};}
-  var d=effs[i]/T;return {type:'num',cat:'freq',text:'Quelle est la fréquence de « '+ctx.labels[i]+' » en écriture décimale ?',answer:d,disp:(''+d).replace('.',','),viz:viz,explain:'Fréquence = '+effs[i]+' ÷ '+T+' = '+(''+d).replace('.',',')+'.',tol:0.001,kind:'freqdec',raw:{eff:effs[i],T:T}};
-}
-function makeData(){var n=pick([5,7,9]),d=[],s=0,i;for(i=0;i<n;i++){d.push(rint(2,20));}s=d.reduce(function(a,b){return a+b;},0);var rem=s%n;if(rem!==0){var add=n-rem;if(d[0]+add<=24)d[0]+=add;else d[0]-=rem;}return d;}
-function genMmm(){
-  var r=Math.random();
-  if(r<0.16) return qcm('mmm','L’étendue d’une série, c’est…',['la plus grande valeur − la plus petite','la valeur du milieu','la somme ÷ le nombre'],0,'Étendue = max − min.',null);
-  if(r<0.30) return qcm('mmm','La médiane d’une série rangée…',['partage en deux groupes de même effectif','est toujours la moyenne','est la plus grande valeur'],0,'La médiane partage la série en deux groupes de même effectif.',null);
-  if(r<0.55){var d1=makeData();var et=Math.max.apply(null,d1)-Math.min.apply(null,d1);return {type:'num',cat:'mmm',text:'Quelle est l’étendue de cette série ?',answer:et,disp:et,viz:'<div class="dlist">'+d1.join(' ; ')+'</div>',explain:'Étendue = '+Math.max.apply(null,d1)+' − '+Math.min.apply(null,d1)+' = '+et+'.',kind:'etendue',raw:{data:d1}};}
-  if(r<0.75){var d2=makeData();var s=d2.reduce(function(a,b){return a+b;},0);var m=s/d2.length;return {type:'num',cat:'mmm',text:'Quelle est la moyenne de cette série ?',answer:m,disp:m,viz:'<div class="dlist">'+d2.join(' ; ')+'</div>',explain:'Moyenne = ('+d2.join(' + ')+') ÷ '+d2.length+' = '+s+' ÷ '+d2.length+' = '+m+'.',kind:'moyenne',raw:{data:d2}};}
-  if(r<0.9){var d3=makeData();var srt=d3.slice().sort(function(a,b){return a-b;});var md=srt[(srt.length-1)/2];return {type:'num',cat:'mmm',text:'Quelle est la médiane de cette série ?',answer:md,disp:md,viz:'<div class="dlist">'+d3.join(' ; ')+'</div>',explain:'On range : '+srt.join(' ; ')+'. La valeur du milieu est '+md+'.',kind:'mediane',raw:{data:d3}};}
-  // mode depuis tableau
-  var base=[8,10,12,14,16],vals=base.slice(0,4),effs;do{effs=[rint(1,9),rint(1,9),rint(1,9),rint(1,9)];}while(maxIdxUnique(effs)<0);var mi=maxIdxUnique(effs);
-  return {type:'num',cat:'mmm',text:'Dans ce tableau, quelle note a le plus grand effectif (le mode) ?',answer:vals[mi],disp:vals[mi],viz:stab('Note',vals,'Effectif',effs),explain:'L’effectif le plus grand est '+effs[mi]+', pour la note '+vals[mi]+'.',kind:'mode',raw:{vals:vals,effs:effs}};
-}
-function genClasses(){
-  var w=pick([10,20,5]),a0=pick([0,5,10,15,20]),k=rint(3,4);
-  var starts=[],labels=[],centres=[],i;for(i=0;i<k;i++){var s=a0+i*w;starts.push(s);labels.push('['+s+' ; '+(s+w)+'[');centres.push(s+w/2);}
-  var effs;do{effs=[];for(i=0;i<k;i++)effs.push(rint(2,12));}while(maxIdxUnique(effs)<0);
-  var viz=stab('Classe',labels,'Effectif',effs);
-  var r=Math.random();
-  if(r<0.16) return qcm('classes','Le centre d’une classe [a ; b[ se calcule par…',['(a + b) ÷ 2','b − a','a × b'],0,'Centre = (borne basse + borne haute) ÷ 2.',viz);
-  if(r<0.40){var ci=rint(0,k-1);return {type:'num',cat:'classes',text:'Quel est le centre de la classe '+labels[ci]+' ?',answer:centres[ci],disp:(''+centres[ci]).replace('.',','),viz:viz,explain:'Centre = ('+starts[ci]+' + '+(starts[ci]+w)+') ÷ 2 = '+(''+centres[ci]).replace('.',',')+'.',kind:'centre',raw:{a:starts[ci],b:starts[ci]+w}};}
-  if(r<0.58){var tot=effs.reduce(function(a,b){return a+b;},0);return {type:'num',cat:'classes',text:'Quel est l’effectif total ?',answer:tot,disp:tot,viz:viz,explain:'On additionne : '+effs.join(' + ')+' = '+tot+'.',kind:'total',raw:{effs:effs}};}
-  if(r<0.74){var mi=maxIdxUnique(effs);return qcm('classes','Quelle est la classe modale ?',labels.slice(),mi,'La classe modale a le plus grand effectif ('+effs[mi]+') : '+labels[mi]+'.',viz);}
-  if(r<0.88){var ai=rint(0,k-1);var v=starts[ai]+rint(0,w-1);return qcm('classes','Dans quelle classe se trouve la valeur '+v+' ?',labels.slice(),ai,'On cherche l’intervalle qui contient '+v+' : '+labels[ai]+'.',viz);}
-  var tot2=effs.reduce(function(a,b){return a+b;},0);var sp=0;for(i=0;i<k;i++)sp+=centres[i]*effs[i];var mApp=sp/tot2;var mr=Math.round(mApp);
-  return {type:'num',cat:'classes',text:'Quelle est la moyenne approchée (arrondie à l’unité) ?',answer:mr,disp:mr+' (≈ '+(Math.round(mApp*100)/100+'').replace('.',',')+')',viz:viz,explain:'On multiplie chaque centre par son effectif, on additionne, on divise par '+tot2+', puis on arrondit : ≈ '+mr+'.',tol:0.5,kind:'moyclasse',raw:{centres:centres,effs:effs}};
-}
-var GEN={nature:genNature,freq:genFreq,mmm:genMmm,classes:genClasses};
-
-/* ===== moteur de quiz (série notée) ===== */
-function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function arr2str(arr){return arr.join(', ');}
+function fmtDec(v){return (Math.round(v*100)/100).toString().replace('.',',');}
 function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;if(s.indexOf('/')>=0){var p=s.split('/');if(p.length!==2)return null;var a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;return a/b;}var v=parseFloat(s);return isFinite(v)?v:null;}
-var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastText:'',timer:0};
-function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),next:gid('tq_next'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
-function elsArene(){return {score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next')};}
+function normTxt(s){return String(s).toLowerCase().trim().replace(/\s+/g,'').replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ïî]/g,'i').replace(/[ôö]/g,'o').replace(/[ûü]/g,'u').replace(/['']/g,'');}
+
+/* ===== LEÇON interactive ===== */
+function lessonStep(prefix,n){
+  var el=gid(prefix+'_step'+n);
+  if(!el)return;
+  el.classList.add('on');
+  setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'start'});},100);
+}
+
+/* ===== Animation médiane ===== */
+function animMed(){
+  var chips=[0,1,2,3,4,5,6,7,8,9];
+  chips.forEach(function(i){
+    setTimeout(function(){
+      var el=gid('msd'+i);
+      if(!el)return;
+      if(i===4||i===5){el.classList.add('med');}
+      else{el.classList.add('lit');}
+    },i*80);
+  });
+}
+
+/* ===== Mini quiz leçon vocabulaire ===== */
+var VOC_MINI=[
+  {q:"Dans notre exemple, quelle est la POPULATION ?",opts:["La classe de 3ème (10 élèves)","La note obtenue","Le professeur"],c:0,e:"La population = le groupe étudié, ici la classe entière."},
+  {q:"Quel est le CARACTÈRE étudié dans notre exemple ?",opts:["La note obtenue","Le prénom de l'élève","Le nombre d'élèves"],c:0,e:"Le caractère = ce qu'on mesure sur chaque individu. Ici c'est la note !"},
+  {q:"L'EFFECTIF de la note 12 est…",opts:["2 (elle apparaît 2 fois)","12","10"],c:0,e:"La note 12 apparaît 2 fois dans la liste, donc son effectif est 2."},
+  {q:"Combien y a-t-il d'INDIVIDUS dans notre population ?",opts:["10 élèves","9 notes","12"],c:0,e:"Il y a 10 élèves = 10 individus dans la classe."}
+];
+var vocMiniIdx=0,vocMiniScore=0;
+function initVocMini(){
+  vocMiniIdx=0;vocMiniScore=0;
+  renderVocMini();
+}
+function renderVocMini(){
+  var zone=gid('voc_quiz_zone');
+  if(!zone)return;
+  if(vocMiniIdx>=VOC_MINI.length){
+    zone.innerHTML='<div class="encour">🎉 Bravo ! Tu connais le vocabulaire ! Score : '+vocMiniScore+'/'+VOC_MINI.length+' !</div>';
+    gid('voc_train_btn').style.display='inline-flex';
+    return;
+  }
+  var q=VOC_MINI[vocMiniIdx];
+  var opts=shuffle(q.opts.map(function(o,i){return {txt:o,orig:i};}));
+  var correctOrig=q.c;
+  var html='<div class="bubble"><b>Question '+(vocMiniIdx+1)+' / '+VOC_MINI.length+'</b><br>'+q.q+'</div>';
+  html+='<div class="opts" id="vmOpts">';
+  opts.forEach(function(o,i){
+    html+='<button class="opt" onclick="checkVocMini('+i+','+o.orig+','+correctOrig+')">'+o.txt+'</button>';
+  });
+  html+='</div><div class="cfeed" id="vmFeed"></div>';
+  zone.innerHTML=html;
+}
+function checkVocMini(chosen,orig,correct){
+  var feed=gid('vmFeed');
+  var btns=gid('vmOpts').querySelectorAll('.opt');
+  btns.forEach(function(b,i){b.disabled=true;});
+  if(orig===correct){
+    btns[chosen].classList.add('good');
+    feed.className='cfeed ok';
+    feed.textContent='✅ Parfait ! '+VOC_MINI[vocMiniIdx].e;
+    vocMiniScore++;
+  } else {
+    btns[chosen].classList.add('bad');
+    feed.className='cfeed no';
+    feed.textContent='❌ '+VOC_MINI[vocMiniIdx].e;
+  }
+  vocMiniIdx++;
+  setTimeout(renderVocMini,1800);
+}
+
+/* ===== SVG diagramme dynamique ===== */
+function svgDiagramme(data){
+  var maxEff=0;
+  data.forEach(function(d){if(d.eff>maxEff)maxEff=d.eff;});
+  var W=280,H=180,padL=32,padB=30,padT=14,barW=Math.floor((W-padL-10)/data.length)-4;
+  var scaleH=maxEff>0?(H-padB-padT)/maxEff:1;
+  var colors=['#A78BC4','#46BECB','#FF8A4C','#8BC34A','#4FA3D1','#FFC93C','#EF5D60'];
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" style="font-family:Fredoka,sans-serif">';
+  svg+='<rect x="0" y="0" width="'+W+'" height="'+H+'" fill="#FFFDF6" rx="10"/>';
+  svg+='<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(H-padB)+'" stroke="#ccc" stroke-width="1.5"/>';
+  svg+='<line x1="'+padL+'" y1="'+(H-padB)+'" x2="'+(W-4)+'" y2="'+(H-padB)+'" stroke="#ccc" stroke-width="1.5"/>';
+  for(var i=1;i<=maxEff;i++){
+    var yy=H-padB-i*scaleH;
+    svg+='<line x1="'+padL+'" y1="'+yy+'" x2="'+(W-4)+'" y2="'+yy+'" stroke="#eee" stroke-width="1"/>';
+    svg+='<text x="'+(padL-4)+'" y="'+(yy+4)+'" text-anchor="end" font-size="9" fill="#8a6650">'+i+'</text>';
+  }
+  data.forEach(function(d,i){
+    var x=padL+6+i*(barW+4);
+    var bh=d.eff*scaleH;
+    var y=H-padB-bh;
+    svg+='<rect x="'+x+'" y="'+y+'" width="'+barW+'" height="'+bh+'" fill="'+colors[i%colors.length]+'" rx="3"/>';
+    svg+='<text x="'+(x+barW/2)+'" y="'+(H-padB+12)+'" text-anchor="middle" font-size="10" fill="#5C3D2E">'+d.val+'</text>';
+  });
+  svg+='</svg>';
+  return svg;
+}
+
+/* ===== GÉNÉRATEURS ===== */
+function genVocabulaire(){
+  var pool=[
+    {t:"Qu'appelle-t-on l'EFFECTIF d'une valeur ?",o:["Le nombre de fois où elle apparaît","Sa position dans la liste","Sa valeur divisée par le total"],c:0,e:"L'effectif = le nombre de fois où la valeur apparaît dans la série."},
+    {t:"La POPULATION, en statistiques, c'est…",o:["Le groupe entier qu'on étudie","La valeur la plus grande","Le nombre de valeurs différentes"],c:0,e:"La population = l'ensemble des individus sur lesquels on recueille des données."},
+    {t:"Le CARACTÈRE d'une série statistique, c'est…",o:["La propriété mesurée sur chaque individu","La somme de tous les effectifs","La valeur centrale"],c:0,e:"Le caractère = ce qu'on observe ou mesure sur chaque individu (la note, l'âge, la couleur…)."},
+    {t:"Dans la série 5, 7, 7, 9, 12 — quel est l'effectif de 7 ?",o:["2","7","1"],c:0,e:"La valeur 7 apparaît 2 fois → son effectif est 2."},
+    {t:"La somme de tous les effectifs d'une série est égale à…",o:["L'effectif total (nombre d'individus)","La moyenne","L'étendue"],c:0,e:"La somme des effectifs = effectif total = nombre d'individus dans la population."},
+    {t:"Un INDIVIDU dans une étude statistique, c'est…",o:["Une personne (ou objet) de la population","Une valeur numérique","La différence entre max et min"],c:0,e:"Un individu = un élément de la population (un élève, une voiture, un pays…)."},
+    {t:"Si 4 élèves sur 20 ont eu 14, quel est l'effectif de la note 14 ?",o:["4","14","20"],c:0,e:"L'effectif de 14 = le nombre d'élèves ayant eu 14 = 4."},
+    {t:"Dans la liste 3, 5, 5, 5, 8, 9 — combien y a-t-il d'INDIVIDUS ?",o:["6","5","3"],c:0,e:"On compte les valeurs : 3, 5, 5, 5, 8, 9 → 6 valeurs → 6 individus."}
+  ];
+  var q=pick(pool);var opts=shuffle(q.o);
+  return {type:'qcm',cat:'vocabulaire',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+}
+
+function genEtendue(){
+  var n=rint(5,8);
+  var vals=[];
+  for(var i=0;i<n;i++)vals.push(rint(2,20));
+  var sorted=vals.slice().sort(function(a,b){return a-b;});
+  var vmax=sorted[n-1],vmin=sorted[0],ext=vmax-vmin;
+  var sig='E'+vals.join('-');
+  var steps=[
+    {prompt:'🔍 Étape 1 — Quelle est la valeur MAXIMALE (la plus grande) ?',
+     aide:'Cherche le nombre le plus grand dans la liste : '+arr2str(vals),
+     parts:[{b:1,kind:'num',ans:vmax,show:''+vmax,w:80,tol:0.5}]},
+    {prompt:'🔍 Étape 2 — Quelle est la valeur MINIMALE (la plus petite) ?',
+     aide:'Cherche le nombre le plus petit dans la liste : '+arr2str(vals),
+     parts:[{b:1,kind:'num',ans:vmin,show:''+vmin,w:80,tol:0.5}]},
+    {prompt:'📏 Étape 3 — Calcule l\'étendue : max − min = ?',
+     aide:'Étendue = '+vmax+' − '+vmin+'. Utilise la calculatrice !',
+     parts:['Étendue = '+vmax+' − '+vmin+' = ',{b:1,kind:'num',ans:ext,show:''+ext,w:80,tol:0.5}]}
+  ];
+  return {type:'cascade',cat:'etendue',sig:sig,
+    text:'🎲 Voici une série de '+n+' valeurs : '+arr2str(vals)+'.\nCalcule l\'étendue en 3 étapes !',
+    steps:steps};
+}
+
+function genMoyenne(){
+  var typeB=Math.random()<0.5;
+  if(!typeB){
+    var n=rint(5,6);
+    var vals=[];
+    for(var i=0;i<n;i++)vals.push(rint(5,18));
+    var somme=0;for(var i=0;i<n;i++)somme+=vals[i];
+    var moy=Math.round(somme*100/n)/100;
+    var sig='MA'+vals.join('-');
+    var steps=[
+      {prompt:'➕ Étape 1 — Calcule la SOMME de toutes les valeurs.',
+       aide:'Additionne : '+vals.join(' + ')+'. Utilise la calculatrice !',
+       parts:['Somme = '+vals.join(' + ')+' = ',{b:1,kind:'num',ans:somme,show:''+somme,w:90,tol:1}]},
+      {prompt:'➗ Étape 2 — Calcule la MOYENNE. (Il y a '+n+' valeurs.)',
+       aide:'Moyenne = somme ÷ nombre de valeurs = '+somme+' ÷ '+n,
+       parts:['Moyenne = '+somme+' ÷ '+n+' = ',{b:1,kind:'num',ans:moy,show:fmtDec(moy),w:90,tol:0.15}]}
+    ];
+    return {type:'cascade',cat:'moyenne',sig:sig,
+      text:'📋 Voici une série de '+n+' valeurs : '+arr2str(vals)+'.\nCalcule la moyenne en 2 étapes !',
+      steps:steps};
+  } else {
+    var vals3=[rint(5,10),rint(11,15),rint(16,20)];
+    var effs=[rint(2,5),rint(2,5),rint(2,4)];
+    var N=effs[0]+effs[1]+effs[2];
+    var prods=vals3.map(function(v,i){return v*effs[i];});
+    var somme=prods[0]+prods[1]+prods[2];
+    var moy=Math.round(somme*100/N)/100;
+    var tableHtml='<div style="overflow-x:auto"><table class="stat-table"><tr><th>Valeur</th><td>'+vals3[0]+'</td><td>'+vals3[1]+'</td><td>'+vals3[2]+'</td><td><b>Total</b></td></tr><tr><th>Effectif</th><td>'+effs[0]+'</td><td>'+effs[1]+'</td><td>'+effs[2]+'</td><td><b>'+N+'</b></td></tr></table></div>';
+    var sig='MB'+vals3.join('-')+'e'+effs.join('-');
+    var steps=[
+      {prompt:'✖️ Étape 1 — Calcule '+vals3[0]+' × '+effs[0]+' = ?',
+       aide:'Multiplier la valeur par son effectif = sa contribution à la somme.',
+       parts:[vals3[0]+' × '+effs[0]+' = ',{b:1,kind:'num',ans:prods[0],show:''+prods[0],w:70,tol:0.5}]},
+      {prompt:'✖️ Étape 2 — Calcule '+vals3[1]+' × '+effs[1]+' = ?',
+       aide:'Même principe : valeur × effectif.',
+       parts:[vals3[1]+' × '+effs[1]+' = ',{b:1,kind:'num',ans:prods[1],show:''+prods[1],w:70,tol:0.5}]},
+      {prompt:'✖️ Étape 3 — Calcule '+vals3[2]+' × '+effs[2]+' = ?',
+       aide:'Valeur × effectif.',
+       parts:[vals3[2]+' × '+effs[2]+' = ',{b:1,kind:'num',ans:prods[2],show:''+prods[2],w:70,tol:0.5}]},
+      {prompt:'➕ Étape 4 — Calcule la somme totale.',
+       aide:'Additionne les 3 résultats : '+prods[0]+' + '+prods[1]+' + '+prods[2],
+       parts:['Somme = ',{b:1,kind:'num',ans:somme,show:''+somme,w:80,tol:1}]},
+      {prompt:'➗ Étape 5 — Calcule la MOYENNE. (Total : '+N+' individus.)',
+       aide:'Moyenne = somme ÷ total = '+somme+' ÷ '+N,
+       parts:['Moyenne = '+somme+' ÷ '+N+' = ',{b:1,kind:'num',ans:moy,show:fmtDec(moy),w:90,tol:0.15}]}
+    ];
+    return {type:'cascade',cat:'moyenne',sig:sig,
+      text:'📊 Voici un tableau d\'effectifs. Calcule la moyenne étape par étape !',
+      viz:tableHtml,steps:steps};
+  }
+}
+
+function genMediane(){
+  // Génère un tableau d'effectifs avec valeurs distinctes
+  var useOdd=Math.random()<0.5;
+  var nbVals=rint(4,6);
+  var baseVals=shuffle([2,3,4,5,6,7,8,9,10,11,12,13,14,15]).slice(0,nbVals).sort(function(a,b){return a-b;});
+  // Effectifs : 1 ou 2, N total pair ou impair selon useOdd
+  var effs=baseVals.map(function(){return rint(1,2);});
+  var N=effs.reduce(function(s,e){return s+e;},0);
+  // Ajuste pour que N soit pair ou impair
+  if(useOdd&&N%2===0){effs[0]+=1;N++;}
+  if(!useOdd&&N%2===1){effs[0]+=1;N++;}
+  // Calcule ECC
+  var ecc=[],cum=0;
+  effs.forEach(function(e){cum+=e;ecc.push(cum);});
+  // Trouve médiane via ECC
+  var mediane,posHint,med1txt,med2txt;
+  if(useOdd){
+    var pos=Math.ceil(N/2);
+    var idx=ecc.findIndex(function(v){return v>=pos;});
+    mediane=baseVals[idx];
+    posHint='N='+N+' (impair) → position médiane = ('+N+'+1)÷2 = '+pos+'<br>Premier ECC ≥ '+pos+' : c\'est ECC='+ecc[idx]+' → valeur = <b>'+mediane+'</b>';
+    med1txt='Médiane = '+mediane;
+  } else {
+    var pos1=N/2,pos2=N/2+1;
+    var idx1=ecc.findIndex(function(v){return v>=pos1;});
+    var idx2=ecc.findIndex(function(v){return v>=pos2;});
+    var v1=baseVals[idx1],v2=baseVals[idx2];
+    mediane=(v1+v2)/2;
+    posHint='N='+N+' (pair) → positions '+pos1+' et '+pos2+'<br>ECC ≥ '+pos1+' → valeur '+v1+' ; ECC ≥ '+pos2+' → valeur '+v2+'<br>Médiane = ('+v1+'+'+v2+') ÷ 2 = <b>'+fmtDec(mediane)+'</b>';
+    med1txt='('+v1+' + '+v2+') ÷ 2 = '+fmtDec(mediane);
+  }
+  // Génère HTML tableau avec lignes valeur/effectif/ECC
+  var thVals='<tr><th>Valeur</th>',thEffs='<tr><th>Effectif</th>',thECC='<tr><th style="background:var(--vert)">ECC</th>';
+  baseVals.forEach(function(v,i){thVals+='<td>'+v+'</td>';thEffs+='<td>'+effs[i]+'</td>';thECC+='<td>'+ecc[i]+'</td>';});
+  thVals+='<td><b>Total</b></td></tr>';thEffs+='<td><b>'+N+'</b></td></tr>';thECC+='<td><b>'+N+'</b></td></tr>';
+  var tableHtml='<div style="overflow-x:auto"><table class="stat-table">'+thVals+thEffs+thECC+'</table></div>';
+  var sig='Med'+N+'v'+baseVals.join('-');
+  var steps=[
+    {prompt:'🔢 Étape 1 — Calcule les ECC ligne par ligne. Premier ECC (valeur '+baseVals[0]+') = effectif de '+baseVals[0]+' = ?',
+     aide:'Le premier ECC = juste le premier effectif = '+effs[0],
+     parts:['ECC('+baseVals[0]+') = ',{b:1,kind:'num',ans:ecc[0],show:''+ecc[0],w:60,tol:0.5}]},
+    {prompt:'🔢 Étape 2 — ECC de '+baseVals[1]+' = ECC précédent + effectif de '+baseVals[1]+' = '+ecc[0]+' + '+effs[1]+' = ?',
+     aide:ecc[0]+' + '+effs[1]+' = '+ecc[1],
+     parts:['ECC('+baseVals[1]+') = ',{b:1,kind:'num',ans:ecc[1],show:''+ecc[1],w:60,tol:0.5}]},
+    {prompt:'🎯 Étape 3 — Voici le tableau complet. Donne la médiane.',
+     aide:posHint,
+     parts:['Médiane = ',{b:1,kind:'num',ans:mediane,show:fmtDec(mediane),w:90,tol:0.15}]}
+  ];
+  return {type:'cascade',cat:'mediane',sig:sig,
+    text:'📊 Voici un tableau statistique. Trouve la médiane en utilisant les ECC !',
+    viz:tableHtml,steps:steps};
+}
+
+function genFrequences(){
+  var activites=shuffle(['foot','basket','tennis','natation','dessin','musique','lecture','sport']);
+  var nc=rint(3,4);
+  var acts=activites.slice(0,nc);
+  var total=pick([10,20,25,50]);
+  var effectifs=[];
+  var reste=total;
+  for(var i=0;i<nc-1;i++){
+    var v=rint(1,Math.floor(reste/(nc-i)));
+    effectifs.push(v);reste-=v;
+  }
+  effectifs.push(reste);
+  var thA='<tr><th>Activité</th>',thE='<tr><th>Effectif</th>';
+  for(var i=0;i<nc;i++){thA+='<td>'+acts[i]+'</td>';thE+='<td>'+effectifs[i]+'</td>';}
+  thA+='<td><b>Total</b></td></tr>';thE+='<td><b>'+total+'</b></td></tr>';
+  var tableHtml='<div style="overflow-x:auto"><table class="stat-table">'+thA+thE+'</table></div>';
+  var cible=rint(0,nc-1);
+  var eff_c=effectifs[cible];
+  var freq_dec=eff_c/total;
+  var freq_pct=Math.round(freq_dec*1000)/10;
+  var sig='F'+total+acts[cible]+eff_c;
+  var steps=[
+    {prompt:'➗ Étape 1 — Calcule le résultat de '+eff_c+' ÷ '+total+' (la fréquence décimale).',
+     aide:'Divise l\'effectif par le total. Utilise la calculatrice ! '+eff_c+' ÷ '+total,
+     parts:[eff_c+' ÷ '+total+' = ',{b:1,kind:'num',ans:freq_dec,show:fmtDec(freq_dec),w:90,tol:0.005}]},
+    {prompt:'✖️ Étape 2 — Multiplie par 100 pour avoir le pourcentage (%).',
+     aide:fmtDec(freq_dec)+' × 100 = ? La fréquence de « '+acts[cible]+' » en %.',
+     parts:['Fréquence de "'+acts[cible]+'" = ',{b:1,kind:'num',ans:freq_pct,show:fmtDec(freq_pct),w:90,tol:0.6},' %']}
+  ];
+  return {type:'cascade',cat:'frequences',sig:sig,
+    text:'📊 Un sondage sur les activités préférées des élèves (total : '+total+' élèves).\nCalcule la fréquence de « '+acts[cible]+' » (effectif : '+eff_c+') !',
+    viz:tableHtml,steps:steps};
+}
+
+function genDiagrammes(){
+  var nbVals=rint(4,5);
+  var labels=['A','B','C','D','E'].slice(0,nbVals);
+  var effs=[];
+  for(var i=0;i<nbVals;i++)effs.push(rint(1,6));
+  var data=labels.map(function(l,i){return {val:l,eff:effs[i]};});
+  var maxEff=Math.max.apply(null,effs);
+  var maxIdx=effs.indexOf(maxEff);
+  var rndIdx=rint(0,nbVals-1);
+  var qType=Math.random()<0.5?'max':'val';
+  var svg=svgDiagramme(data);
+  var q,opts,correct,explain;
+  if(qType==='max'){
+    q='📊 Regarde le diagramme. Quelle valeur a le plus grand effectif ?';
+    var wrongIdx=(maxIdx+1)%nbVals;
+    var wrong2Idx=(maxIdx+2)%nbVals;
+    opts=shuffle([labels[maxIdx],labels[wrongIdx],labels[wrong2Idx]]);
+    correct=opts.indexOf(labels[maxIdx]);
+    explain='La barre la plus haute correspond à '+labels[maxIdx]+' avec un effectif de '+maxEff+'.';
+  } else {
+    q='📊 Regarde le diagramme. Quel est l\'effectif de la valeur "'+labels[rndIdx]+'" ?';
+    var corEff=effs[rndIdx];
+    var w1=corEff===1?2:corEff-1;
+    var w2=corEff+1;
+    opts=shuffle([String(corEff),String(w1),String(w2)]);
+    correct=opts.indexOf(String(corEff));
+    explain='La barre de "'+labels[rndIdx]+'" a une hauteur de '+corEff+' → effectif = '+corEff+'.';
+  }
+  return {type:'qcm',cat:'diagrammes',text:q,viz:svg,options:opts,correct:correct,explain:explain};
+}
+
+var GEN={vocabulaire:genVocabulaire,etendue:genEtendue,moyenne:genMoyenne,mediane:genMediane,frequences:genFrequences,diagrammes:genDiagrammes};
+
+function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});(function(el){setTimeout(function(){el.remove();},fall);})(d);}}
+
+var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastText:'',timer:0,casc:null};
+
+function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),next:gid('tq_next'),casc:gid('tq_casc'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
+function elsArene(){return {score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next'),casc:gid('aq_casc')};}
+
 function quizStart(cats,guided,els){Q.cats=cats;Q.guided=guided;Q.els=els;Q.score=0;Q.answered=0;Q.correct=0;Q.streak=0;Q.locked=false;Q.lastText='';
   if(els.result)els.result.style.display='none';if(els.card)els.card.style.display='block';
   quizScore();quizNext();}
+
 function quizScore(){var e=Q.els;if(e.score)e.score.textContent=Q.score;if(e.streak)e.streak.textContent=Q.streak;if(e.corr)e.corr.textContent=Q.correct;if(e.tot)e.tot.textContent=Q.answered;
-  if(Q.guided&&e.prog)e.prog.innerHTML='Question <b>'+Math.min(Q.answered+1,SERIE)+'</b> / '+SERIE+'  ·  ✅ '+Q.correct;}
+  if(Q.guided&&e.prog)e.prog.innerHTML='Question <b>'+Math.min(Q.answered+1,serieLen())+'</b> / '+serieLen()+'  ·  ✅ '+Q.correct;}
+
 function quizNext(){clearTimeout(Q.timer);
-  if(Q.guided&&Q.answered>=SERIE){return quizResult();}
+  if(Q.guided&&Q.answered>=serieLen()){return quizResult();}
   Q.locked=false;var e=Q.els;e.feed.textContent='';e.feed.className='feedback';if(e.stars)e.stars.textContent='';if(e.next)e.next.style.display='none';
-  var cat,cur,tries=0;do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while(cur.text===Q.lastText&&tries<8);
-  Q.cur=cur;Q.lastText=cur.text;e.cat.textContent=CATNOM[cat];e.text.textContent=cur.text;
+  if(e.casc){e.casc.style.display='none';e.casc.innerHTML='';}
+  var cat,cur,tries=0;
+  do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while((cur.sig||cur.text)===Q.lastText&&tries<8);
+  Q.cur=cur;Q.lastText=(cur.sig||cur.text);e.cat.textContent=CATNOM[cat];
+  e.text.innerHTML=cur.text.replace(/\n/g,'<br>');
   if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
-  if(cur.type==='qcm'){e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';cur.options.forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=function(){quizPick(i);};e.opts.appendChild(b);});}
+  if(cur.type==='qcm'){e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';
+    cur.options.forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=function(){quizPick(i);};e.opts.appendChild(b);});}
+  else if(cur.type==='cascade'){e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);}
   else{e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
   quizScore();}
-function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La réponse est '+Q.cur.disp+'.');}
+
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre ! 🔢';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La réponse est '+Q.cur.disp+'.');}
+
 function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'La bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');}
+
 function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
-  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Bravo !<div class="feedlab">'+Q.cur.explain+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
-  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='❌ '+correctTxt+'<div class="feedlab">'+Q.cur.explain+'</div>';if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
+  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Bravo ! Super ! 🎉<div class="feedlab">'+(Q.cur.explain||correctTxt)+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='❌ Pas tout à fait… '+correctTxt+'<div class="feedlab">'+(Q.cur.explain||'')+'</div>';if(Q.cur.type==='num'&&e.input){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
   quizScore();
-  var last=Q.guided&&Q.answered>=SERIE;
-  if(ok&&!last){Q.timer=setTimeout(quizNext,1500);}
-  else{if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}
-}
-function quizResult(){var e=Q.els;if(!e.result){return;}e.card.style.display='none';e.result.style.display='block';
-  var sc=Q.correct, ok=sc>=SEUIL;try{suiviEnvoi(ok?'Validé':'Échoué',sc,SERIE);}catch(_){}e.rbig.textContent=sc+' / '+SERIE;e.rbig.className='big '+(ok?'ok':'no');
-  e.rmsg.innerHTML= ok ? 'Parcours validé ! Tu as obtenu <b>'+sc+'/'+SERIE+'</b>. Bravo 👏' : 'Il faut <b>'+SEUIL+'/'+SERIE+'</b> pour valider, et tu as eu '+sc+'/'+SERIE+'. Tu peux recommencer avec une nouvelle série, ou passer à la suite si tu préfères.';
+  var last=Q.guided&&Q.answered>=serieLen();
+  if(ok&&!last){Q.timer=setTimeout(quizNext,1600);}
+  else{if(e.next){e.next.textContent=last?'Voir mon résultat 🏆':'Suivant ➜';e.next.style.display='inline-flex';}}}
+
+function quizResult(){var e=Q.els;if(!e.result)return;e.card.style.display='none';e.result.style.display='block';
+  var SL=serieLen(),SE=seuilFor();var sc=Q.correct,ok=sc>=SE;
+  try{suiviEnvoi(ok?'Validé':'Échoué',sc,SL);}catch(_){}
+  e.rbig.textContent=sc+' / '+SL;e.rbig.className='big '+(ok?'ok':'no');
+  e.rmsg.innerHTML=ok?'🎉 Parcours validé ! Tu as eu <b>'+sc+'/'+SL+'</b>. Tu assures !':'Il faut <b>'+SE+'/'+SL+'</b> pour valider, tu as eu '+sc+'/'+SL+'. Réessaie, tu peux y arriver ! 💪';
   e.rbtns.innerHTML='';
   if(ok){var b=document.createElement('button');b.className='btn vert';b.textContent='Continuer ➜';b.onclick=trainDone;e.rbtns.appendChild(b);}
-  else{var b1=document.createElement('button');b1.className='btn orange';b1.textContent='Nouvelle série 🔄';b1.onclick=function(){startTrain(currentTheme);};e.rbtns.appendChild(b1);
-       var b2=document.createElement('button');b2.className='btn fant';b2.textContent='Passer à la suite ➜';b2.onclick=trainDone;e.rbtns.appendChild(b2);}
-}
-function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entraînement — '+TITLE[t];go('ecranTrain');var els=elsTrain();els.help.textContent=HELP[t];quizStart(THEME_CATS[t],true,els);}
-function trainDone(){var t=currentTheme;themeDone[t]=true;var idx=ORDER.indexOf(t);if(idx<ORDER.length-1){var nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{unlocked.arene=true;updateMap();go('arene');}}
+  else{var b1=document.createElement('button');b1.className='btn orange';b1.textContent='Nouvelle série 🔄';b1.onclick=function(){startTrain(currentTheme);};e.rbtns.appendChild(b1);var b2=document.createElement('button');b2.className='btn fant';b2.textContent='Passer à la suite ➜';b2.onclick=trainDone;e.rbtns.appendChild(b2);}}
+
+function blankOK(bk,raw){
+  if(bk.kind==='num'){var v=parseNum(raw);return v!==null&&Math.abs(v-bk.ans)<(bk.tol||0.001);}
+  if(bk.kind==='txt'){var n=normTxt(raw);if(n==='')return false;if(bk.mode==='contains')return bk.accept.some(function(a){return n.indexOf(normTxt(a))>=0;});return bk.accept.some(function(a){return normTxt(a)===n;});}
+  var n2=normTxt(raw);if(n2==='')return false;if(bk.mode==='contains')return bk.accept.some(function(a){return n2.indexOf(a)>=0;});return bk.accept.indexOf(n2)>=0;}
+
+function cscEl(sel){return Q.casc.box.querySelector(sel);}
+
+function cascMkBlank(p,e,idx){
+  var inp=document.createElement('input');inp.className='cblank'+(p.mini?' mini':'');
+  inp.setAttribute('inputmode',p.kind==='num'?'decimal':'text');inp.autocomplete='off';
+  if(p.ph)inp.placeholder=p.ph;if(p.w)inp.style.width=p.w+'px';
+  inp.addEventListener('focus',function(){MATHTARGET=this;});inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();cascVerify(e,idx);}});
+  Q.casc.q.steps[idx]._blanks.push({bk:p,el:inp});
+  /* focus this input for kcSend */
+  inp.addEventListener('focus',function(){window._kcFocused=inp;});
+  return inp;}
+
+function cascRenderParts(parent,arr,e,idx){
+  arr.forEach(function(p){
+    if(typeof p==='string'){
+      /* si la chaîne contient du HTML (sorted-row), on insère via div */
+      if(p.indexOf('<')>=0){var d=document.createElement('div');d.innerHTML=p;parent.appendChild(d);}
+      else{var sp=document.createElement('span');sp.textContent=p;parent.appendChild(sp);}
+    } else{parent.appendChild(cascMkBlank(p,e,idx));}});}
+
+function cascRender(e,idx){
+  var st=Q.casc.q.steps[idx],body=cscEl('#cbody'+idx);body.innerHTML='';st._tries=0;st._done=false;st._blanks=[];
+  var line=document.createElement('div');line.className='cline';
+  cascRenderParts(line,st.parts,e,idx);body.appendChild(line);
+  if(st.aide){var hint=document.createElement('div');hint.className='chint';hint.textContent='💡 Aide : '+st.aide;body.appendChild(hint);}
+  var row=document.createElement('div');row.className='cverify';
+  var btn=document.createElement('button');btn.className='btn vert';btn.textContent='Vérifier ✓';btn.onclick=function(){cascVerify(e,idx);};
+  row.appendChild(btn);body.appendChild(row);
+  var f=st._blanks[0];if(f)setTimeout(function(){try{f.el.focus();}catch(_){}},60);}
+
+function cascStart(cur,e){
+  Q.casc={q:cur,clean:true,box:e.casc};e.casc.style.display='block';
+  var html='';
+  cur.steps.forEach(function(st,idx){
+    html+='<div class="cstep'+(idx===0?' on':'')+'" id="cstep'+idx+'">'
+        +'<div class="cprompt">'+st.prompt+'</div>'
+        +'<div class="cbody" id="cbody'+idx+'"></div>'
+        +'<div class="cfeed" id="cfeed'+idx+'"></div></div>';});
+  e.casc.innerHTML=html;cascRender(e,0);}
+
+function cascVerify(e,idx){
+  var st=Q.casc.q.steps[idx];if(st._done)return;var fb=cscEl('#cfeed'+idx);
+  if(st._blanks.some(function(z){return z.el.value.trim()==='';})){fb.className='cfeed no';fb.textContent='Complète la case ! 📝';return;}
+  var allOK=true;
+  st._blanks.forEach(function(z){var ok=blankOK(z.bk,z.el.value);z.el.classList.remove('cbok','cbno');z.el.classList.add(ok?'cbok':'cbno');if(!ok)allOK=false;});
+  if(allOK){st._done=true;st._blanks.forEach(function(z){z.el.disabled=true;});fb.className='cfeed ok';fb.textContent='✅ Parfait !';cascAdvance(e,idx);return;}
+  st._tries++;
+  if(st._tries>=3){Q.casc.clean=false;st._done=true;
+    st._blanks.forEach(function(z){z.el.value=z.bk.show;z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});
+    fb.className='cfeed no';fb.textContent='Voici la bonne réponse — mémorise-la ! 👀';cascAdvance(e,idx);}
+  else if(st._tries===2){fb.className='cfeed no';fb.innerHTML='💡 Regarde l\'aide ci-dessus et réessaie !';}
+  else{fb.className='cfeed no';fb.textContent='Pas tout à fait… la case en orange est incorrecte. Réessaie ! 💪';}}
+
+function cascAdvance(e,idx){
+  var nx=idx+1;
+  if(nx<Q.casc.q.steps.length){var blk=cscEl('#cstep'+nx);blk.classList.add('on');cascRender(e,nx);
+    setTimeout(function(){blk.scrollIntoView({behavior:'smooth',block:'center'});},140);}
+  else{cascDone(e);}}
+
+function cascDone(e){
+  Q.locked=true;Q.answered++;
+  if(Q.casc.clean){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='🎉 Excellent ! Toutes les étapes réussies !';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback ok';e.feed.innerHTML='👍 Bien ! Relis les bonnes réponses pour mémoriser.';}
+  quizScore();
+  var last=Q.guided&&Q.answered>=serieLen();
+  if(e.next){e.next.textContent=last?'Voir mon résultat 🏆':'Suivant ➜';e.next.style.display='inline-flex';}}
+
+function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entraînement — '+TITLE[t];go('ecranTrain');var els=elsTrain();if(els.help)els.help.innerHTML='<span style="background:var(--creme);border-radius:10px;padding:4px 10px">'+HELP[t]+'</span>';quizStart(THEME_CATS[t],true,els);}
+function trainDone(){var t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}var idx=ORDER.indexOf(t);if(idx<ORDER.length-1){var nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{unlocked.arene=true;updateMap();go('arene');}}
 function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';var cats=cat==='mix'?ORDER.slice():[cat];quizStart(cats,false,elsArene());}
 function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
-document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(!gid('kcPanel').hidden)return;
-  var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
-  if(!(onT||onA))return;var nx=onT?gid('tq_next'):gid('aq_next');
-  if(nx&&nx.style.display!=='none'){quizNext();return;}
-  if(!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
+
+document.addEventListener('keydown',function(ev){if(ev.key!=='Enter')return;if(!gid('kcPanel').hidden)return;var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';if(!(onT||onA))return;var nx=onT?gid('tq_next'):gid('aq_next');if(nx&&nx.style.display!=='none'){quizNext();return;}if(!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
+
 /* ===== CALCULATRICE ===== */
 function kcEval(expr){
-  let s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
-  const toks=[]; let i=0; const isD=c=>c>='0'&&c<='9';
-  while(i<s.length){const c=s[i];
-    if(isD(c)||c==='.'){let j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
+  var s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
+  var toks=[];var i=0;var isD=function(c){return c>='0'&&c<='9';};
+  while(i<s.length){var c=s[i];
+    if(isD(c)||c==='.'){var j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
     if(c==='\u03c0'){toks.push({t:'pi'});i++;continue;}
     if(c==='\u221a'){toks.push({t:'sqrt'});i++;continue;}
-    if('+-*/^()'.includes(c)){toks.push({t:c});i++;continue;}
+    if('+-*/^()'.indexOf(c)>=0){toks.push({t:c});i++;continue;}
     return null;}
-  let p=0,err=false;const peek=()=>toks[p],next=()=>toks[p++];
-  function E(){let v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){const o=next().t;const r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
-  function T(){let v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){const o=next().t;const r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}
-  function U(){const t=peek();if(t&&t.t==='-'){next();return -U();}if(t&&t.t==='+'){next();return U();}if(t&&t.t==='sqrt'){next();const a=U();if(err)return 0;if(a<0){err=true;return 0;}return Math.sqrt(a);}return P();}
-  function P(){let b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();const e=U();if(err)return 0;b=Math.pow(b,e);}return b;}
-  function PR(){const t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='pi')return Math.PI;if(t.t==='('){const v=E();if(err)return 0;const c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}err=true;return 0;}
-  const val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;}
-function kcFmt(v){let s=(Math.round(v*1e10)/1e10).toString();return s.replace('-','\u2212').replace('.',',');}
-let kcS='',kcJust=false;
-function kcRender(){gid('kcExpr').textContent=kcS;const v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
-function kcIns(ch){if(kcJust&&/[0-9.\u03c0(\u221a]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
+  var p=0,err=false;
+  var peek=function(){return toks[p];},next=function(){return toks[p++];};
+  function E(){var v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){var o=next().t;var r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
+  function T(){var v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){var o=next().t;var r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}
+  function U(){var t=peek();if(t&&t.t==='-'){next();return -U();}if(t&&t.t==='+'){next();return U();}if(t&&t.t==='sqrt'){next();var a=U();if(err)return 0;if(a<0){err=true;return 0;}return Math.sqrt(a);}return P();}
+  function P(){var b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();var e=U();if(err)return 0;b=Math.pow(b,e);}return b;}
+  function PR(){var t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='pi')return Math.PI;if(t.t==='('){var v=E();if(err)return 0;var c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}err=true;return 0;}
+  var val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;}
+function kcFmt(v){var s=(Math.round(v*1e10)/1e10).toString();return s.replace('-','\u2212').replace('.',',');}
+var kcS='',kcJust=false;
+window._kcFocused=null;
+function kcRender(){gid('kcExpr').textContent=kcS;var v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
+function kcIns(ch){if(kcJust&&/[0-9.,\u03c0(\u221a]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
 function kcClear(){kcS='';kcJust=false;kcRender();}
 function kcBack(){if(kcJust)kcJust=false;kcS=kcS.slice(0,-1);kcRender();}
-function kcEq(){const v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
+function kcEq(){var v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
 function kcToggle(){gid('kcPanel').hidden=!gid('kcPanel').hidden;}
-const KEYS2=[
+function kcSend(){
+  var res=gid('kcRes').textContent;
+  if(!res||res==='0'||res==='\u2026'||res==='Erreur')return;
+  var val=res.replace('\u2212','-');
+  /* cherche l'input actif */
+  var target=window._kcFocused||document.querySelector('.cblank:not([disabled]),.ansrow input:not([disabled])');
+  if(target){target.value=val;target.dispatchEvent(new Event('input'));target.focus();}
+}
+var KEYS2=[
   {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
   {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},
   {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'},
@@ -510,19 +1073,28 @@ const KEYS2=[
   {l:'0',a:'0'},{l:',',a:','},{l:'\u221a',a:'\u221a',c:'fn'},{l:'+',a:'+',c:'op'},
   {l:'x\u00b2',a:'^2',c:'fn'},{l:'x\u02b8',a:'^',c:'fn'},{l:'\u03c0',a:'\u03c0',c:'fn'},{l:'=',a:'eq',c:'eq'}
 ];
-(function(){const box=gid('kcKeys');KEYS2.forEach(k=>{const b=document.createElement('button');b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;
-  b.onclick=()=>{if(k.a==='clr')kcClear();else if(k.a==='back')kcBack();else if(k.a==='eq')kcEq();else kcIns(k.a);};box.appendChild(b);});kcRender();})();
-document.addEventListener('keydown',e=>{if(gid('kcPanel').hidden)return;
-  if(e.key==='Enter'){e.preventDefault();kcEq();}else if(e.key==='Escape')kcToggle();
-  else if(e.key==='Backspace'){e.preventDefault();kcBack();}
-  else if(/[0-9.+\-*/()^]/.test(e.key)){const map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[e.key]||e.key);}});
+(function(){var box=gid('kcKeys');KEYS2.forEach(function(k){var b=document.createElement('button');b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;b.onclick=function(){if(k.a==='clr')kcClear();else if(k.a==='back')kcBack();else if(k.a==='eq')kcEq();else kcIns(k.a);};box.appendChild(b);});kcRender();})();
+document.addEventListener('keydown',function(ev){if(gid('kcPanel').hidden)return;if(ev.key==='Enter'){ev.preventDefault();kcEq();}else if(ev.key==='Escape')kcToggle();else if(ev.key==='Backspace'){ev.preventDefault();kcBack();}else if(/[0-9.+\-*/()^]/.test(ev.key)){var map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[ev.key]||ev.key);}});
 
+/* ===== Prog localStorage ===== */
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;return 'prog_'+e+'_'+nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone,u:unlocked}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
+var _umOrig=updateMap;
+updateMap=function(){var r=_umOrig.apply(this,arguments);try{progSave();}catch(_){}return r;};
+try{progLoad();updateMap();}catch(_){}
 
-/* leçons : tableaux d'exemple */
-gid('expFreq').innerHTML=gid('expFreq').innerHTML.replace('__TBL_T__', stab('Couleur',['Rouge','Bleu','Vert','Jaune'],'Effectif',[6,5,7,2]));
-gid('expClasses').innerHTML=gid('expClasses').innerHTML.replace('__TBL_C__', stab('Classe',['[0 ; 10[','[10 ; 20[','[20 ; 30['],'Effectif',[4,9,5]));
-updateMap();
-
+/* Init mini quiz vocabulaire au chargement de la section */
+document.querySelectorAll('.screen').forEach(function(s){
+  var obs=new MutationObserver(function(){
+    if(s.id==='expVocabulaire'&&s.classList.contains('active')){
+      initVocMini();
+    }
+  });
+  obs.observe(s,{attributes:true,attributeFilter:['class']});
+});
+/* Aussi à l'ouverture directe */
+(function(){var orig=go;go=function(id){orig(id);if(id==='expVocabulaire')setTimeout(initVocMini,100);};})();
 </script>
 </body>
 </html>

@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DNB blanc — Nombres et calcul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --creme:#FFF6E6;--creme2:#FFF0D6;--jaune:#FFC93C;--jaune-fonce:#E0A415;
+    --vert:#9FD356;--vert-fonce:#6FA52A;--orange:#FF9F45;--orange-fonce:#E07A1F;
+    --rouge:#E76F51;--brun:#5A4A2F;--brun-clair:#8A744C;--blanc:#FFFFFF;--ombre:rgba(120,90,30,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:var(--creme);color:var(--brun);min-height:100vh;padding:18px 14px 90px;-webkit-text-size-adjust:100%;}
+  h1,h2,h3,.titre{font-family:'Fredoka',sans-serif;}
+  .wrap{max-width:680px;margin:0 auto;}
+  .entete{background:linear-gradient(135deg,var(--jaune),var(--orange));border-radius:24px;padding:22px;color:#fff;text-align:center;box-shadow:0 6px 0 var(--orange-fonce);margin-bottom:18px;}
+  .entete h1{font-size:26px;font-weight:600;text-shadow:0 2px 0 rgba(0,0,0,.12);}
+  .entete p{font-weight:700;opacity:.95;margin-top:4px;}
+  .progression{display:flex;gap:6px;margin-bottom:18px;}
+  .progression .pas{flex:1;height:10px;border-radius:6px;background:var(--creme2);box-shadow:inset 0 2px 4px var(--ombre);}
+  .progression .pas.fait{background:var(--vert);}
+  .progression .pas.actif{background:var(--jaune);}
+  .carte{background:var(--blanc);border-radius:22px;padding:22px;box-shadow:0 5px 0 var(--ombre);margin-bottom:18px;}
+  .carte h2{font-size:21px;color:var(--brun);margin-bottom:6px;font-weight:600;}
+  .carte h2 .num{color:var(--orange-fonce);}
+  .badge-theme{display:inline-block;background:var(--vert);color:#fff;font-family:'Fredoka';font-weight:600;font-size:13px;padding:4px 12px;border-radius:20px;margin-bottom:12px;}
+  .consigne{font-size:17px;line-height:1.5;margin:10px 0;}
+  .sous{color:var(--brun-clair);font-weight:600;font-size:15px;}
+  .btn{font-family:'Fredoka';font-weight:600;font-size:18px;border:none;cursor:pointer;border-radius:18px;padding:14px 22px;color:#fff;transition:transform .05s,box-shadow .05s;display:inline-block;}
+  .btn-vert{background:var(--vert);box-shadow:0 5px 0 var(--vert-fonce);}
+  .btn-jaune{background:var(--jaune);color:var(--brun);box-shadow:0 5px 0 var(--jaune-fonce);}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--vert-fonce);}
+  .btn-jaune:active{box-shadow:0 1px 0 var(--jaune-fonce);}
+  .ligne-btn{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px;}
+  .figure{background:var(--creme2);border-radius:18px;padding:14px;text-align:center;margin:14px 0;}
+  .figure svg{max-width:100%;height:auto;}
+  .qbloc{margin:20px 0 6px;padding:13px 15px;background:linear-gradient(135deg,#FFE7B0,#FFD98A);border-radius:14px;box-shadow:0 3px 0 rgba(180,140,40,.2);}
+  .qbloc h3{font-size:18px;color:var(--brun);font-weight:600;}
+  .qbloc p{font-size:15px;line-height:1.45;margin-top:5px;}
+  .etape{border-radius:16px;padding:14px;margin:10px 0;background:var(--creme);border:2px solid var(--creme2);transition:opacity .3s;}
+  .etape.verrou{opacity:.45;pointer-events:none;}
+  .etape.ok{border-color:var(--vert);background:#f3faea;}
+  .etape .role{font-family:'Fredoka';font-weight:600;color:var(--orange-fonce);font-size:14px;text-transform:uppercase;letter-spacing:.5px;}
+  .etape .q{font-size:16px;margin:6px 0 10px;line-height:1.45;}
+  .etape input[type=text]{font-family:'Nunito';font-size:18px;font-weight:700;width:100%;padding:12px 14px;border:2px solid var(--brun-clair);border-radius:12px;background:#fff;color:var(--brun);}
+  .etape input[type=text]:focus{outline:none;border-color:var(--jaune);}
+  .ligne-valid{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap;}
+  .msg{font-weight:700;font-size:15px;margin-top:8px;}
+  .msg.bon{color:var(--vert-fonce);}
+  .msg.faux{color:var(--rouge);}
+  .aide{background:#FFF3D0;border-left:5px solid var(--jaune);border-radius:8px;padding:10px 12px;margin-top:8px;font-size:15px;}
+  .solution{background:#eef7df;border-left:5px solid var(--vert);border-radius:8px;padding:10px 12px;margin-top:8px;font-size:15px;}
+  .frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 4px;}
+  .frac .num{padding:0 6px 2px;border-bottom:2.5px solid var(--brun);}
+  .frac .den{padding:2px 6px 0;}
+  .frac-saisie{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;}
+  .frac-saisie input{width:140px;text-align:center;font-family:'Nunito';font-weight:700;font-size:18px;border:2px solid var(--brun-clair);border-radius:8px;padding:6px;background:#fff;color:var(--brun);}
+  .frac-saisie .barre-frac{height:3px;background:var(--brun);margin:4px 0;border-radius:2px;}
+  #btn-calc{position:fixed;right:18px;bottom:18px;z-index:50;width:60px;height:60px;border-radius:50%;background:var(--orange);color:#fff;border:none;cursor:pointer;font-size:26px;box-shadow:0 5px 0 var(--orange-fonce);}
+  #btn-calc:active{transform:translateY(4px);box-shadow:0 1px 0 var(--orange-fonce);}
+  #calc{position:fixed;right:18px;bottom:88px;z-index:51;width:300px;max-width:calc(100vw - 36px);max-height:calc(100vh - 120px);overflow-y:auto;background:var(--blanc);border-radius:20px;box-shadow:0 8px 24px rgba(80,60,20,.3);padding:14px;display:none;}
+  #calc.ouvert{display:block;}
+  #calc .affichage{position:sticky;top:0;z-index:2;background:var(--creme);border-radius:12px;padding:14px;font-family:'Fredoka';font-weight:600;font-size:24px;text-align:right;min-height:52px;word-break:break-all;margin-bottom:10px;color:var(--brun);border:2px solid var(--jaune);}
+  #calc .mode{font-size:12px;color:var(--brun-clair);text-align:right;margin-bottom:6px;font-weight:700;}
+  #calc .envoyer{width:100%;margin-top:8px;font-family:'Fredoka';font-weight:600;font-size:15px;border:none;cursor:pointer;background:var(--vert);color:#fff;border-radius:12px;padding:12px;box-shadow:0 4px 0 var(--vert-fonce);}
+  #calc .envoyer:active{transform:translateY(3px);box-shadow:0 1px 0 var(--vert-fonce);}
+  .grille-calc{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  .grille-calc button{font-family:'Fredoka';font-weight:500;font-size:16px;border:none;cursor:pointer;border-radius:10px;padding:11px 0;background:var(--creme2);color:var(--brun);}
+  .grille-calc button:active{transform:translateY(2px);}
+  .grille-calc button.op{background:var(--jaune);}
+  .grille-calc button.fct{background:var(--vert);color:#fff;font-size:14px;}
+  .grille-calc button.eg{background:var(--orange);color:#fff;}
+  .clavier-sym{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .clavier-sym button{font-family:'Fredoka';font-weight:600;font-size:16px;border:none;cursor:pointer;background:var(--creme2);color:var(--brun);border-radius:10px;padding:8px 13px;min-width:42px;box-shadow:0 3px 0 var(--ombre);}
+  .clavier-sym button:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ombre);}
+  .fin{background:linear-gradient(135deg,var(--vert),var(--jaune));color:#fff;text-align:center;}
+  .fin h2{font-size:24px;}
+  .cache{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="entete"><h1>DNB blanc</h1><p>Nombres et calcul</p></div>
+  <div class="progression" id="progression"></div>
+  <div id="zone-ecrans"></div>
+</div>
+
+<button id="btn-calc" onclick="toggleCalc()" aria-label="Calculatrice">&#x1F9EE;</button>
+<div id="calc" role="dialog" aria-label="Calculatrice">
+  <div class="mode">nombres</div>
+  <div class="affichage" id="calc-ecran">0</div>
+  <div class="grille-calc">
+    <button class="fct" onclick="cTok('sqrt(')">&#x221A;</button><button class="fct" onclick="cTok('(')">( </button><button class="fct" onclick="cTok(')')"> )</button><button class="op" onclick="cClear()">C</button>
+    <button class="fct" onclick="cTok('**2')">x&#xB2;</button><button class="fct" onclick="cTok('**3')">x&#xB3;</button><button class="fct" onclick="cTok('/100)')">%</button><button class="op" onclick="cBack()">&#x232B;</button>
+    <button onclick="cTok('7')">7</button><button onclick="cTok('8')">8</button><button onclick="cTok('9')">9</button><button class="op" onclick="cTok('/')">÷</button>
+    <button onclick="cTok('4')">4</button><button onclick="cTok('5')">5</button><button onclick="cTok('6')">6</button><button class="op" onclick="cTok('*')">×</button>
+    <button onclick="cTok('1')">1</button><button onclick="cTok('2')">2</button><button onclick="cTok('3')">3</button><button class="op" onclick="cTok('-')">&#x2212;</button>
+    <button onclick="cTok('0')">0</button><button onclick="cTok('.')">.</button><button class="op" onclick="cTok('Math.PI')">π</button><button class="op" onclick="cTok('+')">+</button>
+    <button class="op" onclick="cTok('1e')">10^</button><button class="op" onclick="cTok('(')">(</button><button class="op" onclick="cTok(')')">)</button><button class="eg" onclick="cEgal()">=</button>
+  </div>
+  <button class="envoyer" onclick="cEnvoyer()">&#x2B06; Envoyer le résultat dans la réponse</button>
+</div>
+
+<script>
+/* ===== OUTILS ===== */
+function rnd(n){return Math.floor(Math.random()*n);}
+function choix(t){return t[rnd(t.length)];}
+function melange(t){
+  t=t.slice();
+  for(var i=t.length-1;i>0;i--){
+    var j=rnd(i+1);
+    var tmp=t[i];t[i]=t[j];t[j]=tmp;
+  }
+  return t;
+}
+function fr(x){return (''+x).replace('.',',');}
+
+/* ===== NORMALISATION ===== */
+function norm(inp){
+  return (inp==null?"":inp.toString()).toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/\s+/g,'').replace(/,/g,'.').replace(/\*/g,'');
+}
+function nbs(inp){
+  return (norm(inp).match(/\d+(\.\d+)?/g)||[]).map(function(x){return parseFloat(x);});
+}
+
+/* ===== CALCULATRICE ===== */
+var calcExpr="";
+function toggleCalc(){document.getElementById('calc').classList.toggle('ouvert');}
+function majEcran(){document.getElementById('calc-ecran').textContent=calcExpr||"0";}
+function cTok(t){calcExpr+=t;majEcran();}
+function cClear(){calcExpr="";majEcran();}
+function cBack(){
+  var tk=['sqrt(','**2','**3','/100)','1e','Math.PI'];
+  for(var k=0;k<tk.length;k++){
+    if(calcExpr.endsWith(tk[k])){calcExpr=calcExpr.slice(0,-tk[k].length);majEcran();return;}
+  }
+  calcExpr=calcExpr.slice(0,-1);majEcran();
+}
+function calcEval(expr){
+  var e=expr;
+  if(/[a-zA-Z]/.test(e.replace(/Math|sqrt|PI/g,''))) throw new Error("invalide");
+  return Function('"use strict";return ('+e+').')();
+}
+function cEgal(){
+  try{
+    var r=calcEval(calcExpr);
+    if(typeof r!=='number'||!isFinite(r))throw 0;
+    r=Math.round(r*1e8)/1e8;
+    calcExpr=(''+r).replace('.',',');
+    majEcran();
+  }catch(e){
+    document.getElementById('calc-ecran').textContent="erreur";
+    calcExpr="";
+  }
+}
+
+/* ===== CHAMP ACTIF + INSERTION ===== */
+var dernierChamp=null;
+function inserer(champ,txt){
+  if(!champ||champ.disabled)return;
+  var d=(champ.selectionStart!=null)?champ.selectionStart:champ.value.length;
+  var f=(champ.selectionEnd!=null)?champ.selectionEnd:champ.value.length;
+  champ.value=champ.value.slice(0,d)+txt+champ.value.slice(f);
+  var p=d+txt.length;
+  champ.focus();
+  try{champ.setSelectionRange(p,p);}catch(e){}
+  dernierChamp=champ;
+}
+function symPress(ev,btn,sym){
+  ev.preventDefault();
+  var etape=btn.closest('.etape');
+  var champ=(dernierChamp&&etape.contains(dernierChamp)&&!dernierChamp.disabled)?dernierChamp:etape.querySelector('input[type=text]:not([disabled])');
+  inserer(champ,sym);
+}
+function cEnvoyer(){
+  if(dernierChamp&&!dernierChamp.disabled){
+    inserer(dernierChamp,calcExpr);
+  }else{
+    var e=document.getElementById('calc-ecran');
+    var t=e.textContent;
+    e.textContent="clique d'abord dans une r\u00e9ponse";
+    setTimeout(function(){e.textContent=t;},1400);
+  }
+}
+
+/* ===== MOTEUR REDACTION GUIDEE ===== */
+function construireRedaction(conteneurId, etapes, onFini){
+  var cont=document.getElementById(conteneurId);
+  cont.innerHTML="";
+  etapes.forEach(function(et,i){
+    if(et.question){
+      var h=document.createElement('div');
+      h.className='qbloc';
+      h.innerHTML='<h3>'+et.question+'</h3>'+(et.consigneQ?'<p>'+et.consigneQ+'</p>':'');
+      cont.appendChild(h);
+    }
+    var div=document.createElement('div');
+    div.className='etape'+(i===0?'':' verrou');
+    div.dataset.i=i;
+    var saisieHTML='<input type="text" placeholder="\u00c9cris ici\u2026">';
+    var clavierHTML='';
+    if(et.clavier&&et.clavier.length){
+      clavierHTML='<div class="clavier-sym">'+et.clavier.map(function(sym){
+        var s=(''+sym).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        return '<button type="button" onmousedown="symPress(event,this,\''+s+'\')">'+sym+'</button>';
+      }).join('')+'</div>';
+    }
+    div.innerHTML='<div class="role">'+et.role+'</div>'
+      +'<div class="q">'+et.q+'</div>'
+      +saisieHTML+clavierHTML
+      +'<div class="ligne-valid"><button class="btn btn-jaune" style="font-size:16px;padding:10px 18px" onclick="validerEtape(\''+conteneurId+'\','+i+')">Valider</button></div>'
+      +'<div class="msg" data-msg></div><div data-aide></div>';
+    cont.appendChild(div);
+  });
+  cont.__etapes=etapes;
+  cont.__erreurs=etapes.map(function(){return 0;});
+  cont.__onFini=onFini;
+}
+
+function validerEtape(conteneurId,i){
+  var cont=document.getElementById(conteneurId);
+  var etapes=cont.__etapes;
+  var div=cont.querySelector('.etape[data-i="'+i+'"]');
+  var et=etapes[i];
+  var ok=et.verif(div.querySelector('input[type=text]').value);
+  var msg=div.querySelector('[data-msg]');
+  var aideBox=div.querySelector('[data-aide]');
+  if(ok){
+    msg.textContent="\u2713 Bien r\u00e9dig\u00e9.";
+    msg.className="msg bon";
+    div.classList.add('ok');
+    div.querySelectorAll('input').forEach(function(inp){inp.disabled=true;});
+    div.querySelector('.ligne-valid').style.display='none';
+    var suiv=cont.querySelector('.etape[data-i="'+(i+1)+'"]');
+    if(suiv){suiv.classList.remove('verrou');suiv.querySelector('input').focus();}
+    else if(cont.__onFini)cont.__onFini();
+  }else{
+    cont.__erreurs[i]++;
+    var n=cont.__erreurs[i];
+    msg.textContent="Pas encore. Relis ton \u00e9criture.";
+    msg.className="msg faux";
+    if(n>=3)aideBox.innerHTML='<div class="solution"><b>La bonne \u00e9criture\u00a0:</b><br>'+et.solutionHTML+'</div>';
+    else if(n>=2)aideBox.innerHTML='<div class="aide">\uD83D\uDCA1 '+et.aide+'</div>';
+  }
+}
+
+/* ===== FIGURES SVG ===== */
+function svgTxt(x,y,s,sz,col){
+  return '<text x="'+x+'" y="'+y+'" font-family="Fredoka" font-weight="600" font-size="'+(sz||16)+'" fill="'+(col||'#5A4A2F')+'" text-anchor="middle" dominant-baseline="middle">'+s+'</text>';
+}
+function svgNonEchelle(W,H){
+  return svgTxt(W/2,H-7,"Figure non \u00e0 l'\u00e9chelle",11,'#A08B6E');
+}
+
+/* --- Fig 1 : Boulangerie --- */
+function dessinerBoulangerie(opt){
+  var W=420, H=230;
+  var sac='<rect x="30" y="55" width="80" height="110" rx="10" fill="#C9A24A" stroke="#8A6650" stroke-width="3"/>'
+    +'<rect x="43" y="67" width="54" height="86" rx="6" fill="#EFE0C0"/>'
+    +svgTxt(70,110,opt.masse+' kg',14,'#5A4A2F')
+    +svgTxt(70,48,'Farine',13,'#8A744C');
+  var f1='<line x1="115" y1="110" x2="158" y2="110" stroke="#E07A1F" stroke-width="2" stroke-dasharray="5,3"/>'
+    +'<polygon points="155,104 168,110 155,116" fill="#E07A1F"/>'
+    +svgTxt(140,96,'\u00d7 '+opt.fN+'/'+opt.fD,13,'#E07A1F');
+  var bMasse='<rect x="170" y="75" width="84" height="70" rx="8" fill="#FFE7B0" stroke="#E0A415" stroke-width="2"/>'
+    +svgTxt(212,110,fr(opt.utilisee)+' kg',14,'#5A4A2F')
+    +svgTxt(212,68,'utilis\u00e9e',12,'#8A744C');
+  var f2='<line x1="256" y1="110" x2="294" y2="110" stroke="#6FA52A" stroke-width="2" stroke-dasharray="5,3"/>'
+    +'<polygon points="291,104 304,110 291,116" fill="#6FA52A"/>'
+    +svgTxt(275,96,'\u00f7 '+opt.n,13,'#6FA52A');
+  var cx=338, cy=105;
+  var cro='<path d="M'+cx+','+(cy-22)+' Q'+(cx+28)+','+(cy-30)+' '+(cx+34)+','+(cy-8)+' Q'+(cx+26)+','+(cy+16)+' '+cx+','+(cy+8)+' Q'+(cx-10)+','+(cy)+' '+cx+','+(cy-22)+'Z" fill="#FFD98A" stroke="#E0A415" stroke-width="2"/>'
+    +svgTxt(338,cy+32,'par\u00a0cr.',12,'#8A744C');
+  return '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Boulangerie">'+sac+f1+bMasse+f2+cro+svgNonEchelle(W,H)+'</svg>';
+}
+
+/* --- Fig 2 : Carrelage PGCD --- */
+function dessinerCarrelage(opt){
+  var W=420, H=250;
+  var pg=opt.pgcd, larg=opt.larg, long=opt.long;
+  var nc=Math.round(larg/pg), nl=Math.round(long/pg);
+  var rW=180, rH=Math.round(rW*larg/long);
+  var ox=28, oy=Math.round((190-rH)/2)+28;
+  var couloir='<rect x="'+ox+'" y="'+oy+'" width="'+rW+'" height="'+rH+'" fill="#d0edf8" stroke="#4FA3D1" stroke-width="2.5"/>';
+  var grille='';
+  var cw=Math.round(rW/nc), ch=Math.round(rH/nl);
+  for(var ci=1;ci<nc;ci++){grille+='<line x1="'+(ox+ci*cw)+'" y1="'+oy+'" x2="'+(ox+ci*cw)+'" y2="'+(oy+rH)+'" stroke="#4FA3D1" stroke-width="1" opacity="0.5"/>';}
+  for(var li=1;li<nl;li++){grille+='<line x1="'+ox+'" y1="'+(oy+li*ch)+'" x2="'+(ox+rW)+'" y2="'+(oy+li*ch)+'" stroke="#4FA3D1" stroke-width="1" opacity="0.5"/>';}
+  var labL=svgTxt(ox+rW/2,oy-14,long+' cm',14,'#E07A1F');
+  var labW=svgTxt(ox-30,oy+rH/2,larg+' cm',14,'#E07A1F');
+  var inf=svgTxt(ox+rW+110,oy+rH/2-20,'PGCD = '+pg+' cm',15,'#5A4A2F')
+    +svgTxt(ox+rW+110,oy+rH/2+8,nc+' \u00d7 '+nl+' = '+(nc*nl),14,'#6FA52A')
+    +svgTxt(ox+rW+110,oy+rH/2+28,'carreaux',13,'#6FA52A');
+  return '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Carrelage PGCD">'+couloir+grille+labL+labW+inf+svgNonEchelle(W,H)+'</svg>';
+}
+
+/* --- Fig 3 : Soldes cascade --- */
+function dessinerSoldes(opt){
+  var W=420, H=220;
+  var p0=opt.prix, r1=opt.r1, r2=opt.r2;
+  var p1=Math.round(p0*(1-r1/100)*100)/100;
+  var p2=Math.round(p1*(1-r2/100)*100)/100;
+  var b0='<rect x="16" y="65" width="94" height="80" rx="10" fill="#FFE7B0" stroke="#E0A415" stroke-width="2"/>'
+    +svgTxt(63,97,fr(p0)+' \u20ac',17,'#5A4A2F')+svgTxt(63,122,'prix initial',12,'#8A744C');
+  var f1='<line x1="112" y1="105" x2="148" y2="105" stroke="#E76F51" stroke-width="2.5"/>'
+    +'<polygon points="145,98 158,105 145,112" fill="#E76F51"/>'
+    +svgTxt(135,90,'-'+r1+'%',14,'#E76F51');
+  var b1='<rect x="160" y="65" width="94" height="80" rx="10" fill="#fff" stroke="#E07A1F" stroke-width="2"/>'
+    +svgTxt(207,97,fr(p1)+' \u20ac',17,'#5A4A2F')+svgTxt(207,122,'apr\u00e8s -'+r1+'%',12,'#8A744C');
+  var f2='<line x1="256" y1="105" x2="292" y2="105" stroke="#E76F51" stroke-width="2.5"/>'
+    +'<polygon points="289,98 302,105 289,112" fill="#E76F51"/>'
+    +svgTxt(279,90,'-'+r2+'%',14,'#E76F51');
+  var b2='<rect x="304" y="65" width="100" height="80" rx="10" fill="#eef7df" stroke="#6FA52A" stroke-width="2"/>'
+    +svgTxt(354,97,fr(p2)+' \u20ac',17,'#5A4A2F')+svgTxt(354,122,'prix final',12,'#8A744C');
+  return '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Soldes cascade">'+b0+f1+b1+f2+b2+svgNonEchelle(W,H)+'</svg>';
+}
+
+/* --- Fig 4 : Espace puissances --- */
+function dessinerEspace(opt){
+  var W=440, H=200;
+  var fond='<rect x="0" y="0" width="'+W+'" height="'+H+'" fill="#0d1b2a" rx="12"/>';
+  var stars='';
+  var sp=[[30,30],[80,15],[150,40],[200,20],[280,35],[350,18],[410,28],[60,80],[130,70],[300,60],[390,75],[50,55],[170,12],[240,50],[380,45]];
+  for(var si=0;si<sp.length;si++){stars+='<circle cx="'+sp[si][0]+'" cy="'+sp[si][1]+'" r="1.5" fill="white" opacity="0.7"/>';}
+  var terre='<circle cx="62" cy="110" r="36" fill="#1a6fa8"/>'
+    +'<ellipse cx="56" cy="100" rx="16" ry="10" fill="#2ecc71" opacity="0.8" transform="rotate(-20,56,100)"/>'
+    +svgTxt(62,154,'Terre',12,'#4FA3D1');
+  var lune='<circle cx="372" cy="110" r="26" fill="#c8c8c8"/>'
+    +'<circle cx="364" cy="104" r="5" fill="#aaa" opacity="0.5"/>'
+    +'<circle cx="380" cy="118" r="4" fill="#aaa" opacity="0.4"/>'
+    +svgTxt(372,144,'Lune',12,'#c8c8c8');
+  var ligne='<line x1="100" y1="110" x2="344" y2="110" stroke="#E07A1F" stroke-width="1.5" stroke-dasharray="7,4"/>';
+  var ld=svgTxt(222,95,opt.distLabel,13,'#FF9F45');
+  var lv=svgTxt(222,75,'c = 3\u00d710\u2075 km/s',12,'#FFD98A');
+  return '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Espace">'+fond+stars+terre+lune+ligne+ld+lv+svgNonEchelle(W,H)+'</svg>';
+}
+
+/* --- Fig 5 : Jardins (racines) --- */
+function dessinerJardins(opt){
+  var W=400, H=220;
+  var rw=110, rh=Math.round(rw*opt.larg/opt.long);
+  var rx=24, ry=Math.round((170-rh)/2)+24;
+  var rect='<rect x="'+rx+'" y="'+ry+'" width="'+rw+'" height="'+rh+'" fill="#d0edf8" stroke="#4FA3D1" stroke-width="2.5"/>'
+    +svgTxt(rx+rw/2,ry-14,opt.long+' m',13,'#4FA3D1')
+    +svgTxt(rx-22,ry+rh/2,opt.larg+' m',13,'#4FA3D1')
+    +svgTxt(rx+rw/2,ry+rh/2,'Aire\u00a0=\u00a0'+opt.aire+'\u00a0m\u00b2',13,'#E07A1F');
+  var ax=rx+rw+14, ay=ry+rh/2;
+  var fle='<line x1="'+ax+'" y1="'+ay+'" x2="'+(ax+36)+'" y2="'+ay+'" stroke="#5A4A2F" stroke-width="2" stroke-dasharray="4,3"/>'
+    +'<polygon points="'+(ax+33)+','+(ay-6)+' '+(ax+46)+','+ay+' '+(ax+33)+','+(ay+6)+'" fill="#5A4A2F"/>';
+  var sq=Math.min(rh+16,110);
+  var sx=ax+52, sy=Math.round((170-sq)/2)+24;
+  var car='<rect x="'+sx+'" y="'+sy+'" width="'+sq+'" height="'+sq+'" fill="#eef7df" stroke="#6FA52A" stroke-width="2.5"/>'
+    +svgTxt(sx+sq/2,sy-14,'\u221a'+opt.aire+' m',13,'#6FA52A')
+    +svgTxt(sx-20,sy+sq/2,'\u221a'+opt.aire+' m',13,'#6FA52A')
+    +svgTxt(sx+sq/2,sy+sq/2,'= '+opt.cote+' m',14,'#6FA52A');
+  return '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jardins">'+rect+fle+car+svgNonEchelle(W,H)+'</svg>';
+}
+
+/* --- Fig 6 : Compte bancaire --- */
+function dessinerCompte(opt){
+  var W=400, H=10+opt.operations.length*32+80;
+  if(H<220)H=220;
+  var bg='<rect x="16" y="16" width="368" height="'+(H-30)+'" rx="12" fill="#fff" stroke="#C9A24A" stroke-width="2"/>';
+  var hdr='<rect x="16" y="16" width="368" height="34" rx="10" fill="#3a3a3a"/>'
+    +svgTxt(140,33,'Op\u00e9ration',13,'#fff')+svgTxt(330,33,'Montant',13,'#fff');
+  var lignes='';
+  for(var oi=0;oi<opt.operations.length;oi++){
+    var yy=50+oi*32+16;
+    var col=opt.operations[oi].val>=0?'#6FA52A':'#E76F51';
+    var sign=opt.operations[oi].val>=0?'+':'';
+    lignes+=svgTxt(140,yy,opt.operations[oi].label,13,'#5A4A2F');
+    lignes+=svgTxt(330,yy,sign+fr(opt.operations[oi].val)+' \u20ac',13,col);
+    if(oi<opt.operations.length-1){lignes+='<line x1="26" y1="'+(yy+12)+'" x2="374" y2="'+(yy+12)+'" stroke="#EFE0C0" stroke-width="1"/>';}
+  }
+  var yF=50+opt.operations.length*32+16;
+  var cS=opt.solde>=0?'#6FA52A':'#E76F51';
+  var sol='<line x1="16" y1="'+(yF-12)+'" x2="384" y2="'+(yF-12)+'" stroke="#E07A1F" stroke-width="2"/>'
+    +svgTxt(140,yF,'Solde final',14,'#E07A1F')
+    +svgTxt(330,yF,fr(opt.solde)+' \u20ac',14,cS);
+  return '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Compte bancaire">'+bg+hdr+lignes+sol+svgNonEchelle(W,H)+'</svg>';
+}
+
+/* --- Fig 7 : Cookies proportionnalité --- */
+function dessinerCookies(opt){
+  var W=400, H=220;
+  var tw=360, th=155, tx=20, ty=28;
+  var bg='<rect x="'+tx+'" y="'+ty+'" width="'+tw+'" height="'+th+'" rx="10" fill="#FFF6E6" stroke="#C9A24A" stroke-width="2"/>';
+  var hh='<rect x="'+tx+'" y="'+ty+'" width="'+tw+'" height="36" rx="8" fill="#E07A1F"/>'
+    +svgTxt(tx+55,ty+18,'Ingr\u00e9dient',13,'#fff')
+    +svgTxt(tx+168,ty+18,opt.n1+' cookies',13,'#fff')
+    +svgTxt(tx+288,ty+18,opt.n2+' cookies',13,'#fff');
+  var sep='<line x1="'+(tx+110)+'" y1="'+(ty+36)+'" x2="'+(tx+110)+'" y2="'+(ty+th)+'" stroke="#C9A24A" stroke-width="1.2"/>'
+    +'<line x1="'+(tx+224)+'" y1="'+(ty+36)+'" x2="'+(tx+224)+'" y2="'+(ty+th)+'" stroke="#C9A24A" stroke-width="1.2"/>';
+  var rows=[['Farine',opt.f1+' g',opt.f2+' g'],['Beurre',opt.b1+' g',opt.b2+' g'],['Sucre',opt.s1+' g',opt.s2+' g']];
+  var rls='';
+  for(var ri=0;ri<rows.length;ri++){
+    var yy=ty+36+ri*39+19;
+    if(ri>0){rls+='<line x1="'+tx+'" y1="'+(yy-19)+'" x2="'+(tx+tw)+'" y2="'+(yy-19)+'" stroke="#EFE0C0" stroke-width="1"/>';}
+    rls+=svgTxt(tx+55,yy,rows[ri][0],14,'#8A744C')
+      +svgTxt(tx+168,yy,rows[ri][1],14,'#5A4A2F')
+      +svgTxt(tx+288,yy,rows[ri][2],14,'#E07A1F');
+  }
+  return '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Recette cookies">'+bg+hh+sep+rls+svgNonEchelle(W,H)+'</svg>';
+}
+
+/* ===== SITUATIONS ===== */
+
+/* --- Situation 1 : Boulangerie (fractions) --- */
+function genBoulangerie(){
+  var configs=[
+    {masse:4,n:12,fN:3,fD:4},
+    {masse:5,n:20,fN:3,fD:4},
+    {masse:6,n:15,fN:2,fD:3},
+    {masse:6,n:12,fN:5,fD:6},
+    {masse:4,n:16,fN:3,fD:4}
+  ];
+  var cfg=choix(configs);
+  var masse=cfg.masse,n=cfg.n,fN=cfg.fN,fD=cfg.fD;
+  var utilisee=Math.round(fN/fD*masse*10000)/10000;
+  var parUnite=Math.round(utilisee/n*100000)/100000;
+  var enonceHTML='Un boulanger utilise les <b>'+fN+'/'+fD+'</b> de son stock de farine. Le sac pesait <b>'+masse+' kg</b>. Avec cette farine, il fabrique <b>'+n+' croissants</b> \u00e9gaux.'
+    +'<br><b>1.</b> Quelle masse de farine (en kg) le boulanger a-t-il utilis\u00e9e\u00a0?'
+    +'<br><b>2.</b> Quelle masse de farine contient chaque croissant\u00a0?';
+  var etapes=[
+    {
+      question:'Question 1 \u2014 Masse de farine utilis\u00e9e',
+      role:'Calculer la masse utilis\u00e9e',
+      q:'Calcule les '+fN+'/'+fD+' de '+masse+' kg.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-utilisee)<0.01;});},
+      aide:fN+'/'+fD+' \u00d7 '+masse+' = '+fN*masse+'/'+fD+' = ...',
+      solutionHTML:fN+'/'+fD+' \u00d7 '+masse+' = '+fr(utilisee)+' kg',
+      clavier:['\u00d7','\u00f7','+','-','=']
+    },
+    {
+      question:'Question 2 \u2014 Masse par croissant',
+      role:'Calculer la masse par croissant',
+      q:'Divise la masse utilis\u00e9e ('+fr(utilisee)+' kg) par '+n+' croissants.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-parUnite)<0.0005;});},
+      aide:fr(utilisee)+' \u00f7 '+n+' = ...',
+      solutionHTML:fr(utilisee)+' \u00f7 '+n+' = '+fr(parUnite)+' kg',
+      clavier:['\u00f7','=']
+    }
+  ];
+  return {
+    titre:'La boulangerie \u2014 fractions',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){document.getElementById(id).innerHTML=dessinerBoulangerie({masse:masse,n:n,fN:fN,fD:fD,utilisee:utilisee});},
+    etapes:etapes
+  };
+}
+
+/* --- Situation 2 : Carrelage (PGCD) --- */
+function genCarrelage(){
+  var configs=[
+    {larg:126,long:210,pgcd:42},
+    {larg:84, long:126,pgcd:42},
+    {larg:120,long:180,pgcd:60},
+    {larg:90, long:150,pgcd:30}
+  ];
+  var cfg=choix(configs);
+  var larg=cfg.larg,long=cfg.long,pg=cfg.pgcd;
+  var nc=larg/pg,nl=long/pg,total=nc*nl;
+  var enonceHTML='Un artisan veut carreler un couloir rectangulaire de <b>'+larg+' cm</b> de large et <b>'+long+' cm</b> de long avec des carreaux carr\u00e9s <b>identiques</b>, <b>sans d\u00e9coupe ni chute</b>.'
+    +'<br><b>1.</b> Quelle est la taille maximale (en cm) d\u2019un carreau\u00a0?'
+    +'<br><b>2.</b> Combien de carreaux faudra-t-il au total\u00a0?';
+  var etapes=[
+    {
+      question:'Question 1 \u2014 Taille maximale d\u2019un carreau',
+      role:'Identifier la m\u00e9thode',
+      q:'Quel calcul permet de trouver le c\u00f4t\u00e9 maximal d\u2019un carreau sans d\u00e9coupe ? Nommez-le.',
+      verif:function(inp){var t=norm(inp);return t.includes('pgcd')||t.includes('commun')||t.includes('diviseur');},
+      aide:'On cherche le Plus Grand Commun Diviseur (PGCD) de '+larg+' et '+long+'.',
+      solutionHTML:'PGCD('+larg+', '+long+')'
+    },
+    {
+      role:'Calculer le PGCD par l\u2019algorithme d\u2019Euclide',
+      q:'Calcule PGCD('+larg+', '+long+') en utilisant l\u2019algorithme d\u2019Euclide. Donne le r\u00e9sultat en cm.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-pg)<0.5;});},
+      aide:'Divise le grand par le petit, prends le reste, recommence jusqu\u2019\u00e0 reste = 0.',
+      solutionHTML:'PGCD('+larg+', '+long+') = '+pg+' cm',
+      clavier:['\u00f7','-','=']
+    },
+    {
+      question:'Question 2 \u2014 Nombre total de carreaux',
+      role:'Calculer le nombre de carreaux',
+      q:'Combien de carreaux de '+pg+' cm \u00d7 '+pg+' cm faut-il pour couvrir tout le couloir\u00a0?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-total)<0.5;});},
+      aide:'Nombre en largeur\u00a0: '+larg+'/'+pg+' = '+nc+'. Nombre en longueur\u00a0: '+long+'/'+pg+' = '+nl+'. Total = '+nc+' \u00d7 '+nl+'.',
+      solutionHTML:nc+' \u00d7 '+nl+' = '+total+' carreaux',
+      clavier:['\u00d7','\u00f7','=']
+    }
+  ];
+  return {
+    titre:'Le carrelage \u2014 PGCD',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){document.getElementById(id).innerHTML=dessinerCarrelage({larg:larg,long:long,pgcd:pg});},
+    etapes:etapes
+  };
+}
+
+/* --- Situation 3 : Soldes en cascade (pourcentages) --- */
+function genSoldes(){
+  var configs=[
+    {prix:160,r1:25,r2:10},
+    {prix:120,r1:20,r2:10},
+    {prix:200,r1:30,r2:5},
+    {prix:180,r1:25,r2:10},
+    {prix:120,r1:20,r2:15}
+  ];
+  var cfg=choix(configs);
+  var prix=cfg.prix,r1=cfg.r1,r2=cfg.r2;
+  var p1=Math.round(prix*(1-r1/100)*100)/100;
+  var p2=Math.round(p1*(1-r2/100)*100)/100;
+  var pSi=Math.round(prix*(1-(r1+r2)/100)*100)/100;
+  var remPct=Math.round((1-p2/prix)*1000)/10;
+  var enonceHTML='Lors des soldes, un manteau est d\u2019abord sold\u00e9 de <b>'+r1+'\u00a0%</b>, puis de <b>'+r2+'\u00a0%</b> suppl\u00e9mentaires sur le nouveau prix. Le prix initial \u00e9tait <b>'+fr(prix)+'\u00a0\u20ac</b>.'
+    +'<br><b>1.</b> Quel est le prix apr\u00e8s la premi\u00e8re remise\u00a0?'
+    +'<br><b>2.</b> Quel est le prix final apr\u00e8s la deuxi\u00e8me remise\u00a0?'
+    +'<br><b>3.</b> Un client pense que cela \u00e9quivaut \u00e0 une remise totale de '+(r1+r2)+'\u00a0%. A-t-il raison\u00a0?';
+  var etapes=[
+    {
+      question:'Question 1 \u2014 Apr\u00e8s la premi\u00e8re remise',
+      role:'Calculer le prix apr\u00e8s \u2212'+r1+'\u00a0%',
+      q:'Le manteau co\u00fbtait '+fr(prix)+'\u00a0\u20ac. Applique une remise de '+r1+'\u00a0%. Calcule le nouveau prix.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-p1)<0.05;});},
+      aide:fr(prix)+' \u00d7 '+fr(1-r1/100)+' = ...',
+      solutionHTML:fr(prix)+' \u00d7 '+fr(1-r1/100)+' = '+fr(p1)+' \u20ac',
+      clavier:['\u00d7','-','=','%']
+    },
+    {
+      question:'Question 2 \u2014 Apr\u00e8s la deuxi\u00e8me remise',
+      role:'Calculer le prix final',
+      q:'Sur le nouveau prix de '+fr(p1)+'\u00a0\u20ac, applique encore \u2212'+r2+'\u00a0%. Quel est le prix final\u00a0?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-p2)<0.05;});},
+      aide:fr(p1)+' \u00d7 '+fr(1-r2/100)+' = ...',
+      solutionHTML:fr(p1)+' \u00d7 '+fr(1-r2/100)+' = '+fr(p2)+' \u20ac',
+      clavier:['\u00d7','-','=','%']
+    },
+    {
+      question:'Question 3 \u2014 V\u00e9rifier l\u2019affirmation',
+      role:'Comparer avec \u2212'+(r1+r2)+'\u00a0%',
+      q:'Si la remise totale \u00e9tait vraiment '+(r1+r2)+'\u00a0%, le prix serait '+fr(prix)+' \u00d7 '+fr(1-(r1+r2)/100)+' = ? Calcule et compare. Le client a-t-il raison\u00a0?',
+      verif:function(inp){
+        var t=norm(inp);
+        return t.includes('non')
+          ||nbs(inp).some(function(x){return Math.abs(x-pSi)<0.5;})
+          ||nbs(inp).some(function(x){return Math.abs(x-remPct)<0.5;});
+      },
+      aide:fr(prix)+' \u00d7 '+fr(1-(r1+r2)/100)+' = '+fr(pSi)+' \u20ac \u2260 '+fr(p2)+' \u20ac. La remise r\u00e9elle est '+fr(remPct)+'\u00a0%.',
+      solutionHTML:'Non\u00a0: '+fr(prix)+' \u00d7 '+fr(1-(r1+r2)/100)+' = '+fr(pSi)+' \u20ac \u2260 '+fr(p2)+' \u20ac. La remise totale r\u00e9elle est '+fr(remPct)+'\u00a0%.',
+      clavier:['\u00d7','\u00f7','-','=','%']
+    }
+  ];
+  return {
+    titre:'Les soldes en cascade \u2014 pourcentages',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){document.getElementById(id).innerHTML=dessinerSoldes({prix:prix,r1:r1,r2:r2});},
+    etapes:etapes
+  };
+}
+
+/* --- Situation 4 : Distances astronomiques (puissances de 10) --- */
+function genPuissances(){
+  var configs=[
+    {distLabel:'384\u00a0000 km',  coeff:3.84, expN:5, tps:1.28},
+    {distLabel:'20\u00a0200 km',   coeff:2.02, expN:4, tps:0.0673},
+    {distLabel:'1\u00a0500\u00a0000\u00a0000 km', coeff:1.5, expN:9, tps:5000}
+  ];
+  var cfg=choix(configs);
+  var distLabel=cfg.distLabel,coeff=cfg.coeff,expN=cfg.expN,tps=cfg.tps;
+  var tpsArrondi=Math.round(tps*100)/100;
+  var enonceHTML='La lumi\u00e8re parcourt <b>3 \u00d7 10\u2075 km</b> par seconde. La distance entre la Terre et cet astre est environ <b>'+distLabel+'</b>.'
+    +'<br><b>1.</b> \u00c9cris '+distLabel+' en \u00e9criture scientifique.'
+    +'<br><b>2.</b> En combien de secondes la lumi\u00e8re parcourt-elle cette distance\u00a0?'
+    +'<br><b>3.</b> Donne une valeur approch\u00e9e de ce temps, arrondie au centi\u00e8me.';
+  var etapes=[
+    {
+      question:'Question 1 \u2014 \u00c9criture scientifique',
+      role:'\u00c9crire en notation scientifique',
+      q:'\u00c9cris '+distLabel+' sous la forme a \u00d7 10\u207f (avec 1 \u2264 a < 10).',
+      verif:function(inp){
+        var t=norm(inp);
+        var hasCoeff=nbs(inp).some(function(x){return Math.abs(x-coeff)<0.005;});
+        var hasPow=t.includes('10^'+expN)||t.includes('e'+expN)||t.includes('10'+expN);
+        return hasCoeff&&hasPow;
+      },
+      aide:'D\u00e9place la virgule pour avoir un chiffre avant\u00a0: '+fr(coeff)+' \u00d7 10 puissance ?',
+      solutionHTML:fr(coeff)+' \u00d7 10\u207f (n = '+expN+')',
+      clavier:['\u00d7','10^','=']
+    },
+    {
+      question:'Question 2 \u2014 Temps de parcours',
+      role:'Calculer le temps en secondes',
+      q:'La lumi\u00e8re parcourt 3 \u00d7 10\u2075 km/s. Calcule le temps pour parcourir '+distLabel+' (t = distance \u00f7 vitesse).',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-tps)<tps*0.06+0.01;});},
+      aide:distLabel+' \u00f7 (3 \u00d7 10\u2075) = '+fr(coeff)+' \u00d7 10 \u00d7 ...',
+      solutionHTML:fr(coeff)+' \u00d7 10\u207f \u00f7 (3 \u00d7 10\u2075) \u2248 '+fr(tps)+' s',
+      clavier:['\u00f7','\u00d7','10^','=']
+    },
+    {
+      question:'Question 3 \u2014 Valeur approch\u00e9e',
+      role:'Arrondir au centi\u00e8me',
+      q:'Donne la valeur approch\u00e9e de ce temps arrondie au centi\u00e8me.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-tpsArrondi)<0.005+0.001;});},
+      aide:'Arrondis '+fr(tps)+' au centi\u00e8me.',
+      solutionHTML:'\u2248 '+fr(tpsArrondi)+' s',
+      clavier:['=']
+    }
+  ];
+  return {
+    titre:'Distances astronomiques \u2014 puissances de 10',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){document.getElementById(id).innerHTML=dessinerEspace({distLabel:distLabel});},
+    etapes:etapes
+  };
+}
+
+/* --- Situation 5 : Jardin carré (racines carrées) --- */
+function genRacines(){
+  var configs=[
+    {larg:8, long:18,aire:144,cote:12},
+    {larg:5, long:20,aire:100,cote:10},
+    {larg:4, long:25,aire:100,cote:10},
+    {larg:9, long:16,aire:144,cote:12}
+  ];
+  var cfg=choix(configs);
+  var larg=cfg.larg,long=cfg.long,aire=cfg.aire,cote=cfg.cote;
+  var enonceHTML='Un jardin rectangulaire mesure <b>'+larg+'\u00a0m</b> de large et <b>'+long+'\u00a0m</b> de long. On veut tracer \u00e0 c\u00f4t\u00e9 un jardin <b>carr\u00e9</b> ayant <b>la m\u00eame aire</b>.'
+    +'<br><b>1.</b> Calcule l\u2019aire du jardin rectangulaire.'
+    +'<br><b>2.</b> Quelle doit \u00eatre la longueur du c\u00f4t\u00e9 du jardin carr\u00e9\u00a0?'
+    +'<br><b>3.</b> Calcule la valeur exacte de ce c\u00f4t\u00e9.';
+  var etapes=[
+    {
+      question:'Question 1 \u2014 Aire du jardin rectangulaire',
+      role:'Calculer l\u2019aire du rectangle',
+      q:'Calcule l\u2019aire du jardin rectangulaire en m\u00b2.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-aire)<0.05;});},
+      aide:larg+' \u00d7 '+long+' = ...',
+      solutionHTML:larg+' \u00d7 '+long+' = '+aire+' m\u00b2',
+      clavier:['\u00d7','=']
+    },
+    {
+      question:'Question 2 \u2014 M\u00e9thode pour le c\u00f4t\u00e9 du carr\u00e9',
+      role:'Identifier la m\u00e9thode',
+      q:'Pour trouver le c\u00f4t\u00e9 d\u2019un carr\u00e9 dont l\u2019aire est connue, quelle op\u00e9ration utilise-t-on\u00a0? \u00c9cris-la.',
+      verif:function(inp){
+        var t=norm(inp);
+        return t.includes('racine')||t.includes('\u221a')||t.includes('sqrt')||t.includes('^2')||t.includes('cote*cote');
+      },
+      aide:'L\u2019aire d\u2019un carr\u00e9 = c\u00f4t\u00e9\u00b2, donc c\u00f4t\u00e9 = \u221a(aire).',
+      solutionHTML:'c\u00f4t\u00e9 = \u221a'+aire
+    },
+    {
+      question:'Question 3 \u2014 Valeur du c\u00f4t\u00e9',
+      role:'Calculer la racine carr\u00e9e',
+      q:'Calcule \u221a'+aire+' (valeur exacte).',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-cote)<0.05;});},
+      aide:'\u221a'+aire+' = ? (cherche le nombre qui, multipli\u00e9 par lui-m\u00eame, donne '+aire+')',
+      solutionHTML:'\u221a'+aire+' = '+cote+' m (exact)',
+      clavier:['\u221a','=','\u00b2']
+    }
+  ];
+  return {
+    titre:'Le jardin carr\u00e9 \u2014 racines carr\u00e9es',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){document.getElementById(id).innerHTML=dessinerJardins({larg:larg,long:long,aire:aire,cote:cote});},
+    etapes:etapes
+  };
+}
+
+/* --- Situation 6 : Compte bancaire (nombres relatifs) --- */
+function genRelatifs(){
+  var configs=[
+    {depart:-45, salaire:1200,loyer:650,elec:87, courses:134},
+    {depart:-120,salaire:1350,loyer:720,elec:95, courses:160},
+    {depart:-30, salaire:1100,loyer:600,elec:78, courses:120},
+    {depart:-80, salaire:1500,loyer:800,elec:110,courses:195}
+  ];
+  var cfg=choix(configs);
+  var depart=cfg.depart,salaire=cfg.salaire,loyer=cfg.loyer,elec=cfg.elec,courses=cfg.courses;
+  var solde=depart+salaire-loyer-elec-courses;
+  var epargne=Math.round(salaire*0.1);
+  var peutEpargner=solde>=epargne;
+  var operations=[
+    {label:'Solde initial',val:depart},
+    {label:'Salaire',val:salaire},
+    {label:'Loyer',val:-loyer},
+    {label:'\u00c9lectricit\u00e9',val:-elec},
+    {label:'Courses',val:-courses}
+  ];
+  var enonceHTML='En d\u00e9but de mois, le compte de K\u00e9vin est \u00e0 <b>'+depart+'\u00a0\u20ac</b>. Il re\u00e7oit son salaire de <b>'+salaire+'\u00a0\u20ac</b>, puis r\u00e8gle un loyer de <b>'+loyer+'\u00a0\u20ac</b>, une facture d\u2019\u00e9lectricit\u00e9 de <b>'+elec+'\u00a0\u20ac</b> et fait des courses pour <b>'+courses+'\u00a0\u20ac</b>.'
+    +'<br><b>1.</b> Quel est le solde du compte apr\u00e8s toutes ces op\u00e9rations\u00a0?'
+    +'<br><b>2.</b> K\u00e9vin veut \u00e9pargner 10\u00a0% de son salaire. Peut-il le faire ce mois-ci\u00a0?';
+  var etapes=[
+    {
+      question:'Question 1 \u2014 Solde final',
+      role:'Calculer le solde final',
+      q:'Calcule le solde final du compte en tenant compte de toutes les op\u00e9rations.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-Math.abs(solde))<0.5;});},
+      aide:depart+' + '+salaire+' \u2212 '+loyer+' \u2212 '+elec+' \u2212 '+courses+' = ...',
+      solutionHTML:depart+' + '+salaire+' \u2212 '+loyer+' \u2212 '+elec+' \u2212 '+courses+' = '+fr(solde)+' \u20ac',
+      clavier:['+','-','=']
+    },
+    {
+      question:'Question 2 \u2014 \u00c9pargne possible\u00a0?',
+      role:'R\u00e9pondre \u00e0 la question',
+      q:'10\u00a0% de '+salaire+'\u00a0\u20ac = ? Compare ce montant au solde final de '+fr(solde)+'\u00a0\u20ac.',
+      verif:function(inp){
+        var t=norm(inp);
+        var hasEpargne=nbs(inp).some(function(x){return Math.abs(x-epargne)<0.5;});
+        var hasConclusion=peutEpargner?(t.includes('oui')||t.includes('peut')||t.includes('>')):(t.includes('non')||t.includes('ne peut pas')||t.includes('<'));
+        return hasEpargne&&hasConclusion;
+      },
+      aide:'10\u00a0% \u00d7 '+salaire+' = '+epargne+'\u00a0\u20ac. Solde = '+fr(solde)+'\u00a0\u20ac. '+(peutEpargner?fr(solde)+' > '+epargne+'\u00a0\u20ac : peut \u00e9pargner.':fr(solde)+' < '+epargne+'\u00a0\u20ac : ne peut pas.'),
+      solutionHTML:'10\u00a0% \u00d7 '+salaire+' = '+epargne+'\u00a0\u20ac. Solde = '+fr(solde)+'\u00a0\u20ac '+(peutEpargner?'> '+epargne+' : K\u00e9vin <b>peut</b> \u00e9pargner.':'< '+epargne+' : K\u00e9vin <b>ne peut pas</b> \u00e9pargner.'),
+      clavier:['\u00d7','%','>','<','=']
+    }
+  ];
+  return {
+    titre:'Le compte bancaire \u2014 nombres relatifs',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){document.getElementById(id).innerHTML=dessinerCompte({operations:operations,solde:solde});},
+    etapes:etapes
+  };
+}
+
+/* --- Situation 7 : Recette cookies (proportionnalité) --- */
+function genProportion(){
+  var configs=[
+    {n1:24,f1:360,b1:180,s1:120,n2:30,f2:450,b2:225,s2:150,nFarine:18,qFarine:270},
+    {n1:12,f1:240,b1:120,s1:80, n2:18,f2:360,b2:180,s2:120,nFarine:9, qFarine:180},
+    {n1:20,f1:300,b1:150,s1:100,n2:30,f2:450,b2:225,s2:150,nFarine:15,qFarine:225}
+  ];
+  var cfg=choix(configs);
+  var n1=cfg.n1,f1=cfg.f1,b1=cfg.b1,s1=cfg.s1;
+  var n2=cfg.n2,f2=cfg.f2,b2=cfg.b2,s2=cfg.s2;
+  var nFarine=cfg.nFarine,qFarine=cfg.qFarine;
+  var coeff=Math.round(n2/n1*100)/100;
+  var enonceHTML='Une recette de cookies pour <b>'+n1+' cookies</b> n\u00e9cessite <b>'+f1+'\u00a0g</b> de farine, <b>'+b1+'\u00a0g</b> de beurre et <b>'+s1+'\u00a0g</b> de sucre.'
+    +'<br><b>1.</b> Quelles quantit\u00e9s faut-il pour faire <b>'+n2+' cookies</b>\u00a0?'
+    +'<br><b>2.</b> Avec seulement <b>'+qFarine+'\u00a0g</b> de farine, combien de cookies peut-on faire au maximum\u00a0?';
+  var etapes=[
+    {
+      question:'Question 1 \u2014 Pour '+n2+' cookies',
+      role:'Identifier le coefficient multiplicateur',
+      q:'Quel nombre faut-il multiplier pour passer de '+n1+' cookies \u00e0 '+n2+' cookies\u00a0?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-coeff)<0.01;});},
+      aide:n2+' \u00f7 '+n1+' = ...',
+      solutionHTML:n2+' \u00f7 '+n1+' = '+fr(coeff),
+      clavier:['\u00f7','=']
+    },
+    {
+      role:'Appliquer \u00e0 chaque ingr\u00e9dient',
+      q:'Multiplie chaque ingr\u00e9dient par '+fr(coeff)+' pour calculer les quantit\u00e9s pour '+n2+' cookies.',
+      verif:function(inp){
+        return nbs(inp).some(function(x){return Math.abs(x-f2)<0.5;})
+          &&nbs(inp).some(function(x){return Math.abs(x-b2)<0.5;})
+          &&nbs(inp).some(function(x){return Math.abs(x-s2)<0.5;});
+      },
+      aide:f1+' \u00d7 '+fr(coeff)+' = '+f2+' ; '+b1+' \u00d7 '+fr(coeff)+' = '+b2+' ; '+s1+' \u00d7 '+fr(coeff)+' = '+s2,
+      solutionHTML:'Farine\u00a0: '+f2+'\u00a0g, Beurre\u00a0: '+b2+'\u00a0g, Sucre\u00a0: '+s2+'\u00a0g',
+      clavier:['\u00d7','=']
+    },
+    {
+      question:'Question 2 \u2014 Avec '+qFarine+'\u00a0g de farine',
+      role:'Calculer le nombre maximal de cookies',
+      q:'Avec '+qFarine+'\u00a0g de farine (au lieu de '+f1+'\u00a0g pour '+n1+' cookies), calcule le nombre maximum de cookies.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-nFarine)<0.5;});},
+      aide:qFarine+' \u00f7 '+f1+' \u00d7 '+n1+' = ...',
+      solutionHTML:qFarine+' \u00f7 '+f1+' \u00d7 '+n1+' = '+nFarine+' cookies',
+      clavier:['\u00d7','\u00f7','=']
+    }
+  ];
+  return {
+    titre:'La recette de cookies \u2014 proportionnalit\u00e9',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){document.getElementById(id).innerHTML=dessinerCookies({n1:n1,n2:n2,f1:f1,f2:f2,b1:b1,b2:b2,s1:s1,s2:s2});},
+    etapes:etapes
+  };
+}
+
+/* ===== BANQUE ===== */
+var BANQUE=[
+  {notion:'boulangerie', gen:genBoulangerie},
+  {notion:'carrelage',   gen:genCarrelage},
+  {notion:'soldes',      gen:genSoldes},
+  {notion:'puissances',  gen:genPuissances},
+  {notion:'racines',     gen:genRacines},
+  {notion:'relatifs',    gen:genRelatifs},
+  {notion:'proportion',  gen:genProportion}
+];
+
+var SUJET=[],ecrans=[],ecranActuel=0;
+function revelerFigure(i){var fig=document.getElementById('figure-'+i);var btn=document.getElementById('figbtn-'+i);if(fig)fig.style.display='block';if(btn)btn.style.display='none';}
+function tirerSujet(n){SUJET=melange(BANQUE.slice()).slice(0,n).map(function(b){return b.gen();});}
+function construireEcrans(){
+  var zone=document.getElementById('zone-ecrans');zone.innerHTML='';
+  var n=SUJET.length,mot=n>1?n+' exercices':'un exercice';
+  zone.insertAdjacentHTML('beforeend','<div class="carte ecran" data-section="intro"><span class="badge-theme">Nombres et calcul</span><h2>Brevet blanc \u2014 sujet du jour</h2><p class="consigne">Voici '+mot+' de type brevet\u00a0: une situation concr\u00e8te, avec une figure, et plusieurs questions. Tu r\u00e9diges chaque \u00e9tape toi-m\u00eame. Recharge la page pour un nouveau tirage.</p><p class="consigne sous">Calculatrice en bas \u00e0 droite.</p><div class="ligne-btn"><button class="btn btn-vert" onclick="ecranSuivant()">Commencer</button></div></div>');
+  SUJET.forEach(function(ex,i){
+    var dernier=i===SUJET.length-1;
+    zone.insertAdjacentHTML('beforeend','<div class="carte ecran cache" data-section="exo'+i+'"><h2><span class="num">Exercice '+(i+1)+'</span> \u2014 '+ex.titre+'</h2><div class="consigne" id="enonce-'+i+'">'+ex.enonceHTML+'</div><button class="btn btn-jaune" id="figbtn-'+i+'" style="font-size:14px;padding:8px 16px;margin:8px 0" onclick="revelerFigure('+i+')">📊 Voir la figure (coup de pouce)</button><div class="figure" id="figure-'+i+'" style="display:none"></div><div id="redac-'+i+'"></div><div class="ligne-btn cache" id="suite-'+i+'"><button class="btn btn-vert" onclick="ecranSuivant()">'+(dernier?'Terminer':'Exercice suivant')+'</button></div></div>');
+  });
+  zone.insertAdjacentHTML('beforeend','<div class="carte ecran fin cache" data-section="fin"><h2>Sujet termin\u00e9 &#x1F389;</h2><p class="consigne">Tu as r\u00e9dig\u00e9 toutes les questions.</p><div class="ligne-btn"><button class="btn btn-jaune" onclick="location.reload()">Nouveau sujet</button></div></div>');
+  SUJET.forEach(function(ex,i){
+    ex.dessiner('figure-'+i);
+    (function(idx){
+      construireRedaction('redac-'+idx,ex.etapes,function(){document.getElementById('suite-'+idx).classList.remove('cache');});
+    })(i);
+  });
+}
+
+/* ===== PROGRESSION + NAVIGATION ===== */
+function construireProgression(){
+  var p=document.getElementById('progression');p.innerHTML='';
+  for(var i=0;i<ecrans.length;i++){var d=document.createElement('div');d.className='pas';p.appendChild(d);}
+  majProgression();
+}
+function majProgression(){
+  document.querySelectorAll('#progression .pas').forEach(function(d,i){
+    d.className='pas'+(i<ecranActuel?' fait':i===ecranActuel?' actif':'');
+  });
+}
+function montrerEcran(i){
+  ecrans.forEach(function(e,k){e.classList.toggle('cache',k!==i);});
+  ecranActuel=i;majProgression();window.scrollTo({top:0,behavior:'smooth'});
+}
+function ecranSuivant(){if(ecranActuel<ecrans.length-1)montrerEcran(ecranActuel+1);}
+function sautQuestion(){ecranSuivant();}
+function sautSection(){
+  var sec=ecrans[ecranActuel].dataset.section;
+  for(var i=ecranActuel+1;i<ecrans.length;i++){
+    if(ecrans[i].dataset.section!==sec){montrerEcran(i);return;}
+  }
+  montrerEcran(ecrans.length-1);
+}
+document.addEventListener('focusin',function(e){
+  if(e.target.matches&&e.target.matches('.etape input[type=text]'))dernierChamp=e.target;
+});
+window.addEventListener('DOMContentLoaded',function(){
+  tirerSujet(Math.min(3,BANQUE.length));
+  construireEcrans();
+  ecrans=Array.from(document.querySelectorAll('#zone-ecrans .ecran'));
+  construireProgression();
+  montrerEcran(0);
+});
+</script>
+</body>
+</html>

@@ -181,7 +181,8 @@ button,input{touch-action:manipulation}
 .cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
 .cverify{margin-top:10px}
 .cfrac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 5px}
-.cfnum,.cfden{display:flex;align-items:center;gap:3px;padding:1px 5px;justify-content:center}
+.cfnum,.cfden{display:block;text-align:center;padding:2px 6px}
+.cfrac sup{font-size:.65em;vertical-align:super;line-height:1}
 .cfbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
 .cblank.mini{font-size:1rem;width:54px}
 
@@ -398,6 +399,7 @@ button,input{touch-action:manipulation}
   <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
   <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
   <div class="kc-keys" id="kcKeys"></div>
+<button onclick="kcSend()" style="margin-top:10px;width:100%;font-family:'Fredoka',sans-serif;font-weight:700;font-size:15px;border:none;cursor:pointer;background:#8BC34A;color:#fff;border-radius:14px;padding:11px;box-shadow:0 4px 0 #5E9426;">⬆ Envoyer le résultat dans la réponse</button>
 </div>
 <script>
 /* ===== SUIVI ===== */
@@ -688,7 +690,7 @@ function cascMkBlank(p,e,idx){
   var inp=document.createElement('input');inp.className='cblank'+(p.mini?' mini':'');
   inp.setAttribute('inputmode',p.kind==='num'?'decimal':'text');inp.autocomplete='off';
   if(p.ph)inp.placeholder=p.ph;if(p.w)inp.style.width=p.w+'px';
-  inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();cascVerify(e,idx);}});
+  inp.addEventListener('focus',function(){MATHTARGET=this;});inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();cascVerify(e,idx);}});
   Q.casc.q.steps[idx]._blanks.push({bk:p,el:inp});return inp;
 }
 function cascRenderParts(parent,arr,e,idx){

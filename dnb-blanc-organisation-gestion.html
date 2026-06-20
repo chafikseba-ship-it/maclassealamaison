@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DNB blanc — Organisation &amp; Gestion de données</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --creme:#FFF6E6;--creme2:#FFF0D6;--jaune:#FFC93C;--jaune-fonce:#E0A415;
+    --vert:#9FD356;--vert-fonce:#6FA52A;--orange:#FF9F45;--orange-fonce:#E07A1F;
+    --rouge:#E76F51;--brun:#5A4A2F;--brun-clair:#8A744C;--blanc:#FFFFFF;--ombre:rgba(120,90,30,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:var(--creme);color:var(--brun);min-height:100vh;padding:18px 14px 90px;-webkit-text-size-adjust:100%;}
+  h1,h2,h3,.titre{font-family:'Fredoka',sans-serif;}
+  .wrap{max-width:680px;margin:0 auto;}
+  .entete{background:linear-gradient(135deg,var(--jaune),var(--orange));border-radius:24px;padding:22px;color:#fff;text-align:center;box-shadow:0 6px 0 var(--orange-fonce);margin-bottom:18px;}
+  .entete h1{font-size:26px;font-weight:600;text-shadow:0 2px 0 rgba(0,0,0,.12);}
+  .entete p{font-weight:700;opacity:.95;margin-top:4px;}
+  .progression{display:flex;gap:6px;margin-bottom:18px;}
+  .progression .pas{flex:1;height:10px;border-radius:6px;background:var(--creme2);box-shadow:inset 0 2px 4px var(--ombre);}
+  .progression .pas.fait{background:var(--vert);}
+  .progression .pas.actif{background:var(--jaune);}
+  .carte{background:var(--blanc);border-radius:22px;padding:22px;box-shadow:0 5px 0 var(--ombre);margin-bottom:18px;}
+  .carte h2{font-size:21px;color:var(--brun);margin-bottom:6px;font-weight:600;}
+  .carte h2 .num{color:var(--orange-fonce);}
+  .badge-theme{display:inline-block;background:var(--vert);color:#fff;font-family:'Fredoka';font-weight:600;font-size:13px;padding:4px 12px;border-radius:20px;margin-bottom:12px;}
+  .consigne{font-size:17px;line-height:1.5;margin:10px 0;}
+  .sous{color:var(--brun-clair);font-weight:600;font-size:15px;}
+  .btn{font-family:'Fredoka';font-weight:600;font-size:18px;border:none;cursor:pointer;border-radius:18px;padding:14px 22px;color:#fff;transition:transform .05s,box-shadow .05s;display:inline-block;}
+  .btn-vert{background:var(--vert);box-shadow:0 5px 0 var(--vert-fonce);}
+  .btn-jaune{background:var(--jaune);color:var(--brun);box-shadow:0 5px 0 var(--jaune-fonce);}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--vert-fonce);}
+  .btn-jaune:active{box-shadow:0 1px 0 var(--jaune-fonce);}
+  .ligne-btn{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px;}
+  .figure{background:var(--creme2);border-radius:18px;padding:14px;text-align:center;margin:14px 0;}
+  .figure svg{max-width:100%;height:auto;}
+  .qbloc{margin:20px 0 6px;padding:13px 15px;background:linear-gradient(135deg,#FFE7B0,#FFD98A);border-radius:14px;box-shadow:0 3px 0 rgba(180,140,40,.2);}
+  .qbloc h3{font-size:18px;color:var(--brun);font-weight:600;}
+  .qbloc p{font-size:15px;line-height:1.45;margin-top:5px;}
+  .etape{border-radius:16px;padding:14px;margin:10px 0;background:var(--creme);border:2px solid var(--creme2);transition:opacity .3s;}
+  .etape.verrou{opacity:.45;pointer-events:none;}
+  .etape.ok{border-color:var(--vert);background:#f3faea;}
+  .etape .role{font-family:'Fredoka';font-weight:600;color:var(--orange-fonce);font-size:14px;text-transform:uppercase;letter-spacing:.5px;}
+  .etape .q{font-size:16px;margin:6px 0 10px;line-height:1.45;}
+  .etape input[type=text]{font-family:'Nunito';font-size:18px;font-weight:700;width:100%;padding:12px 14px;border:2px solid var(--brun-clair);border-radius:12px;background:#fff;color:var(--brun);}
+  .etape input[type=text]:focus{outline:none;border-color:var(--jaune);}
+  .ligne-valid{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap;}
+  .msg{font-weight:700;font-size:15px;margin-top:8px;}
+  .msg.bon{color:var(--vert-fonce);}
+  .msg.faux{color:var(--rouge);}
+  .aide{background:#FFF3D0;border-left:5px solid var(--jaune);border-radius:8px;padding:10px 12px;margin-top:8px;font-size:15px;}
+  .solution{background:#eef7df;border-left:5px solid var(--vert);border-radius:8px;padding:10px 12px;margin-top:8px;font-size:15px;}
+  .frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 4px;}
+  .frac .num{padding:0 6px 2px;border-bottom:2.5px solid var(--brun);}
+  .frac .den{padding:2px 6px 0;}
+  .frac-saisie{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;}
+  .frac-saisie input{width:140px;text-align:center;font-family:'Nunito';font-weight:700;font-size:18px;border:2px solid var(--brun-clair);border-radius:8px;padding:6px;background:#fff;color:var(--brun);}
+  .frac-saisie .barre-frac{height:3px;background:var(--brun);margin:4px 0;border-radius:2px;}
+  #btn-calc{position:fixed;right:18px;bottom:18px;z-index:50;width:60px;height:60px;border-radius:50%;background:var(--orange);color:#fff;border:none;cursor:pointer;font-size:26px;box-shadow:0 5px 0 var(--orange-fonce);}
+  #btn-calc:active{transform:translateY(4px);box-shadow:0 1px 0 var(--orange-fonce);}
+  #calc{position:fixed;right:18px;bottom:88px;z-index:51;width:300px;max-width:calc(100vw - 36px);max-height:calc(100vh - 120px);overflow-y:auto;background:var(--blanc);border-radius:20px;box-shadow:0 8px 24px rgba(80,60,20,.3);padding:14px;display:none;}
+  #calc.ouvert{display:block;}
+  #calc .affichage{position:sticky;top:0;z-index:2;background:var(--creme);border-radius:12px;padding:14px;font-family:'Fredoka';font-weight:600;font-size:24px;text-align:right;min-height:52px;word-break:break-all;margin-bottom:10px;color:var(--brun);border:2px solid var(--jaune);}
+  #calc .mode{font-size:12px;color:var(--brun-clair);text-align:right;margin-bottom:6px;font-weight:700;}
+  #calc .envoyer{width:100%;margin-top:8px;font-family:'Fredoka';font-weight:600;font-size:15px;border:none;cursor:pointer;background:var(--vert);color:#fff;border-radius:12px;padding:12px;box-shadow:0 4px 0 var(--vert-fonce);}
+  #calc .envoyer:active{transform:translateY(3px);box-shadow:0 1px 0 var(--vert-fonce);}
+  .grille-calc{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  .grille-calc button{font-family:'Fredoka';font-weight:500;font-size:16px;border:none;cursor:pointer;border-radius:10px;padding:11px 0;background:var(--creme2);color:var(--brun);}
+  .grille-calc button:active{transform:translateY(2px);}
+  .grille-calc button.op{background:var(--jaune);}
+  .grille-calc button.fct{background:var(--vert);color:#fff;font-size:14px;}
+  .grille-calc button.eg{background:var(--orange);color:#fff;}
+  .clavier-sym{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .clavier-sym button{font-family:'Fredoka';font-weight:600;font-size:16px;border:none;cursor:pointer;background:var(--creme2);color:var(--brun);border-radius:10px;padding:8px 13px;min-width:42px;box-shadow:0 3px 0 var(--ombre);}
+  .clavier-sym button:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ombre);}
+  .fin{background:linear-gradient(135deg,var(--vert),var(--jaune));color:#fff;text-align:center;}
+  .fin h2{font-size:24px;}
+  .cache{display:none;}
+  .btn-pouce{font-family:'Fredoka';font-weight:600;font-size:14px;padding:8px 14px;margin:6px 0;background:var(--jaune);color:var(--brun);border:none;cursor:pointer;border-radius:14px;box-shadow:0 3px 0 var(--jaune-fonce);}
+  .btn-pouce:active{transform:translateY(2px);box-shadow:0 1px 0 var(--jaune-fonce);}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="entete"><h1>DNB blanc</h1><p>Organisation &amp; Gestion de donnees</p></div>
+  <div class="progression" id="progression"></div>
+  <div id="zone-ecrans"></div>
+</div>
+
+<button id="btn-calc" onclick="toggleCalc()" aria-label="Calculatrice">&#x1F9EE;</button>
+<div id="calc" role="dialog" aria-label="Calculatrice">
+  <div class="mode">statistiques et probabilites</div>
+  <div class="affichage" id="calc-ecran">0</div>
+  <div class="grille-calc">
+    <button class="fct" onclick="cTok('cos(')">cos</button><button class="fct" onclick="cTok('sin(')">sin</button><button class="fct" onclick="cTok('tan(')">tan</button><button class="op" onclick="cClear()">C</button>
+    <button class="fct" onclick="cTok('cos1(')">cos-1</button><button class="fct" onclick="cTok('sin1(')">sin-1</button><button class="fct" onclick="cTok('tan1(')">tan-1</button><button class="op" onclick="cBack()">&#x232B;</button>
+    <button onclick="cTok('7')">7</button><button onclick="cTok('8')">8</button><button onclick="cTok('9')">9</button><button class="op" onclick="cTok('/')">&#247;</button>
+    <button onclick="cTok('4')">4</button><button onclick="cTok('5')">5</button><button onclick="cTok('6')">6</button><button class="op" onclick="cTok('*')">&#215;</button>
+    <button onclick="cTok('1')">1</button><button onclick="cTok('2')">2</button><button onclick="cTok('3')">3</button><button class="op" onclick="cTok('-')">&#8722;</button>
+    <button onclick="cTok('0')">0</button><button onclick="cTok('.')">.</button><button class="op" onclick="cTok('sqrt(')">&#x221A;</button><button class="op" onclick="cTok('+')">+</button>
+    <button class="op" onclick="cTok('(')">(</button><button class="op" onclick="cTok(')')">)</button><button class="op" onclick="cTok('%')">%</button><button class="eg" onclick="cEgal()">=</button>
+  </div>
+  <button class="envoyer" onclick="cEnvoyer()">&#x2B06; Envoyer le resultat dans la reponse</button>
+</div>
+
+<script>
+/* ===== OUTILS ===== */
+function rnd(n){return Math.floor(Math.random()*n);}
+function choix(t){return t[rnd(t.length)];}
+function melange(t){t=t.slice();for(var i=t.length-1;i>0;i--){var j=rnd(i+1);var tmp=t[i];t[i]=t[j];t[j]=tmp;}return t;}
+function fr(x){return (''+Math.round(x*100)/100).replace('.',',');}
+
+/* ===== NORMALISATION ===== */
+function norm(inp){return (inp==null?"":inp.toString()).toLowerCase().replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'').replace(/,/g,'.').replace(/\*/g,'');}
+function nbs(inp){return (norm(inp).match(/\d+(\.\d+)?/g)||[]).map(function(x){return parseFloat(x);});}
+
+/* ===== CALCULATRICE ===== */
+var calcExpr="";
+function cosd(x){return Math.cos(x*Math.PI/180);}
+function sind(x){return Math.sin(x*Math.PI/180);}
+function tand(x){return Math.tan(x*Math.PI/180);}
+function acosd(x){return Math.acos(x)*180/Math.PI;}
+function asind(x){return Math.asin(x)*180/Math.PI;}
+function atand(x){return Math.atan(x)*180/Math.PI;}
+function sqrtF(x){return Math.sqrt(x);}
+function toggleCalc(){document.getElementById('calc').classList.toggle('ouvert');}
+function majEcran(){document.getElementById('calc-ecran').textContent=calcExpr||"0";}
+function cTok(t){calcExpr+=t;majEcran();}
+function cClear(){calcExpr="";majEcran();}
+function cBack(){calcExpr=calcExpr.slice(0,-1);majEcran();}
+function calcEval(expr){
+  var e=expr.replace(/cos1/g,'acosd').replace(/sin1/g,'asind').replace(/tan1/g,'atand')
+    .replace(/\bcos\b/g,'cosd').replace(/\bsin\b/g,'sind').replace(/\btan\b/g,'tand')
+    .replace(/sqrt/g,'sqrtF');
+  return Function('cosd','sind','tand','acosd','asind','atand','sqrtF','"use strict";return ('+e+');')(cosd,sind,tand,acosd,asind,atand,sqrtF);
+}
+function cEgal(){try{var r=calcEval(calcExpr);if(typeof r!=='number'||!isFinite(r))throw 0;r=Math.round(r*1e6)/1e6;calcExpr=fr(r);majEcran();}catch(e){document.getElementById('calc-ecran').textContent="erreur";calcExpr="";}}
+
+/* ===== CHAMP ACTIF ===== */
+var dernierChamp=null;
+function inserer(champ,txt){if(!champ||champ.disabled)return;var d=(champ.selectionStart!=null)?champ.selectionStart:champ.value.length;var f=(champ.selectionEnd!=null)?champ.selectionEnd:champ.value.length;champ.value=champ.value.slice(0,d)+txt+champ.value.slice(f);var p=d+txt.length;champ.focus();try{champ.setSelectionRange(p,p);}catch(x){}}
+function symPress(ev,btn,sym){ev.preventDefault();var etape=btn.closest('.etape');var champ=(dernierChamp&&etape.contains(dernierChamp)&&!dernierChamp.disabled)?dernierChamp:etape.querySelector('input[type=text]:not([disabled])');inserer(champ,sym);}
+function cEnvoyer(){if(dernierChamp&&!dernierChamp.disabled){inserer(dernierChamp,calcExpr);}else{var e=document.getElementById('calc-ecran');var t=e.textContent;e.textContent="clique d'abord dans une reponse";setTimeout(function(){e.textContent=t;},1400);}}
+
+/* ===== SVG HELPERS ===== */
+function svgTxt(x,y,s,sz,col){
+  return '<text x="'+x+'" y="'+y+'" font-family="Fredoka" font-weight="600" font-size="'+(sz||16)+'" fill="'+(col||'#5A4A2F')+'" text-anchor="middle" dominant-baseline="middle">'+s+'</text>';
+}
+function svgNonEchelle(W,H){
+  return svgTxt(W/2,H-7,"Figure non a l'echelle",11,'#A08B6E');
+}
+
+/* ===== MOTEUR REDACTION GUIDEE ===== */
+function construireRedaction(conteneurId,etapes,onFini){
+  var cont=document.getElementById(conteneurId);cont.innerHTML="";
+  etapes.forEach(function(et,i){
+    if(et.question){
+      var h=document.createElement('div');h.className='qbloc';
+      h.innerHTML='<h3>'+et.question+'</h3>'+(et.consigneQ?'<p>'+et.consigneQ+'</p>':'');
+      cont.appendChild(h);
+    }
+    var div=document.createElement('div');
+    div.className='etape'+(i===0?'':' verrou');div.dataset.i=i;
+    var saisieHTML=(et.type==='fraction')
+      ?'<div class="frac-saisie"><input type="text" data-r="num" placeholder="numerateur"><div class="barre-frac"></div><input type="text" data-r="den" placeholder="denominateur"></div>'
+      :'<input type="text" placeholder="Ecris ici...">';
+    var clavierHTML='';
+    if(et.clavier&&et.clavier.length){
+      clavierHTML='<div class="clavier-sym">'+et.clavier.map(function(sym){
+        var s=(''+sym).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        var sv=(''+sym).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        return '<button type="button" onmousedown="symPress(event,this,\''+sv+'\')">'+s+'</button>';
+      }).join('')+'</div>';
+    }
+    div.innerHTML='<div class="role">'+et.role+'</div><div class="q">'+et.q+'</div>'+saisieHTML+clavierHTML+'<div class="ligne-valid"><button class="btn btn-jaune" style="font-size:16px;padding:10px 18px" onclick="validerEtape(\''+conteneurId+'\','+i+')">Valider</button></div><div class="msg" data-msg></div><div data-aide></div>';
+    cont.appendChild(div);
+  });
+  cont.__etapes=etapes;
+  cont.__erreurs=etapes.map(function(){return 0;});
+  cont.__onFini=onFini;
+}
+
+function validerEtape(conteneurId,i){
+  var cont=document.getElementById(conteneurId);var etapes=cont.__etapes;
+  var div=cont.querySelector('.etape[data-i="'+i+'"]');var et=etapes[i];
+  var ok;
+  if(et.type==='fraction'){var num=div.querySelector('input[data-r="num"]').value;var den=div.querySelector('input[data-r="den"]').value;ok=et.verif({num:num,den:den});}
+  else{ok=et.verif(div.querySelector('input[type=text]').value);}
+  var msg=div.querySelector('[data-msg]');var aideBox=div.querySelector('[data-aide]');
+  if(ok){
+    msg.textContent="OK Bien redige.";msg.className="msg bon";div.classList.add('ok');
+    div.querySelectorAll('input').forEach(function(inp2){inp2.disabled=true;});
+    div.querySelector('.ligne-valid').style.display='none';
+    var suiv=cont.querySelector('.etape[data-i="'+(i+1)+'"]');
+    if(suiv){suiv.classList.remove('verrou');suiv.querySelector('input').focus();}
+    else if(cont.__onFini)cont.__onFini();
+  }else{
+    cont.__erreurs[i]++;var n=cont.__erreurs[i];
+    msg.textContent="Pas encore. Relis ton ecriture.";msg.className="msg faux";
+    if(n>=3)aideBox.innerHTML='<div class="solution"><b>La bonne ecriture :</b><br>'+et.solutionHTML+'</div>';
+    else if(n>=2)aideBox.innerHTML='<div class="aide">Indice : '+et.aide+'</div>';
+  }
+}
+
+/* ===== SITUATION 1 : Moyenne ponderee ===== */
+function genMoyenne(){
+  var configs=[
+    {notes:[12,15,9],coeffs:[1,2,3],prenoms:'Antoine'},
+    {notes:[14,10,8],coeffs:[1,2,3],prenoms:'Lea'},
+    {notes:[11,16,7],coeffs:[1,2,3],prenoms:'Camille'},
+    {notes:[13,9,11],coeffs:[2,1,3],prenoms:'Tom'},
+    {notes:[8,14,12],coeffs:[1,3,2],prenoms:'Yasmine'}
+  ];
+  var cfg=choix(configs);
+  var notes=cfg.notes,coeffs=cfg.coeffs,prenom=cfg.prenoms;
+  var somPond=0,somCoeff=0;
+  for(var k=0;k<notes.length;k++){somPond+=notes[k]*coeffs[k];somCoeff+=coeffs[k];}
+  var moy=Math.round(somPond/somCoeff*100)/100;
+  var targetMoy=11,coeffExtra=2;
+  var noteMin=Math.round((targetMoy*(somCoeff+coeffExtra)-somPond)/coeffExtra*100)/100;
+  var devoirs=['Devoir n\u00b01','Devoir n\u00b02','Contr\u00f4le'];
+  var enonceHTML='Lors du premier trimestre, '+prenom+' a obtenu les notes suivantes en math\u00e9matiques :<br>'
+    +'&bull; '+devoirs[0]+' : <b>'+notes[0]+'/20</b> (coefficient '+coeffs[0]+')<br>'
+    +'&bull; '+devoirs[1]+' : <b>'+notes[1]+'/20</b> (coefficient '+coeffs[1]+')<br>'
+    +'&bull; '+devoirs[2]+' : <b>'+notes[2]+'/20</b> (coefficient '+coeffs[2]+')<br><br>'
+    +'1. Calcule la moyenne de '+prenom+'.<br>'
+    +'2. Quelle note minimale doit-il obtenir au prochain contr\u00f4le (coefficient '+coeffExtra+') pour avoir une moyenne sup\u00e9rieure \u00e0 '+targetMoy+' ?';
+
+  function dessiner(cibleId){
+    var W=440,H=210;
+    var colW=[110,90,90,130],x0=10,y0=30,rowH=36;
+    var headers=['Devoir','Note /20','Coeff.','Note x Coeff'];
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img">';
+    var cx=x0;
+    for(var c=0;c<4;c++){
+      var bg=c===3?'#FFD98A':'#FFC93C';
+      svg+='<rect x="'+cx+'" y="'+y0+'" width="'+colW[c]+'" height="'+rowH+'" fill="'+bg+'" stroke="#E0A415" stroke-width="1.5"/>';
+      svg+=svgTxt(cx+colW[c]/2,y0+rowH/2,headers[c],12,'#5A4A2F');
+      cx+=colW[c];
+    }
+    for(var r=0;r<3;r++){
+      var ry=y0+rowH*(r+1),cx2=x0;
+      var cells=[devoirs[r],''+notes[r],''+coeffs[r],notes[r]+'x'+coeffs[r]+'='+(notes[r]*coeffs[r])];
+      for(var c2=0;c2<4;c2++){
+        var bg2=c2===3?'#FFF3D0':'#FFF6E6';
+        svg+='<rect x="'+cx2+'" y="'+ry+'" width="'+colW[c2]+'" height="'+rowH+'" fill="'+bg2+'" stroke="#E0A415" stroke-width="1"/>';
+        svg+=svgTxt(cx2+colW[c2]/2,ry+rowH/2,cells[c2],12,'#5A4A2F');
+        cx2+=colW[c2];
+      }
+    }
+    var totY=y0+rowH*4,cx3=x0;
+    var totCells=['Total','-',''+somCoeff,''+somPond];
+    for(var c3=0;c3<4;c3++){
+      var bg3=c3===3?'#FFD98A':'#FFE7B0';
+      svg+='<rect x="'+cx3+'" y="'+totY+'" width="'+colW[c3]+'" height="'+rowH+'" fill="'+bg3+'" stroke="#E0A415" stroke-width="1.5"/>';
+      svg+=svgTxt(cx3+colW[c3]/2,totY+rowH/2,totCells[c3],12,'#E07A1F');
+      cx3+=colW[c3];
+    }
+    svg+=svgNonEchelle(W,H);
+    svg+='</svg>';
+    document.getElementById(cibleId).innerHTML=svg;
+  }
+
+  var prodStr=notes.map(function(n,k){return n+'x'+coeffs[k];}).join('+');
+  var etapes=[
+    {
+      question:'Question 1 - La moyenne du trimestre',
+      role:'Calculer la somme ponderee',
+      q:'Calcule la somme des produits note x coefficient : '+prodStr+' = ?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-somPond)<0.5;});},
+      aide:'Detaille chaque produit : '+notes.map(function(n,k){return n+'x'+coeffs[k]+'='+(n*coeffs[k]);}).join(', ')+'. Somme = '+somPond,
+      solutionHTML:prodStr+' = '+somPond
+    },
+    {
+      role:'Calculer la somme des coefficients',
+      q:'Calcule la somme des coefficients : '+coeffs.join('+')+'= ?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-somCoeff)<0.5;});},
+      aide:coeffs.join('+')+' = '+somCoeff,
+      solutionHTML:coeffs.join('+')+' = '+somCoeff
+    },
+    {
+      role:'Calculer la moyenne',
+      clavier:['/','+','='],
+      q:'Divise la somme ponderee par la somme des coefficients pour obtenir la moyenne.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-moy)<0.15;});},
+      aide:'Moyenne = '+somPond+' / '+somCoeff+' = '+fr(moy),
+      solutionHTML:'Moyenne = '+somPond+' / '+somCoeff+' = '+fr(moy)
+    },
+    {
+      question:'Question 2 - Note minimale pour le prochain controle',
+      role:'Resoudre l\'inequation',
+      q:'Pour que la moyenne depasse '+targetMoy+' avec un coefficient total de '+(somCoeff+coeffExtra)+', resous : ('+somPond+' + '+coeffExtra+'x) / '+(somCoeff+coeffExtra)+' > '+targetMoy+'. Donne la note minimale.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-noteMin)<0.6;});},
+      aide:'('+somPond+' + '+coeffExtra+'x) > '+targetMoy+'x'+(somCoeff+coeffExtra)+' => '+coeffExtra+'x > '+(targetMoy*(somCoeff+coeffExtra)-somPond)+' => x > '+fr(noteMin),
+      solutionHTML:'x > ('+targetMoy+'x'+(somCoeff+coeffExtra)+' - '+somPond+') / '+coeffExtra+' = '+fr(noteMin)
+    }
+  ];
+  return {titre:'Notes et moyenne ponderee',enonceHTML:enonceHTML,dessiner:dessiner,etapes:etapes};
+}
+
+/* ===== SITUATION 2 : Probabilites avec un de ===== */
+function genDe(){
+  var scenarios=[
+    {issues1:[2,4,6],lib1:'pair',issues2:[5,6],lib2:'superieur ou egal a 5',inter:[6],sol3:'Les deux evenements sont compatibles : 6 est pair et superieur ou egal a 5.'},
+    {issues1:[1,3,5],lib1:'impair',issues2:[1,2,3],lib2:'inferieur a 4',inter:[1,3],sol3:'Les deux evenements sont compatibles : 1 et 3 sont impairs et inferieurs a 4.'},
+    {issues1:[3,6],lib1:'multiple de 3',issues2:[5,6],lib2:'superieur a 4',inter:[6],sol3:'Les deux evenements sont compatibles : 6 est multiple de 3 et superieur a 4.'},
+    {issues1:[2,4,6],lib1:'pair',issues2:[1,3,5],lib2:'impair',inter:[],sol3:'Les deux evenements sont incompatibles : aucun nombre ne peut etre pair et impair a la fois.'}
+  ];
+  var sc=choix(scenarios);
+  var tot=6;
+  var p1n=sc.issues1.length,p2n=sc.issues2.length;
+  var compat=sc.inter.length>0;
+  var enonceHTML='On lance un de equilibre a 6 faces numerotees de 1 a 6.<br><br>'
+    +'1. Quelle est la probabilite d\'obtenir un nombre <b>'+sc.lib1+'</b> ?<br>'
+    +'2. Quelle est la probabilite d\'obtenir un nombre <b>'+sc.lib2+'</b> ?<br>'
+    +'3. Ces deux evenements sont-ils <b>compatibles</b> ? Justifie en identifiant les issues communes.';
+
+  function dessiner(cibleId){
+    var W=400,H=210;
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img">';
+    var cellW=80,cellH=65,gap=8,startX=10,startY=20,cols=3;
+    for(var f=1;f<=6;f++){
+      var col=(f-1)%cols,row=Math.floor((f-1)/cols);
+      var rx=startX+col*(cellW+gap),ry=startY+row*(cellH+gap);
+      var s1=sc.issues1.indexOf(f)>=0,s2=sc.issues2.indexOf(f)>=0,inter=sc.inter.indexOf(f)>=0;
+      var bg=inter?'#FFD98A':(s1?'#C8E8F5':(s2?'#FFD98A':'#FFF6E6'));
+      var stroke=s1?'#4FA3D1':(s2?'#E07A1F':'#C9A24A');
+      svg+='<rect x="'+rx+'" y="'+ry+'" width="'+cellW+'" height="'+cellH+'" rx="10" fill="'+bg+'" stroke="'+stroke+'" stroke-width="2"/>';
+      svg+=svgTxt(rx+cellW/2,ry+cellH/2,''+f,28,'#5A4A2F');
+    }
+    var lx=330;
+    svg+='<rect x="'+lx+'" y="22" width="12" height="12" rx="2" fill="#C8E8F5" stroke="#4FA3D1" stroke-width="1.5"/>'+svgTxt(lx+40,28,sc.issues1.join(','),11,'#4FA3D1');
+    svg+='<rect x="'+lx+'" y="42" width="12" height="12" rx="2" fill="#FFD98A" stroke="#E07A1F" stroke-width="1.5"/>'+svgTxt(lx+40,48,sc.issues2.join(','),11,'#E07A1F');
+    svg+=svgNonEchelle(W,H);
+    svg+='</svg>';
+    document.getElementById(cibleId).innerHTML=svg;
+  }
+
+  var etapes=[
+    {
+      question:'Question 1 - Premier evenement',
+      role:'Calculer la probabilite',
+      q:'On lance le de. Quelles sont les issues favorables pour "'+sc.lib1+'" ? Donne la probabilite.',
+      verif:function(inp){
+        var ns=nbs(inp);
+        return ns.some(function(x){return Math.abs(x-p1n/tot)<0.02;}) || (ns.some(function(x){return x===p1n;})&&ns.some(function(x){return x===tot;}));
+      },
+      aide:'Issues favorables : '+sc.issues1.join(', ')+' soit '+p1n+' issues sur '+tot+'.',
+      solutionHTML:'P = '+p1n+'/'+tot
+    },
+    {
+      question:'Question 2 - Deuxieme evenement',
+      role:'Calculer la probabilite',
+      q:'Quelles sont les issues favorables pour "'+sc.lib2+'" ? Donne la probabilite.',
+      verif:function(inp){
+        var ns=nbs(inp);
+        return ns.some(function(x){return Math.abs(x-p2n/tot)<0.02;}) || (ns.some(function(x){return x===p2n;})&&ns.some(function(x){return x===tot;}));
+      },
+      aide:'Issues favorables : '+sc.issues2.join(', ')+' soit '+p2n+' issues sur '+tot+'.',
+      solutionHTML:'P = '+p2n+'/'+tot
+    },
+    {
+      question:'Question 3 - Compatibilite des evenements',
+      role:'Conclure',
+      q:'Ces deux evenements ont-ils des issues en commun ? Sont-ils compatibles ? Justifie.',
+      verif:function(inp){
+        var t=norm(inp);
+        return t.includes('compat')&&(compat?(t.includes('oui')||sc.inter.some(function(v){return t.includes(''+v);})):t.includes('non')||t.includes('incomp'));
+      },
+      aide:sc.sol3,
+      solutionHTML:sc.sol3
+    }
+  ];
+  return {titre:'Probabilites avec un de',enonceHTML:enonceHTML,dessiner:dessiner,etapes:etapes};
+}
+
+/* ===== SITUATION 3 : Sondage et tableau double entree ===== */
+function genSondage(){
+  var base=choix([200,240,250,300]);
+  var ratioS=choix([0.52,0.56,0.60,0.48]);
+  var sportTotal=Math.round(base*ratioS/2)*2;
+  var pasSport=base-sportTotal;
+  var ratioG=choix([0.48,0.50,0.52]);
+  var garcons=Math.round(base*ratioG/2)*2;
+  var filles=base-garcons;
+  var garconsSport=Math.min(Math.round(sportTotal*choix([0.55,0.60,0.65])/2)*2, garcons-2, sportTotal-2);
+  var fillesSport=sportTotal-garconsSport;
+  var garconsPas=garcons-garconsSport;
+  var fillesPas=filles-fillesSport;
+  var freqGS=Math.round(garconsSport/base*1000)/10;
+  var ratioFS=Math.round(fillesSport/filles*1000)/10;
+  var plusMoitie=fillesSport/filles>0.5;
+  var enonceHTML='Dans un college de <b>'+base+' eleves</b>, on a interroge tous les eleves sur la pratique d\'un sport en club.<br>'
+    +'&bull; <b>'+sportTotal+' eleves</b> pratiquent un sport, dont <b>'+garconsSport+' garcons</b>.<br>'
+    +'&bull; Il y a au total <b>'+garcons+' garcons</b> dans le college.<br><br>'
+    +'1. Combien y a-t-il de filles qui pratiquent un sport ?<br>'
+    +'2. Quelle est la frequence (en %) des garcons pratiquant un sport parmi tous les eleves du college ?<br>'
+    +'3. Plus de la moitie des filles du college pratiquent-elles un sport ? Justifie.';
+
+  function dessiner(cibleId){
+    var W=440,H=200;
+    var colW=[120,90,90,80],rowH=38,y0=20,x0=10;
+    var headers=['','Sport','Pas sport','Total'];
+    var rows=[
+      ['Garcons',''+garconsSport,''+garconsPas,''+garcons],
+      ['Filles','?',''+fillesPas,''+filles],
+      ['Total',''+sportTotal,''+pasSport,''+base]
+    ];
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img">';
+    var cx=x0;
+    for(var c=0;c<4;c++){
+      svg+='<rect x="'+cx+'" y="'+y0+'" width="'+colW[c]+'" height="'+rowH+'" fill="#FFC93C" stroke="#E0A415" stroke-width="1.5"/>';
+      svg+=svgTxt(cx+colW[c]/2,y0+rowH/2,headers[c],13,'#5A4A2F');
+      cx+=colW[c];
+    }
+    for(var r=0;r<3;r++){
+      var ry=y0+rowH*(r+1),cx2=x0;
+      for(var c2=0;c2<4;c2++){
+        var isOrange=r===1&&c2===1;
+        var bgR=isOrange?'#FFD98A':(r===2?'#FFE7B0':'#FFF6E6');
+        svg+='<rect x="'+cx2+'" y="'+ry+'" width="'+colW[c2]+'" height="'+rowH+'" fill="'+bgR+'" stroke="#E0A415" stroke-width="1"/>';
+        svg+=svgTxt(cx2+colW[c2]/2,ry+rowH/2,rows[r][c2],13,isOrange?'#E07A1F':'#5A4A2F');
+        cx2+=colW[c2];
+      }
+    }
+    svg+=svgNonEchelle(W,H);
+    svg+='</svg>';
+    document.getElementById(cibleId).innerHTML=svg;
+  }
+
+  var etapes=[
+    {
+      question:'Question 1 - Nombre de filles sportives',
+      role:'Calculer par difference',
+      q:'Parmi les '+sportTotal+' eleves pratiquant un sport, '+garconsSport+' sont des garcons. Combien de filles pratiquent un sport ?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-fillesSport)<0.5;});},
+      aide:sportTotal+' - '+garconsSport+' = '+fillesSport,
+      solutionHTML:sportTotal+' - '+garconsSport+' = '+fillesSport+' filles'
+    },
+    {
+      question:'Question 2 - Frequence des garcons sportifs',
+      role:'Calculer une frequence en %',
+      clavier:['/','+','='],
+      q:'Calcule la frequence en % des garcons pratiquant un sport parmi les '+base+' eleves.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-freqGS)<1;}) || nbs(inp).some(function(x){return Math.abs(x-garconsSport/base)<0.01;});},
+      aide:garconsSport+' / '+base+' x 100 = '+fr(freqGS)+' %',
+      solutionHTML:garconsSport+' / '+base+' = '+fr(Math.round(garconsSport/base*1000)/1000)+' soit '+fr(freqGS)+' %'
+    },
+    {
+      question:'Question 3 - Plus de la moitie des filles ?',
+      role:'Comparer une frequence a 50 %',
+      q:'Il y a '+filles+' filles au college, dont '+fillesSport+' pratiquent un sport. Calcule la frequence, puis reponds a la question.',
+      verif:function(inp){
+        var t=norm(inp);
+        var hasVal=nbs(inp).some(function(x){return Math.abs(x-ratioFS)<2;});
+        var hasConcl=plusMoitie?(t.includes('oui')||t.includes('plus')):(t.includes('non')||t.includes('moins')||t.includes('inferi'));
+        return hasVal&&hasConcl;
+      },
+      aide:fillesSport+' / '+filles+' x 100 = '+fr(ratioFS)+' %. '+(plusMoitie?'Plus de 50 % : oui.':'Moins de 50 % : non.'),
+      solutionHTML:fillesSport+' / '+filles+' = '+fr(ratioFS)+' %. '+(plusMoitie?'Oui, plus de la moitie des filles pratiquent un sport.':'Non, moins de la moitie des filles pratiquent un sport.')
+    }
+  ];
+  return {titre:'Sondage sportif au college',enonceHTML:enonceHTML,dessiner:dessiner,etapes:etapes};
+}
+
+/* ===== SITUATION 4 : Arbre de probabilites (tirage sans remise) ===== */
+function genArbre(){
+  var configs=[{R:4,B:6},{R:3,B:7},{R:5,B:5},{R:2,B:8}];
+  var cfg=choix(configs);
+  var R=cfg.R,B=cfg.B,tot=R+B;
+  var p2n=R-1,p2d=tot-1;
+  var pRRn=R*(R-1),pRRd=tot*(tot-1);
+  function pgcd(a,b){return b===0?a:pgcd(b,a%b);}
+  var g=pgcd(pRRn,pRRd);
+  var pRRsimp=(pRRn/g)+'/'+(pRRd/g);
+  var pRR=pRRn/pRRd;
+  var enonceHTML='Un sac contient <b>'+R+' boules rouges</b> et <b>'+B+' boules bleues</b>, soit '+tot+' boules au total. On tire deux boules successivement <b>sans remise</b>.<br><br>'
+    +'1. Quelle est la probabilite que la premiere boule soit rouge ?<br>'
+    +'2. Sachant que la premiere est rouge, quelle est la probabilite que la deuxieme soit aussi rouge ?<br>'
+    +'3. Calcule la probabilite d\'obtenir deux boules rouges de suite.';
+
+  function dessiner(cibleId){
+    var W=420,H=240;
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img">';
+    var ox=55,oy=120;
+    var r1R={x:195,y:55},r1B={x:195,y:185};
+    var r2RR={x:350,y:25},r2RB={x:350,y:95},r2BR={x:350,y:155},r2BB={x:350,y:220};
+    svg+='<circle cx="'+ox+'" cy="'+oy+'" r="6" fill="#5A4A2F"/>';
+    svg+='<line x1="'+ox+'" y1="'+oy+'" x2="'+r1R.x+'" y2="'+r1R.y+'" stroke="#E07A1F" stroke-width="2.5"/>';
+    svg+='<line x1="'+ox+'" y1="'+oy+'" x2="'+r1B.x+'" y2="'+r1B.y+'" stroke="#4FA3D1" stroke-width="2.5"/>';
+    svg+=svgTxt(Math.round((ox+r1R.x)/2)-12,Math.round((oy+r1R.y)/2)-12,R+'/'+tot,13,'#E07A1F');
+    svg+=svgTxt(Math.round((ox+r1B.x)/2)-12,Math.round((oy+r1B.y)/2)+12,B+'/'+tot,13,'#4FA3D1');
+    svg+='<circle cx="'+r1R.x+'" cy="'+r1R.y+'" r="5" fill="#E07A1F"/>';
+    svg+=svgTxt(r1R.x+14,r1R.y,'R',14,'#E07A1F');
+    svg+='<circle cx="'+r1B.x+'" cy="'+r1B.y+'" r="5" fill="#4FA3D1"/>';
+    svg+=svgTxt(r1B.x+14,r1B.y,'B',14,'#4FA3D1');
+    svg+='<line x1="'+r1R.x+'" y1="'+r1R.y+'" x2="'+r2RR.x+'" y2="'+r2RR.y+'" stroke="#E07A1F" stroke-width="2"/>';
+    svg+='<line x1="'+r1R.x+'" y1="'+r1R.y+'" x2="'+r2RB.x+'" y2="'+r2RB.y+'" stroke="#4FA3D1" stroke-width="2"/>';
+    svg+='<line x1="'+r1B.x+'" y1="'+r1B.y+'" x2="'+r2BR.x+'" y2="'+r2BR.y+'" stroke="#E07A1F" stroke-width="1.5" stroke-dasharray="5,3"/>';
+    svg+='<line x1="'+r1B.x+'" y1="'+r1B.y+'" x2="'+r2BB.x+'" y2="'+r2BB.y+'" stroke="#4FA3D1" stroke-width="1.5" stroke-dasharray="5,3"/>';
+    svg+=svgTxt(Math.round((r1R.x+r2RR.x)/2)-10,Math.round((r1R.y+r2RR.y)/2)-10,(R-1)+'/'+(tot-1),12,'#E07A1F');
+    svg+=svgTxt(Math.round((r1R.x+r2RB.x)/2)+10,Math.round((r1R.y+r2RB.y)/2)+10,B+'/'+(tot-1),12,'#4FA3D1');
+    svg+=svgTxt(r2RR.x+8,r2RR.y,'R',13,'#E07A1F');
+    svg+=svgTxt(r2RB.x+8,r2RB.y,'B',13,'#4FA3D1');
+    svg+=svgTxt(r2BR.x+8,r2BR.y,'R',13,'#E07A1F');
+    svg+=svgTxt(r2BB.x+8,r2BB.y,'B',13,'#4FA3D1');
+    svg+=svgTxt(195,10,'1er tirage',11,'#A08B6E');
+    svg+=svgTxt(350,10,'2e tirage',11,'#A08B6E');
+    svg+=svgNonEchelle(W,H);
+    svg+='</svg>';
+    document.getElementById(cibleId).innerHTML=svg;
+  }
+
+  var etapes=[
+    {
+      question:'Question 1 - Probabilite rouge au 1er tirage',
+      role:'Calculer P(R1)',
+      clavier:['/'],
+      q:'Il y a '+R+' boules rouges sur '+tot+'. Donne la probabilite que la premiere boule soit rouge.',
+      verif:function(inp){
+        var ns=nbs(inp);
+        return ns.some(function(x){return Math.abs(x-R/tot)<0.02;}) || (ns.some(function(x){return x===R;})&&ns.some(function(x){return x===tot;}));
+      },
+      aide:'P(R1) = '+R+'/'+tot,
+      solutionHTML:'P(R1) = '+R+'/'+tot
+    },
+    {
+      question:'Question 2 - Probabilite rouge au 2e tirage sachant 1er rouge',
+      role:'Raisonner sans remise',
+      clavier:['/'],
+      q:'Apres avoir tire une rouge, il reste '+(R-1)+' rouges sur '+(tot-1)+' boules. Quelle est la probabilite que la 2e soit rouge ?',
+      verif:function(inp){
+        var ns=nbs(inp);
+        return ns.some(function(x){return Math.abs(x-p2n/p2d)<0.02;}) || (ns.some(function(x){return x===p2n;})&&ns.some(function(x){return x===p2d;}));
+      },
+      aide:'P(R2|R1) = '+(R-1)+'/'+(tot-1),
+      solutionHTML:'P(R2|R1) = '+(R-1)+'/'+(tot-1)
+    },
+    {
+      question:'Question 3 - Probabilite d\'obtenir deux rouges',
+      role:'Multiplier les probabilites',
+      clavier:['/','+','*','='],
+      q:'Multiplie les deux probabilites du chemin (R, R) pour obtenir P(deux rouges).',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-pRR)<0.015;});},
+      aide:'P(R,R) = '+R+'/'+tot+' x '+(R-1)+'/'+(tot-1)+' = '+pRRn+'/'+pRRd+' = '+pRRsimp,
+      solutionHTML:'P(R,R) = '+R+'/'+tot+' x '+(R-1)+'/'+(tot-1)+' = '+pRRn+'/'+pRRd+' = '+pRRsimp
+    }
+  ];
+  return {titre:'Tirage de boules sans remise',enonceHTML:enonceHTML,dessiner:dessiner,etapes:etapes};
+}
+
+/* ===== SITUATION 5 : Diagramme en barres (transports) ===== */
+function genTransport(){
+  var configs=[
+    {velo:20,bus:35,pied:15,voiture:10},
+    {velo:16,bus:40,pied:12,voiture:12},
+    {velo:24,bus:32,pied:16,voiture:8},
+    {velo:18,bus:38,pied:14,voiture:10}
+  ];
+  var cfg=choix(configs);
+  var velo=cfg.velo,bus=cfg.bus,pied=cfg.pied,voiture=cfg.voiture;
+  var tot=velo+bus+pied+voiture;
+  var fVelo=Math.round(velo/tot*1000)/10;
+  var fBus=Math.round(bus/tot*1000)/10;
+  var fPied=Math.round(pied/tot*1000)/10;
+  var fVoiture=Math.round(voiture/tot*1000)/10;
+  var tiers=100/3;
+  var pVeloPied=Math.round((velo+pied)/tot*1000)/10;
+  var enonceHTML='Un questionnaire a ete soumis a <b>'+tot+' collegiens</b> pour connaitre leur moyen de transport.<br>'
+    +'&bull; Velo : <b>'+velo+' eleves</b><br>'
+    +'&bull; Bus : <b>'+bus+' eleves</b><br>'
+    +'&bull; A pied : <b>'+pied+' eleves</b><br>'
+    +'&bull; Voiture : <b>'+voiture+' eleves</b><br><br>'
+    +'1. Calcule la frequence en % de chaque moyen de transport.<br>'
+    +'2. Quel moyen de transport est utilise par plus du tiers des eleves ? Justifie.<br>'
+    +'3. Si on interroge un eleve au hasard, quelle est la probabilite qu\'il vienne en velo ou a pied ?';
+
+  function dessiner(cibleId){
+    var W=420,H=220;
+    var vals=[velo,bus,pied,voiture];
+    var labels=['Velo','Bus','A pied','Voiture'];
+    var colors=['#4FA3D1','#E07A1F','#9FD356','#E76F51'];
+    var maxV=Math.max.apply(null,vals);
+    var barW=60,gap=20,x0=30,y0=10,chartH=140;
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img">';
+    svg+='<line x1="'+x0+'" y1="'+(y0+chartH)+'" x2="'+(W-10)+'" y2="'+(y0+chartH)+'" stroke="#8A744C" stroke-width="2"/>';
+    for(var i=0;i<4;i++){
+      var bx=x0+i*(barW+gap);
+      var bh=Math.round(vals[i]/maxV*chartH*0.88);
+      var by=y0+chartH-bh;
+      svg+='<rect x="'+bx+'" y="'+by+'" width="'+barW+'" height="'+bh+'" rx="4" fill="'+colors[i]+'" opacity="0.85"/>';
+      svg+=svgTxt(bx+barW/2,by-10,''+vals[i],13,'#5A4A2F');
+      svg+=svgTxt(bx+barW/2,y0+chartH+16,labels[i],12,'#5A4A2F');
+    }
+    svg+=svgNonEchelle(W,H);
+    svg+='</svg>';
+    document.getElementById(cibleId).innerHTML=svg;
+  }
+
+  var etapes=[
+    {
+      question:'Question 1 - Frequences en pourcentage',
+      role:'Calculer les 4 frequences',
+      clavier:['/','+','*','='],
+      q:'Pour chaque moyen de transport, calcule : effectif / '+tot+' x 100. Donne au moins la frequence du bus et du velo.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-fBus)<2;})&&nbs(inp).some(function(x){return Math.abs(x-fVelo)<2;});},
+      aide:'Velo : '+fVelo+'% — Bus : '+fBus+'% — A pied : '+fPied+'% — Voiture : '+fVoiture+'%.',
+      solutionHTML:'Velo : '+fVelo+'% — Bus : '+fBus+'% — A pied : '+fPied+'% — Voiture : '+fVoiture+'%'
+    },
+    {
+      question:'Question 2 - Plus du tiers des eleves ?',
+      role:'Comparer a 1/3',
+      q:'Le tiers represente environ 33,3 %. Quel moyen de transport depasse ce seuil ? Justifie avec sa frequence.',
+      verif:function(inp){return norm(inp).includes('bus')&&nbs(inp).some(function(x){return Math.abs(x-fBus)<3;});},
+      aide:'Bus : '+fBus+'% > 33,3 % => le bus est utilise par plus du tiers des eleves.',
+      solutionHTML:'Bus : '+fBus+'% > 33,3 %. Le bus est utilise par plus du tiers des eleves.'
+    },
+    {
+      question:'Question 3 - Probabilite velo ou a pied',
+      role:'Calculer une probabilite',
+      clavier:['/','+','='],
+      q:'Calcule la probabilite qu\'un eleve choisi au hasard vienne en velo ou a pied.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-(velo+pied)/tot)<0.02;}) || nbs(inp).some(function(x){return Math.abs(x-pVeloPied)<2;});},
+      aide:'P(velo ou pied) = ('+velo+'+'+pied+') / '+tot+' = '+(velo+pied)+'/'+tot+' = '+fr(pVeloPied)+'%',
+      solutionHTML:'P(velo ou pied) = '+(velo+pied)+'/'+tot+' = '+fr(pVeloPied)+'%'
+    }
+  ];
+  return {titre:'Moyens de transport des collegiens',enonceHTML:enonceHTML,dessiner:dessiner,etapes:etapes};
+}
+
+/* ===== SITUATION 6 : Mediane et etendue ===== */
+function genMediane(){
+  function tirerSerie(n,min,max){
+    var res=[];
+    var attempts=0;
+    while(res.length<n&&attempts<1000){
+      attempts++;
+      var v=min+rnd(max-min+1);
+      res.push(v);
+    }
+    return res;
+  }
+  var cfg=choix([{n:9,min:18,max:33},{n:9,min:15,max:32},{n:9,min:20,max:35}]);
+  var raw=tirerSerie(cfg.n,cfg.min,cfg.max);
+  var sorted=raw.slice().sort(function(a,b){return a-b;});
+  var n=sorted.length;
+  var medIdx=Math.floor(n/2);
+  var med=sorted[medIdx];
+  var etendue=sorted[n-1]-sorted[0];
+  var ajout=sorted[n-1]+choix([2,3,4]);
+  var sorted2=sorted.concat([ajout]).sort(function(a,b){return a-b;});
+  var n2=sorted2.length;
+  var med2=(sorted2[Math.floor((n2-1)/2)]+sorted2[Math.ceil((n2-1)/2)])/2;
+  var changeMed=Math.abs(med2-med)>0.01;
+  var context=choix(['de vacances','relevees en juillet','observees en aout']);
+  var enonceHTML='Les temperatures maximales (en degres C) relevees pendant '+n+' jours '+context+' sont :<br><br>'
+    +'<b>'+raw.join(' &mdash; ')+'</b><br><br>'
+    +'1. Range ces temperatures dans l\'ordre croissant.<br>'
+    +'2. Determine la mediane et l\'etendue de cette serie.<br>'
+    +'3. Le lendemain il fait <b>'+ajout+' degres</b>. La mediane change-t-elle ? Justifie.';
+
+  function dessiner(cibleId){
+    var W=420,H=140;
+    var minT=sorted[0]-2,maxT=sorted[n-1]+3;
+    var axY=78,axX0=28,axX1=W-18;
+    function toX(t){return Math.round(axX0+(t-minT)/(maxT-minT)*(axX1-axX0));}
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img">';
+    svg+='<line x1="'+axX0+'" y1="'+axY+'" x2="'+axX1+'" y2="'+axY+'" stroke="#8A744C" stroke-width="2"/>';
+    for(var t=Math.ceil(minT);t<=Math.floor(maxT);t+=2){
+      var tx=toX(t);
+      svg+='<line x1="'+tx+'" y1="'+(axY-5)+'" x2="'+tx+'" y2="'+(axY+5)+'" stroke="#8A744C" stroke-width="1.5"/>';
+      svg+=svgTxt(tx,axY+16,''+t,10,'#8A744C');
+    }
+    for(var i=0;i<sorted.length;i++){
+      var px=toX(sorted[i]);
+      svg+='<circle cx="'+px+'" cy="'+axY+'" r="6" fill="#E07A1F" opacity="0.85"/>';
+      svg+=svgTxt(px,axY-16,''+sorted[i],10,'#E07A1F');
+    }
+    var medX=toX(med);
+    svg+='<line x1="'+medX+'" y1="'+(axY-14)+'" x2="'+medX+'" y2="'+(axY+14)+'" stroke="#6FA52A" stroke-width="2.5"/>';
+    svg+=svgTxt(medX,axY-26,'med='+med,11,'#6FA52A');
+    var minX=toX(sorted[0]),maxX=toX(sorted[n-1]);
+    var etY=axY+30;
+    svg+='<line x1="'+minX+'" y1="'+etY+'" x2="'+maxX+'" y2="'+etY+'" stroke="#4FA3D1" stroke-width="2"/>';
+    svg+='<line x1="'+minX+'" y1="'+(etY-6)+'" x2="'+minX+'" y2="'+(etY+6)+'" stroke="#4FA3D1" stroke-width="2"/>';
+    svg+='<line x1="'+maxX+'" y1="'+(etY-6)+'" x2="'+maxX+'" y2="'+(etY+6)+'" stroke="#4FA3D1" stroke-width="2"/>';
+    svg+=svgTxt(Math.round((minX+maxX)/2),etY+14,'etendue='+etendue,11,'#4FA3D1');
+    svg+=svgNonEchelle(W,H);
+    svg+='</svg>';
+    document.getElementById(cibleId).innerHTML=svg;
+  }
+
+  var etapes=[
+    {
+      question:'Question 1 - Tri dans l\'ordre croissant',
+      role:'Ranger les temperatures',
+      q:'Range les '+n+' temperatures dans l\'ordre croissant. Ecris la plus petite et la plus grande valeur.',
+      verif:function(inp){
+        var ns=nbs(inp);
+        return ns.some(function(x){return x===sorted[0];})&&ns.some(function(x){return x===sorted[n-1];});
+      },
+      aide:'Ordre croissant : '+sorted.join(' < '),
+      solutionHTML:sorted.join(' ; ')
+    },
+    {
+      question:'Question 2 - Mediane et etendue',
+      role:'Identifier la valeur centrale',
+      q:'La serie comporte '+n+' valeurs. La valeur centrale (rang '+(medIdx+1)+') est la mediane. Donne la mediane et l\'etendue (max - min).',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-med)<0.5;})&&nbs(inp).some(function(x){return Math.abs(x-etendue)<0.5;});},
+      aide:'Mediane = '+med+' (valeur en position '+(medIdx+1)+'). Etendue = '+sorted[n-1]+' - '+sorted[0]+' = '+etendue,
+      solutionHTML:'Mediane = '+med+' ; Etendue = '+etendue
+    },
+    {
+      question:'Question 3 - Ajout d\'une valeur',
+      role:'Recalculer avec 10 valeurs',
+      q:'Avec '+ajout+' degres, on a maintenant '+n2+' valeurs. La mediane devient la moyenne des 2 valeurs centrales. Recalcule et dis si elle a change.',
+      verif:function(inp){
+        var t=norm(inp);
+        var hasVal=nbs(inp).some(function(x){return Math.abs(x-med2)<0.6;});
+        var hasConcl=changeMed?(t.includes('oui')||t.includes('change')):(t.includes('non')||t.includes('change')||t.includes('meme'));
+        return hasVal||hasConcl;
+      },
+      aide:'Triee : '+sorted2.join(' ; ')+'. Mediane = ('+sorted2[Math.floor((n2-1)/2)]+'+'+sorted2[Math.ceil((n2-1)/2)]+') / 2 = '+fr(med2)+'. '+(changeMed?'Elle a change.':'Elle n\'a pas change.'),
+      solutionHTML:'Nouvelle mediane = '+fr(med2)+'. '+(changeMed?'Oui, la mediane a change.':'Non, la mediane ne change pas.')
+    }
+  ];
+  return {titre:'Temperatures et statistiques',enonceHTML:enonceHTML,dessiner:dessiner,etapes:etapes};
+}
+
+function _svgGraphe(cfg){
+  var W=300,H=240,ox=52,sc=30;
+  var xmin=cfg.xmin||0,xmax=cfg.xmax||7,ymin=cfg.ymin||0,ymax=cfg.ymax||8;
+  var oy=H-30-Math.round((0-ymin)/(ymax-ymin)*(H-50));
+  if(oy<20)oy=20; if(oy>H-20)oy=H-20;
+  var sx=Math.round((W-ox-20)/(xmax-xmin));
+  var sy=Math.round((H-50)/(ymax-ymin));
+  function px(x){return ox+(x-xmin)*sx;}
+  function py(y){return H-30-(y-ymin)*sy;}
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:'+W+'px">';
+  svg+='<rect width="'+W+'" height="'+H+'" fill="#FFF6E6" rx="10"/>';
+  for(var gx=xmin;gx<=xmax;gx++){var ppx=px(gx);svg+='<line x1="'+ppx+'" y1="10" x2="'+ppx+'" y2="'+(H-20)+'" stroke="#E0D0B0" stroke-width="1"/>';svg+='<text x="'+ppx+'" y="'+(H-8)+'" font-family="Fredoka" font-size="13" fill="#A08B6E" text-anchor="middle">'+gx+'</text>';}
+  for(var gy=ymin;gy<=ymax;gy++){var ppy=py(gy);svg+='<line x1="'+ox+'" y1="'+ppy+'" x2="'+(W-10)+'" y2="'+ppy+'" stroke="#E0D0B0" stroke-width="1"/>';svg+='<text x="'+(ox-8)+'" y="'+ppy+'" font-family="Fredoka" font-size="13" fill="#A08B6E" text-anchor="end" dominant-baseline="middle">'+gy+'</text>';}
+  svg+='<line x1="'+ox+'" y1="8" x2="'+ox+'" y2="'+(H-20)+'" stroke="#5A4A2F" stroke-width="2.5"/>';
+  svg+='<line x1="'+(ox-8)+'" y1="'+py(0)+'" x2="'+(W-8)+'" y2="'+py(0)+'" stroke="#5A4A2F" stroke-width="2.5"/>';
+  var pts=[];
+  for(var xi=xmin;xi<=xmax;xi+=0.2){var yi=cfg.fn(xi);if(yi>=ymin-0.5&&yi<=ymax+0.5)pts.push(px(xi)+','+py(yi));}
+  if(pts.length>1)svg+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="#4FA3D1" stroke-width="2.5" stroke-linejoin="round"/>';
+  if(cfg.pt){var ppx2=px(cfg.pt.x),ppy2=py(cfg.pt.y);
+    svg+='<circle cx="'+ppx2+'" cy="'+ppy2+'" r="6" fill="#E76F51" stroke="#fff" stroke-width="2"/>';
+  }
+  svg+='<text x="'+(W/2)+'" y="'+(H-1)+'" font-family="Fredoka" font-size="11" fill="#A08B6E" text-anchor="middle">'+cfg.label+'</text>';
+  svg+='</svg>';
+  return svg;
+}
+
+function genLectureGraphique(){
+  var modeles=[
+    {kind:'carre',k:1,x0:3,y0:4,xmin:0,xmax:5,ymin:0,ymax:16,label:'f(x) = x\u00b2'},
+    {kind:'carre',k:1,x0:4,y0:1,xmin:0,xmax:5,ymin:0,ymax:16,label:'f(x) = x\u00b2'},
+    {kind:'carre',k:2,x0:2,y0:8,xmin:0,xmax:4,ymin:0,ymax:18,label:'f(x) = 2x\u00b2'},
+    {kind:'carre',k:0.5,x0:4,y0:2,xmin:0,xmax:6,ymin:0,ymax:10,label:'f(x) = x\u00b2/2'},
+    {kind:'racine',x0:4,y0:9,xmin:0,xmax:9,ymin:0,ymax:4,label:'f(x) = \u221ax'},
+    {kind:'racine',x0:9,y0:4,xmin:0,xmax:9,ymin:0,ymax:4,label:'f(x) = \u221ax'},
+    {kind:'inverse',x0:2,y0:3,xmin:1,xmax:6,ymin:0,ymax:6,label:'f(x) = 6/x'},
+    {kind:'inverse',x0:3,y0:2,xmin:1,xmax:6,ymin:0,ymax:5,label:'f(x) = 6/x'},
+    {kind:'cube',x0:2,y0:1,xmin:0,xmax:3,ymin:0,ymax:8,label:'f(x) = x\u00b3/4'},
+    {kind:'cube',x0:2,y0:27,xmin:0,xmax:4,ymin:0,ymax:28,label:'f(x) = x\u00b3'}
+  ];
+  var m=choix(modeles);
+  var fn,fx0,antX,labelQ3;
+  if(m.kind==='affine'){
+    fn=function(x){return m.a*x+m.b;};
+    fx0=m.a*m.x0+m.b;
+    antX=(m.y0-m.b)/m.a;
+    labelQ3='Calcule f('+m.x0+') en utilisant la formule '+m.label+'.';
+  } else if(m.kind==='carre'){
+    fn=function(x){return m.k*x*x;};
+    fx0=m.k*m.x0*m.x0;
+    antX=Math.sqrt(m.y0/m.k);
+    labelQ3='Calcule f('+m.x0+') en utilisant la formule '+m.label+'.';
+  } else if(m.kind==='racine'){
+    fn=function(x){return Math.sqrt(x);};
+    fx0=Math.round(Math.sqrt(m.x0)*10)/10;
+    antX=m.y0*m.y0;
+    labelQ3='Verifie : f('+m.x0+') = \u221a'+m.x0+' \u2248 ?';
+  } else if(m.kind==='cube'){
+    var cubeK=(m.label.indexOf('/4')>=0)?0.25:1;
+    fn=function(x){return cubeK*x*x*x;};
+    fx0=Math.round(cubeK*m.x0*m.x0*m.x0*10)/10;
+    antX=Math.round(Math.pow(m.y0/cubeK,1/3)*10)/10;
+    labelQ3='Calcule f('+m.x0+') en utilisant la formule '+m.label+'.';
+  } else {
+    var K=m.x0*m.y0;
+    fn=function(x){return K/x;};
+    fx0=Math.round(K/m.x0*10)/10;
+    antX=Math.round(K/m.y0*10)/10;
+    m.label='f(x) = '+K+'/x';
+    labelQ3='Calcule f('+m.x0+') en utilisant la formule '+m.label+'.';
+  }
+  fx0=Math.round(fx0*10)/10;
+  antX=Math.round(antX*10)/10;
+  var svgStr=_svgGraphe({fn:fn,xmin:m.xmin,xmax:m.xmax,ymin:m.ymin,ymax:m.ymax,label:m.label,pt:{x:m.x0,y:fx0}});
+  var enonceHTML='<p>Voici la courbe representative de la fonction <strong>'+m.label+'</strong>.</p>'
+    +'<div style="margin:10px 0;text-align:center">'+svgStr+'</div>'
+    +'<p>Utilise le graphique pour repondre aux questions.</p>';
+  function dessiner(){}
+  var etapes=[
+    {question:'Question 1 — Lire une image',role:'Image de '+m.x0,
+     q:'D\'apres le graphique, donne la valeur de f('+m.x0+'). (Le point rouge t\'aide.)',
+     verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-fx0)<0.15;});},
+     aide:'Repere x = '+m.x0+' sur l\'axe des abscisses, monte jusqu\'a la courbe, lis l\'ordonnee.',
+     solutionHTML:'f('+m.x0+') \u2248 '+fr(fx0)},
+    {question:'Question 2 — Lire un antecedent',role:'Antecedent de '+m.y0,
+     q:'Pour quelle valeur de x a-t-on f(x) = '+m.y0+' ? Lis la reponse sur le graphique.',
+     verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-antX)<0.2;});},
+     aide:'Repere y = '+m.y0+' sur l\'axe des ordonnees, trouve le point sur la courbe, lis l\'abscisse.',
+     solutionHTML:'f(x) = '+m.y0+' pour x \u2248 '+fr(antX)},
+    {question:'Question 3 — Verifier par calcul',role:'Calcul',
+     q:labelQ3,
+     verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-fx0)<0.15;});},
+     aide:'Remplace x par '+m.x0+' dans la formule '+m.label+'.',
+     solutionHTML:'f('+m.x0+') \u2248 '+fr(fx0)}
+  ];
+  return {titre:'Lecture graphique',enonceHTML:enonceHTML,dessiner:dessiner,etapes:etapes};
+}
+
+function genImageAntecedent(){
+  var configs=[
+    {a:3,b:-5,x0:4,y0:10},{a:2,b:1,x0:6,y0:7},{a:5,b:-3,x0:3,y0:12},
+    {a:4,b:2,x0:5,y0:18},{a:0.5,b:3,x0:8,y0:6},{a:3,b:1,x0:7,y0:16}
+  ];
+  var cfg=choix(configs);
+  var a=cfg.a,b=cfg.b,x0=cfg.x0,y0=cfg.y0;
+  var img=Math.round((a*x0+b)*10)/10;
+  var antX=Math.round(((y0-b)/a)*10)/10;
+  var fStr='f(x) = '+fr(a)+'x'+(b>=0?'+':'')+fr(b);
+  var enonceHTML='<p>Soit la fonction affine <strong>'+fStr+'</strong>.</p>';
+  function dessiner(){}
+  var etapes=[
+    {question:'Question 1 — Calculer une image',role:'Image de '+x0,
+     q:'Calcule f('+x0+').',
+     verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-img)<0.1;});},
+     aide:fStr+' donc f('+x0+') = '+fr(a)+' \u00d7 '+x0+' + ('+fr(b)+')',
+     solutionHTML:'f('+x0+') = '+fr(a)+' \u00d7 '+x0+' + ('+fr(b)+') = '+fr(img)},
+    {question:'Question 2 — Trouver un antecedent',role:'Antecedent de '+y0,
+     q:'Resous l\'equation f(x) = '+y0+'. (Donne la valeur de x.)',
+     verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-antX)<0.1;});},
+     aide:fr(a)+'x + ('+fr(b)+') = '+y0+' \u21d2 '+fr(a)+'x = '+(y0-b)+' \u21d2 x = '+(y0-b)+' \u00f7 '+fr(a),
+     solutionHTML:'f(x) = '+y0+' \u21d2 x = '+fr(antX)},
+    {question:'Question 3 — Appartenance',role:'Le point appartient-il a la courbe ?',
+     q:'Le point A('+x0+' ; '+(img+1)+') appartient-il a la courbe de f ? Justifie.',
+     verif:function(inp){var t=norm(inp);return t.includes('non')||t.includes('n\'appartient');},
+     aide:'Calcule f('+x0+') et compare avec '+(img+1)+'. Si egal, le point appartient a la courbe.',
+     solutionHTML:'f('+x0+') = '+fr(img)+' \u2260 '+(img+1)+' donc A n\'appartient pas a la courbe.'}
+  ];
+  return {titre:'Images et antecedents — fonction affine',enonceHTML:enonceHTML,dessiner:dessiner,etapes:etapes};
+}
+
+/* ===== BANQUE ===== */
+var BANQUE=[
+  {notion:'moyenne',gen:genMoyenne},
+  {notion:'de',gen:genDe},
+  {notion:'sondage',gen:genSondage},
+  {notion:'arbre',gen:genArbre},
+  {notion:'transport',gen:genTransport},
+  {notion:'mediane',gen:genMediane},
+  {notion:'graphique',gen:genLectureGraphique},
+  {notion:'fonctionAffine',gen:genImageAntecedent}
+];
+
+var SUJET=[],ecrans=[],ecranActuel=0;
+function tirerSujet(n){SUJET=melange(BANQUE.slice()).slice(0,n).map(function(b){return b.gen();});}
+
+function construireEcrans(){
+  var zone=document.getElementById('zone-ecrans');zone.innerHTML='';
+  var n=SUJET.length,mot=n>1?n+' exercices':'un exercice';
+  zone.insertAdjacentHTML('beforeend',
+    '<div class="carte ecran" data-section="intro">'
+    +'<span class="badge-theme">Organisation &amp; Gestion de donnees</span>'
+    +'<h2>Brevet blanc - sujet du jour</h2>'
+    +'<p class="consigne">Voici '+mot+' de type brevet : une situation concrete, plusieurs questions. Tu rediges chaque etape toi-meme. Les figures sont disponibles en coup de pouce si tu en as besoin. Recharge la page pour un nouveau tirage.</p>'
+    +'<p class="consigne sous">Calculatrice en bas a droite.</p>'
+    +'<div class="ligne-btn"><button class="btn btn-vert" onclick="ecranSuivant()">Commencer</button></div>'
+    +'</div>');
+  SUJET.forEach(function(ex,i){
+    var dernier=i===SUJET.length-1;
+    var figId='figure-'+i,btnId='btn-fig-'+i;
+    zone.insertAdjacentHTML('beforeend',
+      '<div class="carte ecran cache" data-section="exo'+i+'">'
+      +'<h2><span class="num">Exercice '+(i+1)+'</span> - '+ex.titre+'</h2>'
+      +'<div class="consigne" id="enonce-'+i+'">'+ex.enonceHTML+'</div>'
+      +'<div style="margin:10px 0"><button class="btn-pouce" id="'+btnId+'" onclick="revelerFigure('+i+')">Voir la figure (coup de pouce)</button></div>'
+      +'<div class="figure" id="'+figId+'" style="display:none"></div>'
+      +'<div id="redac-'+i+'"></div>'
+      +'<div class="ligne-btn cache" id="suite-'+i+'"><button class="btn btn-vert" onclick="ecranSuivant()">'+(dernier?'Terminer':'Exercice suivant')+'</button></div>'
+      +'</div>');
+  });
+  zone.insertAdjacentHTML('beforeend',
+    '<div class="carte ecran fin cache" data-section="fin">'
+    +'<h2>Sujet termine !</h2>'
+    +'<p class="consigne">Tu as redige toutes les questions. Bravo !</p>'
+    +'<div class="ligne-btn"><button class="btn btn-jaune" onclick="location.reload()">Nouveau sujet</button></div>'
+    +'</div>');
+  SUJET.forEach(function(ex,i){
+    ex.dessiner('figure-'+i);
+    (function(idx){
+      construireRedaction('redac-'+idx,ex.etapes,function(){document.getElementById('suite-'+idx).classList.remove('cache');});
+    })(i);
+  });
+}
+
+function revelerFigure(i){
+  document.getElementById('figure-'+i).style.display='block';
+  var btn=document.getElementById('btn-fig-'+i);
+  if(btn)btn.style.display='none';
+}
+
+/* ===== PROGRESSION + NAVIGATION ===== */
+function construireProgression(){
+  var p=document.getElementById('progression');p.innerHTML="";
+  for(var i=0;i<ecrans.length;i++){var d=document.createElement('div');d.className='pas';p.appendChild(d);}
+  majProgression();
+}
+function majProgression(){
+  document.querySelectorAll('#progression .pas').forEach(function(d,i){
+    d.className='pas'+(i<ecranActuel?' fait':i===ecranActuel?' actif':'');
+  });
+}
+function montrerEcran(i){
+  ecrans.forEach(function(e,k){e.classList.toggle('cache',k!==i);});
+  ecranActuel=i;majProgression();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function ecranSuivant(){if(ecranActuel<ecrans.length-1)montrerEcran(ecranActuel+1);}
+function sautQuestion(){ecranSuivant();}
+function sautSection(){
+  var sec=ecrans[ecranActuel].dataset.section;
+  for(var i=ecranActuel+1;i<ecrans.length;i++){
+    if(ecrans[i].dataset.section!==sec){montrerEcran(i);return;}
+  }
+  montrerEcran(ecrans.length-1);
+}
+document.addEventListener('focusin',function(e){
+  if(e.target.matches&&e.target.matches('.etape input[type=text]'))dernierChamp=e.target;
+});
+window.addEventListener('DOMContentLoaded',function(){
+  tirerSujet(3);
+  construireEcrans();
+  ecrans=Array.from(document.querySelectorAll('#zone-ecrans .ecran'));
+  construireProgression();
+  montrerEcran(0);
+});
+</script>
+</body>
+</html>

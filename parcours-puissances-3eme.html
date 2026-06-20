@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<head><script>try{if(!localStorage.getItem("kc_eleve")||!localStorage.getItem("kc_classe"))location.replace("index.html");}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Parcours — Puissances 3ème</title>
+<title>Puissances &amp; Écriture scientifique — 3ème</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-
 :root{
-  --or:#FFC93C; --or-bas:#E0A41E; --vert:#8BC34A; --vert-bas:#5E9426;
-  --orange:#FF8A4C; --orange-bas:#E0672E; --teal:#46BECB; --teal-bas:#2E8A98;
-  --violet:#A78BC4; --violet-bas:#7E61A1; --rouge:#EF5D60; --rouge-bas:#c43e41;
-  --bleu:#4FA3D1; --bleu-bas:#2f7ba8;
-  --bois:#5C3D2E; --bois-clair:#8a6650; --creme:#FFF4DC; --blanc:#FFFDF6;
-  --ombre:0 8px 0 rgba(92,61,46,.18), 0 14px 22px rgba(92,61,46,.12);
+  --or:#FFC93C;--or-bas:#E0A41E;--vert:#8BC34A;--vert-bas:#5E9426;
+  --orange:#FF8A4C;--orange-bas:#E0672E;--teal:#46BECB;--teal-bas:#2E8A98;
+  --violet:#A78BC4;--violet-bas:#7E61A1;--rouge:#EF5D60;--rouge-bas:#c43e41;
+  --bleu:#4FA3D1;--bleu-bas:#2f7ba8;
+  --bois:#5C3D2E;--bois-clair:#8a6650;--creme:#FFF4DC;--blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18),0 14px 22px rgba(92,61,46,.12);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
@@ -31,7 +30,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
 .btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
   padding:14px 22px;cursor:pointer;background:var(--or);box-shadow:0 6px 0 var(--or-bas);
-  transition:transform .08s, box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+  transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
 .btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--or-bas)}
 .btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
 .btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
@@ -68,69 +67,26 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .e6 .num{background:var(--or);box-shadow:0 5px 0 var(--or-bas)}
 .lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
 .mid{text-align:center;margin:16px 0}
-.formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;
-  padding:12px 22px;font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois)}
+.formule{display:inline-block;background:var(--creme);border:2px dashed var(--violet-bas);border-radius:12px;
+  padding:8px 14px;font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois);font-size:1.15rem;margin:6px 0}
 .note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
 .exemple{font-size:.96rem;color:var(--bois-clair);font-weight:700;line-height:1.45;margin:8px 0 0}
 .exemple b{color:var(--bois)}
-.expr{font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois);text-align:center;margin:6px 0}
-/* machine substitution */
-.machine{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
-.mpod{background:var(--creme);border:3px solid var(--or-bas);border-radius:16px;min-width:60px;height:56px;padding:0 10px;
-  display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.3rem;color:var(--bois)}
-.marrow{font-size:1.6rem;color:var(--bois-clair)}
-.mbox{background:var(--violet);color:#fff;border-radius:16px;padding:14px 16px;font-family:'Fredoka';font-weight:700;
-  box-shadow:0 6px 0 var(--violet-bas);text-align:center}
-.msteps{display:flex;flex-direction:column;gap:8px;margin:14px auto 2px;max-width:440px}
-.mstep{background:var(--creme);border-radius:14px;padding:10px 14px;font-family:'Fredoka';font-weight:700;
-  color:var(--bois);opacity:0;transform:translateY(8px);transition:.35s;font-size:1.05rem;text-align:center}
-.mstep.on{opacity:1;transform:none}
-.minput{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:10px 0}
-.minput input{font-family:'Fredoka';font-weight:700;font-size:1.3rem;text-align:center;border:3px solid #f0dca8;
-  border-radius:14px;padding:10px;width:90px;color:var(--bois)}
-.minput input:focus{outline:none;border-color:var(--or-bas)}
-.fnpick{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 4px}
-.fnchip{font-family:'Fredoka';font-weight:700;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
-  border-radius:14px;padding:9px 14px;cursor:pointer;font-size:1.05rem}
-.fnchip:active{transform:translateY(2px)}
-.fnchip.act{border-color:var(--violet-bas);background:#f3edf9}
-.bigres{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.3rem;margin-top:10px;min-height:1.5em;color:var(--bois);line-height:1.4}
-.bigres b{color:var(--orange-bas)}
-/* termes colorés (réduire) */
-.termline{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.5rem;margin:14px 0;line-height:1.6}
-.tt{padding:2px 6px;border-radius:8px;transition:background .3s}
-.tt.x{background:#dff0d2;color:var(--vert-bas)}
-.tt.x2{background:#e3f5f8;color:var(--teal-bas)}
-.tt.k{background:#ffe6cf;color:var(--orange-bas)}
-/* tableau d'aires (développer / factoriser) */
-.area{margin:14px auto;width:fit-content}
-.arow{display:flex}
-.acorner{width:54px;height:40px}
-.ahead{width:84px;height:40px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;color:var(--bois)}
-.aside{width:54px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;color:var(--bois)}
-.acell{width:84px;height:64px;display:grid;place-items:center;border:3px solid #e7d3a8;background:var(--blanc);
-  font-family:'Fredoka';font-weight:700;font-size:1.15rem;color:var(--bois);opacity:0;transition:.3s}
-.acell.on{opacity:1}
-.acell.c1{background:#e3f5f8}.acell.c2{background:#fff0e2}.acell.c3{background:#f3edf9}.acell.c4{background:#dff0d2}
-/* tester égalité */
-.teq{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin:12px 0}
-.tval{font-family:'Fredoka';font-weight:700;font-size:1.2rem;background:var(--creme);border-radius:12px;padding:10px 14px;color:var(--bois)}
-.verdict{font-family:'Fredoka';font-weight:700;font-size:1.6rem;text-align:center;min-height:1.4em;margin-top:8px}
-.verdict.eq{color:var(--vert-bas)}.verdict.ne{color:var(--orange-bas)}
-input[type=range]{width:70%;max-width:320px;height:30px;accent-color:var(--bleu)}
-/* quiz */
+.steps{list-style:none;padding:0;margin:8px 0;counter-reset:st}
+.steps li{position:relative;padding:8px 8px 8px 42px;margin:6px 0;background:var(--blanc);border-radius:12px;box-shadow:0 3px 0 rgba(92,61,46,.1);font-weight:700;color:var(--bois)}
+.steps li::before{counter-increment:st;content:counter(st);position:absolute;left:8px;top:8px;width:26px;height:26px;border-radius:50%;background:var(--violet);color:#fff;display:grid;place-items:center;font-family:'Fredoka'}
 .scorebar{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:4px 0 14px;font-family:'Fredoka';font-weight:700}
 .scorebar .pill{background:var(--creme);border-radius:16px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8}
+.serieprog{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
 .qcard{text-align:center}
-.prog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:10px;min-height:1.3em;font-size:1.05rem}
 .qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
-.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
 .helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
 .ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
 .ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:160px;color:var(--bois)}
-.ansrow input:focus{outline:none;border-color:var(--or-bas)}
+.ansrow input:focus{outline:none;border-color:var(--violet-bas)}
 .opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
-.opt{font-family:'Fredoka';font-weight:700;font-size:1.1rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.05rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
   border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
 .opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
 .opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
@@ -148,29 +104,34 @@ input[type=range]{width:70%;max-width:320px;height:30px;accent-color:var(--bleu)
 .shake{animation:shake .35s}
 @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
 button,input{touch-action:manipulation}
-@media (max-width:480px){
-  .wrap{padding:14px 12px 80px}
-  .hero{padding:18px 10px 4px}
-  .hero h1{font-size:2rem}.hero .sub{font-size:1rem}.coin{font-size:2.8rem}
-  .card{padding:16px;border-radius:20px}
-  .topbar h2{font-size:1.2rem}
-  .etape{gap:12px;padding:13px 14px}
-  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem;border-radius:14px}
-  .etape .txt h3{font-size:1.02rem}.etape .txt p{font-size:.82rem}
-  .formule{font-size:1rem;padding:10px 14px;white-space:normal}
-  .lead{font-size:1rem}.question{font-size:1.18rem}
-  .ansrow input{width:60%;max-width:200px}
-  .btn{font-size:1rem;padding:13px 18px}
-  .ahead{width:64px}.acell{width:64px;height:54px;font-size:1rem}.aside{width:44px}.acorner{width:44px}
-  .termline{font-size:1.25rem}
-}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-/* ===================== CALCULATRICE COLLÈGE ===================== */
+.result{text-align:center}
+.result .big{font-family:'Fredoka',sans-serif;font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
+.result .big.ok{color:var(--vert-bas)}.result .big.no{color:var(--orange-bas)}
+.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
+.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.cascade{margin:6px 0 2px;text-align:left}
+.cstep{display:none;background:var(--creme);border-radius:16px;padding:14px 16px;margin:10px 0;animation:pop .3s ease}
+.cstep.on{display:block}
+.cprompt{font-family:'Fredoka';font-weight:700;color:var(--bois);font-size:1.05rem;margin-bottom:10px;line-height:1.35}
+.cbody{display:flex;flex-direction:column;gap:8px}
+.chint{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.98rem;margin-bottom:4px;background:#fff;border-radius:10px;padding:8px 10px;line-height:1.35}
+.cfeed{font-family:'Nunito';font-weight:800;font-size:.92rem;margin-top:8px;min-height:1em;line-height:1.35}
+.cfeed.ok{color:var(--vert-bas)}.cfeed.no{color:var(--orange-bas)}
+.cline{font-family:'Fredoka';font-weight:700;font-size:1.12rem;color:var(--bois);line-height:2.1;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.cblank{font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;border:none;border-bottom:3px solid var(--or-bas);background:#fff;border-radius:8px 8px 0 0;padding:6px;color:var(--bois)}
+.cblank:focus{outline:none;border-bottom-color:var(--teal-bas);background:#fffdf3}
+.cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
+.cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
+.cverify{margin-top:10px}
+.cfrac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 5px}
+.cfnum,.cfden{display:block;text-align:center;padding:2px 6px}
+.cfrac sup{font-size:.65em;vertical-align:super;line-height:1}
+.cfbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
+.cblank.mini{font-size:1rem;width:54px}
+.figbox{margin:8px auto 4px;text-align:center}
 .kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
   background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);transition:transform .1s}
 .kc-fab:active{transform:translateY(4px)}
-.kc-fab:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
 .kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(320px,calc(100vw - 32px));
   background:var(--blanc);border-radius:22px;padding:14px;box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);animation:kcpop .25s ease}
 .kc-panel[hidden]{display:none}
@@ -188,84 +149,394 @@ button,input{touch-action:manipulation}
 .kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1.05rem}
 .kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
 .kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
-
-/* ===== statistiques ===== */
-.tabbox{overflow-x:auto;margin:8px 0}
-.stab{border-collapse:collapse;margin:8px auto;font-family:'Fredoka',sans-serif;font-weight:700;background:var(--blanc)}
-.stab th,.stab td{border:2px solid #e0c9a0;padding:7px 12px;text-align:center;color:var(--bois);font-size:1rem}
-.stab th{background:var(--creme)}
-.stab .rowh{background:var(--creme)}
-.dlist{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.25rem;text-align:center;color:var(--bois);margin:10px 0;line-height:1.6}
-.home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16)}
-.home:active{transform:translateY(1px)}
-.serieprog{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
-.result{text-align:center}
-.result .big{font-family:'Fredoka',sans-serif;font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
-.result .big.ok{color:var(--vert-bas)} .result .big.no{color:var(--orange-bas)}
-.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
-.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
 .menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
-.idov{position:fixed;inset:0;background:rgba(92,61,46,.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px}
-.idbox{background:var(--blanc);border-radius:20px;padding:22px;max-width:340px;width:100%;box-shadow:var(--ombre);text-align:center}
-.idbox h3{font-family:'Fredoka',sans-serif;margin:0 0 6px;color:var(--bois)}
-.idbox p{color:var(--bois-clair);font-weight:700;margin:0 0 12px;font-size:.92rem}
-.idbox input{width:100%;box-sizing:border-box;border:2px solid #e7d3a8;border-radius:12px;padding:11px;font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.05rem;color:var(--bois);margin-bottom:10px;text-align:center}
-.idbox input:focus{outline:none;border-color:var(--orange-bas)}
+/* Leçon visuelle */
+.lecon-anim{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:14px 0}
+.lecon-bloc{background:var(--violet);color:#fff;font-family:'Fredoka';font-weight:700;font-size:1.2rem;padding:10px 16px;border-radius:14px;box-shadow:0 5px 0 var(--violet-bas)}
+.lecon-op{font-family:'Fredoka';font-weight:700;font-size:1.4rem;color:var(--bois)}
+.lecon-eq{font-family:'Fredoka';font-weight:700;font-size:1.4rem;color:var(--bois)}
+.lecon-res{background:var(--vert);color:#fff;font-family:'Fredoka';font-weight:700;font-size:1.3rem;padding:10px 18px;border-radius:14px;box-shadow:0 5px 0 var(--vert-bas)}
+.tableau{width:100%;border-collapse:separate;border-spacing:0 6px;margin:10px 0}
+.tableau th{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.95rem;padding:6px 12px;text-align:center}
+.tableau td{background:var(--blanc);font-family:'Fredoka';font-weight:700;color:var(--bois);padding:10px 14px;text-align:center;border-radius:10px}
+.tableau tr:nth-child(odd) td{background:var(--creme)}
+.encadre{border-left:5px solid var(--violet);background:var(--creme);border-radius:0 14px 14px 0;padding:12px 14px;margin:12px 0;font-family:'Fredoka';font-weight:700;font-size:1.05rem;color:var(--bois);line-height:1.5}
+.encadre.teal{border-left-color:var(--teal)}
+.encadre.orange{border-left-color:var(--orange)}
+.encadre.vert{border-left-color:var(--vert)}
+.encadre.bleu{border-left-color:var(--bleu)}
+.encadre.or{border-left-color:var(--or)}
+.bulle{display:inline-block;background:var(--or);color:var(--bois);border-radius:30px;padding:5px 14px;font-family:'Fredoka';font-weight:700;font-size:1rem;margin:4px 0}
+.tab-racines{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:14px 0}
+.tab-racines .rc{background:var(--blanc);border:3px solid var(--vert);border-radius:14px;padding:10px 14px;font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;min-width:80px}
+.tab-racines .rc .top{font-size:1.3rem;color:var(--bois)}
+.tab-racines .rc .bot{font-size:.9rem;color:var(--bois-clair);margin-top:2px}
+@media(max-width:480px){
+  .wrap{padding:14px 12px 80px}
+  .hero h1{font-size:2rem}.hero .sub{font-size:1rem}.coin{font-size:2.8rem}
+  .card{padding:16px;border-radius:20px}
+  .topbar h2{font-size:1.2rem}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem;border-radius:14px}
+  .lead{font-size:1rem}.question{font-size:1.18rem}
+  .ansrow input{width:60%;max-width:200px}
+  .btn{font-size:1rem;padding:13px 18px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="wrap">
 
+<!-- ACCUEIL -->
 <section id="accueil" class="screen active">
   <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
   <div class="hero">
-    <div class="coin">🔟²</div>
-    <h1>Puissances</h1>
-    <p class="sub">Calculer une puissance, appliquer les règles, manier les puissances de 10 et l’écriture scientifique. Chaque entraînement est noté sur 10 : il faut 8/10 pour valider !</p>
+    <div class="coin">🔢⚡</div>
+    <h1>Puissances &amp; Écriture scientifique</h1>
+    <p class="sub">6 étapes guidées — lis la leçon, puis entraîne-toi ! 💪</p>
   </div>
   <div class="map">
-    <div class="etape e1" id="mapCalc" onclick="tapTheme('calc')">
-      <div class="num">✖️</div><div class="txt"><h3>1 · Calculer une puissance</h3><p>aⁿ, le sens de l’exposant</p></div><div class="status">▶</div>
+    <div class="etape e1" id="mapBases" onclick="tapTheme('bases')">
+      <div class="num">🔢</div><div class="txt"><h3>1 · Qu'est-ce qu'une puissance ?</h3><p>a×a×a… — base, exposant, cas particuliers</p></div><div class="status">▶</div>
     </div>
-    <div class="etape e2" id="mapReg" onclick="tapTheme('reg')">
-      <div class="num">📜</div><div class="txt"><h3>2 · Les règles</h3><p>Produit, quotient, puissance d’une puissance</p></div><div class="status">🔒</div>
+    <div class="etape e2" id="mapPuissances10" onclick="tapTheme('puissances10')">
+      <div class="num">🔟</div><div class="txt"><h3>2 · Puissances de 10</h3><p>10¹, 10², 10³… le lien avec les zéros</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e3" id="mapDix" onclick="tapTheme('dix')">
-      <div class="num">🔟</div><div class="txt"><h3>3 · Puissances de 10</h3><p>Positives et négatives</p></div><div class="status">🔒</div>
+    <div class="etape e3" id="mapRegles" onclick="tapTheme('regles')">
+      <div class="num">📐</div><div class="txt"><h3>3 · Règles de calcul</h3><p>Multiplier, diviser, puissance de puissance</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e4" id="mapSci" onclick="tapTheme('sci')">
-      <div class="num">🔬</div><div class="txt"><h3>4 · Écriture scientifique</h3><p>a × 10ⁿ</p></div><div class="status">🔒</div>
+    <div class="etape e4" id="mapNegatif" onclick="tapTheme('negatif')">
+      <div class="num">➖</div><div class="txt"><h3>4 · Puissances négatives</h3><p>a⁻ⁿ = 1 ÷ aⁿ — l'inverse !</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e6" id="mapArene" onclick="tapArene()">
-      <div class="num">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Tout, au choix (entraînement libre)</p></div><div class="status">🔒</div>
+    <div class="etape e5" id="mapRacines" onclick="tapTheme('racines')">
+      <div class="num">√</div><div class="txt"><h3>5 · Racines carrées</h3><p>√9 = 3 — l'inverse du carré</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e6" id="mapScientifique" onclick="tapTheme('scientifique')">
+      <div class="num">🔬</div><div class="txt"><h3>6 · Notation scientifique</h3><p>3 × 10⁸ — écrire les grands nombres</p></div><div class="status">🔒</div>
     </div>
   </div>
 </section>
 
-<section id="expCalc" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Calculer une puissance</h2></div>
-  <div class="card"><span class="tag" style="background:var(--violet)">La leçon</span><p class='lead'>L’écriture <b>aⁿ</b> veut dire : on multiplie <b>a</b> par lui-même <b>n</b> fois. Par exemple 2⁵ = 2 × 2 × 2 × 2 × 2 = 32. Cas particuliers : a¹ = a et a⁰ = 1 (pour a non nul).</p><p class='note'>Attention : 2⁵ n’est pas 2 × 5. C’est bien cinq fois le facteur 2.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('calc')">Je m’entraîne ➜</button></div>
+<!-- ===================== LEÇON 1 : BASES ===================== -->
+<section id="expBases" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🔢 Qu'est-ce qu'une puissance ?</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">👀 Observe</span>
+    <p class="lead">Tu connais les multiplications. Maintenant imagine qu'on multiplie le <b>même nombre plusieurs fois</b> !</p>
+    <div class="encadre">
+      Au lieu d'écrire <b>3 × 3 × 3 × 3 × 3</b> (cinq fois 3)…<br>
+      …on écrit simplement <b>3<sup>5</sup></b> 🎉
+    </div>
+    <p class="lead" style="text-align:center">Le petit chiffre en haut s'appelle l'<b>exposant</b>.<br>Le grand chiffre s'appelle la <b>base</b>.</p>
+    <div style="display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:18px 0">
+      <div style="text-align:center;font-family:'Fredoka';font-weight:700">
+        <div style="font-size:3rem;color:var(--violet)">3<sup style="font-size:1.5rem;color:var(--rouge)">5</sup></div>
+        <div style="color:var(--violet);font-size:1rem;margin-top:4px">← BASE</div>
+        <div style="color:var(--rouge);font-size:1rem">↗ EXPOSANT</div>
+      </div>
+      <div style="text-align:center;font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:1.1rem;margin:auto">
+        = 3 × 3 × 3 × 3 × 3<br>
+        <span style="color:var(--vert-bas);font-size:1.3rem">= <b>243</b> ✅</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">📖 Exemples pas à pas</span>
+    <p class="lead">Voyons ensemble quelques exemples !</p>
+
+    <div class="encadre">
+      <b>2<sup>3</sup></b> se lit "deux au cube" ou "deux puissance trois"<br>
+      → 2 multiplié <b>3 fois</b> par lui-même<br>
+      → 2 × 2 × 2 = <b>8</b>
+    </div>
+
+    <div class="lecon-anim">
+      <div class="lecon-bloc">2</div>
+      <div class="lecon-op">×</div>
+      <div class="lecon-bloc">2</div>
+      <div class="lecon-op">×</div>
+      <div class="lecon-bloc">2</div>
+      <div class="lecon-eq">=</div>
+      <div class="lecon-res">8</div>
+    </div>
+
+    <div class="encadre" style="margin-top:12px">
+      <b>5<sup>2</sup></b> se lit "cinq au carré" ou "cinq puissance deux"<br>
+      → 5 multiplié <b>2 fois</b> par lui-même<br>
+      → 5 × 5 = <b>25</b>
+    </div>
+
+    <div class="lecon-anim">
+      <div class="lecon-bloc" style="background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)">5</div>
+      <div class="lecon-op">×</div>
+      <div class="lecon-bloc" style="background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)">5</div>
+      <div class="lecon-eq">=</div>
+      <div class="lecon-res" style="background:var(--or);box-shadow:0 5px 0 var(--or-bas);color:var(--bois)">25</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">⭐ Cas particuliers à retenir</span>
+    <div class="encadre">
+      <b>a<sup>1</sup> = a</b> — puissance 1, c'est juste le nombre lui-même.<br>
+      <span style="color:var(--bois-clair)">Exemple : 7<sup>1</sup> = 7</span>
+    </div>
+    <div class="encadre" style="margin-top:10px">
+      <b>a<sup>0</sup> = 1</b> — puissance 0, c'est <b>toujours 1</b> (sauf 0<sup>0</sup>).<br>
+      <span style="color:var(--bois-clair)">2<sup>0</sup> = 1 &nbsp;·&nbsp; 5<sup>0</sup> = 1 &nbsp;·&nbsp; 100<sup>0</sup> = 1</span>
+    </div>
+    <div class="note" style="margin-top:10px">💡 Astuce : pense à l'exposant comme au nombre de fois qu'on multiplie !</div>
+  </div>
+
+  <div class="mid"><button class="btn violet" onclick="startTrain('bases')">Je m'entraîne ! 💪</button></div>
 </section>
 
-<section id="expReg" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Les règles de calcul</h2></div>
-  <div class="card"><span class="tag" style="background:var(--teal)">La leçon</span><p class='lead'>Avec la <b>même base</b> : aᵐ × aⁿ = a^(m+n) (on additionne), aᵐ ÷ aⁿ = a^(m−n) (on soustrait), et (aᵐ)ⁿ = a^(m×n) (on multiplie).</p><p class='note'>Exemple : 5³ × 5⁴ = 5⁷, et (2³)² = 2⁶.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('reg')">Je m’entraîne ➜</button></div>
+<!-- ===================== LEÇON 2 : PUISSANCES DE 10 ===================== -->
+<section id="expPuissances10" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🔟 Puissances de 10</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">🌟 L'idée magique</span>
+    <p class="lead">Les puissances de 10, c'est super facile ! <b>L'exposant = le nombre de zéros.</b></p>
+    <div class="encadre teal">
+      10<sup>3</sup> = 1 suivi de <b>3 zéros</b> = <b>1 000</b> 🎯
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">📊 Le grand tableau</span>
+    <table class="tableau">
+      <thead><tr><th>Puissance</th><th>Calcul</th><th>Résultat</th><th>Zéros</th></tr></thead>
+      <tbody>
+        <tr><td>10<sup>1</sup></td><td>10</td><td><b>10</b></td><td>1 zéro</td></tr>
+        <tr><td>10<sup>2</sup></td><td>10 × 10</td><td><b>100</b></td><td>2 zéros</td></tr>
+        <tr><td>10<sup>3</sup></td><td>10 × 10 × 10</td><td><b>1 000</b></td><td>3 zéros</td></tr>
+        <tr><td>10<sup>4</sup></td><td>10 × 10 × 10 × 10</td><td><b>10 000</b></td><td>4 zéros</td></tr>
+        <tr><td>10<sup>5</sup></td><td>…</td><td><b>100 000</b></td><td>5 zéros</td></tr>
+        <tr><td>10<sup>6</sup></td><td>…</td><td><b>1 000 000</b></td><td>6 zéros</td></tr>
+      </tbody>
+    </table>
+    <div class="encadre teal" style="margin-top:10px">
+      🧠 Pour connaître 10<sup>n</sup>, écris simplement <b>1 suivi de n zéros</b> !<br>
+      10<sup>9</sup> = 1 suivi de 9 zéros = 1 000 000 000 (un milliard !)
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">🔄 Dans l'autre sens aussi !</span>
+    <p class="lead">Tu peux aussi <b>reconnaître</b> la puissance en comptant les zéros :</p>
+    <div class="encadre teal">
+      1 000 000 → je compte les zéros : 6 zéros → c'est <b>10<sup>6</sup></b> !
+    </div>
+    <div class="encadre teal" style="margin-top:8px">
+      100 000 000 → je compte : 8 zéros → c'est <b>10<sup>8</sup></b> !
+    </div>
+    <div class="note">💡 Utilise la calculatrice pour vérifier : tape <b>10^6</b> et vois ce que tu obtiens !</div>
+  </div>
+
+  <div class="mid"><button class="btn teal" onclick="startTrain('puissances10')">Je m'entraîne ! 🚀</button></div>
 </section>
 
-<section id="expDix" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Puissances de 10</h2></div>
-  <div class="card"><span class="tag" style="background:var(--orange)">La leçon</span><p class='lead'>10ⁿ s’écrit « 1 suivi de n zéros » : 10³ = 1000. Avec un exposant <b>négatif</b>, 10⁻ⁿ = 1 ÷ 10ⁿ : 10⁻² = 0,01.</p><p class='note'>10⁻³ = 0,001 et 10⁵ = 100 000.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('dix')">Je m’entraîne ➜</button></div>
+<!-- ===================== LEÇON 3 : RÈGLES ===================== -->
+<section id="expRegles" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>📐 Règles de calcul</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">✖ Règle 1 — Multiplier des puissances</span>
+    <p class="lead">Avant la règle, observe l'exemple :</p>
+    <div class="encadre orange">
+      2<sup>3</sup> × 2<sup>4</sup><br>
+      = (2 × 2 × 2) × (2 × 2 × 2 × 2)<br>
+      = 2 multiplié <b>7 fois</b><br>
+      = <b>2<sup>7</sup></b>
+    </div>
+    <p class="lead" style="text-align:center;margin-top:12px">😲 Tu vois ? 3 + 4 = 7 !</p>
+    <div class="formule" style="border-color:var(--orange-bas)">a<sup>n</sup> × a<sup>m</sup> = a<sup>n+m</sup></div>
+    <div class="note">👉 Quand la base est la même, on <b>additionne</b> les exposants.</div>
+    <div class="note">⚠️ Attention : les bases doivent être <b>identiques</b> ! 2<sup>3</sup> × 3<sup>4</sup> ne peut pas se simplifier !</div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">➗ Règle 2 — Diviser des puissances</span>
+    <p class="lead">Observe l'exemple d'abord :</p>
+    <div class="encadre orange">
+      3<sup>5</sup> ÷ 3<sup>2</sup><br>
+      = (3 × 3 × 3 × 3 × 3) ÷ (3 × 3)<br>
+      = 3 × 3 × 3 (on supprime 2 facteurs)<br>
+      = <b>3<sup>3</sup></b>
+    </div>
+    <p class="lead" style="text-align:center;margin-top:12px">😲 Tu vois ? 5 − 2 = 3 !</p>
+    <div class="formule" style="border-color:var(--orange-bas)">a<sup>n</sup> ÷ a<sup>m</sup> = a<sup>n−m</sup></div>
+    <div class="note">👉 Quand la base est la même, on <b>soustrait</b> les exposants.</div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">⬆ Règle 3 — Puissance de puissance</span>
+    <p class="lead">Observe l'exemple d'abord :</p>
+    <div class="encadre orange">
+      (2<sup>3</sup>)<sup>2</sup><br>
+      = 2<sup>3</sup> × 2<sup>3</sup><br>
+      = (2 × 2 × 2) × (2 × 2 × 2)<br>
+      = 2 multiplié <b>6 fois</b><br>
+      = <b>2<sup>6</sup></b>
+    </div>
+    <p class="lead" style="text-align:center;margin-top:12px">😲 Tu vois ? 3 × 2 = 6 !</p>
+    <div class="formule" style="border-color:var(--orange-bas)">(a<sup>n</sup>)<sup>m</sup> = a<sup>n×m</sup></div>
+    <div class="note">👉 Puissance de puissance → on <b>multiplie</b> les exposants.</div>
+  </div>
+
+  <div class="mid"><button class="btn orange" onclick="startTrain('regles')">Je m'entraîne ! 🎯</button></div>
 </section>
 
-<section id="expSci" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Écriture scientifique</h2></div>
-  <div class="card"><span class="tag" style="background:var(--vert)">La leçon</span><p class='lead'>L’écriture scientifique d’un nombre est <b>a × 10ⁿ</b>, où <b>a</b> est compris entre 1 et 10 (10 exclu) : un seul chiffre non nul avant la virgule.</p><p class='note'>Exemple : 32 000 = 3,2 × 10⁴ et 0,0047 = 4,7 × 10⁻³.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('sci')">Je m’entraîne ➜</button></div>
+<!-- ===================== LEÇON 4 : PUISSANCES NÉGATIVES ===================== -->
+<section id="expNegatif" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>➖ Puissances négatives</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">🔍 Découvrons ensemble</span>
+    <p class="lead">Tu te souviens du tableau des puissances de 10 ? Continue-le en divisant par 10 à chaque fois :</p>
+    <table class="tableau">
+      <thead><tr><th>Puissance</th><th>Valeur</th><th>Ce que ça veut dire</th></tr></thead>
+      <tbody>
+        <tr><td>10<sup>3</sup></td><td><b>1 000</b></td><td>—</td></tr>
+        <tr><td>10<sup>2</sup></td><td><b>100</b></td><td>1 000 ÷ 10</td></tr>
+        <tr><td>10<sup>1</sup></td><td><b>10</b></td><td>100 ÷ 10</td></tr>
+        <tr><td>10<sup>0</sup></td><td><b>1</b></td><td>10 ÷ 10</td></tr>
+        <tr><td>10<sup>−1</sup></td><td><b>0,1</b></td><td>1 ÷ 10 = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">10</span></span></td></tr>
+        <tr><td>10<sup>−2</sup></td><td><b>0,01</b></td><td>0,1 ÷ 10 = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">100</span></span></td></tr>
+        <tr><td>10<sup>−3</sup></td><td><b>0,001</b></td><td>0,01 ÷ 10 = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">1000</span></span></td></tr>
+      </tbody>
+    </table>
+    <div class="encadre vert">
+      🌟 L'exposant négatif, c'est juste <b>l'inverse</b> !<br>
+      10<sup>−2</sup> = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">10<sup>2</sup></span></span> = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">100</span></span> = <b>0,01</b>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">📖 La règle générale</span>
+    <div class="formule" style="border-color:var(--vert-bas)">a<sup>−n</sup> = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">a<sup>n</sup></span></span></div>
+    <p class="lead" style="text-align:center">La puissance négative = <b>un sur…</b></p>
+    <div class="encadre vert">
+      2<sup>−3</sup> = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">2<sup>3</sup></span></span> = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">8</span></span> = <b>0,125</b><br>
+      <span style="color:var(--bois-clair)">(utilise la calculatrice pour vérifier !)</span>
+    </div>
+    <div class="encadre vert" style="margin-top:8px">
+      5<sup>−2</sup> = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">5<sup>2</sup></span></span> = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">25</span></span> = <b>0,04</b>
+    </div>
+    <div class="note">💡 10<sup>−n</sup> = 0,000…01 avec (n−1) zéros après la virgule.</div>
+  </div>
+
+  <div class="mid"><button class="btn vert" onclick="startTrain('negatif')">Je m'entraîne ! ✨</button></div>
 </section>
+
+<!-- ===================== LEÇON 5 : RACINES CARRÉES ===================== -->
+<section id="expRacines" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>√ Racines carrées</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">🔄 C'est l'inverse du carré !</span>
+    <p class="lead">Tu sais que 3<sup>2</sup> = 9. Et bien, la racine carrée de 9, c'est 3 !</p>
+    <div class="encadre bleu">
+      Si <b>3 × 3 = 9</b>, alors <b>√9 = 3</b> 🎯<br><br>
+      La racine carrée, c'est : <b>quel nombre multiplié par lui-même donne ce résultat ?</b>
+    </div>
+    <div class="lecon-anim">
+      <div class="lecon-bloc" style="background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)">√9</div>
+      <div class="lecon-eq">=</div>
+      <div class="lecon-res" style="background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)">3</div>
+      <div style="font-family:'Fredoka';font-weight:700;color:var(--bois-clair)">car 3 × 3 = 9</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">📚 Les racines à connaître par cœur</span>
+    <p class="lead">Ces racines se retrouvent souvent en maths. Utilise la calculatrice pour vérifier !</p>
+    <div class="tab-racines">
+      <div class="rc"><div class="top">√1 = 1</div><div class="bot">1×1=1</div></div>
+      <div class="rc"><div class="top">√4 = 2</div><div class="bot">2×2=4</div></div>
+      <div class="rc"><div class="top">√9 = 3</div><div class="bot">3×3=9</div></div>
+      <div class="rc"><div class="top">√16 = 4</div><div class="bot">4×4=16</div></div>
+      <div class="rc"><div class="top">√25 = 5</div><div class="bot">5×5=25</div></div>
+      <div class="rc"><div class="top">√36 = 6</div><div class="bot">6×6=36</div></div>
+      <div class="rc"><div class="top">√49 = 7</div><div class="bot">7×7=49</div></div>
+      <div class="rc"><div class="top">√64 = 8</div><div class="bot">8×8=64</div></div>
+      <div class="rc"><div class="top">√81 = 9</div><div class="bot">9×9=81</div></div>
+      <div class="rc"><div class="top">√100 = 10</div><div class="bot">10×10=100</div></div>
+    </div>
+    <div class="encadre bleu">
+      🌟 Ces nombres (1, 4, 9, 16, 25…) s'appellent les <b>carrés parfaits</b>.<br>
+      Leur racine carrée est un nombre entier !
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">🧮 Et si ce n'est pas un carré parfait ?</span>
+    <p class="lead">On utilise la calculatrice ! La touche <b>√</b> te donne le résultat.</p>
+    <div class="encadre bleu">
+      √2 ≈ 1,414…  &nbsp;|&nbsp;  √3 ≈ 1,732…  &nbsp;|&nbsp;  √5 ≈ 2,236…<br>
+      <span style="color:var(--bois-clair)">Ces nombres ont une infinité de décimales !</span>
+    </div>
+    <div class="note">💡 Sur la calculatrice, tape <b>√2</b> (touche √ puis 2) pour voir !</div>
+  </div>
+
+  <div class="mid"><button class="btn bleu" onclick="startTrain('racines')">Je m'entraîne ! 🌟</button></div>
+</section>
+
+<!-- ===================== LEÇON 6 : NOTATION SCIENTIFIQUE ===================== -->
+<section id="expScientifique" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🔬 Notation scientifique</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--or)">🌍 Pourquoi ?</span>
+    <p class="lead">Certains nombres sont <b>énormes</b> ou <b>minuscules</b> !</p>
+    <div class="encadre or">
+      La distance Terre-Soleil = <b>150 000 000 000 m</b><br>
+      Taille d'un atome = <b>0,000 000 000 1 m</b><br><br>
+      😵 C'est difficile à lire… Il existe une écriture plus pratique !
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--or)">📖 L'écriture scientifique</span>
+    <p class="lead">On écrit le nombre sous la forme : <b>a × 10<sup>n</sup></b></p>
+    <div class="encadre or">
+      Règle : <b>a</b> est un nombre entre 1 et 10 (mais pas 10 !)<br>
+      <span style="color:var(--bois-clair)">On dit 1 ≤ a &lt; 10</span>
+    </div>
+    <div class="encadre or" style="margin-top:10px">
+      150 000 000 000 = <b>1,5 × 10<sup>11</sup></b><br>
+      <span style="color:var(--bois-clair)">a = 1,5 (entre 1 et 10 ✅), n = 11</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--or)">🔢 Comment faire ? La méthode</span>
+    <p class="lead">Exemple : Convertis <b>300 000 000</b> en notation scientifique.</p>
+    <ul class="steps">
+      <li>Repère le premier chiffre non nul : c'est <b>3</b></li>
+      <li>Place la virgule juste après : on obtient <b>3,0</b> (entre 1 et 10 ✅)</li>
+      <li>Compte combien tu as déplacé la virgule : 8 positions → <b>10<sup>8</sup></b></li>
+      <li>Résultat : <b>3 × 10<sup>8</sup></b> (c'est la vitesse de la lumière !)</li>
+    </ul>
+    <div class="encadre or" style="margin-top:12px">
+      🌟 Grand nombre → exposant <b>positif</b><br>
+      Petit nombre (0,00…) → exposant <b>négatif</b>
+    </div>
+    <div class="encadre or" style="margin-top:8px">
+      Exemple petit : 0,0056 = <b>5,6 × 10<sup>−3</sup></b><br>
+      <span style="color:var(--bois-clair)">On a déplacé la virgule de 3 positions vers la droite</span>
+    </div>
+  </div>
+
+  <div class="mid"><button class="btn" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startTrain('scientifique')">Je m'entraîne ! 🚀</button></div>
+</section>
+
+<!-- ENTRAÎNEMENT -->
 <section id="ecranTrain" class="screen">
   <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card" id="tq_card">
@@ -273,48 +544,53 @@ button,input{touch-action:manipulation}
     <div class="helpnote" id="tq_help"></div>
     <div class="qcard">
       <div class="qcat" id="tq_cat"></div>
-      <div class="tabbox" id="tq_viz" style="display:none"></div>
+      <div class="figbox" id="tq_viz" style="display:none"></div>
       <div class="question" id="tq_text"></div>
       <div class="opts" id="tq_opts" style="display:none"></div>
       <div class="ansrow" id="tq_ansrow">
         <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
         <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
       </div>
+      <div class="cascade" id="tq_casc" style="display:none"></div>
       <div class="feedback" id="tq_feed"></div>
       <div class="stars" id="tq_stars"></div>
       <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant ➜</button></div>
     </div>
   </div>
   <div class="card result" id="tq_result" style="display:none">
-    <div class="big" id="tq_rbig">0 / 10</div>
+    <div class="big" id="tq_rbig"></div>
     <div class="msg" id="tq_rmsg"></div>
     <div class="rbtns" id="tq_rbtns"></div>
   </div>
 </section>
 
+<!-- ARÈNE -->
 <section id="arene" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L’arène des stats</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>⚔️ L'arène des puissances</h2></div>
   <div class="card" id="areneMenu">
-    <p class="lead" style="text-align:center">Bravo, séquence terminée ! Entraînement libre, sans note.</p>
+    <p class="lead" style="text-align:center">🎉 Parcours terminé ! Entraînement libre, sans note.</p>
     <div class="catgrid">
-      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('calc')"><span class="ic">✖️</span>Puissances</button>
-      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('reg')"><span class="ic">📜</span>Règles</button>
-      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('dix')"><span class="ic">🔟</span>Puissances de 10</button>
-      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('sci')"><span class="ic">🔬</span>Scientifique</button>
+      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('bases')"><span class="ic">🔢</span>Bases</button>
+      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('puissances10')"><span class="ic">🔟</span>Puiss. 10</button>
+      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('regles')"><span class="ic">📐</span>Règles</button>
+      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('negatif')"><span class="ic">➖</span>Négatif</button>
+      <button class="cat" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="startArene('racines')"><span class="ic">√</span>Racines</button>
+      <button class="cat" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas);color:var(--bois)" onclick="startArene('scientifique')"><span class="ic">🔬</span>Scientifique</button>
     </div>
-    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
+    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
   </div>
   <div class="card" id="areneJeu" style="display:none">
     <div class="scorebar"><span class="pill">⭐ <span id="aq_score">0</span></span><span class="pill">🔥 <span id="aq_streak">0</span></span><span class="pill">🎯 <span id="aq_corr">0</span>/<span id="aq_tot">0</span></span></div>
     <div class="qcard">
       <div class="qcat" id="aq_cat"></div>
-      <div class="tabbox" id="aq_viz" style="display:none"></div>
+      <div class="figbox" id="aq_viz" style="display:none"></div>
       <div class="question" id="aq_text"></div>
       <div class="opts" id="aq_opts" style="display:none"></div>
       <div class="ansrow" id="aq_ansrow">
         <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
         <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
       </div>
+      <div class="cascade" id="aq_casc" style="display:none"></div>
       <div class="feedback" id="aq_feed"></div>
       <div class="stars" id="aq_stars"></div>
       <div class="mid" style="margin-top:14px"><button class="btn orange" id="aq_next" style="display:none" onclick="quizNext()">Suivant ➜</button> <button class="btn fant" onclick="finArene()">Changer</button></div>
@@ -329,172 +605,383 @@ button,input{touch-action:manipulation}
   <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
   <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
   <div class="kc-keys" id="kcKeys"></div>
+  <button onclick="kcSend()" style="margin-top:10px;width:100%;font-family:'Fredoka',sans-serif;font-weight:700;font-size:15px;border:none;cursor:pointer;background:#8BC34A;color:#fff;border-radius:14px;padding:11px;box-shadow:0 4px 0 #5E9426;">⬆ Envoyer le résultat dans la réponse</button>
 </div>
-<script>
-/* ===== SUIVI ===== */
-var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Puissances'};
-function suiviInitIdentite(){try{var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe');if(!e||!c)gid('idov').hidden=false;}catch(_){}}
-function suiviSave(){var p=(gid('idPrenom').value||'').trim(),c=(gid('idClasse').value||'').trim();if(!p||!c)return;try{localStorage.setItem('kc_eleve',p);localStorage.setItem('kc_classe',c);}catch(_){}gid('idov').hidden=true;}
-function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
 
-const ORDER=['calc','reg','dix','sci'];
-const EXP={calc:'expCalc',reg:'expReg',dix:'expDix',sci:'expSci'};
-const MAPID={calc:'mapCalc',reg:'mapReg',dix:'mapDix',sci:'mapSci'};
-const TITLE={calc:'Calculer une puissance',reg:'Les règles de calcul',dix:'Puissances de 10',sci:'Écriture scientifique'};
-const unlocked={calc:true,reg:false,dix:false,sci:false,arene:false};
-const themeDone={calc:false,reg:false,dix:false,sci:false};
-let currentTheme='calc';const REQUIRED=6;
-const SERIE=10, SEUIL=8;
-const CATNOM={calc:'Puissances',reg:'Règles',dix:'Puissances de 10',sci:'Scientifique'};
-const THEME_CATS={calc:['calc'],reg:['reg'],dix:['dix'],sci:['sci']};
-const HELP={
-  calc:'aⁿ = a × a × … × a (n fois). a¹ = a, a⁰ = 1.',
-  reg:'Même base : aᵐ × aⁿ = a^(m+n) ; aᵐ ÷ aⁿ = a^(m−n) ; (aᵐ)ⁿ = a^(m×n).',
-  dix:'10ⁿ = 1 suivi de n zéros. 10⁻ⁿ = 1 ÷ 10ⁿ (ex. 10⁻² = 0,01).',
-  sci:'Écriture scientifique : a × 10ⁿ avec 1 ≤ a < 10.'
+<script>
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Puissances & Écriture scientifique'};
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+var SSDONE={};
+function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom+' › '+label);b.append(SUIVI.f.statut,'Terminé');b.append(SUIVI.f.score,'');b.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+
+var ORDER=['bases','puissances10','regles','negatif','racines','scientifique'];
+var EXP={bases:'expBases',puissances10:'expPuissances10',regles:'expRegles',negatif:'expNegatif',racines:'expRacines',scientifique:'expScientifique'};
+var MAPID={bases:'mapBases',puissances10:'mapPuissances10',regles:'mapRegles',negatif:'mapNegatif',racines:'mapRacines',scientifique:'mapScientifique'};
+var TITLE={bases:'Bases et définition',puissances10:'Puissances de 10',regles:'Règles de calcul',negatif:'Puissances négatives',racines:'Racines carrées',scientifique:'Notation scientifique'};
+var CASCADE_THEMES={regles:true,negatif:true,scientifique:true};
+var unlocked={bases:true,puissances10:false,regles:false,negatif:false,racines:false,scientifique:false,arene:false};
+var themeDone={bases:false,puissances10:false,regles:false,negatif:false,racines:false,scientifique:false};
+var currentTheme='bases';
+var SERIE=8,SEUIL=6;
+function serieLen(){return CASCADE_THEMES[currentTheme]?5:SERIE;}
+function seuilFor(){return CASCADE_THEMES[currentTheme]?4:SEUIL;}
+
+var CATNOM={bases:'Bases',puissances10:'Puissances de 10',regles:'Règles de calcul',negatif:'Puissances négatives',racines:'Racines carrées',scientifique:'Notation scientifique'};
+var THEME_CATS={bases:['bases'],puissances10:['puissances10'],regles:['regles'],negatif:['negatif'],racines:['racines'],scientifique:['scientifique']};
+var HELP={
+  bases:'💡 Rappel : a<sup>n</sup> = a×a×…×a (n fois). a<sup>0</sup> = 1 toujours ! Utilise la calculatrice 🧮',
+  puissances10:'💡 10<sup>n</sup> = 1 suivi de n zéros. Compte les zéros ! Utilise la calculatrice 🧮',
+  regles:'💡 Même base → additionne les exposants (×), soustrait (÷), multiplie (puissance de puissance). Utilise la calculatrice 🧮',
+  negatif:'💡 a<sup>−n</sup> = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">a<sup>n</sup></span></span>. Ex : 10<sup>−2</sup> = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">100</span></span> = 0,01. Utilise la calculatrice 🧮',
+  racines:'💡 √x = le nombre qui × lui-même donne x. Ex : √25 = 5 car 5×5=25. Utilise la calculatrice 🧮',
+  scientifique:'💡 Forme a×10<sup>n</sup> avec 1 ≤ a < 10. Compte les décalages de virgule. Utilise la calculatrice 🧮'
 };
+
 function gid(x){return document.getElementById(x);}
-function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();}
-function wiggle(id){const el=gid(id);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}
+function go(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();}
+function wiggle(id){var el=gid(id);el.classList.add('shake');setTimeout(function(){el.classList.remove('shake');},400);}
 function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
 function tapArene(){if(unlocked.arene)go('arene');else wiggle('mapArene');}
 function openTheme(t){currentTheme=t;go(EXP[t]);}
-function updateMap(){ORDER.forEach(t=>{const c=gid(MAPID[t]);c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');});
-  const ar=gid('mapArene');ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';}
-
-/* ===== utilitaires ===== */
+function updateMap(){ORDER.forEach(function(t){var c=gid(MAPID[t]);c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');});}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function rint(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function fmtDec(v){if(!isFinite(v))return '?';return (Math.round(v*100)/100).toString().replace('.',',');}
-function r2(v){return Math.round(v*100)/100;}
-
-function qcm(cat,t,opts,ci,e,viz){const o=shuffle(opts);return {type:'qcm',cat,text:t,options:o,correct:o.indexOf(opts[ci]),explain:e,viz};}
-
-function stab(l1,labels,l2,vals){var h='<table class="stab"><tr><th class="rowh">'+l1+'</th>';for(var i=0;i<labels.length;i++)h+='<th>'+labels[i]+'</th>';h+='</tr><tr><th class="rowh">'+l2+'</th>';for(var j=0;j<vals.length;j++)h+='<td>'+vals[j]+'</td>';h+='</tr></table>';return h;}
-function partition(T,k){var a=[];for(var i=0;i<k;i++)a.push(1);var rem=T-k;while(rem>0){a[rint(0,k-1)]++;rem--;}return a;}
-function maxIdxUnique(arr){var m=Math.max.apply(null,arr);var idx=arr.indexOf(m);if(arr.filter(function(x){return x===m;}).length>1)return -1;return idx;}
-
-/* ===== utilitaires puissances ===== */
-function sup(n){var m={'-':'\u207b','0':'\u2070','1':'\u00b9','2':'\u00b2','3':'\u00b3','4':'\u2074','5':'\u2075','6':'\u2076','7':'\u2077','8':'\u2078','9':'\u2079'};return (''+n).split('').map(function(c){return m[c]||c;}).join('');}
-function pow10str(intD,p){var s=''+intD;if(p>=0)return s+'0'.repeat(p);var q=-p;if(q<s.length)return s.slice(0,s.length-q)+','+s.slice(s.length-q);return '0,'+'0'.repeat(q-s.length)+s;}
-
-/* ===== générateurs ===== */
-function genCalc(){
-  var r=Math.random();
-  if(r<0.16) return qcm('calc','Pour un nombre a non nul, a'+sup(0)+' vaut…',['1','0','a'],0,'Par convention, a'+sup(0)+' = 1.',null);
-  if(r<0.30) return qcm('calc','L’écriture a'+sup('n')+' signifie…',['a multiplié par lui-même n fois','a × n','a + a + … (n fois)'],0,'a'+sup('n')+' = a × a × … × a (n facteurs).',null);
-  var M={2:8,3:5,4:4,5:4,6:3},a=pick([2,3,4,5,6]),n=rint(2,M[a]),v=Math.pow(a,n);
-  return {type:'num',cat:'calc',text:'Combien vaut '+a+sup(n)+' ?',answer:v,disp:v,explain:a+sup(n)+' = '+Array(n).fill(a).join(' × ')+' = '+v+'.'};
-}
-function genReg(){
-  var r=Math.random();
-  if(r<0.18) return qcm('reg','a'+sup('m')+' × a'+sup('n')+' est égal à…',['a^(m+n)','a^(m×n)','a^(m−n)'],0,'Même base, produit : on additionne les exposants.',null);
-  if(r<0.34) return qcm('reg','a'+sup('m')+' ÷ a'+sup('n')+' est égal à…',['a^(m−n)','a^(m+n)','a^(m÷n)'],0,'Même base, quotient : on soustrait les exposants.',null);
-  if(r<0.50) return qcm('reg','(a'+sup('m')+')'+sup('n')+' est égal à…',['a^(m×n)','a^(m+n)','a^(m+n+1)'],0,'Puissance d’une puissance : on multiplie les exposants.',null);
-  var a=pick([2,3,5,10]),m=rint(2,9),n=rint(2,9),t=pick(['mul','div','pow']);
-  if(t==='mul')return {type:'num',cat:'reg',text:'On calcule '+a+sup(m)+' × '+a+sup(n)+' = '+a+'^? . Quel est l’exposant ?',answer:m+n,disp:m+n,explain:'Même base : on additionne. '+m+' + '+n+' = '+(m+n)+'.'};
-  if(t==='div'){if(m<n){var tmp=m;m=n;n=tmp;}return {type:'num',cat:'reg',text:'On calcule '+a+sup(m)+' ÷ '+a+sup(n)+' = '+a+'^? . Quel est l’exposant ?',answer:m-n,disp:m-n,explain:'Même base : on soustrait. '+m+' − '+n+' = '+(m-n)+'.'};}
-  return {type:'num',cat:'reg',text:'On calcule ('+a+sup(m)+')'+sup(n)+' = '+a+'^? . Quel est l’exposant ?',answer:m*n,disp:m*n,explain:'Puissance d’une puissance : on multiplie. '+m+' × '+n+' = '+(m*n)+'.'};
-}
-function genDix(){
-  var r=Math.random();
-  if(r<0.16) return qcm('dix','10'+sup(-2)+' est égal à…',['0,01','−100','−0,02'],0,'10'+sup(-2)+' = 1 ÷ 100 = 0,01.',null);
-  var n=pick([-3,-2,-1,1,2,3,4,5,6]),v=Math.pow(10,n),dispC=(''+v).replace('.',',');
-  var ex=n>=0?('10'+sup(n)+' = 1 suivi de '+n+' zéro'+(n>1?'s':'')+' = '+dispC+'.'):('10'+sup(n)+' = 1 ÷ 10'+sup(-n)+' = '+dispC+'.');
-  return {type:'num',cat:'dix',text:'Combien vaut 10'+sup(n)+' (en écriture décimale) ?',answer:v,disp:dispC,tol:1e-9,explain:ex};
-}
-function genSci(){
-  var r=Math.random();
-  if(r<0.18) return qcm('sci','Dans l’écriture scientifique a × 10'+sup('n')+', le nombre a doit être…',['compris entre 1 et 10 (10 exclu)','un nombre entier','plus grand que 10'],0,'En écriture scientifique : 1 ≤ a < 10 (un seul chiffre non nul avant la virgule).',null);
-  var nd=rint(1,3),D=''+rint(1,9);for(var i=1;i<nd;i++)D+=rint(0,9);
-  if(nd>1&&D[nd-1]==='0')D=D.slice(0,nd-1)+rint(1,9);
-  var intD=parseInt(D,10),k=nd-1,n=pick([-3,-2,-1,2,3,4,5]),p=n-k;
-  var val=pow10str(intD,p);
-  var aStr=D[0]+(nd>1?(','+D.slice(1)):'');
-  if(r<0.62){
-    var good=aStr+' × 10'+sup(n);
-    var opts=[good,aStr+' × 10'+sup(n+1)];
-    if(nd>=2)opts.push(D.slice(0,2)+(nd>2?(','+D.slice(2)):'')+' × 10'+sup(n-1));else opts.push(aStr+' × 10'+sup(n-1));
-    return qcm('sci','Quelle est l’écriture scientifique de '+val+' ?',opts,0,val+' = '+good+'.',null,);
-  }
-  return {type:'num',cat:'sci',text:'Dans l’écriture scientifique de '+val+', quel est l’exposant n (le nombre au-dessus du 10) ?',answer:n,disp:n,explain:val+' = '+aStr+' × 10'+sup(n)+', donc n = '+n+'.'};
-}
-var GEN={calc:genCalc,reg:genReg,dix:genDix,sci:genSci};
-
-/* ===== moteur de quiz (série notée) ===== */
-function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;if(s.indexOf('/')>=0){var p=s.split('/');if(p.length!==2)return null;var a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;return a/b;}var v=parseFloat(s);return isFinite(v)?v:null;}
-var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastText:'',timer:0};
-function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),next:gid('tq_next'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
-function elsArene(){return {score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next')};}
+function pw(a,n){return Math.pow(a,n);}
+
+/* ===== GÉNÉRATEUR BASES ===== */
+function genBases(){
+  var pools=[
+    {t:'2<sup>3</sup> = ?',o:['8','6','9','16'],c:0,e:'2<sup>3</sup> = 2×2×2 = 8. L\'exposant 3 dit qu\'on multiplie 3 fois !'},
+    {t:'2<sup>4</sup> = ?',o:['16','8','24','4'],c:0,e:'2<sup>4</sup> = 2×2×2×2 = 16. Bravo !'},
+    {t:'3<sup>2</sup> = ?',o:['9','6','8','12'],c:0,e:'3<sup>2</sup> = 3×3 = 9. On dit "3 au carré" !'},
+    {t:'5<sup>2</sup> = ?',o:['25','10','15','52'],c:0,e:'5<sup>2</sup> = 5×5 = 25. Super !'},
+    {t:'Que vaut 10<sup>0</sup> ?',o:['1','0','10','100'],c:0,e:'Tout nombre à la puissance 0 vaut 1. 10<sup>0</sup> = 1 !'},
+    {t:'Que vaut 7<sup>0</sup> ?',o:['1','0','7','49'],c:0,e:'Tout nombre à la puissance 0 vaut 1. 7<sup>0</sup> = 1 !'},
+    {t:'Que vaut 5<sup>1</sup> ?',o:['5','1','25','10'],c:0,e:'Tout nombre à la puissance 1 vaut lui-même. 5<sup>1</sup> = 5 !'},
+    {t:'Quel est l\'<b>exposant</b> dans 4<sup>3</sup> ?',o:['3','4','12','1'],c:0,e:'Dans 4<sup>3</sup>, le petit chiffre en haut est l\'exposant : c\'est 3 !'},
+    {t:'Quelle est la <b>base</b> dans 7<sup>2</sup> ?',o:['7','2','14','49'],c:0,e:'Dans 7<sup>2</sup>, le grand chiffre est la base : c\'est 7 !'},
+    {t:'4<sup>2</sup> = ?',o:['16','8','42','14'],c:0,e:'4<sup>2</sup> = 4×4 = 16. Génial !'},
+    {t:'Combien de fois multiplie-t-on dans 3<sup>4</sup> ?',o:['4 fois','3 fois','12 fois','1 fois'],c:0,e:'L\'exposant 4 dit qu\'on multiplie 3 par lui-même 4 fois !'},
+    {t:'2<sup>5</sup> = ?',o:['32','10','25','16'],c:0,e:'2<sup>5</sup> = 2×2×2×2×2 = 32. Tu peux le faire !'},
+    {t:'Que vaut 1<sup>100</sup> ?',o:['1','100','0','10'],c:0,e:'1 multiplié par lui-même autant de fois qu\'on veut, ça reste 1 !'},
+    {t:'3<sup>3</sup> = ?',o:['27','9','6','33'],c:0,e:'3<sup>3</sup> = 3×3×3 = 27. Bravo !'}
+  ];
+  var q=pick(pools);
+  var opts=shuffle(q.o);
+  return {type:'qcm',cat:'bases',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+}
+
+/* ===== GÉNÉRATEUR PUISSANCES10 ===== */
+function genPuissances10(){
+  var pools=[
+    {t:'Combien de zéros dans 10<sup>4</sup> ?',o:['4','1','10','40'],c:0,e:'10<sup>4</sup> = 10 000 → 4 zéros ! L\'exposant = le nombre de zéros.'},
+    {t:'Combien de zéros dans 10<sup>6</sup> ?',o:['6','1','60','16'],c:0,e:'10<sup>6</sup> = 1 000 000 → 6 zéros !'},
+    {t:'10<sup>3</sup> = ?',o:['1 000','300','30','100'],c:0,e:'10<sup>3</sup> = 1 000 → 1 suivi de 3 zéros !'},
+    {t:'10<sup>5</sup> = ?',o:['100 000','500','50000','1000000'],c:0,e:'10<sup>5</sup> = 100 000 → 1 suivi de 5 zéros !'},
+    {t:'10<sup>2</sup> = ?',o:['100','20','10','1000'],c:0,e:'10<sup>2</sup> = 100 → 1 suivi de 2 zéros !'},
+    {t:'1 000 000 = 10<sup>?</sup> — Quel est l\'exposant ?',o:['6','7','5','1000000'],c:0,e:'1 000 000 a 6 zéros → c\'est 10<sup>6</sup> !'},
+    {t:'10 000 = 10<sup>?</sup>',o:['4','3','5','10'],c:0,e:'10 000 a 4 zéros → c\'est 10<sup>4</sup> !'},
+    {t:'100 = 10<sup>?</sup>',o:['2','3','1','100'],c:0,e:'100 a 2 zéros → c\'est 10<sup>2</sup> !'},
+    {t:'Quel est 10<sup>7</sup> ?',o:['10 000 000','700 000','70','1000000'],c:0,e:'10<sup>7</sup> = 1 suivi de 7 zéros = 10 000 000 !'},
+    {t:'10<sup>1</sup> = ?',o:['10','1','100','11'],c:0,e:'10<sup>1</sup> = 10. La puissance 1, c\'est juste le nombre !'},
+    {t:'10<sup>0</sup> = ?',o:['1','0','10','100'],c:0,e:'10<sup>0</sup> = 1. Tout nombre à la puissance 0 vaut 1 !'},
+    {t:'1 milliard = 10<sup>?</sup> — (1 000 000 000)',o:['9','10','8','6'],c:0,e:'1 milliard = 1 000 000 000 a 9 zéros → 10<sup>9</sup> !'}
+  ];
+  var q=pick(pools);
+  var opts=shuffle(q.o);
+  return {type:'qcm',cat:'puissances10',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+}
+
+/* ===== GÉNÉRATEUR RÈGLES (cascade) ===== */
+function genRegles(){
+  var rule=pick(['prod','quot','puis']);
+  var bases=[2,3,5];
+  var a=pick(bases);
+  var n=rint(2,4),m=rint(2,4);
+  var steps,contextTxt,sig;
+  if(rule==='prod'){
+    var exp=n+m;
+    var val=pw(a,exp);
+    contextTxt='💡 Rappel : a<sup>n</sup> × a<sup>m</sup> = a<sup>n+m</sup> (même base → on additionne !)<br><br>Calcule <b>'+a+'<sup>'+n+'</sup> × '+a+'<sup>'+m+'</sup></b>';
+    sig='P'+a+'n'+n+'m'+m;
+    steps=[
+      {prompt:'Étape 1 — On additionne les exposants : '+n+' + '+m+' = ?',
+       aide:'La règle dit : même base → on additionne les exposants ! '+n+' + '+m+' = '+exp,
+       parts:[a+'<sup>'+n+'</sup> × '+a+'<sup>'+m+'</sup> = '+a+'<sup>',{b:1,kind:'num',ans:exp,show:''+exp,w:60},'</sup>']},
+      {prompt:'Étape 2 — Calcule la valeur finale de '+a+'<sup>'+exp+'</sup> (utilise la calculatrice 🧮 !)',
+       aide:'Tape '+a+'^'+exp+' dans la calculatrice. Le résultat est '+val,
+       parts:[a+'<sup>'+exp+'</sup> = ',{b:1,kind:'num',ans:val,show:''+val,w:80}]}
+    ];
+  } else if(rule==='quot'){
+    if(n<=m)m=n-1;if(m<1)m=1;if(n<=m)n=m+1;
+    var exp2=n-m;
+    var val2=pw(a,exp2);
+    contextTxt='💡 Rappel : a<sup>n</sup> ÷ a<sup>m</sup> = a<sup>n−m</sup> (même base → on soustrait !)<br><br>Calcule <b>'+a+'<sup>'+n+'</sup> ÷ '+a+'<sup>'+m+'</sup></b>';
+    sig='Q'+a+'n'+n+'m'+m;
+    steps=[
+      {prompt:'Étape 1 — On soustrait les exposants : '+n+' − '+m+' = ?',
+       aide:'La règle dit : même base → on soustrait les exposants ! '+n+' − '+m+' = '+exp2,
+       parts:[a+'<sup>'+n+'</sup> ÷ '+a+'<sup>'+m+'</sup> = '+a+'<sup>',{b:1,kind:'num',ans:exp2,show:''+exp2,w:60},'</sup>']},
+      {prompt:'Étape 2 — Calcule la valeur finale de '+a+'<sup>'+exp2+'</sup> (utilise la calculatrice 🧮 !)',
+       aide:'Tape '+a+'^'+exp2+' dans la calculatrice. Le résultat est '+val2,
+       parts:[a+'<sup>'+exp2+'</sup> = ',{b:1,kind:'num',ans:val2,show:''+val2,w:80}]}
+    ];
+  } else {
+    var exp3=n*m;
+    var val3=pw(a,exp3);
+    contextTxt='💡 Rappel : (a<sup>n</sup>)<sup>m</sup> = a<sup>n×m</sup> (puissance de puissance → on multiplie !)<br><br>Calcule <b>('+a+'<sup>'+n+'</sup>)<sup>'+m+'</sup></b>';
+    sig='R'+a+'n'+n+'m'+m;
+    steps=[
+      {prompt:'Étape 1 — On multiplie les exposants : '+n+' × '+m+' = ?',
+       aide:'La règle dit : puissance de puissance → on multiplie les exposants ! '+n+' × '+m+' = '+exp3,
+       parts:['('+a+'<sup>'+n+'</sup>)<sup>'+m+'</sup> = '+a+'<sup>',{b:1,kind:'num',ans:exp3,show:''+exp3,w:60},'</sup>']},
+      {prompt:'Étape 2 — Calcule la valeur finale de '+a+'<sup>'+exp3+'</sup> (utilise la calculatrice 🧮 !)',
+       aide:'Tape '+a+'^'+exp3+' dans la calculatrice. Le résultat est '+val3,
+       parts:[a+'<sup>'+exp3+'</sup> = ',{b:1,kind:'num',ans:val3,show:''+val3,w:80}]}
+    ];
+  }
+  return {type:'cascade',cat:'regles',sig:sig,text:contextTxt,steps:steps};
+}
+
+/* ===== GÉNÉRATEUR NÉGATIF (cascade) ===== */
+function genNegatif(){
+  var configs=[
+    {a:10,n:1,denom:10,dec:0.1,decShow:'0,1'},
+    {a:10,n:2,denom:100,dec:0.01,decShow:'0,01'},
+    {a:10,n:3,denom:1000,dec:0.001,decShow:'0,001'},
+    {a:2,n:1,denom:2,dec:0.5,decShow:'0,5'},
+    {a:2,n:2,denom:4,dec:0.25,decShow:'0,25'},
+    {a:2,n:3,denom:8,dec:0.125,decShow:'0,125'},
+    {a:5,n:1,denom:5,dec:0.2,decShow:'0,2'},
+    {a:5,n:2,denom:25,dec:0.04,decShow:'0,04'},
+    {a:4,n:2,denom:16,dec:0.0625,decShow:'0,0625'}
+  ];
+  var cfg=pick(configs);
+  var contextTxt='💡 Rappel : a<sup>−n</sup> = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">a<sup>n</sup></span></span> (l\'inverse !)<br><br>Convertis <b>'+cfg.a+'<sup>−'+cfg.n+'</sup></b> en fraction puis en décimal.';
+  var steps=[
+    {prompt:'Étape 1 — Quel est le dénominateur ? ('+cfg.a+'<sup>−'+cfg.n+'</sup> = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">___</span></span>)',
+     aide:'a<sup>−n</sup> = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">a<sup>n</sup></span></span>. Donc '+cfg.a+'<sup>−'+cfg.n+'</sup> = <span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">'+cfg.a+'<sup>'+cfg.n+'</sup></span></span>. Calcule '+cfg.a+'^'+cfg.n+' = '+cfg.denom,
+     parts:['dénominateur = ',{b:1,kind:'num',ans:cfg.denom,show:''+cfg.denom,w:80,tol:0}]},
+    {prompt:'Étape 2 — Donne la valeur décimale (utilise la calculatrice 🧮 !)',
+     aide:'<span class="cfrac"><span class="cfnum">1</span><span class="cfbar"></span><span class="cfden">'+cfg.denom+'</span></span> = '+cfg.decShow+'. Tape 1÷'+cfg.denom+' dans la calculatrice !',
+     parts:['valeur décimale = ',{b:1,kind:'num',ans:cfg.dec,show:cfg.decShow,w:100,tol:0.001}]}
+  ];
+  return {type:'cascade',cat:'negatif',sig:'N'+cfg.a+'n'+cfg.n,text:contextTxt,steps:steps};
+}
+
+/* ===== GÉNÉRATEUR RACINES (QCM) ===== */
+function genRacines(){
+  var pools=[
+    {t:'√4 = ?',o:['2','1','4','8'],c:0,e:'√4 = 2 car 2 × 2 = 4 ! 🎉'},
+    {t:'√9 = ?',o:['3','4','9','6'],c:0,e:'√9 = 3 car 3 × 3 = 9 ! Bravo !'},
+    {t:'√16 = ?',o:['4','8','2','6'],c:0,e:'√16 = 4 car 4 × 4 = 16 !'},
+    {t:'√25 = ?',o:['5','10','3','7'],c:0,e:'√25 = 5 car 5 × 5 = 25 !'},
+    {t:'√36 = ?',o:['6','9','4','18'],c:0,e:'√36 = 6 car 6 × 6 = 36 !'},
+    {t:'√49 = ?',o:['7','6','8','14'],c:0,e:'√49 = 7 car 7 × 7 = 49 !'},
+    {t:'√64 = ?',o:['8','6','9','32'],c:0,e:'√64 = 8 car 8 × 8 = 64 !'},
+    {t:'√81 = ?',o:['9','8','7','27'],c:0,e:'√81 = 9 car 9 × 9 = 81 !'},
+    {t:'√100 = ?',o:['10','50','5','20'],c:0,e:'√100 = 10 car 10 × 10 = 100 !'},
+    {t:'√1 = ?',o:['1','0','2','10'],c:0,e:'√1 = 1 car 1 × 1 = 1 !'},
+    {t:'Quel nombre multiplié par lui-même donne 25 ?',o:['5','10','15','3'],c:0,e:'5 × 5 = 25 donc √25 = 5 !'},
+    {t:'Quel nombre multiplié par lui-même donne 49 ?',o:['7','6','8','14'],c:0,e:'7 × 7 = 49 donc √49 = 7 !'},
+    {t:'3<sup>2</sup> = 9, donc √9 = ?',o:['3','9','6','4'],c:0,e:'La racine carrée est l\'inverse du carré ! Si 3² = 9 alors √9 = 3.'},
+    {t:'4<sup>2</sup> = 16, donc √16 = ?',o:['4','8','2','16'],c:0,e:'Si 4² = 16 alors √16 = 4 !'},
+    {t:'√144 = ? (utilise la calculatrice 🧮)',o:['12','14','11','72'],c:0,e:'√144 = 12 car 12 × 12 = 144 !'}
+  ];
+  var q=pick(pools);
+  var opts=shuffle(q.o);
+  return {type:'qcm',cat:'racines',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+}
+
+/* ===== GÉNÉRATEUR SCIENTIFIQUE (cascade) ===== */
+function genScientifique(){
+  var configs=[
+    {num:3400,mant:3.4,exp:3,txt:'3 400',mantShow:'3,4'},
+    {num:2500000,mant:2.5,exp:6,txt:'2 500 000',mantShow:'2,5'},
+    {num:48000,mant:4.8,exp:4,txt:'48 000',mantShow:'4,8'},
+    {num:630000,mant:6.3,exp:5,txt:'630 000',mantShow:'6,3'},
+    {num:15000,mant:1.5,exp:4,txt:'15 000',mantShow:'1,5'},
+    {num:900000,mant:9,exp:5,txt:'900 000',mantShow:'9'},
+    {num:72000,mant:7.2,exp:4,txt:'72 000',mantShow:'7,2'},
+    {num:3000000,mant:3,exp:6,txt:'3 000 000',mantShow:'3'}
+  ];
+  var cfg=pick(configs);
+  var contextTxt='🔬 Écris <b>'+cfg.txt+'</b> en notation scientifique (a × 10<sup>n</sup>)<br><span style="font-size:.95rem;color:var(--bois-clair)">N\'oublie pas : a doit être entre 1 et 10 !</span>';
+  var steps=[
+    {prompt:'Étape 1 — Quelle est la mantisse a ? (le nombre entre 1 et 10)',
+     aide:'Déplace la virgule jusqu\'à avoir un nombre entre 1 et 10. Ici : '+cfg.mantShow,
+     parts:['mantisse a = ',{b:1,kind:'num',ans:cfg.mant,show:cfg.mantShow,w:80,tol:0.01}]},
+    {prompt:'Étape 2 — Quel est l\'exposant n ? (combien de fois as-tu décalé la virgule ?)',
+     aide:'Tu as décalé la virgule de '+cfg.exp+' positions. C\'est un grand nombre donc l\'exposant est positif !',
+     parts:[cfg.mantShow+' × 10<sup>',{b:1,kind:'num',ans:cfg.exp,show:''+cfg.exp,w:60,tol:0},'</sup>']}
+  ];
+  return {type:'cascade',cat:'scientifique',sig:'S'+cfg.exp+'m'+String(cfg.mant).replace('.',''),text:contextTxt,steps:steps};
+}
+
+var GEN={bases:genBases,puissances10:genPuissances10,regles:genRegles,negatif:genNegatif,racines:genRacines,scientifique:genScientifique};
+
+/* ===== MOTEUR ===== */
+function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});(function(el){setTimeout(function(){el.remove();},fall);})(d);}}
+
+var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastText:'',timer:0,casc:null};
+
+function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),next:gid('tq_next'),casc:gid('tq_casc'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
+function elsArene(){return {score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next'),casc:gid('aq_casc')};}
+
 function quizStart(cats,guided,els){Q.cats=cats;Q.guided=guided;Q.els=els;Q.score=0;Q.answered=0;Q.correct=0;Q.streak=0;Q.locked=false;Q.lastText='';
   if(els.result)els.result.style.display='none';if(els.card)els.card.style.display='block';
   quizScore();quizNext();}
+
 function quizScore(){var e=Q.els;if(e.score)e.score.textContent=Q.score;if(e.streak)e.streak.textContent=Q.streak;if(e.corr)e.corr.textContent=Q.correct;if(e.tot)e.tot.textContent=Q.answered;
-  if(Q.guided&&e.prog)e.prog.innerHTML='Question <b>'+Math.min(Q.answered+1,SERIE)+'</b> / '+SERIE+'  ·  ✅ '+Q.correct;}
+  if(Q.guided&&e.prog)e.prog.innerHTML='Question <b>'+Math.min(Q.answered+1,serieLen())+'</b> / '+serieLen()+'  ·  ✅ '+Q.correct;}
+
 function quizNext(){clearTimeout(Q.timer);
-  if(Q.guided&&Q.answered>=SERIE){return quizResult();}
+  if(Q.guided&&Q.answered>=serieLen()){return quizResult();}
   Q.locked=false;var e=Q.els;e.feed.textContent='';e.feed.className='feedback';if(e.stars)e.stars.textContent='';if(e.next)e.next.style.display='none';
-  var cat,cur,tries=0;do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while(cur.text===Q.lastText&&tries<8);
-  Q.cur=cur;Q.lastText=cur.text;e.cat.textContent=CATNOM[cat];e.text.textContent=cur.text;
+  if(e.casc){e.casc.style.display='none';e.casc.innerHTML='';}
+  var cat,cur,tries=0;
+  do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while((cur.sig||cur.text)===Q.lastText&&tries<8);
+  Q.cur=cur;Q.lastText=(cur.sig||cur.text);e.cat.textContent=CATNOM[cat];
   if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
-  if(cur.type==='qcm'){e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';cur.options.forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=function(){quizPick(i);};e.opts.appendChild(b);});}
-  else{e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
+  if(cur.type==='qcm'){e.text.innerHTML=cur.text;e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';
+    cur.options.forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.innerHTML=o;b.onclick=function(){quizPick(i);};e.opts.appendChild(b);});}
+  else if(cur.type==='cascade'){e.text.innerHTML=cur.text;e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);}
+  else{e.text.innerHTML=cur.text;e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
   quizScore();}
+
 function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La réponse est '+Q.cur.disp+'.');}
+
 function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'La bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');}
+
 function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
-  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Bravo !<div class="feedlab">'+Q.cur.explain+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
-  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='❌ '+correctTxt+'<div class="feedlab">'+Q.cur.explain+'</div>';if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
+  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Super ! Tu peux le faire !<div class="feedlab">'+(Q.cur.explain||correctTxt)+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='❌ Pas encore... '+correctTxt+'<div class="feedlab">'+(Q.cur.explain||'')+'</div>';if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
   quizScore();
-  var last=Q.guided&&Q.answered>=SERIE;
-  if(ok&&!last){Q.timer=setTimeout(quizNext,1500);}
-  else{if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}
-}
-function quizResult(){var e=Q.els;if(!e.result){return;}e.card.style.display='none';e.result.style.display='block';
-  var sc=Q.correct, ok=sc>=SEUIL;try{suiviEnvoi(ok?'Validé':'Échoué',sc,SERIE);}catch(_){}e.rbig.textContent=sc+' / '+SERIE;e.rbig.className='big '+(ok?'ok':'no');
-  e.rmsg.innerHTML= ok ? 'Parcours validé ! Tu as obtenu <b>'+sc+'/'+SERIE+'</b>. Bravo 👏' : 'Il faut <b>'+SEUIL+'/'+SERIE+'</b> pour valider, et tu as eu '+sc+'/'+SERIE+'. Tu peux recommencer avec une nouvelle série, ou passer à la suite si tu préfères.';
+  var last=Q.guided&&Q.answered>=serieLen();
+  if(ok&&!last){Q.timer=setTimeout(quizNext,1800);}
+  else{if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}}
+
+function quizResult(){var e=Q.els;if(!e.result)return;e.card.style.display='none';e.result.style.display='block';
+  var SL=serieLen(),SE=seuilFor();var sc=Q.correct,ok=sc>=SE;
+  try{suiviEnvoi(ok?'Validé':'Échoué',sc,SL);}catch(_){}
+  e.rbig.textContent=sc+' / '+SL;e.rbig.className='big '+(ok?'ok':'no');
+  e.rmsg.innerHTML=ok?'🎉 Bravo ! Tu as réussi avec <b>'+sc+'/'+SL+'</b> ! Continue comme ça !':'Il faut <b>'+SE+'/'+SL+'</b> pour valider. Tu as eu '+sc+'/'+SL+'. Courage, tu peux recommencer 💪';
   e.rbtns.innerHTML='';
   if(ok){var b=document.createElement('button');b.className='btn vert';b.textContent='Continuer ➜';b.onclick=trainDone;e.rbtns.appendChild(b);}
-  else{var b1=document.createElement('button');b1.className='btn orange';b1.textContent='Nouvelle série 🔄';b1.onclick=function(){startTrain(currentTheme);};e.rbtns.appendChild(b1);
-       var b2=document.createElement('button');b2.className='btn fant';b2.textContent='Passer à la suite ➜';b2.onclick=trainDone;e.rbtns.appendChild(b2);}
-}
-function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entraînement — '+TITLE[t];go('ecranTrain');var els=elsTrain();els.help.textContent=HELP[t];quizStart(THEME_CATS[t],true,els);}
-function trainDone(){var t=currentTheme;themeDone[t]=true;var idx=ORDER.indexOf(t);if(idx<ORDER.length-1){var nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{unlocked.arene=true;updateMap();go('arene');}}
+  else{var b1=document.createElement('button');b1.className='btn orange';b1.textContent='Nouvelle série 🔄';b1.onclick=function(){startTrain(currentTheme);};e.rbtns.appendChild(b1);var b2=document.createElement('button');b2.className='btn fant';b2.textContent='Passer à la suite ➜';b2.onclick=trainDone;e.rbtns.appendChild(b2);}}
+
+/* ===== CASCADE ===== */
+function normTxt(s){return String(s).toLowerCase().trim().replace(/\s+/g,'').replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ïî]/g,'i').replace(/[ôö]/g,'o').replace(/[ûü]/g,'u').replace(/['']/g,'').replace(/\u207b\u00b9/g,'-1');}
+function sortLetters(s){return s.split('').sort().join('');}
+function blankOK(bk,raw){
+  if(bk.kind==='num'){var v=parseNum(raw);return v!==null&&Math.abs(v-bk.ans)<(bk.tol===undefined?0.001:bk.tol);}
+  var n=normTxt(raw);if(n==='')return false;
+  if(bk.kind==='seg')return bk.accept.indexOf(sortLetters(n))>=0;
+  if(bk.mode==='contains')return bk.accept.some(function(a){return n.indexOf(a)>=0;});
+  return bk.accept.indexOf(n)>=0;}
+
+function cscEl(sel){return Q.casc.box.querySelector(sel);}
+
+function cascMkBlank(p,e,idx){
+  var inp=document.createElement('input');inp.className='cblank'+(p.mini?' mini':'');
+  inp.setAttribute('inputmode',p.kind==='num'?'decimal':'text');inp.autocomplete='off';
+  if(p.ph)inp.placeholder=p.ph;if(p.w)inp.style.width=p.w+'px';
+  inp.addEventListener('focus',function(){MATHTARGET=this;});inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();cascVerify(e,idx);}});
+  Q.casc.q.steps[idx]._blanks.push({bk:p,el:inp});return inp;}
+
+function cascRenderParts(parent,arr,e,idx){
+  arr.forEach(function(p){
+    if(typeof p==='string'){var sp=document.createElement('span');sp.innerHTML=p;parent.appendChild(sp);}
+    else if(p.frac){var f=document.createElement('span');f.className='cfrac';
+      var nu=document.createElement('span');nu.className='cfnum';cascRenderParts(nu,p.frac[0],e,idx);
+      var ba=document.createElement('span');ba.className='cfbar';
+      var de=document.createElement('span');de.className='cfden';cascRenderParts(de,p.frac[1],e,idx);
+      f.appendChild(nu);f.appendChild(ba);f.appendChild(de);parent.appendChild(f);}
+    else{parent.appendChild(cascMkBlank(p,e,idx));}});}
+
+function cascRender(e,idx){
+  var st=Q.casc.q.steps[idx],body=cscEl('#cbody'+idx);body.innerHTML='';st._tries=0;st._done=false;st._blanks=[];
+  var line=document.createElement('div');line.className='cline';
+  cascRenderParts(line,st.parts,e,idx);body.appendChild(line);
+  var row=document.createElement('div');row.className='cverify';
+  var btn=document.createElement('button');btn.className='btn vert';btn.textContent='Vérifier';btn.onclick=function(){cascVerify(e,idx);};
+  row.appendChild(btn);body.appendChild(row);
+  var f=st._blanks[0];if(f)setTimeout(function(){try{f.el.focus();}catch(_){}},60);}
+
+function cascStart(cur,e){
+  Q.casc={q:cur,clean:true,box:e.casc};e.casc.style.display='block';
+  var html='';
+  cur.steps.forEach(function(st,idx){
+    html+='<div class="cstep'+(idx===0?' on':'')+'" id="cstep'+idx+'">'
+        +'<div class="cprompt">'+st.prompt+'</div>'
+        +'<div class="cbody" id="cbody'+idx+'"></div>'
+        +'<div class="cfeed" id="cfeed'+idx+'"></div></div>';});
+  e.casc.innerHTML=html;cascRender(e,0);}
+
+function cascVerify(e,idx){
+  var st=Q.casc.q.steps[idx];if(st._done)return;var fb=cscEl('#cfeed'+idx);
+  if(st._blanks.some(function(z){return z.el.value.trim()==='';})){fb.className='cfeed no';fb.textContent='Complète toutes les cases.';return;}
+  var allOK=true;
+  st._blanks.forEach(function(z){var ok=blankOK(z.bk,z.el.value);z.el.classList.remove('cbok','cbno');z.el.classList.add(ok?'cbok':'cbno');if(!ok)allOK=false;});
+  if(allOK){st._done=true;st._blanks.forEach(function(z){z.el.disabled=true;});fb.className='cfeed ok';fb.textContent='✅ Correct ! Bien joué !';cascAdvance(e,idx);return;}
+  st._tries++;
+  if(st._tries>=3){Q.casc.clean=false;st._done=true;
+    st._blanks.forEach(function(z){z.el.value=z.bk.show;z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});
+    fb.className='cfeed no';fb.textContent='Voici la bonne réponse — observe-la bien avant de continuer !';cascAdvance(e,idx);}
+  else if(st._tries===2){fb.className='cfeed no';fb.innerHTML='💡 Indice : '+(st.aide||'Reprends et corrige les cases en orange.');}
+  else{fb.className='cfeed no';fb.textContent='Pas tout à fait : corrige les cases en orange. Tu peux le faire !';}}
+
+function cascAdvance(e,idx){
+  var nx=idx+1;
+  if(nx<Q.casc.q.steps.length){var blk=cscEl('#cstep'+nx);blk.classList.add('on');cascRender(e,nx);
+    setTimeout(function(){blk.scrollIntoView({behavior:'smooth',block:'center'});},140);}
+  else{cascDone(e);}}
+
+function cascDone(e){
+  Q.locked=true;Q.answered++;
+  if(Q.casc.clean){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Parfait, sans erreur ! Tu es trop fort !';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback ok';e.feed.innerHTML='👍 Exercice terminé ! Relis les corrections pour progresser !';}
+  quizScore();
+  var last=Q.guided&&Q.answered>=serieLen();
+  if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}
+
+function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entraînement — '+TITLE[t];go('ecranTrain');var els=elsTrain();if(els.help)els.help.innerHTML=HELP[t];quizStart(THEME_CATS[t],true,els);}
+function trainDone(){var t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}var idx=ORDER.indexOf(t);if(idx<ORDER.length-1){var nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{unlocked.arene=true;updateMap();go('arene');}}
 function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';var cats=cat==='mix'?ORDER.slice():[cat];quizStart(cats,false,elsArene());}
 function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
-document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(!gid('kcPanel').hidden)return;
-  var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
-  if(!(onT||onA))return;var nx=onT?gid('tq_next'):gid('aq_next');
-  if(nx&&nx.style.display!=='none'){quizNext();return;}
-  if(!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
+
+document.addEventListener('keydown',function(ev){if(ev.key!=='Enter')return;if(!gid('kcPanel').hidden)return;var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';if(!(onT||onA))return;var nx=onT?gid('tq_next'):gid('aq_next');if(nx&&nx.style.display!=='none'){quizNext();return;}if(!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
+
 /* ===== CALCULATRICE ===== */
 function kcEval(expr){
-  let s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
-  const toks=[]; let i=0; const isD=c=>c>='0'&&c<='9';
-  while(i<s.length){const c=s[i];
-    if(isD(c)||c==='.'){let j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
+  var s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
+  var toks=[];var i=0;var isD=function(c){return c>='0'&&c<='9';};
+  while(i<s.length){var c=s[i];
+    if(isD(c)||c==='.'){var j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
     if(c==='\u03c0'){toks.push({t:'pi'});i++;continue;}
     if(c==='\u221a'){toks.push({t:'sqrt'});i++;continue;}
-    if('+-*/^()'.includes(c)){toks.push({t:c});i++;continue;}
+    if('+-*/^()'.indexOf(c)>=0){toks.push({t:c});i++;continue;}
     return null;}
-  let p=0,err=false;const peek=()=>toks[p],next=()=>toks[p++];
-  function E(){let v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){const o=next().t;const r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
-  function T(){let v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){const o=next().t;const r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}
-  function U(){const t=peek();if(t&&t.t==='-'){next();return -U();}if(t&&t.t==='+'){next();return U();}if(t&&t.t==='sqrt'){next();const a=U();if(err)return 0;if(a<0){err=true;return 0;}return Math.sqrt(a);}return P();}
-  function P(){let b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();const e=U();if(err)return 0;b=Math.pow(b,e);}return b;}
-  function PR(){const t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='pi')return Math.PI;if(t.t==='('){const v=E();if(err)return 0;const c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}err=true;return 0;}
-  const val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;}
-function kcFmt(v){let s=(Math.round(v*1e10)/1e10).toString();return s.replace('-','\u2212').replace('.',',');}
-let kcS='',kcJust=false;
-function kcRender(){gid('kcExpr').textContent=kcS;const v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
-function kcIns(ch){if(kcJust&&/[0-9.\u03c0(\u221a]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
+  var p=0,err=false;
+  var peek=function(){return toks[p];},next=function(){return toks[p++];};
+  function E(){var v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){var o=next().t;var r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
+  function T(){var v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){var o=next().t;var r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}
+  function U(){var t=peek();if(t&&t.t==='-'){next();return -U();}if(t&&t.t==='+'){next();return U();}if(t&&t.t==='sqrt'){next();var a=U();if(err)return 0;if(a<0){err=true;return 0;}return Math.sqrt(a);}return P();}
+  function P(){var b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();var e=U();if(err)return 0;b=Math.pow(b,e);}return b;}
+  function PR(){var t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='pi')return Math.PI;if(t.t==='('){var v=E();if(err)return 0;var c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}err=true;return 0;}
+  var val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;}
+function kcFmt(v){var s=(Math.round(v*1e10)/1e10).toString();return s.replace('-','\u2212').replace('.',',');}
+var kcS='',kcJust=false;
+function kcRender(){gid('kcExpr').textContent=kcS;var v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
+function kcIns(ch){if(kcJust&&/[0-9.,\u03c0(\u221a]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
 function kcClear(){kcS='';kcJust=false;kcRender();}
 function kcBack(){if(kcJust)kcJust=false;kcS=kcS.slice(0,-1);kcRender();}
-function kcEq(){const v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
+function kcEq(){var v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
 function kcToggle(){gid('kcPanel').hidden=!gid('kcPanel').hidden;}
-const KEYS2=[
+function kcSend(){var v=kcEval(kcS);if(v===null)return;var txt=kcFmt(v);var t=gid('tq_input');var aInp=gid('aq_input');if(document.activeElement===aInp||gid('arene').classList.contains('active'))t=aInp;if(t&&!t.disabled){var s=t.selectionStart||0,en=t.selectionEnd||0;t.value=t.value.slice(0,s)+txt+t.value.slice(en);t.focus();try{t.setSelectionRange(s+txt.length,s+txt.length);}catch(_){}}}
+var KEYS2=[
   {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
   {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},
   {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'},
@@ -502,17 +989,16 @@ const KEYS2=[
   {l:'0',a:'0'},{l:',',a:','},{l:'\u221a',a:'\u221a',c:'fn'},{l:'+',a:'+',c:'op'},
   {l:'x\u00b2',a:'^2',c:'fn'},{l:'x\u02b8',a:'^',c:'fn'},{l:'\u03c0',a:'\u03c0',c:'fn'},{l:'=',a:'eq',c:'eq'}
 ];
-(function(){const box=gid('kcKeys');KEYS2.forEach(k=>{const b=document.createElement('button');b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;
-  b.onclick=()=>{if(k.a==='clr')kcClear();else if(k.a==='back')kcBack();else if(k.a==='eq')kcEq();else kcIns(k.a);};box.appendChild(b);});kcRender();})();
-document.addEventListener('keydown',e=>{if(gid('kcPanel').hidden)return;
-  if(e.key==='Enter'){e.preventDefault();kcEq();}else if(e.key==='Escape')kcToggle();
-  else if(e.key==='Backspace'){e.preventDefault();kcBack();}
-  else if(/[0-9.+\-*/()^]/.test(e.key)){const map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[e.key]||e.key);}});
+(function(){var box=gid('kcKeys');KEYS2.forEach(function(k){var b=document.createElement('button');b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;b.onclick=function(){if(k.a==='clr')kcClear();else if(k.a==='back')kcBack();else if(k.a==='eq')kcEq();else kcIns(k.a);};box.appendChild(b);});kcRender();})();
+document.addEventListener('keydown',function(ev){if(gid('kcPanel').hidden)return;if(ev.key==='Enter'){ev.preventDefault();kcEq();}else if(ev.key==='Escape')kcToggle();else if(ev.key==='Backspace'){ev.preventDefault();kcBack();}else if(/[0-9.+\-*/()^]/.test(ev.key)){var map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[ev.key]||ev.key);}});
 
-
-/* leçons : tableaux d'exemple */
-updateMap();
-
+/* ===== PROGRESSION ===== */
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;return 'prog_'+e+'_'+nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone,u:unlocked}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
+var _umOrig=updateMap;
+updateMap=function(){var r=_umOrig.apply(this,arguments);try{progSave();}catch(_){}return r;};
+try{progLoad();updateMap();}catch(_){}
 </script>
 </body>
 </html>

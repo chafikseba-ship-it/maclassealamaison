@@ -357,6 +357,7 @@ button,input{touch-action:manipulation}
   <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
   <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
   <div class="kc-keys" id="kcKeys"></div>
+<button onclick="kcSend()" style="margin-top:10px;width:100%;font-family:'Fredoka',sans-serif;font-weight:700;font-size:15px;border:none;cursor:pointer;background:#8BC34A;color:#fff;border-radius:14px;padding:11px;box-shadow:0 4px 0 #5E9426;">⬆ Envoyer le résultat dans la réponse</button>
 </div>
 <script>
 /* ===== SUIVI ===== */
@@ -615,7 +616,7 @@ function cascRender(e,idx){
     else{var inp=document.createElement('input');inp.className='cblank';
       inp.setAttribute('inputmode',p.kind==='num'?'decimal':'text');inp.autocomplete='off';
       if(p.ph)inp.placeholder=p.ph;inp.style.width=(p.w||90)+'px';
-      inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();cascVerify(e,idx);}});
+      inp.addEventListener('focus',function(){MATHTARGET=this;});inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();cascVerify(e,idx);}});
       st._blanks.push({bk:p,el:inp});line.appendChild(inp);}
   });
   body.appendChild(line);

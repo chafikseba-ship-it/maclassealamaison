@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espaces & Solides — 3e</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--or:#FFC93C;--or-bas:#E0A41E;--vert:#8BC34A;--vert-bas:#5E9426;--orange:#FF8A4C;--orange-bas:#E0672E;--teal:#46BECB;--teal-bas:#2E8A98;--violet:#A78BC4;--violet-bas:#7E61A1;--rouge:#EF5D60;--rouge-bas:#c43e41;--bleu:#4FA3D1;--bleu-bas:#2f7ba8;--bois:#5C3D2E;--bois-clair:#8a6650;--creme:#FFF4DC;--blanc:#FFFDF6;--ombre:0 8px 0 rgba(92,61,46,.18),0 14px 22px rgba(92,61,46,.12)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);background:linear-gradient(160deg,#FFF7E2 0%,#FFE6BC 55%,#FFD9A0 100%);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 90px;position:relative;z-index:1}
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.5;z-index:0}
+.b1{width:180px;height:180px;background:#FFE08A;top:-40px;left:-50px}
+.b2{width:140px;height:140px;background:#FFC1A0;bottom:40px;right:-40px}
+.b3{width:120px;height:120px;background:#BCE29A;top:40%;left:-50px}
+.screen{display:none;animation:pop .35s ease}
+.screen.active{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;padding:14px 22px;cursor:pointer;background:var(--or);box-shadow:0 6px 0 var(--or-bas);transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--or-bas)}
+.btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
+.btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
+.btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
+.btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
+.btn.bleu{background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)}
+.btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.back{background:var(--blanc);color:var(--bois);border:none;border-radius:14px;width:48px;height:48px;font-size:1.5rem;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;font-family:'Fredoka'}
+.back:active{transform:translateY(4px);box-shadow:0 1px 0 #e7d3a8}
+.card{background:var(--blanc);border-radius:26px;padding:22px;box-shadow:var(--ombre);margin:16px 0}
+.tag{display:inline-block;font-family:'Fredoka';font-weight:600;color:#fff;padding:5px 14px;border-radius:30px;font-size:.85rem;margin-bottom:8px}
+.hero{text-align:center;padding:26px 16px 8px}
+.hero h1{font-size:2.5rem;line-height:1.05;margin:.1em 0;color:var(--bois)}
+.hero .sub{font-size:1.1rem;color:var(--bois-clair);font-weight:700;max-width:560px;margin:6px auto 0}
+.coin{font-size:3.4rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
+.map{display:grid;gap:16px;margin-top:8px}
+.etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;box-shadow:var(--ombre);cursor:pointer;border:4px solid transparent;transition:transform .12s}
+.etape:hover{transform:translateY(-3px)}
+.etape:active{transform:translateY(1px)}
+.etape.lock{opacity:.6;filter:grayscale(.35)}
+.etape .num{flex:0 0 60px;height:60px;border-radius:18px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.7rem;color:#fff}
+.etape .txt h3{margin:0 0 2px;font-size:1.16rem}
+.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.92rem}
+.etape .status{margin-left:auto;font-size:1.5rem}
+.e1 .num{background:var(--violet);box-shadow:0 5px 0 var(--violet-bas)}
+.e2 .num{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
+.e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
+.e4 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
+.e5 .num{background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)}
+.e6 .num{background:var(--or);box-shadow:0 5px 0 var(--or-bas)}
+.lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
+.mid{text-align:center;margin:16px 0}
+.formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;padding:12px 22px;font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois)}
+.note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
+.figbox{margin:8px auto 4px;text-align:center}
+.fig{width:100%;max-width:300px;height:auto;display:inline-block}
+.serieprog{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
+.result{text-align:center}
+.result .big{font-family:'Fredoka',sans-serif;font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
+.result .big.ok{color:var(--vert-bas)}.result .big.no{color:var(--orange-bas)}
+.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
+.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16)}
+.home:active{transform:translateY(1px)}
+.cascade{margin:6px 0 2px;text-align:left}
+.cstep{display:none;background:var(--creme);border-radius:16px;padding:14px 16px;margin:10px 0;animation:pop .3s ease}
+.cstep.on{display:block}
+.cprompt{font-family:'Fredoka';font-weight:700;color:var(--bois);font-size:1.05rem;margin-bottom:10px;line-height:1.35}
+.cbody{display:flex;flex-direction:column;gap:8px}
+.cfeed{font-family:'Nunito';font-weight:800;font-size:.92rem;margin-top:8px;min-height:1em;line-height:1.35}
+.cfeed.ok{color:var(--vert-bas)}.cfeed.no{color:var(--orange-bas)}
+.cline{font-family:'Fredoka';font-weight:700;font-size:1.12rem;color:var(--bois);line-height:2.1;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.cblank{font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;border:none;border-bottom:3px solid var(--or-bas);background:#fff;border-radius:8px 8px 0 0;padding:6px;color:var(--bois)}
+.cblank:focus{outline:none;border-bottom-color:var(--teal-bas);background:#fffdf3}
+.cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
+.cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
+.cblank.mini{font-size:1rem;width:54px}
+.cverify{margin-top:10px}
+.cfrac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 5px}
+.cfnum,.cfden{display:block;text-align:center;padding:2px 6px}
+.cfrac sup{font-size:.65em;vertical-align:super;line-height:1}
+.cfbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
+.helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px}
+.qcard{text-align:center}
+.prog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:10px;min-height:1.3em;font-size:1.05rem}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
+.ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
+.ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:160px;color:var(--bois)}
+.ansrow input:focus{outline:none;border-color:var(--or-bas)}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.1rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
+.opt.bad{background:var(--orange);color:#fff;border-color:var(--orange-bas);box-shadow:0 5px 0 var(--orange-bas)}
+.feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
+.feedback.ok{color:var(--vert-bas)}
+.feedback.no{color:var(--orange-bas)}
+.feedlab{font-family:'Nunito';font-weight:800;font-size:.92rem;color:var(--bois-clair);margin-top:6px}
+.stars{font-size:1.5rem;letter-spacing:3px;margin-top:8px;min-height:1.6em}
+.conf{position:fixed;width:12px;height:12px;top:-20px;z-index:50;border-radius:3px;pointer-events:none}
+.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+button,input{touch-action:manipulation}
+.brouillon-lab{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.88rem;text-align:left;margin:12px 0 4px}
+.brouillon{width:100%;box-sizing:border-box;min-height:80px;resize:vertical;border:3px dashed #e7d3a8;border-radius:16px;padding:10px 14px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.1rem;line-height:1.9;color:var(--bois);background:var(--blanc)}
+.brouillon:focus{outline:none;border-color:var(--orange-bas)}
+.mathpad{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;max-width:360px;margin:12px auto 0}
+.mkey{border:none;border-radius:13px;padding:13px 0;font-family:'Fredoka';font-weight:700;font-size:1.18rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.mkey:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.mkey.op{background:var(--creme);color:var(--orange-bas)}
+.mkey.fn{background:#eef6f8;color:var(--teal-bas)}
+.mkey.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas);font-size:1rem}
+.mkey.nl{background:var(--violet);color:#fff;box-shadow:0 4px 0 var(--violet-bas);font-size:.82rem}
+.kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2)}
+.kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(320px,calc(100vw - 32px));background:var(--blanc);border-radius:22px;padding:14px;box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);animation:kcpop .25s ease}
+.kc-panel[hidden]{display:none}
+@keyframes kcpop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.kc-head{display:flex;align-items:center;justify-content:space-between;font-family:'Fredoka';font-weight:700;color:var(--bois);margin:2px 4px 10px;font-size:1.05rem}
+.kc-x{border:none;background:var(--creme);color:var(--bois);width:32px;height:32px;border-radius:10px;font-size:1rem;cursor:pointer;font-family:'Fredoka';box-shadow:0 3px 0 #e7d3a8}
+.kc-screen{background:#2b2b2b;border-radius:14px;padding:10px 14px;text-align:right;margin-bottom:12px;min-height:74px;display:flex;flex-direction:column;justify-content:center}
+.kc-expr{font-family:'Fredoka';font-weight:600;color:#cfe6ee;font-size:1rem;min-height:1.2em;word-break:break-all;line-height:1.25}
+.kc-res{font-family:'Fredoka';font-weight:700;color:#fff;font-size:1.7rem;line-height:1.1;margin-top:2px}
+.kc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kc-key{border:none;border-radius:14px;padding:14px 0;font-family:'Fredoka';font-weight:700;font-size:1.2rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.kc-key:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.kc-key.op{background:var(--creme);color:var(--orange-bas)}
+.kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1.05rem}
+.kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
+.kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
+.qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
+.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+@media(max-width:480px){.wrap{padding:14px 12px 80px}.hero h1{font-size:2rem}.card{padding:16px;border-radius:20px}.etape{gap:12px;padding:13px 14px}.etape .num{flex:0 0 50px;height:50px;font-size:1.4rem}.formule{font-size:1rem;white-space:normal}.lead{font-size:1rem}.question{font-size:1.18rem}.ansrow input{width:60%}.btn{font-size:1rem;padding:13px 18px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<script>try{if(!localStorage.getItem("kc_eleve")||!localStorage.getItem("kc_classe"))location.replace("index.html");}catch(e){}</script>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="wrap">
+<div style="background:#3a3a3a;color:#fff;border-radius:16px;padding:10px 14px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-family:'Fredoka';font-size:14px;">
+  <span style="background:#EF5D60;padding:3px 10px;border-radius:10px;font-weight:600">VERSION TEST</span>
+  <span>Mode test — tout déverrouillé</span>
+  <button onclick="passerQuestion()" style="font-family:'Fredoka';font-size:14px;border:none;cursor:pointer;background:#5a5a5a;color:#fff;border-radius:12px;padding:7px 12px;font-weight:500">⏭ Passer</button>
+  <button onclick="Object.keys(unlocked).forEach(function(k){unlocked[k]=true;});updateMap();" style="font-family:'Fredoka';font-size:14px;border:none;cursor:pointer;background:#5a5a5a;color:#fff;border-radius:12px;padding:7px 12px;font-weight:500">🔓 Tout débloquer</button>
+</div>
+
+<section id="accueil" class="screen active">
+  <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
+  <div class="hero">
+    <div class="coin">🧊📐</div>
+    <h1>Espaces &amp; Solides</h1>
+    <p class="sub">Reconnaître les solides, calculer des volumes, se repérer dans l'espace. 6 briques à valider !</p>
+  </div>
+  <div class="map">
+    <div class="etape e1" id="mapReconn" onclick="tapTheme('reconn')">
+      <div class="num">🔎</div><div class="txt"><h3>1 · Reconnaître les solides</h3><p>Cube, pavé, cylindre, pyramide, cône, boule…</p></div><div class="status">▶</div>
+    </div>
+    <div class="etape e2" id="mapBoule" onclick="tapTheme('boule')">
+      <div class="num">⚽</div><div class="txt"><h3>2 · Volume d'une boule</h3><p>Formule V = 4/3 × π × r³</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e3" id="mapVolume" onclick="tapTheme('volume')">
+      <div class="num">📦</div><div class="txt"><h3>3 · Volumes des solides</h3><p>Pavé, cylindre, pyramide, cône</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e4" id="mapRepere" onclick="tapTheme('repere')">
+      <div class="num">📍</div><div class="txt"><h3>4 · Se repérer dans un solide</h3><p>Coordonnées des sommets d'un pavé</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e5" id="mapSphere" onclick="tapTheme('sphere')">
+      <div class="num">🌍</div><div class="txt"><h3>5 · Sphère terrestre</h3><p>Latitude, longitude, équateur, méridiens</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e6" id="mapSynth" onclick="tapTheme('synth')">
+      <div class="num">🏆</div><div class="txt"><h3>6 · Problème de synthèse</h3><p>Volumes enchaînés, conversions</p></div><div class="status">🔒</div>
+    </div>
+  </div>
+</section>
+
+<section id="expReconn" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Reconnaître les solides</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">La leçon</span>
+    <p class="lead">Les solides usuels :</p>
+    <ul class="lead" style="text-align:left">
+      <li><b>Cube</b> : 6 faces carrées égales.</li>
+      <li><b>Pavé droit</b> : 6 faces rectangulaires.</li>
+      <li><b>Prisme droit</b> : deux bases identiques, faces latérales rectangulaires.</li>
+      <li><b>Cylindre</b> : deux bases circulaires, une surface latérale.</li>
+      <li><b>Pyramide</b> : base polygonale, sommet commun à toutes les faces triangulaires.</li>
+      <li><b>Cône</b> : base circulaire et un sommet.</li>
+      <li><b>Boule (sphère)</b> : tous les points à la même distance du centre.</li>
+    </ul>
+    <p class="note">Astuce : le nombre de faces, d'arêtes et de sommets aide à distinguer les solides.</p>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('reconn')">Je m'entraîne ➜</button></div>
+</section>
+
+<section id="expBoule" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Volume d'une boule</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">La leçon</span>
+    <p class="lead">La formule du volume d'une boule de rayon <b>r</b> est :</p>
+    <div class="mid"><span class="formule">V = 4/3 × π × r³</span></div>
+    <p class="note">Méthode : calculer r³ d'abord, puis multiplier par π, puis par 4/3.<br>Résultat exact en cm³ (fraction × π), puis approché avec la touche π de la calculatrice.</p>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('boule')">Je m'entraîne ➜</button></div>
+</section>
+
+<section id="expVolume" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Volumes des solides</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">La leçon</span>
+    <p class="lead">Formules à connaître :</p>
+    <ul class="lead" style="text-align:left">
+      <li><b>Pavé droit</b> : V = longueur × largeur × hauteur</li>
+      <li><b>Cylindre</b> : V = π × r² × h</li>
+      <li><b>Pyramide</b> : V = 1/3 × Aire base × hauteur</li>
+      <li><b>Cône</b> : V = 1/3 × π × r² × h</li>
+    </ul>
+    <p class="note">Pour pyramide et cône, on divise toujours par 3 !</p>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('volume')">Je m'entraîne ➜</button></div>
+</section>
+
+<section id="expRepere" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Se repérer dans un solide</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">🗺️ La leçon</span>
+    <p class="lead" style="text-align:center">Comment indiquer <b>exactement où est un sommet</b> dans un pavé ?</p>
+    <div class="figbox" id="repere-fig"></div>
+  </div>
+
+  <div class="card" id="repere-tuto">
+
+    <!-- STEP 0: Concrete analogy -->
+    <div id="repere-step0" class="repere-step on">
+      <p class="lead" style="text-align:center">🏠 Imagine que tu es dans le coin d'une pièce — c'est le point <b>A</b> !</p>
+      <div style="background:var(--creme);border-radius:16px;padding:12px;margin:8px 0">
+        <p class="lead" style="margin:0">Depuis <b>A</b>, tu peux aller dans <b>3 directions</b> :</p>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+          <div style="background:#FF8A4C22;border-radius:12px;padding:8px 14px;display:flex;align-items:center;gap:10px">
+            <span style="font-size:1.4rem">→</span>
+            <span class="lead" style="margin:0"><b style="color:#FF8A4C">Direction x</b> = aller à DROITE (vers B)</span>
+          </div>
+          <div style="background:#FFC93C22;border-radius:12px;padding:8px 14px;display:flex;align-items:center;gap:10px">
+            <span style="font-size:1.4rem">↗</span>
+            <span class="lead" style="margin:0"><b style="color:#c8a200">Direction y</b> = aller en PROFONDEUR (vers D)</span>
+          </div>
+          <div style="background:#46BECB22;border-radius:12px;padding:8px 14px;display:flex;align-items:center;gap:10px">
+            <span style="font-size:1.4rem">↑</span>
+            <span class="lead" style="margin:0"><b style="color:#46BECB">Direction z</b> = monter en HAUTEUR (vers E)</span>
+          </div>
+        </div>
+      </div>
+      <p class="note">📐 Le pavé ci-dessus : longueur <b>l = 5</b>, largeur <b>L = 3</b>, hauteur <b>h = 4</b></p>
+      <div class="mid" style="margin-top:12px"><button class="btn teal" onclick="repereNext(1)">Je comprends ! ➜</button></div>
+    </div>
+
+    <!-- STEP 1: Interactive axis discovery -->
+    <div id="repere-step1" class="repere-step" style="display:none">
+      <p class="lead" style="text-align:center">👇 Clique sur une direction pour la voir sur le pavé !</p>
+      <div id="repere-axis-fig" style="text-align:center;margin:8px 0"></div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0">
+        <button class="btn orange" onclick="repereShowAxis('x')">→ Direction x</button>
+        <button class="btn" style="background:#c8a200;box-shadow:0 6px 0 #8a6a00" onclick="repereShowAxis('y')">↗ Direction y</button>
+        <button class="btn teal" onclick="repereShowAxis('z')">↑ Direction z</button>
+      </div>
+      <div id="repere-axis-info" style="min-height:60px;display:flex;justify-content:center;align-items:center">
+        <p class="note" id="repere-axis-msg">← Clique sur une direction !</p>
+      </div>
+      <div class="mid" style="margin-top:12px"><button class="btn teal" onclick="repereNext(2)">J'ai vu les 3 directions ! ➜</button></div>
+    </div>
+
+    <!-- STEP 2: Guided example on vertex F -->
+    <div id="repere-step2" class="repere-step" style="display:none">
+      <p class="lead" style="text-align:center">🎯 Trouvons ensemble les coordonnées du sommet <b style="color:#A78BC4">F</b> !</p>
+      <div id="repere-f-fig" style="text-align:center;margin:8px 0"></div>
+      <div style="background:var(--creme);border-radius:16px;padding:12px;margin:8px 0">
+        <p class="lead" style="margin:0">Pour aller de A jusqu'à <b>F</b> :</p>
+        <div id="repere-f-steps" style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+          <div style="background:#FF8A4C22;border-radius:12px;padding:8px 14px">
+            <b style="color:#FF8A4C">→ x</b> : va à droite jusqu'au bout = <b>5 cm</b> (la longueur entière)
+          </div>
+          <div style="background:#FFC93C22;border-radius:12px;padding:8px 14px">
+            <b style="color:#c8a200">↗ y</b> : reste au bord, ne va pas en profondeur = <b>0 cm</b>
+          </div>
+          <div style="background:#46BECB22;border-radius:12px;padding:8px 14px">
+            <b style="color:#46BECB">↑ z</b> : monte jusqu'en haut = <b>4 cm</b> (la hauteur entière)
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:12px">
+          <span class="formule">F = (5 ; 0 ; 4)</span>
+        </div>
+      </div>
+      <p class="note">💡 A = (0 ; 0 ; 0) car c'est le point de départ — il n'a bougé dans aucune direction !</p>
+      <div class="mid" style="margin-top:12px"><button class="btn teal" onclick="repereNext(3)">Explore les autres sommets ➜</button></div>
+    </div>
+
+    <!-- STEP 3: Free exploration (clickable vertices) -->
+    <div id="repere-step3" class="repere-step" style="display:none">
+      <p class="lead" style="text-align:center">🔍 À toi ! Clique sur chaque sommet pour découvrir ses coordonnées !</p>
+      <div id="repere-click-fig" style="text-align:center;margin:8px 0"></div>
+      <div id="repere-click-info" style="min-height:72px;display:flex;justify-content:center;align-items:center;margin:6px 0">
+        <p class="note" id="repere-click-msg">← Clique sur un sommet coloré !</p>
+      </div>
+      <div class="mid" style="margin-top:12px">
+        <button class="btn vert" onclick="startTrain('repere')">Je m'entraîne ➜</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="expSphere" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Sphère terrestre 🌍</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">🌍 La leçon</span>
+    <p class="lead" style="text-align:center">La Terre est (presque) une <b>sphère</b> ! Découvre comment se repérer dessus étape par étape.</p>
+    <div class="figbox"><div id="sphere-fig" style="text-align:center"></div></div>
+  </div>
+
+  <div class="card" id="sphere-tuto">
+    <div id="sphere-step0" class="repere-step on">
+      <p class="lead" style="text-align:center">La Terre est une <b>sphère</b> ! Elle tourne autour d'un axe qui passe par deux <b>pôles</b> :</p>
+      <div style="display:flex;justify-content:center;gap:24px;margin:12px 0">
+        <div style="text-align:center;background:var(--creme);border-radius:16px;padding:10px 18px">
+          🔴<br><b>Pôle Nord</b><br><span style="font-size:.85rem;color:var(--bois-clair)">tout en haut</span>
+        </div>
+        <div style="text-align:center;background:var(--creme);border-radius:16px;padding:10px 18px">
+          🔴<br><b>Pôle Sud</b><br><span style="font-size:.85rem;color:var(--bois-clair)">tout en bas</span>
+        </div>
+      </div>
+      <p class="note">👆 Les deux points rouges N et S sur le globe, ce sont les pôles !</p>
+      <div class="mid" style="margin-top:12px"><button class="btn bleu" onclick="sphereNext(1)">Qu'est-ce que l'équateur ? ➜</button></div>
+    </div>
+
+    <div id="sphere-step1" class="repere-step" style="display:none">
+      <div style="background:#deeeff;border-radius:16px;padding:12px;margin:0 0 12px 0">
+        <p class="lead" style="margin:0">🤔 Pourquoi des <b>degrés</b> ?</p>
+        <p class="note" style="margin:6px 0 0">La Terre est une boule — on ne peut pas dire "je suis à 5 000 km au nord" car la route est courbée ! À la place, on mesure un <b>angle</b> depuis le centre de la Terre :<br>comme une rapporteur géante — de 0° (équateur) jusqu'à 90° (pôle) !</p>
+        <div id="sphere-angle-fig" style="text-align:center;margin-top:8px"></div>
+      </div>
+      <p class="lead">🔵 Entre les deux pôles, il y a un grand cercle imaginaire : <b>l'équateur</b> !</p>
+      <div style="background:var(--creme);border-radius:16px;padding:12px;margin:8px 0">
+        <p class="lead" style="margin:0;text-align:center">L'équateur coupe la Terre en deux parties égales :</p>
+        <ul class="lead" style="text-align:left;margin:6px 0">
+          <li>La partie au-dessus = <b>hémisphère Nord</b></li>
+          <li>La partie en dessous = <b>hémisphère Sud</b></li>
+        </ul>
+        <p class="note">L'équateur a une <b>latitude de 0°</b> — c'est le point de départ ! Observe le cercle bleu sur le globe !</p>
+      </div>
+      <div class="mid" style="margin-top:12px"><button class="btn bleu" onclick="sphereNext(2)">C'est quoi la latitude ? ➜</button></div>
+    </div>
+
+    <div id="sphere-step2" class="repere-step" style="display:none">
+      <p class="lead">🌊 Les <b>parallèles</b> sont des cercles horizontaux — ils mesurent la <b>latitude</b></p>
+      <div style="background:var(--creme);border-radius:16px;padding:12px;margin:8px 0">
+        <p class="lead" style="margin:0">La latitude = l'angle entre l'équateur et un point :</p>
+        <ul class="lead" style="text-align:left;margin:6px 0">
+          <li>Équateur = <b>0°</b></li>
+          <li>30° N, 60° N = entre équateur et Pôle Nord</li>
+          <li>Pôle Nord = <b>90° N</b> (tout en haut)</li>
+          <li>Pôle Sud = <b>90° S</b> (tout en bas)</li>
+        </ul>
+        <p class="note">👆 Vois les cercles teal/bleu sur le globe — ce sont les parallèles !</p>
+      </div>
+      <div class="mid" style="margin-top:12px"><button class="btn bleu" onclick="sphereNext(3)">Et la longitude ? ➜</button></div>
+    </div>
+
+    <div id="sphere-step3" class="repere-step" style="display:none">
+      <p class="lead">🟠 Les <b>méridiens</b> relient le Pôle Nord au Pôle Sud — ils mesurent la <b>longitude</b></p>
+      <p class="note" style="margin-top:8px">💡 La longitude = même principe mais vu <b>d'en haut</b> (depuis le pôle Nord) : on mesure l'angle entre Greenwich et ta position, en tournant vers l'Est ou l'Ouest.</p>
+      <div style="background:var(--creme);border-radius:16px;padding:12px;margin:8px 0">
+        <p class="lead" style="margin:0">La longitude = l'angle depuis le méridien de Greenwich :</p>
+        <ul class="lead" style="text-align:left;margin:6px 0">
+          <li>Méridien de Greenwich = <b>longitude 0°</b> (la ligne orange)</li>
+          <li>On va de <b>180° Ouest</b> à <b>180° Est</b></li>
+        </ul>
+        <p class="note">👆 La ligne orange verticale = Greenwich (0°). La courbe violette = 90° Est !</p>
+      </div>
+      <div class="mid" style="margin-top:12px"><button class="btn bleu" onclick="sphereNext(4)">Mini quiz ! 🎯 ➜</button></div>
+    </div>
+
+    <div id="sphere-step4" class="repere-step" style="display:none">
+      <p class="lead" style="text-align:center">🎯 Teste tes connaissances — le globe t'aide !</p>
+      <div id="sphere-quiz"></div>
+      <div class="mid" style="margin-top:12px"><button class="btn vert" id="sphere-go" style="display:none" onclick="startTrain('sphere')">Je m'entraîne ! ➜</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="expSynth" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Problème de synthèse</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--or)">La leçon</span>
+    <p class="lead">Pour résoudre un problème composé :</p>
+    <ol class="lead" style="text-align:left">
+      <li>Identifier chaque solide et sa formule.</li>
+      <li>Calculer chaque volume séparément.</li>
+      <li>Additionner ou soustraire selon la situation.</li>
+      <li>Convertir si nécessaire : 1 m³ = 1 000 L</li>
+    </ol>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('synth')">Je m'entraîne ➜</button></div>
+</section>
+
+<section id="ecranTrain" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="card" id="tq_card">
+    <div class="serieprog" id="tq_prog"></div>
+    <div class="helpnote" id="tq_help"></div>
+    <div class="qcard">
+      <div class="qcat" id="tq_cat"></div>
+      <div class="figbox" id="tq_viz" style="display:none"></div>
+      <div class="question" id="tq_text"></div>
+      <div class="opts" id="tq_opts" style="display:none"></div>
+      <div class="ansrow" id="tq_ansrow">
+        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="tq_casc" style="display:none"></div>
+      <div id="tq_work">
+        <div class="mathpad" id="tq_pad"></div>
+        <div class="brouillon-lab">✏️ Brouillon (facultatif)</div>
+        <textarea id="tq_brouillon" class="brouillon" rows="3" placeholder="Pose tes calculs ici…"></textarea>
+      </div>
+      <div class="feedback" id="tq_feed"></div>
+      <div class="stars" id="tq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant ➜</button></div>
+    </div>
+  </div>
+  <div class="card result" id="tq_result" style="display:none">
+    <div class="big" id="tq_rbig"></div>
+    <div class="msg" id="tq_rmsg"></div>
+    <div class="rbtns" id="tq_rbtns"></div>
+  </div>
+</section>
+
+</div>
+
+<button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Calculatrice">🧮</button>
+<div id="kcPanel" class="kc-panel" hidden>
+  <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()">✕</button></div>
+  <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
+  <div class="kc-keys" id="kcKeys"></div>
+  <button onclick="kcSend()" style="margin-top:10px;width:100%;font-family:'Fredoka',sans-serif;font-weight:700;font-size:15px;border:none;cursor:pointer;background:#8BC34A;color:#fff;border-radius:14px;padding:11px;box-shadow:0 4px 0 #5E9426;">⬆ Envoyer le résultat dans la réponse</button>
+</div>
+
+<script>
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Espaces & Solides'};
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+var SSDONE={};
+function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom+' › '+label);b.append(SUIVI.f.statut,'Terminé');b.append(SUIVI.f.score,'');b.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+
+const ORDER=['reconn','boule','volume','repere','sphere','synth'];
+const EXP={reconn:'expReconn',boule:'expBoule',volume:'expVolume',repere:'expRepere',sphere:'expSphere',synth:'expSynth'};
+const MAPID={reconn:'mapReconn',boule:'mapBoule',volume:'mapVolume',repere:'mapRepere',sphere:'mapSphere',synth:'mapSynth'};
+const TITLE={reconn:'Reconnaître les solides',boule:'Volume d\'une boule',volume:'Volumes des solides',repere:'Se repérer',sphere:'Sphère terrestre',synth:'Synthèse'};
+const unlocked={reconn:true,boule:false,volume:false,repere:false,sphere:false,synth:false};
+const themeDone={reconn:false,boule:false,volume:false,repere:false,sphere:false,synth:false};
+let currentTheme='reconn';
+const SERIE=8, SEUIL=6;
+const CASCADE_THEMES={boule:true,volume:true,synth:true};
+function serieLen(){return CASCADE_THEMES[currentTheme]?4:SERIE;}
+function seuilFor(){return CASCADE_THEMES[currentTheme]?3:SEUIL;}
+const CATNOM={reconn:'Solides',boule:'Boule',volume:'Volumes',repere:'Repérage',sphere:'Sphère terrestre',synth:'Synthèse'};
+const HELP={reconn:'Observe le nombre de faces, d\'arêtes et de sommets pour identifier le solide.',boule:'V = 4/3 × π × r³ — calcule r³ d\'abord.',volume:'Applique la bonne formule selon le solide. Divise par 3 pour pyramide et cône.',repere:'O est en A, x = AB, y = AD, z = AE.',sphere:'Latitude = angle depuis l\'équateur, longitude = angle depuis Greenwich.',synth:'Identifie chaque solide, calcule chaque volume, puis additionne ou convertis.'};
+function gid(x){return document.getElementById(x);}
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));gid(id).classList.add('active');window.scrollTo(0,0);}
+function wiggle(id){const el=gid(id);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}
+function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
+function openTheme(t){currentTheme=t;go(EXP[t]);}
+function updateMap(){ORDER.forEach(t=>{const c=gid(MAPID[t]);c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');});}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function rint(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function r2(v){return Math.round(v*100)/100;}
+function fmtDec(v){return (Math.round(v*100)/100).toString().replace('.',',');}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function qcm(cat,t,opts,ci,e,viz){const o=shuffle(opts);return {type:'qcm',cat,text:t,options:o,correct:o.indexOf(opts[ci]),explain:e,viz:viz||null};}
+
+function svgSolide(type){
+  if(type==='cube'){return '<svg class="fig" viewBox="0 0 140 108"><polygon points="20,100 20,30 80,30 80,100" fill="#e3f5f8" stroke="#5C3D2E" stroke-width="2"/><polygon points="20,30 55,5 115,5 80,30" fill="#FFF4DC" stroke="#5C3D2E" stroke-width="2"/><polygon points="80,30 115,5 115,75 80,100" fill="#BCE29A" stroke="#5C3D2E" stroke-width="2"/></svg>';}
+  if(type==='pave'){return '<svg class="fig" viewBox="0 0 160 108"><polygon points="10,100 10,50 90,50 90,100" fill="#e3f5f8" stroke="#5C3D2E" stroke-width="2"/><polygon points="10,50 35,25 115,25 90,50" fill="#FFF4DC" stroke="#5C3D2E" stroke-width="2"/><polygon points="90,50 115,25 115,75 90,100" fill="#BCE29A" stroke="#5C3D2E" stroke-width="2"/></svg>';}
+  if(type==='cylindre'){return '<svg class="fig" viewBox="0 0 120 116"><ellipse cx="60" cy="35" rx="45" ry="14" fill="#FFF4DC" stroke="#5C3D2E" stroke-width="2"/><rect x="15" y="35" width="90" height="65" fill="#e3f5f8" stroke="none"/><line x1="15" y1="35" x2="15" y2="100" stroke="#5C3D2E" stroke-width="2"/><line x1="105" y1="35" x2="105" y2="100" stroke="#5C3D2E" stroke-width="2"/><ellipse cx="60" cy="100" rx="45" ry="14" fill="#BCE29A" stroke="#5C3D2E" stroke-width="2"/></svg>';}
+  if(type==='pyramide'){return '<svg class="fig" viewBox="0 0 140 116"><polygon points="70,10 120,100 20,100" fill="#FFF4DC" stroke="#5C3D2E" stroke-width="2"/><ellipse cx="70" cy="100" rx="50" ry="12" fill="#BCE29A" stroke="#5C3D2E" stroke-width="2"/><line x1="70" y1="10" x2="20" y2="100" stroke="#5C3D2E" stroke-width="2"/><line x1="70" y1="10" x2="120" y2="100" stroke="#5C3D2E" stroke-width="2"/></svg>';}
+  if(type==='cone'){return '<svg class="fig" viewBox="0 0 120 116"><polygon points="60,10 110,100 10,100" fill="#FFF4DC" stroke="#5C3D2E" stroke-width="2"/><ellipse cx="60" cy="100" rx="50" ry="12" fill="#BCE29A" stroke="#5C3D2E" stroke-width="2"/></svg>';}
+  if(type==='boule'){return '<svg class="fig" viewBox="0 0 120 106"><circle cx="60" cy="52" r="45" fill="#e3f5f8" stroke="#5C3D2E" stroke-width="2"/><ellipse cx="60" cy="52" rx="45" ry="14" fill="none" stroke="#8a6650" stroke-width="1.5" stroke-dasharray="5 3"/></svg>';}
+  if(type==='prisme'){return '<svg class="fig" viewBox="0 0 150 106"><polygon points="10,100 10,50 60,20 110,50 110,100 60,70" fill="#e3f5f8" stroke="#5C3D2E" stroke-width="2"/><polygon points="10,50 60,20 110,50" fill="#FFF4DC" stroke="#5C3D2E" stroke-width="2"/></svg>';}
+  return '';
+}
+function svgGlobeDetailed(step,lat,lon,label){
+  var cx=120,cy=100,R=78;
+  var svg='<svg viewBox="0 0 260 210" style="max-width:300px;width:100%;height:auto;font-family:Fredoka,sans-serif">';
+  svg+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="#deeeff" stroke="#2f7ba8" stroke-width="2.5"/>';
+  if(step>=1){
+    var ry_eq=Math.round(R*0.21);
+    svg+='<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+R+'" ry="'+ry_eq+'" fill="none" stroke="#2f7ba8" stroke-width="2.5"/>';
+    svg+='<text x="'+(cx+R+3)+'" y="'+(cy+4)+'" font-size="11" fill="#2f7ba8" font-weight="700">0°</text>';
+    svg+='<text x="'+(cx-R-2)+'" y="'+(cy-ry_eq-4)+'" text-anchor="end" font-size="10" fill="#2f7ba8" font-weight="700">Équateur</text>';
+  }
+  if(step>=2){
+    var anglesP=[30,60];
+    var parCols=['#46BECB','#4FA3D1'];
+    anglesP.forEach(function(a,ai){
+      var phi=a*Math.PI/180;
+      var yn=(cy-R*Math.sin(phi));
+      var rxn=(R*Math.cos(phi));
+      var ryn=Math.round(rxn*0.21);
+      svg+='<ellipse cx="'+cx+'" cy="'+yn.toFixed(1)+'" rx="'+rxn.toFixed(1)+'" ry="'+ryn+'" fill="none" stroke="'+parCols[ai]+'" stroke-width="1.5" stroke-dasharray="5 3"/>';
+      svg+='<text x="'+(cx+rxn+3).toFixed(1)+'" y="'+(yn+4).toFixed(1)+'" font-size="10" fill="'+parCols[ai]+'" font-weight="700">'+a+'°N</text>';
+      var ys=(cy+R*Math.sin(phi));
+      svg+='<ellipse cx="'+cx+'" cy="'+ys.toFixed(1)+'" rx="'+rxn.toFixed(1)+'" ry="'+ryn+'" fill="none" stroke="'+parCols[ai]+'" stroke-width="1" stroke-dasharray="4 3" opacity="0.6"/>';
+    });
+  }
+  if(step>=3){
+    svg+='<line x1="'+cx+'" y1="'+(cy-R)+'" x2="'+cx+'" y2="'+(cy+R)+'" stroke="#FF8A4C" stroke-width="2" stroke-dasharray="6 3"/>';
+    svg+='<text x="'+(cx+3)+'" y="'+(cy-R-6)+'" font-size="9" fill="#FF8A4C" font-weight="700">0° Greenwich</text>';
+    svg+='<path d="M '+cx+','+(cy-R)+' A '+R+','+R+' 0 0,1 '+cx+','+(cy+R)+'" fill="none" stroke="#A78BC4" stroke-width="1.5" stroke-dasharray="5 3"/>';
+    svg+='<text x="'+(cx+R+3)+'" y="'+(cy+4)+'" font-size="10" fill="#A78BC4" font-weight="700">90°E</text>';
+    svg+='<text x="'+cx+'" y="'+(cy+R+14)+'" text-anchor="middle" font-size="9" fill="#FF8A4C" font-weight="700">← longitude →</text>';
+  }
+  if(step>=4&&lat!==undefined){
+    var phi2=lat*Math.PI/180;
+    var lam2=(lon||0)*Math.PI/180;
+    var px=(cx+R*Math.cos(phi2)*Math.sin(lam2));
+    var py=(cy-R*Math.sin(phi2));
+    svg+='<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="9" fill="#EF5D60" stroke="#fff" stroke-width="2.5"/>';
+    if(label)svg+='<text x="'+(px+12).toFixed(1)+'" y="'+(py+4).toFixed(1)+'" font-size="11" fill="#EF5D60" font-weight="700">'+label+'</text>';
+  }
+  svg+='<circle cx="'+cx+'" cy="'+(cy-R)+'" r="6" fill="#EF5D60" stroke="#fff" stroke-width="2"/>';
+  svg+='<text x="'+(cx-10)+'" y="'+(cy-R-8)+'" text-anchor="middle" font-size="12" fill="#EF5D60" font-weight="700">N</text>';
+  svg+='<circle cx="'+cx+'" cy="'+(cy+R)+'" r="6" fill="#EF5D60" stroke="#fff" stroke-width="2"/>';
+  svg+='<text x="'+(cx-10)+'" y="'+(cy+R+16)+'" text-anchor="middle" font-size="12" fill="#EF5D60" font-weight="700">S</text>';
+  svg+='</svg>';
+  return svg;
+}
+function svgPave(l,L,h){
+  return '<svg class="fig" viewBox="0 0 200 160"><polygon points="20,130 20,60 100,60 100,130" fill="#e3f5f8" stroke="#5C3D2E" stroke-width="2"/><polygon points="20,60 50,30 130,30 100,60" fill="#FFF4DC" stroke="#5C3D2E" stroke-width="2"/><polygon points="100,60 130,30 130,100 100,130" fill="#BCE29A" stroke="#5C3D2E" stroke-width="2"/><text x="55" y="155" text-anchor="middle" font-family="Fredoka" font-size="13" fill="#5C3D2E">l='+l+' y='+L+' h='+h+'</text></svg>';
+}
+
+var SOLIDES=['cube','pave','cylindre','pyramide','cone','boule','prisme'];
+var SNOMS={cube:'Cube',pave:'Pavé droit',cylindre:'Cylindre',pyramide:'Pyramide',cone:'Cône',boule:'Boule (sphère)',prisme:'Prisme droit'};
+
+function genReconn(){
+  var s=pick(SOLIDES);
+  var autres=shuffle(SOLIDES.filter(x=>x!==s)).slice(0,3);
+  var opts=[SNOMS[s],SNOMS[autres[0]],SNOMS[autres[1]],SNOMS[autres[2]]];
+  return qcm('reconn','Quel est ce solide ?',opts,0,'C\'est un '+SNOMS[s]+'.',svgSolide(s));
+}
+
+function genBoule(){
+  var r=pick([3,4,5,6]);
+  var r3=r*r*r;
+  var vExact=4*r3/3;
+  var vApprox=Math.round(4/3*Math.PI*r3);
+  var steps=[
+    {prompt:'Étape 1 — Calcule r³ (r = '+r+' cm).',
+     aide:r+' × '+r+' × '+r+' = ?',
+     parts:['r³ = ',{b:1,kind:'num',ans:r3,show:''+r3,w:70},' cm³']},
+    {prompt:'Étape 2 — Calcule le volume : V = 4 ÷ 3 × π × r³.',
+     aide:'🧮 Tape dans la calculatrice : 4 ÷ 3 × π × '+r3+' 🟰<br>Tu dois trouver environ <b>'+vApprox+' cm³</b>.',
+     parts:['V ≈ ',{b:1,kind:'num',ans:vApprox,tol:2,show:''+vApprox,w:90},' cm³']}
+  ];
+  return {type:'cascade',cat:'boule',sig:'B'+r,
+    text:'Une boule a un rayon r = '+r+' cm. Calcule son volume en cm³ (approché au cm³ près).',
+    viz:svgSolide('boule'),steps:steps};
+}
+
+function genVolume(){
+  var type=pick(['pave','cylindre','pyramide','cone']);
+  if(type==='pave'){
+    var l=rint(2,8),w=rint(2,8),h=rint(2,8);
+    var v=l*w*h;
+    var steps=[
+      {prompt:'Calcule le volume du pavé (V = l × L × h).',aide:'V = '+l+' × '+w+' × '+h,parts:['V = ',{b:1,kind:'num',ans:v,show:''+v,w:80},' cm³']}
+    ];
+    return {type:'cascade',cat:'volume',sig:'Pave'+l+w+h,text:'Un pavé mesure '+l+' cm × '+w+' cm × '+h+' cm. Calcule son volume.',viz:null,steps:steps};
+  }
+  if(type==='cylindre'){
+    var r=rint(2,7),h=rint(3,10);
+    var vex=r*r*h;
+    var vap=r2(Math.PI*r*r*h);
+    var steps=[
+      {prompt:'Étape 1 — Calcule r².',aide:'r = '+r+', donc r² = r × r',parts:['r² = ',{b:1,kind:'num',ans:r*r,show:''+(r*r),w:60,mini:true},' cm²']},
+      {prompt:'Étape 2 — Calcule le volume (V = π × r² × h).',aide:'V = π × '+(r*r)+' × '+h,parts:['V ≈ ',{b:1,kind:'num',ans:vap,tol:1,show:fmtDec(vap),w:100},' cm³']}
+    ];
+    return {type:'cascade',cat:'volume',sig:'Cyl'+r+h,text:'Un cylindre a r = '+r+' cm et h = '+h+' cm. Calcule son volume (arrondi au cm³).',viz:svgSolide('cylindre'),steps:steps};
+  }
+  if(type==='pyramide'){
+    var a=rint(3,8),b2=rint(3,8),h=rint(4,10);
+    var ab=a*b2;
+    var v=r2(ab*h/3);
+    var steps=[
+      {prompt:'Étape 1 — Calcule l\'aire de la base ('+a+' cm × '+b2+' cm).',aide:'Abase = a × b',parts:['Abase = ',{b:1,kind:'num',ans:ab,show:''+ab,w:70},' cm²']},
+      {prompt:'Étape 2 — Calcule le volume (V = 1/3 × Abase × h).',aide:'V = (1/3) × '+ab+' × '+h,parts:['V = ',{b:1,kind:'num',ans:v,tol:0.1,show:fmtDec(v),w:80},' cm³']}
+    ];
+    return {type:'cascade',cat:'volume',sig:'Pyr'+a+b2+h,text:'Une pyramide à base rectangulaire '+a+' cm × '+b2+' cm, hauteur '+h+' cm. Calcule son volume.',viz:svgSolide('pyramide'),steps:steps};
+  }
+  var r=rint(2,6),h=rint(3,9);
+  var vap=r2(Math.PI*r*r*h/3);
+  var steps=[
+    {prompt:'Étape 1 — Calcule r².',aide:'r = '+r+', donc r² = r × r',parts:['r² = ',{b:1,kind:'num',ans:r*r,show:''+(r*r),w:60,mini:true},' cm²']},
+    {prompt:'Étape 2 — Calcule le volume (V = 1/3 × π × r² × h).',aide:'V = π × '+(r*r)+' × '+h+' ÷ 3',parts:['V ≈ ',{b:1,kind:'num',ans:vap,tol:1,show:fmtDec(vap),w:100},' cm³']}
+  ];
+  return {type:'cascade',cat:'volume',sig:'Cone'+r+h,text:'Un cône a r = '+r+' cm et h = '+h+' cm. Calcule son volume (arrondi au cm³).',viz:svgSolide('cone'),steps:steps};
+}
+
+function genRepere(){
+  var l=rint(3,9),w=rint(2,7),h=rint(2,8);
+  var sommets={
+    A:[0,0,0],B:[l,0,0],C:[l,w,0],D:[0,w,0],
+    E:[0,0,h],F:[l,0,h],G:[l,w,h],H:[0,w,h]
+  };
+  var keys=Object.keys(sommets);
+  var key=pick(keys);
+  var coords=sommets[key];
+  var pool=[
+    [coords[0],coords[1],coords[2]],
+    [l-coords[0]||l,coords[1],coords[2]],
+    [coords[0],w-coords[1]||w,coords[2]],
+    [coords[0],coords[1],h-coords[2]||h]
+  ];
+  var dedupPool=[];
+  pool.forEach(p=>{var s=p.join(',');if(!dedupPool.find(x=>x[1]===s))dedupPool.push([p,s]);});
+  while(dedupPool.length<4)dedupPool.push([[rint(0,l),rint(0,w),rint(0,h)],Math.random()]);
+  var opts=dedupPool.slice(0,4).map(x=>'('+x[0].join(' ; ')+')');
+  var correct='('+coords.join(' ; ')+')';
+  if(!opts.includes(correct))opts[0]=correct;
+  opts=shuffle(opts);
+  return {type:'qcm',cat:'repere',
+    text:'Dans le pavé ABCDEFGH (l='+l+', L='+w+', h='+h+'), quelles sont les coordonnées du sommet '+key+' dans le repère (A ; x, y, z) ?',
+    options:opts,correct:opts.indexOf(correct),
+    explain:'Le sommet '+key+' a pour coordonnées '+correct+'.',viz:svgPaveHighlight(l,w,h,key)};
+}
+
+var SPHERE_QCM=[
+  {q:'Comment appelle-t-on le grand cercle de la Terre situé à égale distance des deux pôles ?',o:['L\'équateur','Le méridien de Greenwich','Un parallèle quelconque'],c:0,e:'L\'équateur est le parallèle de latitude 0°.'},
+  {q:'Quelle est la latitude du pôle Nord ?',o:['90° N','0°','45° N'],c:0,e:'Le pôle Nord est à la latitude 90° Nord.'},
+  {q:'Le méridien de Greenwich a pour longitude…',o:['0°','90° E','180°'],c:0,e:'Greenwich est le méridien de référence, longitude 0°.'},
+  {q:'Les méridiens relient…',o:['Les deux pôles','Les deux équateurs','Les parallèles'],c:0,e:'Les méridiens sont des demi-cercles allant du pôle Nord au pôle Sud.'},
+  {q:'Un parallèle est un cercle…',o:['horizontal à latitude constante','vertical à longitude constante','reliant les pôles'],c:0,e:'Les parallèles sont des cercles horizontaux de même latitude.'},
+  {q:'La latitude mesure un angle entre 0° et 90° depuis…',o:['l\'équateur','le méridien de Greenwich','le pôle Nord'],c:0,e:'La latitude est mesurée depuis l\'équateur (0°) vers les pôles (90°).'},
+  {q:'Deux villes sur le même méridien ont la même…',o:['longitude','latitude','altitude'],c:0,e:'Le méridien regroupe des points de même longitude.'},
+  {q:'La Terre est approximativement une…',o:['sphère','pyramide','boule plate'],c:0,e:'La Terre est approximativement une sphère (géoïde en réalité).'}
+];
+
+function genSphere(){
+  var q=pick(SPHERE_QCM);
+  var opts=shuffle(q.o.slice());
+  var correct=opts.indexOf(q.o[q.c]);
+  return {type:'qcm',cat:'sphere',text:q.q,options:opts,correct:correct,explain:q.e,viz:svgGlobeDetailed(3)};
+}
+
+function genSynth(){
+  var type=pick(['chateau','piscine']);
+  if(type==='chateau'){
+    var r=pick([3,4,5]),hcyl=rint(8,15);
+    var vCyl=Math.round(Math.PI*r*r*hcyl);
+    var vBoule=Math.round(4/3*Math.PI*r*r*r);
+    var vTot=vCyl+vBoule;
+    var vTotL=r2(vTot*1000);
+    var steps=[
+      {prompt:'Étape 1 — Calcule le volume du cylindre (V = π × r² × h).',aide:'🧮 Tape : π × '+r+'² × '+hcyl+' dans la calculatrice. Résultat ≈ <b>'+vCyl+' m³</b>.',parts:['V_cyl ≈ ',{b:1,kind:'num',ans:vCyl,tol:5,show:''+vCyl,w:100},' m³']},
+      {prompt:'Étape 2 — Calcule le volume de la boule (V = 4 ÷ 3 × π × r³).',aide:'🧮 Tape : 4 ÷ 3 × π × '+(r*r*r)+' dans la calculatrice. Résultat ≈ <b>'+vBoule+' m³</b>.',parts:['V_boule ≈ ',{b:1,kind:'num',ans:vBoule,tol:5,show:''+vBoule,w:100},' m³']},
+      {prompt:'Étape 3 — Volume total.',aide:'V_tot = V_cyl + V_boule',parts:['V_tot ≈ ',{b:1,kind:'num',ans:vTot,tol:5,show:''+vTot,w:100},' m³']},
+      {prompt:'Étape 4 — Convertis en litres (1 m³ = 1 000 L).',aide:'Multiplie le volume en m³ par 1 000.',parts:['V_tot ≈ ',{b:1,kind:'num',ans:vTotL,tol:5000,show:fmtDec(vTotL),w:120},' L']}
+    ];
+    return {type:'cascade',cat:'synth',sig:'Ch'+r+hcyl,
+      text:'Un château d\'eau est formé d\'un cylindre (r = '+r+' m, h = '+hcyl+' m) surmonté d\'une boule de même rayon. Calcule la capacité totale en litres.',
+      viz:null,steps:steps};
+  }
+  var l=rint(10,20),w=rint(4,8),hp=pick([1.2,1.5,2.0]);
+  var vp=r2(l*w*hp);
+  var vpL=r2(vp*1000);
+  var steps=[
+    {prompt:'Étape 1 — Calcule le volume de la piscine (V = l × L × h).',aide:'V = '+l+' × '+w+' × '+hp,parts:['V = ',{b:1,kind:'num',ans:vp,tol:0.1,show:fmtDec(vp),w:100},' m³']},
+    {prompt:'Étape 2 — Convertis en litres (1 m³ = 1 000 L).',aide:'Multiplie par 1 000',parts:['V = ',{b:1,kind:'num',ans:vpL,tol:100,show:fmtDec(vpL),w:120},' L']}
+  ];
+  return {type:'cascade',cat:'synth',sig:'Pi'+l+w+hp,
+    text:'Une piscine rectangulaire mesure '+l+' m × '+w+' m, profondeur '+hp+' m. Quel est son volume en litres ?',
+    viz:null,steps:steps};
+}
+
+var GEN={reconn:genReconn,boule:genBoule,volume:genVolume,repere:genRepere,sphere:genSphere,synth:genSynth};
+function passerQuestion(){if(Q.cur&&Q.cur.type==='cascade'){Q.answered++;if(Q.guided&&Q.answered>=serieLen()){quizResult();}else{quizNext();}}else{quizNext();}}
+
+function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<18;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=1800+Math.random()*1000;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
+function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;var v=parseFloat(s);return isFinite(v)?v:null;}
+
+var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastText:'',timer:0,casc:null};
+function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),next:gid('tq_next'),casc:gid('tq_casc'),work:gid('tq_work'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
+
+function quizStart(cats,guided,els){Q.cats=cats;Q.guided=guided;Q.els=els;Q.score=0;Q.answered=0;Q.correct=0;Q.streak=0;Q.locked=false;Q.lastText='';
+  if(els.result)els.result.style.display='none';if(els.card)els.card.style.display='block';
+  quizScore();quizNext();}
+function quizScore(){var e=Q.els;
+  if(Q.guided&&e.prog)e.prog.innerHTML='Question <b>'+Math.min(Q.answered+1,serieLen())+'</b> / '+serieLen()+'  ·  ✅ '+Q.correct;}
+function quizNext(){clearTimeout(Q.timer);
+  if(Q.guided&&Q.answered>=serieLen()){return quizResult();}
+  Q.locked=false;var e=Q.els;e.feed.textContent='';e.feed.className='feedback';if(e.stars)e.stars.textContent='';if(e.next)e.next.style.display='none';
+  if(e.casc){e.casc.style.display='none';e.casc.innerHTML='';}
+  var cat,cur,tries=0;do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while((cur.sig||cur.text)===Q.lastText&&tries<8);
+  Q.cur=cur;Q.lastText=(cur.sig||cur.text);e.cat.textContent=CATNOM[cat];e.text.textContent=cur.text;
+  if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
+  if(cur.type==='qcm'){if(e.work)e.work.style.display='none';e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';cur.options.forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=function(){quizPick(i);};e.opts.appendChild(b);});}
+  else if(cur.type==='cascade'){if(e.work)e.work.style.display='none';e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);}
+  else{if(e.work)e.work.style.display='block';e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
+  quizScore();}
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La réponse est '+Q.cur.answer+'.');}
+function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'Bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');}
+function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
+  if(ok){Q.correct++;Q.streak++;e.feed.className='feedback ok';e.feed.innerHTML='✅ Bravo !<div class="feedlab">'+Q.cur.explain+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='❌ '+correctTxt+'<div class="feedlab">'+Q.cur.explain+'</div>';}
+  quizScore();
+  var last=Q.guided&&Q.answered>=serieLen();
+  if(ok&&!last){Q.timer=setTimeout(quizNext,1500);}
+  else{if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}}
+function quizResult(){var e=Q.els;if(!e.result)return;e.card.style.display='none';e.result.style.display='block';
+  var SL=serieLen(),SE=seuilFor();
+  var sc=Q.correct,ok=sc>=SE;try{suiviEnvoi(ok?'Validé':'Échoué',sc,SL);}catch(_){}
+  e.rbig.textContent=sc+' / '+SL;e.rbig.className='big '+(ok?'ok':'no');
+  e.rmsg.innerHTML=ok?'Parcours validé ! Bravo 👏':'Il faut <b>'+SE+'/'+SL+'</b> pour valider. Tu as obtenu '+sc+'/'+SL+'. Réessaie !';
+  e.rbtns.innerHTML='';
+  if(ok){var b=document.createElement('button');b.className='btn vert';b.textContent='Continuer ➜';b.onclick=trainDone;e.rbtns.appendChild(b);}
+  else{var b1=document.createElement('button');b1.className='btn orange';b1.textContent='Nouvelle série 🔄';b1.onclick=function(){startTrain(currentTheme);};e.rbtns.appendChild(b1);
+       var b2=document.createElement('button');b2.className='btn fant';b2.textContent='Passer à la suite ➜';b2.onclick=trainDone;e.rbtns.appendChild(b2);}}
+
+function cscEl(sel){return Q.casc&&Q.casc.box?Q.casc.box.querySelector(sel):null;}
+function cascStart(cur,e){Q.casc={q:cur,clean:true,box:e.casc};e.casc.style.display='block';
+  var html='';cur.steps.forEach(function(st,idx){html+='<div class="cstep'+(idx===0?' on':'')+'" id="cstep'+idx+'"><div class="cprompt">'+st.prompt+'</div><div class="cbody" id="cbody'+idx+'"></div><div class="cfeed" id="cfeed'+idx+'"></div></div>';});
+  e.casc.innerHTML=html;cascRender(e,0);}
+function cascMkBlank(p,e,idx){var inp=document.createElement('input');inp.className='cblank'+(p.mini?' mini':'');inp.setAttribute('inputmode',p.kind==='num'?'decimal':'text');inp.autocomplete='off';if(p.w)inp.style.width=p.w+'px';inp.addEventListener('focus',function(){MATHTARGET=this;});inp.addEventListener('focus',function(){MATHTARGET=this;});inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();cascVerify(e,idx);}});Q.casc.q.steps[idx]._blanks.push({bk:p,el:inp});return inp;}
+function cascRenderParts(parent,arr,e,idx){arr.forEach(function(p){if(typeof p==='string'){var sp=document.createElement('span');sp.textContent=p;parent.appendChild(sp);}else if(p.frac){var f=document.createElement('span');f.className='cfrac';var nu=document.createElement('span');nu.className='cfnum';cascRenderParts(nu,p.frac[0],e,idx);var ba=document.createElement('span');ba.className='cfbar';var de=document.createElement('span');de.className='cfden';cascRenderParts(de,p.frac[1],e,idx);f.appendChild(nu);f.appendChild(ba);f.appendChild(de);parent.appendChild(f);}else{parent.appendChild(cascMkBlank(p,e,idx));}});}
+function cascRender(e,idx){var st=Q.casc.q.steps[idx],body=cscEl('#cbody'+idx);body.innerHTML='';st._tries=0;st._done=false;st._blanks=[];var line=document.createElement('div');line.className='cline';cascRenderParts(line,st.parts,e,idx);body.appendChild(line);var row=document.createElement('div');row.className='cverify';var btn=document.createElement('button');btn.className='btn vert';btn.textContent='Vérifier';btn.onclick=function(){cascVerify(e,idx);};row.appendChild(btn);body.appendChild(row);var f=st._blanks[0];if(f)setTimeout(function(){try{f.el.focus();}catch(_){}},60);}
+function normTxt(s){return String(s).toLowerCase().trim().replace(/\s+/g,'').replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ïî]/g,'i');}
+function blankOK(bk,raw){if(bk.kind==='num'){var v=parseNum(raw);return v!==null&&Math.abs(v-bk.ans)<(bk.tol||0.1);}var n=normTxt(raw);if(n==='')return false;if(bk.mode==='contains')return bk.accept.some(function(a){return n.indexOf(a)>=0;});return bk.accept.indexOf(n)>=0;}
+function cascVerify(e,idx){var st=Q.casc.q.steps[idx];if(st._done)return;var fb=cscEl('#cfeed'+idx);if(st._blanks.some(function(z){return z.el.value.trim()===''})){fb.className='cfeed no';fb.textContent='Complète toutes les cases.';return;}var allOK=true;st._blanks.forEach(function(z){var ok=blankOK(z.bk,z.el.value);z.el.classList.remove('cbok','cbno');z.el.classList.add(ok?'cbok':'cbno');if(!ok)allOK=false;});if(allOK){st._done=true;st._blanks.forEach(function(z){z.el.disabled=true;});fb.className='cfeed ok';fb.textContent='✅ Correct !';cascAdvance(e,idx);return;}st._tries++;if(st._tries>=3){Q.casc.clean=false;st._done=true;st._blanks.forEach(function(z){z.el.value=z.bk.show;z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});fb.className='cfeed no';fb.textContent='Voici la bonne réponse — observe-la.';cascAdvance(e,idx);}else if(st._tries===2){fb.className='cfeed no';fb.textContent='💡 '+(st.aide||'Relis l\'aide.');}else{fb.className='cfeed no';fb.textContent='Pas tout à fait : corrige les cases en orange.';}}
+function cascAdvance(e,idx){var nx=idx+1;if(nx<Q.casc.q.steps.length){var blk=cscEl('#cstep'+nx);blk.classList.add('on');cascRender(e,nx);setTimeout(function(){blk.scrollIntoView({behavior:'smooth',block:'center'});},140);}else{cascDone(e);}}
+function cascDone(e){Q.locked=true;Q.answered++;if(Q.casc.clean){Q.correct++;Q.streak++;e.feed.className='feedback ok';e.feed.innerHTML='✅ Parfait, sans erreur !';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}else{Q.streak=0;e.feed.className='feedback ok';e.feed.innerHTML='👍 Terminé. Vise zéro erreur !';if(e.stars)e.stars.textContent='';}quizScore();var last=Q.guided&&Q.answered>=serieLen();if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}
+
+function startTrain(t){currentTheme=t;gid('trainTitle').textContent=TITLE[t];go('ecranTrain');var els=elsTrain();els.help.textContent=HELP[t];quizStart([t],true,els);}
+function trainDone(){var t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}var idx=ORDER.indexOf(t);if(idx<ORDER.length-1){var nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{updateMap();go('accueil');}}
+
+document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(!gid('kcPanel').hidden)return;if(!gid('ecranTrain').classList.contains('active'))return;var nx=gid('tq_next');if(nx&&nx.style.display!=='none'){quizNext();return;}if(!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
+
+function kcEval(expr){let s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');const toks=[];let i=0;const isD=c=>c>='0'&&c<='9';while(i<s.length){const c=s[i];if(isD(c)||c==='.'){let j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}if(c==='\u03c0'){toks.push({t:'pi'});i++;continue;}if(c==='\u221a'){toks.push({t:'sqrt'});i++;continue;}if('+-*/^()'.includes(c)){toks.push({t:c});i++;continue;}return null;}let p=0,err=false;const peek=()=>toks[p],next=()=>toks[p++];function E(){let v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){const o=next().t;const r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}function T(){let v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){const o=next().t;const r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}function U(){const t=peek();if(t&&t.t==='-'){next();return -U();}if(t&&t.t==='+'){next();return U();}if(t&&t.t==='sqrt'){next();const a=U();if(err)return 0;if(a<0){err=true;return 0;}return Math.sqrt(a);}return P();}function P(){let b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();const e=U();if(err)return 0;b=Math.pow(b,e);}return b;}function PR(){const t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='pi')return Math.PI;if(t.t==='('){const v=E();if(err)return 0;const c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}err=true;return 0;}const val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;}
+function kcFmt(v){let s=(Math.round(v*1e10)/1e10).toString();return s.replace('-','\u2212').replace('.',',');}
+let kcS='',kcJust=false;
+function kcRender(){gid('kcExpr').textContent=kcS;const v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
+function kcIns(ch){if(kcJust&&/[0-9.\u03c0(\u221a]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
+function kcClear(){kcS='';kcJust=false;kcRender();}
+function kcBack(){if(kcJust)kcJust=false;kcS=kcS.slice(0,-1);kcRender();}
+function kcEq(){const v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
+function kcToggle(){gid('kcPanel').hidden=!gid('kcPanel').hidden;}
+function kcSend(){var v=kcEval(kcS);if(v===null)return;var txt=kcFmt(v);var t=MATHTARGET||gid('tq_input');if(t&&!t.disabled){var s=t.selectionStart||0,e=t.selectionEnd||0;t.value=t.value.slice(0,s)+txt+t.value.slice(e);t.focus();try{t.setSelectionRange(s+txt.length,s+txt.length);}catch(_){}}}
+const KEYS2=[{l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},{l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},{l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'},{l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'\u2212',a:'\u2212',c:'op'},{l:'0',a:'0'},{l:',',a:','},{l:'\u221a',a:'\u221a',c:'fn'},{l:'+',a:'+',c:'op'},{l:'x\u00b2',a:'^2',c:'fn'},{l:'x\u02b8',a:'^',c:'fn'},{l:'\u03c0',a:'\u03c0',c:'fn'},{l:'=',a:'eq',c:'eq'}];
+(function(){const box=gid('kcKeys');KEYS2.forEach(k=>{const b=document.createElement('button');b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;b.onclick=()=>{if(k.a==='clr')kcClear();else if(k.a==='back')kcBack();else if(k.a==='eq')kcEq();else kcIns(k.a);};box.appendChild(b);});kcRender();})();
+document.addEventListener('keydown',e=>{if(gid('kcPanel').hidden)return;if(document.activeElement&&(document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='TEXTAREA'))return;if(e.key==='Enter'){e.preventDefault();kcEq();}else if(e.key==='Escape')kcToggle();else if(e.key==='Backspace'){e.preventDefault();kcBack();}else if(/[0-9.+\-*/()^]/.test(e.key)){const map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[e.key]||e.key);}});
+
+var MATHTARGET=null;
+function _isVis(el){return !!(el&&(el.offsetWidth||el.offsetHeight||el.getClientRects().length));}
+function insertAtCursor(el,txt){if(!el)return;el.focus();var s=el.selectionStart,e=el.selectionEnd,v=el.value;if(typeof s==='number'){el.value=v.slice(0,s)+txt+v.slice(e);var p=s+txt.length;el.selectionStart=el.selectionEnd=p;}else{el.value=v+txt;}}
+function mathBack(el){if(!el)return;el.focus();var s=el.selectionStart,e=el.selectionEnd,v=el.value;if(typeof s!=='number'){el.value=v.slice(0,-1);return;}if(s!==e){el.value=v.slice(0,s)+v.slice(e);el.selectionStart=el.selectionEnd=s;}else if(s>0){el.value=v.slice(0,s-1)+v.slice(s);el.selectionStart=el.selectionEnd=s-1;}}
+function mathAction(a){var t=MATHTARGET||gid('tq_input');if(!t)return;if(a==='BACK')mathBack(t);else if(a==='CLR'){t.value='';t.focus();}else insertAtCursor(t,a);}
+var PADKEYS=[{l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'⌫',a:'BACK',c:'act'},{l:'C',a:'CLR',c:'act'},{l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},{l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'+',a:'+',c:'op'},{l:'−',a:'−',c:'op'},{l:'0',a:'0'},{l:',',a:','},{l:'÷',a:'÷',c:'op'},{l:'×',a:'×',c:'op'},{l:'=',a:'=',c:'op'}];
+function buildMathPad(padId){var box=gid(padId);if(!box)return;box.innerHTML='';PADKEYS.forEach(function(k){var b=document.createElement('button');b.type='button';b.className='mkey'+(k.c?' '+k.c:'');b.textContent=k.l;b.addEventListener('mousedown',function(ev){ev.preventDefault();});b.onclick=function(){mathAction(k.a);};box.appendChild(b);});}
+buildMathPad('tq_pad');
+gid('tq_input').addEventListener('focus',function(){MATHTARGET=this;});
+gid('tq_brouillon').addEventListener('focus',function(){MATHTARGET=this;});
+gid('tq_brouillon').addEventListener('keydown',function(ev){ev.stopPropagation();});
+
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}return 'prog_'+e+'_'+SUIVI.nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone,u:unlocked}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
+try{progLoad();}catch(_){}
+updateMap();
+
+function svgPaveLegend(){
+  var pts={A:[30,130],B:[110,130],C:[140,100],D:[60,100],E:[30,60],F:[110,60],G:[140,30],H:[60,30]};
+  var cols={A:'#EF5D60',B:'#FF8A4C',C:'#FFC93C',D:'#8BC34A',E:'#46BECB',F:'#A78BC4',G:'#4FA3D1',H:'#5C3D2E'};
+  var svg='<svg viewBox="0 0 180 160" style="max-width:280px;width:100%;height:auto">';
+  svg+='<line x1="30" y1="130" x2="30" y2="60" stroke="#ccc" stroke-width="1.5" stroke-dasharray="4 3"/>';
+  svg+='<line x1="30" y1="60" x2="60" y2="30" stroke="#ccc" stroke-width="1.5" stroke-dasharray="4 3"/>';
+  svg+='<line x1="30" y1="60" x2="110" y2="60" stroke="#ccc" stroke-width="1.5" stroke-dasharray="4 3"/>';
+  var edges=[['A','B'],['B','C'],['C','D'],['B','F'],['C','G'],['F','G'],['G','H'],['F','E'],['E','H']];
+  edges.forEach(function(e){var p1=pts[e[0]],p2=pts[e[1]];svg+='<line x1="'+p1[0]+'" y1="'+p1[1]+'" x2="'+p2[0]+'" y2="'+p2[1]+'" stroke="#5C3D2E" stroke-width="2"/>';});
+  Object.keys(pts).forEach(function(k){var p=pts[k],c=cols[k];svg+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="7" fill="'+c+'" stroke="#fff" stroke-width="1.5"/>';svg+='<text x="'+(p[0]+(k==='A'||k==='E'?-15:8))+'" y="'+(p[1]+5)+'" font-family="Fredoka,sans-serif" font-size="14" font-weight="700" fill="'+c+'">'+k+'</text>';});
+  svg+='<text x="70" y="148" font-family="Fredoka,sans-serif" font-size="12" fill="#FF8A4C" font-weight="700">→ x (longueur l)</text>';
+  svg+='<text x="145" y="70" font-family="Fredoka,sans-serif" font-size="12" fill="#FFC93C" font-weight="700">↗ y (larg. L)</text>';
+  svg+='<text x="2" y="100" font-family="Fredoka,sans-serif" font-size="12" fill="#46BECB" font-weight="700">↑ z (h)</text>';
+  svg+='</svg>';
+  return svg;
+}
+
+function svgPaveClickable(highlightKey,l,L,h){
+  var pts={A:[30,130],B:[110,130],C:[140,100],D:[60,100],E:[30,60],F:[110,60],G:[140,30],H:[60,30]};
+  var cols={A:'#EF5D60',B:'#FF8A4C',C:'#FFC93C',D:'#8BC34A',E:'#46BECB',F:'#A78BC4',G:'#4FA3D1',H:'#5C3D2E'};
+  var svg='<svg viewBox="0 0 200 168" style="max-width:280px;width:100%;height:auto">';
+  svg+='<line x1="30" y1="130" x2="30" y2="60" stroke="#ccc" stroke-width="1.5" stroke-dasharray="4 3"/>';
+  svg+='<line x1="30" y1="60" x2="60" y2="30" stroke="#ccc" stroke-width="1.5" stroke-dasharray="4 3"/>';
+  svg+='<line x1="30" y1="60" x2="110" y2="60" stroke="#ccc" stroke-width="1.5" stroke-dasharray="4 3"/>';
+  var edges=[['A','B'],['B','C'],['C','D'],['B','F'],['C','G'],['F','G'],['G','H'],['F','E'],['E','H']];
+  edges.forEach(function(e){var p1=pts[e[0]],p2=pts[e[1]];svg+='<line x1="'+p1[0]+'" y1="'+p1[1]+'" x2="'+p2[0]+'" y2="'+p2[1]+'" stroke="#5C3D2E" stroke-width="2"/>';});
+  svg+='<text x="72" y="151" font-family="Fredoka" font-size="11" fill="#FF8A4C" font-weight="700">x: l='+l+'</text>';
+  svg+='<text x="155" y="76" font-family="Fredoka" font-size="11" fill="#FFC93C" font-weight="700">y:L='+L+'</text>';
+  svg+='<text x="2" y="98" font-family="Fredoka" font-size="11" fill="#46BECB" font-weight="700">z:h='+h+'</text>';
+  Object.keys(pts).forEach(function(k){
+    var p=pts[k],c=cols[k],isHL=(k===highlightKey);
+    var r=isHL?12:9;
+    svg+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+r+'" fill="'+c+'" stroke="#fff" stroke-width="2" onclick="repereClickVertex(\''+k+'\')" style="cursor:pointer"/>';
+    var dx=(k==='A'||k==='E'||k==='D'||k==='H')?-17:10;
+    svg+='<text x="'+(p[0]+dx)+'" y="'+(p[1]+5)+'" font-family="Fredoka" font-size="14" font-weight="700" fill="'+c+'" onclick="repereClickVertex(\''+k+'\')" style="cursor:pointer">'+k+'</text>';
+  });
+  svg+='</svg>';
+  return svg;
+}
+
+function svgPaveAxis(highlightAxis,l,L,h){
+  var pts={A:[30,130],B:[110,130],C:[140,100],D:[60,100],E:[30,60],F:[110,60],G:[140,30],H:[60,30]};
+  var cols={A:'#EF5D60',B:'#FF8A4C',C:'#FFC93C',D:'#8BC34A',E:'#46BECB',F:'#A78BC4',G:'#4FA3D1',H:'#5C3D2E'};
+  var axisEdge={x:['A','B'],y:['A','D'],z:['A','E']};
+  var axisCol={x:'#FF8A4C',y:'#c8a200',z:'#46BECB'};
+  var svg='<svg viewBox="0 0 200 168" style="max-width:280px;width:100%;height:auto;font-family:Fredoka,sans-serif">';
+  // hidden/dashed edges (always dashed unless they are the highlighted axis)
+  var dashed=[['A','D'],['A','E'],['D','H']];
+  dashed.forEach(function(e){
+    var skip=false;
+    if(highlightAxis==='y'&&e[0]==='A'&&e[1]==='D')skip=true;
+    if(highlightAxis==='z'&&e[0]==='A'&&e[1]==='E')skip=true;
+    if(!skip){svg+='<line x1="'+pts[e[0]][0]+'" y1="'+pts[e[0]][1]+'" x2="'+pts[e[1]][0]+'" y2="'+pts[e[1]][1]+'" stroke="#ccc" stroke-width="1.5" stroke-dasharray="4 3"/>';}
+  });
+  var visEdges=[['A','B'],['B','C'],['C','D'],['B','F'],['C','G'],['F','G'],['G','H'],['F','E'],['E','H']];
+  visEdges.forEach(function(e){
+    var skip=false;
+    if(highlightAxis==='x'&&e[0]==='A'&&e[1]==='B')skip=true;
+    if(!skip){svg+='<line x1="'+pts[e[0]][0]+'" y1="'+pts[e[0]][1]+'" x2="'+pts[e[1]][0]+'" y2="'+pts[e[1]][1]+'" stroke="#5C3D2E" stroke-width="2"/>';}
+  });
+  // Draw the highlighted axis as thick colored arrow
+  if(highlightAxis&&axisEdge[highlightAxis]){
+    var ae=axisEdge[highlightAxis];
+    var p1=pts[ae[0]],p2=pts[ae[1]];
+    var ac=axisCol[highlightAxis];
+    svg+='<line x1="'+p1[0]+'" y1="'+p1[1]+'" x2="'+p2[0]+'" y2="'+p2[1]+'" stroke="'+ac+'" stroke-width="5" stroke-linecap="round"/>';
+    // arrowhead
+    var dx=p2[0]-p1[0],dy=p2[1]-p1[1],len=Math.sqrt(dx*dx+dy*dy);
+    var ux=dx/len,uy=dy/len;
+    var ax=p2[0]-ux*12,ay=p2[1]-uy*12;
+    var px=-uy*7,py=ux*7;
+    svg+='<polygon points="'+p2[0]+','+p2[1]+' '+(ax+px).toFixed(1)+','+(ay+py).toFixed(1)+' '+(ax-px).toFixed(1)+','+(ay-py).toFixed(1)+'" fill="'+ac+'"/>';
+    // label
+    var lx=(p1[0]+p2[0])/2,ly=(p1[1]+p2[1])/2;
+    var label={x:'x : l='+l,y:'y : L='+L,z:'z : h='+h};
+    var offx={x:0,y:-20,z:-34},offy={x:14,y:-6,z:0};
+    svg+='<text x="'+(lx+offx[highlightAxis])+'" y="'+(ly+offy[highlightAxis])+'" font-size="13" fill="'+ac+'" font-weight="700">'+label[highlightAxis]+'</text>';
+  }
+  svg+='<text x="72" y="151" font-family="Fredoka" font-size="11" fill="#FF8A4C" font-weight="700">x: l='+l+'</text>';
+  svg+='<text x="155" y="76" font-family="Fredoka" font-size="11" fill="#c8a200" font-weight="700">y:L='+L+'</text>';
+  svg+='<text x="2" y="98" font-family="Fredoka" font-size="11" fill="#46BECB" font-weight="700">z:h='+h+'</text>';
+  Object.keys(pts).forEach(function(k){var p=pts[k],c=cols[k];svg+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="'+c+'" stroke="#fff" stroke-width="1.5"/>';var dx=(k==='A'||k==='E'||k==='D'||k==='H')?-16:8;svg+='<text x="'+(p[0]+dx)+'" y="'+(p[1]+5)+'" font-size="13" font-weight="700" fill="'+c+'">'+k+'</text>';});
+  svg+='</svg>';
+  return svg;
+}
+
+function repereShowAxis(axis){
+  var box=document.getElementById('repere-axis-fig');
+  if(box)box.innerHTML=svgPaveAxis(axis,5,3,4);
+  var msg=document.getElementById('repere-axis-msg');
+  if(!msg)return;
+  var texts={
+    x:'<span style="color:#FF8A4C;font-weight:700">Direction x</span> = va à DROITE de A vers B. La longueur du pavé est <b>l = 5 cm</b>.',
+    y:'<span style="color:#c8a200;font-weight:700">Direction y</span> = va en PROFONDEUR de A vers D. La largeur du pavé est <b>L = 3 cm</b>.',
+    z:'<span style="color:#46BECB;font-weight:700">Direction z</span> = monte en HAUTEUR de A vers E. La hauteur du pavé est <b>h = 4 cm</b>.'
+  };
+  msg.innerHTML=texts[axis];
+}
+
+function repereNext(step){
+  document.querySelectorAll('.repere-step').forEach(function(el){el.style.display='none';});
+  var el=document.getElementById('repere-step'+step);
+  if(el){el.style.display='block';}
+  if(step===1){
+    var box=document.getElementById('repere-axis-fig');
+    if(box)box.innerHTML=svgPaveAxis(null,5,3,4);
+  }
+  if(step===2){
+    var box=document.getElementById('repere-f-fig');
+    if(box)box.innerHTML=svgPaveHighlight(5,3,4,'F');
+  }
+  if(step===3){
+    var box=document.getElementById('repere-click-fig');
+    if(box)box.innerHTML=svgPaveClickable(null,5,3,4);
+  }
+}
+
+function svgLatitudeAngle(){
+  var cx=100,cy=90,R=65;
+  var svg='<svg viewBox="0 0 200 170" style="max-width:220px;width:100%;height:auto;font-family:Fredoka,sans-serif">';
+  svg+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="#deeeff" stroke="#2f7ba8" stroke-width="2"/>';
+  svg+='<line x1="'+(cx-R)+'" y1="'+cy+'" x2="'+(cx+R)+'" y2="'+cy+'" stroke="#2f7ba8" stroke-width="2.5"/>';
+  svg+='<text x="'+(cx+R+3)+'" y="'+(cy+4)+'" font-size="10" fill="#2f7ba8" font-weight="700">0°</text>';
+  var ang45=45*Math.PI/180;
+  var px2=(cx+R*Math.cos(ang45));
+  var py2=(cy-R*Math.sin(ang45));
+  svg+='<line x1="'+cx+'" y1="'+cy+'" x2="'+px2.toFixed(1)+'" y2="'+py2.toFixed(1)+'" stroke="#EF5D60" stroke-width="2.5"/>';
+  svg+='<path d="M '+(cx+30)+','+cy+' A 30,30 0 0,0 '+(cx+30*Math.cos(ang45)).toFixed(1)+','+(cy-30*Math.sin(ang45)).toFixed(1)+'" fill="none" stroke="#EF5D60" stroke-width="2"/>';
+  svg+='<text x="'+(cx+32)+'" y="'+(cy-14)+'" font-size="11" fill="#EF5D60" font-weight="700">45° N</text>';
+  svg+='<circle cx="'+px2.toFixed(1)+'" cy="'+py2.toFixed(1)+'" r="5" fill="#EF5D60" stroke="#fff" stroke-width="2"/>';
+  svg+='<circle cx="'+cx+'" cy="'+cy+'" r="4" fill="#5C3D2E" stroke="#fff" stroke-width="1.5"/>';
+  svg+='<text x="'+(cx+5)+'" y="'+(cy+16)+'" font-size="9" fill="#5C3D2E" font-weight="700">centre</text>';
+  svg+='<text x="'+cx+'" y="165" text-anchor="middle" font-size="10" fill="#EF5D60" font-weight="700">\u2190 angle = latitude \u2192</text>';
+  svg+='<circle cx="'+cx+'" cy="'+(cy-R)+'" r="4" fill="#EF5D60" stroke="#fff" stroke-width="1.5"/>';
+  svg+='<text x="'+(cx+7)+'" y="'+(cy-R+4)+'" font-size="10" fill="#EF5D60" font-weight="700">90° N</text>';
+  svg+='</svg>';
+  return svg;
+}
+
+function repereClickVertex(key){
+  var l=5,L=3,h=4;
+  var sommets={A:[0,0,0],B:[l,0,0],C:[l,L,0],D:[0,L,0],E:[0,0,h],F:[l,0,h],G:[l,L,h],H:[0,L,h]};
+  var cols={A:'#EF5D60',B:'#FF8A4C',C:'#FFC93C',D:'#8BC34A',E:'#46BECB',F:'#A78BC4',G:'#4FA3D1',H:'#5C3D2E'};
+  var c=sommets[key];
+  var box=document.getElementById('repere-click-fig');
+  if(box)box.innerHTML=svgPaveClickable(key,l,L,h);
+  var msg=document.getElementById('repere-click-msg');
+  if(msg){
+    var explain='';
+    if(c[0]===0)explain+='x=0 (côté A) · ';else explain+='x='+l+' (côté B) · ';
+    if(c[1]===0)explain+='y=0 (côté A) · ';else explain+='y='+L+' (côté D) · ';
+    if(c[2]===0)explain+='z=0 (base)';else explain+='z='+h+' (hauteur)';
+    msg.outerHTML='<div id="repere-click-msg" style="background:'+cols[key]+';color:#fff;border-radius:16px;padding:10px 18px;font-family:Fredoka,sans-serif;font-weight:700;font-size:1.1rem;text-align:center;margin:6px auto"><b>Sommet '+key+' → ('+c.join(' ; ')+')</b><br><span style="font-size:.9rem">'+explain+'</span></div>';
+  }
+}
+
+function svgPaveHighlight(l,w,h,key){
+  var pts={A:[30,130],B:[110,130],C:[140,100],D:[60,100],E:[30,60],F:[110,60],G:[140,30],H:[60,30]};
+  var cols={A:'#EF5D60',B:'#FF8A4C',C:'#FFC93C',D:'#8BC34A',E:'#46BECB',F:'#A78BC4',G:'#4FA3D1',H:'#5C3D2E'};
+  var svg='<svg viewBox="0 0 180 160" style="max-width:260px;width:100%;height:auto">';
+  var edges=[['A','B'],['B','C'],['C','D'],['B','F'],['C','G'],['F','G'],['G','H'],['F','E'],['E','H']];
+  var hidden=[['A','D'],['A','E'],['D','H']];
+  hidden.forEach(function(e){var p1=pts[e[0]],p2=pts[e[1]];svg+='<line x1="'+p1[0]+'" y1="'+p1[1]+'" x2="'+p2[0]+'" y2="'+p2[1]+'" stroke="#ccc" stroke-width="1.5" stroke-dasharray="4 3"/>';});
+  edges.forEach(function(e){var p1=pts[e[0]],p2=pts[e[1]];svg+='<line x1="'+p1[0]+'" y1="'+p1[1]+'" x2="'+p2[0]+'" y2="'+p2[1]+'" stroke="#5C3D2E" stroke-width="2"/>';});
+  svg+='<text x="64" y="148" font-family="Fredoka" font-size="11" fill="#FF8A4C" font-weight="700">l='+l+'</text>';
+  svg+='<text x="145" y="118" font-family="Fredoka" font-size="11" fill="#FFC93C" font-weight="700">L='+w+'</text>';
+  svg+='<text x="2" y="100" font-family="Fredoka" font-size="11" fill="#46BECB" font-weight="700">h='+h+'</text>';
+  Object.keys(pts).forEach(function(k){var p=pts[k],c=cols[k],isHL=(k===key);var r=isHL?10:5;svg+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+r+'" fill="'+c+'" stroke="#fff" stroke-width="2"/>';var dx=(k==='A'||k==='E'||k==='D'||k==='H')?-16:8;svg+='<text x="'+(p[0]+dx)+'" y="'+(p[1]+5)+'" font-family="Fredoka" font-size="'+(isHL?16:13)+'" font-weight="700" fill="'+c+'">'+k+'</text>';});
+  if(key){var p=pts[key];svg+='<text x="'+p[0]+'" y="'+(p[1]-15)+'" font-family="Fredoka" font-size="12" font-weight="700" fill="#EF5D60" text-anchor="middle">← ici !</text>';}
+  svg+='</svg>';
+  return svg;
+}
+
+document.addEventListener('DOMContentLoaded',function(){var f=document.getElementById('repere-fig');if(f)f.innerHTML=svgPaveLegend();var sf=document.getElementById('sphere-fig');if(sf)sf.innerHTML=svgGlobeDetailed(0);});
+(function(){var f=document.getElementById('repere-fig');if(f)f.innerHTML=svgPaveLegend();var sf=document.getElementById('sphere-fig');if(sf)sf.innerHTML=svgGlobeDetailed(0);})();
+
+var SPHERE_TUTO_Q=[
+  {q:'Le cercle bleu au milieu du globe s\'appelle…',
+   o:['L\'équateur (latitude 0°)','Le méridien de Greenwich','Un pôle'],
+   c:0,e:'L\'équateur est le grand cercle horizontal à latitude 0°, à égale distance des deux pôles.',globeStep:1},
+  {q:'Quelle est la latitude du Pôle Nord ?',
+   o:['90° N','0°','45° N'],
+   c:0,e:'Le Pôle Nord est tout en haut de la Terre : latitude 90° Nord.',globeStep:2},
+  {q:'La ligne orange verticale sur le globe s\'appelle…',
+   o:['Le méridien de Greenwich (longitude 0°)','L\'équateur','Un parallèle'],
+   c:0,e:'Le méridien de Greenwich est la référence pour mesurer les longitudes (0°).',globeStep:3},
+  {q:'Deux villes sur le même parallèle ont la même…',
+   o:['latitude','longitude','altitude'],
+   c:0,e:'Le parallèle regroupe tous les points de même latitude.',globeStep:2}
+];
+var sphereQuizIdx=0,sphereQuizScore=0;
+function sphereNext(step){
+  document.querySelectorAll('#sphere-tuto .repere-step').forEach(function(el){el.style.display='none';});
+  var el=document.getElementById('sphere-step'+step);
+  if(el){el.style.display='block';}
+  if(step<4){
+    var sf=document.getElementById('sphere-fig');
+    if(sf)sf.innerHTML=svgGlobeDetailed(Math.min(step,3));
+  }
+  if(step===1){
+    var af=document.getElementById('sphere-angle-fig');
+    if(af)af.innerHTML=svgLatitudeAngle();
+  }
+  if(step===4){sphereQuizIdx=0;sphereQuizScore=0;sphereShowQ();}
+}
+function sphereShowQ(){
+  var box=document.getElementById('sphere-quiz');if(!box)return;
+  if(sphereQuizIdx>=SPHERE_TUTO_Q.length){
+    box.innerHTML='<p class="lead" style="text-align:center;color:var(--vert-bas)">🎉 Bravo ! Tu connais les bases de la sphère terrestre !</p>';
+    var go=document.getElementById('sphere-go');if(go)go.style.display='inline-flex';
+    return;
+  }
+  var q=SPHERE_TUTO_Q[sphereQuizIdx];
+  var sf=document.getElementById('sphere-fig');
+  if(sf&&q.globeStep!==undefined)sf.innerHTML=svgGlobeDetailed(q.globeStep);
+  var html='<div style="background:var(--creme);border-radius:16px;padding:14px;margin:10px 0">';
+  html+='<p class="lead">'+q.q+'</p>';
+  html+='<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">';
+  q.o.forEach(function(opt,i){html+='<button class="opt" onclick="spherePick('+i+')">'+opt+'</button>';});
+  html+='</div><div id="sphere-feed" style="font-family:Fredoka,sans-serif;font-weight:700;font-size:1rem;min-height:1.4em;margin-top:8px"></div>';
+  html+='</div>';
+  box.innerHTML=html;
+}
+function spherePick(i){
+  var q=SPHERE_TUTO_Q[sphereQuizIdx];
+  var btns=document.querySelectorAll('#sphere-quiz .opt');
+  btns.forEach(function(b,j){b.disabled=true;if(j===q.c)b.classList.add('good');});
+  var feed=document.getElementById('sphere-feed');
+  if(i===q.c){if(feed)feed.innerHTML='✅ Exact !';sphereQuizScore++;}
+  else{btns[i].classList.add('bad');if(feed)feed.innerHTML='❌ La bonne réponse est : '+q.o[q.c];}
+  sphereQuizIdx++;
+  setTimeout(sphereShowQ,1200);
+}
+</script>
+</body>
+</html>

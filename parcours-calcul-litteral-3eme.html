@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<head><script>try{if(!localStorage.getItem("kc_eleve")||!localStorage.getItem("kc_classe"))location.replace("index.html");}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calcul littéral — 3ème</title>
@@ -8,14 +8,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-
 :root{
-  --or:#FFC93C; --or-bas:#E0A41E; --vert:#8BC34A; --vert-bas:#5E9426;
-  --orange:#FF8A4C; --orange-bas:#E0672E; --teal:#46BECB; --teal-bas:#2E8A98;
-  --violet:#A78BC4; --violet-bas:#7E61A1; --rouge:#EF5D60; --rouge-bas:#c43e41;
-  --bleu:#4FA3D1; --bleu-bas:#2f7ba8;
-  --bois:#5C3D2E; --bois-clair:#8a6650; --creme:#FFF4DC; --blanc:#FFFDF6;
-  --ombre:0 8px 0 rgba(92,61,46,.18), 0 14px 22px rgba(92,61,46,.12);
+  --or:#FFC93C;--or-bas:#E0A41E;--vert:#8BC34A;--vert-bas:#5E9426;
+  --orange:#FF8A4C;--orange-bas:#E0672E;--teal:#46BECB;--teal-bas:#2E8A98;
+  --violet:#A78BC4;--violet-bas:#7E61A1;--rouge:#EF5D60;--rouge-bas:#c43e41;
+  --bleu:#4FA3D1;--bleu-bas:#2f7ba8;
+  --bois:#5C3D2E;--bois-clair:#8a6650;--creme:#FFF4DC;--blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18),0 14px 22px rgba(92,61,46,.12);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
@@ -31,7 +30,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
 .btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
   padding:14px 22px;cursor:pointer;background:var(--or);box-shadow:0 6px 0 var(--or-bas);
-  transition:transform .08s, box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+  transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
 .btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--or-bas)}
 .btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
 .btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
@@ -65,72 +64,28 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
 .e4 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
 .e5 .num{background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)}
-.e6 .num{background:var(--or);box-shadow:0 5px 0 var(--or-bas)}
 .lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
 .mid{text-align:center;margin:16px 0}
-.formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;
-  padding:12px 22px;font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois)}
+.formule{display:inline-block;background:var(--creme);border:2px dashed var(--violet-bas);border-radius:12px;
+  padding:8px 14px;font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois);font-size:1.15rem;margin:6px 0}
 .note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
 .exemple{font-size:.96rem;color:var(--bois-clair);font-weight:700;line-height:1.45;margin:8px 0 0}
 .exemple b{color:var(--bois)}
-.expr{font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois);text-align:center;margin:6px 0}
-/* machine substitution */
-.machine{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
-.mpod{background:var(--creme);border:3px solid var(--or-bas);border-radius:16px;min-width:60px;height:56px;padding:0 10px;
-  display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.3rem;color:var(--bois)}
-.marrow{font-size:1.6rem;color:var(--bois-clair)}
-.mbox{background:var(--violet);color:#fff;border-radius:16px;padding:14px 16px;font-family:'Fredoka';font-weight:700;
-  box-shadow:0 6px 0 var(--violet-bas);text-align:center}
-.msteps{display:flex;flex-direction:column;gap:8px;margin:14px auto 2px;max-width:440px}
-.mstep{background:var(--creme);border-radius:14px;padding:10px 14px;font-family:'Fredoka';font-weight:700;
-  color:var(--bois);opacity:0;transform:translateY(8px);transition:.35s;font-size:1.05rem;text-align:center}
-.mstep.on{opacity:1;transform:none}
-.minput{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:10px 0}
-.minput input{font-family:'Fredoka';font-weight:700;font-size:1.3rem;text-align:center;border:3px solid #f0dca8;
-  border-radius:14px;padding:10px;width:90px;color:var(--bois)}
-.minput input:focus{outline:none;border-color:var(--or-bas)}
-.fnpick{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 4px}
-.fnchip{font-family:'Fredoka';font-weight:700;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
-  border-radius:14px;padding:9px 14px;cursor:pointer;font-size:1.05rem}
-.fnchip:active{transform:translateY(2px)}
-.fnchip.act{border-color:var(--violet-bas);background:#f3edf9}
-.bigres{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.3rem;margin-top:10px;min-height:1.5em;color:var(--bois);line-height:1.4}
-.bigres b{color:var(--orange-bas)}
-/* termes colorés (réduire) */
-.termline{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.5rem;margin:14px 0;line-height:1.6}
-.tt{padding:2px 6px;border-radius:8px;transition:background .3s}
-.tt.x{background:#dff0d2;color:var(--vert-bas)}
-.tt.x2{background:#e3f5f8;color:var(--teal-bas)}
-.tt.k{background:#ffe6cf;color:var(--orange-bas)}
-/* tableau d'aires (développer / factoriser) */
-.area{margin:14px auto;width:fit-content}
-.arow{display:flex}
-.acorner{width:54px;height:40px}
-.ahead{width:84px;height:40px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;color:var(--bois)}
-.aside{width:54px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;color:var(--bois)}
-.acell{width:84px;height:64px;display:grid;place-items:center;border:3px solid #e7d3a8;background:var(--blanc);
-  font-family:'Fredoka';font-weight:700;font-size:1.15rem;color:var(--bois);opacity:0;transition:.3s}
-.acell.on{opacity:1}
-.acell.c1{background:#e3f5f8}.acell.c2{background:#fff0e2}.acell.c3{background:#f3edf9}.acell.c4{background:#dff0d2}
-/* tester égalité */
-.teq{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin:12px 0}
-.tval{font-family:'Fredoka';font-weight:700;font-size:1.2rem;background:var(--creme);border-radius:12px;padding:10px 14px;color:var(--bois)}
-.verdict{font-family:'Fredoka';font-weight:700;font-size:1.6rem;text-align:center;min-height:1.4em;margin-top:8px}
-.verdict.eq{color:var(--vert-bas)}.verdict.ne{color:var(--orange-bas)}
-input[type=range]{width:70%;max-width:320px;height:30px;accent-color:var(--bleu)}
-/* quiz */
+.steps{list-style:none;padding:0;margin:8px 0;counter-reset:st}
+.steps li{position:relative;padding:8px 8px 8px 42px;margin:6px 0;background:var(--blanc);border-radius:12px;box-shadow:0 3px 0 rgba(92,61,46,.1);font-weight:700;color:var(--bois)}
+.steps li::before{counter-increment:st;content:counter(st);position:absolute;left:8px;top:8px;width:26px;height:26px;border-radius:50%;background:var(--violet);color:#fff;display:grid;place-items:center;font-family:'Fredoka'}
 .scorebar{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:4px 0 14px;font-family:'Fredoka';font-weight:700}
 .scorebar .pill{background:var(--creme);border-radius:16px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8}
+.serieprog{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
 .qcard{text-align:center}
-.prog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:10px;min-height:1.3em;font-size:1.05rem}
 .qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
-.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
 .helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
 .ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
 .ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:160px;color:var(--bois)}
-.ansrow input:focus{outline:none;border-color:var(--or-bas)}
+.ansrow input:focus{outline:none;border-color:var(--violet-bas)}
 .opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
-.opt{font-family:'Fredoka';font-weight:700;font-size:1.1rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.05rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
   border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
 .opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
 .opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
@@ -148,29 +103,34 @@ input[type=range]{width:70%;max-width:320px;height:30px;accent-color:var(--bleu)
 .shake{animation:shake .35s}
 @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
 button,input{touch-action:manipulation}
-@media (max-width:480px){
-  .wrap{padding:14px 12px 80px}
-  .hero{padding:18px 10px 4px}
-  .hero h1{font-size:2rem}.hero .sub{font-size:1rem}.coin{font-size:2.8rem}
-  .card{padding:16px;border-radius:20px}
-  .topbar h2{font-size:1.2rem}
-  .etape{gap:12px;padding:13px 14px}
-  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem;border-radius:14px}
-  .etape .txt h3{font-size:1.02rem}.etape .txt p{font-size:.82rem}
-  .formule{font-size:1rem;padding:10px 14px;white-space:normal}
-  .lead{font-size:1rem}.question{font-size:1.18rem}
-  .ansrow input{width:60%;max-width:200px}
-  .btn{font-size:1rem;padding:13px 18px}
-  .ahead{width:64px}.acell{width:64px;height:54px;font-size:1rem}.aside{width:44px}.acorner{width:44px}
-  .termline{font-size:1.25rem}
-}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-/* ===================== CALCULATRICE COLLÈGE ===================== */
+.result{text-align:center}
+.result .big{font-family:'Fredoka',sans-serif;font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
+.result .big.ok{color:var(--vert-bas)}.result .big.no{color:var(--orange-bas)}
+.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
+.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.cascade{margin:6px 0 2px;text-align:left}
+.cstep{display:none;background:var(--creme);border-radius:16px;padding:14px 16px;margin:10px 0;animation:pop .3s ease}
+.cstep.on{display:block}
+.cprompt{font-family:'Fredoka';font-weight:700;color:var(--bois);font-size:1.05rem;margin-bottom:10px;line-height:1.35}
+.cbody{display:flex;flex-direction:column;gap:8px}
+.chint{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.98rem;margin-bottom:4px;background:#fff;border-radius:10px;padding:8px 10px;line-height:1.35}
+.cfeed{font-family:'Nunito';font-weight:800;font-size:.92rem;margin-top:8px;min-height:1em;line-height:1.35}
+.cfeed.ok{color:var(--vert-bas)}.cfeed.no{color:var(--orange-bas)}
+.cline{font-family:'Fredoka';font-weight:700;font-size:1.12rem;color:var(--bois);line-height:2.1;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.cblank{font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;border:none;border-bottom:3px solid var(--or-bas);background:#fff;border-radius:8px 8px 0 0;padding:6px;color:var(--bois)}
+.cblank:focus{outline:none;border-bottom-color:var(--teal-bas);background:#fffdf3}
+.cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
+.cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
+.cverify{margin-top:10px}
+.cfrac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 5px}
+.cfnum,.cfden{display:block;text-align:center;padding:2px 6px}
+.cfrac sup{font-size:.65em;vertical-align:super;line-height:1}
+.cfbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
+.cblank.mini{font-size:1rem;width:54px}
+.figbox{margin:8px auto 4px;text-align:center}
 .kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
   background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);transition:transform .1s}
 .kc-fab:active{transform:translateY(4px)}
-.kc-fab:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
 .kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(320px,calc(100vw - 32px));
   background:var(--blanc);border-radius:22px;padding:14px;box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);animation:kcpop .25s ease}
 .kc-panel[hidden]{display:none}
@@ -188,82 +148,164 @@ button,input{touch-action:manipulation}
 .kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1.05rem}
 .kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
 .kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
-
-.expr{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.35rem;color:var(--bois);background:var(--creme);border-radius:12px;padding:10px 14px;display:inline-block;margin:6px 0}
-.sqbtn{min-width:46px;font-size:1.05rem;padding:10px 12px}
-.regle{display:inline-block;background:var(--creme);border:2px dashed var(--orange-bas);border-radius:12px;padding:8px 14px;font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois);margin:6px 0}
+.kc-send{display:block;width:100%;margin-top:10px;padding:11px;font-family:'Fredoka';font-weight:700;font-size:1rem;
+  background:var(--teal);color:#fff;border:none;border-radius:14px;cursor:pointer;box-shadow:0 4px 0 var(--teal-bas)}
+.kc-send:active{transform:translateY(3px);box-shadow:0 1px 0 var(--teal-bas)}
 .home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16)}
 .home:active{transform:translateY(1px)}
-.serieprog{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
-.result{text-align:center}
-.result .big{font-family:'Fredoka',sans-serif;font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
-.result .big.ok{color:var(--vert-bas)} .result .big.no{color:var(--orange-bas)}
-.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
-.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
 .menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
-.idov{position:fixed;inset:0;background:rgba(92,61,46,.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px}
-.idbox{background:var(--blanc);border-radius:20px;padding:22px;max-width:340px;width:100%;box-shadow:var(--ombre);text-align:center}
-.idbox h3{font-family:'Fredoka',sans-serif;margin:0 0 6px;color:var(--bois)}
-.idbox p{color:var(--bois-clair);font-weight:700;margin:0 0 12px;font-size:.92rem}
-.idbox input{width:100%;box-sizing:border-box;border:2px solid #e7d3a8;border-radius:12px;padding:11px;font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.05rem;color:var(--bois);margin-bottom:10px;text-align:center}
-.idbox input:focus{outline:none;border-color:var(--orange-bas)}
+.op-fois{color:#E0672E;font-weight:900;font-size:1.1em;margin:0 2px}
+.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 3px;font-family:'Fredoka',sans-serif;font-weight:700}
+.frac .fn{padding:0 5px 1px;border-bottom:2px solid currentColor}
+.frac .fd{padding:1px 5px 0}
+.id-box{background:var(--creme);border-radius:14px;padding:12px 16px;margin:10px 0;border-left:5px solid var(--teal);font-family:'Fredoka',sans-serif;font-size:1.05rem}
+.step-example{background:#fff;border-radius:10px;padding:10px 14px;margin:6px 0;border-left:4px solid var(--or);font-weight:600}
+@media(max-width:480px){
+  .wrap{padding:14px 12px 80px}
+  .hero h1{font-size:2rem}.hero .sub{font-size:1rem}.coin{font-size:2.8rem}
+  .card{padding:16px;border-radius:20px}
+  .topbar h2{font-size:1.2rem}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem;border-radius:14px}
+  .lead{font-size:1rem}.question{font-size:1.18rem}
+  .ansrow input{width:60%;max-width:200px}
+  .btn{font-size:1rem;padding:13px 18px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="wrap">
+
 <section id="accueil" class="screen active">
-  <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
+  <div class="mid"><button class="menulink" onclick="location.href='index.html'">&#127968; Menu principal</button></div>
   <div class="hero">
-    <div class="coin">🔤➕</div>
-    <h1>Calcul littéral</h1>
-    <p class="sub">Substituer, réduire, enlever les parenthèses, développer. Tu écris toi-même tes expressions (bouton x²). Chaque entraînement est noté sur 10 — il faut 8/10 !</p>
+    <div class="coin">&#9999;&#65039;&#128290;</div>
+    <h1>Calcul litt&#233;ral</h1>
+    <p class="sub">Vocabulaire, d&#233;velopper, identit&#233;s remarquables, r&#233;duire, factoriser&#8230; Chaque entra&#238;nement est not&#233; &#8212; il faut valider pour avancer&#160;!</p>
   </div>
   <div class="map">
-    <div class="etape e1" id="mapSubstituer" onclick="tapTheme('substituer')">
-      <div class="num">🔢</div><div class="txt"><h3>1 · Substituer</h3><p>Calculer pour une valeur de x</p></div><div class="status">▶</div>
+    <div class="etape e1" id="mapVocabulaire" onclick="tapTheme('vocabulaire')">
+      <div class="num">&#128214;</div><div class="txt"><h3>1 &middot; Vocabulaire</h3><p>Mon&#244;me, polyn&#244;me, degr&#233;, coefficient</p></div><div class="status">&#9654;</div>
     </div>
-    <div class="etape e2" id="mapReduire" onclick="tapTheme('reduire')">
-      <div class="num">🟰</div><div class="txt"><h3>2 · Réduire</h3><p>Regrouper les termes semblables</p></div><div class="status">🔒</div>
+    <div class="etape e2" id="mapDevelopper" onclick="tapTheme('developper')">
+      <div class="num">&#128208;</div><div class="txt"><h3>2 &middot; D&#233;velopper</h3><p>Distributivit&#233; simple et double</p></div><div class="status">&#128274;</div>
     </div>
-    <div class="etape e3" id="mapParentheses" onclick="tapTheme('parentheses')">
-      <div class="num">( )</div><div class="txt"><h3>3 · Parenthèses</h3><p>Les règles de suppression</p></div><div class="status">🔒</div>
+    <div class="etape e3" id="mapIdentites" onclick="tapTheme('identites')">
+      <div class="num">&#128483;</div><div class="txt"><h3>3 &middot; Identit&#233;s remarquables</h3><p>(a+b)&#178;, (a-b)&#178;, (a+b)(a-b)</p></div><div class="status">&#128274;</div>
     </div>
-    <div class="etape e4" id="mapDevelopper" onclick="tapTheme('developper')">
-      <div class="num">✖️</div><div class="txt"><h3>4 · Développer</h3><p>La distributivité</p></div><div class="status">🔒</div>
+    <div class="etape e4" id="mapReduire" onclick="tapTheme('reduire')">
+      <div class="num">&#9986;&#65039;</div><div class="txt"><h3>4 &middot; R&#233;duire</h3><p>Supprimer les parenth&#232;ses, termes semblables</p></div><div class="status">&#128274;</div>
     </div>
-    <div class="etape e6" id="mapArene" onclick="tapArene()">
-      <div class="num" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Tout, au choix (entraînement libre)</p></div><div class="status">🔒</div>
+    <div class="etape e5" id="mapFactoriser" onclick="tapTheme('factoriser')">
+      <div class="num">&#129329;</div><div class="txt"><h3>5 &middot; Factoriser</h3><p>Facteur commun, identit&#233;s inverses</p></div><div class="status">&#128274;</div>
+    </div>
+    <div class="etape e5" id="mapArene" onclick="tapArene()">
+      <div class="num" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">&#9876;&#65039;</div><div class="txt"><h3>Ar&#232;ne finale</h3><p>Tout, au choix (entra&#238;nement libre)</p></div><div class="status">&#128274;</div>
     </div>
   </div>
 </section>
 
-<section id="expSubstituer" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Substituer</h2></div>
-  <div class="card"><span class="tag" style="background:var(--violet)">La leçon</span><p class='lead'>Substituer, c’est <b>remplacer la lettre x par un nombre</b>, puis calculer. On respecte les priorités (puissances, ×, ÷, puis + et −).</p><p class='note'>Exemple : pour x = 4, l’expression 3x + 5 vaut 3 × 4 + 5 = 17.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('substituer')">Je m’entraîne ➜</button></div>
-</section>
-
-<section id="expReduire" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Réduire</h2></div>
-  <div class="card"><span class="tag" style="background:var(--teal)">La leçon</span><p class='lead'>Réduire, c’est <b>regrouper les termes semblables</b> : les « x » avec les « x », les « x² » avec les « x² », et les nombres entre eux. On n’additionne jamais des x avec des x².</p><p class='note'>Exemple : 3x + 5 + 2x − 1 = 5x + 4. Pour écrire un carré dans ta réponse, utilise le bouton <b>x²</b>.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('reduire')">Je m’entraîne ➜</button></div>
-</section>
-
-<section id="expParentheses" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Parenthèses</h2></div>
-  <div class="card"><span class="tag" style="background:var(--orange)">La leçon</span><p class='lead'>Pour supprimer une parenthèse, tout dépend du signe devant :</p><div style='text-align:center'><span class='regle'>+ ( … ) : on ne change rien</span><br><span class='regle'>− ( … ) : on change tous les signes</span></div><p class='note'>Exemple : 5x − (2x − 3) = 5x − 2x + 3 = 3x + 3.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('parentheses')">Je m’entraîne ➜</button></div>
+<section id="expVocabulaire" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>&#128214; Vocabulaire du calcul litt&#233;ral</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">&#129522; Les briques de base</span>
+    <p class="lead">Une <b>expression litt&#233;rale</b> contient des lettres (variables) et des nombres. Exemple&#160;: <span class="formule">3x + 5</span></p>
+    <p class="lead">Un <b>mon&#244;me</b> est un <em>seul terme</em>&#160;: produit d'un nombre et d'une variable.</p>
+    <div class="step-example">Exemples de mon&#244;mes&#160;: <b>4x&#178;</b>, <b>&#8722;3y</b>, <b>7</b></div>
+    <p class="lead">Un <b>polyn&#244;me</b> est une <em>somme</em> de mon&#244;mes.</p>
+    <div class="step-example">Bin&#244;me (2 termes)&#160;: <b>2x + 3</b><br>Trin&#244;me (3 termes)&#160;: <b>x&#178; + 2x &#8722; 1</b></div>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">&#127891; Degr&#233; et coefficient</span>
+    <p class="lead">Le <b>degr&#233;</b> d'un polyn&#244;me = l'exposant le plus &#233;lev&#233; de la variable.</p>
+    <div class="step-example">2x&#179; &#8722; x + 1 &#8594; degr&#233; <b>3</b></div>
+    <div class="step-example">x&#178; + 5x + 6 &#8594; degr&#233; <b>2</b></div>
+    <p class="lead">Le <b>coefficient</b> = le nombre devant la variable.</p>
+    <div class="step-example">Dans <b>5x</b>, le coefficient est <b>5</b>.<br>Dans <b>&#8722;3x&#178;</b>, le coefficient est <b>&#8722;3</b>.</div>
+    <p class="note">&#128204; Un nombre seul (ex&#160;: 7) est un polyn&#244;me de degr&#233; 0 &#8212; on dit une <b>constante</b>.</p>
+  </div>
+  <div class="mid"><button class="btn violet" onclick="startTrain('vocabulaire')">Commencer l'entra&#238;nement &#8594;</button></div>
 </section>
 
 <section id="expDevelopper" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Développer</h2></div>
-  <div class="card"><span class="tag" style="background:var(--vert)">La leçon</span><p class='lead'>Développer, c’est <b>transformer un produit en somme</b> grâce à la distributivité : k(a + b) = k×a + k×b, et (a + b)(c + d) = ac + ad + bc + bd.</p><p class='note'>Exemples : 3(2x + 5) = 6x + 15 ; (x + 2)(x + 3) = x² + 5x + 6.</p></div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('developper')">Je m’entraîne ➜</button></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>&#128208; D&#233;velopper une expression</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">&#128309; Distributivit&#233; simple</span>
+    <p class="lead">k<span class="op-fois">&#8901;</span>(ax + b) = k<span class="op-fois">&#8901;</span>ax + k<span class="op-fois">&#8901;</span>b</p>
+    <p class="lead">On multiplie <em>chaque terme</em> de la parenth&#232;se par le facteur ext&#233;rieur.</p>
+    <div class="step-example">3<span class="op-fois">&#8901;</span>(2x + 5)<br>= 3<span class="op-fois">&#8901;</span>2x + 3<span class="op-fois">&#8901;</span>5<br>= <b>6x + 15</b></div>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">&#128312; Distributivit&#233; double</span>
+    <p class="lead">(ax + b)<span class="op-fois">&#8901;</span>(cx + d) = ac<span class="op-fois">&#8901;</span>x&#178; + (ad + bc)<span class="op-fois">&#8901;</span>x + bd</p>
+    <p class="lead">On fait <b>4 produits</b> (chaque terme &#224; gauche fois chaque terme &#224; droite), puis on regroupe.</p>
+    <div class="step-example">(x + 2)<span class="op-fois">&#8901;</span>(x + 3)<br>= x<span class="op-fois">&#8901;</span>x + x<span class="op-fois">&#8901;</span>3 + 2<span class="op-fois">&#8901;</span>x + 2<span class="op-fois">&#8901;</span>3<br>= x&#178; + 3x + 2x + 6<br>= <b>x&#178; + 5x + 6</b></div>
+    <p class="note">&#128161; Le petit point <span class="op-fois">&#8901;</span> est le signe de multiplication &#8212; &#224; ne pas confondre avec la variable <b>x</b>.</p>
+  </div>
+  <div class="mid"><button class="btn teal" onclick="startTrain('developper')">Commencer l'entra&#238;nement &#8594;</button></div>
+</section>
+
+<section id="expIdentites" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>&#128483; Identit&#233;s remarquables</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">&#11088; Les 3 identit&#233;s &#224; conna&#238;tre par c&#339;ur&#160;!</span>
+    <div class="id-box"><b>1. (a + b)&#178; = a&#178; + 2ab + b&#178;</b><br><small>Preuve&#160;: (a+b)<span class="op-fois">&#8901;</span>(a+b) = a<span class="op-fois">&#8901;</span>a + a<span class="op-fois">&#8901;</span>b + b<span class="op-fois">&#8901;</span>a + b<span class="op-fois">&#8901;</span>b = a&#178; + 2ab + b&#178;</small></div>
+    <div class="step-example">(x + 3)&#178; = x&#178; + 2<span class="op-fois">&#8901;</span>x<span class="op-fois">&#8901;</span>3 + 3&#178; = <b>x&#178; + 6x + 9</b></div>
+    <div class="id-box"><b>2. (a &#8722; b)&#178; = a&#178; &#8722; 2ab + b&#178;</b><br><small>Attention&#160;: le signe moins change le milieu mais PAS les extr&#233;mit&#233;s&#160;!</small></div>
+    <div class="step-example">(x &#8722; 4)&#178; = x&#178; &#8722; 2<span class="op-fois">&#8901;</span>x<span class="op-fois">&#8901;</span>4 + 4&#178; = <b>x&#178; &#8722; 8x + 16</b></div>
+    <div class="id-box"><b>3. (a + b)(a &#8722; b) = a&#178; &#8722; b&#178;</b> &#8592; "diff&#233;rence de carr&#233;s"<br><small>Les termes du milieu se simplifient&#160;! +ab &#8722; ab = 0</small></div>
+    <div class="step-example">(x + 5)(x &#8722; 5) = x&#178; &#8722; 5&#178; = <b>x&#178; &#8722; 25</b></div>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">&#128203; M&#233;thode</span>
+    <ol class="steps"><li>Identifie <b>a</b> et <b>b</b> dans l'expression</li><li>Choisis la bonne identit&#233; parmi les 3</li><li>Remplace et calcule les coefficients</li></ol>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="startTrain('identites')">Commencer l'entra&#238;nement &#8594;</button></div>
+</section>
+
+<section id="expReduire" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>&#9986;&#65039; R&#233;duire une expression</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">&#128204; R&#232;gles des parenth&#232;ses</span>
+    <div class="step-example"><b>+ (ax + b)</b> = +ax + b &#8592; signe + : on garde tout</div>
+    <div class="step-example"><b>&#8722; (ax + b)</b> = &#8722;ax &#8722; b &#8592; signe &#8722; : on change tous les signes&#160;!</div>
+    <p class="note">&#9888;&#65039; Le pi&#232;ge&#160;: &#8722;(x + 5) = <b>&#8722;x &#8722; 5</b>, et non &#8722;x + 5&#160;!</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">&#128161; Exemples guid&#233;s</span>
+    <p class="lead">Exemple 1 &#8212; Somme&#160;:</p>
+    <div class="step-example">3(x + 2) + 2(x &#8722; 1)<br>= 3x + 6 + 2x &#8722; 2 &#8592; on d&#233;veloppe<br>= (3x + 2x) + (6 &#8722; 2) &#8592; on regroupe<br>= <b>5x + 4</b></div>
+    <p class="lead">Exemple 2 &#8212; Diff&#233;rence&#160;:</p>
+    <div class="step-example">4(x + 3) &#8722; (x + 5)<br>= 4x + 12 &#8722; x &#8722; 5 &#8592; attention&#160;! &#8722;(x+5) = &#8722;x &#8722; 5<br>= (4x &#8722; x) + (12 &#8722; 5)<br>= <b>3x + 7</b></div>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('reduire')">Commencer l'entra&#238;nement &#8594;</button></div>
+</section>
+
+<section id="expFactoriser" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>&#129329; Factoriser une expression</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">&#128269; C'est quoi factoriser&#160;?</span>
+    <p class="lead">Factoriser = &#233;crire comme un <b>PRODUIT</b> de facteurs (avec des parenth&#232;ses). C'est l'<em>oppos&#233;</em> de d&#233;velopper&#160;!</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">&#128309; M&#233;thode 1 &#8212; Facteur commun</span>
+    <p class="lead">On cherche le plus grand nombre qui divise tous les coefficients.</p>
+    <div class="step-example">6x + 4 = 2<span class="op-fois">&#8901;</span>(3x + 2) &#8592; le facteur commun est 2</div>
+    <div class="step-example">15x&#178; &#8722; 10x = 5x<span class="op-fois">&#8901;</span>(3x &#8722; 2) &#8592; le facteur commun est 5x</div>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">&#128312; M&#233;thode 2 &#8212; Identit&#233;s (lire &#224; l'envers&#160;!)</span>
+    <div class="step-example">x&#178; &#8722; 9 = x&#178; &#8722; 3&#178; = (x+3)(x&#8722;3)</div>
+    <div class="step-example">x&#178; + 6x + 9 = (x+3)&#178;</div>
+    <div class="step-example">x&#178; &#8722; 8x + 16 = (x&#8722;4)&#178;</div>
+  </div>
+  <div class="mid"><button class="btn bleu" onclick="startTrain('factoriser')">Commencer l'entra&#238;nement &#8594;</button></div>
 </section>
 
 <section id="ecranTrain" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2 id="trainTitle">Entra&#238;nement</h2></div>
   <div class="card" id="tq_card">
     <div class="serieprog" id="tq_prog"></div>
     <div class="helpnote" id="tq_help"></div>
@@ -273,243 +315,484 @@ button,input{touch-action:manipulation}
       <div class="question" id="tq_text"></div>
       <div class="opts" id="tq_opts" style="display:none"></div>
       <div class="ansrow" id="tq_ansrow">
-        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
-        <button class="btn fant sqbtn" id="tq_sq" style="display:none" onclick="insertSq('tq')">x²</button>
+        <input id="tq_input" inputmode="decimal" placeholder="ta r&#233;ponse" autocomplete="off">
         <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
       </div>
+      <div class="cascade" id="tq_casc" style="display:none"></div>
       <div class="feedback" id="tq_feed"></div>
       <div class="stars" id="tq_stars"></div>
-      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant ➜</button></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant &#8594;</button></div>
     </div>
   </div>
   <div class="card result" id="tq_result" style="display:none">
-    <div class="big" id="tq_rbig">0 / 10</div>
+    <div class="big" id="tq_rbig"></div>
     <div class="msg" id="tq_rmsg"></div>
     <div class="rbtns" id="tq_rbtns"></div>
   </div>
 </section>
 
 <section id="arene" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L’arène du calcul littéral</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>&#9876;&#65039; L'ar&#232;ne du calcul</h2></div>
   <div class="card" id="areneMenu">
-    <p class="lead" style="text-align:center">Bravo, séquence terminée ! Entraînement libre, sans note.</p>
+    <p class="lead" style="text-align:center">Parcours termin&#233;&#160;! Entra&#238;nement libre, sans note.</p>
     <div class="catgrid">
-      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('substituer')"><span class="ic">🔢</span>Substituer</button>
-      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('reduire')"><span class="ic">🟰</span>Réduire</button>
-      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('parentheses')"><span class="ic">( )</span>Parenthèses</button>
-      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('developper')"><span class="ic">✖️</span>Développer</button>
+      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('vocabulaire')"><span class="ic">&#128214;</span>Vocabulaire</button>
+      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('developper')"><span class="ic">&#128208;</span>D&#233;velopper</button>
+      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('identites')"><span class="ic">&#128483;</span>Identit&#233;s</button>
+      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('reduire')"><span class="ic">&#9986;&#65039;</span>R&#233;duire</button>
+      <button class="cat" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="startArene('factoriser')"><span class="ic">&#129329;</span>Factoriser</button>
     </div>
-    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
+    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)" onclick="startArene('mix')">&#127922; Mode m&#233;lang&#233; (tout)</button></div>
   </div>
   <div class="card" id="areneJeu" style="display:none">
-    <div class="scorebar"><span class="pill">⭐ <span id="aq_score">0</span></span><span class="pill">🔥 <span id="aq_streak">0</span></span><span class="pill">🎯 <span id="aq_corr">0</span>/<span id="aq_tot">0</span></span></div>
+    <div class="scorebar"><span class="pill">&#11088; <span id="aq_score">0</span></span><span class="pill">&#128293; <span id="aq_streak">0</span></span><span class="pill">&#127919; <span id="aq_corr">0</span>/<span id="aq_tot">0</span></span></div>
     <div class="qcard">
       <div class="qcat" id="aq_cat"></div>
       <div class="figbox" id="aq_viz" style="display:none"></div>
       <div class="question" id="aq_text"></div>
       <div class="opts" id="aq_opts" style="display:none"></div>
       <div class="ansrow" id="aq_ansrow">
-        <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
-        <button class="btn fant sqbtn" id="aq_sq" style="display:none" onclick="insertSq('aq')">x²</button>
+        <input id="aq_input" inputmode="decimal" placeholder="ta r&#233;ponse" autocomplete="off">
         <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
       </div>
+      <div class="cascade" id="aq_casc" style="display:none"></div>
       <div class="feedback" id="aq_feed"></div>
       <div class="stars" id="aq_stars"></div>
-      <div class="mid" style="margin-top:14px"><button class="btn orange" id="aq_next" style="display:none" onclick="quizNext()">Suivant ➜</button> <button class="btn fant" onclick="finArene()">Changer</button></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="aq_next" style="display:none" onclick="quizNext()">Suivant &#8594;</button> <button class="btn fant" onclick="finArene()">Changer</button></div>
     </div>
   </div>
 </section>
+
 </div>
-<button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">🧮</button>
+
+<button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">&#129518;</button>
 <div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
-  <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
+  <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">&#10005;</button></div>
   <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
   <div class="kc-keys" id="kcKeys"></div>
+  <button class="kc-send" onclick="kcSend()">&#8679; Envoyer le r&#233;sultat dans la r&#233;ponse</button>
 </div>
-<script>
-/* ===== SUIVI ===== */
-var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Calcul littéral'};
-function suiviInitIdentite(){try{var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe');if(!e||!c)gid('idov').hidden=false;}catch(_){}}
-function suiviSave(){var p=(gid('idPrenom').value||'').trim(),c=(gid('idClasse').value||'').trim();if(!p||!c)return;try{localStorage.setItem('kc_eleve',p);localStorage.setItem('kc_classe',c);}catch(_){}gid('idov').hidden=true;}
-function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
 
-const ORDER=['substituer','reduire','parentheses','developper'];
-const EXP={substituer:'expSubstituer',reduire:'expReduire',parentheses:'expParentheses',developper:'expDevelopper'};
-const MAPID={substituer:'mapSubstituer',reduire:'mapReduire',parentheses:'mapParentheses',developper:'mapDevelopper'};
-const TITLE={substituer:'Substituer',reduire:'Réduire',parentheses:'Parenthèses',developper:'Développer'};
-const unlocked={substituer:true,reduire:false,parentheses:false,developper:false,arene:false};
-const themeDone={substituer:false,reduire:false,parentheses:false,developper:false};
-let currentTheme='substituer';const REQUIRED=6;
-const SERIE=10, SEUIL=8;
-const CATNOM={substituer:'Substituer',reduire:'Réduire',parentheses:'Parenthèses',developper:'Développer'};
-const THEME_CATS={substituer:['substituer'],reduire:['reduire'],parentheses:['parentheses'],developper:['developper']};
-const HELP={
-  substituer:'Remplace x par le nombre, puis calcule en respectant les priorités.',
-  reduire:'Regroupe les x avec les x, les x² avec les x², les nombres ensemble. Bouton x² pour le carré.',
-  parentheses:'+( ) : on garde les signes. −( ) : on change tous les signes. Puis on réduit.',
-  developper:'k(a+b)=ka+kb. (a+b)(c+d)=ac+ad+bc+bd. Puis on réduit.'
+<script>
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Calcul litt\u00e9ral'};
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' \u00b7 '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+var SSDONE={};
+function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' \u00b7 '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom+' \u203a '+label);b.append(SUIVI.f.statut,'Termin\u00e9');b.append(SUIVI.f.score,'');b.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+
+var ORDER=['vocabulaire','developper','identites','reduire','factoriser'];
+var EXP={vocabulaire:'expVocabulaire',developper:'expDevelopper',identites:'expIdentites',reduire:'expReduire',factoriser:'expFactoriser'};
+var MAPID={vocabulaire:'mapVocabulaire',developper:'mapDevelopper',identites:'mapIdentites',reduire:'mapReduire',factoriser:'mapFactoriser'};
+var TITLE={vocabulaire:'Vocabulaire',developper:'D\u00e9velopper',identites:'Identit\u00e9s remarquables',reduire:'R\u00e9duire',factoriser:'Factoriser'};
+var CASCADE_THEMES={developper:true,identites:true,reduire:true,factoriser:true};
+var unlocked={vocabulaire:true,developper:false,identites:false,reduire:false,factoriser:false,arene:false};
+var themeDone={vocabulaire:false,developper:false,identites:false,reduire:false,factoriser:false};
+var currentTheme='vocabulaire';
+var SERIE=10,SEUIL=8;
+function serieLen(){return CASCADE_THEMES[currentTheme]?5:SERIE;}
+function seuilFor(){return CASCADE_THEMES[currentTheme]?4:SEUIL;}
+
+var CATNOM={vocabulaire:'Vocabulaire',developper:'D\u00e9velopper',identites:'Identit\u00e9s remarquables',reduire:'R\u00e9duire',factoriser:'Factoriser'};
+var THEME_CATS={vocabulaire:['vocabulaire'],developper:['developper'],identites:['identites'],reduire:['reduire'],factoriser:['factoriser']};
+var HELP={
+  vocabulaire:'Mon\u00f4me = 1 terme, bin\u00f4me = 2 termes, trin\u00f4me = 3 termes. Degr\u00e9 = plus grand exposant. Coefficient = nombre devant la variable.',
+  developper:'Distributivit\u00e9 simple\u00a0: k\u22c5(ax+b) = k\u22c5ax + k\u22c5b. Double\u00a0: (ax+b)(cx+d) \u2192 4 produits puis r\u00e9duire.',
+  identites:'(a+b)\u00b2 = a\u00b2+2ab+b\u00b2  |  (a\u2212b)\u00b2 = a\u00b2\u22122ab+b\u00b2  |  (a+b)(a\u2212b) = a\u00b2\u2212b\u00b2',
+  reduire:'+(ax+b) garde les signes. \u2212(ax+b) change TOUS les signes. Regroupe ensuite les termes semblables.',
+  factoriser:'Cherche le PGCD des coefficients. Ou reconnais a\u00b2\u2212b\u00b2=(a+b)(a\u2212b), a\u00b2+2ab+b\u00b2=(a+b)\u00b2.'
 };
+
 function gid(x){return document.getElementById(x);}
-function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();}
-function wiggle(id){const el=gid(id);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}
+function go(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();}
+function wiggle(id){var el=gid(id);el.classList.add('shake');setTimeout(function(){el.classList.remove('shake');},400);}
 function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
 function tapArene(){if(unlocked.arene)go('arene');else wiggle('mapArene');}
 function openTheme(t){currentTheme=t;go(EXP[t]);}
-function updateMap(){ORDER.forEach(t=>{const c=gid(MAPID[t]);c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');});
-  const ar=gid('mapArene');ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';}
-
-/* ===== utilitaires ===== */
+function updateMap(){ORDER.forEach(function(t){var c=gid(MAPID[t]);c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'\u2705':(unlocked[t]?'\u25b6':'\ud83d\udd12');});var ar=gid('mapArene');ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'\u25b6':'\ud83d\udd12';}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function rint(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function fmtDec(v){if(!isFinite(v))return '?';return (Math.round(v*100)/100).toString().replace('.',',');}
-function r2(v){return Math.round(v*100)/100;}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function nbs(s){var m=String(s).replace(/,/g,'.').match(/-?[\d]+(?:\.[\d]+)?/g);return m?m.map(Number):[];}
+function norm(s){return String(s).toLowerCase().trim().replace(/\s+/g,'').replace(/[\u00e9\u00e8\u00ea]/g,'e').replace(/[\u00e0\u00e2]/g,'a').replace(/[\u00ef\u00ee]/g,'i').replace(/[\u00f4\u00f6]/g,'o').replace(/[\u00fb\u00fc]/g,'u').replace(/['\u2019]/g,'');}
 
-function qcm(cat,t,opts,ci,e,viz){const o=shuffle(opts);return {type:'qcm',cat,text:t,options:o,correct:o.indexOf(opts[ci]),explain:e,viz};}
+function genVocabulaire(){
+  var pool=[
+    {t:'Quel est le degr\u00e9 du polyn\u00f4me 3x\u00b2 + 2x \u2212 1\u00a0?',o:['2','1','3'],c:0,e:'Le plus grand exposant est 2\u00a0: degr\u00e9 2.'},
+    {t:'Comment appelle-t-on 4x \u2212 7\u00a0?',o:['Un bin\u00f4me','Un mon\u00f4me','Un trin\u00f4me'],c:0,e:'4x \u2212 7 est une somme de deux mon\u00f4mes\u00a0: c\'est un bin\u00f4me.'},
+    {t:'Comment appelle-t-on 3x\u00b2 + x \u2212 5\u00a0?',o:['Un trin\u00f4me','Un bin\u00f4me','Un mon\u00f4me'],c:0,e:'3 termes\u00a0: c\'est un trin\u00f4me.'},
+    {t:'Comment appelle-t-on \u22127x\u2074\u00a0?',o:['Un mon\u00f4me','Un bin\u00f4me','Un polyn\u00f4me de degr\u00e9 2'],c:0,e:'Un seul terme\u00a0: c\'est un mon\u00f4me de degr\u00e9 4.'},
+    {t:'Quel est le degr\u00e9 du mon\u00f4me \u22128x\u00a0?',o:['1','0','8'],c:0,e:'x est \u00e0 la puissance 1\u00a0: degr\u00e9 1.'},
+    {t:'Quel est le degr\u00e9 de la constante 7\u00a0?',o:['0','1','7'],c:0,e:'Une constante est un polyn\u00f4me de degr\u00e9 0.'},
+    {t:'Dans 5x, quel est le coefficient de x\u00a0?',o:['5','x','1'],c:0,e:'Le coefficient est le nombre devant la variable\u00a0: ici 5.'},
+    {t:'Dans \u22123x\u00b2, quel est le coefficient de x\u00b2\u00a0?',o:['\u22123','3','x\u00b2'],c:0,e:'Le coefficient est \u22123 (on garde le signe\u00a0!).'},
+    {t:'Quel est le degr\u00e9 du polyn\u00f4me 2x\u00b3 \u2212 x + 1\u00a0?',o:['3','1','2'],c:0,e:'Le plus grand exposant est 3\u00a0: degr\u00e9 3.'},
+    {t:'3x + 2 est un\u2026',o:['bin\u00f4me de degr\u00e9 1','trin\u00f4me de degr\u00e9 2','mon\u00f4me de degr\u00e9 3'],c:0,e:'Deux termes (bin\u00f4me), la variable est \u00e0 la puissance 1 (degr\u00e9 1).'}
+  ];
+  var q=pick(pool);var opts=shuffle(q.o);
+  return {type:'qcm',cat:'vocabulaire',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+}
 
-/* ===== polynômes (degré <= 2) ===== */
-function parsePoly(s){s=String(s).toLowerCase().replace(/\s/g,'').replace(/\u00b2/g,'^2').replace(/\u00d7/g,'').replace(/\u2212/g,'-').replace(/\*/g,'');
-  if(s==='')return null;if(s[0]!=='+'&&s[0]!=='-')s='+'+s;
-  var re=/([+-])([^+-]+)/g,m,b={0:0,1:0,2:0},any=false;
-  while((m=re.exec(s))){var sign=m[1]==='-'?-1:1,body=m[2],deg,coef;
-    if(body.indexOf('x^2')>=0){deg=2;var c=body.replace('x^2','');coef=(c===''?1:parseFloat(c));}
-    else if(body.indexOf('x')>=0){deg=1;var c2=body.replace('x','');coef=(c2===''?1:parseFloat(c2));}
-    else{deg=0;coef=parseFloat(body);}
-    if(!isFinite(coef))return null;b[deg]+=sign*coef;any=true;}
-  return any?b:null;}
-function polyEq(b,t){return Math.abs(b[0]-(t[0]||0))<1e-9&&Math.abs(b[1]-(t[1]||0))<1e-9&&Math.abs(b[2]-(t[2]||0))<1e-9;}
-function polyStr(t){var parts=[];function add(c,suf){if(Math.abs(c)<1e-9)return;var a=Math.abs(c);var co=(a===1&&suf!=='')?'':a;parts.push([c<0,co+suf]);}
-  add(t[2]||0,'x\u00b2');add(t[1]||0,'x');add(t[0]||0,'');
-  if(parts.length===0)return '0';
-  var s=(parts[0][0]?'\u2212':'')+parts[0][1];
-  for(var i=1;i<parts.length;i++)s+=(parts[i][0]?' \u2212 ':' + ')+parts[i][1];return s;}
-function insertSq(which){var inp=gid(which+'_input');inp.value+='\u00b2';inp.focus();}
-function tStr(c,deg){var suf=deg===2?'x\u00b2':deg===1?'x':'';var a=Math.abs(c);var co=(a===1&&suf!=='')?'':a;return co+suf;}
-function termsToStr(list){var s='';for(var i=0;i<list.length;i++){var c=list[i].c,deg=list[i].deg,p=tStr(c,deg);if(i===0)s+=(c<0?'\u2212':'')+p;else s+=(c<0?' \u2212 ':' + ')+p;}return s;}
-function split2(c){if(c===0){var k=rint(1,6);return [k,-k];}var p=rint(-6,6);return [p,c-p];}
-function split2nz(c){var p;do{p=rint(-7,7);}while(p===0||p===c);return [p,c-p];}
-
-/* ===== générateurs ===== */
-function exprStr(c2,c1,c0){return polyStr({2:c2,1:c1,0:c0});}
-function genSubstituer(){
-  var v=rint(-5,6);var c2,c1,c0,src,ans;
-  if(Math.random()<0.5){c1=rint(-6,9);if(c1===0)c1=3;c0=rint(-9,9);src=exprStr(0,c1,c0);ans=c1*v+c0;}
-  else{c2=pick([1,1,2,-1]);c1=rint(-5,6);c0=rint(-6,6);src=exprStr(c2,c1,c0);ans=c2*v*v+c1*v+c0;}
-  return {type:'num',cat:'substituer',text:'Calcule '+src+' pour x = '+v+'.',answer:ans,disp:''+ans,explain:'On remplace x par '+v+' : on obtient '+ans+'.',raw:{kind:'subst',src:src,v:v}};
-}
-function genReduire(){
-  if(Math.random()<0.12){var pool=[
-    ['Peut-on additionner 3x et 2x\u00b2 ?',['Non, ce ne sont pas des termes semblables','Oui, cela fait 5x\u00b3','Oui, cela fait 5x'],'x et x\u00b2 ne sont pas semblables : on ne les regroupe pas.'],
-    ['Combien vaut x + x ?',['2x','x\u00b2','2x\u00b2'],'x + x = 2x.'],
-    ['Combien vaut 5x \u2212 5x ?',['0','x','10x'],'5x \u2212 5x = 0.']];
-    var q=pick(pool);return qcm('reduire',q[0],q[1],0,q[2],null);}
-  var c2=pick([0,0,0,1,-1,2]),c1=rint(-9,9);if(c1===0)c1=pick([4,-4,6,7]);var c0=rint(-9,9);
-  var list=[];var s1=split2nz(c1);list.push({c:s1[0],deg:1},{c:s1[1],deg:1});
-  var s0=split2(c0);if(s0[0]!==0)list.push({c:s0[0],deg:0});if(s0[1]!==0)list.push({c:s0[1],deg:0});
-  if(s0[0]===0&&s0[1]===0&&c0!==0)list.push({c:c0,deg:0});
-  if(c2!==0){if(Math.random()<0.5){var s2=split2nz(c2);list.push({c:s2[0],deg:2},{c:s2[1],deg:2});}else list.push({c:c2,deg:2});}
-  else if(Math.random()<0.3){var k=rint(1,4);list.push({c:k,deg:2},{c:-k,deg:2});}
-  list=shuffle(list);var src=termsToStr(list);var target={2:c2,1:c1,0:c0};
-  return {type:'free',cat:'reduire',text:'Réduis l’expression : '+src,target:target,disp:polyStr(target),explain:'On regroupe les termes semblables : '+polyStr(target)+'.',raw:{kind:'free',src:src,target:target}};
-}
-function genParentheses(){
-  if(Math.random()<0.18){var pool=[
-    ['Pour enlever une parenthèse précédée d’un « + », on…',['ne change rien aux signes','change tous les signes','supprime un terme'],'Un + devant : on garde les signes.'],
-    ['Pour enlever une parenthèse précédée d’un « − », on…',['change le signe de tous les termes à l’intérieur','ne change rien','garde seulement le premier terme'],'Un − devant : on change tous les signes.']];
-    var q=pick(pool);return qcm('parentheses',q[0],q[1],0,q[2],null);}
-  var a=rint(-6,8);if(a===0)a=3;var b=rint(-6,7);if(b===0)b=2;var c=rint(-8,8);if(c===0)c=4;var mode=pick(['A','B','C']);var src,target;
-  if(mode==='A'){src=termsToStr([{c:a,deg:1}])+' + ('+termsToStr([{c:b,deg:1},{c:c,deg:0}])+')';target={1:a+b,0:c};}
-  else if(mode==='B'){src=termsToStr([{c:a,deg:1}])+' \u2212 ('+termsToStr([{c:b,deg:1},{c:c,deg:0}])+')';target={1:a-b,0:-c};}
-  else{var d=rint(-6,7);if(d===0)d=5;var c1=rint(-8,8);src='('+termsToStr([{c:a,deg:1},{c:c1,deg:0}])+') \u2212 ('+termsToStr([{c:b,deg:1},{c:c,deg:0}])+')';target={1:a-b,0:c1-c};}
-  return {type:'free',cat:'parentheses',text:'Supprime les parenthèses et réduis : '+src,target:target,disp:polyStr(target),explain:'Après avoir enlevé les parenthèses et réduit : '+polyStr(target)+'.',raw:{kind:'free',src:src,target:target}};
-}
 function genDevelopper(){
-  if(Math.random()<0.14){var pool=[
-    ['Développer, c’est…',['transformer un produit en somme','factoriser','réduire une fraction'],'Développer = transformer un produit en somme.'],
-    ['k(a + b) est égal à…',['k×a + k×b','k×a + b','k + a + b'],'On distribue : k×a + k×b.']];
-    var q=pick(pool);return qcm('developper',q[0],q[1],0,q[2],null);}
-  if(Math.random()<0.55){var k=pick([-5,-4,-3,-2,2,3,4,5]),a=rint(1,6),b=rint(-6,6);if(b===0)b=3;
-    var src=(k<0?'\u2212':'')+Math.abs(k)+'('+termsToStr([{c:a,deg:1},{c:b,deg:0}])+')';var target={1:k*a,0:k*b};
-    return {type:'free',cat:'developper',text:'Développe et réduis : '+src,target:target,disp:polyStr(target),explain:'On distribue : '+polyStr(target)+'.',raw:{kind:'free',src:src,target:target}};}
-  var a2=rint(-6,6);if(a2===0)a2=2;var b2=rint(-6,6);if(b2===0)b2=3;
-  var src2='('+termsToStr([{c:1,deg:1},{c:a2,deg:0}])+')('+termsToStr([{c:1,deg:1},{c:b2,deg:0}])+')';
-  var target2={2:1,1:a2+b2,0:a2*b2};
-  return {type:'free',cat:'developper',text:'Développe et réduis : '+src2,target:target2,disp:polyStr(target2),explain:'Double distributivité : '+polyStr(target2)+'.',raw:{kind:'free',src:src2,target:target2}};
+  var kind=pick(['simple','negSimple','double']);
+  if(kind==='simple'){
+    var k=rint(2,4),a=rint(1,3),b=rint(1,8);
+    var r1=k*a,r2=k*b;
+    return {type:'cascade',cat:'developper',sig:'Ds'+k+a+b,
+      text:'D\u00e9veloppe et r\u00e9duis\u00a0: '+k+'('+a+'x + '+b+')',
+      steps:[
+        {prompt:'Distribue '+k+' dans la parenth\u00e8se. Quel est le terme en x\u00a0?',
+         aide:k+'\u00d7'+a+'x = '+r1+'x, donc le coefficient de x est '+r1,
+         parts:['terme en x\u00a0: ',{b:1,kind:'num',ans:r1,show:''+r1,w:60},'x']},
+        {prompt:'Quel est le terme constant (sans x)\u00a0?',
+         aide:k+'\u00d7'+b+' = '+r2,
+         parts:['terme constant\u00a0: ',{b:1,kind:'num',ans:r2,show:''+r2,w:60}]}
+      ]};
+  } else if(kind==='negSimple'){
+    if(rint(0,1)===0){
+      var k=rint(2,4),a=rint(1,3),b=rint(2,6);
+      var r1=k*a,r2=k*b;
+      return {type:'cascade',cat:'developper',sig:'Dn'+k+a+b,
+        text:'D\u00e9veloppe et r\u00e9duis\u00a0: '+k+'('+a+'x \u2212 '+b+')',
+        steps:[
+          {prompt:'Distribue '+k+'. Quel est le terme en x\u00a0?',
+           aide:k+'\u00d7'+a+'x = '+r1+'x',
+           parts:['terme en x\u00a0: ',{b:1,kind:'num',ans:r1,show:''+r1,w:60},'x']},
+          {prompt:'Quel est le terme constant\u00a0? (attention au signe !)',
+           aide:k+'\u00d7(\u2212'+b+') = \u2212'+r2,
+           parts:['terme constant\u00a0: ',{b:1,kind:'num',ans:-r2,show:'\u2212'+r2,w:70}]}
+        ]};
+    } else {
+      var b=rint(2,7);
+      return {type:'cascade',cat:'developper',sig:'Dneg'+b,
+        text:'D\u00e9veloppe et r\u00e9duis\u00a0: \u2212(x + '+b+')',
+        steps:[
+          {prompt:'Quel est le terme en x apr\u00e8s suppression de la parenth\u00e8se ?',
+           aide:'\u22121\u00d7x = \u2212x, coefficient de x = \u22121',
+           parts:['terme en x\u00a0: ',{b:1,kind:'num',ans:-1,show:'\u22121',w:60},'x']},
+          {prompt:'Quel est le terme constant\u00a0?',
+           aide:'\u22121\u00d7'+b+' = \u2212'+b,
+           parts:['terme constant\u00a0: ',{b:1,kind:'num',ans:-b,show:'\u2212'+b,w:70}]}
+        ]};
+    }
+  } else {
+    var b=rint(1,6),d=rint(1,6);
+    var coefX=b+d,cst=b*d;
+    return {type:'cascade',cat:'developper',sig:'Dd'+b+d,
+      text:'D\u00e9veloppe et r\u00e9duis\u00a0: (x + '+b+')(x + '+d+')',
+      steps:[
+        {prompt:'Multiplie x\u22c5x. Quel est le coefficient de x\u00b2\u00a0?',
+         aide:'x\u22c5x = x\u00b2, coefficient = 1',
+         parts:['coefficient de x\u00b2\u00a0: ',{b:1,kind:'num',ans:1,show:'1',w:50}]},
+        {prompt:'Additionne les termes en x\u00a0: x\u22c5'+d+' + '+b+'\u22c5x. Quel est le coefficient de x\u00a0?',
+         aide:d+'x + '+b+'x = '+(b+d)+'x',
+         parts:['coefficient de x\u00a0: ',{b:1,kind:'num',ans:coefX,show:''+coefX,w:60}]},
+        {prompt:'Quel est le terme constant\u00a0?',
+         aide:b+'\u22c5'+d+' = '+cst,
+         parts:['terme constant\u00a0: ',{b:1,kind:'num',ans:cst,show:''+cst,w:60}]}
+      ]};
+  }
 }
-var GEN={substituer:genSubstituer,reduire:genReduire,parentheses:genParentheses,developper:genDevelopper};
-/* ===== moteur de quiz (série notée) ===== */
-function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
+
+function genIdentites(){
+  var bVal=rint(2,5);
+  var kind=pick(['pp','mm','diff']);
+  if(kind==='pp'){
+    var coeff=2*bVal;
+    return {type:'cascade',cat:'identites',sig:'Ipp'+bVal,
+      text:'D\u00e9veloppe en utilisant une identit\u00e9 remarquable\u00a0: (x + '+bVal+')\u00b2',
+      steps:[
+        {prompt:'Identifie b dans (x + '+bVal+')\u00b2. Quelle est la valeur de b\u00a0?',
+         aide:'On compare avec (a + b)\u00b2\u00a0: a = x, b = '+bVal,
+         parts:['b = ',{b:1,kind:'num',ans:bVal,show:''+bVal,w:60}]},
+        {prompt:'Applique (a+b)\u00b2 = a\u00b2 + 2ab + b\u00b2. Quel est le coefficient de x\u00a0?',
+         aide:'2ab = 2\u22c5x\u22c5'+bVal+' = '+coeff+'x. R\u00e9sultat\u00a0: x\u00b2 + '+coeff+'x + '+(bVal*bVal),
+         parts:['coefficient de x\u00a0: ',{b:1,kind:'num',ans:coeff,show:''+coeff,w:70}]}
+      ]};
+  } else if(kind==='mm'){
+    var coeff=2*bVal;
+    return {type:'cascade',cat:'identites',sig:'Imm'+bVal,
+      text:'D\u00e9veloppe en utilisant une identit\u00e9 remarquable\u00a0: (x \u2212 '+bVal+')\u00b2',
+      steps:[
+        {prompt:'Identifie b dans (x \u2212 '+bVal+')\u00b2. Quelle est la valeur de b\u00a0?',
+         aide:'On compare avec (a \u2212 b)\u00b2\u00a0: a = x, b = '+bVal,
+         parts:['b = ',{b:1,kind:'num',ans:bVal,show:''+bVal,w:60}]},
+        {prompt:'Applique (a\u2212b)\u00b2 = a\u00b2 \u2212 2ab + b\u00b2. Quel est le coefficient de x\u00a0? (n\u00e9gatif !)',
+         aide:'\u22122ab = \u22122\u22c5x\u22c5'+bVal+' = \u2212'+coeff+'x. R\u00e9sultat\u00a0: x\u00b2 \u2212 '+coeff+'x + '+(bVal*bVal),
+         parts:['coefficient de x\u00a0: ',{b:1,kind:'num',ans:-coeff,show:'\u2212'+coeff,w:70}]}
+      ]};
+  } else {
+    var b2=bVal*bVal;
+    return {type:'cascade',cat:'identites',sig:'Idiff'+bVal,
+      text:'D\u00e9veloppe en utilisant une identit\u00e9 remarquable\u00a0: (x + '+bVal+')(x \u2212 '+bVal+')',
+      steps:[
+        {prompt:'Identifie b dans (x + '+bVal+')(x \u2212 '+bVal+'). Quelle est la valeur de b\u00a0?',
+         aide:'On compare avec (a+b)(a\u2212b)\u00a0: a = x, b = '+bVal,
+         parts:['b = ',{b:1,kind:'num',ans:bVal,show:''+bVal,w:60}]},
+        {prompt:'Applique (a+b)(a\u2212b) = a\u00b2 \u2212 b\u00b2. Quel est le terme constant\u00a0?',
+         aide:'x\u00b2 \u2212 '+bVal+'\u00b2 = x\u00b2 \u2212 '+b2+'. Terme constant\u00a0: \u2212'+b2,
+         parts:['terme constant\u00a0: ',{b:1,kind:'num',ans:-b2,show:'\u2212'+b2,w:70}]}
+      ]};
+  }
+}
+
+function genReduire(){
+  var kind=pick(['somme','diff','negsign']);
+  if(kind==='negsign'){
+    var a=rint(1,3),b=rint(2,7),sg=pick([1,-1]);
+    var bSign=sg>0?'+':'\u2212';
+    var resCoef=-a,resCst=-sg*b;
+    return {type:'cascade',cat:'reduire',sig:'Rn'+a+b+sg,
+      text:'Supprime la parenth\u00e8se et r\u00e9duis\u00a0: \u2212('+a+'x '+bSign+' '+b+')',
+      steps:[
+        {prompt:'Quel est le coefficient de x apr\u00e8s suppression\u00a0? (le signe \u2212 change tout !)',
+         aide:'\u2212('+a+'x ...) = \u2212'+a+'x ..., coefficient = \u2212'+a,
+         parts:['coefficient de x\u00a0: ',{b:1,kind:'num',ans:resCoef,show:'\u2212'+a,w:70}]},
+        {prompt:'Quel est le terme constant\u00a0?',
+         aide:'\u2212(... '+bSign+' '+b+') donne terme constant\u00a0: '+resCst,
+         parts:['terme constant\u00a0: ',{b:1,kind:'num',ans:resCst,show:''+resCst,w:70}]}
+      ]};
+  } else if(kind==='somme'){
+    var k1=rint(2,4),k2=rint(1,3),b1=rint(1,6),b2=rint(1,6);
+    var coefX=k1+k2;
+    return {type:'cascade',cat:'reduire',sig:'Rs'+k1+k2+b1+b2,
+      text:'D\u00e9veloppe et r\u00e9duis\u00a0: '+k1+'(x + '+b1+') + '+k2+'(x + '+b2+')',
+      steps:[
+        {prompt:'D\u00e9veloppe '+k1+'(x + '+b1+'). Quel est le r\u00e9sultat\u00a0?',
+         aide:k1+'\u00d7x + '+k1+'\u00d7'+b1+' = '+k1+'x + '+(k1*b1),
+         parts:['r\u00e9sultat\u00a0: ',{b:1,kind:'num',ans:k1,show:''+k1,w:50},'x + ',{b:1,kind:'num',ans:k1*b1,show:''+(k1*b1),w:60}]},
+        {prompt:'D\u00e9veloppe '+k2+'(x + '+b2+'). Quel est le r\u00e9sultat\u00a0?',
+         aide:k2+'\u00d7x + '+k2+'\u00d7'+b2+' = '+k2+'x + '+(k2*b2),
+         parts:['r\u00e9sultat\u00a0: ',{b:1,kind:'num',ans:k2,show:''+k2,w:50},'x + ',{b:1,kind:'num',ans:k2*b2,show:''+(k2*b2),w:60}]},
+        {prompt:'R\u00e9duis. Quel est le coefficient de x dans l\'expression finale\u00a0?',
+         aide:k1+'x + '+k2+'x = '+(k1+k2)+'x',
+         parts:['coefficient de x\u00a0: ',{b:1,kind:'num',ans:coefX,show:''+coefX,w:70}]}
+      ]};
+  } else {
+    var k1=rint(3,5),k2=rint(1,3),b1=rint(2,6),b2=rint(1,5);
+    var coefX=k1-k2;
+    return {type:'cascade',cat:'reduire',sig:'Rd'+k1+k2+b1+b2,
+      text:'D\u00e9veloppe et r\u00e9duis\u00a0: '+k1+'(x + '+b1+') \u2212 '+k2+'(x + '+b2+')',
+      steps:[
+        {prompt:'D\u00e9veloppe '+k1+'(x + '+b1+'). Quel est le r\u00e9sultat\u00a0?',
+         aide:k1+'x + '+(k1*b1),
+         parts:['r\u00e9sultat\u00a0: ',{b:1,kind:'num',ans:k1,show:''+k1,w:50},'x + ',{b:1,kind:'num',ans:k1*b1,show:''+(k1*b1),w:60}]},
+        {prompt:'Attention au signe \u2212\u00a0! D\u00e9veloppe \u2212'+k2+'(x + '+b2+'). R\u00e9sultat\u00a0?',
+         aide:'\u2212'+k2+'\u00d7x = \u2212'+k2+'x et \u2212'+k2+'\u00d7'+b2+' = \u2212'+(k2*b2),
+         parts:['r\u00e9sultat\u00a0: \u2212',{b:1,kind:'num',ans:k2,show:''+k2,w:50},'x \u2212 ',{b:1,kind:'num',ans:k2*b2,show:''+(k2*b2),w:60}]},
+        {prompt:'R\u00e9duis. Quel est le coefficient de x dans l\'expression finale\u00a0?',
+         aide:k1+'x \u2212 '+k2+'x = '+(k1-k2)+'x',
+         parts:['coefficient de x\u00a0: ',{b:1,kind:'num',ans:coefX,show:''+coefX,w:70}]}
+      ]};
+  }
+}
+
+function genFactoriser(){
+  var kind=pick(['commun','diff','carre']);
+  if(kind==='commun'){
+    var k=rint(2,6),a=rint(1,3),b=rint(1,5);
+    var t1=k*a,t2=k*b;
+    return {type:'cascade',cat:'factoriser',sig:'Fc'+k+a+b,
+      text:'Factorise\u00a0: '+t1+'x + '+t2,
+      steps:[
+        {prompt:'Quel est le facteur commun (le PGCD des coefficients)\u00a0?',
+         aide:'PGCD('+t1+', '+t2+') = '+k,
+         parts:['facteur commun\u00a0: ',{b:1,kind:'num',ans:k,show:''+k,w:60}]},
+        {prompt:'Quel est le coefficient de x dans la parenth\u00e8se : '+k+'\u22c5(? x + ?)\u00a0?',
+         aide:t1+'x \u00f7 '+k+' = '+a+'x, coefficient = '+a,
+         parts:['coefficient de x\u00a0: ',{b:1,kind:'num',ans:a,show:''+a,w:60}]},
+        {prompt:'Quel est le terme constant dans la parenth\u00e8se\u00a0?',
+         aide:t2+' \u00f7 '+k+' = '+b,
+         parts:['terme constant\u00a0: ',{b:1,kind:'num',ans:b,show:''+b,w:60}]}
+      ]};
+  } else if(kind==='diff'){
+    var bVal=rint(2,5),b2=bVal*bVal;
+    return {type:'cascade',cat:'factoriser',sig:'Fd'+bVal,
+      text:'Factorise\u00a0: x\u00b2 \u2212 '+b2,
+      steps:[
+        {prompt:'Reconnais l\'identit\u00e9\u00a0: x\u00b2 \u2212 '+b2+' = x\u00b2 \u2212 b\u00b2. Quelle est la valeur de b\u00a0?',
+         aide:b2+' = '+bVal+'\u00b2. Donc b = '+bVal+'. Forme factoris\u00e9e : (x+'+bVal+')(x\u2212'+bVal+')',
+         parts:['b = ',{b:1,kind:'num',ans:bVal,show:''+bVal,w:60}]}
+      ]};
+  } else {
+    var bVal=rint(2,5),b2=bVal*bVal,db=2*bVal;
+    return {type:'cascade',cat:'factoriser',sig:'Fcp'+bVal,
+      text:'Factorise\u00a0: x\u00b2 + '+db+'x + '+b2,
+      steps:[
+        {prompt:'C\'est un carr\u00e9 parfait : x\u00b2 + '+db+'x + '+b2+' = (x + b)\u00b2. Quelle valeur de b\u00a0?',
+         aide:'2b = '+db+', donc b = '+bVal+'. V\u00e9rifie\u00a0: b\u00b2 = '+b2,
+         parts:['b = ',{b:1,kind:'num',ans:bVal,show:''+bVal,w:60}]},
+        {prompt:'V\u00e9rifie\u00a0: 2\u22c5b = coefficient de x. Que vaut 2\u22c5'+bVal+'\u00a0?',
+         aide:'2\u00d7'+bVal+' = '+db+' \u2714 Le coefficient de x est bien '+db,
+         parts:['2\u22c5'+bVal+' = ',{b:1,kind:'num',ans:db,show:''+db,w:60}]}
+      ]};
+  }
+}
+
+var GEN={vocabulaire:genVocabulaire,developper:genDevelopper,identites:genIdentites,reduire:genReduire,factoriser:genFactoriser};
+
+function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});(function(el){setTimeout(function(){el.remove();},fall);})(d);}}
 function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;if(s.indexOf('/')>=0){var p=s.split('/');if(p.length!==2)return null;var a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;return a/b;}var v=parseFloat(s);return isFinite(v)?v:null;}
-var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastText:'',timer:0};
-function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),sq:gid('tq_sq'),next:gid('tq_next'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
-function elsArene(){return {score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),sq:gid('aq_sq'),next:gid('aq_next')};}
+
+var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastText:'',timer:0,casc:null};
+
+function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),next:gid('tq_next'),casc:gid('tq_casc'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
+function elsArene(){return {score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next'),casc:gid('aq_casc')};}
+
 function quizStart(cats,guided,els){Q.cats=cats;Q.guided=guided;Q.els=els;Q.score=0;Q.answered=0;Q.correct=0;Q.streak=0;Q.locked=false;Q.lastText='';
   if(els.result)els.result.style.display='none';if(els.card)els.card.style.display='block';
   quizScore();quizNext();}
+
 function quizScore(){var e=Q.els;if(e.score)e.score.textContent=Q.score;if(e.streak)e.streak.textContent=Q.streak;if(e.corr)e.corr.textContent=Q.correct;if(e.tot)e.tot.textContent=Q.answered;
-  if(Q.guided&&e.prog)e.prog.innerHTML='Question <b>'+Math.min(Q.answered+1,SERIE)+'</b> / '+SERIE+'  ·  ✅ '+Q.correct;}
+  if(Q.guided&&e.prog)e.prog.innerHTML='Question <b>'+Math.min(Q.answered+1,serieLen())+'</b> / '+serieLen()+'  \u00b7  \u2705 '+Q.correct;}
+
 function quizNext(){clearTimeout(Q.timer);
-  if(Q.guided&&Q.answered>=SERIE){return quizResult();}
+  if(Q.guided&&Q.answered>=serieLen()){return quizResult();}
   Q.locked=false;var e=Q.els;e.feed.textContent='';e.feed.className='feedback';if(e.stars)e.stars.textContent='';if(e.next)e.next.style.display='none';
-  var cat,cur,tries=0;do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while(cur.text===Q.lastText&&tries<8);
-  Q.cur=cur;Q.lastText=cur.text;e.cat.textContent=CATNOM[cat];e.text.textContent=cur.text;
+  if(e.casc){e.casc.style.display='none';e.casc.innerHTML='';}
+  var cat,cur,tries=0;
+  do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while((cur.sig||cur.text)===Q.lastText&&tries<8);
+  Q.cur=cur;Q.lastText=(cur.sig||cur.text);e.cat.textContent=CATNOM[cat];e.text.textContent=cur.text;
   if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
-  if(cur.type==='qcm'){e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';cur.options.forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=function(){quizPick(i);};e.opts.appendChild(b);});}
-  else{e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.placeholder=(cur.type==='free')?'ex : 2x²+3x-1':'ta réponse';e.input.inputMode=(cur.type==='free')?'text':'decimal';if(e.sq)e.sq.style.display=(cur.type==='free')?'inline-flex':'none';e.input.focus();}
+  if(cur.type==='qcm'){e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';
+    cur.options.forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=function(){quizPick(i);};e.opts.appendChild(b);});}
+  else if(cur.type==='cascade'){e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);}
+  else{e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
   quizScore();}
-function quizValidate(){if(Q.locked||!Q.cur)return;var e=Q.els;if(Q.cur.type==='free'){var pr=parsePoly(e.input.value);if(pr===null){e.feed.className='feedback no';e.feed.textContent='Écris une expression (ex : 2x²+3x-1).';return;}e.input.disabled=true;e.valid.disabled=true;if(e.sq)e.sq.style.display='none';quizResolve(polyEq(pr,Q.cur.target),'La forme réduite est : '+Q.cur.disp+'.');return;}if(Q.cur.type!=='num')return;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La réponse est '+Q.cur.disp+'.');}
-function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'La bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');}
+
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='\u00c9cris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La r\u00e9ponse est '+Q.cur.disp+'.');}
+
+function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'La bonne r\u00e9ponse\u00a0: '+Q.cur.options[Q.cur.correct]+'.');}
+
 function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
-  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Bravo !<div class="feedlab">'+Q.cur.explain+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
-  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='❌ '+correctTxt+'<div class="feedlab">'+Q.cur.explain+'</div>';if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
+  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='\u2705 Bravo\u00a0!<div class="feedlab">'+(Q.cur.explain||correctTxt)+'</div>';if(e.stars)e.stars.textContent='\u2b50'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='\u274c '+correctTxt+'<div class="feedlab">'+(Q.cur.explain||'')+'</div>';if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
   quizScore();
-  var last=Q.guided&&Q.answered>=SERIE;
+  var last=Q.guided&&Q.answered>=serieLen();
   if(ok&&!last){Q.timer=setTimeout(quizNext,1500);}
-  else{if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}
-}
-function quizResult(){var e=Q.els;if(!e.result){return;}e.card.style.display='none';e.result.style.display='block';
-  var sc=Q.correct, ok=sc>=SEUIL;try{suiviEnvoi(ok?'Validé':'Échoué',sc,SERIE);}catch(_){}e.rbig.textContent=sc+' / '+SERIE;e.rbig.className='big '+(ok?'ok':'no');
-  e.rmsg.innerHTML= ok ? 'Parcours validé ! Tu as obtenu <b>'+sc+'/'+SERIE+'</b>. Bravo 👏' : 'Il faut <b>'+SEUIL+'/'+SERIE+'</b> pour valider, et tu as eu '+sc+'/'+SERIE+'. Tu peux recommencer avec une nouvelle série, ou passer à la suite si tu préfères.';
+  else{if(e.next){e.next.textContent=last?'Voir mon r\u00e9sultat \u279c':'Suivant \u279c';e.next.style.display='inline-flex';}}}
+
+function quizResult(){var e=Q.els;if(!e.result)return;e.card.style.display='none';e.result.style.display='block';
+  var SL=serieLen(),SE=seuilFor();var sc=Q.correct,ok=sc>=SE;
+  try{suiviEnvoi(ok?'Valid\u00e9':'\u00c9chou\u00e9',sc,SL);}catch(_){}
+  e.rbig.textContent=sc+' / '+SL;e.rbig.className='big '+(ok?'ok':'no');
+  e.rmsg.innerHTML=ok?'Parcours valid\u00e9\u00a0! Tu as obtenu <b>'+sc+'/'+SL+'</b>. Bravo\u00a0!':'Il faut <b>'+SE+'/'+SL+'</b> pour valider, tu as eu '+sc+'/'+SL+'. Tu peux recommencer.';
   e.rbtns.innerHTML='';
-  if(ok){var b=document.createElement('button');b.className='btn vert';b.textContent='Continuer ➜';b.onclick=trainDone;e.rbtns.appendChild(b);}
-  else{var b1=document.createElement('button');b1.className='btn orange';b1.textContent='Nouvelle série 🔄';b1.onclick=function(){startTrain(currentTheme);};e.rbtns.appendChild(b1);
-       var b2=document.createElement('button');b2.className='btn fant';b2.textContent='Passer à la suite ➜';b2.onclick=trainDone;e.rbtns.appendChild(b2);}
-}
-function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entraînement — '+TITLE[t];go('ecranTrain');var els=elsTrain();els.help.textContent=HELP[t];quizStart(THEME_CATS[t],true,els);}
-function trainDone(){var t=currentTheme;themeDone[t]=true;var idx=ORDER.indexOf(t);if(idx<ORDER.length-1){var nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{unlocked.arene=true;updateMap();go('arene');}}
+  if(ok){var b=document.createElement('button');b.className='btn vert';b.textContent='Continuer \u279c';b.onclick=trainDone;e.rbtns.appendChild(b);}
+  else{var b1=document.createElement('button');b1.className='btn orange';b1.textContent='Nouvelle s\u00e9rie \ud83d\udd04';b1.onclick=function(){startTrain(currentTheme);};e.rbtns.appendChild(b1);var b2=document.createElement('button');b2.className='btn fant';b2.textContent='Passer \u00e0 la suite \u279c';b2.onclick=trainDone;e.rbtns.appendChild(b2);}}
+
+function normTxt(s){return String(s).toLowerCase().trim().replace(/\s+/g,'').replace(/[\u00e9\u00e8\u00ea]/g,'e').replace(/[\u00e0\u00e2]/g,'a').replace(/[\u00ef\u00ee]/g,'i').replace(/[\u00f4\u00f6]/g,'o').replace(/[\u00fb\u00fc]/g,'u').replace(/['\u2019]/g,'').replace(/\u207b\u00b9/g,'-1');}
+function blankOK(bk,raw){
+  if(bk.kind==='num'){var v=parseNum(raw);return v!==null&&Math.abs(v-bk.ans)<(bk.tol||0.5);}
+  var n=normTxt(raw);if(n==='')return false;
+  if(bk.mode==='contains')return bk.accept.some(function(a){return n.indexOf(normTxt(a))>=0;});
+  return bk.accept.some(function(a){return normTxt(a)===n;});}
+
+function cscEl(sel){return Q.casc.box.querySelector(sel);}
+
+function cascMkBlank(p,e,idx){
+  var inp=document.createElement('input');inp.className='cblank'+(p.mini?' mini':'');
+  inp.setAttribute('inputmode',p.kind==='num'?'decimal':'text');inp.autocomplete='off';
+  if(p.ph)inp.placeholder=p.ph;if(p.w)inp.style.width=p.w+'px';
+  inp.addEventListener('focus',function(){MATHTARGET=this;});inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();cascVerify(e,idx);}});
+  Q.casc.q.steps[idx]._blanks.push({bk:p,el:inp});return inp;}
+
+function cascRenderParts(parent,arr,e,idx){
+  arr.forEach(function(p){
+    if(typeof p==='string'){var sp=document.createElement('span');sp.textContent=p;parent.appendChild(sp);}
+    else if(p.frac){var f=document.createElement('span');f.className='cfrac';
+      var nu=document.createElement('span');nu.className='cfnum';cascRenderParts(nu,p.frac[0],e,idx);
+      var ba=document.createElement('span');ba.className='cfbar';
+      var de=document.createElement('span');de.className='cfden';cascRenderParts(de,p.frac[1],e,idx);
+      f.appendChild(nu);f.appendChild(ba);f.appendChild(de);parent.appendChild(f);}
+    else{parent.appendChild(cascMkBlank(p,e,idx));}});}
+
+function cascRender(e,idx){
+  var st=Q.casc.q.steps[idx],body=cscEl('#cbody'+idx);body.innerHTML='';st._tries=0;st._done=false;st._blanks=[];
+  var line=document.createElement('div');line.className='cline';
+  cascRenderParts(line,st.parts,e,idx);body.appendChild(line);
+  var row=document.createElement('div');row.className='cverify';
+  var btn=document.createElement('button');btn.className='btn vert';btn.textContent='V\u00e9rifier';btn.onclick=function(){cascVerify(e,idx);};
+  row.appendChild(btn);body.appendChild(row);
+  var f=st._blanks[0];if(f)setTimeout(function(){try{f.el.focus();}catch(_){}},60);}
+
+function cascStart(cur,e){
+  Q.casc={q:cur,clean:true,box:e.casc};e.casc.style.display='block';
+  var html='';
+  cur.steps.forEach(function(st,idx){
+    html+='<div class="cstep'+(idx===0?' on':'')+'" id="cstep'+idx+'">'
+        +'<div class="cprompt">'+st.prompt+'</div>'
+        +'<div class="cbody" id="cbody'+idx+'"></div>'
+        +'<div class="cfeed" id="cfeed'+idx+'"></div></div>';});
+  e.casc.innerHTML=html;cascRender(e,0);}
+
+function cascVerify(e,idx){
+  var st=Q.casc.q.steps[idx];if(st._done)return;var fb=cscEl('#cfeed'+idx);
+  if(st._blanks.some(function(z){return z.el.value.trim()==='';})){fb.className='cfeed no';fb.textContent='Compl\u00e8te toutes les cases.';return;}
+  var allOK=true;
+  st._blanks.forEach(function(z){var ok=blankOK(z.bk,z.el.value);z.el.classList.remove('cbok','cbno');z.el.classList.add(ok?'cbok':'cbno');if(!ok)allOK=false;});
+  if(allOK){st._done=true;st._blanks.forEach(function(z){z.el.disabled=true;});fb.className='cfeed ok';fb.textContent='\u2705 Bien r\u00e9dig\u00e9.';cascAdvance(e,idx);return;}
+  st._tries++;
+  if(st._tries>=3){Q.casc.clean=false;st._done=true;
+    st._blanks.forEach(function(z){z.el.value=z.bk.show;z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});
+    fb.className='cfeed no';fb.textContent='Voici la bonne \u00e9criture \u2014 observe-la avant de continuer.';cascAdvance(e,idx);}
+  else if(st._tries===2){fb.className='cfeed no';fb.innerHTML='\ud83d\udca1 '+(st.aide||'Reprends et corrige les cases en orange.');}
+  else{fb.className='cfeed no';fb.textContent='Pas tout \u00e0 fait\u00a0: corrige les cases en orange.';}}
+
+function cascAdvance(e,idx){
+  var nx=idx+1;
+  if(nx<Q.casc.q.steps.length){var blk=cscEl('#cstep'+nx);blk.classList.add('on');cascRender(e,nx);
+    setTimeout(function(){blk.scrollIntoView({behavior:'smooth',block:'center'});},140);}
+  else{cascDone(e);}}
+
+function cascDone(e){
+  Q.locked=true;Q.answered++;
+  if(Q.casc.clean){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='\u2705 R\u00e9daction compl\u00e8te, sans erreur. Bravo\u00a0!';if(e.stars)e.stars.textContent='\u2b50'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback ok';e.feed.innerHTML='\ud83d\udc4d R\u00e9daction termin\u00e9e. Vise z\u00e9ro erreur pour les \u00e9toiles\u00a0!';}
+  quizScore();
+  var last=Q.guided&&Q.answered>=serieLen();
+  if(e.next){e.next.textContent=last?'Voir mon r\u00e9sultat \u279c':'Suivant \u279c';e.next.style.display='inline-flex';}}
+
+function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entra\u00eenement \u2014 '+TITLE[t];go('ecranTrain');var els=elsTrain();if(els.help)els.help.textContent=HELP[t];quizStart(THEME_CATS[t],true,els);}
+function trainDone(){var t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}var idx=ORDER.indexOf(t);if(idx<ORDER.length-1){var nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{unlocked.arene=true;updateMap();go('arene');}}
 function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';var cats=cat==='mix'?ORDER.slice():[cat];quizStart(cats,false,elsArene());}
 function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
-document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(!gid('kcPanel').hidden)return;
-  var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
-  if(!(onT||onA))return;var nx=onT?gid('tq_next'):gid('aq_next');
-  if(nx&&nx.style.display!=='none'){quizNext();return;}
-  if(!Q.locked&&Q.cur&&(Q.cur.type==='num'||Q.cur.type==='free'))quizValidate();});
-/* ===== CALCULATRICE ===== */
+
+document.addEventListener('keydown',function(ev){if(ev.key!=='Enter')return;if(!gid('kcPanel').hidden)return;var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';if(!(onT||onA))return;var nx=onT?gid('tq_next'):gid('aq_next');if(nx&&nx.style.display!=='none'){quizNext();return;}if(!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
+
 function kcEval(expr){
-  let s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
-  const toks=[]; let i=0; const isD=c=>c>='0'&&c<='9';
-  while(i<s.length){const c=s[i];
-    if(isD(c)||c==='.'){let j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
+  var s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
+  var toks=[];var i=0;var isD=function(c){return c>='0'&&c<='9';};
+  while(i<s.length){var c=s[i];
+    if(isD(c)||c==='.'){var j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
     if(c==='\u03c0'){toks.push({t:'pi'});i++;continue;}
     if(c==='\u221a'){toks.push({t:'sqrt'});i++;continue;}
-    if('+-*/^()'.includes(c)){toks.push({t:c});i++;continue;}
+    if('+-*/^()'.indexOf(c)>=0){toks.push({t:c});i++;continue;}
     return null;}
-  let p=0,err=false;const peek=()=>toks[p],next=()=>toks[p++];
-  function E(){let v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){const o=next().t;const r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
-  function T(){let v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){const o=next().t;const r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}
-  function U(){const t=peek();if(t&&t.t==='-'){next();return -U();}if(t&&t.t==='+'){next();return U();}if(t&&t.t==='sqrt'){next();const a=U();if(err)return 0;if(a<0){err=true;return 0;}return Math.sqrt(a);}return P();}
-  function P(){let b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();const e=U();if(err)return 0;b=Math.pow(b,e);}return b;}
-  function PR(){const t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='pi')return Math.PI;if(t.t==='('){const v=E();if(err)return 0;const c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}err=true;return 0;}
-  const val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;}
-function kcFmt(v){let s=(Math.round(v*1e10)/1e10).toString();return s.replace('-','\u2212').replace('.',',');}
-let kcS='',kcJust=false;
-function kcRender(){gid('kcExpr').textContent=kcS;const v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
-function kcIns(ch){if(kcJust&&/[0-9.\u03c0(\u221a]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
+  var p=0,err=false;
+  var peek=function(){return toks[p];},next=function(){return toks[p++];};
+  function E(){var v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){var o=next().t;var r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
+  function T(){var v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){var o=next().t;var r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}
+  function U(){var t=peek();if(t&&t.t==='-'){next();return -U();}if(t&&t.t==='+'){next();return U();}if(t&&t.t==='sqrt'){next();var a=U();if(err)return 0;if(a<0){err=true;return 0;}return Math.sqrt(a);}return P();}
+  function P(){var b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();var e=U();if(err)return 0;b=Math.pow(b,e);}return b;}
+  function PR(){var t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='pi')return Math.PI;if(t.t==='('){var v=E();if(err)return 0;var c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}err=true;return 0;}
+  var val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;}
+function kcFmt(v){var s=(Math.round(v*1e10)/1e10).toString();return s.replace('-','\u2212').replace('.',',');}
+var kcS='',kcJust=false;
+function kcRender(){gid('kcExpr').textContent=kcS;var v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
+function kcIns(ch){if(kcJust&&/[0-9.,\u03c0(\u221a]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
 function kcClear(){kcS='';kcJust=false;kcRender();}
 function kcBack(){if(kcJust)kcJust=false;kcS=kcS.slice(0,-1);kcRender();}
-function kcEq(){const v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
+function kcEq(){var v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
 function kcToggle(){gid('kcPanel').hidden=!gid('kcPanel').hidden;}
-const KEYS2=[
+function kcSend(){
+  var v=kcEval(kcS);
+  var val=(v!==null)?kcFmt(v):kcS;
+  if(!val)return;
+  var onT=gid('ecranTrain').classList.contains('active');
+  var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
+  if(onT){var inp=gid('tq_input');if(inp&&!inp.disabled){inp.value=val;inp.focus();}}
+  else if(onA){var inp=gid('aq_input');if(inp&&!inp.disabled){inp.value=val;inp.focus();}}
+  kcToggle();}
+var KEYS2=[
   {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
   {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},
   {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'},
@@ -517,17 +800,15 @@ const KEYS2=[
   {l:'0',a:'0'},{l:',',a:','},{l:'\u221a',a:'\u221a',c:'fn'},{l:'+',a:'+',c:'op'},
   {l:'x\u00b2',a:'^2',c:'fn'},{l:'x\u02b8',a:'^',c:'fn'},{l:'\u03c0',a:'\u03c0',c:'fn'},{l:'=',a:'eq',c:'eq'}
 ];
-(function(){const box=gid('kcKeys');KEYS2.forEach(k=>{const b=document.createElement('button');b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;
-  b.onclick=()=>{if(k.a==='clr')kcClear();else if(k.a==='back')kcBack();else if(k.a==='eq')kcEq();else kcIns(k.a);};box.appendChild(b);});kcRender();})();
-document.addEventListener('keydown',e=>{if(gid('kcPanel').hidden)return;
-  if(e.key==='Enter'){e.preventDefault();kcEq();}else if(e.key==='Escape')kcToggle();
-  else if(e.key==='Backspace'){e.preventDefault();kcBack();}
-  else if(/[0-9.+\-*/()^]/.test(e.key)){const map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[e.key]||e.key);}});
+(function(){var box=gid('kcKeys');KEYS2.forEach(function(k){var b=document.createElement('button');b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;b.onclick=function(){if(k.a==='clr')kcClear();else if(k.a==='back')kcBack();else if(k.a==='eq')kcEq();else kcIns(k.a);};box.appendChild(b);});kcRender();})();
+document.addEventListener('keydown',function(ev){if(gid('kcPanel').hidden)return;if(ev.key==='Enter'){ev.preventDefault();kcEq();}else if(ev.key==='Escape')kcToggle();else if(ev.key==='Backspace'){ev.preventDefault();kcBack();}else if(/[0-9.+\-*/()^]/.test(ev.key)){var map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[ev.key]||ev.key);}});
 
-
-
-updateMap();
-
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;return 'prog_'+e+'_'+nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone,u:unlocked}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
+var _umOrig=updateMap;
+updateMap=function(){var r=_umOrig.apply(this,arguments);try{progSave();}catch(_){}return r;};
+try{progLoad();updateMap();}catch(_){}
 </script>
 </body>
 </html>

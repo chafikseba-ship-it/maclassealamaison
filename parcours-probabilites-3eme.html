@@ -1,31 +1,26 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<head><script>try{if(!localStorage.getItem("kc_eleve")||!localStorage.getItem("kc_classe"))location.replace("index.html");}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Probabilités — Le parcours du hasard (3ème)</title>
+<title>Probabilités — 3ème</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --or:#FFC93C; --or-bas:#E0A41E;
-  --vert:#8BC34A; --vert-bas:#5E9426;
-  --orange:#FF8A4C; --orange-bas:#E0672E;
-  --teal:#46BECB; --teal-bas:#2E8A98;
-  --violet:#A78BC4; --violet-bas:#7E61A1;
-  --rouge:#EF5D60; --rouge-bas:#c43e41;
-  --bleu:#4FA3D1; --bleu-bas:#2f7ba8;
-  --bois:#5C3D2E; --bois-clair:#8a6650;
-  --creme:#FFF4DC; --creme2:#FFE8B8;
-  --blanc:#FFFDF6;
-  --ombre:0 8px 0 rgba(92,61,46,.18), 0 14px 22px rgba(92,61,46,.12);
+  --or:#FFC93C;--or-bas:#E0A41E;--vert:#8BC34A;--vert-bas:#5E9426;
+  --orange:#FF8A4C;--orange-bas:#E0672E;--teal:#46BECB;--teal-bas:#2E8A98;
+  --violet:#A78BC4;--violet-bas:#7E61A1;--rouge:#EF5D60;--rouge-bas:#c43e41;
+  --bleu:#4FA3D1;--bleu-bas:#2f7ba8;
+  --bois:#5C3D2E;--bois-clair:#8a6650;--creme:#FFF4DC;--blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18),0 14px 22px rgba(92,61,46,.12);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
   background:linear-gradient(160deg,#FFF7E2 0%,#FFE6BC 55%,#FFD9A0 100%);min-height:100vh;overflow-x:hidden}
 h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
-.wrap{max-width:880px;margin:0 auto;padding:18px 16px 60px;position:relative;z-index:1}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 90px;position:relative;z-index:1}
 .blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.5;z-index:0}
 .b1{width:180px;height:180px;background:#FFE08A;top:-40px;left:-50px}
 .b2{width:140px;height:140px;background:#FFC1A0;bottom:40px;right:-40px}
@@ -35,12 +30,13 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
 .btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
   padding:14px 22px;cursor:pointer;background:var(--or);box-shadow:0 6px 0 var(--or-bas);
-  transition:transform .08s, box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+  transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
 .btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--or-bas)}
 .btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
 .btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
 .btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
 .btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
+.btn.bleu{background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)}
 .btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
 .btn:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
 .topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
@@ -51,7 +47,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .tag{display:inline-block;font-family:'Fredoka';font-weight:600;color:#fff;padding:5px 14px;border-radius:30px;font-size:.85rem;margin-bottom:8px}
 .hero{text-align:center;padding:26px 16px 8px}
 .hero h1{font-size:2.5rem;line-height:1.05;margin:.1em 0;color:var(--bois)}
-.hero .sub{font-size:1.1rem;color:var(--bois-clair);font-weight:700;max-width:540px;margin:6px auto 0}
+.hero .sub{font-size:1.1rem;color:var(--bois-clair);font-weight:700;max-width:560px;margin:6px auto 0}
 .coin{font-size:3.4rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
 .map{display:grid;gap:16px;margin-top:8px}
 .etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;
@@ -59,74 +55,37 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .etape:hover{transform:translateY(-3px)}
 .etape:active{transform:translateY(1px)}
 .etape.lock{opacity:.6;filter:grayscale(.35)}
-.etape .num{flex:0 0 64px;height:64px;border-radius:20px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.9rem;color:#fff}
-.etape .txt h3{margin:0 0 2px;font-size:1.2rem}
-.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.95rem}
-.etape .status{margin-left:auto;font-size:1.6rem}
+.etape .num{flex:0 0 60px;height:60px;border-radius:18px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.7rem;color:#fff}
+.etape .txt h3{margin:0 0 2px;font-size:1.16rem}
+.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.92rem}
+.etape .status{margin-left:auto;font-size:1.5rem}
 .e1 .num{background:var(--violet);box-shadow:0 5px 0 var(--violet-bas)}
 .e2 .num{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
 .e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
-.e4 .num{background:var(--or);box-shadow:0 5px 0 var(--or-bas)}
+.e4 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
+.e5 .num{background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)}
+.e6 .num{background:var(--or);box-shadow:0 5px 0 var(--or-bas)}
 .lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
 .mid{text-align:center;margin:16px 0}
-.formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;
-  padding:12px 22px;font-family:'Fredoka';font-weight:700;font-size:1.3rem;color:var(--bois)}
+.formule{display:inline-block;background:var(--creme);border:2px dashed var(--violet-bas);border-radius:12px;
+  padding:8px 14px;font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois);font-size:1.15rem;margin:6px 0}
 .note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
 .exemple{font-size:.96rem;color:var(--bois-clair);font-weight:700;line-height:1.45;margin:8px 0 0}
 .exemple b{color:var(--bois)}
-/* échelle 0..1 */
-.scale-wrap{margin:26px 6px 36px;position:relative}
-.scale{height:26px;border-radius:14px;position:relative;
-  background:linear-gradient(90deg,var(--rouge) 0%,var(--or) 50%,var(--vert) 100%);box-shadow:inset 0 2px 4px rgba(0,0,0,.12)}
-.scale .tick{position:absolute;top:-6px;width:3px;height:38px;background:var(--bois);opacity:.45;transform:translateX(-50%)}
-.scale .tlab{position:absolute;top:34px;transform:translateX(-50%);font-family:'Fredoka';font-weight:700;font-size:.9rem;white-space:nowrap}
-.pointer{position:absolute;top:-30px;transform:translateX(-50%);transition:left .5s cubic-bezier(.3,1.4,.5,1);text-align:center;z-index:3}
-.pointer .pin{font-size:1.5rem;line-height:1}
-.pointer .ptag{font-family:'Fredoka';font-weight:700;font-size:.85rem;background:var(--blanc);border:2px solid var(--bois);border-radius:10px;padding:2px 7px;display:inline-block;margin-top:-2px;box-shadow:0 3px 0 rgba(92,61,46,.2)}
-.marker{position:absolute;top:5px;width:16px;height:16px;border-radius:50%;background:var(--blanc);border:3px solid var(--bois);transform:translateX(-50%);opacity:0;transition:opacity .3s,left .5s;z-index:2}
-.marker.on{opacity:1}
-.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}
-.chip{font-family:'Nunito';font-weight:800;font-size:.9rem;border:2px solid #e7d3a8;background:var(--blanc);color:var(--bois);
-  border-radius:14px;padding:9px 12px;cursor:pointer}
-.chip:active{transform:translateY(2px)}
-.chip.act{border-color:var(--violet-bas);background:#f3edf9}
-/* dés */
-.dice{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0}
-.die{width:58px;height:58px;border-radius:14px;background:var(--blanc);border:3px solid #e7d3a8;display:grid;place-items:center;
-  font-size:2.4rem;line-height:1;color:var(--bois);transition:.25s}
-.die.hot{background:var(--teal);border-color:var(--teal-bas);color:#fff;transform:translateY(-4px) scale(1.05)}
-/* urne */
-.urn{max-width:280px;margin:10px auto;background:#eaf3fb;border:4px solid var(--bleu-bas);border-radius:18px 18px 26px 26px;
-  padding:14px;min-height:150px;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-end;justify-content:center}
-.ball{width:30px;height:30px;border-radius:50%;box-shadow:inset -4px -5px 0 rgba(0,0,0,.12);animation:drop .3s ease}
-@keyframes drop{from{transform:translateY(-18px);opacity:0}to{transform:none;opacity:1}}
-.ball.r{background:var(--rouge)} .ball.v{background:var(--vert)} .ball.b{background:var(--bleu)}
-.ctrls{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:14px 0 6px}
-.ctrl{display:flex;align-items:center;gap:8px;font-family:'Fredoka';font-weight:700}
-.dot{width:20px;height:20px;border-radius:50%;display:inline-block}
-.dot.r{background:var(--rouge)} .dot.v{background:var(--vert)} .dot.b{background:var(--bleu)}
-.pm{width:34px;height:34px;border:none;border-radius:10px;background:var(--blanc);box-shadow:0 4px 0 #e7d3a8;font-family:'Fredoka';font-weight:700;font-size:1.3rem;cursor:pointer;color:var(--bois)}
-.pm:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
-.pickrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:8px 0}
-.pickrow .btn{font-size:.95rem;padding:10px 16px}
-/* barre complément */
-.cbar{display:flex;height:54px;border-radius:14px;overflow:hidden;border:3px solid var(--bois);margin:18px 0 6px}
-.cbar .pa{background:var(--violet);transition:width .35s;display:grid;place-items:center;color:#fff;font-family:'Fredoka';font-weight:700;min-width:0}
-.cbar .pnota{background:var(--or);transition:width .35s;display:grid;place-items:center;color:var(--bois);font-family:'Fredoka';font-weight:700;min-width:0}
-input[type=range]{width:88%;max-width:420px;accent-color:var(--violet);height:30px}
-.bigres{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.5rem;margin-top:8px;min-height:1.5em;color:var(--bois)}
-.bigres b{color:var(--orange-bas)}
-/* quiz */
+.steps{list-style:none;padding:0;margin:8px 0;counter-reset:st}
+.steps li{position:relative;padding:8px 8px 8px 42px;margin:6px 0;background:var(--blanc);border-radius:12px;box-shadow:0 3px 0 rgba(92,61,46,.1);font-weight:700;color:var(--bois)}
+.steps li::before{counter-increment:st;content:counter(st);position:absolute;left:8px;top:8px;width:26px;height:26px;border-radius:50%;background:var(--violet);color:#fff;display:grid;place-items:center;font-family:'Fredoka'}
+/* scorebar */
 .scorebar{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:4px 0 14px;font-family:'Fredoka';font-weight:700}
 .scorebar .pill{background:var(--creme);border-radius:16px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8}
+.serieprog{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
 .qcard{text-align:center}
-.prog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:10px;min-height:1.3em;font-size:1.05rem}
 .qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
-.question{font-family:'Fredoka';font-weight:700;font-size:1.4rem;margin:8px 0 4px;line-height:1.4}
 .helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
 .ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
 .ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:160px;color:var(--bois)}
-.ansrow input:focus{outline:none;border-color:var(--or-bas)}
+.ansrow input:focus{outline:none;border-color:var(--violet-bas)}
 .opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
 .opt{font-family:'Fredoka';font-weight:700;font-size:1.05rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
   border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
@@ -136,759 +95,864 @@ input[type=range]{width:88%;max-width:420px;accent-color:var(--violet);height:30
 .feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
 .feedback.ok{color:var(--vert-bas)}
 .feedback.no{color:var(--orange-bas)}
+.feedlab{font-family:'Nunito';font-weight:800;font-size:.92rem;color:var(--bois-clair);margin-top:6px}
 .stars{font-size:1.5rem;letter-spacing:3px;margin-top:8px;min-height:1.6em}
 .catgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:6px}
 @media(min-width:640px){.catgrid{grid-template-columns:repeat(3,1fr)}}
-.cat{border:none;border-radius:20px;padding:18px 10px;cursor:pointer;color:#fff;font-family:'Fredoka';font-weight:700;font-size:1.05rem;line-height:1.2;text-align:center}
-.cat .ic{font-size:1.8rem;display:block;margin-bottom:4px}
+.cat{border:none;border-radius:20px;padding:16px 8px;cursor:pointer;color:#fff;font-family:'Fredoka';font-weight:700;font-size:1rem;line-height:1.2;text-align:center}
+.cat .ic{font-size:1.6rem;display:block;margin-bottom:4px}
 .conf{position:fixed;width:12px;height:12px;top:-20px;z-index:50;border-radius:3px;pointer-events:none}
 .shake{animation:shake .35s}
 @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
 button,input{touch-action:manipulation}
-/* ----- les 3 écritures ----- */
-.forms{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0 2px}
-.fpill{font-family:'Fredoka';font-weight:700;border-radius:14px;padding:8px 13px;font-size:1.1rem;
-  display:inline-flex;flex-direction:column;align-items:center;line-height:1.15;box-shadow:0 3px 0 rgba(92,61,46,.12)}
-.fpill .lab{font-family:'Nunito';font-size:.62rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;opacity:.75;margin-bottom:1px}
-.ffrac{background:#f3edf9;color:var(--violet-bas);border:2px solid var(--violet)}
-.fdec{background:#e3f5f8;color:var(--teal-bas);border:2px solid var(--teal)}
-.fpct{background:#fff0e2;color:var(--orange-bas);border:2px solid var(--orange)}
-.feedlab{font-family:'Nunito';font-weight:800;font-size:.92rem;color:var(--bois-clair);margin:6px 0 2px}
-/* ----- calculatrice ----- */
-.calcrow{display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0 8px}
-.cfrac{display:inline-flex;flex-direction:column;align-items:center;gap:6px}
-.cinp{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #cfe6ee;
-  border-radius:14px;padding:8px;width:92px;color:var(--bois)}
-.cinp:focus{outline:none;border-color:var(--teal-bas)}
-.cfbar{height:4px;width:96px;background:var(--bois);border-radius:2px}
-.hintbad{font-family:'Nunito';font-weight:800;color:var(--orange-bas);font-size:.95rem}
-/* ----- dessins de situation (entraînement) ----- */
-.viz{margin:12px 0 6px;display:flex;justify-content:center}
-.vizrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.vdie{font-size:2.1rem;line-height:1;color:var(--bois);background:var(--blanc);border:3px solid #e7d3a8;
-  border-radius:12px;width:48px;height:48px;display:grid;place-items:center}
-.vizurn{max-width:240px;background:#eaf3fb;border:4px solid var(--bleu-bas);border-radius:16px 16px 22px 22px;
-  padding:12px;min-height:84px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-end;justify-content:center}
-.vball{width:26px;height:26px;border-radius:50%;box-shadow:inset -4px -5px 0 rgba(0,0,0,.12);animation:drop .3s ease}
-.vball.r{background:var(--rouge)}.vball.v{background:var(--vert)}.vball.b{background:var(--bleu)}
-.vizroue{display:block}
-.vizcards{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:center}
-.vcard{font-family:'Fredoka';font-weight:700;background:var(--blanc);border:3px solid #e7d3a8;border-radius:10px;
-  padding:8px 10px;color:var(--bois);min-width:40px;text-align:center}
-.vcard.red{color:var(--rouge)}
-.vbadge{font-family:'Fredoka';font-weight:700;background:var(--creme);border-radius:12px;padding:7px 13px;
-  color:var(--bois);border:2px dashed var(--or-bas)}
-@media (max-width:480px){
-  .fpill{font-size:1rem;padding:7px 10px}
-  .cinp{width:74px;font-size:1.2rem}.cfbar{width:78px}
-  .vdie{width:42px;height:42px;font-size:1.8rem}
-}
-@media (max-width:480px){
-  .wrap{padding:14px 12px 50px}
-  .hero{padding:18px 10px 4px}
+/* résultat série */
+.result{text-align:center}
+.result .big{font-family:'Fredoka',sans-serif;font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
+.result .big.ok{color:var(--vert-bas)}.result .big.no{color:var(--orange-bas)}
+.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
+.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+/* cascade */
+.cascade{margin:6px 0 2px;text-align:left}
+.cstep{display:none;background:var(--creme);border-radius:16px;padding:14px 16px;margin:10px 0;animation:pop .3s ease}
+.cstep.on{display:block}
+.cprompt{font-family:'Fredoka';font-weight:700;color:var(--bois);font-size:1.05rem;margin-bottom:10px;line-height:1.35}
+.cbody{display:flex;flex-direction:column;gap:8px}
+.chint{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.98rem;margin-bottom:4px;background:#fff;border-radius:10px;padding:8px 10px;line-height:1.35}
+.cfeed{font-family:'Nunito';font-weight:800;font-size:.92rem;margin-top:8px;min-height:1em;line-height:1.35}
+.cfeed.ok{color:var(--vert-bas)}.cfeed.no{color:var(--orange-bas)}
+.cline{font-family:'Fredoka';font-weight:700;font-size:1.12rem;color:var(--bois);line-height:2.1;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.cblank{font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;border:none;border-bottom:3px solid var(--or-bas);background:#fff;border-radius:8px 8px 0 0;padding:6px;color:var(--bois)}
+.cblank:focus{outline:none;border-bottom-color:var(--teal-bas);background:#fffdf3}
+.cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
+.cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
+.cverify{margin-top:10px}
+.cfrac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 5px}
+.cfnum,.cfden{display:block;text-align:center;padding:2px 6px}
+.cfrac sup{font-size:.65em;vertical-align:super;line-height:1}
+.cfbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
+.cblank.mini{font-size:1rem;width:54px}
+/* figbox + viz */
+.figbox{margin:8px auto 4px;text-align:center}
+.fig{width:100%;max-width:360px;height:auto;display:inline-block}
+/* tableau double entrée */
+.dtable{border-collapse:collapse;margin:12px auto;font-family:'Fredoka';font-weight:700;font-size:1rem}
+.dtable th,.dtable td{border:2px solid #e7d3a8;padding:8px 14px;text-align:center}
+.dtable th{background:var(--violet);color:#fff}
+.dtable td{background:var(--blanc);color:var(--bois)}
+.dtable tr:first-child th:first-child{background:var(--creme);color:var(--bois)}
+/* calculatrice FAB */
+.kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);transition:transform .1s}
+.kc-fab:active{transform:translateY(4px)}
+.kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(320px,calc(100vw - 32px));
+  background:var(--blanc);border-radius:22px;padding:14px;box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);animation:kcpop .25s ease}
+.kc-panel[hidden]{display:none}
+@keyframes kcpop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.kc-head{display:flex;align-items:center;justify-content:space-between;font-family:'Fredoka';font-weight:700;color:var(--bois);margin:2px 4px 10px;font-size:1.05rem}
+.kc-x{border:none;background:var(--creme);color:var(--bois);width:32px;height:32px;border-radius:10px;font-size:1rem;cursor:pointer;font-family:'Fredoka';box-shadow:0 3px 0 #e7d3a8}
+.kc-x:active{transform:translateY(2px);box-shadow:0 1px 0 #e7d3a8}
+.kc-screen{background:#2b2b2b;border-radius:14px;padding:10px 14px;text-align:right;margin-bottom:12px;min-height:74px;display:flex;flex-direction:column;justify-content:center}
+.kc-expr{font-family:'Fredoka';font-weight:600;color:#cfe6ee;font-size:1rem;min-height:1.2em;word-break:break-all;line-height:1.25}
+.kc-res{font-family:'Fredoka';font-weight:700;color:#fff;font-size:1.7rem;line-height:1.1;margin-top:2px}
+.kc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kc-key{border:none;border-radius:14px;padding:14px 0;font-family:'Fredoka';font-weight:700;font-size:1.2rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.kc-key:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.kc-key.op{background:var(--creme);color:var(--orange-bas)}
+.kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1.05rem}
+.kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
+.kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
+/* home link */
+.home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16)}
+.home:active{transform:translateY(1px)}
+.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+/* arbre SVG */
+.arbre-svg{display:block;margin:10px auto}
+@media(max-width:480px){
+  .wrap{padding:14px 12px 80px}
   .hero h1{font-size:2rem}.hero .sub{font-size:1rem}.coin{font-size:2.8rem}
   .card{padding:16px;border-radius:20px}
-  .topbar h2{font-size:1.25rem}
+  .topbar h2{font-size:1.2rem}
   .etape{gap:12px;padding:13px 14px}
-  .etape .num{flex:0 0 52px;height:52px;font-size:1.5rem;border-radius:16px}
-  .etape .txt h3{font-size:1.05rem}.etape .txt p{font-size:.84rem}
-  .formule{font-size:1rem;padding:10px 14px;white-space:normal}
-  .lead{font-size:1rem}.question{font-size:1.25rem}
+  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem;border-radius:14px}
+  .lead{font-size:1rem}.question{font-size:1.18rem}
   .ansrow input{width:60%;max-width:200px}
-  .scale .tlab{font-size:.78rem}
-  .die{width:48px;height:48px;font-size:2rem}
-  .ball{width:26px;height:26px}
   .btn{font-size:1rem;padding:13px 18px}
+  .dtable th,.dtable td{padding:6px 8px;font-size:.9rem}
 }
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-.home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16);margin-left:4px}
-.home:active{transform:translateY(1px)}
-.mid{text-align:center;margin:10px 0}
-.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="wrap">
 
-<!-- ===== ACCUEIL ===== -->
-<section id="accueil" class="screen active"><div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
+<!-- ACCUEIL -->
+<section id="accueil" class="screen active">
+  <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
   <div class="hero">
     <div class="coin">🎲🎯</div>
     <h1>Probabilités</h1>
-    <p class="sub">Le parcours du hasard. Trois mondes : on explique, on manipule, on s'entraîne. L'arène finale t'attend au bout !</p>
+    <p class="sub">Vocabulaire, calculs, arbres, tableaux… Chaque entraînement est noté sur 10 — il faut 8/10 pour valider !</p>
   </div>
   <div class="map">
-    <div class="etape e1" id="mapVocab" onclick="tapTheme('vocab')">
-      <div class="num">🎯</div>
-      <div class="txt"><h3>1 · Vocabulaire &amp; échelle</h3><p>Explication → outil → entraînement</p></div>
-      <div class="status">▶</div>
+    <div class="etape e1" id="mapVocabulaire" onclick="tapTheme('vocabulaire')">
+      <div class="num">📖</div><div class="txt"><h3>1 · Vocabulaire</h3><p>Expérience, issue, événement, P(A)</p></div><div class="status">▶</div>
     </div>
-    <div class="etape e2" id="mapCalcul" onclick="tapTheme('calcul')">
-      <div class="num">🎲</div>
-      <div class="txt"><h3>2 · Calculer une probabilité</h3><p>Explication → outil → entraînement</p></div>
-      <div class="status">🔒</div>
+    <div class="etape e2" id="mapProbabilite" onclick="tapTheme('probabilite')">
+      <div class="num">🎲</div><div class="txt"><h3>2 · Calculer une probabilité</h3><p>Univers, cas favorables, fraction</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e3" id="mapContraire" onclick="tapTheme('contraire')">
-      <div class="num">🔄</div>
-      <div class="txt"><h3>3 · Événement contraire</h3><p>Explication → outil → entraînement</p></div>
-      <div class="status">🔒</div>
+    <div class="etape e3" id="mapFrequence" onclick="tapTheme('frequence')">
+      <div class="num">📊</div><div class="txt"><h3>3 · Fréquence et probabilité</h3><p>Loi des grands nombres</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e4" id="mapArene" onclick="tapArene()">
-      <div class="num">⚔️</div>
-      <div class="txt"><h3>Arène finale</h3><p>Tous les thèmes, au choix</p></div>
-      <div class="status">🔒</div>
+    <div class="etape e4" id="mapArbre" onclick="tapTheme('arbre')">
+      <div class="num">🌿</div><div class="txt"><h3>4 · Arbre de probabilités</h3><p>Branches, tirages, P(A∩B)</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e5" id="mapConditionnelle" onclick="tapTheme('conditionnelle')">
+      <div class="num">📋</div><div class="txt"><h3>5 · Probabilité conditionnelle</h3><p>Tableau double entrée, P(A|B)</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e6" id="mapRedaction" onclick="tapTheme('redaction')">
+      <div class="num">✍️</div><div class="txt"><h3>6 · Rédiger une solution</h3><p>Structure complète type brevet</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e6" id="mapArene" onclick="tapArene()">
+      <div class="num" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Tout, au choix (entraînement libre)</p></div><div class="status">🔒</div>
     </div>
   </div>
 </section>
 
-<!-- ===== VOCAB : explication ===== -->
-<section id="expVocab" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Vocabulaire &amp; échelle</h2></div>
-
+<!-- LEÇON vocabulaire -->
+<section id="expVocabulaire" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Vocabulaire des probabilités</h2></div>
   <div class="card">
     <span class="tag" style="background:var(--violet)">Définition</span>
-    <p class="lead">Une <b>expérience aléatoire</b> est une expérience dont on connaît tous les résultats possibles, mais dont on ne peut pas prévoir le résultat à l'avance : c'est le hasard qui décide.</p>
-    <p class="exemple">Exemples : lancer un dé, tirer une carte, lancer une pièce, faire tourner une roue.</p>
+    <p class="lead">Une <b>expérience aléatoire</b> est une expérience dont on connaît tous les résultats possibles, mais dont on ne peut pas prédire le résultat : c'est le hasard qui décide.</p>
+    <p class="exemple">Exemples : lancer un dé, tirer une boule dans une urne, faire tourner une roue.</p>
   </div>
-
   <div class="card">
     <span class="tag" style="background:var(--violet)">Définition</span>
-    <p class="lead">Une <b>issue</b> est l'un des résultats possibles de l'expérience.</p>
-    <p class="exemple">Avec un dé à 6 faces, il y a 6 issues : <b>1, 2, 3, 4, 5 et 6</b>.</p>
+    <p class="lead">L'<b>univers</b> (noté Ω) est l'ensemble de toutes les issues possibles. Une <b>issue</b> est un résultat élémentaire. Un <b>événement</b> regroupe une ou plusieurs issues.</p>
+    <p class="exemple">Dé à 6 faces : Ω = {1, 2, 3, 4, 5, 6}. L'événement « pair » = {2, 4, 6}.</p>
   </div>
-
-  <div class="card">
-    <span class="tag" style="background:var(--violet)">Définition</span>
-    <p class="lead">Un <b>événement</b> regroupe une ou plusieurs issues : c'est quelque chose qui peut se réaliser… ou non. Un événement formé d'une <b>seule</b> issue est dit <b>élémentaire</b>.</p>
-    <p class="exemple">« Obtenir un nombre pair » regroupe les issues 2, 4 et 6. « Obtenir un 5 » est un événement élémentaire.</p>
-  </div>
-
   <div class="card">
     <span class="tag" style="background:var(--violet)">À retenir</span>
-    <p class="lead">Un événement <b>certain</b> se réalise toujours ; un événement <b>impossible</b> ne se réalise jamais.</p>
-    <p class="exemple">Avec un dé : « obtenir un nombre de 1 à 6 » est certain, « obtenir 7 » est impossible.</p>
+    <p class="lead">La <b>probabilité</b> P(A) d'un événement A est un nombre entre <b>0</b> et <b>1</b>.</p>
+    <ul class="steps">
+      <li>P(A) = 0 : événement <b>impossible</b></li>
+      <li>P(A) = 1 : événement <b>certain</b></li>
+      <li>P(Ā) = 1 − P(A) : événement <b>contraire</b></li>
+      <li>P(A) + P(Ā) = 1</li>
+    </ul>
   </div>
-
   <div class="card">
-    <span class="tag" style="background:var(--violet)">L'échelle des probabilités</span>
-    <p class="lead">La <b>probabilité</b> d'un événement est un nombre compris entre <b>0</b> et <b>1</b> qui mesure ses chances de se réaliser. Plus elle est proche de 1, plus l'événement est probable.</p>
-    <div class="scale-wrap">
-      <div class="pointer" id="vp" style="left:0%;opacity:0"><div class="pin">🔻</div><div class="ptag" id="vptag"></div></div>
-      <div class="scale" id="vscale">
-        <span class="tick" style="left:0%"></span><span class="tlab" style="left:0%">0<br>impossible</span>
-        <span class="tick" style="left:50%"></span><span class="tlab" style="left:50%">0,5<br>1 chance sur 2</span>
-        <span class="tick" style="left:100%"></span><span class="tlab" style="left:100%">1<br>certain</span>
-      </div>
-    </div>
-    <div class="mid" style="margin-top:36px"><button class="btn violet" id="btnVocabAnim" onclick="animVocab()">▶️ Placer des exemples</button></div>
-    <div class="mid" id="vocabConclu" style="display:none"><span class="formule" style="border-color:var(--violet-bas)">P(impossible) = 0 &nbsp;·&nbsp; P(certain) = 1</span></div>
+    <span class="tag" style="background:var(--violet)">Notation</span>
+    <p class="lead">On note P(A) la probabilité de l'événement A. L'événement contraire (« A ne se réalise pas ») se note Ā.</p>
+    <p class="exemple">Si P(pluie) = 0,3 alors P(pas de pluie) = 1 − 0,3 = <b>0,7</b>.</p>
   </div>
-  <div class="mid"><button class="btn orange" onclick="go('toolVocab')">À l'outil ➜</button></div>
+  <div class="mid"><button class="btn violet" onclick="startTrain('vocabulaire')">Je m'entraîne ➜</button></div>
 </section>
 
-<!-- ===== VOCAB : outil ===== -->
-<section id="toolVocab" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Place les événements</h2></div>
-  <div class="card">
-    <p class="lead">Touche un événement : la flèche se place à sa probabilité sur l'échelle.</p>
-    <div class="scale-wrap">
-      <div class="pointer" id="tp" style="left:50%;opacity:0"><div class="pin">🔻</div><div class="ptag" id="tptag"></div></div>
-      <div class="scale">
-        <span class="tick" style="left:0%"></span><span class="tlab" style="left:0%">0</span>
-        <span class="tick" style="left:50%"></span><span class="tlab" style="left:50%">0,5</span>
-        <span class="tick" style="left:100%"></span><span class="tlab" style="left:100%">1</span>
-      </div>
-    </div>
-    <div class="chips" id="vchips" style="margin-top:34px"></div>
-    <div class="bigres" id="vres"></div>
-  </div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('vocab')">Je m'entraîne ➜</button></div>
-</section>
-
-<!-- ===== CALCUL : explication ===== -->
-<section id="expCalc" class="screen">
+<!-- LEÇON probabilite -->
+<section id="expProbabilite" class="screen">
   <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Calculer une probabilité</h2></div>
-
-  <div class="card">
-    <span class="tag" style="background:var(--teal)">Définition</span>
-    <p class="lead">La <b>probabilité</b> d'un événement mesure ses chances de se produire, par un nombre entre <b>0</b> et <b>1</b>.</p>
-    <p class="exemple">Propriété : en additionnant les probabilités de toutes les issues d'une expérience, on trouve toujours <b>1</b>.</p>
-  </div>
-
-  <div class="card">
-    <span class="tag" style="background:var(--teal)">Définition</span>
-    <p class="lead">Il y a <b>équiprobabilité</b> quand toutes les issues ont la <b>même chance</b> de se produire : dé équilibré, pièce non truquée, tirage « au hasard ».</p>
-    <p class="exemple">C'est dans ce cas seulement qu'on peut utiliser la formule ci-dessous.</p>
-  </div>
-
   <div class="card">
     <span class="tag" style="background:var(--teal)">La formule</span>
-    <div class="mid"><span class="formule" style="border-color:var(--teal-bas)">P = nombre de cas favorables ⁄ nombre de cas possibles</span></div>
-    <p class="lead">Exemple : avec un dé à 6 faces, combien de faces donnent un <b>nombre pair</b> ?</p>
-    <div class="dice" id="cdice"></div>
-    <div class="mid"><button class="btn teal" id="btnCalcAnim" onclick="animCalc()">▶️ Montrer les nombres pairs</button></div>
-    <div id="calcConclu" style="display:none"><div class="mid"><span class="formule" style="border-color:var(--teal-bas)">3 pairs sur 6</span></div></div>
+    <p class="lead">En situation d'<b>équiprobabilité</b> (toutes les issues ont la même chance) :</p>
+    <div class="mid"><span class="formule">P(A) = nombre d'issues favorables / nombre d'issues total</span></div>
+    <p class="exemple">Urne : 3 rouges, 5 bleues. P(rouge) = 3/8.</p>
   </div>
   <div class="card">
-    <span class="tag" style="background:var(--teal)">Le savais-tu ?</span>
-    <p class="lead">Si on répète l'expérience un <b>très grand nombre de fois</b>, la <b>fréquence</b> d'un événement se rapproche de sa probabilité.</p>
-    <p class="exemple">Lance une pièce 1000 fois : la part de « pile » sera très proche de <b>0,5</b>.</p>
+    <span class="tag" style="background:var(--teal)">Méthode</span>
+    <ol class="steps">
+      <li>Identifier l'univers Ω et son cardinal (nombre total d'issues)</li>
+      <li>Lister les issues favorables à l'événement A</li>
+      <li>Écrire la fraction P(A) = favorables / total</li>
+      <li>Simplifier la fraction si possible</li>
+      <li>Vérifier avec P(Ā) = 1 − P(A)</li>
+    </ol>
   </div>
-
   <div class="card">
-    <span class="tag" style="background:var(--bleu)">Calculatrice des 3 écritures</span>
-    <p class="lead">Une même probabilité s'écrit de <b>trois façons</b>. Entre une fraction puis touche « = » : tu obtiens la <b>fraction simplifiée</b>, la <b>valeur décimale</b> (avec ≈ quand elle ne tombe pas juste) et le <b>pourcentage</b>.</p>
-    <div class="calcrow">
-      <div class="cfrac">
-        <input class="cinp" id="ex_num" inputmode="numeric" placeholder="3" oninput="calcConvert('ex')">
-        <div class="cfbar"></div>
-        <input class="cinp" id="ex_den" inputmode="numeric" placeholder="6" oninput="calcConvert('ex')">
-      </div>
-      <button class="btn" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="calcConvert('ex')">=</button>
-    </div>
-    <div class="forms" id="ex_out"></div>
-    <p class="note">Le nombre du haut, c'est les cas favorables ; celui du bas, les cas possibles.</p>
+    <span class="tag" style="background:var(--teal)">Exemples de situations</span>
+    <p class="lead">Dé à 6 faces équilibré : chaque face a la probabilité <b>1/6</b>.</p>
+    <p class="exemple">Roue partagée en 8 secteurs égaux, dont 3 rouges : P(rouge) = 3/8.</p>
+    <p class="exemple">Jeu de 52 cartes : P(cœur) = 13/52 = <b>1/4</b>.</p>
   </div>
-
-  <div class="mid"><button class="btn orange" onclick="go('toolCalc')">À l'outil ➜</button></div>
+  <div class="mid"><button class="btn teal" onclick="startTrain('probabilite')">Je m'entraîne ➜</button></div>
 </section>
 
-<!-- ===== CALCUL : outil (urne) ===== -->
-<section id="toolCalc" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'atelier des tirages</h2></div>
-  <div class="card">
-    <p class="lead">Change le nombre de boules, puis touche une couleur : la probabilité de tirer cette couleur s'affiche.</p>
-    <div class="urn" id="urn"></div>
-    <div class="ctrls" id="urnCtrls"></div>
-    <div class="pickrow">
-      <button class="btn" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)" onclick="pickColor('r')">Rouge</button>
-      <button class="btn vert" onclick="pickColor('v')">Verte</button>
-      <button class="btn" style="background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)" onclick="pickColor('b')">Bleue</button>
-    </div>
-    <div class="bigres" id="urnRes">Touche une couleur pour calculer sa probabilité.</div>
-  </div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('calcul')">Je m'entraîne ➜</button></div>
-</section>
-
-<!-- ===== CONTRAIRE : explication ===== -->
-<section id="expCont" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Événement contraire</h2></div>
-
+<!-- LEÇON frequence -->
+<section id="expFrequence" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Fréquence et probabilité</h2></div>
   <div class="card">
     <span class="tag" style="background:var(--orange)">Définition</span>
-    <p class="lead">L'<b>événement contraire</b> de A (on le note « non A ») est l'événement qui se réalise exactement quand <b>A ne se réalise pas</b>.</p>
-    <p class="exemple">Dé, A = « obtenir 6 » → non A = « ne pas obtenir 6 », c'est-à-dire obtenir 1, 2, 3, 4 ou 5.</p>
+    <p class="lead">La <b>fréquence expérimentale</b> d'un événement est le rapport entre le nombre de fois où il est apparu et le nombre total d'expériences réalisées.</p>
+    <div class="mid"><span class="formule">f = nombre d'apparitions / nombre total d'essais</span></div>
+    <p class="exemple">On lance une pièce 200 fois, on obtient pile 97 fois : f(pile) = 97/200 = <b>0,485</b>.</p>
   </div>
-
   <div class="card">
-    <span class="tag" style="background:var(--orange)">À retenir</span>
-    <p class="lead">A et son contraire couvrent <b>toutes</b> les issues : leurs probabilités s'additionnent pour faire <b>1</b>.</p>
-    <p class="exemple">Exemple : P(« obtenir 6 ») = 1/6, donc P(« ne pas obtenir 6 ») = 5/6.</p>
-    <div class="cbar" id="ebar"><div class="pa" id="epa" style="width:0%"></div><div class="pnota" id="epnota" style="width:0%"></div></div>
-    <div class="mid"><button class="btn orange" id="btnContAnim" onclick="animCont()">▶️ Partager la probabilité</button></div>
-    <div class="mid" id="contConclu" style="display:none"><span class="formule" style="border-color:var(--orange-bas)">P(contraire de A) = 1 − P(A)</span></div>
+    <span class="tag" style="background:var(--orange)">Loi des grands nombres</span>
+    <p class="lead">Quand le nombre d'essais <b>augmente</b>, la fréquence expérimentale se <b>rapproche</b> de la probabilité théorique.</p>
+    <p class="note">C'est la <b>loi des grands nombres</b> : plus on répète, plus la fréquence « stabilise » vers la probabilité.</p>
+    <p class="exemple">Pièce équilibrée : P(pile) = 0,5. Après 10 lancers : fréquence ≈ 0,4 ou 0,6. Après 10 000 lancers : fréquence très proche de 0,5.</p>
   </div>
-  <div class="mid"><button class="btn orange" onclick="go('toolCont')">À l'outil ➜</button></div>
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">Différence</span>
+    <p class="lead">La <b>probabilité théorique</b> est calculée à partir de la situation (formule). La <b>fréquence expérimentale</b> est mesurée après expérience réelle.</p>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="startTrain('frequence')">Je m'entraîne ➜</button></div>
 </section>
 
-<!-- ===== CONTRAIRE : outil ===== -->
-<section id="toolCont" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Le partage 1 − P</h2></div>
+<!-- LEÇON arbre -->
+<section id="expArbre" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Arbre de probabilités</h2></div>
   <div class="card">
-    <p class="lead">Déplace le curseur : tu choisis P(A). Le reste, c'est la probabilité de l'événement contraire.</p>
-    <div class="cbar"><div class="pa" id="tpa" style="width:30%">A</div><div class="pnota" id="tpnota" style="width:70%">non A</div></div>
-    <div class="mid"><input type="range" id="contRange" min="0" max="10" value="3" oninput="updateCont()"></div>
-    <div class="bigres" id="contRes"></div>
+    <span class="tag" style="background:var(--vert)">Lecture d'un arbre</span>
+    <p class="lead">Un arbre de probabilités représente une expérience en <b>plusieurs étapes</b>. Chaque branche porte la probabilité de l'issue correspondante.</p>
+    <div class="figbox">
+      <svg class="fig" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" style="max-width:320px">
+        <line x1="40" y1="100" x2="120" y2="50" stroke="#5C3D2E" stroke-width="2.5"/>
+        <line x1="40" y1="100" x2="120" y2="150" stroke="#5C3D2E" stroke-width="2.5"/>
+        <line x1="120" y1="50" x2="210" y2="25" stroke="#5C3D2E" stroke-width="2"/>
+        <line x1="120" y1="50" x2="210" y2="75" stroke="#5C3D2E" stroke-width="2"/>
+        <line x1="120" y1="150" x2="210" y2="125" stroke="#5C3D2E" stroke-width="2"/>
+        <line x1="120" y1="150" x2="210" y2="175" stroke="#5C3D2E" stroke-width="2"/>
+        <circle cx="40" cy="100" r="5" fill="#A78BC4"/>
+        <circle cx="120" cy="50" r="5" fill="#EF5D60"/>
+        <circle cx="120" cy="150" r="5" fill="#4FA3D1"/>
+        <circle cx="210" cy="25" r="5" fill="#EF5D60"/>
+        <circle cx="210" cy="75" r="5" fill="#4FA3D1"/>
+        <circle cx="210" cy="125" r="5" fill="#EF5D60"/>
+        <circle cx="210" cy="175" r="5" fill="#4FA3D1"/>
+        <text x="75" y="45" font-family="Fredoka" font-weight="700" font-size="13" fill="#c43e41">p</text>
+        <text x="75" y="130" font-family="Fredoka" font-weight="700" font-size="13" fill="#2f7ba8">1−p</text>
+        <text x="155" y="28" font-family="Fredoka" font-weight="700" font-size="12" fill="#c43e41">p</text>
+        <text x="155" y="80" font-family="Fredoka" font-weight="700" font-size="12" fill="#2f7ba8">1−p</text>
+        <text x="155" y="128" font-family="Fredoka" font-weight="700" font-size="12" fill="#c43e41">p</text>
+        <text x="155" y="178" font-family="Fredoka" font-weight="700" font-size="12" fill="#2f7ba8">1−p</text>
+        <text x="218" y="29" font-family="Fredoka" font-weight="700" font-size="12" fill="#5C3D2E">RR</text>
+        <text x="218" y="79" font-family="Fredoka" font-weight="700" font-size="12" fill="#5C3D2E">RB</text>
+        <text x="218" y="129" font-family="Fredoka" font-weight="700" font-size="12" fill="#5C3D2E">BR</text>
+        <text x="218" y="179" font-family="Fredoka" font-weight="700" font-size="12" fill="#5C3D2E">BB</text>
+      </svg>
+    </div>
+    <ol class="steps">
+      <li>On <b>lit</b> les probabilités sur chaque branche</li>
+      <li>La probabilité d'un chemin = <b>produit</b> des probabilités des branches</li>
+      <li>P(RR) = p × p = p²</li>
+      <li>Pour un événement : <b>additionner</b> les probabilités des chemins favorables</li>
+    </ol>
   </div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('contraire')">Je m'entraîne ➜</button></div>
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">Avec ou sans remise</span>
+    <p class="lead"><b>Avec remise</b> : on remet la boule avant le 2e tirage. Les probabilités ne changent pas d'une étape à l'autre.</p>
+    <p class="lead"><b>Sans remise</b> : la boule est gardée. Les probabilités changent au 2e tirage.</p>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain('arbre')">Je m'entraîne ➜</button></div>
 </section>
 
-<!-- ===== ENTRAÎNEMENT (générique) ===== -->
+<!-- LEÇON conditionnelle -->
+<section id="expConditionnelle" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Probabilité conditionnelle</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">Tableau double entrée</span>
+    <p class="lead">Un tableau à double entrée permet de lire directement des probabilités.</p>
+    <div style="overflow-x:auto">
+    <table class="dtable">
+      <tr><th></th><th>Sport</th><th>Pas de sport</th><th>Total</th></tr>
+      <tr><td><b>Filles</b></td><td>18</td><td>12</td><td>30</td></tr>
+      <tr><td><b>Garçons</b></td><td>22</td><td>8</td><td>30</td></tr>
+      <tr><td><b>Total</b></td><td>40</td><td>20</td><td>60</td></tr>
+    </table>
+    </div>
+    <p class="exemple">P(sport) = 40/60 = 2/3. P(fille) = 30/60 = 1/2. P(fille ET sport) = 18/60 = 3/10.</p>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--bleu)">Probabilité conditionnelle</span>
+    <p class="lead">P(A|B) se lit « probabilité de A <b>sachant</b> B » :</p>
+    <div class="mid"><span class="formule">P(A|B) = P(A∩B) / P(B)</span></div>
+    <p class="exemple">P(sport|fille) = P(sport ET fille) / P(fille) = (18/60) / (30/60) = 18/30 = 3/5.</p>
+    <p class="note">Sur le tableau : on se restreint à la ligne ou colonne de B, et on lit les effectifs favorables.</p>
+  </div>
+  <div class="mid"><button class="btn bleu" onclick="startTrain('conditionnelle')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- LEÇON redaction -->
+<section id="expRedaction" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Rédiger une solution</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--or)">Méthode brevet</span>
+    <p class="lead">Une bonne rédaction de probabilités suit toujours ces étapes :</p>
+    <ol class="steps">
+      <li>Énoncer l'expérience aléatoire et l'univers Ω</li>
+      <li>Identifier l'événement A et les issues favorables</li>
+      <li>En situation équiprobable, écrire P(A) = favorables / total</li>
+      <li>Calculer et simplifier la fraction</li>
+      <li>Conclure en français avec la valeur trouvée</li>
+    </ol>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--or)">Exemple complet</span>
+    <p class="lead">Une urne contient 4 boules rouges et 6 boules bleues. On tire une boule au hasard. Calculer P(rouge).</p>
+    <p class="exemple"><b>Solution :</b> L'univers est Ω = {R₁, R₂, R₃, R₄, B₁, …, B₆}, il a 10 issues équiprobables. L'événement A = « tirer rouge » compte 4 issues favorables. Donc P(A) = 4/10 = <b>2/5</b>. La probabilité de tirer une boule rouge est 2/5.</p>
+  </div>
+  <div class="mid"><button class="btn" onclick="startTrain('redaction')">Je m'entraîne ➜</button></div>
+</section>
+
+<!-- ENTRAÎNEMENT -->
 <section id="ecranTrain" class="screen">
   <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
-  <div class="card">
-    <div class="scorebar">
-      <span class="pill">⭐ <span id="tq_score">0</span></span>
-      <span class="pill">🔥 <span id="tq_streak">0</span></span>
-    </div>
+  <div class="card" id="tq_card">
+    <div class="serieprog" id="tq_prog"></div>
+    <div class="helpnote" id="tq_help"></div>
     <div class="qcard">
-      <div class="prog" id="tq_prog"></div>
-      <div class="helpnote" id="tq_help"></div>
       <div class="qcat" id="tq_cat"></div>
-      <div class="viz" id="tq_viz" style="display:none"></div>
+      <div class="figbox" id="tq_viz" style="display:none"></div>
       <div class="question" id="tq_text"></div>
       <div class="opts" id="tq_opts" style="display:none"></div>
       <div class="ansrow" id="tq_ansrow">
-        <input id="tq_input" inputmode="text" placeholder="1/6, 0,17 ou 17 %" autocomplete="off">
+        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
         <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
       </div>
+      <div class="cascade" id="tq_casc" style="display:none"></div>
       <div class="feedback" id="tq_feed"></div>
       <div class="stars" id="tq_stars"></div>
-      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_cont" style="display:none" onclick="trainDone()">Continuer ➜</button></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant ➜</button></div>
     </div>
   </div>
-  <div class="mid"><button class="btn fant" onclick="toggleCalc('tr')">🧮 Calculatrice des 3 écritures</button></div>
-  <div class="card" id="tr_calc" style="display:none">
-    <p class="lead" style="text-align:center">Entre une fraction pour la voir sous ses 3 formes.</p>
-    <div class="calcrow">
-      <div class="cfrac">
-        <input class="cinp" id="tr_num" inputmode="numeric" placeholder="3" oninput="calcConvert('tr')">
-        <div class="cfbar"></div>
-        <input class="cinp" id="tr_den" inputmode="numeric" placeholder="6" oninput="calcConvert('tr')">
-      </div>
-      <button class="btn" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="calcConvert('tr')">=</button>
-    </div>
-    <div class="forms" id="tr_out"></div>
+  <div class="card result" id="tq_result" style="display:none">
+    <div class="big" id="tq_rbig"></div>
+    <div class="msg" id="tq_rmsg"></div>
+    <div class="rbtns" id="tq_rbtns"></div>
   </div>
 </section>
 
-<!-- ===== ARÈNE ===== -->
+<!-- ARÈNE -->
 <section id="arene" class="screen">
   <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>L'arène du hasard</h2></div>
   <div class="card" id="areneMenu">
-    <p class="lead" style="text-align:center">Bravo, parcours terminé ! Choisis ton entraînement libre.</p>
+    <p class="lead" style="text-align:center">Parcours terminé ! Entraînement libre, sans note.</p>
     <div class="catgrid">
-      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('vocab')"><span class="ic">🎯</span>Vocabulaire</button>
-      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('equiprob')"><span class="ic">🎲</span>Calculer P</button>
-      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('complement')"><span class="ic">🔄</span>Contraire</button>
+      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('vocabulaire')"><span class="ic">📖</span>Vocabulaire</button>
+      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('probabilite')"><span class="ic">🎲</span>Calculer P</button>
+      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('frequence')"><span class="ic">📊</span>Fréquence</button>
+      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('arbre')"><span class="ic">🌿</span>Arbres</button>
+      <button class="cat" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="startArene('conditionnelle')"><span class="ic">📋</span>Conditionnelle</button>
+      <button class="cat" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('redaction')"><span class="ic">✍️</span>Rédaction</button>
     </div>
-    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
+    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
   </div>
   <div class="card" id="areneJeu" style="display:none">
-    <div class="scorebar">
-      <span class="pill">⭐ <span id="aq_score">0</span></span>
-      <span class="pill">🔥 <span id="aq_streak">0</span></span>
-      <span class="pill">🎯 <span id="aq_corr">0</span>/<span id="aq_tot">0</span></span>
-    </div>
+    <div class="scorebar"><span class="pill">⭐ <span id="aq_score">0</span></span><span class="pill">🔥 <span id="aq_streak">0</span></span><span class="pill">🎯 <span id="aq_corr">0</span>/<span id="aq_tot">0</span></span></div>
     <div class="qcard">
       <div class="qcat" id="aq_cat"></div>
+      <div class="figbox" id="aq_viz" style="display:none"></div>
       <div class="question" id="aq_text"></div>
       <div class="opts" id="aq_opts" style="display:none"></div>
       <div class="ansrow" id="aq_ansrow">
-        <input id="aq_input" inputmode="text" placeholder="1/6, 0,17 ou 17 %" autocomplete="off">
+        <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
         <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
       </div>
+      <div class="cascade" id="aq_casc" style="display:none"></div>
       <div class="feedback" id="aq_feed"></div>
       <div class="stars" id="aq_stars"></div>
-      <div class="mid" style="margin-top:14px"><button class="btn fant" onclick="finArene()">Changer de catégorie</button></div>
-    </div>
-    <div class="mid"><button class="btn fant" onclick="toggleCalc('ar')">🧮 Calculatrice des 3 écritures</button></div>
-    <div id="ar_calc" style="display:none;margin-top:12px">
-      <div class="calcrow">
-        <div class="cfrac">
-          <input class="cinp" id="ar_num" inputmode="numeric" placeholder="3" oninput="calcConvert('ar')">
-          <div class="cfbar"></div>
-          <input class="cinp" id="ar_den" inputmode="numeric" placeholder="6" oninput="calcConvert('ar')">
-        </div>
-        <button class="btn" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="calcConvert('ar')">=</button>
-      </div>
-      <div class="forms" id="ar_out"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="aq_next" style="display:none" onclick="quizNext()">Suivant ➜</button> <button class="btn fant" onclick="finArene()">Changer</button></div>
     </div>
   </div>
 </section>
 
 </div>
+
+<button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">🧮</button>
+<div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
+  <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
+  <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
+  <div class="kc-keys" id="kcKeys"></div>
+<button onclick="kcSend()" style="margin-top:10px;width:100%;font-family:'Fredoka',sans-serif;font-weight:700;font-size:15px;border:none;cursor:pointer;background:#8BC34A;color:#fff;border-radius:14px;padding:11px;box-shadow:0 4px 0 #5E9426;">⬆ Envoyer le résultat dans la réponse</button>
+</div>
+
 <script>
 /* ===== SUIVI ===== */
 var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Probabilités'};
-function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
-/* ---------- navigation & progression ---------- */
-const ORDER=['vocab','calcul','contraire'];
-const EXP={vocab:'expVocab',calcul:'expCalc',contraire:'expCont'};
-const MAPID={vocab:'mapVocab',calcul:'mapCalcul',contraire:'mapContraire'};
-const TITLE={vocab:'Vocabulaire & échelle',calcul:'Calculer une probabilité',contraire:'Événement contraire'};
-const unlocked={vocab:true,calcul:false,contraire:false,arene:false};
-const themeDone={vocab:false,calcul:false,contraire:false};
-let currentTheme='vocab';
-const REQUIRED=6;
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+var SSDONE={};
+function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom+' › '+label);b.append(SUIVI.f.statut,'Terminé');b.append(SUIVI.f.score,'');b.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
 
+/* ===== CONFIG ===== */
+var ORDER=['vocabulaire','probabilite','frequence','arbre','conditionnelle','redaction'];
+var EXP={vocabulaire:'expVocabulaire',probabilite:'expProbabilite',frequence:'expFrequence',arbre:'expArbre',conditionnelle:'expConditionnelle',redaction:'expRedaction'};
+var MAPID={vocabulaire:'mapVocabulaire',probabilite:'mapProbabilite',frequence:'mapFrequence',arbre:'mapArbre',conditionnelle:'mapConditionnelle',redaction:'mapRedaction'};
+var TITLE={vocabulaire:'Vocabulaire',probabilite:'Calculer une probabilité',frequence:'Fréquence et probabilité',arbre:'Arbre de probabilités',conditionnelle:'Probabilité conditionnelle',redaction:'Rédiger une solution'};
+var CASCADE_THEMES={probabilite:true,arbre:true,conditionnelle:true,redaction:true};
+var unlocked={vocabulaire:true,probabilite:false,frequence:false,arbre:false,conditionnelle:false,redaction:false,arene:false};
+var themeDone={vocabulaire:false,probabilite:false,frequence:false,arbre:false,conditionnelle:false,redaction:false};
+var currentTheme='vocabulaire';
+var SERIE=10, SEUIL=8;
+function serieLen(){return CASCADE_THEMES[currentTheme]?5:SERIE;}
+function seuilFor(){return CASCADE_THEMES[currentTheme]?4:SEUIL;}
+
+var CATNOM={vocabulaire:'Vocabulaire',probabilite:'Calculer P',frequence:'Fréquence',arbre:'Arbre',conditionnelle:'Conditionnelle',redaction:'Rédaction'};
+var THEME_CATS={vocabulaire:['vocabulaire'],probabilite:['probabilite'],frequence:['frequence'],arbre:['arbre'],conditionnelle:['conditionnelle'],redaction:['redaction']};
+var HELP={
+  vocabulaire:'Rappel : 0 = impossible, 1 = certain, P(Ā) = 1 − P(A).',
+  probabilite:'P(A) = nb issues favorables / nb issues total. Rédige les étapes.',
+  frequence:'f = nb apparitions / nb essais. Plus on répète, plus f se rapproche de P.',
+  arbre:'P(chemin) = produit des branches. Pour un événement = somme des chemins favorables.',
+  conditionnelle:'P(A|B) = P(A∩B) / P(B). Sur le tableau : restreins-toi à la ligne/colonne de B.',
+  redaction:'Univers → issues favorables → P(A) = fraction → simplifier → conclure.'
+};
+
+/* ===== UTILITAIRES ===== */
 function gid(x){return document.getElementById(x);}
-function go(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  gid(id).classList.add('active');window.scrollTo(0,0);
-  if(id==='arene')finArene();
-}
-function wiggle(id){const el=gid(id);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}
-function tapTheme(t){ if(unlocked[t]||themeDone[t]) openTheme(t); else wiggle(MAPID[t]); }
-function tapArene(){ if(unlocked.arene) go('arene'); else wiggle('mapArene'); }
-function openTheme(t){ currentTheme=t; go(EXP[t]); }
-function updateMap(){
-  ORDER.forEach(t=>{
-    const card=gid(MAPID[t]);
-    card.classList.toggle('lock',!(unlocked[t]||themeDone[t]));
-    card.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');
-  });
-  const ar=gid('mapArene');
-  ar.classList.toggle('lock',!unlocked.arene);
-  ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';
-}
+function go(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();}
+function wiggle(id){var el=gid(id);el.classList.add('shake');setTimeout(function(){el.classList.remove('shake');},400);}
+function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
+function tapArene(){if(unlocked.arene)go('arene');else wiggle('mapArene');}
+function openTheme(t){currentTheme=t;go(EXP[t]);}
+function updateMap(){ORDER.forEach(function(t){var c=gid(MAPID[t]);c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');});var ar=gid('mapArene');ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
-function rand(n){return Math.floor(Math.random()*n);} // 0..n-1
-function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=b;b=a%b;a=t;}return a||1;}
-function fracStr(n,d){if(n===0)return '0';if(n===d)return '1';const g=gcd(n,d);return (n/g)+'/'+(d/g);}
+function rint(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a||1;}
+function fracStr(n,d){if(n===0)return '0';if(n===d)return '1';var g=gcd(n,d);return (n/g)+'/'+(d/g);}
+function fmtDec(v){if(!isFinite(v))return '?';return (Math.round(v*1000)/1000).toString().replace('.',',');}
 
-/* ---------- les 3 écritures (fraction / décimal / pourcentage) ---------- */
-function frNum(x,dec){let s=x.toFixed(dec);if(s.indexOf('.')>=0)s=s.replace(/0+$/,'').replace(/\.$/,'');return s.replace('.', ',');}
-function isExactDecimal(n,d){if(n===0)return true;const g=gcd(n,d);d=d/g;while(d%2===0)d/=2;while(d%5===0)d/=5;return d===1;}
-function decForm(n,d){const v=n/d;return isExactDecimal(n,d)?frNum(v,6):'≈ '+frNum(v,3);}
-function pctForm(n,d){const v=n*100/d;return isExactDecimal(n,d)?frNum(v,4)+' %':'≈ '+frNum(v,1)+' %';}
-function threeFormsHTML(n,d){
-  return '<div class="forms">'
-    +'<span class="fpill ffrac"><span class="lab">fraction</span>'+fracStr(n,d)+'</span>'
-    +'<span class="fpill fdec"><span class="lab">décimal</span>'+decForm(n,d)+'</span>'
-    +'<span class="fpill fpct"><span class="lab">pourcentage</span>'+pctForm(n,d)+'</span>'
-    +'</div>';
+/* ===== SVG helpers ===== */
+function svgUrne(rouge,bleue,verte){
+  var total=rouge+bleue+verte;
+  var bals='';
+  for(var i=0;i<rouge;i++)bals+='<circle r="10" fill="#EF5D60" stroke="#c43e41" stroke-width="1.5"/>';
+  for(var i=0;i<bleue;i++)bals+='<circle r="10" fill="#4FA3D1" stroke="#2f7ba8" stroke-width="1.5"/>';
+  for(var i=0;i<verte;i++)bals+='<circle r="10" fill="#8BC34A" stroke="#5E9426" stroke-width="1.5"/>';
+  var cols=Math.min(total,6);
+  var rows=Math.ceil(total/cols);
+  var w=cols*26+20,h=rows*26+50;
+  var s='<svg viewBox="0 0 '+w+' '+h+'" style="max-width:240px;display:block;margin:8px auto" xmlns="http://www.w3.org/2000/svg">';
+  s+='<rect x="4" y="30" width="'+(w-8)+'" height="'+(h-34)+'" rx="12" fill="#EAF3FB" stroke="#2f7ba8" stroke-width="3"/>';
+  var balls=[rouge,bleue,verte];var cols_arr=['#EF5D60','#4FA3D1','#8BC34A'],strk=['#c43e41','#2f7ba8','#5E9426'];
+  var idx=0;
+  for(var ci=0;ci<3;ci++){
+    var cnt=[rouge,bleue,verte][ci];
+    for(var k=0;k<cnt;k++){
+      var col=idx%cols,row=Math.floor(idx/cols);
+      var cx=col*26+22,cy=(rows-1-row)*26+46;
+      s+='<circle cx="'+cx+'" cy="'+cy+'" r="10" fill="'+cols_arr[ci]+'" stroke="'+strk[ci]+'" stroke-width="1.5"/>';
+      idx++;
+    }
+  }
+  s+='<text x="'+(w/2)+'" y="20" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="13" fill="#5C3D2E">'+total+' boule'+(total>1?'s':'')+'</text>';
+  s+='</svg>';
+  return s;
 }
-function threeFormsInline(n,d){return fracStr(n,d)+' ('+decForm(n,d)+' · '+pctForm(n,d)+')';}
 
-/* ---------- calculatrice (partagée par les écrans) ---------- */
-function calcConvert(p){
-  const inN=gid(p+'_num'),inD=gid(p+'_den'),out=gid(p+'_out');
-  if(inN.value===''&&inD.value===''){out.innerHTML='';return;}
-  const a=parseInt(inN.value,10),b=parseInt(inD.value,10);
-  if(!Number.isFinite(a)||!Number.isFinite(b)||b<=0||a<0){out.innerHTML='<span class="hintbad">Mets un entier en haut, et un entier plus grand que 0 en bas.</span>';return;}
-  if(a>b){out.innerHTML='<span class="hintbad">Pour une probabilité, le nombre du haut ne dépasse pas celui du bas.</span>';return;}
-  out.innerHTML=threeFormsHTML(a,b);
-}
-function toggleCalc(p){const el=gid(p+'_calc');el.style.display=el.style.display==='none'?'block':'none';}
-
-/* ---------- dessins de situation ---------- */
-function vizDie(){const f=['⚀','⚁','⚂','⚃','⚄','⚅'];return '<div class="vizrow">'+f.map(x=>'<span class="vdie">'+x+'</span>').join('')+'</div>';}
-function vizUrn(r,v,b){let s='';const add=(c,n)=>{for(let i=0;i<n;i++)s+='<span class="vball '+c+'"></span>';};add('r',r);add('v',v);add('b',b);return '<div class="vizurn">'+s+'</div>';}
-function colVar(c){return {rouges:'#EF5D60',vertes:'#8BC34A',bleues:'#4FA3D1',jaunes:'#FFC93C'}[c]||'#FFC93C';}
-function vizRoue(total,k,color){
-  const cx=70,cy=70,r=58;let p='';
-  for(let i=0;i<total;i++){
-    const a0=(i/total)*2*Math.PI-Math.PI/2,a1=((i+1)/total)*2*Math.PI-Math.PI/2;
-    const x0=cx+r*Math.cos(a0),y0=cy+r*Math.sin(a0),x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1);
-    const fill=i<k?color:'#FFF4DC';
+function svgRoue(total,k,color){
+  var cx=80,cy=80,r=62;var p='';
+  for(var i=0;i<total;i++){
+    var a0=(i/total)*2*Math.PI-Math.PI/2,a1=((i+1)/total)*2*Math.PI-Math.PI/2;
+    var x0=cx+r*Math.cos(a0),y0=cy+r*Math.sin(a0),x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1);
+    var fill=i<k?color:'#FFF4DC';
     p+='<path d="M'+cx+','+cy+' L'+x0.toFixed(1)+','+y0.toFixed(1)+' A'+r+','+r+' 0 0 1 '+x1.toFixed(1)+','+y1.toFixed(1)+' Z" fill="'+fill+'" stroke="#5C3D2E" stroke-width="2"/>';
   }
-  return '<svg class="vizroue" viewBox="0 0 140 140" width="150" height="150">'+p+'</svg>';
+  return '<svg viewBox="0 0 160 160" style="max-width:160px;display:block;margin:8px auto" xmlns="http://www.w3.org/2000/svg">'+p+'<circle cx="'+cx+'" cy="'+cy+'" r="6" fill="#5C3D2E"/></svg>';
 }
-function vizCartes(){return '<div class="vizcards"><span class="vcard">A♠</span><span class="vcard red">K♥</span><span class="vcard red">7♦</span><span class="vcard">10♣</span><span class="vbadge">jeu de 52 cartes</span></div>';}
 
-/* ---------- animation Vocab (échelle) ---------- */
-let vocabAnimDone=false;
-function animVocab(){
-  if(vocabAnimDone)return;vocabAnimDone=true;
-  const ex=[
-    {p:0,txt:'Obtenir 7 au dé'},
-    {p:1/6,txt:'Obtenir un 6'},
-    {p:0.5,txt:'Pile ou face = pile'},
-    {p:1,txt:'Le soleil se lève'}
+function svgDe(face){
+  var dots=[[],[],[0],[1,3],[0,1,3,4],[0,1,2,3,4],[0,1,2,3,4,5]];
+  var pos=[[0.25,0.25],[0.75,0.25],[0.5,0.5],[0.25,0.75],[0.75,0.75],[0.25,0.5],[0.75,0.5]];
+  var s='<svg viewBox="0 0 60 60" style="width:54px;height:54px;display:inline-block" xmlns="http://www.w3.org/2000/svg">';
+  s+='<rect x="3" y="3" width="54" height="54" rx="10" fill="#FFFDF6" stroke="#e7d3a8" stroke-width="3"/>';
+  var ds=dots[face]||[];
+  for(var i=0;i<ds.length;i++){var p=pos[ds[i]];s+='<circle cx="'+(p[0]*60)+'" cy="'+(p[1]*60)+'" r="5" fill="#5C3D2E"/>';}
+  s+='</svg>';
+  return s;
+}
+
+function svgArbre2(p1n,p1d,p2n,p2d,lab1,lab2,lab3,lab4){
+  var pr=p1n/p1d,pp=p2n/p2d;
+  var s='<svg viewBox="0 0 320 200" style="max-width:320px;display:block;margin:8px auto" xmlns="http://www.w3.org/2000/svg">';
+  s+='<line x1="30" y1="100" x2="100" y2="55" stroke="#5C3D2E" stroke-width="2.5"/>';
+  s+='<line x1="30" y1="100" x2="100" y2="145" stroke="#5C3D2E" stroke-width="2.5"/>';
+  s+='<line x1="100" y1="55" x2="190" y2="25" stroke="#5C3D2E" stroke-width="2"/>';
+  s+='<line x1="100" y1="55" x2="190" y2="85" stroke="#5C3D2E" stroke-width="2"/>';
+  s+='<line x1="100" y1="145" x2="190" y2="115" stroke="#5C3D2E" stroke-width="2"/>';
+  s+='<line x1="100" y1="145" x2="190" y2="175" stroke="#5C3D2E" stroke-width="2"/>';
+  s+='<circle cx="30" cy="100" r="5" fill="#A78BC4"/>';
+  s+='<circle cx="100" cy="55" r="5" fill="#EF5D60"/>';
+  s+='<circle cx="100" cy="145" r="5" fill="#4FA3D1"/>';
+  s+='<circle cx="190" cy="25" r="5" fill="#EF5D60"/>';
+  s+='<circle cx="190" cy="85" r="5" fill="#4FA3D1"/>';
+  s+='<circle cx="190" cy="115" r="5" fill="#EF5D60"/>';
+  s+='<circle cx="190" cy="175" r="5" fill="#4FA3D1"/>';
+  var f=function(n,d){return n+'/'+d;};
+  s+='<text x="62" y="68" font-family="Fredoka" font-weight="700" font-size="12" fill="#c43e41">'+f(p1n,p1d)+'</text>';
+  s+='<text x="55" y="125" font-family="Fredoka" font-weight="700" font-size="12" fill="#2f7ba8">'+f(p1d-p1n,p1d)+'</text>';
+  s+='<text x="140" y="32" font-family="Fredoka" font-weight="700" font-size="11" fill="#c43e41">'+f(p2n,p2d)+'</text>';
+  s+='<text x="140" y="80" font-family="Fredoka" font-weight="700" font-size="11" fill="#2f7ba8">'+f(p2d-p2n,p2d)+'</text>';
+  s+='<text x="140" y="112" font-family="Fredoka" font-weight="700" font-size="11" fill="#c43e41">'+f(p2n,p2d)+'</text>';
+  s+='<text x="140" y="172" font-family="Fredoka" font-weight="700" font-size="11" fill="#2f7ba8">'+f(p2d-p2n,p2d)+'</text>';
+  s+='<text x="198" y="29" font-family="Fredoka" font-weight="700" font-size="12" fill="#5C3D2E">'+lab1+'</text>';
+  s+='<text x="198" y="89" font-family="Fredoka" font-weight="700" font-size="12" fill="#5C3D2E">'+lab2+'</text>';
+  s+='<text x="198" y="119" font-family="Fredoka" font-weight="700" font-size="12" fill="#5C3D2E">'+lab3+'</text>';
+  s+='<text x="198" y="179" font-family="Fredoka" font-weight="700" font-size="12" fill="#5C3D2E">'+lab4+'</text>';
+  s+='</svg>';
+  return s;
+}
+
+/* ===== GÉNÉRATEURS QCM ===== */
+function genVocabulaire(){
+  var pool=[
+    {t:"Lancer un dé à 6 faces et observer le résultat : c'est une…",o:['expérience aléatoire','probabilité','issue'],c:0,e:"C'est une expérience aléatoire : on ne peut pas prédire le résultat."},
+    {t:"L'ensemble de toutes les issues possibles s'appelle…",o:["l'univers","un événement","une probabilité"],c:0,e:"L'univers Ω regroupe toutes les issues possibles."},
+    {t:"P(A) + P(Ā) = ?",o:['1','0','0,5'],c:0,e:"P(A) + P(Ā) = 1 : l'événement et son contraire couvrent toutes les issues."},
+    {t:"Un événement de probabilité 0 est…",o:['impossible','certain','possible'],c:0,e:"P(A) = 0 signifie que A ne peut jamais se réaliser : il est impossible."},
+    {t:"Un événement de probabilité 1 est…",o:['certain','impossible','peu probable'],c:0,e:"P(A) = 1 signifie que A se réalise toujours : il est certain."},
+    {t:"Comment calcule-t-on P(Ā) ?",o:['P(Ā) = 1 − P(A)','P(Ā) = P(A)','P(Ā) = 0'],c:0,e:"L'événement contraire a pour probabilité 1 moins P(A)."},
+    {t:"Une issue élémentaire est…",o:["un résultat possible unique","un ensemble d'issues","une expérience"],c:0,e:"Une issue élémentaire est un seul résultat possible de l'expérience."},
+    {t:"Pour un dé à 6 faces équilibré, quelle est la probabilité d'obtenir un 3 ?",o:['1/6','1/3','1/2'],c:0,e:"Les 6 faces sont équiprobables, donc P(3) = 1/6."},
+    {t:"Avec un dé à 6 faces, P('obtenir 7') = ?",o:['0','1/6','1/7'],c:0,e:"7 n'est pas dans l'univers {1,2,3,4,5,6} : P = 0, événement impossible."},
+    {t:"Avec un dé à 6 faces, P('obtenir un nombre de 1 à 6') = ?",o:['1','1/6','0'],c:0,e:"Toutes les issues sont favorables : P = 1, événement certain."},
+    {t:"Si P(A) = 0,3, quelle est P(Ā) ?",o:['0,7','0,3','1,3'],c:0,e:"P(Ā) = 1 − 0,3 = 0,7."},
+    {t:"La probabilité d'un événement est toujours…",o:['entre 0 et 1','supérieure à 1','négative'],c:0,e:"Par définition, 0 ≤ P(A) ≤ 1."},
+    {t:"Que signifie P(A) = 0,5 ?",o:["L'événement a une chance sur deux","L'événement est certain","L'événement est impossible"],c:0,e:"0,5 = 1/2 : une chance sur deux."},
+    {t:"Un événement regroupant toutes les issues sauf une est le…",o:['contraire','univers','élémentaire'],c:0,e:"L'événement contraire se réalise exactement quand A ne se réalise pas."}
   ];
-  const ptr=gid('vp'),tag=gid('vptag');
-  ptr.style.opacity='1';
-  ex.forEach((e,i)=>setTimeout(()=>{
-    ptr.style.left=(e.p*100)+'%';
-    tag.textContent=e.txt;
-    // poser un repère permanent
-    const m=document.createElement('div');m.className='marker';m.style.left=(e.p*100)+'%';
-    gid('vscale').appendChild(m);requestAnimationFrame(()=>m.classList.add('on'));
-    if(i===ex.length-1){gid('vocabConclu').style.display='block';gid('btnVocabAnim').textContent='✅ De 0 (impossible) à 1 (certain)';}
-  },i*1100));
+  var q=pick(pool);
+  var opts=shuffle(q.o);
+  return {type:'qcm',cat:'vocabulaire',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
 }
 
-/* ---------- outil Vocab (chips) ---------- */
-const VCHIPS=[
-  {p:0,txt:'Obtenir 7 avec un dé à 6 faces'},
-  {p:1/6,txt:'Obtenir un 3 avec un dé'},
-  {p:0.25,txt:'Tirer un cœur dans un jeu de 52 cartes'},
-  {p:0.5,txt:'Obtenir pile avec une pièce'},
-  {p:0.75,txt:'Ne pas tirer de cœur (52 cartes)'},
-  {p:1,txt:'Obtenir un nombre de 1 à 6 avec un dé'}
-];
-(function(){
-  const box=gid('vchips');
-  VCHIPS.forEach((c,i)=>{const b=document.createElement('button');b.className='chip';b.textContent=c.txt;
-    b.onclick=()=>{document.querySelectorAll('#vchips .chip').forEach(x=>x.classList.remove('act'));b.classList.add('act');
-      const ptr=gid('tp');ptr.style.opacity='1';ptr.style.left=(c.p*100)+'%';
-      gid('tptag').textContent=fracProb(c.p);
-      gid('vres').innerHTML='P = <b>'+fracProb(c.p)+'</b>';};
-    box.appendChild(b);});
-})();
-function fracProb(p){
-  if(p===0)return '0';if(p===1)return '1';
-  if(Math.abs(p-1/6)<1e-6)return '1/6';
-  if(Math.abs(p-0.25)<1e-6)return '1/4';
-  if(Math.abs(p-0.5)<1e-6)return '1/2';
-  if(Math.abs(p-0.75)<1e-6)return '3/4';
-  return p.toString().replace('.', ',');
+function genFrequence(){
+  var pool=[
+    {t:"On lance une pièce 1000 fois et on obtient 487 fois face. La fréquence de face est…",o:['0,487','0,513','0,5'],c:0,e:"f = 487/1000 = 0,487."},
+    {t:"Quand le nombre d'expériences augmente, la fréquence se rapproche de…",o:['la probabilité théorique','1','0'],c:0,e:"C'est la loi des grands nombres : f → P quand n → ∞."},
+    {t:"La fréquence expérimentale est calculée…",o:["après avoir répété l'expérience","à partir des formules","à partir de l'univers"],c:0,e:"La fréquence est mesurée après expérience réelle."},
+    {t:"La probabilité théorique est calculée…",o:["à partir de la situation (formule)","en répétant l'expérience","au hasard"],c:0,e:"La probabilité théorique est déduite des données de la situation."},
+    {t:"On lance un dé 600 fois. La fréquence d'obtenir 6 est 0,18. Cela est…",o:["normal, proche de 1/6 ≈ 0,167","impossible, ça devrait être 0","exact, la probabilité est 0,18"],c:0,e:"1/6 ≈ 0,167 ≈ 0,18 : la fréquence est proche de la probabilité."},
+    {t:"Pour estimer une probabilité inconnue, on peut…",o:["répéter l'expérience un grand nombre de fois","calculer l'univers","additionner toutes les issues"],c:0,e:"La loi des grands nombres permet d'estimer P par la fréquence."},
+    {t:"On observe f(A) = 0,4 après 50 essais. Après 10 000 essais, f(A) sera…",o:["plus proche de P(A)","exactement 0,4","égale à 0"],c:0,e:"Plus d'essais → fréquence plus stable, plus proche de P(A)."},
+    {t:"Si f(A) = 3/10, quelle est la valeur décimale ?",o:['0,3','0,03','3'],c:0,e:"3/10 = 0,3."},
+    {t:"Deux joueurs lancent chacun un dé 20 fois. Leurs fréquences de 'face 6' sont différentes. Est-ce normal ?",o:["Oui, avec peu d'essais les fréquences varient","Non, elles devraient être identiques","Non, elles devraient valoir 1/6 exactement"],c:0,e:"Avec peu d'essais, la variabilité est grande."},
+    {t:"La fréquence peut-elle être supérieure à 1 ?",o:['Non, jamais','Oui, si on répète beaucoup','Oui, si P > 0,5'],c:0,e:"f = nb apparitions / nb essais, donc 0 ≤ f ≤ 1 toujours."},
+    {t:"On tire une carte dans un jeu de 52 et on recommence 520 fois. On obtient un cœur 135 fois. f(cœur) ≈ ?",o:['0,26','0,25','1/4'],c:0,e:"f = 135/520 ≈ 0,260. La probabilité théorique est 1/4 = 0,25 : c'est proche."}
+  ];
+  var q=pick(pool);
+  var opts=shuffle(q.o);
+  return {type:'qcm',cat:'frequence',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
 }
 
-/* ---------- animation Calcul (dés) ---------- */
-(function(){const faces=['⚀','⚁','⚂','⚃','⚄','⚅'];const box=gid('cdice');faces.forEach((f,i)=>{const d=document.createElement('div');d.className='die';d.dataset.n=i+1;d.textContent=f;box.appendChild(d);});})();
-let calcAnimDone=false;
-function animCalc(){
-  if(calcAnimDone)return;calcAnimDone=true;
-  const dice=[...document.querySelectorAll('#cdice .die')];
-  let c=0;
-  dice.forEach((d,i)=>setTimeout(()=>{
-    if((+d.dataset.n)%2===0){d.classList.add('hot');c++;}
-    if(i===dice.length-1){gid('calcConclu').style.display='block';gid('calcConclu').innerHTML='<div class="mid"><span class="formule" style="border-color:var(--teal-bas)">3 faces paires sur 6</span></div>'+threeFormsHTML(3,6);gid('btnCalcAnim').textContent='✅ 3 pairs sur 6';}
-  },i*220));
+function genRedaction(){
+  var pool=[
+    {t:"Par quoi commence une bonne rédaction de probabilités ?",o:["On décrit l'expérience et on précise l'univers","On écrit directement la réponse","On trace un arbre"],c:0,e:"Il faut d'abord définir l'expérience et l'univers Ω."},
+    {t:"Pour écrire P(A) avec la formule, quelle condition faut-il ?",o:["Équiprobabilité (issues toutes équivalentes)","Au moins 10 issues","Un dé"],c:0,e:"La formule P = favorables/total ne s'applique qu'en situation équiprobable."},
+    {t:"Que signifie 'simplifier la fraction' dans la rédaction ?",o:["Diviser numérateur et dénominateur par leur PGCD","Arrondir","Mettre en pourcentage"],c:0,e:"On simplifie en divisant par le PGCD : 6/10 = 3/5."},
+    {t:"Comment se termine une bonne rédaction ?",o:["On conclut en français avec la probabilité trouvée","On dessine un arbre","On vérifie avec la calculatrice"],c:0,e:"Toujours conclure : 'Donc P(A) = … .'"},
+    {t:"Quelle notation est correcte pour la probabilité ?",o:['P(A)','p(a)','Prob A'],c:0,e:"On écrit P(A) avec P majuscule et le nom de l'événement entre parenthèses."},
+    {t:"Une urne a 4 rouges et 6 bleues. P(rouge) = ?",o:['4/10 = 2/5','4/6','6/10'],c:0,e:"Total = 10, favorables = 4. P = 4/10 = 2/5."},
+    {t:"Que vaut P(A∩B) si A et B sont incompatibles (ne peuvent pas se réaliser ensemble) ?",o:['0','P(A) × P(B)','P(A) + P(B)'],c:0,e:"Si A et B sont incompatibles, ils ne peuvent pas se réaliser en même temps : P(A∩B) = 0."}
+  ];
+  var q=pick(pool);
+  var opts=shuffle(q.o);
+  return {type:'qcm',cat:'redaction',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
 }
 
-/* ---------- outil Calcul (urne) ---------- */
-const urn={r:3,v:2,b:1};
-function renderUrn(){
-  const box=gid('urn');box.innerHTML='';
-  [['r',urn.r],['v',urn.v],['b',urn.b]].forEach(([c,n])=>{for(let i=0;i<n;i++){const e=document.createElement('div');e.className='ball '+c;box.appendChild(e);}});
-}
-(function(){
-  const ctr=gid('urnCtrls');
-  [['r','Rouge'],['v','Verte'],['b','Bleue']].forEach(([c,nom])=>{
-    const wrap=document.createElement('div');wrap.className='ctrl';
-    wrap.innerHTML='<span class="dot '+c+'"></span>';
-    const minus=document.createElement('button');minus.className='pm';minus.textContent='−';minus.onclick=()=>chg(c,-1);
-    const val=document.createElement('span');val.id='cnt_'+c;val.style.minWidth='18px';val.style.textAlign='center';
-    const plus=document.createElement('button');plus.className='pm';plus.textContent='+';plus.onclick=()=>chg(c,1);
-    wrap.appendChild(minus);wrap.appendChild(val);wrap.appendChild(plus);ctr.appendChild(wrap);
-  });
-  syncUrn();
-})();
-function chg(c,d){urn[c]=Math.max(0,Math.min(8,urn[c]+d));syncUrn();}
-function syncUrn(){gid('cnt_r').textContent=urn.r;gid('cnt_v').textContent=urn.v;gid('cnt_b').textContent=urn.b;renderUrn();gid('urnRes').innerHTML='Touche une couleur pour calculer sa probabilité.';}
-function pickColor(c){
-  const total=urn.r+urn.v+urn.b;
-  const nom={r:'rouge',v:'verte',b:'bleue'}[c];
-  if(total===0){gid('urnRes').textContent='Ajoute des boules d\u2019abord !';return;}
-  const fav=urn[c];
-  gid('urnRes').innerHTML='P(boule '+nom+') = '+fav+' sur '+total+threeFormsHTML(fav,total);
-}
-
-/* ---------- animation Contraire (barre) ---------- */
-let contAnimDone=false;
-function animCont(){
-  if(contAnimDone)return;contAnimDone=true;
-  const pa=gid('epa'),pn=gid('epnota');
-  setTimeout(()=>{pa.style.width='30%';pa.textContent='P(A) = 0,3';},200);
-  setTimeout(()=>{pn.style.width='70%';pn.textContent='P(contraire) = 0,7';},900);
-  setTimeout(()=>{gid('contConclu').style.display='block';gid('btnContAnim').textContent='✅ 0,3 + 0,7 = 1';},1500);
-}
-
-/* ---------- outil Contraire (curseur) ---------- */
-function updateCont(){
-  const k=+gid('contRange').value; // 0..10
-  gid('tpa').style.width=(k*10)+'%';gid('tpnota').style.width=((10-k)*10)+'%';
-  gid('tpa').textContent=k>0?'A':'';gid('tpnota').textContent=k<10?'non A':'';
-  gid('contRes').innerHTML='P(A) = '+fracStr(k,10)+' &nbsp;→&nbsp; P(contraire) = 1 − '+fracStr(k,10)+threeFormsHTML(10-k,10);
-}
-updateCont();
-
-/* ---------- générateurs de questions ---------- */
-const CATNOM={vocab:'Vocabulaire',equiprob:'Calculer une probabilité',complement:'Événement contraire'};
-const THEME_CATS={vocab:['vocab'],calcul:['equiprob'],contraire:['complement']};
-const HELP={vocab:'Rappel : 0 = impossible · 0,5 = une chance sur deux · 1 = certain.',
-  calcul:'Rappel : P = nombre de cas favorables ÷ nombre de cas possibles. Tu peux répondre en fraction (1/6), en nombre décimal ou en pourcentage.',
-  contraire:'Rappel : P(contraire) = 1 − P(A). Réponds en fraction, en décimal ou en pourcentage.'};
-
-function genEquiprob(){
-  const kind=pick(['de','de','urne','urne','roue','cartes']);
-  let text,fav,total,viz='';
-  if(kind==='de'){
+/* ===== CASCADE : probabilite ===== */
+function genProbabilite(){
+  var kind=pick(['urne','urne','roue','de','cartes']);
+  var rouge,bleue,verte,total,fav,favName,viz,contextTxt;
+  if(kind==='urne'){
+    rouge=rint(2,6);bleue=rint(1,5);verte=rint(0,3);total=rouge+bleue+verte;
+    var choices=['rouge','bleue'];if(verte>0)choices.push('verte');
+    var couleur=pick(choices);
+    fav={rouge:rouge,bleue:bleue,verte:verte}[couleur];favName=couleur;
+    contextTxt='Une urne contient '+rouge+' boule'+(rouge>1?'s':'')+' rouge'+(rouge>1?'s':'')+', '+bleue+' bleue'+(bleue>1?'s':'')+(verte>0?(' et '+verte+' verte'+(verte>1?'s':''))  :'')+'. On tire une boule au hasard.';
+    viz=svgUrne(rouge,bleue,verte);
+  } else if(kind==='roue'){
+    total=pick([6,8,10]);fav=rint(1,total-1);favName='rouge';
+    contextTxt='Une roue est divisée en '+total+' secteurs identiques, dont '+fav+' rouge'+(fav>1?'s':'')+'. On fait tourner la roue.';
+    viz=svgRoue(total,fav,'#EF5D60');
+  } else if(kind==='de'){
     total=6;
-    const c=pick([
-      ()=>{const k=1+rand(6);return{l:'le nombre '+k,f:1};},
-      ()=>({l:'un nombre pair',f:3}),
-      ()=>({l:'un nombre impair',f:3}),
-      ()=>({l:'un multiple de 3',f:2}),
-      ()=>{const k=2+rand(4);return{l:'un nombre inférieur ou égal à '+k,f:k};}
-    ])();
-    fav=c.f;text="On lance un dé équilibré à 6 faces. Quelle est la probabilité d'obtenir "+c.l+" ?";
-    viz=vizDie();
-  }else if(kind==='urne'){
-    const r=1+rand(5),v=1+rand(5),b=rand(4);total=r+v+b;
-    const cols=[['rouge',r],['verte',v]];if(b>0)cols.push(['bleue',b]);
-    const [nom,cnt]=pick(cols);fav=cnt;
-    let desc=r+' rouge(s), '+v+' verte(s)'+(b>0?', '+b+' bleue(s)':'');
-    text="Une urne contient "+desc+". On tire une boule au hasard. Quelle est la probabilité de tirer une boule "+nom+" ?";
-    viz=vizUrn(r,v,b);
-  }else if(kind==='roue'){
-    total=pick([6,8,10]);const k=1+rand(total-1);const col=pick(['rouges','vertes','bleues','jaunes']);
-    fav=k;text="Une roue est partagée en "+total+" secteurs identiques, dont "+k+" "+col+". Quelle est la probabilité que la roue s'arrête sur un secteur "+col.slice(0,-1)+" ?";
-    viz=vizRoue(total,k,colVar(col));
-  }else{
-    total=52;const ev=pick([['un roi',4],['un cœur',13],['une figure (valet, dame ou roi)',12],['une carte rouge',26],["l'as de pique",1]]);
-    fav=ev[1];text="On tire une carte au hasard dans un jeu de 52 cartes. Quelle est la probabilité d'obtenir "+ev[0]+" ?";
-    viz=vizCartes();
+    var detype=pick(['pair','impair','mulde3','sup4']);
+    var demap={pair:{fav:3,name:'pair',txt:'un nombre pair'},impair:{fav:3,name:'impair',txt:'un nombre impair'},mulde3:{fav:2,name:'multiple de 3',txt:'un multiple de 3'},sup4:{fav:3,name:'>=4',txt:'un nombre supérieur ou égal à 4'}};
+    var dm=demap[detype];fav=dm.fav;favName=dm.txt;
+    contextTxt='On lance un dé à 6 faces équilibré. On s\'intéresse à l\'événement A = « obtenir '+favName+' ».';
+    viz='<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0">'+[1,2,3,4,5,6].map(function(f){return svgDe(f);}).join('')+'</div>';
+  } else {
+    total=52;var ev=pick([['un roi',4],['un cœur',13],['une dame',4],['une carte rouge',26],["l'as de pique",1]]);
+    fav=ev[1];favName=ev[0];
+    contextTxt='On tire une carte au hasard dans un jeu de 52 cartes. On s\'intéresse à l\'événement A = « obtenir '+favName+' ».';
+    viz='<div style="font-family:Fredoka;font-weight:700;text-align:center;font-size:1.1rem;margin:8px 0;color:#5C3D2E">🂡 🂮 🂻 🂱 — jeu de 52 cartes</div>';
   }
-  return {type:'frac',cat:'equiprob',text,answer:fav/total,disp:fracStr(fav,total),num:fav,den:total,viz,
-    explain:'Il y a '+fav+' cas favorables sur '+total+' issues, soit '+threeFormsInline(fav,total)+'.'};
+  var notFav=total-fav;
+  var steps=[
+    {prompt:'Étape 1 — Décris l\'univers.',
+     aide:'L\'univers Ω regroupe toutes les issues possibles. Combien y en a-t-il en tout ?',
+     parts:['L\'univers Ω a ',{b:1,kind:'num',ans:total,show:''+total,w:60},' issues équiprobables.']},
+    {prompt:'Étape 2 — Combien d\'issues sont favorables à A ?',
+     aide:'Compte les issues qui réalisent l\'événement A.',
+     parts:['Il y a ',{b:1,kind:'num',ans:fav,show:''+fav,w:60},' issue'+(fav>1?'s':'')+' favorable'+(fav>1?'s':'')+' à A.']},
+    {prompt:'Étape 3 — Écris P(A) sous forme de fraction.',
+     aide:'P(A) = nb favorables / nb total.',
+     parts:['P(A) = ',{frac:[[{b:1,kind:'num',ans:fav,show:''+fav,w:50,mini:true}],[{b:1,kind:'num',ans:total,show:''+total,w:50,mini:true}]]}]},
+    {prompt:'Étape 4 — Simplifie si possible et donne la fraction simplifiée.',
+     aide:'Divise numérateur et dénominateur par leur PGCD. Si déjà simplifiée, recopie la même.',
+     parts:['P(A) = ',{frac:[[{b:1,kind:'num',ans:fav/gcd(fav,total),show:''+(fav/gcd(fav,total)),w:50,mini:true}],[{b:1,kind:'num',ans:total/gcd(fav,total),show:''+(total/gcd(fav,total)),w:50,mini:true}]]}]},
+    {prompt:'Étape 5 — Calcule P(Ā) (événement contraire).',
+     aide:'P(Ā) = 1 − P(A) = (total − favorables) / total.',
+     parts:['P(Ā) = ',{frac:[[{b:1,kind:'num',ans:notFav/gcd(notFav,total),show:''+(notFav/gcd(notFav,total)),w:50,mini:true}],[{b:1,kind:'num',ans:total/gcd(notFav,total),show:''+(total/gcd(notFav,total)),w:50,mini:true}]]}]}
+  ];
+  return {type:'cascade',cat:'probabilite',sig:'P'+kind+fav+'/'+total,
+    text:contextTxt+' Calcule P(A) en rédigeant les étapes.',
+    viz:viz,steps:steps};
 }
-function genComplement(){
-  const n=pick([4,5,6,8,10,12]);const f=1+rand(n-1);
-  const text=pick([
-    "La probabilité qu'un événement se réalise est "+fracStr(f,n)+". Quelle est la probabilité de l'événement contraire ?",
-    "Dans un jeu, la probabilité de gagner est "+fracStr(f,n)+". Quelle est la probabilité de ne pas gagner ?",
-    "La probabilité qu'il pleuve demain est "+fracStr(f,n)+". Quelle est la probabilité qu'il ne pleuve pas ?"
-  ]);
-  return {type:'frac',cat:'complement',text,answer:(n-f)/n,disp:fracStr(n-f,n),num:n-f,den:n,
-    explain:'P(contraire) = 1 − '+fracStr(f,n)+' = '+threeFormsInline(n-f,n)+'.'};
-}
-function genVocab(){
-  const r=Math.random();
-  if(r<0.34){
-    const e=pick([
-      {t:'Obtenir 7 en lançant un dé à 6 faces',a:0},
-      {t:'Obtenir un nombre de 1 à 6 avec un dé à 6 faces',a:2},
-      {t:'Obtenir un 4 en lançant un dé à 6 faces',a:1},
-      {t:'Tirer une boule rouge dans une urne ne contenant que des boules vertes',a:0},
-      {t:'Tirer une boule verte dans une urne ne contenant que des boules vertes',a:2},
-      {t:'Obtenir pile en lançant une pièce équilibrée',a:1}
-    ]);
-    return {type:'qcm',cat:'vocab',text:e.t+'. Cet événement est…',options:['Impossible','Possible','Certain'],correct:e.a,
-      explain:['Aucune issue favorable → probabilité 0.','Quelques issues favorables sur le total → entre 0 et 1.','Toutes les issues sont favorables → probabilité 1.'][e.a]};
-  }else if(r<0.67){
-    const q=pick([
-      {t:"Quelle est la probabilité d'un événement certain ?",o:['0','0,5','1'],c:2},
-      {t:"Quelle est la probabilité d'un événement impossible ?",o:['0','0,5','1'],c:0},
-      {t:'« Une chance sur deux » correspond à une probabilité de…',o:['0','0,5','1'],c:1},
-      {t:'Quelle probabilité décrit un événement très probable ?',o:['0,1','0,5','0,9'],c:2},
-      {t:'Quelle probabilité décrit un événement peu probable ?',o:['0,1','0,5','0,9'],c:0}
-    ]);
-    return {type:'qcm',cat:'vocab',text:q.t,options:q.o,correct:q.c,
-      explain:"Sur l'échelle : 0 = impossible, 1 = certain, 0,5 = une chance sur deux."};
-  }else{
-    const q=pick([
-      {t:"Comment appelle-t-on un résultat possible d'une expérience aléatoire ?",o:['Une issue','Un événement','Une probabilité'],c:0},
-      {t:"Un ensemble formé d'une ou plusieurs issues s'appelle…",o:['Une issue','Un événement','Une expérience'],c:1},
-      {t:'Une expérience dont on ne peut pas prévoir le résultat est une expérience…',o:['certaine','aléatoire','impossible'],c:1},
-      {t:"Quand toutes les issues ont la même chance, on parle d'…",o:['équiprobabilité','événement contraire','issue'],c:0},
-      {t:"L'événement contraire de A se réalise quand…",o:['A se réalise','A ne se réalise pas','A est certain'],c:1},
-      {t:'Un événement formé d\u2019une seule issue est dit…',o:['élémentaire','certain','impossible'],c:0}
-    ]);
-    return {type:'qcm',cat:'vocab',text:q.t,options:q.o,correct:q.c,
-      explain:'Revois les définitions du monde « Vocabulaire ».'};
-  }
-}
-const GEN={equiprob:genEquiprob,complement:genComplement,vocab:genVocab};
 
-/* ---------- moteur de quiz (entraînement + arène) ---------- */
-let Q={cats:[],target:0,guided:false,els:null,score:0,streak:0,total:0,correct:0,locked:false,cur:null};
-function elsTrain(){return{score:gid('tq_score'),streak:gid('tq_streak'),prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),cont:gid('tq_cont')};}
-function elsArene(){return{score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars')};}
-function quizStart(cats,target,guided,els,vizN){
-  Q.cats=cats;Q.target=target;Q.guided=guided;Q.els=els;
-  Q.score=0;Q.streak=0;Q.total=0;Q.correct=0;Q.locked=false;Q.vizLeft=vizN||0;
-  if(els.cont)els.cont.style.display='none';
-  quizScore();quizNext();
+/* ===== CASCADE : arbre ===== */
+function genArbre(){
+  var rouge=rint(2,5),total=pick([8,10,12]);
+  var bleue=total-rouge;
+  var pr=rouge,pp=bleue;
+  var prr=rouge*rouge,prb=rouge*bleue,pbr=bleue*rouge,pbb=bleue*bleue;
+  var tot2=total*total;
+  var viz=svgArbre2(rouge,total,rouge,total,'RR','RB','BR','BB');
+  var steps=[
+    {prompt:'Étape 1 — Quelle est la probabilité de tirer rouge au 1er tirage ?',
+     aide:'Il y a '+rouge+' rouges sur '+total+' boules.',
+     parts:['P(R au tirage 1) = ',{frac:[[{b:1,kind:'num',ans:rouge,show:''+rouge,w:50,mini:true}],[{b:1,kind:'num',ans:total,show:''+total,w:50,mini:true}]]}]},
+    {prompt:'Étape 2 — Le 2e tirage est avec remise. Quelle est P(R au tirage 2) ?',
+     aide:'Avec remise, les probabilités ne changent pas d\'un tirage à l\'autre.',
+     parts:['P(R au tirage 2) = ',{frac:[[{b:1,kind:'num',ans:rouge,show:''+rouge,w:50,mini:true}],[{b:1,kind:'num',ans:total,show:''+total,w:50,mini:true}]]}]},
+    {prompt:'Étape 3 — Calcule P(RR) (deux rouges).',
+     aide:'P(chemin) = produit des probabilités des branches.',
+     parts:['P(RR) = ',{frac:[[{b:1,kind:'num',ans:rouge,show:''+rouge,w:50,mini:true}],[{b:1,kind:'num',ans:total,show:''+total,w:50,mini:true}]]},' × ',{frac:[[{b:1,kind:'num',ans:rouge,show:''+rouge,w:50,mini:true}],[{b:1,kind:'num',ans:total,show:''+total,w:50,mini:true}]]},' = ',{frac:[[{b:1,kind:'num',ans:prr/gcd(prr,tot2),show:''+(prr/gcd(prr,tot2)),w:54,mini:true}],[{b:1,kind:'num',ans:tot2/gcd(prr,tot2),show:''+(tot2/gcd(prr,tot2)),w:54,mini:true}]]}]},
+    {prompt:'Étape 4 — Calcule P(au moins une rouge) = 1 − P(BB).',
+     aide:'P(BB) = (bleue/total)². P(au moins une rouge) = 1 − P(BB).',
+     parts:['P(au moins 1 rouge) = 1 − ',{frac:[[{b:1,kind:'num',ans:pbb/gcd(pbb,tot2),show:''+(pbb/gcd(pbb,tot2)),w:54,mini:true}],[{b:1,kind:'num',ans:tot2/gcd(pbb,tot2),show:''+(tot2/gcd(pbb,tot2)),w:54,mini:true}]]},' = ',{frac:[[{b:1,kind:'num',ans:(tot2-pbb)/gcd(tot2-pbb,tot2),show:''+(Math.round((tot2-pbb)/gcd(tot2-pbb,tot2))),w:54,mini:true}],[{b:1,kind:'num',ans:tot2/gcd(tot2-pbb,tot2),show:''+(Math.round(tot2/gcd(tot2-pbb,tot2))),w:54,mini:true}]]}]},
+    {prompt:'Étape 5 — Conclus : quelle est la probabilité d\'obtenir deux bleues ?',
+     aide:'P(BB) = (bleue/total)².',
+     parts:['P(BB) = ',{frac:[[{b:1,kind:'num',ans:pbb/gcd(pbb,tot2),show:''+(pbb/gcd(pbb,tot2)),w:54,mini:true}],[{b:1,kind:'num',ans:tot2/gcd(pbb,tot2),show:''+(tot2/gcd(pbb,tot2)),w:54,mini:true}]]}]}
+  ];
+  return {type:'cascade',cat:'arbre',sig:'A'+rouge+'/'+total,
+    text:'Une urne contient '+rouge+' boules rouges et '+bleue+' bleues. On effectue 2 tirages avec remise. Complète les étapes.',
+    viz:viz,steps:steps};
 }
-function quizScore(){
-  const e=Q.els;
-  if(e.score)e.score.textContent=Q.score;
-  if(e.streak)e.streak.textContent=Q.streak;
-  if(e.corr)e.corr.textContent=Q.correct;
-  if(e.tot)e.tot.textContent=Q.total;
-  if(Q.guided&&e.prog)e.prog.innerHTML='🎯 Réussites : <b>'+Math.min(Q.correct,Q.target)+' / '+Q.target+'</b>';
+
+/* ===== CASCADE : conditionnelle ===== */
+function genConditionnelle(){
+  var sport=rint(15,30),pasport=rint(8,20);
+  var filles_sport=rint(Math.floor(sport*0.3),Math.floor(sport*0.7));
+  var garcons_sport=sport-filles_sport;
+  var filles_pas=rint(Math.floor(pasport*0.3),Math.floor(pasport*0.7));
+  var garcons_pas=pasport-filles_pas;
+  var total_f=filles_sport+filles_pas,total_g=garcons_sport+garcons_pas;
+  var total=sport+pasport;
+  var pAB=filles_sport,pB=total_f;
+  var g_pAB=garcons_sport,g_pB=total_g;
+  var svgTab='<div style="overflow-x:auto"><table class="dtable"><tr><th></th><th>Sport</th><th>Pas de sport</th><th>Total</th></tr>'
+    +'<tr><td><b>Filles</b></td><td>'+filles_sport+'</td><td>'+filles_pas+'</td><td>'+total_f+'</td></tr>'
+    +'<tr><td><b>Garçons</b></td><td>'+garcons_sport+'</td><td>'+garcons_pas+'</td><td>'+total_g+'</td></tr>'
+    +'<tr><td><b>Total</b></td><td>'+sport+'</td><td>'+pasport+'</td><td>'+total+'</td></tr></table></div>';
+  var pAsportBfille_n=filles_sport,pAsportBfille_d=total_f;
+  var g1=gcd(pAsportBfille_n,pAsportBfille_d);
+  var steps=[
+    {prompt:'Étape 1 — Lis le tableau. Combien y a-t-il d\'élèves en tout ?',
+     aide:'Regarde la case Total/Total.',
+     parts:['Il y a ',{b:1,kind:'num',ans:total,show:''+total,w:60},' élèves au total.']},
+    {prompt:'Étape 2 — Calcule P(sport) = P(A).',
+     aide:'P(sport) = nb qui font du sport / total.',
+     parts:['P(sport) = ',{frac:[[{b:1,kind:'num',ans:sport/gcd(sport,total),show:''+(sport/gcd(sport,total)),w:50,mini:true}],[{b:1,kind:'num',ans:total/gcd(sport,total),show:''+(total/gcd(sport,total)),w:50,mini:true}]]}]},
+    {prompt:'Étape 3 — Calcule P(fille ET sport) = P(A∩B).',
+     aide:'Lis la case « Filles / Sport » puis divise par le total.',
+     parts:['P(fille ∩ sport) = ',{frac:[[{b:1,kind:'num',ans:filles_sport/gcd(filles_sport,total),show:''+(filles_sport/gcd(filles_sport,total)),w:54,mini:true}],[{b:1,kind:'num',ans:total/gcd(filles_sport,total),show:''+(total/gcd(filles_sport,total)),w:54,mini:true}]]}]},
+    {prompt:'Étape 4 — Calcule P(sport | fille) = P(A|B).',
+     aide:'P(sport|fille) = P(sport∩fille) / P(fille) = nb filles sportives / total filles.',
+     parts:['P(sport|fille) = ',{frac:[[{b:1,kind:'num',ans:pAsportBfille_n/g1,show:''+(pAsportBfille_n/g1),w:54,mini:true}],[{b:1,kind:'num',ans:pAsportBfille_d/g1,show:''+(pAsportBfille_d/g1),w:54,mini:true}]]}]},
+    {prompt:'Étape 5 — Conclus : parmi les filles, quelle fraction fait du sport ?',
+     aide:'La probabilité P(sport|fille) représente la proportion de filles sportives.',
+     parts:['Parmi les filles, ',{frac:[[{b:1,kind:'num',ans:pAsportBfille_n/g1,show:''+(pAsportBfille_n/g1),w:54,mini:true}],[{b:1,kind:'num',ans:pAsportBfille_d/g1,show:''+(pAsportBfille_d/g1),w:54,mini:true}]]},' font du sport.']}
+  ];
+  return {type:'cascade',cat:'conditionnelle',sig:'C'+filles_sport+'/'+total_f+'/'+total,
+    text:'Une enquête est résumée dans le tableau ci-dessous. Complète les étapes de calcul.',
+    viz:svgTab,steps:steps};
 }
-function quizNext(){
-  Q.locked=false;const e=Q.els;
-  e.feed.textContent='';e.feed.className='feedback';
-  if(e.stars)e.stars.textContent='';
-  const cat=pick(Q.cats);const cur=GEN[cat]();Q.cur=cur;
-  e.cat.textContent=CATNOM[cat];
-  e.text.textContent=cur.text;
-  if(e.viz){
-    if(Q.vizLeft>0&&cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='flex';Q.vizLeft--;}
-    else{e.viz.innerHTML='';e.viz.style.display='none';}
-  }
-  if(cur.type==='qcm'){
-    e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';
-    cur.options.forEach((o,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>quizPick(i);e.opts.appendChild(b);});
-  }else{
-    e.opts.style.display='none';e.ansrow.style.display='flex';
-    e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();
-  }
-}
-function parseAns(s){
-  s=String(s).trim().replace(/\s/g,'').replace(',', '.');
-  if(s==='')return null;
-  let pct=false;
-  if(s.endsWith('%')){pct=true;s=s.slice(0,-1);}
-  let v;
-  if(s.includes('/')){const p=s.split('/');if(p.length!==2)return null;const a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;v=a/b;}
-  else{v=parseFloat(s);if(!isFinite(v))return null;}
-  if(pct)v=v/100;
-  return v;
-}
-function quizValidate(){
-  if(Q.locked||!Q.cur||Q.cur.type!=='frac')return;
-  const e=Q.els;const v=parseAns(e.input.value);
-  if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris une fraction (1/6), un nombre décimal ou un pourcentage.';return;}
-  e.input.disabled=true;e.valid.disabled=true;
-  quizResolve(Math.abs(v-Q.cur.answer)<0.01,'La probabilité est '+Q.cur.disp+'.');
-}
-function quizPick(i){
-  if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;
-  const e=Q.els;const btns=[...e.opts.children];
-  btns.forEach((b,j)=>{if(j===Q.cur.correct)b.classList.add('good');});
-  if(i!==Q.cur.correct)btns[i].classList.add('bad');
-  quizResolve(i===Q.cur.correct,'La bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');
-}
-function quizResolve(ok,correctTxt){
-  Q.locked=true;Q.total++;const e=Q.els;
-  if(ok){
-    Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;
-    e.feed.className='feedback ok';
-    if(Q.cur.type==='frac'&&Q.cur.num!=null){
-      e.feed.innerHTML='✅ Bravo !<div class="feedlab">La même probabilité, sous ses 3 écritures :</div>'+threeFormsHTML(Q.cur.num,Q.cur.den);
-    }else{
-      e.feed.textContent='✅ Bravo ! '+correctTxt;
-    }
-    if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));
-    confettis();
-  }else{
-    Q.streak=0;e.feed.className='feedback no';
-    e.feed.innerHTML='❌ '+correctTxt+'<br><span style="font-weight:700;color:var(--bois-clair);font-size:.95rem">'+Q.cur.explain+'</span>';
-    if(Q.cur.type==='frac'){e.input.classList.add('shake');setTimeout(()=>e.input.classList.remove('shake'),400);}
-  }
+
+/* ===== GEN map ===== */
+var GEN={vocabulaire:genVocabulaire,probabilite:genProbabilite,frequence:genFrequence,arbre:genArbre,conditionnelle:genConditionnelle,redaction:genRedaction};
+
+/* ===== MOTEUR ===== */
+function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});(function(el){setTimeout(function(){el.remove();},fall);})(d);}}
+function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;if(s.indexOf('/')>=0){var p=s.split('/');if(p.length!==2)return null;var a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;return a/b;}var v=parseFloat(s);return isFinite(v)?v:null;}
+
+var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastText:'',timer:0,casc:null};
+
+function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),next:gid('tq_next'),casc:gid('tq_casc'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
+function elsArene(){return {score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next'),casc:gid('aq_casc')};}
+
+function quizStart(cats,guided,els){Q.cats=cats;Q.guided=guided;Q.els=els;Q.score=0;Q.answered=0;Q.correct=0;Q.streak=0;Q.locked=false;Q.lastText='';
+  if(els.result)els.result.style.display='none';if(els.card)els.card.style.display='block';
+  quizScore();quizNext();}
+
+function quizScore(){var e=Q.els;if(e.score)e.score.textContent=Q.score;if(e.streak)e.streak.textContent=Q.streak;if(e.corr)e.corr.textContent=Q.correct;if(e.tot)e.tot.textContent=Q.answered;
+  if(Q.guided&&e.prog)e.prog.innerHTML='Question <b>'+Math.min(Q.answered+1,serieLen())+'</b> / '+serieLen()+'  ·  ✅ '+Q.correct;}
+
+function quizNext(){clearTimeout(Q.timer);
+  if(Q.guided&&Q.answered>=serieLen()){return quizResult();}
+  Q.locked=false;var e=Q.els;e.feed.textContent='';e.feed.className='feedback';if(e.stars)e.stars.textContent='';if(e.next)e.next.style.display='none';
+  if(e.casc){e.casc.style.display='none';e.casc.innerHTML='';}
+  var cat,cur,tries=0;
+  do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while((cur.sig||cur.text)===Q.lastText&&tries<8);
+  Q.cur=cur;Q.lastText=(cur.sig||cur.text);e.cat.textContent=CATNOM[cat];e.text.textContent=cur.text;
+  if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
+  if(cur.type==='qcm'){e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';
+    cur.options.forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=function(){quizPick(i);};e.opts.appendChild(b);});}
+  else if(cur.type==='cascade'){e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);}
+  else{e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
+  quizScore();}
+
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La réponse est '+Q.cur.disp+'.');}
+
+function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'La bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');}
+
+function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
+  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Bravo !<div class="feedlab">'+(Q.cur.explain||correctTxt)+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='❌ '+correctTxt+'<div class="feedlab">'+(Q.cur.explain||'')+'</div>';if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
   quizScore();
-  if(Q.guided&&Q.correct>=Q.target){
-    if(e.cont)e.cont.style.display='inline-flex';
-    if(e.prog)e.prog.innerHTML='🎉 Objectif atteint ! Tu peux continuer (ou t\u2019entraîner encore).';
-  }
-  setTimeout(quizNext, ok?1200:2600);
-}
-function confettis(){
-  const cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];
-  for(let i=0;i<26;i++){const d=document.createElement('div');d.className='conf';
-    d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';
-    document.body.appendChild(d);const fall=2000+Math.random()*1200;
-    d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});
-    setTimeout(()=>d.remove(),fall);}
-}
-function startTrain(t){
-  currentTheme=t;
-  gid('trainTitle').textContent='Entraînement — '+TITLE[t];
-  go('ecranTrain');
-  const els=elsTrain();els.help.textContent=HELP[t];
-  quizStart(THEME_CATS[t],REQUIRED,true,els,t==='calcul'?3:0);
-}
-function trainDone(){
-  const t=currentTheme;themeDone[t]=true;
-  const idx=ORDER.indexOf(t);
-  if(idx<ORDER.length-1){const nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}
-  else{try{suiviEnvoi('Terminé','','');}catch(_){}unlocked.arene=true;updateMap();go('arene');}
-}
-function startArene(cat){
-  gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';
-  const cats=cat==='mix'?['vocab','equiprob','complement']:[cat];
-  quizStart(cats,0,false,elsArene());
-}
+  var last=Q.guided&&Q.answered>=serieLen();
+  if(ok&&!last){Q.timer=setTimeout(quizNext,1500);}
+  else{if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}}
+
+function quizResult(){var e=Q.els;if(!e.result)return;e.card.style.display='none';e.result.style.display='block';
+  var SL=serieLen(),SE=seuilFor();var sc=Q.correct,ok=sc>=SE;
+  try{suiviEnvoi(ok?'Validé':'Échoué',sc,SL);}catch(_){}
+  e.rbig.textContent=sc+' / '+SL;e.rbig.className='big '+(ok?'ok':'no');
+  e.rmsg.innerHTML=ok?'Parcours validé ! Tu as obtenu <b>'+sc+'/'+SL+'</b>. Bravo !':'Il faut <b>'+SE+'/'+SL+'</b> pour valider, tu as eu '+sc+'/'+SL+'. Tu peux recommencer.';
+  e.rbtns.innerHTML='';
+  if(ok){var b=document.createElement('button');b.className='btn vert';b.textContent='Continuer ➜';b.onclick=trainDone;e.rbtns.appendChild(b);}
+  else{var b1=document.createElement('button');b1.className='btn orange';b1.textContent='Nouvelle série 🔄';b1.onclick=function(){startTrain(currentTheme);};e.rbtns.appendChild(b1);var b2=document.createElement('button');b2.className='btn fant';b2.textContent='Passer à la suite ➜';b2.onclick=trainDone;e.rbtns.appendChild(b2);}}
+
+/* ===== CASCADE ===== */
+function normTxt(s){return String(s).toLowerCase().trim().replace(/\s+/g,'').replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ïî]/g,'i').replace(/[ôö]/g,'o').replace(/[ûü]/g,'u').replace(/['']/g,'').replace(/\u207b\u00b9/g,'-1');}
+function sortLetters(s){return s.split('').sort().join('');}
+function blankOK(bk,raw){
+  if(bk.kind==='num'){var v=parseNum(raw);return v!==null&&Math.abs(v-bk.ans)<(bk.tol||0.001);}
+  var n=normTxt(raw);if(n==='')return false;
+  if(bk.kind==='seg')return bk.accept.indexOf(sortLetters(n))>=0;
+  if(bk.mode==='contains')return bk.accept.some(function(a){return n.indexOf(a)>=0;});
+  return bk.accept.indexOf(n)>=0;}
+
+function cscEl(sel){return Q.casc.box.querySelector(sel);}
+
+function cascMkBlank(p,e,idx){
+  var inp=document.createElement('input');inp.className='cblank'+(p.mini?' mini':'');
+  inp.setAttribute('inputmode',p.kind==='num'?'decimal':'text');inp.autocomplete='off';
+  if(p.ph)inp.placeholder=p.ph;if(p.w)inp.style.width=p.w+'px';
+  inp.addEventListener('focus',function(){MATHTARGET=this;});inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();cascVerify(e,idx);}});
+  Q.casc.q.steps[idx]._blanks.push({bk:p,el:inp});return inp;}
+
+function cascRenderParts(parent,arr,e,idx){
+  arr.forEach(function(p){
+    if(typeof p==='string'){var sp=document.createElement('span');sp.textContent=p;parent.appendChild(sp);}
+    else if(p.frac){var f=document.createElement('span');f.className='cfrac';
+      var nu=document.createElement('span');nu.className='cfnum';cascRenderParts(nu,p.frac[0],e,idx);
+      var ba=document.createElement('span');ba.className='cfbar';
+      var de=document.createElement('span');de.className='cfden';cascRenderParts(de,p.frac[1],e,idx);
+      f.appendChild(nu);f.appendChild(ba);f.appendChild(de);parent.appendChild(f);}
+    else{parent.appendChild(cascMkBlank(p,e,idx));}});}
+
+function cascRender(e,idx){
+  var st=Q.casc.q.steps[idx],body=cscEl('#cbody'+idx);body.innerHTML='';st._tries=0;st._done=false;st._blanks=[];
+  var line=document.createElement('div');line.className='cline';
+  cascRenderParts(line,st.parts,e,idx);body.appendChild(line);
+  var row=document.createElement('div');row.className='cverify';
+  var btn=document.createElement('button');btn.className='btn vert';btn.textContent='Vérifier';btn.onclick=function(){cascVerify(e,idx);};
+  row.appendChild(btn);body.appendChild(row);
+  var f=st._blanks[0];if(f)setTimeout(function(){try{f.el.focus();}catch(_){}},60);}
+
+function cascStart(cur,e){
+  Q.casc={q:cur,clean:true,box:e.casc};e.casc.style.display='block';
+  var html='';
+  cur.steps.forEach(function(st,idx){
+    html+='<div class="cstep'+(idx===0?' on':'')+'" id="cstep'+idx+'">'
+        +'<div class="cprompt">'+st.prompt+'</div>'
+        +'<div class="cbody" id="cbody'+idx+'"></div>'
+        +'<div class="cfeed" id="cfeed'+idx+'"></div></div>';});
+  e.casc.innerHTML=html;cascRender(e,0);}
+
+function cascVerify(e,idx){
+  var st=Q.casc.q.steps[idx];if(st._done)return;var fb=cscEl('#cfeed'+idx);
+  if(st._blanks.some(function(z){return z.el.value.trim()==='';})){fb.className='cfeed no';fb.textContent='Complète toutes les cases.';return;}
+  var allOK=true,txtWrong=false;
+  st._blanks.forEach(function(z){var ok=blankOK(z.bk,z.el.value);z.el.classList.remove('cbok','cbno');z.el.classList.add(ok?'cbok':'cbno');if(!ok){allOK=false;if(z.bk.kind==='text'||z.bk.kind==='seg')txtWrong=true;}});
+  if(allOK){st._done=true;st._blanks.forEach(function(z){z.el.disabled=true;});fb.className='cfeed ok';fb.textContent='✅ Bien rédigé.';cascAdvance(e,idx);return;}
+  st._tries++;
+  if(st._tries>=3){Q.casc.clean=false;st._done=true;
+    st._blanks.forEach(function(z){z.el.value=z.bk.show;z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});
+    fb.className='cfeed no';fb.textContent='Voici la bonne écriture — observe-la avant de continuer.';cascAdvance(e,idx);}
+  else if(st._tries===2){fb.className='cfeed no';fb.innerHTML='💡 '+(st.aide||'Reprends et corrige les cases en orange.');}
+  else{fb.className='cfeed no';fb.textContent='Pas tout à fait : corrige les cases en orange.';}}
+
+function cascAdvance(e,idx){
+  var nx=idx+1;
+  if(nx<Q.casc.q.steps.length){var blk=cscEl('#cstep'+nx);blk.classList.add('on');cascRender(e,nx);
+    setTimeout(function(){blk.scrollIntoView({behavior:'smooth',block:'center'});},140);}
+  else{cascDone(e);}}
+
+function cascDone(e){
+  Q.locked=true;Q.answered++;
+  if(Q.casc.clean){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Rédaction complète, sans erreur. Bravo !';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback ok';e.feed.innerHTML='👍 Rédaction terminée. Vise zéro erreur pour les étoiles !';}
+  quizScore();
+  var last=Q.guided&&Q.answered>=serieLen();
+  if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}
+
+function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entraînement — '+TITLE[t];go('ecranTrain');var els=elsTrain();if(els.help)els.help.textContent=HELP[t];quizStart(THEME_CATS[t],true,els);}
+function trainDone(){var t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}var idx=ORDER.indexOf(t);if(idx<ORDER.length-1){var nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{unlocked.arene=true;updateMap();go('arene');}}
+function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';var cats=cat==='mix'?ORDER.slice():[cat];quizStart(cats,false,elsArene());}
 function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
 
-/* ---------- clavier ---------- */
-document.addEventListener('keydown',e=>{
-  if(e.key!=='Enter')return;
-  const onTrain=gid('ecranTrain').classList.contains('active');
-  const onArene=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
-  if((onTrain||onArene)&&!Q.locked&&Q.cur&&Q.cur.type==='frac')quizValidate();
-});
+document.addEventListener('keydown',function(ev){if(ev.key!=='Enter')return;if(!gid('kcPanel').hidden)return;var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';if(!(onT||onA))return;var nx=onT?gid('tq_next'):gid('aq_next');if(nx&&nx.style.display!=='none'){quizNext();return;}if(!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
 
-updateMap();
+/* ===== CALCULATRICE ===== */
+function kcEval(expr){
+  var s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
+  var toks=[];var i=0;var isD=function(c){return c>='0'&&c<='9';};
+  while(i<s.length){var c=s[i];
+    if(isD(c)||c==='.'){var j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
+    if(c==='\u03c0'){toks.push({t:'pi'});i++;continue;}
+    if(c==='\u221a'){toks.push({t:'sqrt'});i++;continue;}
+    if('+-*/^()'.indexOf(c)>=0){toks.push({t:c});i++;continue;}
+    return null;}
+  var p=0,err=false;
+  var peek=function(){return toks[p];},next=function(){return toks[p++];};
+  function E(){var v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){var o=next().t;var r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
+  function T(){var v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){var o=next().t;var r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}
+  function U(){var t=peek();if(t&&t.t==='-'){next();return -U();}if(t&&t.t==='+'){next();return U();}if(t&&t.t==='sqrt'){next();var a=U();if(err)return 0;if(a<0){err=true;return 0;}return Math.sqrt(a);}return P();}
+  function P(){var b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();var e=U();if(err)return 0;b=Math.pow(b,e);}return b;}
+  function PR(){var t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='pi')return Math.PI;if(t.t==='('){var v=E();if(err)return 0;var c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}err=true;return 0;}
+  var val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;}
+function kcFmt(v){var s=(Math.round(v*1e10)/1e10).toString();return s.replace('-','\u2212').replace('.',',');}
+var kcS='',kcJust=false;
+function kcRender(){gid('kcExpr').textContent=kcS;var v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
+function kcIns(ch){if(kcJust&&/[0-9.,\u03c0(\u221a]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
+function kcClear(){kcS='';kcJust=false;kcRender();}
+function kcBack(){if(kcJust)kcJust=false;kcS=kcS.slice(0,-1);kcRender();}
+function kcEq(){var v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
+function kcToggle(){gid('kcPanel').hidden=!gid('kcPanel').hidden;}
+var KEYS2=[
+  {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
+  {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},
+  {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'},
+  {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'\u2212',a:'\u2212',c:'op'},
+  {l:'0',a:'0'},{l:',',a:','},{l:'\u221a',a:'\u221a',c:'fn'},{l:'+',a:'+',c:'op'},
+  {l:'x\u00b2',a:'^2',c:'fn'},{l:'x\u02b8',a:'^',c:'fn'},{l:'\u03c0',a:'\u03c0',c:'fn'},{l:'=',a:'eq',c:'eq'}
+];
+(function(){var box=gid('kcKeys');KEYS2.forEach(function(k){var b=document.createElement('button');b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;b.onclick=function(){if(k.a==='clr')kcClear();else if(k.a==='back')kcBack();else if(k.a==='eq')kcEq();else kcIns(k.a);};box.appendChild(b);});kcRender();})();
+document.addEventListener('keydown',function(ev){if(gid('kcPanel').hidden)return;if(ev.key==='Enter'){ev.preventDefault();kcEq();}else if(ev.key==='Escape')kcToggle();else if(ev.key==='Backspace'){ev.preventDefault();kcBack();}else if(/[0-9.+\-*/()^]/.test(ev.key)){var map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[ev.key]||ev.key);}});
+
+/* ===== PROGRESSION ===== */
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;return 'prog_'+e+'_'+nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone,u:unlocked}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
+var _umOrig=updateMap;
+updateMap=function(){var r=_umOrig.apply(this,arguments);try{progSave();}catch(_){}return r;};
+try{progLoad();updateMap();}catch(_){}
 </script>
 </body>
 </html>
