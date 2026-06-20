@@ -65,8 +65,9 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .idbox{background:var(--blanc);border-radius:20px;padding:24px;max-width:360px;width:100%;box-shadow:var(--ombre);text-align:center}
 .idbox h3{font-family:'Fredoka',sans-serif;margin:0 0 6px;color:var(--bois);font-size:1.4rem}
 .idbox p{color:var(--bois-clair);font-weight:700;margin:0 0 14px;font-size:.95rem}
-.idbox input{width:100%;box-sizing:border-box;border:2px solid #e7d3a8;border-radius:12px;padding:12px;font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.05rem;color:var(--bois);margin-bottom:11px;text-align:center}
-.idbox input:focus{outline:none;border-color:var(--orange-bas)}
+.idbox input,.idbox select{width:100%;box-sizing:border-box;border:2px solid #e7d3a8;border-radius:12px;padding:12px;font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.05rem;color:var(--bois);margin-bottom:11px;text-align:center;background:var(--blanc);appearance:none;-webkit-appearance:none}
+.idbox input:focus,.idbox select:focus{outline:none;border-color:var(--orange-bas)}
+.idbox select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%235C3D2E' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;cursor:pointer}
 .reslink{color:var(--bois-clair);text-decoration:underline;cursor:pointer}
 .niveau-h{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.3rem;color:var(--bois);margin:26px 6px 4px;display:flex;align-items:center;gap:10px}
 .niveau-h::before{content:"";flex:0 0 24px;height:6px;border-radius:4px;background:var(--or)}
@@ -81,7 +82,31 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
     <h3>Bienvenue 👋</h3>
     <p>Avant de commencer, indique ton collège, ta classe et ton prénom. C'est demandé une seule fois.</p>
     <input id="idCollege" placeholder="Ton collège" autocomplete="off">
-    <input id="idClasse" placeholder="Ta classe (ex : 3eA)" autocomplete="off">
+    <select id="idClasse">
+      <option value="" disabled selected>Ta classe</option>
+      <optgroup label="3ème">
+        <option>3BAKER</option><option>3BEKHTI</option><option>3DIOP</option>
+        <option>3GLOVER</option><option>3PALMA</option><option>3VENTURA</option>
+      </optgroup>
+      <optgroup label="4ème">
+        <option>4ADICHIE</option><option>4BAGIEU</option><option>4DARWICH</option>
+        <option>4ERNAUX</option><option>4MORRISO</option><option>4ODA</option>
+        <option>4PASCOT</option><option>4SENGHOR</option>
+      </optgroup>
+      <optgroup label="5ème">
+        <option>5ARMSTRO</option><option>5HARTMAN</option><option>5JAMES</option>
+        <option>5LAMAR</option><option>5MAKEBA</option><option>5MERCURY</option>
+        <option>5NAKAMUR</option><option>5SIMONE</option>
+      </optgroup>
+      <optgroup label="6ème">
+        <option>6BANKSY</option><option>6BAYA</option><option>6BONHEUR</option>
+        <option>6COULIAU</option><option>6FRIEDRI</option><option>6KAHLO</option>
+        <option>6KLIMT</option><option>6RINGGOL</option>
+      </optgroup>
+      <optgroup label="Autre">
+        <option>DAVIS (NSA)</option><option>SATRAPI (UPE2A)</option>
+      </optgroup>
+    </select>
     <input id="idPrenom" placeholder="Ton prénom" autocomplete="off">
     <button class="btn-go" onclick="idSave()">C'est parti ➜</button>
   </div>
@@ -127,6 +152,7 @@ const PARCOURS=[
   {emoji:'📐', titre:'Formules d\'aires & volumes', soustitre:"Aires et volumes",              niveau:'5ème', couleur:'teal',   fichier:'parcours-formules-5eme.html'},
   {emoji:'📏', titre:'Aires, Volumes & Longueurs', soustitre:"Le parcours des conversions",   niveau:'5ème', couleur:'or',     fichier:'parcours-aires-volumes-5eme.html'},
   /* --- DNB blancs 3ème --- */
+  {emoji:'⚡', titre:'Automatismes',          soustitre:"Calcul rapide — entraînement au brevet",      niveau:'3ème', couleur:'or',     fichier:'parcours-automatismes-3eme.html',    type:'dnb'},
   {emoji:'📐', titre:'Espace & Géométrie',    soustitre:"DNB blanc — 2 exercices tirés aléatoirement", niveau:'3ème', couleur:'teal',   fichier:'dnb-blanc-espace-geometrie.html',    type:'dnb'},
   {emoji:'📏', titre:'Grandeurs et mesures',  soustitre:"DNB blanc — 2 exercices tirés aléatoirement", niveau:'3ème', couleur:'orange', fichier:'dnb-blanc-grandeurs-mesures.html',   type:'dnb'},
 ];
@@ -270,7 +296,7 @@ function gid(x){return document.getElementById(x);}
 function idGreet(){var e=localStorage.getItem('kc_eleve');var g=gid('idgreet');if(g)g.textContent=e?('Bonjour '+e+' 👋'):'';}
 function idShow(){try{var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe'),col=localStorage.getItem('kc_college');gid('idov').hidden=!!(e&&c&&col);}catch(_){gid('idov').hidden=false;}}
 function idSave(){var col=(gid('idCollege').value||'').trim(),c=(gid('idClasse').value||'').trim(),p=(gid('idPrenom').value||'').trim();if(!col||!c||!p)return;try{localStorage.setItem('kc_college',col);localStorage.setItem('kc_classe',c);localStorage.setItem('kc_eleve',p);}catch(_){}gid('idov').hidden=true;idGreet();}
-function idReset(){try{localStorage.removeItem('kc_eleve');localStorage.removeItem('kc_classe');localStorage.removeItem('kc_college');}catch(_){}gid('idPrenom').value='';gid('idClasse').value='';gid('idCollege').value='';gid('idov').hidden=false;idGreet();}
+function idReset(){try{localStorage.removeItem('kc_eleve');localStorage.removeItem('kc_classe');localStorage.removeItem('kc_college');}catch(_){}gid('idPrenom').value='';gid('idClasse').selectedIndex=0;gid('idCollege').value='';gid('idov').hidden=false;idGreet();}
 idShow();idGreet();
 </script>
 </body>
