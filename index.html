@@ -70,6 +70,9 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .reslink{color:var(--bois-clair);text-decoration:underline;cursor:pointer}
 .niveau-h{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.3rem;color:var(--bois);margin:26px 6px 4px;display:flex;align-items:center;gap:10px}
 .niveau-h::before{content:"";flex:0 0 24px;height:6px;border-radius:4px;background:var(--or)}
+.dnb-intro{background:var(--blanc);border-radius:16px;padding:14px 18px;margin:10px 0 6px;
+  box-shadow:0 4px 10px rgba(92,61,46,.1);font-size:.97rem;color:var(--bois-clair);font-weight:700;
+  border-left:5px solid var(--violet)}
 </style>
 </head>
 <body>
@@ -105,21 +108,27 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
    ATTENTION : "fichier" doit être EXACTEMENT le nom du fichier .html,
    accents et tirets compris.
    Couleurs possibles : violet · teal · orange · or · vert · bleu · rouge
+   type:'dnb' → parcours DNB blanc (sinon 'theme' par défaut)
    ======================================================================= */
 const PARCOURS=[
-  {emoji:'🎲', titre:'Probabilités',     soustitre:"Le parcours du hasard",        niveau:'3ème', couleur:'violet', fichier:'parcours-probabilites-3eme.html'},
-  {emoji:'📐', titre:'Aires & Volumes',  soustitre:"Le parcours des conversions",  niveau:'3ème', couleur:'teal',   fichier:'parcours-aires-volumes.html'},
-  {emoji:'📈', titre:'Fonctions',        soustitre:"Les machines à nombres",        niveau:'3ème', couleur:'orange', fichier:'parcours-fonctions-3eme.html'},
-  {emoji:'🔤', titre:'Calcul littéral',  soustitre:"Le parcours des lettres",        niveau:'3ème', couleur:'bleu',   fichier:'parcours-calcul-litteral-3eme.html'},
-  {emoji:'📐', titre:'Thalès',           soustitre:"Le parcours des parallèles",     niveau:'3ème', couleur:'vert',   fichier:'parcours-thales-3eme.html'},
-  {emoji:'📊', titre:'Statistiques',     soustitre:"Le parcours des données",        niveau:'3ème', couleur:'rouge',  fichier:'parcours-statistiques-3eme.html'},
+  /* --- Parcours thématiques 3ème --- */
+  {emoji:'🎲', titre:'Probabilités',     soustitre:"Le parcours du hasard",            niveau:'3ème', couleur:'violet', fichier:'parcours-probabilites-3eme.html'},
+  {emoji:'📐', titre:'Aires & Volumes',  soustitre:"Le parcours des conversions",      niveau:'3ème', couleur:'teal',   fichier:'parcours-aires-volumes.html'},
+  {emoji:'📈', titre:'Fonctions',        soustitre:"Les machines à nombres",            niveau:'3ème', couleur:'orange', fichier:'parcours-fonctions-3eme.html'},
+  {emoji:'🔤', titre:'Calcul littéral',  soustitre:"Le parcours des lettres",            niveau:'3ème', couleur:'bleu',   fichier:'parcours-calcul-litteral-3eme.html'},
+  {emoji:'📐', titre:'Thalès',           soustitre:"Le parcours des parallèles",         niveau:'3ème', couleur:'vert',   fichier:'parcours-thales-3eme.html'},
+  {emoji:'📊', titre:'Statistiques',     soustitre:"Le parcours des données",            niveau:'3ème', couleur:'rouge',  fichier:'parcours-statistiques-3eme.html'},
   {emoji:'🔺', titre:'Trigonométrie',    soustitre:"Le parcours du triangle rectangle", niveau:'3ème', couleur:'or',     fichier:'parcours-trigonometrie-3eme.html'},
-  {emoji:'🔢', titre:'Arithmétique',     soustitre:"Premiers, PGCD & fractions",     niveau:'3ème', couleur:'bleu',   fichier:'parcours-arithmetique-3eme.html'},
-  {emoji:'🔟', titre:'Puissances',       soustitre:"Et écriture scientifique",       niveau:'3ème', couleur:'teal',   fichier:'parcours-puissances-3eme.html'},
-  {emoji:'⚖️', titre:'Équations',        soustitre:"Premier degré, produit, x²",     niveau:'3ème', couleur:'rouge',  fichier:'parcours-equations-3eme.html'},
-  {emoji:'🔷', titre:'Figures usuelles',  soustitre:"Reconnaître & décrire",          niveau:'5ème', couleur:'violet', fichier:'parcours-figures-5eme.html'},
-  {emoji:'📐', titre:'Formules d’aires & volumes', soustitre:"Aires et volumes",      niveau:'5ème', couleur:'teal',   fichier:'parcours-formules-5eme.html'},
-  {emoji:'📏', titre:'Aires, Volumes & Longueurs', soustitre:"Le parcours des conversions", niveau:'5ème', couleur:'or', fichier:'parcours-aires-volumes-5eme.html'},
+  {emoji:'🔢', titre:'Arithmétique',     soustitre:"Premiers, PGCD & fractions",         niveau:'3ème', couleur:'bleu',   fichier:'parcours-arithmetique-3eme.html'},
+  {emoji:'🔟', titre:'Puissances',       soustitre:"Et écriture scientifique",           niveau:'3ème', couleur:'teal',   fichier:'parcours-puissances-3eme.html'},
+  {emoji:'⚖️', titre:'Équations',        soustitre:"Premier degré, produit, x²",         niveau:'3ème', couleur:'rouge',  fichier:'parcours-equations-3eme.html'},
+  /* --- Parcours thématiques 5ème --- */
+  {emoji:'🔷', titre:'Figures usuelles',          soustitre:"Reconnaître & décrire",          niveau:'5ème', couleur:'violet', fichier:'parcours-figures-5eme.html'},
+  {emoji:'📐', titre:'Formules d\'aires & volumes', soustitre:"Aires et volumes",              niveau:'5ème', couleur:'teal',   fichier:'parcours-formules-5eme.html'},
+  {emoji:'📏', titre:'Aires, Volumes & Longueurs', soustitre:"Le parcours des conversions",   niveau:'5ème', couleur:'or',     fichier:'parcours-aires-volumes-5eme.html'},
+  /* --- DNB blancs 3ème --- */
+  {emoji:'📐', titre:'Espace & Géométrie',    soustitre:"DNB blanc — 2 exercices tirés aléatoirement", niveau:'3ème', couleur:'teal',   fichier:'dnb-blanc-espace-geometrie.html',    type:'dnb'},
+  {emoji:'📏', titre:'Grandeurs et mesures',  soustitre:"DNB blanc — 2 exercices tirés aléatoirement", niveau:'3ème', couleur:'orange', fichier:'dnb-blanc-grandeurs-mesures.html',   type:'dnb'},
 ];
 
 /* --- construction des tuiles (ne pas modifier) --- */
@@ -133,6 +142,7 @@ const COUL={
   rouge:['var(--rouge)','var(--rouge-bas)']
 };
 const mapWrap=document.getElementById('map');
+
 function tileFor(p){
   const c=COUL[p.couleur]||COUL.or;
   const a=document.createElement('a');
@@ -143,7 +153,17 @@ function tileFor(p){
     +'<div class="status">▶</div>';
   return a;
 }
+
+function backLink(label, fn){
+  var a=document.createElement('a');
+  a.className='reslink';a.href='javascript:void(0)';
+  a.style.display='inline-block';a.style.margin='2px 6px 8px';
+  a.textContent=label;a.onclick=fn;
+  return a;
+}
+
 const LEVELS=['3ème','5ème'];
+
 function buildLevelChooser(){
   mapWrap.innerHTML='';
   var h=document.createElement('h2');h.className='niveau-h';h.textContent='Choisis ton niveau';
@@ -160,20 +180,92 @@ function buildLevelChooser(){
   });
   mapWrap.appendChild(grid);
 }
+
 function chooseLevel(niv){
+  if(niv==='3ème'){
+    afficher3eme();
+  } else {
+    afficherParcours(niv,'theme');
+  }
+}
+
+function afficher3eme(){
   mapWrap.innerHTML='';
-  var back=document.createElement('a');back.className='reslink';back.href='javascript:void(0)';
-  back.style.display='inline-block';back.style.margin='2px 6px 8px';back.textContent='← Choisir un autre niveau';
-  back.onclick=buildLevelChooser;
-  mapWrap.appendChild(back);
-  var h=document.createElement('h2');h.className='niveau-h';h.textContent='Niveau '+niv;
+  mapWrap.appendChild(backLink('← Choisir un autre niveau', buildLevelChooser));
+
+  var h=document.createElement('h2');h.className='niveau-h';h.textContent='Niveau 3ème';
   mapWrap.appendChild(h);
+
   var grid=document.createElement('div');grid.className='map';
-  PARCOURS.filter(function(p){return p.niveau===niv;}).forEach(function(p){grid.appendChild(tileFor(p));});
+
+  /* Bouton 1 : Je revois mes chapitres (teal) */
+  var cteal=COUL.teal;
+  var a1=document.createElement('a');a1.className='etape';a1.href='javascript:void(0)';
+  a1.onclick=function(){afficherParcours('3ème','theme');};
+  a1.innerHTML='<div class="num" style="background:'+cteal[0]+';box-shadow:0 5px 0 '+cteal[1]+'">📚</div>'
+    +'<div class="txt"><h3>Je revois mes chapitres</h3>'
+    +'<p>Thalès, Équations, Fonctions…</p>'
+    +'<span class="niv" style="background:'+cteal[0]+'">Parcours thématiques</span></div>'
+    +'<div class="status">▶</div>';
+  grid.appendChild(a1);
+
+  /* Bouton 2 : Je m'entraîne au brevet (violet) */
+  var cviolet=COUL.violet;
+  var a2=document.createElement('a');a2.className='etape';a2.href='javascript:void(0)';
+  a2.onclick=function(){afficherParcours('3ème','dnb');};
+  a2.innerHTML='<div class="num" style="background:'+cviolet[0]+';box-shadow:0 5px 0 '+cviolet[1]+'">📝</div>'
+    +'<div class="txt"><h3>Je m\'entraîne au brevet</h3>'
+    +'<p>Exercices de type DNB blanc</p>'
+    +'<span class="niv" style="background:'+cviolet[0]+'">Sujets DNB blancs</span></div>'
+    +'<div class="status">▶</div>';
+  grid.appendChild(a2);
+
   mapWrap.appendChild(grid);
   window.scrollTo(0,0);
 }
+
+function afficherParcours(niv, type){
+  mapWrap.innerHTML='';
+
+  /* Bouton retour : vers afficher3eme si 3ème, sinon vers buildLevelChooser */
+  if(niv==='3ème'){
+    mapWrap.appendChild(backLink('← Retour', afficher3eme));
+  } else {
+    mapWrap.appendChild(backLink('← Choisir un autre niveau', buildLevelChooser));
+  }
+
+  /* Titre de section */
+  var h=document.createElement('h2');h.className='niveau-h';
+  if(type==='dnb'){
+    h.textContent='Brevet — Sujets blancs';
+  } else {
+    h.textContent='Niveau '+niv;
+  }
+  mapWrap.appendChild(h);
+
+  /* Intro DNB */
+  if(type==='dnb'){
+    var intro=document.createElement('p');
+    intro.className='dnb-intro';
+    intro.textContent='Chaque sujet te propose 2 exercices tirés aléatoirement. Lis bien, rédige et vérifie.';
+    mapWrap.appendChild(intro);
+  }
+
+  /* Grille des parcours filtrés */
+  var grid=document.createElement('div');grid.className='map';
+  var liste=PARCOURS.filter(function(p){
+    if(p.niveau!==niv) return false;
+    if(type==='dnb') return p.type==='dnb';
+    return p.type!=='dnb'; /* theme = tout ce qui n'est pas dnb */
+  });
+  liste.forEach(function(p){grid.appendChild(tileFor(p));});
+  mapWrap.appendChild(grid);
+  window.scrollTo(0,0);
+}
+
 buildLevelChooser();
+
+/* --- Identification élève --- */
 function gid(x){return document.getElementById(x);}
 function idGreet(){var e=localStorage.getItem('kc_eleve');var g=gid('idgreet');if(g)g.textContent=e?('Bonjour '+e+' 👋'):'';}
 function idShow(){try{var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe'),col=localStorage.getItem('kc_college');gid('idov').hidden=!!(e&&c&&col);}catch(_){gid('idov').hidden=false;}}
