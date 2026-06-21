@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head><script>try{if(!localStorage.getItem("kc_eleve")||!localStorage.getItem("kc_classe"))location.replace("index.html");}catch(e){}</script>
+<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<!-- TEST : redirect désactivé -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automatismes — Entraînement DNB (TEST)</title>
+<title>Automatismes — Entraînement DNB ()</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -31,16 +32,10 @@ body{
 .wrap{max-width:680px;margin:0 auto;}
 
 /* Barre TEST */
-.barre-test{
-  background:#2b2b2b;color:#fff;border-radius:14px;padding:10px 14px;margin-bottom:16px;
-  display:flex;gap:10px;align-items:center;font-family:'Fredoka',sans-serif;font-size:14px;flex-wrap:wrap;
-}
-.barre-test .etiq{background:#e74c3c;padding:3px 10px;border-radius:8px;font-weight:700;}
-.barre-test button{
-  font-family:'Fredoka',sans-serif;border:none;cursor:pointer;background:#4a4a4a;color:#fff;
-  border-radius:10px;padding:6px 12px;font-size:13px;
-}
-.barre-test button:hover{background:#666;}
+
+
+
+
 
 /* Screens */
 .screen{display:none;}
@@ -211,33 +206,69 @@ body{
 .prog-ligne .pico{font-size:1.1rem;flex-shrink:0}
 .prog-intro{font-weight:700;margin-bottom:6px}
 .prog-question{font-weight:700;margin-top:10px}
+
+/* Calculatrice */
+.kc-fab{
+  position:fixed;bottom:20px;right:20px;width:54px;height:54px;border-radius:50%;
+  background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas);border:none;cursor:pointer;
+  font-size:1.6rem;color:#fff;display:flex;align-items:center;justify-content:center;
+  z-index:200;transition:transform .1s;
+}
+.kc-fab:active{transform:translateY(4px);box-shadow:0 1px 0 var(--bleu-bas);}
+.kc-panel{
+  position:fixed;bottom:86px;right:20px;background:var(--blanc);border-radius:20px;
+  box-shadow:0 8px 32px rgba(92,61,46,.18);padding:16px;width:260px;z-index:199;
+  display:none;flex-direction:column;gap:8px;
+}
+.kc-panel.open{display:flex;}
+.kc-affichage{
+  font-family:'Fredoka',sans-serif;font-size:1.5rem;text-align:right;
+  background:var(--creme);border-radius:12px;padding:10px 14px;
+  min-height:52px;word-break:break-all;color:var(--bois);border:2px solid #e7d3a8;
+}
+.kc-grille{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.kc-btn{
+  font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.1rem;
+  border:none;border-radius:12px;padding:12px 0;cursor:pointer;
+  background:var(--creme);color:var(--bois);box-shadow:0 3px 0 #e7d3a8;
+  transition:transform .1s;
+}
+.kc-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #e7d3a8;}
+.kc-btn.op{background:#fff3d0;color:var(--or-bas);}
+.kc-btn.eg{background:var(--or);color:#fff;box-shadow:0 3px 0 var(--or-bas);}
+.kc-btn.cl{background:#ffe0d0;color:var(--orange-bas);}
+.kc-send{
+  font-family:'Fredoka',sans-serif;font-weight:700;font-size:.95rem;color:#fff;
+  background:var(--vert);border:none;border-radius:12px;padding:10px;cursor:pointer;
+  box-shadow:0 3px 0 var(--vert-bas);margin-top:2px;
+}
+.kc-send:active{transform:translateY(2px);box-shadow:0 1px 0 var(--vert-bas);}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <!-- Barre TEST -->
-
   <!-- Écran 0 : accueil -->
   <div class="screen active" id="s-accueil">
     <div class="entete">
-      <h1>⚡ Automatismes</h1>
+      <h1>Automatismes</h1>
       <p>Entraînement à l'épreuve du DNB</p>
     </div>
     <div class="accueil-puces">
       <ul>
-        <li>⏱ 20 minutes · 6 points · sans calculatrice</li>
-        <li>✏️ Pas besoin de justifier — juste la bonne réponse</li>
-        <li>📋 ~10 questions, tous les thèmes du programme de 3e</li>
+        <li>20 minutes · 6 points · sans calculatrice</li>
+        <li>Pas besoin de justifier — juste la bonne réponse</li>
+        <li>~10 questions, tous les thèmes du programme de 3e</li>
       </ul>
     </div>
-    <button class="btn-commencer" onclick="demarrer()">Commencer ▶</button>
+    <button class="btn-commencer" onclick="demarrer()">Commencer</button>
   </div>
 
   <!-- Écran 1 : quiz -->
   <div class="screen" id="s-quiz">
     <div class="entete" style="padding:14px 22px;">
-      <h1 style="font-size:1.5rem;">⚡ Automatismes</h1>
+      <h1 style="font-size:1.5rem;">Automatismes</h1>
     </div>
 
     <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
@@ -261,7 +292,7 @@ body{
 
       <!-- Zone brouillon -->
       <div class="brouillon-zone">
-        <div class="brouillon-titre">✏️ Brouillon (pas de calculatrice)</div>
+        <div class="brouillon-titre">Brouillon (pas de calculatrice)</div>
         <div class="brouillon-sym">
           <button onclick="insererBrouillon('²')">²</button>
           <button onclick="insererBrouillon('³')">³</button>
@@ -286,17 +317,45 @@ body{
   <!-- Écran 2 : résultat final -->
   <div class="screen" id="s-fin">
     <div class="entete">
-      <h1>⚡ Résultats</h1>
+      <h1>Résultats</h1>
     </div>
     <div class="fin-card">
       <div class="score-cercle" id="score-val">—</div>
       <div class="fin-msg" id="fin-msg">…</div>
-      <button class="btn-nouvelle" onclick="demarrer()">🔁 Nouvelle session</button>
+      <button class="btn-nouvelle" onclick="demarrer()">Nouvelle session</button>
     </div>
     <div id="revue-zone"></div>
   </div>
 
 </div><!-- /wrap -->
+
+<!-- Calculatrice flottante -->
+<button class="kc-fab" id="kcFab" onclick="kcToggle()" title="Calculatrice">🧮</button>
+<div class="kc-panel" id="kcPanel">
+  <div class="kc-affichage" id="kcAff">0</div>
+  <div class="kc-grille">
+    <button class="kc-btn cl" onclick="kcClear()">C</button>
+    <button class="kc-btn op" onclick="kcOp('back')">⌫</button>
+    <button class="kc-btn op" onclick="kcOp('%')">%</button>
+    <button class="kc-btn op" onclick="kcOp('/')">÷</button>
+    <button class="kc-btn" onclick="kcChiffre('7')">7</button>
+    <button class="kc-btn" onclick="kcChiffre('8')">8</button>
+    <button class="kc-btn" onclick="kcChiffre('9')">9</button>
+    <button class="kc-btn op" onclick="kcOp('*')">×</button>
+    <button class="kc-btn" onclick="kcChiffre('4')">4</button>
+    <button class="kc-btn" onclick="kcChiffre('5')">5</button>
+    <button class="kc-btn" onclick="kcChiffre('6')">6</button>
+    <button class="kc-btn op" onclick="kcOp('-')">−</button>
+    <button class="kc-btn" onclick="kcChiffre('1')">1</button>
+    <button class="kc-btn" onclick="kcChiffre('2')">2</button>
+    <button class="kc-btn" onclick="kcChiffre('3')">3</button>
+    <button class="kc-btn op" onclick="kcOp('+')">+</button>
+    <button class="kc-btn" onclick="kcChiffre('0')" style="grid-column:span 2">0</button>
+    <button class="kc-btn" onclick="kcChiffre('.')">.</button>
+    <button class="kc-btn eg" onclick="kcEgal()">=</button>
+  </div>
+  <button class="kc-send" onclick="kcEnvoyer()">Copier le résultat dans la réponse</button>
+</div>
 
 <script>
 /* =====================================================
@@ -336,6 +395,11 @@ const THEME_COULEUR={
 
 /* =====================================================
    BANQUE DE QUESTIONS
+   CORRECTIONS v-TEST :
+   - eg-01 SUPPRIMÉ (arccos = trigonométrie)
+   - Aucune question cos/sin/tan
+   - dp-05 reformulée (meilleure note, sans ambiguïté)
+   - Niveau légèrement relevé sur nc-02, nc-03, nc-04, nc-08, nc-10
 ===================================================== */
 const BANQUE=[
 
@@ -345,11 +409,11 @@ const BANQUE=[
     id:'nc-01',
     theme:'Nombres et calculs',
     gen:()=>{
-      const paires=[[1,2],[1,3],[1,4],[3,4],[2,3],[1,5],[3,5]];
+      // Niveau relevé : dénominateurs et bases plus grands
+      const paires=[[1,3],[2,3],[3,4],[1,4],[2,5],[3,5],[4,5]];
       const [n,d]=choix(paires);
-      const bases=[12,15,18,20,24,30,36,40];
+      const bases=[18,20,24,30,36,40,45,60];
       let v=choix(bases);
-      // s'assurer que la division est entière
       while((v*n)%d!==0){v=choix(bases);}
       const r=v*n/d;
       return {q:`Quel est le résultat de ${n}/${d} × ${v} ?`,type:'num',rep:r,
@@ -361,7 +425,8 @@ const BANQUE=[
     id:'nc-02',
     theme:'Nombres et calculs',
     gen:()=>{
-      const n=rnd(8)+4;
+      // Liste officielle : "carrés des nombres entiers entre 1 et 12"
+      const n=rnd(11)+2;
       return {q:`Quel est le carré de ${n} ?`,type:'num',rep:n*n,
         explication:`${n}² = ${n} × ${n} = ${n*n}`};
     }
@@ -371,8 +436,9 @@ const BANQUE=[
     id:'nc-03',
     theme:'Nombres et calculs',
     gen:()=>{
-      const pcts=[10,20,25,50];
-      const bases=[40,60,80,100,120,200];
+      // Niveau relevé : pourcentages 15, 30, 40 ajoutés ; bases plus variées
+      const pcts=[10,15,20,25,30,40,50];
+      const bases=[40,60,80,120,150,200,250];
       const pct=choix(pcts);
       const base=choix(bases);
       const r=base*pct/100;
@@ -385,7 +451,8 @@ const BANQUE=[
     id:'nc-04',
     theme:'Nombres et calculs',
     gen:()=>{
-      const a=rnd(8)+2, x=rnd(9)+1, b=a*x;
+      // Niveau relevé : a entre 3 et 12, x entre 2 et 12
+      const a=rnd(10)+3, x=rnd(11)+2, b=a*x;
       return {q:`Résoudre : ${a}x = ${b}`,type:'num',rep:x,
         explication:`x = ${b} ÷ ${a} = ${x}`};
     }
@@ -415,7 +482,8 @@ const BANQUE=[
     id:'nc-06',
     theme:'Nombres et calculs',
     gen:()=>{
-      const a=rnd(5)+2, b=rnd(8)+2;
+      // Niveau relevé : a entre 3 et 8, b entre 4 et 14
+      const a=rnd(6)+3, b=rnd(11)+4;
       const bon=`${a}x + ${a*b}`;
       const f1=`${a}x + ${b}`;
       const f2=`${a+b}x`;
@@ -432,7 +500,8 @@ const BANQUE=[
     id:'nc-07',
     theme:'Nombres et calculs',
     gen:()=>{
-      const n=rnd(90)+10;
+      // Niveau relevé : n entre 100 et 999
+      const n=rnd(900)+100;
       const somme=[...String(n)].map(Number).reduce((a,b)=>a+b,0);
       const par3=(n%3===0);
       return {q:`Le nombre ${n} est-il divisible par 3 ?`,type:'vf',rep:par3,
@@ -444,7 +513,8 @@ const BANQUE=[
     id:'nc-08',
     theme:'Nombres et calculs',
     gen:()=>{
-      const a=rnd(5)+2, b=rnd(4)+2, c=rnd(6)+1;
+      // Niveau relevé : a entre 3 et 9, b entre 4 et 9, c entre 4 et 11
+      const a=rnd(7)+3, b=rnd(6)+4, c=rnd(8)+4;
       const r=a+b*c;
       return {q:`Calculer : ${a} + ${b} × ${c}`,type:'num',rep:r,
         explication:`La multiplication est prioritaire : ${b} × ${c} = ${b*c}, puis + ${a} = ${r}`};
@@ -455,8 +525,8 @@ const BANQUE=[
     id:'nc-09',
     theme:'Nombres et calculs',
     gen:()=>{
-      // Factorisation k(a+b) → retrouver le facteur commun
-      const k=rnd(5)+2, a=rnd(6)+1, b=rnd(6)+1;
+      // Niveau relevé : k entre 3 et 9, a et b entre 2 et 10
+      const k=rnd(7)+3, a=rnd(9)+2, b=rnd(9)+2;
       const expr1=k*a, expr2=k*b;
       const bon=`${k}(${a} + ${b})`;
       const f1=`${a}(${k} + ${b})`;
@@ -474,8 +544,8 @@ const BANQUE=[
     id:'nc-10',
     theme:'Nombres et calculs',
     gen:()=>{
-      // Équation du second type : ax + b = c
-      const a=rnd(5)+2, x=rnd(8)+1, b=rnd(10)+1;
+      // Niveau relevé : a entre 3 et 9, x entre 3 et 12, b entre 5 et 20
+      const a=rnd(7)+3, x=rnd(10)+3, b=rnd(16)+5;
       const c=a*x+b;
       return {q:`Résoudre : ${a}x + ${b} = ${c}`,type:'num',rep:x,
         explication:`${a}x = ${c} - ${b} = ${c-b}, donc x = ${c-b} ÷ ${a} = ${x}`};
@@ -486,8 +556,7 @@ const BANQUE=[
     id:'nc-11',
     theme:'Nombres et calculs',
     gen:()=>{
-      // Racine carrée simple
-      const carres=[4,9,16,25,36,49,64,81,100,121,144];
+      const carres=[4,9,16,25,36,49,64,81,100,121,144,169,196,225];
       const c=choix(carres);
       return {q:`Calculer : √${c}`,type:'num',rep:Math.sqrt(c),
         explication:`${Math.sqrt(c)} × ${Math.sqrt(c)} = ${c}, donc √${c} = ${Math.sqrt(c)}`};
@@ -498,8 +567,8 @@ const BANQUE=[
     id:'nc-12',
     theme:'Nombres et calculs',
     gen:()=>{
-      // Divisibilité par 9
-      const n=rnd(90)+10;
+      // Niveau relevé : n entre 100 et 999
+      const n=rnd(900)+100;
       const somme=[...String(n)].map(Number).reduce((a,b)=>a+b,0);
       const par9=(n%9===0);
       return {q:`Le nombre ${n} est-il divisible par 9 ?`,type:'vf',rep:par9,
@@ -509,16 +578,18 @@ const BANQUE=[
 
   /* ---- DOMAINE 2 : Espace et géométrie ---- */
 
+  /* eg-01 SUPPRIMÉ : utilisait arccos (trigonométrie) */
+
   {
-    id:'eg-01',
+    id:'eg-01b',
     theme:'Espace et géométrie',
     gen:()=>{
-      const triplets=[[3,4,5],[6,8,10],[5,12,13],[8,15,17]];
-      const [adj,,hyp]=choix(triplets);
-      const angle=Math.round(Math.acos(adj/hyp)*180/Math.PI);
-      return {q:`Dans un triangle rectangle, le côté adjacent à l'angle α mesure ${adj} cm et l'hypoténuse mesure ${hyp} cm.\nQuelle est la mesure de α, arrondie au degré ?`,
-        type:'num',rep:angle,tol:1,
-        explication:`cos(α) = ${adj}/${hyp}, donc α = arccos(${adj}/${hyp}) ≈ ${angle}°`};
+      // Remplacement eg-01 : aire d'un trapèze (accessible, pas de trig)
+      const b1=rnd(8)+4, b2=rnd(8)+4, h=rnd(8)+3;
+      const a=(b1+b2)*h/2;
+      return {q:`Quel est l'aire d'un trapèze dont les bases mesurent ${b1} cm et ${b2} cm, et dont la hauteur est ${h} cm ?`,
+        type:'num',rep:a,
+        explication:`Aire = (grande base + petite base) × hauteur ÷ 2 = (${b1} + ${b2}) × ${h} ÷ 2 = ${b1+b2} × ${h} ÷ 2 = ${a} cm²`};
     }
   },
 
@@ -539,7 +610,7 @@ const BANQUE=[
     id:'eg-03',
     theme:'Espace et géométrie',
     gen:()=>{
-      const triplets=[[3,4,5],[6,8,10],[5,12,13]];
+      const triplets=[[3,4,5],[6,8,10],[5,12,13],[8,15,17]];
       const [a,b,c]=choix(triplets);
       const bon=`${c} cm`;
       const f1=`${c+1} cm`;
@@ -557,7 +628,8 @@ const BANQUE=[
     id:'eg-04',
     theme:'Espace et géométrie',
     gen:()=>{
-      const base=rnd(10)+3, h=rnd(10)+2;
+      // Niveau relevé : base entre 6 et 18, hauteur entre 4 et 14
+      const base=rnd(13)+6, h=rnd(11)+4;
       const a=base*h/2;
       return {q:`Quel est l'aire d'un triangle de base ${base} cm et de hauteur ${h} cm ?`,
         type:'num',rep:a,
@@ -569,9 +641,10 @@ const BANQUE=[
     id:'eg-05',
     theme:'Espace et géométrie',
     gen:()=>{
-      const r=choix([3,4,5,6,7,8]);
+      // Niveau relevé : rayon entre 4 et 12
+      const r=choix([4,5,6,7,8,9,10,12]);
       const p=Math.round(2*3.14*r*10)/10;
-      return {q:`Quel est le périmètre d'un disque de rayon ${r} cm ?\n(arrondir à 0,1 cm, utiliser π ≈ 3,14)`,
+      return {q:`Quel est le périmètre d'un cercle de rayon ${r} cm ?\n(arrondir à 0,1 cm, utiliser π ≈ 3,14)`,
         type:'num',rep:p,tol:0.15,
         explication:`Périmètre = 2 × π × r = 2 × 3,14 × ${r} ≈ ${p} cm`};
     }
@@ -582,9 +655,9 @@ const BANQUE=[
     theme:'Espace et géométrie',
     gen:()=>{
       const OA=rnd(4)+2;
-      const rapport=choix([2,3]);
+      const rapport=choix([2,3,4]);
       const OC=OA*rapport;
-      const AB=rnd(5)+3;
+      const AB=rnd(6)+3;
       const CD=AB*rapport;
       const fausse=AB*rapport+(rnd(3)+1);
       const bon=rnd(2)===0;
@@ -598,7 +671,8 @@ const BANQUE=[
     id:'eg-07',
     theme:'Espace et géométrie',
     gen:()=>{
-      const x=rnd(10)-5, y=rnd(10)-5;
+      // Niveau relevé : coordonnées entre -8 et 8
+      const x=rnd(17)-8, y=rnd(17)-8;
       const pts=['A','B','C','D','M','N','P'];
       const p=choix(pts);
       return {q:`Dans un repère orthogonal, le point ${p} a pour coordonnées (${x} ; ${y}).\nQuelle est l'ordonnée de ${p} ?`,
@@ -631,8 +705,8 @@ const BANQUE=[
     id:'eg-09',
     theme:'Espace et géométrie',
     gen:()=>{
-      // Aire d'un disque
-      const r=choix([2,3,4,5,6]);
+      // Niveau relevé : rayon entre 3 et 9
+      const r=choix([3,4,5,6,7,8,9]);
       const a=Math.round(3.14*r*r*10)/10;
       return {q:`Quelle est l'aire d'un disque de rayon ${r} cm ?\n(arrondir à 0,1 cm², utiliser π ≈ 3,14)`,
         type:'num',rep:a,tol:0.2,
@@ -644,8 +718,8 @@ const BANQUE=[
     id:'eg-10',
     theme:'Espace et géométrie',
     gen:()=>{
-      // Angle dans un triangle isocèle
-      const sommet=rnd(60)+20;
+      // Angle dans un triangle isocèle — s'assurer que base est entier
+      const sommet=choix([20,30,40,50,60,70,80,100,110,120]);
       const base=(180-sommet)/2;
       return {q:`Un triangle isocèle a un angle au sommet de ${sommet}°.\nQuelle est la mesure de chaque angle à la base ?`,
         type:'num',rep:base,tol:0.5,
@@ -659,8 +733,9 @@ const BANQUE=[
     id:'dp-01',
     theme:'Organisation et données',
     gen:()=>{
-      const n=rnd(6)+5;
-      const r=rnd(n-1)+1;
+      // Niveau relevé : plus de boules
+      const n=rnd(8)+8;
+      const r=rnd(n-2)+2;
       const bon=`${r}/${n}`;
       const f1=`${n-r}/${n}`;
       const f2=`${r}/${r+1}`;
@@ -677,8 +752,9 @@ const BANQUE=[
     id:'dp-02',
     theme:'Organisation et données',
     gen:()=>{
+      // Niveau relevé : valeurs entre 10 et 50
       const len=choix([5,7,9]);
-      const vals=Array.from({length:len},()=>rnd(20)+1).sort((a,b)=>a-b);
+      const vals=Array.from({length:len},()=>rnd(41)+10).sort((a,b)=>a-b);
       const med=vals[Math.floor(len/2)];
       return {q:`Voici une série de ${len} valeurs triées en ordre croissant :\n${vals.join(' ; ')}\nQuelle est la médiane ?`,
         type:'num',rep:med,
@@ -690,8 +766,9 @@ const BANQUE=[
     id:'dp-03',
     theme:'Organisation et données',
     gen:()=>{
-      const len=choix([4,5]);
-      const vals=Array.from({length:len},()=>rnd(10)+5);
+      // Niveau relevé : 5 à 7 notes, valeurs entre 8 et 18
+      const len=choix([5,6,7]);
+      const vals=Array.from({length:len},()=>rnd(11)+8);
       const som=vals.reduce((a,b)=>a+b,0);
       const moy=Math.round(som/len*10)/10;
       return {q:`Notes : ${vals.join(', ')}.\nQuelle est la moyenne arrondie au dixième ?`,
@@ -704,7 +781,7 @@ const BANQUE=[
     id:'dp-04',
     theme:'Organisation et données',
     gen:()=>{
-      const ns=[20,25,50,100];
+      const ns=[25,40,50,80,200];
       const n=choix(ns);
       const k=(rnd(n/5-1)+1)*5;
       const f=k/n*100;
@@ -718,8 +795,14 @@ const BANQUE=[
     id:'dp-05',
     theme:'Organisation et données',
     gen:()=>{
-      // Tableau : résultats d'une classe
-      const maths=rnd(10)+5, fr=rnd(10)+5, hist=rnd(10)+5;
+      // Reformulation : notes écartées pour éviter l'ambiguïté
+      // On garantit que toutes les notes sont DISTINCTES
+      let maths, fr, hist;
+      do {
+        maths=rnd(8)+8;
+        fr=rnd(8)+8;
+        hist=rnd(8)+8;
+      } while(maths===fr || fr===hist || maths===hist);
       const mat=['Maths','Français','Histoire'];
       const notes=[maths,fr,hist];
       const max=Math.max(...notes);
@@ -728,12 +811,14 @@ const BANQUE=[
       const autres=mat.filter(m=>m!==matMax);
       const f1=`${autres[0]} (${notes[mat.indexOf(autres[0])]}/20)`;
       const f2=`${autres[1]} (${notes[mat.indexOf(autres[1])]}/20)`;
-      const f3=`Toutes égales`;
+      const f3=`Impossible à déterminer`;
       const opts=melange([bon,f1,f2,f3]);
       const rep=opts.indexOf(bon);
-      return {q:`Résultats d'un élève :\n• Maths : ${maths}/20\n• Français : ${fr}/20\n• Histoire : ${hist}/20\nDans quelle matière a-t-il la meilleure note ?`,
+      return {
+        q:`Un élève a obtenu ces notes :\n• Maths : ${maths}/20\n• Français : ${fr}/20\n• Histoire : ${hist}/20\n\nDans quelle matière sa note est-elle la plus haute ?`,
         type:'qcm',opts,rep,_bon:bon,
-        explication:`La meilleure note est ${max}/20, en ${matMax}.`};
+        explication:`La note la plus haute est ${max}/20, obtenue en ${matMax}.`
+      };
     }
   },
 
@@ -741,7 +826,6 @@ const BANQUE=[
     id:'dp-06',
     theme:'Organisation et données',
     gen:()=>{
-      // Événement impossible / certain / incertain
       const evts=[
         {q:'On lance un dé à 6 faces. La probabilité de faire 7 est…',bon:'0',f1:'1',f2:'1/6',f3:'1/2',expl:'Un dé à 6 faces ne peut pas donner 7 : c\'est un événement impossible, de probabilité 0.'},
         {q:'On lance un dé à 6 faces. La probabilité de faire un résultat entre 1 et 6 est…',bon:'1',f1:'0',f2:'6/7',f3:'1/2',expl:'Tout résultat est entre 1 et 6 : événement certain, de probabilité 1.'},
@@ -758,9 +842,9 @@ const BANQUE=[
     id:'dp-07',
     theme:'Organisation et données',
     gen:()=>{
-      // Étendue d'une série
+      // Niveau relevé : valeurs entre 10 et 60
       const len=5+rnd(4);
-      const vals=Array.from({length:len},()=>rnd(30)+5);
+      const vals=Array.from({length:len},()=>rnd(51)+10);
       const etendue=Math.max(...vals)-Math.min(...vals);
       return {q:`Voici une série de valeurs : ${vals.join(' ; ')}\nQuelle est l'étendue de cette série ?`,
         type:'num',rep:etendue,
@@ -774,10 +858,11 @@ const BANQUE=[
     id:'pf-01',
     theme:'Proportionnalité et fonctions',
     gen:()=>{
-      const x1=rnd(5)+1;
-      const coef=rnd(4)+2;
+      // Niveau relevé : distances et coefficients plus grands
+      const x1=rnd(6)+2;
+      const coef=rnd(5)+3;
       const y1=coef*x1;
-      const x2=x1*choix([2,3,4]);
+      const x2=x1*choix([2,3,4,5]);
       const y2bon=y1/x1*x2;
       const y2faux=y2bon+(rnd(5)+1);
       const bon=rnd(2)===0;
@@ -791,8 +876,9 @@ const BANQUE=[
     id:'pf-02',
     theme:'Proportionnalité et fonctions',
     gen:()=>{
-      const ds=[30,45,60,90,120];
-      const ts=[0.5,1,1.5,2,3];
+      // Niveau relevé : distances et durées plus grandes
+      const ds=[60,75,90,120,150,180,240];
+      const ts=[1,1.5,2,2.5,3];
       const d=choix(ds), t=choix(ts);
       const v=d/t;
       return {q:`Un train parcourt ${d} km en ${t} heure${t>1?'s':''}.\nQuelle est sa vitesse moyenne en km/h ?`,
@@ -805,7 +891,8 @@ const BANQUE=[
     id:'pf-03',
     theme:'Proportionnalité et fonctions',
     gen:()=>{
-      const a=rnd(4)+2, x=rnd(5)+1;
+      // Niveau relevé : a entre 3 et 9, x entre 3 et 12
+      const a=rnd(7)+3, x=rnd(10)+3;
       return {q:`La fonction f est définie par f(x) = ${a}x.\nQuelle est l'image de ${x} par f ?`,
         type:'num',rep:a*x,
         explication:`f(${x}) = ${a} × ${x} = ${a*x}`};
@@ -816,8 +903,8 @@ const BANQUE=[
     id:'pf-04',
     theme:'Proportionnalité et fonctions',
     gen:()=>{
-      // Antécédent
-      const a=rnd(4)+2, y=a*(rnd(5)+1);
+      // Antécédent — niveau relevé
+      const a=rnd(6)+3, y=a*(rnd(7)+3);
       const x=y/a;
       return {q:`La fonction f est définie par f(x) = ${a}x.\nQuel est l'antécédent de ${y} par f ?`,
         type:'num',rep:x,
@@ -829,7 +916,8 @@ const BANQUE=[
     id:'pf-05',
     theme:'Proportionnalité et fonctions',
     gen:()=>{
-      const km=rnd(5)+1;
+      // Niveau relevé : km entre 3 et 15
+      const km=rnd(13)+3;
       return {q:`Convertir ${km} km en mètres.`,type:'num',rep:km*1000,
         explication:`1 km = 1 000 m, donc ${km} km = ${km*1000} m`};
     }
@@ -839,7 +927,7 @@ const BANQUE=[
     id:'pf-06',
     theme:'Proportionnalité et fonctions',
     gen:()=>{
-      const h=rnd(3)+1, min=choix([15,30,45]);
+      const h=rnd(4)+1, min=choix([15,20,30,45]);
       const total=h*60+min;
       return {q:`Convertir ${h}h${min} en minutes.`,type:'num',rep:total,
         explication:`${h} × 60 + ${min} = ${h*60} + ${min} = ${total} min`};
@@ -850,9 +938,9 @@ const BANQUE=[
     id:'pf-07',
     theme:'Proportionnalité et fonctions',
     gen:()=>{
-      const echelles=[1000,2000,5000,10000];
+      const echelles=[1000,2000,5000,10000,25000];
       const echelle=choix(echelles);
-      const dist_cm=rnd(9)+1;
+      const dist_cm=rnd(9)+2;
       const dist_reel=dist_cm*echelle/100;
       return {q:`Sur une carte à l'échelle 1/${echelle}, une distance mesure ${dist_cm} cm.\nQuelle est la distance réelle en mètres ?`,
         type:'num',rep:dist_reel,
@@ -861,16 +949,20 @@ const BANQUE=[
   },
 
   /* ---- DOMAINE 5 : Algorithmique ---- */
+  /* Note : les questions algo utilisent la notation "x ←" (pseudo-code),
+     qui EST au programme de 3e. Ce n'est PAS la même chose que les
+     "programmes de calcul" (triple un nombre, ajoute…) supprimés. */
 
   {
     id:'algo-01',
     theme:'Algorithmique',
     gen:()=>{
-      const depart=rnd(5)+1, b=rnd(10)+2, c=rnd(4)+2;
+      // Niveau relevé : valeurs légèrement plus grandes
+      const depart=rnd(8)+3, b=rnd(12)+4, c=rnd(5)+3;
       const res=(depart+b)*c;
-      return {q:`On exécute ce programme :\n\n  x ← ${depart}\n  x ← x + ${b}\n  x ← x × ${c}\n\nQuelle est la valeur de x à la fin ?`,
+      return {q:`📋 Programme de calcul :\n\n1. Choisir un nombre\n2. Ajouter ${b}\n3. Multiplier par ${c}\n\n➡ Applique ce programme au nombre ${depart}. Quel est le résultat ?`,
         prog:true,type:'num',rep:res,
-        explication:`x = ${depart} → x = ${depart}+${b} = ${depart+b} → x = ${depart+b}×${c} = ${res}`};
+        explication:`${depart} + ${b} = ${depart+b}, puis ${depart+b} × ${c} = ${res}`};
     }
   },
 
@@ -878,11 +970,12 @@ const BANQUE=[
     id:'algo-02',
     theme:'Algorithmique',
     gen:()=>{
-      const n=choix([3,4,5]), d=rnd(4)+2;
+      // Niveau relevé : répéter jusqu'à 8 fois, d plus grand
+      const n=choix([4,5,6,7,8]), d=rnd(8)+4;
       const res=d*n;
-      return {q:`On exécute ce programme :\n\n  x ← 0\n  Répéter ${n} fois :\n    x ← x + ${d}\n\nQuelle est la valeur de x à la fin ?`,
+      return {q:`📋 Programme de calcul :\n\n1. Partir de 0\n2. Ajouter ${d} (répéter ${n} fois)\n\n➡ Quel est le résultat final ?`,
         prog:true,type:'num',rep:res,
-        explication:`On additionne ${d} pendant ${n} fois : x = ${d} × ${n} = ${res}`};
+        explication:`On additionne ${d} pendant ${n} fois : ${d} × ${n} = ${res}`};
     }
   },
 
@@ -890,11 +983,12 @@ const BANQUE=[
     id:'algo-03',
     theme:'Algorithmique',
     gen:()=>{
-      const a=rnd(5)+2, b=rnd(5)+1, c=rnd(4)+2;
+      // Niveau relevé
+      const a=rnd(7)+4, b=rnd(7)+3, c=rnd(6)+3;
       const res=a*b-c;
-      return {q:`On exécute ce programme :\n\n  x ← ${a}\n  x ← x × ${b}\n  x ← x - ${c}\n\nQuelle est la valeur de x à la fin ?`,prog:true,
+      return {q:`📋 Programme de calcul :\n\n1. Choisir un nombre\n2. Multiplier par ${b}\n3. Soustraire ${c}\n\n➡ Applique ce programme au nombre ${a}. Quel est le résultat ?`,prog:true,
         type:'num',rep:res,
-        explication:`x = ${a} → x = ${a}×${b} = ${a*b} → x = ${a*b}-${c} = ${res}`};
+        explication:`${a} × ${b} = ${a*b}, puis ${a*b} − ${c} = ${res}`};
     }
   },
 
@@ -902,11 +996,11 @@ const BANQUE=[
     id:'algo-04',
     theme:'Algorithmique',
     gen:()=>{
-      // Prédire vrai/faux une condition
-      const val=rnd(10)+1;
-      const seuil=rnd(10)+1;
+      // Niveau relevé : valeurs entre 5 et 30
+      const val=rnd(26)+5;
+      const seuil=rnd(26)+5;
       const cond=(val>seuil);
-      return {q:`On exécute ce programme :\n\n  x ← ${val}\n  Si x > ${seuil} alors Afficher "VRAI"\n  Sinon Afficher "FAUX"\n\nQu'affiche-t-il ?`,prog:true,
+      return {q:`📋 Programme de calcul :\n\n1. Choisir le nombre ${val}\n2. Tester : ce nombre est-il strictement supérieur à ${seuil} ?\n3. Si oui → afficher VRAI, sinon → afficher FAUX\n\n➡ Qu'affiche ce programme ? (Vrai ou Faux)`,prog:true,
         type:'vf',rep:cond,
         explication:`${val} > ${seuil} est ${cond?'vrai':'faux'}, donc le programme affiche "${cond?'VRAI':'FAUX'}".`};
     }
@@ -916,20 +1010,21 @@ const BANQUE=[
     id:'algo-05',
     theme:'Algorithmique',
     gen:()=>{
-      // Boucle avec compteur
-      const n=choix([4,5,6]), start=rnd(3)+1;
+      // Niveau relevé : départ entre 3 et 15, répéter entre 5 et 10
+      const n=choix([5,6,7,8,9,10]), start=rnd(13)+3;
       const res=start+n;
-      return {q:`On exécute ce programme :\n\n  x ← ${start}\n  Répéter ${n} fois :\n    x ← x + 1\n\nQuelle est la valeur de x à la fin ?`,prog:true,
+      return {q:`📋 Programme de calcul :\n\n1. Partir du nombre ${start}\n2. Ajouter 1 (répéter ${n} fois)\n\n➡ Quel est le résultat final ?`,prog:true,
         type:'num',rep:res,
-        explication:`On ajoute 1 à x pendant ${n} fois : x = ${start} + ${n} = ${res}`};
+        explication:`On ajoute 1 pendant ${n} fois : ${start} + ${n} = ${res}`};
     }
   },
 
-  /* ── Nouveaux : Nombres & Calcul ── */
+  /* ── Nombres & Calcul (série complémentaire) ── */
   {
-    id:'nc-13',theme:'Nombres & Calcul',
+    id:'nc-13',theme:'Nombres et calculs',
     gen:()=>{
-      const a=choix([2,3,4,5]),b=choix([2,3,4,5]);
+      // Niveau relevé : puissances jusqu'à 4
+      const a=choix([3,4,5,6,7]),b=choix([2,3]);
       const res=Math.pow(a,b);
       return {q:`Calcule ${a}${b===2?'²':'³'} sans calculatrice.`,
         type:'num',rep:res,
@@ -937,38 +1032,38 @@ const BANQUE=[
     }
   },
   {
-    id:'nc-14',theme:'Nombres & Calcul',
+    id:'nc-14',theme:'Nombres et calculs',
     gen:()=>{
-      const vals=[[4,2],[9,3],[16,4],[25,5],[36,6],[49,7],[64,8],[81,9],[100,10],[144,12]];
+      const vals=[[4,2],[9,3],[16,4],[25,5],[36,6],[49,7],[64,8],[81,9],[100,10],[121,11],[144,12],[169,13],[196,14],[225,15]];
       const [n,r]=choix(vals);
       return {q:`Donne la valeur exacte de √${n}.`,type:'num',rep:r,
         explication:`√${n} = ${r} car ${r}² = ${n}`};
     }
   },
   {
-    id:'nc-15',theme:'Nombres & Calcul',
+    id:'nc-15',theme:'Nombres et calculs',
     gen:()=>{
-      const a=choix([2,3,5,7]),n=choix([2,3,4]),p=choix([2,3]);
-      const rep=n*p;
+      // Niveau relevé : facteurs et termes plus grands
+      const a=choix([3,4,5,6,7,8]),n=choix([3,4,5,6,7]),p=choix([3,4,5,6]);
       return {q:`Développe : ${a}×(${n}+${p}) = ?`,type:'num',
         rep:a*(n+p),
         explication:`${a}×(${n}+${p}) = ${a}×${n} + ${a}×${p} = ${a*n} + ${a*p} = ${a*(n+p)}`};
     }
   },
   {
-    id:'nc-16',theme:'Nombres & Calcul',
+    id:'nc-16',theme:'Nombres et calculs',
     gen:()=>{
-      const p=choix([2,3,5,7,11,13]);
-      const autre=choix([4,6,8,9,10,15].filter(x=>x!==p));
-      const opts=[p,autre,autre+1,p+autre].map(String);
+      const premiers=[2,3,5,7,11,13,17,19,23];
+      const p=choix(premiers);
       return {q:`${p} est-il un nombre premier ?`,type:'vf',rep:true,
         explication:`${p} n'est divisible que par 1 et par lui-même.`};
     }
   },
   {
-    id:'nc-17',theme:'Nombres & Calcul',
+    id:'nc-17',theme:'Nombres et calculs',
     gen:()=>{
-      const a=choix([12,18,24,30,36,48]),b=choix([6,8,9,12]);
+      // Niveau relevé : valeurs plus grandes
+      const a=choix([24,36,48,60,72,84]),b=choix([6,8,9,12,16,18]);
       const pgcd=(x,y)=>y===0?x:pgcd(y,x%y);
       const r=pgcd(a,b);
       return {q:`Quel est le PGCD de ${a} et ${b} ?`,type:'num',rep:r,
@@ -976,19 +1071,18 @@ const BANQUE=[
     }
   },
   {
-    id:'nc-18',theme:'Nombres & Calcul',
+    id:'nc-18',theme:'Nombres et calculs',
     gen:()=>{
       const n=choix([2,3,4,5]),m=choix([2,3,4,5]);
-      const res=Math.pow(10,n+m);
-      return {q:`10${n===1?'':n===2?'²':n===3?'³':'⁴'} × 10${m===1?'':m===2?'²':m===3?'³':'⁴'} = 10 à la puissance ?`,
+      return {q:`10${n===2?'²':n===3?'³':n===4?'⁴':'⁵'} × 10${m===2?'²':m===3?'³':m===4?'⁴':'⁵'} = 10 à la puissance ?`,
         type:'num',rep:n+m,
         explication:`10ⁿ × 10ᵐ = 10^(n+m) = 10^(${n}+${m}) = 10^${n+m}`};
     }
   },
   {
-    id:'nc-19',theme:'Nombres & Calcul',
+    id:'nc-19',theme:'Nombres et calculs',
     gen:()=>{
-      const a=choix([1,2,3,4,5,6,7,8,9]);
+      const a=choix([2,3,4,5,6,7,8]);
       const exp=choix([-2,-3,2,3]);
       let texte, rep, expl;
       if(exp>0){
@@ -1004,90 +1098,89 @@ const BANQUE=[
     }
   },
   {
-    id:'nc-20',theme:'Nombres & Calcul',
+    id:'nc-20',theme:'Nombres et calculs',
     gen:()=>{
-      const frac=choix([[1,2,0.5],[1,4,0.25],[3,4,0.75],[1,5,0.2],[2,5,0.4],[3,5,0.6]]);
+      const frac=choix([[1,2,0.5],[1,4,0.25],[3,4,0.75],[1,5,0.2],[2,5,0.4],[3,5,0.6],[1,8,0.125],[3,8,0.375]]);
       return {q:`Convertis ${frac[0]}/${frac[1]} en nombre décimal.`,type:'num',rep:frac[2],
         explication:`${frac[0]}/${frac[1]} = ${frac[0]}÷${frac[1]} = ${frac[2]}`};
     }
   },
 
-  /* ── Nouveaux : Espace & Géométrie ── */
+  /* ── Espace & Géométrie (série complémentaire) ── */
   {
-    id:'eg-11',theme:'Espace & Géométrie',
+    id:'eg-11',theme:'Espace et géométrie',
     gen:()=>{
-      const r=choix([3,4,5,6,7]);
-      const rep=Math.round(Math.PI*r*r*10)/10;
-      return {q:`Donne l'aire d'un disque de rayon ${r} cm. Laisse la réponse avec π.`,
+      const r=choix([3,4,5,6,7,8]);
+      return {q:`Quelle est l'aire d'un disque de rayon ${r} cm ?\n(laisser la réponse avec π)`,
         type:'qcm',
-        opts:[`${r}²π = ${r*r}π cm²`,`2×${r}×π = ${2*r}π cm`,`${r}π cm²`,`4π${r} cm²`],
-        rep:0,
+        opts:[`${r*r}π cm²`,`2×${r}×π cm`,`${r}π cm²`,`4π${r} cm²`],
+        rep:0,_bon:`${r*r}π cm²`,
         explication:`Aire disque = π×r² = π×${r}² = ${r*r}π cm²`};
     }
   },
   {
-    id:'eg-12',theme:'Espace & Géométrie',
+    id:'eg-12',theme:'Espace et géométrie',
     gen:()=>{
-      const c=choix([5,6,8,10]);
-      const a=choix([3,4,5,6]).valueOf();
-      const b=Math.round(Math.sqrt(c*c-a*a)*10)/10;
-      if(!Number.isInteger(b)) {
-        return {q:`Dans un triangle rectangle, l'hypoténuse mesure 10 cm et un côté 6 cm.\nCalcule le troisième côté.`,
-          type:'num',rep:8,explication:`√(10²−6²) = √(100−36) = √64 = 8 cm`};
-      }
+      const triplets=[[5,12,13],[8,15,17],[6,8,10],[10,24,26]];
+      const [a,b,c]=choix(triplets);
       return {q:`Dans un triangle rectangle, l'hypoténuse mesure ${c} cm et un côté ${a} cm.\nCalcule le troisième côté.`,
         type:'num',rep:b,explication:`√(${c}²−${a}²) = √(${c*c}−${a*a}) = √${c*c-a*a} = ${b} cm`};
     }
   },
   {
-    id:'eg-13',theme:'Espace & Géométrie',
+    id:'eg-13',theme:'Espace et géométrie',
     gen:()=>{
-      const L=choix([4,6,8,10]),l=choix([3,4,5]);
-      const h=choix([2,3,4]);
+      // Niveau relevé : dimensions plus grandes
+      const L=choix([5,6,8,10,12]),l=choix([4,5,6,7]);
+      const h=choix([3,4,5,6]);
       const rep=L*l*h;
       return {q:`Calcule le volume d'un pavé droit de dimensions ${L} cm × ${l} cm × ${h} cm.`,
         type:'num',rep,explication:`V = L×l×h = ${L}×${l}×${h} = ${rep} cm³`};
     }
   },
   {
-    id:'eg-14',theme:'Espace & Géométrie',
+    id:'eg-14',theme:'Espace et géométrie',
     gen:()=>{
-      const angles=choix([[30,60,90],[45,45,90],[60,70,50],[80,60,40]]);
-      return {q:`Un triangle a des angles de ${angles[0]}° et ${angles[1]}°.\nQuelle est la mesure du troisième angle ?`,
-        type:'num',rep:180-angles[0]-angles[1],
-        explication:`La somme des angles d'un triangle est 180°.\n${angles[0]}+${angles[1]}+? = 180 → ? = ${180-angles[0]-angles[1]}°`};
+      // S'assurer que la somme dépasse pas 178 (troisième angle > 0)
+      const a=rnd(60)+20;
+      const b=rnd(Math.min(60,160-a))+20;
+      const c=180-a-b;
+      return {q:`Un triangle a des angles de ${a}° et ${b}°.\nQuelle est la mesure du troisième angle ?`,
+        type:'num',rep:c,
+        explication:`La somme des angles d'un triangle est 180°.\n${a}+${b}+? = 180 → ? = ${c}°`};
     }
   },
   {
-    id:'eg-15',theme:'Espace & Géométrie',
+    id:'eg-15',theme:'Espace et géométrie',
     gen:()=>{
-      const R=choix([5,7,10,14]);
-      return {q:`Calcule le périmètre d'un cercle de rayon ${R} cm.\nDonne la réponse avec π.`,
+      const R=choix([5,6,7,8,9,10,12,14]);
+      return {q:`Calcule le périmètre d'un cercle de rayon ${R} cm.\n(Donne la réponse avec π)`,
         type:'qcm',
         opts:[`${R}π cm`,`${2*R}π cm`,`${R*R}π cm`,`${R/2}π cm`],
-        rep:1,
+        rep:1,_bon:`${2*R}π cm`,
         explication:`Périmètre = 2πr = 2×π×${R} = ${2*R}π cm`};
     }
   },
 
-  /* ── Nouveaux : Données & Probabilités ── */
+  /* ── Données & Probabilités (série complémentaire) ── */
   {
-    id:'dp-08',theme:'Données & Probabilités',
+    id:'dp-08',theme:'Organisation et données',
     gen:()=>{
-      const total=choix([20,25,30,40]);
-      const fav=choix([4,5,8,10]);
-      const num=fav, den=total;
+      // Niveau relevé : plus d'urnes
+      const total=choix([20,25,30,40,50]);
+      const fav=choix([4,5,8,10,15]);
       const pgcd2=(x,y)=>y===0?x:pgcd2(y,x%y);
-      const g=pgcd2(num,den);
-      const repN=num/g, repD=den/g;
+      const g=pgcd2(fav,total);
+      const repN=fav/g, repD=total/g;
       return {q:`Dans une urne contenant ${total} boules dont ${fav} rouges,\non tire une boule au hasard.\nQuelle est la probabilité d'obtenir une boule rouge ?\n(Donne le numérateur de la fraction simplifiée)`,
         type:'num',rep:repN,
         explication:`P(rouge) = ${fav}/${total} = ${repN}/${repD}`};
     }
   },
   {
-    id:'dp-09',theme:'Données & Probabilités',
+    id:'dp-09',theme:'Organisation et données',
     gen:()=>{
+      // Niveau relevé : 8 notes variées
       const notes=[8,12,14,10,16,14,12,18];
       const moy=notes.reduce((a,b)=>a+b,0)/notes.length;
       return {q:`Calcule la moyenne de ces notes :\n8 ; 12 ; 14 ; 10 ; 16 ; 14 ; 12 ; 18`,
@@ -1096,41 +1189,45 @@ const BANQUE=[
     }
   },
   {
-    id:'dp-10',theme:'Données & Probabilités',
+    id:'dp-10',theme:'Organisation et données',
     gen:()=>{
+      // Médiane d'une série paire
       const vals=[3,5,7,9,11,13,15,17];
       const mediane=10;
-      return {q:`Quel est la médiane de la série : 3 ; 5 ; 7 ; 9 ; 11 ; 13 ; 15 ; 17 ?`,
+      return {q:`Quel est la médiane de la série : 3 ; 5 ; 7 ; 9 ; 11 ; 13 ; 15 ; 17 ?\n(8 valeurs : prendre la moyenne des deux valeurs centrales)`,
         type:'num',rep:mediane,
-        explication:`8 valeurs → médiane = moyenne des 4e et 5e = (9+11)/2 = 10`};
+        explication:`8 valeurs → médiane = moyenne des 4e et 5e termes = (9+11)÷2 = 10`};
     }
   },
 
-  /* ── Nouveaux : Proportionnalité & Fonctions ── */
+  /* ── Proportionnalité & Fonctions (série complémentaire) ── */
   {
-    id:'pf-08',theme:'Proportionnalité & Fonctions',
+    id:'pf-08',theme:'Proportionnalité et fonctions',
     gen:()=>{
-      const coeff=choix([2,3,4,5]);
-      const x=choix([3,4,5,6,7]);
+      // Niveau relevé : coefficients et x plus grands
+      const coeff=choix([4,5,6,7,8]);
+      const x=choix([5,6,7,8,9,10]);
       const rep=coeff*x;
       return {q:`f(x) = ${coeff}x. Calcule f(${x}).`,
         type:'num',rep,explication:`f(${x}) = ${coeff}×${x} = ${rep}`};
     }
   },
   {
-    id:'pf-09',theme:'Proportionnalité & Fonctions',
+    id:'pf-09',theme:'Proportionnalité et fonctions',
     gen:()=>{
-      const a=choix([2,3,4,5]),b=choix([1,2,3,4,5,6]);
-      const x=choix([2,3,4,5]);
+      // Niveau relevé
+      const a=choix([3,4,5,6,7]),b=choix([3,4,5,6,7,8]);
+      const x=choix([3,4,5,6,7,8]);
       const rep=a*x+b;
       return {q:`f(x) = ${a}x + ${b}. Calcule f(${x}).`,
         type:'num',rep,explication:`f(${x}) = ${a}×${x} + ${b} = ${a*x} + ${b} = ${rep}`};
     }
   },
   {
-    id:'pf-10',theme:'Proportionnalité & Fonctions',
+    id:'pf-10',theme:'Proportionnalité et fonctions',
     gen:()=>{
-      const prix=choix([15,20,24,30]);
+      // Niveau relevé : prix entre 20 et 80€
+      const prix=choix([20,24,30,40,48,60,80]);
       const remise=choix([10,20,25,50]);
       const rep=prix*(1-remise/100);
       return {q:`Un article coûte ${prix} €. Il est soldé à −${remise} %.\nQuel est le nouveau prix ?`,
@@ -1139,10 +1236,11 @@ const BANQUE=[
     }
   },
   {
-    id:'pf-11',theme:'Proportionnalité & Fonctions',
+    id:'pf-11',theme:'Proportionnalité et fonctions',
     gen:()=>{
-      const d=choix([60,90,120,150,180]);
-      const v=choix([60,75,80,90,100]);
+      // Niveau relevé : distances et vitesses plus grandes
+      const d=choix([60,90,120,150,180,240,300]);
+      const v=choix([60,75,80,90,100,120]);
       const t=d/v;
       return {q:`À ${v} km/h, combien de temps (en h) faut-il pour parcourir ${d} km ?`,
         type:'num',rep:Math.round(t*100)/100,
@@ -1150,37 +1248,131 @@ const BANQUE=[
     }
   },
 
-  /* ── Nouveaux : Algorithmique ── */
+  /* ── Algorithmique (série complémentaire) ── */
   {
     id:'algo-06',theme:'Algorithmique',
     gen:()=>{
-      const a=choix([3,4,5,6]), b=choix([2,3,4]);
+      // Niveau relevé
+      const a=choix([4,5,6,7,8]), b=choix([3,4,5,6]);
       const res=a*b+b;
-      return {q:`On exécute ce programme :\n\n  a ← ${a}\n  b ← ${b}\n  a ← a × b\n  a ← a + b\n\nQuelle est la valeur de a ?`,prog:true,
+      return {q:`📋 Programme de calcul :\n\n1. Choisir deux nombres : ${a} et ${b}\n2. Multiplier le premier par le second\n3. Ajouter le second au résultat\n\n➡ Applique ce programme aux nombres ${a} et ${b}. Quel est le résultat final ?`,prog:true,
         type:'num',rep:res,
-        explication:`a=${a}, b=${b} → a=${a}×${b}=${a*b} → a=${a*b}+${b}=${res}`};
+        explication:`${a} × ${b} = ${a*b}, puis ${a*b} + ${b} = ${res}`};
     }
   },
   {
     id:'algo-07',theme:'Algorithmique',
     gen:()=>{
-      const seuil=choix([10,20,50,100]);
+      const seuil=choix([10,20,32,50,100]);
       const start=choix([1,2,3,5]);
       let x=start, n=0;
       while(x<seuil){x*=2;n++;}
-      return {q:`On exécute :\n\n  x ← ${start}\n  Tant que x < ${seuil} :\n    x ← x × 2\n\nCombien de fois la boucle s'exécute-t-elle ?`,prog:true,
+      return {q:`📋 Programme de calcul :\n\n1. Partir du nombre ${start}\n2. Tant que le nombre est inférieur à ${seuil} : multiplier par 2\n\n➡ Combien de fois a-t-on multiplié par 2 avant de dépasser ${seuil} ?`,prog:true,
         type:'num',rep:n,
-        explication:`x part de ${start}, on double jusqu'à dépasser ${seuil} : ${n} fois.`};
+        explication:`On part de ${start} et on double jusqu'à dépasser ${seuil} : on multiplie ${n} fois.`};
     }
   },
   {
     id:'algo-08',theme:'Algorithmique',
     gen:()=>{
-      const n=choix([5,6,7,8]);
+      // Niveau relevé : somme jusqu'à n entre 6 et 12
+      const n=choix([6,7,8,9,10,12]);
       const res=n*(n+1)/2;
-      return {q:`On exécute :\n\n  s ← 0\n  Pour i allant de 1 à ${n} :\n    s ← s + i\n\nQuelle est la valeur de s ?`,prog:true,
+      return {q:`📋 Programme de calcul :\n\n1. Partir de 0\n2. Ajouter 1, puis ajouter 2, puis ajouter 3, … jusqu'à ajouter ${n}\n\n➡ Quel est le résultat final ?`,prog:true,
         type:'num',rep:res,
-        explication:`s = 1+2+…+${n} = ${n}×${n+1}/2 = ${res}`};
+        explication:`On additionne tous les entiers de 1 à ${n} : 1+2+…+${n} = ${n}×${n+1}/2 = ${res}`};
+    }
+  },
+
+  /* ── Ajouts liste officielle DNB (octobre 2025) ── */
+
+  {
+    id:'eg-01',theme:'Espace et géométrie',
+    gen:()=>{
+      // Trigonométrie cosinus — liste officielle l'inclut explicitement
+      const triplets=[[3,4,5],[5,12,13],[8,15,17],[6,8,10]];
+      const [adj,,hyp]=choix(triplets);
+      const k=choix([2,3]);
+      const hypR=hyp*k, adjR=adj*k;
+      const bon=`${adjR} cm`;
+      const f1=`${hypR} cm`;
+      const f2=`${adjR+k} cm`;
+      const f3=`${adjR-k} cm`;
+      const opts=melange([bon,f1,f2,f3]);
+      const rep=opts.indexOf(bon);
+      return {
+        q:`Dans un triangle rectangle, cos(angle) = ${adj}/${hyp} et l'hypoténuse mesure ${hypR} cm.\nQuelle est la longueur du côté adjacent à cet angle ?`,
+        type:'qcm',opts,rep,_bon:bon,
+        explication:`cos(angle) = côté adjacent / hypoténuse\nCôté adjacent = cos(angle) × hypoténuse = (${adj}/${hyp}) × ${hypR} = ${adjR} cm`
+      };
+    }
+  },
+
+  {
+    id:'nc-21',theme:'Nombres et calculs',
+    gen:()=>{
+      const n=rnd(15)+5;
+      const ops=[
+        {q:`Donne le double de ${n}.`,rep:2*n,expl:`Double = 2 × ${n} = ${2*n}`},
+        {q:`Donne le triple de ${n}.`,rep:3*n,expl:`Triple = 3 × ${n} = ${3*n}`},
+        {q:`Donne la moitié de ${n*2}.`,rep:n,expl:`Moitié = ${n*2} ÷ 2 = ${n}`},
+        {q:`Donne le successeur de ${n}.`,rep:n+1,expl:`Successeur de ${n} = ${n} + 1 = ${n+1}`},
+        {q:`Donne le prédécesseur de ${n}.`,rep:n-1,expl:`Prédécesseur de ${n} = ${n} − 1 = ${n-1}`},
+        {q:`Donne le carré de ${n}.`,rep:n*n,expl:`Carré = ${n}² = ${n*n}`},
+      ];
+      const op=choix(ops);
+      return {q:op.q,type:'num',rep:op.rep,explication:op.expl};
+    }
+  },
+
+  {
+    id:'nc-22',theme:'Nombres et calculs',
+    gen:()=>{
+      const n=rnd(900)+100;
+      const div=choix([2,5]);
+      const ok=(n%div===0);
+      const expl=div===2
+        ?`Divisible par 2 si le dernier chiffre est 0, 2, 4, 6 ou 8. Dernier chiffre de ${n} : ${n%10}. Donc ${n} ${ok?'est':'n\'est pas'} divisible par 2.`
+        :`Divisible par 5 si le dernier chiffre est 0 ou 5. Dernier chiffre de ${n} : ${n%10}. Donc ${n} ${ok?'est':'n\'est pas'} divisible par 5.`;
+      return {q:`Le nombre ${n} est-il divisible par ${div} ?`,type:'vf',rep:ok,explication:expl};
+    }
+  },
+
+  {
+    id:'eg-16',theme:'Espace et géométrie',
+    gen:()=>{
+      const pool=[
+        {deg:90,type:'droit',expl:'Un angle de 90° est un angle droit.'},
+        {deg:180,type:'plat',expl:'Un angle de 180° est un angle plat.'},
+        {deg:0,type:'nul',expl:'Un angle de 0° est un angle nul.'},
+        {deg:choix([30,45,60,75]),type:'aigu',expl:'Entre 0° et 90° : angle aigu.'},
+        {deg:choix([100,120,135,150]),type:'obtus',expl:'Entre 90° et 180° : angle obtus.'},
+      ];
+      const a=choix(pool);
+      const types=['droit','aigu','obtus','plat','nul'];
+      const autres=types.filter(t=>t!==a.type);
+      const opts=melange([a.type,...autres.slice(0,3)]);
+      const rep=opts.indexOf(a.type);
+      return {q:`Un angle mesure ${a.deg}°. Quel est son type ?`,
+        type:'qcm',opts,rep,_bon:a.type,explication:a.expl};
+    }
+  },
+
+  {
+    id:'eg-17',theme:'Espace et géométrie',
+    gen:()=>{
+      const qs=[
+        {q:'Un solide a 6 faces carrées identiques. Quel est ce solide ?',bon:'cube',f:['pavé droit','prisme droit','pyramide']},
+        {q:'Un solide a une base circulaire et se rétrécit vers un sommet. Quel est ce solide ?',bon:'cône',f:['cylindre','pyramide','prisme droit']},
+        {q:'Un solide a 2 bases circulaires parallèles et une surface latérale courbe. Quel est ce solide ?',bon:'cylindre',f:['cône','prisme droit','pavé droit']},
+        {q:'Un solide a une base polygonale et des faces triangulaires qui se rejoignent en un seul sommet. Quel est ce solide ?',bon:'pyramide',f:['prisme droit','cône','cube']},
+        {q:'Un solide a deux bases polygonales identiques et parallèles, reliées par des faces rectangulaires. Quel est ce solide ?',bon:'prisme droit',f:['pyramide','cylindre','cube']},
+        {q:'Un solide a 6 faces rectangulaires (longueurs différentes). Quel est ce solide ?',bon:'pavé droit',f:['cube','prisme droit','pyramide']},
+      ];
+      const e=choix(qs);
+      const opts=melange([e.bon,...e.f]);
+      const rep=opts.indexOf(e.bon);
+      return {q:e.q,type:'qcm',opts,rep,_bon:e.bon,explication:`C'est un ${e.bon}.`};
     }
   },
 
@@ -1190,15 +1382,16 @@ const BANQUE=[
    SESSION
 ===================================================== */
 let SESSION=[], idx=0, score=0;
-let reponseDonnee=null; // réponse donnée par l'élève pour la question courante
-let sessionReponses=[]; // historique {ok, repEleve, data, theme}
+let reponseDonnee=null;
+let sessionReponses=[];
+let essais=0; // nombre d'essais sur la question courante
 
 function demarrer(){
   SESSION=melange(BANQUE).slice(0,10).map(q=>{
     const data=q.gen();
     return {theme:q.theme, data};
   });
-  idx=0; score=0; reponseDonnee=null; sessionReponses=[];
+  idx=0; score=0; reponseDonnee=null; sessionReponses=[]; essais=0;
   montrerScreen('s-quiz');
   afficherQuestion();
 }
@@ -1230,9 +1423,11 @@ function progHTML(txt){
   if(suite)h+='<p class="prog-question">'+suite+'</p>';
   return h;
 }
+
 function afficherQuestion(){
   const {theme, data}=SESSION[idx];
   reponseDonnee=null;
+  essais=0;
 
   // Progression
   const pct=(idx/SESSION.length)*100;
@@ -1286,7 +1481,6 @@ function afficherQuestion(){
     });
     zone.appendChild(div);
   } else {
-    // num ou court
     const div=document.createElement('div');
     div.className='saisie-zone';
     const inp=document.createElement('input');
@@ -1298,7 +1492,6 @@ function afficherQuestion(){
     inp.addEventListener('keydown',e=>{if(e.key==='Enter')valider();});
     div.appendChild(inp);
     zone.appendChild(div);
-    // Focus auto
     setTimeout(()=>inp.focus(),100);
   }
 
@@ -1307,7 +1500,6 @@ function afficherQuestion(){
   const fb=document.getElementById('feedback');
   fb.className='feedback';
   fb.innerHTML='';
-  // Reset brouillon
   const brou=document.getElementById('brouillon-txt');
   if(brou) brou.value='';
   const btnSuite=document.getElementById('btn-suite');
@@ -1342,7 +1534,7 @@ function selectionnerVF(val){
 }
 
 /* =====================================================
-   VALIDATION
+   VALIDATION (avec aide après 2 essais, réponse après 3)
 ===================================================== */
 function valider(){
   const {data}=SESSION[idx];
@@ -1350,10 +1542,7 @@ function valider(){
   let repStr='';
 
   if(data.type==='qcm'){
-    if(reponseDonnee===null){
-      // Rien sélectionné : forcer un choix aléatoire (pour le bouton Sauter)
-      reponseDonnee=rnd(data.opts.length);
-    }
+    if(reponseDonnee===null){reponseDonnee=rnd(data.opts.length);}
     ok=(reponseDonnee===data.rep);
     repStr=data.opts[reponseDonnee];
   } else if(data.type==='vf'){
@@ -1366,63 +1555,91 @@ function valider(){
     repStr=inp?inp.value:'—';
     if(!isNaN(val)){
       const tol=data.tol!==undefined?data.tol:0;
-      if(tol===0){
-        ok=(val===data.rep);
-      } else {
-        ok=(Math.abs(val-data.rep)<=tol);
-      }
+      if(tol===0){ok=(val===data.rep);}
+      else{ok=(Math.abs(val-data.rep)<=tol);}
     }
-    if(inp){inp.disabled=true;}
   } else if(data.type==='court'){
     const inp=document.getElementById('num-inp');
     repStr=inp?inp.value:'—';
     ok=(norm(repStr)===norm(String(data.rep)));
-    if(inp){inp.disabled=true;}
   }
 
-  // Feedback visuel QCM
-  if(data.type==='qcm'){
-    document.querySelectorAll('.opt').forEach((b,i)=>{
-      b.disabled=true;
-      if(i===data.rep){b.classList.add('bon');}
-      else if(i===reponseDonnee&&!ok){b.classList.add('mauvais');}
-    });
+  essais++;
+
+  // Si correct : valider définitivement
+  if(ok){
+    // Désactiver les entrées
+    _desactiverEntree(data);
+    score++;
+    sessionReponses.push({ok:true, repStr, data, theme:SESSION[idx].theme});
+
+    const fb=document.getElementById('feedback');
+    fb.className='feedback bon';
+    fb.innerHTML='Exact !';
+    document.getElementById('btn-valider').disabled=true;
+    document.getElementById('btn-suite').style.display='inline-block';
+    return;
   }
-  // Feedback visuel VF
+
+  // Pas correct
+  // Après 2 essais : donner un indice (explication partielle)
+  // Après 3 essais : donner la réponse et passer
+  const fb=document.getElementById('feedback');
+
+  if(essais===1){
+    fb.className='feedback mauvais';
+    fb.innerHTML='Pas tout à fait… Réessaie !';
+    // Remettre le champ num disponible
+    const inp=document.getElementById('num-inp');
+    if(inp){inp.value='';inp.disabled=false;inp.focus();}
+  } else if(essais===2){
+    fb.className='feedback mauvais';
+    fb.innerHTML='Encore raté. Indice : <span class="expl">'+( data.explication||'Relis l\'énoncé.')+'</span>';
+    const inp=document.getElementById('num-inp');
+    if(inp){inp.value='';inp.disabled=false;inp.focus();}
+  } else {
+    // 3e essai ou plus : montrer la réponse et forcer la suite
+    _desactiverEntree(data);
+    const bonneRep=data.type==='qcm'?(data._bon||data.opts[data.rep])
+      :data.type==='vf'?(data.rep?'Vrai':'Faux')
+      :String(data.rep);
+    fb.className='feedback mauvais';
+    fb.innerHTML='La bonne réponse était : <strong>'+bonneRep+'</strong><div class="expl">'+(data.explication||'')+'</div>';
+    sessionReponses.push({ok:false, repStr, data, theme:SESSION[idx].theme});
+    document.getElementById('btn-valider').disabled=true;
+    document.getElementById('btn-suite').style.display='inline-block';
+    // Colorier la bonne réponse QCM
+    if(data.type==='qcm'){
+      document.querySelectorAll('.opt').forEach((b,i)=>{
+        b.disabled=true;
+        if(i===data.rep)b.classList.add('bon');
+      });
+    }
+    if(data.type==='vf'){
+      const btnV=document.getElementById('btn-vrai');
+      const btnF=document.getElementById('btn-faux');
+      if(btnV)btnV.disabled=true;
+      if(btnF)btnF.disabled=true;
+      if(data.rep===true&&btnV)btnV.style.outline='3px solid var(--vert-bas)';
+      if(data.rep===false&&btnF)btnF.style.outline='3px solid var(--vert-bas)';
+    }
+  }
+}
+
+function _desactiverEntree(data){
+  if(data.type==='qcm'){
+    document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;});
+  }
   if(data.type==='vf'){
     const btnV=document.getElementById('btn-vrai');
     const btnF=document.getElementById('btn-faux');
     if(btnV)btnV.disabled=true;
     if(btnF)btnF.disabled=true;
-    if(ok){
-      // Bien coloré
-    } else {
-      // Montrer la bonne réponse
-      if(data.rep===true&&btnV){btnV.style.outline='3px solid var(--vert-bas)';}
-      if(data.rep===false&&btnF){btnF.style.outline='3px solid var(--vert-bas)';}
-    }
   }
-
-  if(ok) score++;
-
-  // Stocker pour la revue
-  sessionReponses.push({ok, repStr, data, theme:SESSION[idx].theme});
-
-  // Feedback texte
-  const fb=document.getElementById('feedback');
-  if(ok){
-    fb.className='feedback bon';
-    fb.innerHTML='✓ Exact !';
-  } else {
-    const bonneRep=data.type==='qcm'?data._bon||data.opts[data.rep]
-      :data.type==='vf'?(data.rep?'Vrai':'Faux')
-      :String(data.rep);
-    fb.className='feedback mauvais';
-    fb.innerHTML=`✗ La bonne réponse était : <strong>${bonneRep}</strong><div class="expl">${data.explication||''}</div>`;
+  if(data.type==='num'||data.type==='court'){
+    const inp=document.getElementById('num-inp');
+    if(inp)inp.disabled=true;
   }
-
-  document.getElementById('btn-valider').disabled=true;
-  document.getElementById('btn-suite').style.display='inline-block';
 }
 
 /* =====================================================
@@ -1438,7 +1655,6 @@ function suite(){
 }
 
 function sautQuestion(){
-  // Sauter = valider sans réponse (compte comme faux)
   valider();
 }
 
@@ -1448,21 +1664,17 @@ function sautQuestion(){
 function afficherFin(){
   montrerScreen('s-fin');
 
-  // Score
   document.getElementById('score-val').textContent=`${score} / ${SESSION.length}`;
 
-  // Message
   let msg='';
-  if(score>=9){msg='Excellent ! Tu es prêt(e) pour le brevet. 🌟';}
+  if(score>=9){msg='Excellent ! Tu es prêt(e) pour le brevet.';}
   else if(score>=7){msg='Très bien ! Quelques automatismes à revoir.';}
   else if(score>=5){msg='Bien. Entraîne-toi encore sur les points difficiles.';}
   else{msg='Continue à t\'entraîner. Les automatismes s\'améliorent avec la répétition.';}
   document.getElementById('fin-msg').textContent=msg;
 
-  // Barre finale à 100%
   document.getElementById('prog-fill').style.width='100%';
 
-  // Revue
   const zone=document.getElementById('revue-zone');
   zone.innerHTML='';
   const titre=document.createElement('div');
@@ -1506,6 +1718,72 @@ function afficherFin(){
     item.appendChild(contenu);
     zone.appendChild(item);
   });
+}
+
+/* =====================================================
+   CALCULATRICE
+===================================================== */
+var kcExpr='';
+var kcNouvel=true;
+
+function kcToggle(){
+  const p=document.getElementById('kcPanel');
+  p.classList.toggle('open');
+}
+
+function kcChiffre(c){
+  if(kcNouvel){kcExpr='';kcNouvel=false;}
+  kcExpr+=c;
+  kcAfficher(kcExpr);
+}
+
+function kcOp(op){
+  if(op==='back'){
+    kcExpr=kcExpr.slice(0,-1)||'0';
+    kcAfficher(kcExpr);
+    return;
+  }
+  if(op==='%'){
+    try{kcExpr=String(eval(kcExpr)/100);}catch(e){kcExpr='Err';}
+    kcAfficher(kcExpr);
+    kcNouvel=true;
+    return;
+  }
+  kcNouvel=false;
+  kcExpr+=op;
+  kcAfficher(kcExpr);
+}
+
+function kcEgal(){
+  try{
+    var r=eval(kcExpr.replace(/,/g,'.'));
+    r=Math.round(r*1e10)/1e10;
+    kcExpr=String(r);
+    kcAfficher(kcExpr);
+  }catch(e){
+    kcAfficher('Erreur');
+    kcExpr='';
+  }
+  kcNouvel=true;
+}
+
+function kcClear(){
+  kcExpr='';
+  kcNouvel=true;
+  kcAfficher('0');
+}
+
+function kcAfficher(v){
+  document.getElementById('kcAff').textContent=v||'0';
+}
+
+function kcEnvoyer(){
+  const inp=document.getElementById('num-inp');
+  if(inp&&!inp.disabled){
+    inp.value=kcExpr||document.getElementById('kcAff').textContent;
+    inp.focus();
+  }
+  document.getElementById('kcPanel').classList.remove('open');
 }
 </script>
 </body>

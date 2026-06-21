@@ -293,7 +293,7 @@ button,input{touch-action:manipulation}
   <div class="mid"><button class="btn vert" onclick="startTrain('angle')">Je m’entraîne ➜</button></div>
 </section>
 <section id="ecranTrain" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card" id="tq_card">
     <div class="serieprog" id="tq_prog"></div>
     <div class="helpnote" id="tq_help"></div>
@@ -715,6 +715,7 @@ document.addEventListener('keydown',e=>{if(gid('kcPanel').hidden)return;
 /* leçons : tableaux d'exemple */
 gid('expCotes').innerHTML=gid('expCotes').innerHTML.replace('__FIG1__', rtSVG({vert:true,ang:''}));
 updateMap();
+Object.keys(unlocked).forEach(function(k){unlocked[k]=true;});if(typeof updateMap==='function')updateMap();
 
 </script>
 </body>

@@ -323,7 +323,7 @@ button,input{touch-action:manipulation}
 </section>
 
 <section id="ecranTrain" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card" id="tq_card">
     <div class="serieprog" id="tq_prog"></div>
     <div class="helpnote" id="tq_help"></div>
@@ -845,6 +845,7 @@ function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var 
   if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
 if(typeof updateMap==='function'){var _um=updateMap;updateMap=function(){var r=_um.apply(this,arguments);try{progSave();}catch(_){}return r;};}
 try{progLoad();if(typeof updateMap==='function')updateMap();}catch(_){}
+Object.keys(unlocked).forEach(function(k){unlocked[k]=true;});if(typeof updateMap==='function')updateMap();
 </script>
 </body>
 </html>

@@ -141,12 +141,6 @@ button,input{touch-action:manipulation}
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="wrap">
-<div style="background:#3a3a3a;color:#fff;border-radius:16px;padding:10px 14px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-family:'Fredoka';font-size:14px;">
-  <span style="background:#EF5D60;padding:3px 10px;border-radius:10px;font-weight:600">VERSION TEST</span>
-  <span>Mode test — tout déverrouillé</span>
-  <button onclick="passerQuestion()" style="font-family:'Fredoka';font-size:14px;border:none;cursor:pointer;background:#5a5a5a;color:#fff;border-radius:12px;padding:7px 12px;font-weight:500">⏭ Passer</button>
-  <button onclick="Object.keys(unlocked).forEach(function(k){unlocked[k]=true;});updateMap();" style="font-family:'Fredoka';font-size:14px;border:none;cursor:pointer;background:#5a5a5a;color:#fff;border-radius:12px;padding:7px 12px;font-weight:500">🔓 Tout débloquer</button>
-</div>
 
 <section id="accueil" class="screen active">
   <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
@@ -408,7 +402,7 @@ button,input{touch-action:manipulation}
 </section>
 
 <section id="ecranTrain" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card" id="tq_card">
     <div class="serieprog" id="tq_prog"></div>
     <div class="helpnote" id="tq_help"></div>
@@ -777,6 +771,7 @@ function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeD
 function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
 try{progLoad();}catch(_){}
 updateMap();
+Object.keys(unlocked).forEach(function(k){unlocked[k]=true;});if(typeof updateMap==='function')updateMap();
 
 function svgPaveLegend(){
   var pts={A:[30,130],B:[110,130],C:[140,100],D:[60,100],E:[30,60],F:[110,60],G:[140,30],H:[60,30]};

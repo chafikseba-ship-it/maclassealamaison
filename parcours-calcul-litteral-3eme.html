@@ -305,7 +305,7 @@ button,input{touch-action:manipulation}
 </section>
 
 <section id="ecranTrain" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2 id="trainTitle">Entra&#238;nement</h2></div>
+  <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">&#8592;</button><h2 id="trainTitle">Entra&#238;nement</h2></div>
   <div class="card" id="tq_card">
     <div class="serieprog" id="tq_prog"></div>
     <div class="helpnote" id="tq_help"></div>
@@ -809,6 +809,7 @@ function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var 
 var _umOrig=updateMap;
 updateMap=function(){var r=_umOrig.apply(this,arguments);try{progSave();}catch(_){}return r;};
 try{progLoad();updateMap();}catch(_){}
+Object.keys(unlocked).forEach(function(k){unlocked[k]=true;});if(typeof updateMap==='function')updateMap();
 </script>
 </body>
 </html>

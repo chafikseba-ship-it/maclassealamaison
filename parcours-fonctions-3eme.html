@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
+<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fonctions — 3e</title>
@@ -204,16 +205,17 @@ button,input{touch-action:manipulation}
 .tab-v td{background:var(--creme);font-family:'Fredoka';font-weight:700;padding:10px 14px;border-radius:10px;font-size:1.05rem;text-align:center}
 .tab-v td.ans{background:var(--bleu);color:#fff}
 </style>
-<script>try{if(!localStorage.getItem("kc_eleve")||!localStorage.getItem("kc_classe"))location.replace("index.html");}catch(e){}</script>
+<!-- TEST : redirect désactivé -->
 </head>
 <body>
-<div style="background:#3a3a3a;color:#fff;padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-family:'Fredoka',sans-serif;font-size:14px;position:sticky;top:0;z-index:999;">
-  <span style="background:#EF5D60;padding:3px 10px;border-radius:10px;font-weight:600;">VERSION TEST</span>
-  <button onclick="quizNext()" style="font-family:'Fredoka',sans-serif;font-size:14px;border:none;cursor:pointer;background:#5a5a5a;color:#fff;border-radius:12px;padding:7px 12px;">&#9197; Passer question</button>
-  <button onclick="ORDER.forEach(function(k){unlocked[k]=true;});unlocked.arene=true;updateMap();" style="font-family:'Fredoka',sans-serif;font-size:14px;border:none;cursor:pointer;background:#5a5a5a;color:#fff;border-radius:12px;padding:7px 12px;">&#128275; Tout débloquer</button>
-</div>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="wrap">
+<div style="background:#3a3a3a;color:#fff;border-radius:16px;padding:10px 14px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-family:'Fredoka';font-size:14px;">
+  <span style="background:#EF5D60;padding:3px 10px;border-radius:10px;font-weight:600">VERSION TEST</span>
+  <span>Mode test — tout déverrouillé</span>
+  <button onclick="passerQuestion()" style="font-family:'Fredoka';font-size:14px;border:none;cursor:pointer;background:#5a5a5a;color:#fff;border-radius:12px;padding:7px 12px;font-weight:500">⏭ Passer</button>
+  <button onclick="Object.keys(unlocked).forEach(function(k){unlocked[k]=true;});updateMap();" style="font-family:'Fredoka';font-size:14px;border:none;cursor:pointer;background:#5a5a5a;color:#fff;border-radius:12px;padding:7px 12px;font-weight:500">🔓 Tout débloquer</button>
+</div>
 
 <!-- ACCUEIL -->
 <section id="accueil" class="screen active">
@@ -221,26 +223,26 @@ button,input{touch-action:manipulation}
   <div class="hero">
     <div class="coin">&#128200;&#10024;</div>
     <h1>Fonctions — 3ème</h1>
-    <p class="sub">Vocabulaire, images, antécédents, tableaux, graphiques. Valide chaque thème pour débloquer le suivant !</p>
+    <p class="sub">Vocabulaire, antécédents, graphiques. Valide chaque thème pour débloquer le suivant !</p>
   </div>
   <div class="map">
     <div class="etape e1" id="mapVocabulaire" onclick="tapTheme('vocabulaire')">
       <div class="num">&#128284;</div><div class="txt"><h3>1 · Vocabulaire</h3><p>Fonction, image, antécédent</p></div><div class="status">&#9654;</div>
     </div>
-    <div class="etape e2" id="mapImage" onclick="tapTheme('image')">
-      <div class="num">&#127919;</div><div class="txt"><h3>2 · Calculer une image</h3><p>f(x) pour x donné</p></div><div class="status">&#128274;</div>
+    <div class="etape e2" id="mapAntecedent" onclick="tapTheme('antecedent')">
+      <div class="num">&#128269;</div><div class="txt"><h3>2 · Trouver un antécédent</h3><p>x tel que f(x) = valeur</p></div><div class="status">&#128274;</div>
     </div>
-    <div class="etape e3" id="mapAntecedent" onclick="tapTheme('antecedent')">
-      <div class="num">&#128269;</div><div class="txt"><h3>3 · Trouver un antécédent</h3><p>x tel que f(x) = valeur</p></div><div class="status">&#128274;</div>
+    <div class="etape e3" id="mapRepresentation" onclick="tapTheme('representation')">
+      <div class="num">&#128200;</div><div class="txt"><h3>3 · Représentation graphique</h3><p>QCM avec 4 graphiques</p></div><div class="status">&#128274;</div>
     </div>
-    <div class="etape e4" id="mapTableau" onclick="tapTheme('tableau')">
-      <div class="num">&#128202;</div><div class="txt"><h3>4 · Tableau de valeurs</h3><p>Compléter un tableau</p></div><div class="status">&#128274;</div>
+    <div class="etape e4" id="mapLecture" onclick="tapTheme('lecture')">
+      <div class="num">&#128065;</div><div class="txt"><h3>4 · Lecture graphique</h3><p>Lire image et antécédent</p></div><div class="status">&#128274;</div>
     </div>
-    <div class="etape e5" id="mapRepresentation" onclick="tapTheme('representation')">
-      <div class="num">&#128200;</div><div class="txt"><h3>5 · Représentation graphique</h3><p>QCM avec 4 graphiques</p></div><div class="status">&#128274;</div>
+    <div class="etape e5" id="mapLineaire" onclick="tapTheme('lineaire')">
+      <div class="num">&#128304;</div><div class="txt"><h3>5 · Fonctions linéaires</h3><p>f(x) = ax — proportionnalité</p></div><div class="status">&#128274;</div>
     </div>
-    <div class="etape e6" id="mapLecture" onclick="tapTheme('lecture')">
-      <div class="num">&#128065;</div><div class="txt"><h3>6 · Lecture graphique</h3><p>Lire image et antécédent</p></div><div class="status">&#128274;</div>
+    <div class="etape" id="mapAffine" onclick="tapTheme('affine')" style="border-color:transparent">
+      <div class="num" style="background:var(--violet);box-shadow:0 5px 0 var(--violet-bas)">&#128200;</div><div class="txt"><h3>6 · Fonctions affines</h3><p>f(x) = ax+b — coefficient directeur</p></div><div class="status">&#128274;</div>
     </div>
     <div class="etape e6" id="mapArene" onclick="tapArene()">
       <div class="num" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">&#9876;&#65039;</div><div class="txt"><h3>Arène finale</h3><p>Tout, au choix (entraînement libre)</p></div><div class="status">&#128274;</div>
@@ -327,32 +329,6 @@ button,input{touch-action:manipulation}
   </div>
 </section>
 
-<!-- LEÇON IMAGE -->
-<section id="expImage" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>Calculer une image</h2></div>
-  <div class="card">
-    <span class="tag" style="background:var(--teal)">La leçon</span>
-    <div class="lex-bubble">
-      &#127919; Calculer une image = remplacer x par le nombre donné et calculer.
-    </div>
-    <p class="lead">Exemple : f(x) = 2x + 1. Calcule f(4).</p>
-    <div class="msteps">
-      <div class="mstep">&#9312; Remplace x par 4 : f(4) = 2 × <b>4</b> + 1</div>
-      <div class="mstep">&#9313; Calcule : 2 × 4 = 8, donc f(4) = 8 + 1</div>
-      <div class="mstep">&#9314; Résultat : f(4) = <b>9</b></div>
-    </div>
-    <div class="machine-big" style="margin-top:14px">
-      <div class="mb-in">x = 4</div>
-      <div class="mb-arr">&#10132;</div>
-      <div class="mb-box">&#128736; f(x) = 2x + 1</div>
-      <div class="mb-arr">&#10132;</div>
-      <div class="mb-out">f(4) = 9</div>
-    </div>
-    <p class="note">&#128161; Toujours écrire les étapes comme ci-dessus. La calculatrice peut aider !</p>
-  </div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('image')">Je m'entraîne &#10132;</button></div>
-</section>
-
 <!-- LEÇON ANTÉCÉDENT -->
 <section id="expAntecedent" class="screen">
   <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>Trouver un antécédent</h2></div>
@@ -372,30 +348,6 @@ button,input{touch-action:manipulation}
     <p class="note">&#128161; L'antécédent de 9 par f est <b>4</b>. La calculatrice peut t'aider !</p>
   </div>
   <div class="mid"><button class="btn vert" onclick="startTrain('antecedent')">Je m'entraîne &#10132;</button></div>
-</section>
-
-<!-- LEÇON TABLEAU -->
-<section id="expTableau" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>Tableau de valeurs</h2></div>
-  <div class="card">
-    <span class="tag" style="background:var(--vert)">La leçon</span>
-    <div class="lex-bubble">
-      &#128202; Un tableau de valeurs, c'est un tableau où on calcule f(x) pour différentes valeurs de x.<br>
-      Exemple : f(x) = 2x pour x = 0, 1, 2, 3, 4.
-    </div>
-    <table class="tab-v">
-      <tr><th>x</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
-      <tr><th>f(x) = 2x</th><td class="ans">0</td><td class="ans">2</td><td class="ans">4</td><td class="ans">6</td><td class="ans">8</td></tr>
-    </table>
-    <p class="lead">Pour remplir : pour chaque x, calcule 2 × x.</p>
-    <div class="lex-row">
-      <div class="lex-pill">x=0 &rarr; 2×0 = 0</div>
-      <div class="lex-pill">x=1 &rarr; 2×1 = 2</div>
-      <div class="lex-pill">x=2 &rarr; 2×2 = 4</div>
-    </div>
-    <p class="note">&#128161; Utilise la calculatrice pour t'aider !</p>
-  </div>
-  <div class="mid"><button class="btn vert" onclick="startTrain('tableau')">Je m'entraîne &#10132;</button></div>
 </section>
 
 <!-- LEÇON REPRÉSENTATION -->
@@ -439,9 +391,91 @@ button,input{touch-action:manipulation}
   <div class="mid"><button class="btn vert" onclick="startTrain('lecture')">Je m'entraîne &#10132;</button></div>
 </section>
 
+<!-- LEÇON FONCTIONS LINÉAIRES -->
+<section id="expLineaire" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>Fonctions linéaires</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">&#128304; La leçon</span>
+    <p class="lead" style="text-align:center">Une <b>fonction linéaire</b> s'écrit <b>f(x) = a × x</b></p>
+    <div class="figbox" id="lin-fig"></div>
+  </div>
+
+  <div class="card" id="lin-tuto">
+    <div id="lin-step0" class="repere-step on" style="display:block">
+      <p class="lead">&#128226; C'est la <b>proportionnalité</b> que tu connais déjà !</p>
+      <div style="background:var(--creme);border-radius:16px;padding:12px;margin:8px 0">
+        <p class="lead" style="margin:0">Exemple : f(x) = <b>3x</b></p>
+        <ul class="lead" style="text-align:left;margin:6px 0">
+          <li>f(<b>1</b>) = 3 × 1 = <b>3</b></li>
+          <li>f(<b>2</b>) = 3 × 2 = <b>6</b></li>
+          <li>f(<b>5</b>) = 3 × 5 = <b>15</b></li>
+        </ul>
+        <p class="note">Le nombre <b>a = 3</b> s'appelle le <b>coefficient de proportionnalité</b> &#128202;</p>
+      </div>
+      <div class="mid" style="margin-top:12px"><button class="btn orange" onclick="linNext(1)">Et le graphique ? &#10132;</button></div>
+    </div>
+
+    <div id="lin-step1" class="repere-step" style="display:none">
+      <p class="lead">&#128200; La courbe d'une fonction linéaire est une <b>droite qui passe par l'origine (0 ; 0)</b> !</p>
+      <div id="lin-graph" style="text-align:center;margin:10px 0"></div>
+      <p class="note">&#128161; La droite passe toujours par <b>(0 ; 0)</b> — c'est la différence avec les fonctions affines !</p>
+      <div class="mid" style="margin-top:12px"><button class="btn orange" onclick="linNext(2)">Comment trouver a ? &#10132;</button></div>
+    </div>
+
+    <div id="lin-step2" class="repere-step" style="display:none">
+      <p class="lead">&#128269; Pour trouver <b>a</b>, tu divises f(x) par x :</p>
+      <div style="background:var(--creme);border-radius:16px;padding:12px;margin:8px 0">
+        <p class="lead" style="margin:0">Si f(4) = 12 et f(x) = ax, alors :</p>
+        <p class="lead" style="text-align:center;margin:8px 0">a = f(4) &#247; 4 = 12 &#247; 4 = <b>3</b></p>
+        <p class="lead" style="margin:0">Donc <b>f(x) = 3x</b> &#10003;</p>
+      </div>
+      <div class="mid" style="margin-top:12px"><button class="btn vert" onclick="startTrain('lineaire')">Je m'entraîne &#10132;</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- LEÇON FONCTIONS AFFINES -->
+<section id="expAffine" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>Fonctions affines</h2></div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">&#128200; La leçon</span>
+    <p class="lead" style="text-align:center">Une <b>fonction affine</b> s'écrit <b>f(x) = ax + b</b></p>
+    <div id="aff-fig" style="text-align:center;padding:8px 0"></div>
+  </div>
+
+  <div class="card" id="aff-tuto">
+    <div id="aff-step0" class="repere-step on" style="display:block">
+      <p class="lead">&#128226; <b>a</b> = coefficient directeur (la pente) · <b>b</b> = ordonnée à l'origine</p>
+      <div style="background:var(--creme);border-radius:16px;padding:12px;margin:8px 0">
+        <p class="lead" style="margin:0">Exemple : f(x) = <b>2x + 1</b></p>
+        <ul class="lead" style="text-align:left;margin:6px 0">
+          <li>a = <b>2</b> (la droite monte de 2 à chaque pas)</li>
+          <li>b = <b>1</b> (la droite coupe l'axe y en y=1)</li>
+          <li>f(0) = 2×0+1 = <b>1</b> = b &#10003;</li>
+          <li>f(3) = 2×3+1 = <b>7</b></li>
+        </ul>
+      </div>
+      <div class="mid" style="margin-top:12px"><button class="btn violet" onclick="affNext(1)">Lire a et b sur un graphique &#10132;</button></div>
+    </div>
+
+    <div id="aff-step1" class="repere-step" style="display:none">
+      <p class="lead">&#128202; Sur le graphique : <b>b</b> = là où la droite coupe l'axe vertical</p>
+      <div id="aff-graph" style="text-align:center;margin:10px 0"></div>
+      <div style="background:var(--creme);border-radius:16px;padding:12px;margin:8px 0">
+        <p class="lead" style="margin:0">Pour trouver <b>a</b> avec 2 points A(x&#8321;;y&#8321;) et B(x&#8322;;y&#8322;) :</p>
+        <p class="lead" style="text-align:center;margin:6px 0">a = (y&#8322; &#8722; y&#8321;) &#247; (x&#8322; &#8722; x&#8321;)</p>
+        <p class="note">Exemple : A(0;1) et B(3;7) &#8594; a = (7&#8722;1)&#247;(3&#8722;0) = 6&#247;3 = <b>2</b></p>
+      </div>
+      <div class="mid" style="margin-top:12px"><button class="btn vert" onclick="startTrain('affine')">Je m'entraîne &#10132;</button></div>
+    </div>
+  </div>
+</section>
+
 <!-- ÉCRAN ENTRAÎNEMENT -->
 <section id="ecranTrain" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">&#8592;</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card" id="tq_card">
     <div class="serieprog" id="tq_prog"></div>
     <div class="helpnote" id="tq_help"></div>
@@ -479,9 +513,7 @@ button,input{touch-action:manipulation}
     <p class="lead" style="text-align:center">Bravo, séquence terminée ! Entraînement libre, sans note.</p>
     <div class="catgrid">
       <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('vocabulaire')"><span class="ic">&#128284;</span>Vocabulaire</button>
-      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('image')"><span class="ic">&#127919;</span>Image</button>
       <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('antecedent')"><span class="ic">&#128269;</span>Antécédent</button>
-      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('tableau')"><span class="ic">&#128202;</span>Tableau</button>
       <button class="cat" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="startArene('representation')"><span class="ic">&#128200;</span>Graphique</button>
       <button class="cat" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('lecture')"><span class="ic">&#128065;</span>Lecture</button>
     </div>
@@ -528,33 +560,33 @@ var SSDONE={};
 function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e2=localStorage.getItem('kc_eleve')||'?',c2=localStorage.getItem('kc_classe')||'?';var co2=(localStorage.getItem('kc_college')||'').trim();if(co2)c2=co2+' \u00b7 '+c2;var b2=new URLSearchParams();b2.append(SUIVI.f.classe,c2);b2.append(SUIVI.f.eleve,e2);b2.append(SUIVI.f.parcours,SUIVI.nom+' \u203a '+label);b2.append(SUIVI.f.statut,'Termin\u00e9');b2.append(SUIVI.f.score,'');b2.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b2.toString()});}catch(_){}}
 
 /* ===== ARCHITECTURE ===== */
-var ORDER=['vocabulaire','image','antecedent','tableau','representation','lecture'];
-var EXP={vocabulaire:'expVocabulaire',image:'expImage',antecedent:'expAntecedent',tableau:'expTableau',representation:'expRepresentation',lecture:'expLecture'};
-var MAPID={vocabulaire:'mapVocabulaire',image:'mapImage',antecedent:'mapAntecedent',tableau:'mapTableau',representation:'mapRepresentation',lecture:'mapLecture'};
-var TITLE={vocabulaire:'Vocabulaire',image:'Calculer une image',antecedent:'Trouver un antécédent',tableau:'Tableau de valeurs',representation:'Représentation graphique',lecture:'Lecture graphique'};
-var unlocked={vocabulaire:true,image:false,antecedent:false,tableau:false,representation:false,lecture:false,arene:false};
-var themeDone={vocabulaire:false,image:false,antecedent:false,tableau:false,representation:false,lecture:false};
+var ORDER=['vocabulaire','antecedent','representation','lecture','lineaire','affine'];
+var EXP={vocabulaire:'expVocabulaire',antecedent:'expAntecedent',representation:'expRepresentation',lecture:'expLecture',lineaire:'expLineaire',affine:'expAffine'};
+var MAPID={vocabulaire:'mapVocabulaire',antecedent:'mapAntecedent',representation:'mapRepresentation',lecture:'mapLecture',lineaire:'mapLineaire',affine:'mapAffine'};
+var TITLE={vocabulaire:'Vocabulaire',antecedent:'Trouver un antécédent',representation:'Représentation graphique',lecture:'Lecture graphique',lineaire:'Fonctions linéaires',affine:'Fonctions affines'};
+var unlocked={vocabulaire:true,antecedent:false,representation:false,lecture:false,lineaire:false,affine:false,arene:false};
+var themeDone={vocabulaire:false,antecedent:false,representation:false,lecture:false,lineaire:false,affine:false};
 var currentTheme='vocabulaire';
-var CASCADE_THEMES={image:true,tableau:true};
+var CASCADE_THEMES={affine:true};
 var BRIQUE={
   vocabulaire:{serie:8,seuil:6,casc:false},
-  image:{serie:5,seuil:4,casc:true},
   antecedent:{serie:8,seuil:6,casc:false},
-  tableau:{serie:5,seuil:4,casc:true},
   representation:{serie:8,seuil:6,casc:false},
-  lecture:{serie:8,seuil:6,casc:false}
+  lecture:{serie:8,seuil:6,casc:false},
+  lineaire:{serie:8,seuil:6,casc:false},
+  affine:{serie:8,seuil:6,casc:true}
 };
 function serieLen(){return BRIQUE[currentTheme].serie;}
 function seuilFor(){return BRIQUE[currentTheme].seuil;}
-var CATNOM={vocabulaire:'Vocabulaire',image:'Image',antecedent:'Antécédent',tableau:'Tableau',representation:'Représentation',lecture:'Lecture graphique'};
-var THEME_CATS={vocabulaire:['vocabulaire'],image:['image'],antecedent:['antecedent'],tableau:['tableau'],representation:['representation'],lecture:['lecture']};
+var CATNOM={vocabulaire:'Vocabulaire',antecedent:'Antécédent',representation:'Représentation',lecture:'Lecture graphique',lineaire:'Linéaire',affine:'Affine'};
+var THEME_CATS={vocabulaire:['vocabulaire'],antecedent:['antecedent'],representation:['representation'],lecture:['lecture'],lineaire:['lineaire'],affine:['affine']};
 var HELP={
   vocabulaire:'Image de x = f(x). Antécédent de y = valeur x telle que f(x) = y.',
-  image:'Remplace x par le nombre donné et calcule. f(3) = 2x3+1 = 7.',
   antecedent:'Pose l\'équation f(x) = valeur. Résous étape par étape.',
-  tableau:'Pour chaque x du tableau, calcule f(x). Utilise la calculatrice !',
   representation:'La courbe de f(x)=ax+b est une droite. Repère la bonne pente et ordonnée à l\'origine.',
-  lecture:'Cherche x sur l\'axe horizontal, monte jusqu\'à la courbe, lis l\'ordonnée.'
+  lecture:'Cherche x sur l\'axe horizontal, monte jusqu\'à la courbe, lis l\'ordonnée.',
+  lineaire:'f(x) = ax — divise par x pour trouver a.',
+  affine:'f(x) = ax + b. a = pente, b = où la droite coupe l\'axe y.'
 };
 
 /* ===== UTILITAIRES ===== */
@@ -573,6 +605,7 @@ function fmtDec(v){if(!isFinite(v))return '?';return (Math.round(v*100)/100).toS
 function r2(v){return Math.round(v*100)/100;}
 function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;var v=parseFloat(s);return isFinite(v)?v:null;}
 function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
+function passerQuestion(){if(typeof quizNext==='function')quizNext();}
 
 /* ===== SVG DROITE ===== */
 function svgDroite(a,b,opts){
@@ -593,6 +626,31 @@ function svgDroite(a,b,opts){
   var polyPts=[];
   for(var xv=xmin;xv<=xmax;xv+=0.5){var yv=a*xv+b;if(yv>=ymin&&yv<=ymax)polyPts.push(px(xv)+','+py(yv));}
   if(polyPts.length>1)svg+='<polyline points="'+polyPts.join(' ')+'" fill="none" stroke="#4FA3D1" stroke-width="2.5" stroke-linecap="round"/>';
+  if(opts.pts){opts.pts.forEach(function(p){svg+='<circle cx="'+px(p.x)+'" cy="'+py(p.y)+'" r="6" fill="'+(p.color||'#EF5D60')+'" stroke="#fff" stroke-width="2"/>';if(p.label)svg+='<text x="'+(px(p.x)+10)+'" y="'+(py(p.y)-5)+'" font-family="Fredoka,sans-serif" font-size="12" font-weight="700" fill="'+(p.color||'#EF5D60')+'">'+p.label+'</text>';});}
+  svg+='</svg>';
+  return svg;
+}
+
+function svgCourbe(fn,opts){
+  opts=opts||{};
+  var xmin=opts.xmin!=null?opts.xmin:-3,xmax=opts.xmax!=null?opts.xmax:6;
+  var ymin=opts.ymin!=null?opts.ymin:-4,ymax=opts.ymax!=null?opts.ymax:14;
+  var W=opts.w||260,H=opts.h||220;
+  function px(x){return Math.round((x-xmin)/(xmax-xmin)*W);}
+  function py(y){return Math.round(H-(y-ymin)/(ymax-ymin)*H);}
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" style="max-width:100%;height:auto;display:block;margin:0 auto;border-radius:12px;background:#fffdf6">';
+  var xi,yi;
+  for(xi=Math.ceil(xmin);xi<=xmax;xi++){svg+='<line x1="'+px(xi)+'" y1="0" x2="'+px(xi)+'" y2="'+H+'" stroke="#f0dca8" stroke-width="1"/>';}
+  for(yi=Math.ceil(ymin);yi<=ymax;yi++){svg+='<line x1="0" y1="'+py(yi)+'" x2="'+W+'" y2="'+py(yi)+'" stroke="#f0dca8" stroke-width="1"/>';}
+  if(ymin<=0&&ymax>=0)svg+='<line x1="0" y1="'+py(0)+'" x2="'+W+'" y2="'+py(0)+'" stroke="#5C3D2E" stroke-width="2"/>';
+  if(xmin<=0&&xmax>=0)svg+='<line x1="'+px(0)+'" y1="0" x2="'+px(0)+'" y2="'+H+'" stroke="#5C3D2E" stroke-width="2"/>';
+  for(xi=Math.ceil(xmin);xi<=xmax;xi++){if(xi===0)continue;svg+='<line x1="'+px(xi)+'" y1="'+(py(0)-4)+'" x2="'+px(xi)+'" y2="'+(py(0)+4)+'" stroke="#5C3D2E" stroke-width="1.5"/>';if(xi%2===0||(xmax-xmin)<=8)svg+='<text x="'+px(xi)+'" y="'+(py(0)+16)+'" text-anchor="middle" font-family="Fredoka,sans-serif" font-size="11" fill="#8a6650">'+xi+'</text>';}
+  for(yi=Math.ceil(ymin);yi<=ymax;yi++){if(yi===0)continue;svg+='<line x1="'+(px(0)-4)+'" y1="'+py(yi)+'" x2="'+(px(0)+4)+'" y2="'+py(yi)+'" stroke="#5C3D2E" stroke-width="1.5"/>';if(yi%2===0||(ymax-ymin)<=8)svg+='<text x="'+(px(0)-8)+'" y="'+(py(yi)+4)+'" text-anchor="end" font-family="Fredoka,sans-serif" font-size="11" fill="#8a6650">'+yi+'</text>';}
+  svg+='<text x="'+(px(0)-10)+'" y="'+(py(0)+14)+'" font-family="Fredoka,sans-serif" font-size="11" fill="#8a6650">O</text>';
+  var polyPts=[],step=(xmax-xmin)/200;
+  for(var xv=xmin;xv<=xmax;xv+=step){try{var yv=fn(xv);if(isFinite(yv)&&yv>=ymin&&yv<=ymax)polyPts.push(px(xv)+','+py(yv));else if(polyPts.length>1){svg+='<polyline points="'+polyPts.join(' ')+'" fill="none" stroke="#4FA3D1" stroke-width="2.5" stroke-linecap="round"/>';polyPts=[];}}catch(_){}}
+  if(polyPts.length>1)svg+='<polyline points="'+polyPts.join(' ')+'" fill="none" stroke="#4FA3D1" stroke-width="2.5" stroke-linecap="round"/>';
+  if(opts.hline!==undefined&&isFinite(py(opts.hline))){svg+='<line x1="0" y1="'+py(opts.hline)+'" x2="'+W+'" y2="'+py(opts.hline)+'" stroke="#A78BC4" stroke-width="2" stroke-dasharray="6,3"/>';svg+='<text x="'+(W-4)+'" y="'+(py(opts.hline)-5)+'" text-anchor="end" font-family="Fredoka,sans-serif" font-size="11" font-weight="700" fill="#A78BC4">y='+opts.hline+'</text>';}
   if(opts.pts){opts.pts.forEach(function(p){svg+='<circle cx="'+px(p.x)+'" cy="'+py(p.y)+'" r="6" fill="'+(p.color||'#EF5D60')+'" stroke="#fff" stroke-width="2"/>';if(p.label)svg+='<text x="'+(px(p.x)+10)+'" y="'+(py(p.y)-5)+'" font-family="Fredoka,sans-serif" font-size="12" font-weight="700" fill="'+(p.color||'#EF5D60')+'">'+p.label+'</text>';});}
   svg+='</svg>';
   return svg;
@@ -619,6 +677,28 @@ function mqPick(qid,btn,val){
   if(feed){feed.className='mq-feed '+(ok?'ok':'no');feed.textContent=ok?'\u2705 Bravo !':'\u274c Pas tout à fait. La bonne réponse est '+MQ_CORRECT[qid]+'.';}
 }
 
+/* ===== LEÇON LINÉAIRE — navigation ===== */
+function linNext(step){
+  document.querySelectorAll('#lin-tuto .repere-step').forEach(function(el){el.style.display='none';});
+  var el=document.getElementById('lin-step'+step);
+  if(el)el.style.display='block';
+  if(step===1){
+    var g=document.getElementById('lin-graph');
+    if(g)g.innerHTML=svgDroite(3,0,{xmin:-1,xmax:6,ymin:-2,ymax:12});
+  }
+}
+
+/* ===== LEÇON AFFINE — navigation ===== */
+function affNext(step){
+  document.querySelectorAll('#aff-tuto .repere-step').forEach(function(el){el.style.display='none';});
+  var el=document.getElementById('aff-step'+step);
+  if(el)el.style.display='block';
+  if(step===1){
+    var g=document.getElementById('aff-graph');
+    if(g)g.innerHTML=svgDroite(2,1,{xmin:-1,xmax:5,ymin:-2,ymax:12,pts:[{x:0,y:1,label:'b=1'},{x:3,y:7,label:'f(3)=7'}]});
+  }
+}
+
 /* ===== GÉNÉRATEURS ===== */
 function genVocabulaire(){
   var pool=[
@@ -629,67 +709,38 @@ function genVocabulaire(){
     {text:'Que signifie f(2) = 6 ?',opts:['L\'image de 2 par f est 6','L\'antécédent de 2 est 6','f est égale à 6 partout','f(6) = 2'],ans:'L\'image de 2 par f est 6',exp:'f(2) = 6 signifie que l\'image de 2 par f vaut 6.'},
     {text:'f(x) = 3x et f(3) = 9. Quel est l\'antécédent de 9 par f ?',opts:['3','9','1','6'],ans:'3',exp:'f(3) = 9, donc 3 est l\'antécédent de 9 par f.'},
     {text:'f(x) = 5x − 3. Quelle est l\'image de 2 ?',opts:['7','8','9','10'],ans:'7',exp:'f(2) = 5×2−3 = 10−3 = 7.'},
-    {text:'g(x) = 2x − 1. Si g(k) = 5, quel est k ?',opts:['3','4','2','6'],ans:'3',exp:'2k−1=5 → 2k=6 → k=3. L\'antécédent de 5 est 3.'}
+    {text:'g(x) = 2x − 1. Si g(k) = 5, quel est k ?',opts:['3','4','2','6'],ans:'3',exp:'2k−1=5 → 2k=6 → k=3. L\'antécédent de 5 est 3.'},
+    {text:'f(x) = 2x + 1. Calcule f(3).',opts:['7','6','8','5'],ans:'7',exp:'f(3) = 2×3+1 = 6+1 = 7.'},
+    {text:'f(x) = 2x + 1. Calcule f(0).',opts:['1','0','2','3'],ans:'1',exp:'f(0) = 2×0+1 = 0+1 = 1.'}
   ];
   var q=pick(pool);
   var sh=shuffle(q.opts);
   return {type:'qcm',cat:'vocabulaire',text:q.text,options:sh,correct:sh.indexOf(q.ans),explain:q.exp,viz:null};
 }
 
-function genImage(){
-  var configs=[
-    {expr:'2x + 1',a:2,b:1},{expr:'3x − 2',a:3,b:-2},{expr:'4x',a:4,b:0},
-    {expr:'x + 5',a:1,b:5},{expr:'2x − 3',a:2,b:-3},{expr:'5x + 1',a:5,b:1}
-  ];
-  var cfg=pick(configs);
-  var x=pick([2,3,4,5,6]);
-  var ax=cfg.a*x;
-  var fx=ax+cfg.b;
-  var bStr=cfg.b>0?' + '+cfg.b:(cfg.b<0?' − '+Math.abs(cfg.b):'');
-  var bShort=cfg.b>0?'+ '+cfg.b:(cfg.b<0?'− '+Math.abs(cfg.b):'');
-  var steps=[
-    {prompt:'Étape 1 — Remplace x par '+x+' dans f(x) = '+cfg.expr,
-     aide:'Calcule '+cfg.a+' × '+x+(cfg.b>0?' + '+cfg.b:(cfg.b<0?' − '+Math.abs(cfg.b):'')),
-     parts:['f('+x+') = ',{b:1,kind:'num',ans:ax,show:''+ax,w:60},(bShort?(' '+bShort):'')]},
-    {prompt:'Étape 2 — Calcule le résultat final',
-     aide:'f('+x+') = '+ax+(cfg.b>0?' + ':' − ')+Math.abs(cfg.b)+' = '+fx,
-     parts:['f('+x+') = ',{b:1,kind:'num',ans:fx,show:''+fx,w:60}]}
-  ];
-  return {type:'cascade',cat:'image',sig:'I'+cfg.a+'x'+(cfg.b>=0?'+'+cfg.b:cfg.b)+'at'+x,
-    text:'Soit f(x) = '+cfg.expr+'. Calcule f('+x+').',steps:steps,viz:null};
-}
-
 function genAntecedent(){
-  var a=pick([2,3,4,5]);
-  var b=pick([-3,-2,-1,0,1,2,3]);
-  var x0=pick([1,2,3,4,5]);
-  var y0=a*x0+b;
-  var bLabel=b>0?'+'+b:(b<0?''+b:'');
-  var wrong=[x0+1,x0-1,x0+2].filter(function(v){return v!==x0&&v>0;}).slice(0,3);
-  while(wrong.length<3)wrong.push(x0+wrong.length+2);
-  var opts=shuffle([String(x0)].concat(wrong.map(String)));
+  var fonctions=[
+    {a:2,b:0},{a:3,b:-1},{a:1,b:4},{a:2,b:3},{a:5,b:-2},{a:1,b:0},{a:3,b:0},{a:2,b:-4}
+  ];
+  var fn,x0,y0,tries=0;
+  do {
+    fn=pick(fonctions);
+    y0=rint(2,20);
+    var num=y0-fn.b;
+    x0=num/fn.a;
+    tries++;
+  } while(x0!==Math.floor(x0)||x0<=0&&tries<50);
+  x0=Math.round(x0);
+  var bLabel=fn.b>0?'+'+fn.b:(fn.b<0?''+fn.b:'');
+  var distracteurs=shuffle([x0+1,x0-1,x0+2,x0-2].filter(function(v){return v!==x0&&v>0;})).slice(0,3);
+  while(distracteurs.length<3){distracteurs.push(x0+distracteurs.length+3);}
+  var opts=shuffle([String(x0)].concat(distracteurs.map(String)));
+  var exprF=fn.a===1?'x'+bLabel:fn.a+'x'+bLabel;
   return {type:'qcm',cat:'antecedent',
-    text:'f(x) = '+a+'x'+bLabel+'. Quel est l\'antécédent de '+y0+' par f ?',
+    text:'f(x) = '+exprF+'. Quel est l\'antécédent de '+y0+' ?',
     options:opts,correct:opts.indexOf(String(x0)),
-    explain:'f('+x0+') = '+a+'×'+x0+(b!==0?bLabel:'')+' = '+y0+'. Donc l\'antécédent de '+y0+' est '+x0+'.',
+    explain:'On résout '+exprF+' = '+y0+'. x = ('+y0+(fn.b!==0?' moins '+fn.b:'')+ ') divisé par '+fn.a+' = '+x0+'.',
     viz:null};
-}
-
-function genTableau(){
-  var a=pick([2,3,4,5]);
-  var b=pick([-2,-1,0,1,2]);
-  var xs=[0,1,2,3,4];
-  var bLabel=b>0?'+'+b:(b<0?''+b:'');
-  var steps=xs.map(function(x){
-    var fx=a*x+b;
-    return {
-      prompt:'Pour x = '+x+' : calcule f('+x+') avec f(x) = '+a+'x'+bLabel,
-      aide:a+' × '+x+(b!==0?(b>0?' + ':' − ')+Math.abs(b):'')+' = '+fx,
-      parts:['f('+x+') = ',{b:1,kind:'num',ans:fx,show:''+fx,w:70}]
-    };
-  });
-  return {type:'cascade',cat:'tableau',sig:'T'+a+'b'+b,
-    text:'Complète le tableau de valeurs de f(x) = '+a+'x'+bLabel+'.',steps:steps,viz:null};
 }
 
 function genRepresentation(){
@@ -714,36 +765,192 @@ function genRepresentation(){
 }
 
 function genLecture(){
-  var a=pick([1,2,3,-1,-2]);
-  var b=pick([0,1,2,-1,-2]);
-  var type=pick(['image','antecedent']);
-  var x0=pick([1,2,3,4]);
-  var y0=a*x0+b;
-  var yminS=Math.min(-3,y0-2);
-  var ymaxS=Math.max(10,y0+2);
-  var viz=svgDroite(a,b,{xmin:-1,xmax:6,ymin:yminS,ymax:ymaxS,w:260,h:200,
-    pts:[{x:x0,y:y0,label:'('+x0+' ; '+y0+')'}]});
-  if(type==='image'){
+  var curveType=pick(['droite','droite','parabolePlus','paraboleMax','parabolePlus','paraboleMax']);
+  var qtype;
+  if(curveType==='droite'){qtype=pick(['image','antecedent']);}
+  else{qtype=pick(['image','antecedent','antecedents_deux','antecedents_deux']);}
+  var viz,x0,y0,fnDesc;
+
+  if(curveType==='droite'){
+    var a=pick([1,2,3,-1,-2]);
+    var b=pick([0,1,2,-1,-2,3]);
+    x0=pick([1,2,3,4]);
+    y0=a*x0+b;
+    fnDesc='f(x) = '+a+'x'+(b===0?'':(b>0?'+':'')+b);
+    var yminS=Math.min(-3,y0-2),ymaxS=Math.max(10,y0+2);
+    viz=svgDroite(a,b,{xmin:-1,xmax:6,ymin:yminS,ymax:ymaxS,w:260,h:200,
+      pts:[{x:x0,y:y0,label:'('+x0+';'+y0+')'}]});
+  } else if(curveType==='parabolePlus'){
+    var b=pick([0,1,-1,2]);
+    x0=pick([1,2,3]);
+    y0=x0*x0+b;
+    fnDesc='f(x) = x\u00b2'+(b===0?'':(b>0?'+':'')+b);
+    var ymaxP=Math.max(14,y0+2);
+    var bv=b;
+    if(qtype==='antecedents_deux'){
+      viz=svgCourbe(function(x){return x*x+bv;},{xmin:-4,xmax:4,ymin:-2,ymax:ymaxP,w:260,h:200,hline:y0,
+        pts:[{x:x0,y:y0,label:'('+x0+';'+y0+')'},{x:-x0,y:y0,label:'('+(-x0)+';'+y0+')'}]});
+    } else {
+      viz=svgCourbe(function(x){return x*x+bv;},{xmin:-4,xmax:4,ymin:-2,ymax:ymaxP,w:260,h:200,
+        pts:[{x:x0,y:y0,label:'('+x0+';'+y0+')'}]});
+    }
+  } else {
+    var c=pick([4,6,8,9]);
+    x0=pick([1,2]);
+    y0=-x0*x0+c;
+    fnDesc='f(x) = \u2212x\u00b2+'+c;
+    var cv=c;
+    if(qtype==='antecedents_deux'){
+      viz=svgCourbe(function(x){return -x*x+cv;},{xmin:-4,xmax:4,ymin:-2,ymax:cv+2,w:260,h:200,hline:y0,
+        pts:[{x:x0,y:y0,label:'('+x0+';'+y0+')'},{x:-x0,y:y0,label:'('+(-x0)+';'+y0+')'}]});
+    } else {
+      viz=svgCourbe(function(x){return -x*x+cv;},{xmin:-4,xmax:4,ymin:-2,ymax:cv+2,w:260,h:200,
+        pts:[{x:x0,y:y0,label:'('+x0+';'+y0+')'}]});
+    }
+  }
+
+  if(qtype==='image'){
     var wrong=[y0+1,y0-1,y0+2,y0-2].filter(function(v){return v!==y0;}).slice(0,3);
     var optVals=shuffle([String(y0)].concat(wrong.map(String)));
-    return {type:'qcm',cat:'lecture',
+    return {type:'qcm',cat:'lecture',sig:'limg'+curveType+x0+y0,
       text:'Lis sur le graphique : quelle est l\'image de '+x0+' par f ?',
       options:optVals,correct:optVals.indexOf(String(y0)),
-      explain:'Le point rouge est en ('+x0+' ; '+y0+'). Donc f('+x0+') = '+y0+'.',
-      viz:viz};
-  } else {
+      explain:'f('+x0+') = '+y0+'. Le point rouge est en ('+x0+' ; '+y0+').',viz:viz};
+  } else if(qtype==='antecedent'){
     var wrong2=[x0+1,x0-1,x0+2].filter(function(v){return v!==x0&&v>=0;}).slice(0,3);
     while(wrong2.length<3)wrong2.push(x0+wrong2.length+2);
     var optVals2=shuffle([String(x0)].concat(wrong2.map(String)));
-    return {type:'qcm',cat:'lecture',
-      text:'Lis sur le graphique : quel est l\'antécédent de '+y0+' par f ?',
+    return {type:'qcm',cat:'lecture',sig:'lant'+curveType+x0+y0,
+      text:'Lis sur le graphique : quel est un ant\u00e9c\u00e9dent de '+y0+' par f ?',
       options:optVals2,correct:optVals2.indexOf(String(x0)),
-      explain:'Le point rouge est en x = '+x0+', donc l\'antécédent de '+y0+' est '+x0+'.',
-      viz:viz};
+      explain:'Le point rouge est en x = '+x0+'. Donc '+x0+' est un ant\u00e9c\u00e9dent de '+y0+'.',viz:viz};
+  } else {
+    var negX=-x0;
+    return {type:'casc',cat:'lecture',sig:'l2ant'+curveType+x0+y0,
+      text:'La ligne violette y\u202f=\u202f'+y0+' coupe la courbe en <b>deux points rouges</b>.<br>Lis les deux ant\u00e9c\u00e9dents de '+y0+' par f.',
+      viz:viz,
+      explain:'Les deux ant\u00e9c\u00e9dents de '+y0+' sont '+x0+' et '+negX+'.',
+      steps:[
+        {prompt:'<b>\u00c9tape 1 :</b> Ant\u00e9c\u00e9dent positif \u2014 lis le point de droite :',
+         parts:['x\u202f=\u202f',{kind:'num',ans:x0,w:60}],
+         aide:'Le point rouge \u00e0 droite est en x\u202f=\u202f'+x0},
+        {prompt:'<b>\u00c9tape 2 :</b> Deuxi\u00e8me ant\u00e9c\u00e9dent \u2014 lis le point de gauche :',
+         parts:['x\u202f=\u202f',{kind:'num',ans:negX,w:60}],
+         aide:'Le point rouge \u00e0 gauche est en x\u202f=\u202f'+negX}
+      ]
+    };
   }
 }
 
-var GEN={vocabulaire:genVocabulaire,image:genImage,antecedent:genAntecedent,tableau:genTableau,representation:genRepresentation,lecture:genLecture};
+function genLineaire(){
+  var type=pick(['trouverA','calculerImage','reconnaitre']);
+  if(type==='trouverA'){
+    var a=rint(2,6);
+    var x=rint(2,8);
+    var y=a*x;
+    var opts=[a, a+1, a-1, a+2].filter(function(v){return v>0;});
+    opts=shuffle(opts).slice(0,4);
+    if(opts.indexOf(a)<0)opts[0]=a;
+    opts=shuffle(opts);
+    return {type:'qcm',cat:'lineaire',
+      text:'f est une fonction linéaire. On sait que f('+x+') = '+y+'. Quel est le coefficient a ?',
+      options:opts.map(String),correct:opts.indexOf(a),
+      explain:'a = f('+x+') ÷ '+x+' = '+y+' ÷ '+x+' = '+a,
+      viz:null};
+  }
+  if(type==='calculerImage'){
+    var a=rint(2,7);
+    var x=rint(2,9);
+    var y=a*x;
+    var opts=[y, y+a, y-a, y+2*a].filter(function(v){return v>0;});
+    opts=shuffle(opts).slice(0,4);
+    if(opts.indexOf(y)<0)opts[0]=y;
+    opts=shuffle(opts);
+    return {type:'qcm',cat:'lineaire',
+      text:'f(x) = '+a+'x. Calcule f('+x+').',
+      options:opts.map(String),correct:opts.indexOf(y),
+      explain:'f('+x+') = '+a+' × '+x+' = '+y,
+      viz:svgDroite(a,0,{xmin:-1,xmax:6,ymin:-2,ymax:Math.max(12,y+2)})};
+  }
+  // reconnaitre
+  var aLin=rint(2,5);
+  var bAff=rint(1,6);
+  var funcs=[
+    {txt:'f(x) = '+aLin+'x', isLin:true},
+    {txt:'g(x) = '+aLin+'x + '+bAff, isLin:false},
+    {txt:'h(x) = '+bAff, isLin:false},
+    {txt:'k(x) = x + '+bAff, isLin:false}
+  ];
+  funcs=shuffle(funcs);
+  var linIdx=funcs.findIndex(function(f){return f.isLin;});
+  return {type:'qcm',cat:'lineaire',
+    text:'Laquelle de ces fonctions est une fonction LINÉAIRE (f(x) = ax) ?',
+    options:funcs.map(function(f){return f.txt;}),
+    correct:linIdx,
+    explain:'Une fonction linéaire s\'écrit f(x) = ax. Seule '+funcs[linIdx].txt+' est de cette forme.',
+    viz:null};
+}
+
+function genAffine(){
+  var type=pick(['trouverAB','calculerImage','lireGraphique']);
+  var a=rint(2,4),b=pick([-2,-1,1,2,3]);
+  if(type==='trouverAB'){
+    var x1=0,y1=b;
+    var x2=rint(2,5),y2=a*x2+b;
+    var sig='Aff'+a+b+x2;
+    var fracA='<span class="cfrac"><span class="cfnum">'+(y2-y1)+'</span><span class="cfbar"></span><span class="cfden">'+x2+'</span></span>';
+    var steps=[
+      {prompt:'📐 Étape 1 — Coefficient directeur a<br><br>La formule : a = <span class="cfrac"><span class="cfnum">y₂ − y₁</span><span class="cfbar"></span><span class="cfden">x₂ − x₁</span></span><br><br>Ici : a = <span class="cfrac"><span class="cfnum">'+y2+' − '+y1+'</span><span class="cfbar"></span><span class="cfden">'+x2+' − '+x1+'</span></span> = '+fracA+' = ?',
+       aide:''+y2+' − '+y1+' = '+(y2-y1)+', et '+x2+' − '+x1+' = '+x2+'.<br>Donc a = '+fracA+' = '+a,
+       parts:['a = ',{b:1,kind:'num',ans:a,show:''+a,w:60,tol:0.1}]},
+      {prompt:'📍 Étape 2 — Ordonnée à l\'origine b<br><br>La droite passe par A('+x1+' ; '+y1+'). Quand x = 0, f(0) = b.<br>Donc b = f(0) = ?',
+       aide:'Le point A a pour abscisse x = 0, donc y = b directement. b = '+y1,
+       parts:['b = ',{b:1,kind:'num',ans:b,show:''+b,w:60,tol:0.1}]},
+      {prompt:'✅ Étape 3 — Écris la formule complète de f(x) = ax + b',
+       aide:'f(x) = '+a+'x + ('+b+')',
+       parts:['f(x) = ',{b:1,kind:'num',ans:a,show:''+a,w:50,tol:0.1},'x + (',{b:1,kind:'num',ans:b,show:''+b,w:50,tol:0.1},')']}
+    ];
+    return {type:'cascade',cat:'affine',sig:sig,
+      text:'Une fonction affine passe par les points A('+x1+' ; '+y1+') et B('+x2+' ; '+y2+'). Trouve a et b.',
+      viz:svgDroite(a,b,{xmin:-1,xmax:6,ymin:Math.min(-4,b-1),ymax:Math.max(12,y2+2),pts:[{x:x1,y:y1,label:'A'},{x:x2,y:y2,label:'B'}]}),steps:steps};
+  }
+  if(type==='calculerImage'){
+    var x=rint(2,6),y=a*x+b;
+    var opts=[y,y+a,y-1,y+b].map(function(v){return v;});
+    opts=shuffle([].concat(opts)).slice(0,4);
+    if(opts.indexOf(y)<0)opts[0]=y;
+    opts=shuffle(opts);
+    return {type:'qcm',cat:'affine',
+      text:'f(x) = '+a+'x + ('+b+'). Calcule f('+x+').',
+      options:opts.map(String),correct:opts.indexOf(y),
+      explain:'f('+x+') = '+a+'×'+x+' + ('+b+') = '+(a*x)+' + ('+b+') = '+y,
+      viz:svgDroite(a,b,{xmin:-1,xmax:6,ymin:Math.min(-4,b-1),ymax:Math.max(12,y+2)})};
+  }
+  // lireGraphique
+  var readWhat=Math.random()<0.5?'a':'b';
+  var opts2,correct2,explain2;
+  if(readWhat==='a'){
+    opts2=[a,a+1,a-1,a+2].filter(function(v){return v>0;});
+    opts2=shuffle(opts2).slice(0,4);
+    if(opts2.indexOf(a)<0)opts2[0]=a;
+    opts2=shuffle(opts2);
+    correct2=opts2.indexOf(a);
+    explain2='La droite monte de '+a+' unités pour 1 pas horizontal → a = '+a;
+  } else {
+    opts2=[b,b+1,b-1,b+2];
+    opts2=shuffle(opts2).slice(0,4);
+    if(opts2.indexOf(b)<0)opts2[0]=b;
+    opts2=shuffle(opts2);
+    correct2=opts2.indexOf(b);
+    explain2='La droite coupe l\'axe vertical en y = '+b+' → b = '+b;
+  }
+  return {type:'qcm',cat:'affine',
+    text:'Sur ce graphique, quelle est la valeur de '+(readWhat==='a'?'a (coefficient directeur)':'b (ordonnée à l\'origine)')+' ?',
+    options:opts2.map(String),correct:correct2,explain:explain2,
+    viz:svgDroite(a,b,{xmin:-1,xmax:6,ymin:Math.min(-4,b-1),ymax:Math.max(12,a*5+b+2),pts:[{x:0,y:b,label:'(0;'+b+')'}]})};
+}
+
+var GEN={vocabulaire:genVocabulaire,antecedent:genAntecedent,representation:genRepresentation,lecture:genLecture,lineaire:genLineaire,affine:genAffine};
 
 /* ===== MOTEUR QUIZ ===== */
 var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastText:'',timer:0};
@@ -956,6 +1163,10 @@ try{progLoad();if(typeof updateMap==='function')updateMap();}catch(_){}
   if(r)r.innerHTML=svgDroite(2,1,{xmin:0,xmax:4,ymin:0,ymax:10,w:260,h:200,pts:[{x:0,y:1,label:'(0;1)'},{x:2,y:5,label:'(2;5)'}]});
   var l=gid('exp_lect_svg');
   if(l)l.innerHTML=svgDroite(2,1,{xmin:0,xmax:5,ymin:0,ymax:12,w:260,h:200,pts:[{x:3,y:7,label:'f(3)=7'}]});
+  var lf=gid('lin-fig');
+  if(lf)lf.innerHTML=svgDroite(3,0,{xmin:-1,xmax:6,ymin:-2,ymax:12});
+  var af=gid('aff-fig');
+  if(af)af.innerHTML=svgDroite(2,1,{xmin:-1,xmax:5,ymin:-2,ymax:12,pts:[{x:0,y:1,label:'(0;1)'},{x:3,y:7,label:'(3;7)'}]});
 })();
 </script>
 </body>

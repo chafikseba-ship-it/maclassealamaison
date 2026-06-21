@@ -81,7 +81,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
   <div class="idbox">
     <h3>Bienvenue 👋</h3>
     <p>Avant de commencer, indique ton collège, ta classe et ton prénom. C'est demandé une seule fois.</p>
-    <input id="idCollege" placeholder="Ton collège" autocomplete="off">
+    <input id="idCollege" placeholder="Ton collège" autocomplete="off" oninput="idCollegeChange()">
     <select id="idClasse">
       <option value="" disabled selected>Ta classe</option>
       <optgroup label="3ème">
@@ -107,6 +107,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
         <option>DAVIS (NSA)</option><option>SATRAPI (UPE2A)</option>
       </optgroup>
     </select>
+    <input id="idClasseTxt" placeholder="Ta classe (ex : 3eA)" autocomplete="off" style="display:none">
     <input id="idPrenom" placeholder="Ton prénom" autocomplete="off">
     <button class="btn-go" onclick="idSave()">C'est parti ➜</button>
   </div>
@@ -148,6 +149,9 @@ const PARCOURS=[
   {emoji:'🔟', titre:'Puissances',       soustitre:"Et écriture scientifique",           niveau:'3ème', couleur:'teal',   fichier:'parcours-puissances-3eme.html'},
   {emoji:'⚖️', titre:'Équations',        soustitre:"Premier degré, produit, x²",         niveau:'3ème', couleur:'rouge',  fichier:'parcours-equations-3eme.html'},
   {emoji:'🧊', titre:'Espaces & Solides', soustitre:"Solides, volumes, repérage, sphère", niveau:'3ème', couleur:'vert',   fichier:'parcours-espaces-solides-3eme.html'},
+  {emoji:'🔄', titre:'Transformations',   soustitre:"Symétries, translation, rotation, homothétie", niveau:'3ème', couleur:'orange', fichier:'parcours-transformations-3eme.html'},
+  /* --- Parcours thématiques 6ème --- */
+  {emoji:'📐', titre:'Aires & Volumes',   soustitre:"Aires, pavé droit et conversions", niveau:'6ème', couleur:'vert', fichier:'parcours-aires-volumes-6eme.html'},
   /* --- Parcours thématiques 5ème --- */
   {emoji:'🔷', titre:'Figures usuelles',          soustitre:"Reconnaître & décrire",          niveau:'5ème', couleur:'violet', fichier:'parcours-figures-5eme.html'},
   {emoji:'📐', titre:'Formules d\'aires & volumes', soustitre:"Aires et volumes",              niveau:'5ème', couleur:'teal',   fichier:'parcours-formules-5eme.html'},
@@ -191,7 +195,7 @@ function backLink(label, fn){
   return a;
 }
 
-const LEVELS=['3ème','5ème'];
+const LEVELS=['3ème','5ème','6ème'];
 
 function buildLevelChooser(){
   mapWrap.innerHTML='';
@@ -200,10 +204,11 @@ function buildLevelChooser(){
   var grid=document.createElement('div');grid.className='map';
   LEVELS.forEach(function(niv){
     if(!PARCOURS.some(function(p){return p.niveau===niv;}))return;
-    var c=COUL[niv==='3ème'?'teal':'violet'];
+    var c=COUL[niv==='3ème'?'teal':niv==='5ème'?'violet':'vert'];
+    var emoji=niv==='3ème'?'🎓':niv==='5ème'?'📘':'📗';
     var a=document.createElement('a');a.className='etape';a.href='javascript:void(0)';
     a.onclick=function(){chooseLevel(niv);};
-    a.innerHTML='<div class="num" style="background:'+c[0]+';box-shadow:0 5px 0 '+c[1]+'">'+(niv==='3ème'?'🎓':'📘')+'</div>'
+    a.innerHTML='<div class="num" style="background:'+c[0]+';box-shadow:0 5px 0 '+c[1]+'">'+emoji+'</div>'
       +'<div class="txt"><h3>'+niv+'</h3><p>Voir les parcours</p></div><div class="status">▶</div>';
     grid.appendChild(a);
   });
@@ -217,6 +222,7 @@ function chooseLevel(niv){
     afficherParcours(niv,'theme');
   }
 }
+
 
 function afficher3eme(){
   mapWrap.innerHTML='';
@@ -298,8 +304,20 @@ buildLevelChooser();
 function gid(x){return document.getElementById(x);}
 function idGreet(){var e=localStorage.getItem('kc_eleve');var g=gid('idgreet');if(g)g.textContent=e?('Bonjour '+e+' 👋'):'';}
 function idShow(){try{var e=localStorage.getItem('kc_eleve'),c=localStorage.getItem('kc_classe'),col=localStorage.getItem('kc_college');gid('idov').hidden=!!(e&&c&&col);}catch(_){gid('idov').hidden=false;}}
-function idSave(){var col=(gid('idCollege').value||'').trim(),c=(gid('idClasse').value||'').trim(),p=(gid('idPrenom').value||'').trim();if(!col||!c||!p)return;try{localStorage.setItem('kc_college',col);localStorage.setItem('kc_classe',c);localStorage.setItem('kc_eleve',p);}catch(_){}gid('idov').hidden=true;idGreet();}
-function idReset(){try{localStorage.removeItem('kc_eleve');localStorage.removeItem('kc_classe');localStorage.removeItem('kc_college');}catch(_){}gid('idPrenom').value='';gid('idClasse').selectedIndex=0;gid('idCollege').value='';gid('idov').hidden=false;idGreet();}
+function isJeanZay(col){return col.toLowerCase().replace(/[^a-z]/g,'').indexOf('jeanzay')>=0;}
+function idCollegeChange(){
+  var col=(gid('idCollege').value||'').trim();
+  var sel=gid('idClasse'),inp=gid('idClasseTxt');
+  if(isJeanZay(col)){sel.style.display='';if(inp)inp.style.display='none';}
+  else{sel.style.display='none';if(inp)inp.style.display='';}
+}
+function idGetClasse(){
+  var sel=gid('idClasse'),inp=gid('idClasseTxt');
+  if(sel.style.display==='none'&&inp)return inp.value.trim();
+  return sel.value.trim();
+}
+function idSave(){var col=(gid('idCollege').value||'').trim(),c=idGetClasse(),p=(gid('idPrenom').value||'').trim();if(!col||!c||!p)return;try{localStorage.setItem('kc_college',col);localStorage.setItem('kc_classe',c);localStorage.setItem('kc_eleve',p);}catch(_){}gid('idov').hidden=true;idGreet();}
+function idReset(){try{localStorage.removeItem('kc_eleve');localStorage.removeItem('kc_classe');localStorage.removeItem('kc_college');}catch(_){}gid('idPrenom').value='';gid('idClasse').selectedIndex=0;var inp=gid('idClasseTxt');if(inp)inp.value='';gid('idCollege').value='';idCollegeChange();gid('idov').hidden=false;idGreet();}
 idShow();idGreet();
 </script>
 </body>
