@@ -98,6 +98,24 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .shake{animation:shake .35s}
 @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
 button,input{touch-action:manipulation}
+/* tableau manipulable */
+.tablescroll{overflow-x:auto;padding:10px 2px 6px}
+.tboard{--cellw:42px;--slotw:18px;display:grid;justify-content:start;align-items:stretch;margin:0;width:max-content}
+.thead{font-family:'Fredoka';font-weight:700;background:var(--creme2);color:var(--bois);border:2px solid #f0dca8;text-align:center;padding:6px 2px;font-size:.95rem;display:grid;place-items:center}
+.thead small{display:block;font-size:.66rem;font-weight:700;margin-top:1px;line-height:1}
+.tcell{height:58px;border:2px solid #f0dca8;text-align:center;background:#fff;font-family:'Fredoka';font-weight:700;font-size:1.6rem;color:var(--bois);padding:0;outline:none;border-radius:0}
+.tcell[data-u="1"]{background:#fbf2da}
+.tcell:focus{background:#fff2cf;border-color:var(--or-bas);box-shadow:inset 0 0 0 2px var(--or-bas)}
+.tcell.pad{background:var(--blanc);border-style:dashed;border-color:#e8d9b3}
+.tcell.pad:focus{background:#fff2cf;border-style:solid;border-color:var(--or-bas);box-shadow:inset 0 0 0 2px var(--or-bas)}
+.tslot{position:relative;cursor:pointer;display:grid;place-items:center}
+.tslot .dot{width:7px;height:7px;border-radius:50%;background:#e3cf9f;align-self:end;margin-bottom:8px;transition:.15s}
+.tslot:hover .dot{background:var(--or-bas);transform:scale(1.5)}
+.tslot .comma{position:absolute;bottom:-6px;left:50%;transform:translateX(-55%) scale(.3);font-family:'Fredoka';font-weight:700;font-size:2.7rem;color:var(--orange-bas);opacity:0;transition:.2s;pointer-events:none}
+.tslot.on .comma{opacity:1;transform:translateX(-55%) scale(1)}
+.tslot.on .dot{opacity:0}
+.toolbar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0 6px}
+.toolbar .btn{font-size:.95rem;padding:10px 16px}
 /* leçon multi-étapes */
 .lex-step{display:none}
 .lex-step.active{display:block;animation:pop .3s ease}
@@ -186,6 +204,16 @@ button,input{touch-action:manipulation}
       <div class="num">🔄</div>
       <div class="txt"><h3>3 · Conversions</h3><p>Longueurs, masses, capacités, durées</p></div>
       <div class="status">🔒</div>
+    </div>
+    <div class="etape e4" id="mapAires2" onclick="tapTheme('aires2')">
+      <div class="num">📏</div>
+      <div class="txt"><h3>4 · Unités d'aires</h3><p>km², m², cm², are, hectare</p></div>
+      <div class="status">▶</div>
+    </div>
+    <div class="etape e1" id="mapVol2" onclick="tapTheme('vol2')">
+      <div class="num">🧊</div>
+      <div class="txt"><h3>5 · Unités de volumes</h3><p>m³, dm³, cm³, L, mL</p></div>
+      <div class="status">▶</div>
     </div>
     <div class="etape e4" id="mapArene" onclick="tapArene()">
       <div class="num" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">⚔️</div>
@@ -617,6 +645,42 @@ button,input{touch-action:manipulation}
   </div>
 </section>
 
+<!-- ===== LEÇON UNITÉS D'AIRES ===== -->
+<section id="expAires2" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Unités d'aires</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">Explication</span>
+    <p class="lead">Pour les aires, chaque fois qu'on change d'unité on multiplie ou divise par <b>100</b>. Deux cases dans le tableau valent ×10 chacune, soit ×100 ensemble.</p>
+    <div class="mid"><span class="formule" style="border-color:var(--orange-bas)">1 m² = 100 dm² → 2 colonnes par unité</span></div>
+    <div class="mid"><span class="formule" style="border-color:var(--violet-bas)">1 a = 1 dam² = 100 m² &nbsp;|&nbsp; 1 ha = 1 hm² = 10 000 m²</span></div>
+  </div>
+  <div class="mid"><button class="btn orange" onclick="openTable2('aire')">Au tableau ➜</button></div>
+</section>
+
+<!-- ===== LEÇON UNITÉS DE VOLUMES ===== -->
+<section id="expVol2" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Unités de volumes</h2></div>
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">Explication</span>
+    <p class="lead">Pour les volumes, chaque changement d'unité correspond à <b>3 colonnes</b> (×1000).</p>
+    <div class="mid"><span class="formule" style="border-color:var(--teal-bas)">1 m³ = 1000 dm³ → 3 colonnes par unité</span></div>
+    <div class="mid"><span class="formule" style="border-color:var(--teal-bas)">1 L = 1 dm³ &nbsp;|&nbsp; 1 mL = 1 cm³ &nbsp;|&nbsp; 1 m³ = 1000 L</span></div>
+  </div>
+  <div class="mid"><button class="btn teal" onclick="openTable2('volume')">Au tableau ➜</button></div>
+</section>
+
+<!-- ===== ECRAN TABLEAU 2 (aires/volumes) ===== -->
+<section id="ecranTable2" class="screen">
+  <div class="topbar"><button class="back" id="backTable2" onclick="go(EXP2[currentTheme2]||'accueil')">←</button><h2 id="tableTitle2">Le tableau</h2></div>
+  <div class="card">
+    <p class="lead">Place ton nombre dans le tableau, puis déplace la virgule jusqu'à l'unité d'arrivée.</p>
+    <div class="tablescroll"><div id="tableHolder2"></div></div>
+    <div class="toolbar"><button class="btn fant" onclick="clearBoard()">🧽 Effacer</button></div>
+    <p class="note" id="tHint2"></p>
+  </div>
+  <div class="mid"><button class="btn vert" onclick="startTrain2(currentTheme2)">Je m'entraîne ➜</button></div>
+</section>
+
 <!-- ===== ECRAN ENTRAINEMENT ===== -->
 <section id="ecranTrain" class="screen">
   <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
@@ -652,6 +716,10 @@ button,input{touch-action:manipulation}
       <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('aires')"><span class="ic">📐</span>Aires</button>
       <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('pave')"><span class="ic">📦</span>Pavé droit</button>
       <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('conversions')"><span class="ic">🔄</span>Conversions</button>
+      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('aire6')"><span class="ic">📏</span>Unités d'aires</button>
+      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('agraire6')"><span class="ic">🌾</span>Are &amp; hectare</button>
+      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('volume6')"><span class="ic">🧊</span>Unités de volumes</button>
+      <button class="cat" style="background:#E27D9B;box-shadow:0 6px 0 #b85674" onclick="startArene('croisee6')"><span class="ic">🔁</span>Volume↔Litre</button>
       <button class="cat" style="background:var(--or);box-shadow:0 6px 0 var(--or-bas)" onclick="startArene('mix')"><span class="ic">🎲</span>Mix tout</button>
     </div>
   </div>
@@ -707,14 +775,18 @@ button,input{touch-action:manipulation}
 
 <script>
 /* ===== NAVIGATION ===== */
-var ORDER = ['aires','pave','conversions'];
-var EXP = {aires:'expAires', pave:'expPave', conversions:'expConversions'};
-var MAPID = {aires:'mapAires', pave:'mapPave', conversions:'mapConversions'};
-var TITLE = {aires:'Aires des figures', pave:'Le pavé droit', conversions:'Conversions'};
-var BRIQUE = {aires:{serie:6,seuil:4}, pave:{serie:6,seuil:4}, conversions:{serie:8,seuil:5}};
-var unlocked = {aires:true, pave:true, conversions:true, arene:true};
-var themeDone = {aires:false, pave:false, conversions:false};
+var ORDER = ['aires','pave','conversions','aires2','vol2'];
+var EXP = {aires:'expAires', pave:'expPave', conversions:'expConversions', aires2:'expAires2', vol2:'expVol2'};
+var EXP2 = {aire6:'expAires2', volume6:'expVol2'};
+var MAPID = {aires:'mapAires', pave:'mapPave', conversions:'mapConversions', aires2:'mapAires2', vol2:'mapVol2'};
+var TITLE = {aires:'Calcul d\'aires', pave:'Pavé droit', conversions:'Conversions', aires2:'Unités d\'aires', vol2:'Unités de volumes'};
+var TITLE2 = {aire6:'Unités d\'aires', volume6:'Unités de volumes'};
+var BRIQUE = {aires:{serie:6,seuil:4}, pave:{serie:6,seuil:4}, conversions:{serie:8,seuil:5}, aires2:{serie:6,seuil:4}, vol2:{serie:6,seuil:4}};
+var unlocked = {aires:true, pave:true, conversions:true, aires2:true, vol2:true, arene:true};
+var themeDone = {aires:false, pave:false, conversions:false, aires2:false, vol2:false};
 var currentTheme = 'aires';
+var currentTheme2 = 'aire6';
+var THEME_CATS = {aires2:['aire6','agraire6'], vol2:['volume6','croisee6']};
 
 function go(id){
   document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
@@ -737,8 +809,7 @@ function updateMap(){
     card.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');
   });
   var ar=document.getElementById('mapArene');
-  ar.classList.toggle('lock',!unlocked.arene);
-  ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';
+  if(ar){ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';}
 }
 
 /* ===== NAVIGATION LEÇONS ===== */
@@ -791,8 +862,88 @@ function randVal(){
 var CATS6 = {
   longueur6:{nom:'Longueur',units:[['km',3],['hm',2],['dam',1],['m',0],['dm',-1],['cm',-2],['mm',-3]]},
   masse6:{nom:'Masse',units:[['kg',3],['hg',2],['dag',1],['g',0],['dg',-1],['cg',-2],['mg',-3]]},
-  capacite6:{nom:'Capacité',units:[['L',0],['dL',-1],['cL',-2],['mL',-3]]}
+  capacite6:{nom:'Capacité',units:[['L',0],['dL',-1],['cL',-2],['mL',-3]]},
+  aire6:{nom:'Aire',units:[['km²',6],['hm²',4],['dam²',2],['m²',0],['dm²',-2],['cm²',-4],['mm²',-6]]},
+  volume6:{nom:'Volume',units:[['km³',9],['m³',0],['dm³',-3],['cm³',-6],['mm³',-9]]},
+  agraire6:{nom:'Are & hectare',units:[['km²',6],['ha',4],['hm²',4],['a',2],['dam²',2],['m²',0]],must:['a','ha']},
+  croisee6:{nom:'Volume ↔ Litre',units:[['m³',3],['dm³',0],['cm³',-3],['mm³',-6],['L',0],['mL',-3]],must:['L','mL']}
 };
+
+/* ===== TABLEAU MANIPULABLE — MODES ===== */
+var MODES = {
+  aire6:{ranks:['km²','hm²','dam²','m²','dm²','cm²','mm²'],cells:2,pas:'×100 (2 colonnes par unité)',sub:{1:'ha',2:'a'},subcol:'var(--violet-bas)'},
+  volume6:{ranks:['km³','hm³','dam³','m³','dm³','cm³','mm³'],cells:3,pas:'×1000 (3 colonnes par unité)',sub:{4:'L',5:'mL'},subcol:'var(--teal-bas)'}
+};
+var currentMode='aire6';var currentComma=0;
+var boardHolder='tableHolder2';var boardResultId='';
+var PAD_L=3,PAD_R=3;
+function slotHTML(j){return '<div class="tslot" data-j="'+j+'" style="grid-column:'+(2*j+1)+';grid-row:2" onclick="setComma('+j+');"><span class="dot"></span><span class="comma">,</span></div>';}
+function setComma(j){currentComma=j;document.querySelectorAll('#'+boardHolder+' .tslot').forEach(function(s){s.classList.toggle('on',+s.dataset.j===j);});}
+function bindBoard(){
+  var cells=[].slice.call(document.querySelectorAll('#'+boardHolder+' .tcell'));
+  cells.forEach(function(c,i){
+    c.addEventListener('input',function(){c.value=c.value.replace(/[^0-9]/g,'').slice(0,1);if(c.value&&i<cells.length-1)cells[i+1].focus();});
+    c.addEventListener('keydown',function(e){
+      if(e.key==='Backspace'&&c.value===''&&i>0)cells[i-1].focus();
+      else if(e.key==='ArrowLeft'&&i>0)cells[i-1].focus();
+      else if(e.key==='ArrowRight'&&i<cells.length-1)cells[i+1].focus();
+    });
+  });
+}
+function buildBoard(m,holder,resultId){
+  boardHolder=holder;boardResultId=resultId;currentMode=m;
+  var M=MODES[m];if(!M)return;
+  var unitCells=M.ranks.length*M.cells;var n=PAD_L+unitCells+PAD_R;
+  var tmpl='';for(var i=0;i<n;i++)tmpl+='var(--slotw) var(--cellw) ';tmpl+='var(--slotw)';
+  var html='<div class="tboard" style="grid-template-columns:'+tmpl+'">';
+  M.ranks.forEach(function(r,ui){
+    var k0=PAD_L+ui*M.cells,k1=k0+M.cells-1;
+    var s=M.sub[ui]?'<small style="color:'+M.subcol+'">= '+M.sub[ui]+'</small>':'';
+    html+='<div class="thead" style="grid-column:'+(2*k0+2)+'/'+(2*k1+3)+';grid-row:1">'+r+s+'</div>';
+  });
+  html+=slotHTML(0);
+  for(var k=0;k<n;k++){
+    var inUnits=(k>=PAD_L&&k<PAD_L+unitCells);
+    var ui=Math.floor((k-PAD_L)/M.cells);
+    html+='<input class="tcell'+(inUnits?'':' pad')+'" data-k="'+k+'" data-u="'+(inUnits?(ui%2):0)+'" maxlength="1" inputmode="numeric" autocomplete="off" style="grid-column:'+(2*k+2)+';grid-row:2">';
+    html+=slotHTML(k+1);}
+  html+='</div>';
+  document.getElementById(holder).innerHTML=html;
+  bindBoard();setComma(PAD_L+unitCells);
+}
+function clearBoard(){document.querySelectorAll('#'+boardHolder+' .tcell').forEach(function(c){c.value='';});var f=document.querySelector('#'+boardHolder+' .tcell');if(f)f.focus();}
+
+function openTable2(type){
+  var tabMap={aire:'aire6',volume:'volume6'};
+  currentTheme2=tabMap[type]||type;
+  document.getElementById('tableTitle2').textContent='Tableau — '+(type==='aire'?'Aire':'Volume');
+  buildBoard(tabMap[type]||type,'tableHolder2','');
+  var hint=document.getElementById('tHint2');if(hint)hint.textContent='Chaque changement d\'unité vaut '+(MODES[tabMap[type]]?MODES[tabMap[type]].pas:'')+'.';
+  go('ecranTable2');
+}
+function startTrain2(t){
+  currentTheme=t;
+  var title=TITLE2[t]||t;
+  document.getElementById('trainTitle').textContent='Entraînement — '+title;
+  go('ecranTrain');
+  var cats=THEME_CATS[currentTheme]||[t];
+  quizStart(cats,4,true,elsTrain(),'train');
+}
+
+function genConvCat(cat){
+  var C=CATS6[cat];if(!C)return genAires();
+  var s=pick(C.units),t=pick(C.units),g=0;
+  while(t[0]===s[0]&&g++<20)t=pick(C.units);
+  if(C.must&&!C.must.includes(s[0])&&!C.must.includes(t[0])){var want=pick(C.must);var cand=C.units.filter(function(u){return u[0]===want;})[0];if(cand){if(Math.random()<0.5)s=cand;else t=cand;}}
+  var val=String(Math.floor(Math.random()*900)+1);
+  var exp=s[1]-t[1];
+  var rep=shiftDecimal(val,exp);
+  return {
+    q:'Convertis : '+val+' '+s[0]+' = … '+t[0],
+    type:'num',rep:parseFloat(rep),tol:parseFloat(rep)*0.001+0.001,
+    explication:val+' '+s[0]+' = '+rep.replace('.',',')+' '+t[0]
+  };
+}
 
 /* ===== GÉNÉRATEURS ===== */
 function genAires(){
@@ -925,13 +1076,13 @@ function quizGenQuestion(){
   if(cat==='aires') qobj=genAires();
   else if(cat==='pave') qobj=genPave();
   else if(cat==='conversions'){
-    // mélange de toutes les sous-catégories conversions
     qobj=genConversion6(['longueur6','masse6','capacite6','duree6']);
   } else if(cat==='longueur6'||cat==='masse6'||cat==='capacite6') qobj=genConversion6([cat]);
   else if(cat==='duree6') qobj=genDuree();
+  else if(cat==='aire6'||cat==='volume6'||cat==='agraire6'||cat==='croisee6') qobj=genConvCat(cat);
   else if(cat==='mix'){
-    var allCats=['aires','pave','longueur6','masse6','capacite6','duree6'];
-    Q.cats=[pick(allCats)]; // temporairement, on re-appelle
+    var allCats=['aires','pave','longueur6','masse6','capacite6','duree6','aire6','volume6','agraire6','croisee6'];
+    Q.cats=[pick(allCats)];
     return quizGenQuestion();
   } else qobj=genAires();
   return qobj;
@@ -978,7 +1129,8 @@ function quizNext(){
 
 function getCatLabel(cat){
   var labels={aires:'Aires des figures',pave:'Pavé droit',conversions:'Conversions',
-    longueur6:'Longueur',masse6:'Masse',capacite6:'Capacité',duree6:'Durées',mix:'Mix'};
+    longueur6:'Longueur',masse6:'Masse',capacite6:'Capacité',duree6:'Durées',
+    aire6:'Unités d\'aires',volume6:'Unités de volumes',agraire6:'Are & hectare',croisee6:'Volume ↔ Litre',mix:'Mix'};
   return labels[cat]||cat;
 }
 
@@ -1068,16 +1220,18 @@ function startTrain(t){
   currentTheme=t;
   document.getElementById('trainTitle').textContent='Entraînement — '+TITLE[t];
   go('ecranTrain');
-  var seuil=BRIQUE[t].seuil||4;
+  var seuil=(BRIQUE[t]&&BRIQUE[t].seuil)||4;
   // reset étapes leçon
   if(t==='aires')airesNext(0);
   if(t==='pave')paveNext(0);
   if(t==='conversions')convNext(0);
-  quizStart([t],seuil,true,elsTrain(),'train');
+  var cats=THEME_CATS[t]||[t];
+  quizStart(cats,seuil,true,elsTrain(),'train');
 }
 
 function trainDone(){
   var t=currentTheme;
+  try{suiviSousSection(TITLE[t]);}catch(_){}
   themeDone[t]=true;
   var idx=ORDER.indexOf(t);
   if(idx<ORDER.length-1){
@@ -1086,6 +1240,7 @@ function trainDone(){
     updateMap();
     openTheme(nx);
   } else {
+    try{suiviEnvoi('Terminé','','');}catch(_){}
     unlocked.arene=true;
     updateMap();
     go('arene');
@@ -1097,7 +1252,7 @@ function startArene(cat){
   document.getElementById('areneMenu').style.display='none';
   document.getElementById('areneJeu').style.display='block';
   var cats;
-  if(cat==='mix') cats=['aires','pave','longueur6','masse6','capacite6','duree6'];
+  if(cat==='mix') cats=['aires','pave','longueur6','masse6','capacite6','duree6','aire6','volume6','agraire6','croisee6'];
   else if(cat==='aires') cats=['aires'];
   else if(cat==='pave') cats=['pave'];
   else if(cat==='conversions') cats=['longueur6','masse6','capacite6','duree6'];
@@ -1140,6 +1295,12 @@ function calcEq(){
   calcNewNum=true;calcDisp();
 }
 function calcClear(){calcExpr='';calcNewNum=true;calcDisp();}
+
+/* ===== SUIVI GOOGLE FORMS ===== */
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Aires & Volumes 6ème'};
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' \u00b7 '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+var SSDONE={};
+function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e2=localStorage.getItem('kc_eleve')||'?',c2=localStorage.getItem('kc_classe')||'?';var co2=(localStorage.getItem('kc_college')||'').trim();if(co2)c2=co2+' \u00b7 '+c2;var b2=new URLSearchParams();b2.append(SUIVI.f.classe,c2);b2.append(SUIVI.f.eleve,e2);b2.append(SUIVI.f.parcours,SUIVI.nom+' \u203a '+label);b2.append(SUIVI.f.statut,'Termin\u00e9');b2.append(SUIVI.f.score,'');b2.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b2.toString()});}catch(_){}}
 
 /* ===== PROGRESSION ===== */
 var _progKey=function(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}return 'prog_'+e+'_Aires6';};
