@@ -82,7 +82,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px}
 .ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
 .ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:160px;color:var(--bois)}
-.ansrow input:focus{outline:3px solid var(--or-bas);outline-offset:2px;border-color:var(--or-bas)}
+.ansrow input:focus{outline:none;border-color:var(--or-bas)}
 .opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
 .opt{font-family:'Fredoka';font-weight:700;font-size:1.1rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
   border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
@@ -126,7 +126,7 @@ button,input{touch-action:manipulation}
 .cfeed.ok{color:var(--vert-bas)} .cfeed.no{color:var(--orange-bas)}
 .cline{font-family:'Fredoka';font-weight:700;font-size:1.12rem;color:var(--bois);line-height:2.1;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
 .cblank{font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;border:none;border-bottom:3px solid var(--or-bas);background:#fff;border-radius:8px 8px 0 0;padding:6px;color:var(--bois)}
-.cblank:focus{outline:3px solid var(--or-bas);outline-offset:1px;border-bottom-color:var(--teal-bas,#2f9aa6);background:#fffdf3}
+.cblank:focus{outline:none;border-bottom-color:var(--teal-bas,#2f9aa6);background:#fffdf3}
 .cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
 .cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
 .cverify{margin-top:10px}
@@ -205,7 +205,7 @@ button,input{touch-action:manipulation}
 .tab-v td{background:var(--creme);font-family:'Fredoka';font-weight:700;padding:10px 14px;border-radius:10px;font-size:1.05rem;text-align:center}
 .tab-v td.ans{background:var(--bleu);color:#fff}
 </style>
-<!-- TEST : redirect désactivé -->
+
 </head>
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
@@ -214,6 +214,7 @@ button,input{touch-action:manipulation}
   <span style="background:#EF5D60;padding:3px 10px;border-radius:10px;font-weight:600">VERSION TEST</span>
   <span>Mode test — tout déverrouillé</span>
   <button onclick="passerQuestion()" style="font-family:'Fredoka';font-size:14px;border:none;cursor:pointer;background:#5a5a5a;color:#fff;border-radius:12px;padding:7px 12px;font-weight:500">⏭ Passer</button>
+  <button onclick="Object.keys(unlocked).forEach(function(k){unlocked[k]=true;});updateMap();" style="font-family:'Fredoka';font-size:14px;border:none;cursor:pointer;background:#5a5a5a;color:#fff;border-radius:12px;padding:7px 12px;font-weight:500">🔓 Tout débloquer</button>
 </div>
 
 <!-- ACCUEIL -->
@@ -251,7 +252,7 @@ button,input{touch-action:manipulation}
 
 <!-- LEÇON VOCABULAIRE -->
 <section id="expVocabulaire" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">&#8592;</button><h2>Vocabulaire des fonctions</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>Vocabulaire des fonctions</h2></div>
 
   <div id="voc_step0" class="lex-step active">
     <div class="card">
@@ -330,7 +331,7 @@ button,input{touch-action:manipulation}
 
 <!-- LEÇON ANTÉCÉDENT -->
 <section id="expAntecedent" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">&#8592;</button><h2>Trouver un antécédent</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>Trouver un antécédent</h2></div>
   <div class="card">
     <span class="tag" style="background:var(--orange)">La leçon</span>
     <div class="lex-bubble">
@@ -351,7 +352,7 @@ button,input{touch-action:manipulation}
 
 <!-- LEÇON REPRÉSENTATION -->
 <section id="expRepresentation" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">&#8592;</button><h2>Représentation graphique</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>Représentation graphique</h2></div>
   <div class="card">
     <span class="tag" style="background:var(--bleu)">La leçon</span>
     <div class="lex-bubble">
@@ -371,7 +372,7 @@ button,input{touch-action:manipulation}
 
 <!-- LEÇON LECTURE -->
 <section id="expLecture" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">&#8592;</button><h2>Lecture graphique</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>Lecture graphique</h2></div>
   <div class="card">
     <span class="tag" style="background:var(--or)">La leçon</span>
     <div class="lex-bubble">
@@ -392,7 +393,7 @@ button,input{touch-action:manipulation}
 
 <!-- LEÇON FONCTIONS LINÉAIRES -->
 <section id="expLineaire" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">&#8592;</button><h2>Fonctions linéaires</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>Fonctions linéaires</h2></div>
 
   <div class="card">
     <span class="tag" style="background:var(--orange)">&#128304; La leçon</span>
@@ -436,7 +437,7 @@ button,input{touch-action:manipulation}
 
 <!-- LEÇON FONCTIONS AFFINES -->
 <section id="expAffine" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">&#8592;</button><h2>Fonctions affines</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>Fonctions affines</h2></div>
 
   <div class="card">
     <span class="tag" style="background:var(--violet)">&#128200; La leçon</span>
@@ -474,7 +475,7 @@ button,input{touch-action:manipulation}
 
 <!-- ÉCRAN ENTRAÎNEMENT -->
 <section id="ecranTrain" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go(EXP[currentTheme]||'accueil')">&#8592;</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">&#8592;</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card" id="tq_card">
     <div class="serieprog" id="tq_prog"></div>
     <div class="helpnote" id="tq_help"></div>
@@ -507,7 +508,7 @@ button,input{touch-action:manipulation}
 
 <!-- ARÈNE -->
 <section id="arene" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">&#8592;</button><h2>L'arène des fonctions</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">&#8592;</button><h2>L'arène des fonctions</h2></div>
   <div class="card" id="areneMenu">
     <p class="lead" style="text-align:center">Bravo, séquence terminée ! Entraînement libre, sans note.</p>
     <div class="catgrid">
@@ -590,7 +591,8 @@ var HELP={
 
 /* ===== UTILITAIRES ===== */
 function gid(x){return document.getElementById(x);}
-function go(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();}
+function go(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();if(id!=='accueil'){try{history.pushState({screen:id},'','');}catch(_){}}}
+window.addEventListener('popstate',function(){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid('accueil').classList.add('active');window.scrollTo(0,0);});
 function wiggle(id){var el=gid(id);el.classList.add('shake');setTimeout(function(){el.classList.remove('shake');},400);}
 function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
 function tapArene(){if(unlocked.arene)go('arene');else wiggle('mapArene');}
@@ -971,7 +973,7 @@ function quizNext(){clearTimeout(Q.timer);
   else if(cur.type==='cascade'){if(e.work)e.work.style.display='none';e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);}
   else{if(e.work)e.work.style.display='block';e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
   quizScore();}
-function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;if(!e.input.value.trim()){e.feed.className='feedback no';e.feed.textContent='Écris ta réponse d\'abord !';return;}var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre valide.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La r\u00e9ponse est '+Q.cur.disp+'.');}
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='\u00c9cris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La r\u00e9ponse est '+Q.cur.disp+'.');}
 function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'La bonne r\u00e9ponse\u00a0: '+Q.cur.options[Q.cur.correct]+'.');}
 function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
   if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='\u2705 Bravo\u00a0!<div class="feedlab">'+Q.cur.explain+'</div>';if(e.stars)e.stars.textContent='\u2b50'.repeat(Math.min(Q.streak,5));confettis();}

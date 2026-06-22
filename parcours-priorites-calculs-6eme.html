@@ -2,9 +2,10 @@
 <html lang="fr">
 <head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
 
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Transformations — 3e</title>
+<title>Priorités opératoires — 6ème</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
@@ -65,7 +66,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
 .e4 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
 .e5 .num{background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)}
-.e6 .num{background:var(--or);box-shadow:0 5px 0 var(--or-bas)}
+.e6 .num{background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)}
 .lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
 .mid{text-align:center;margin:16px 0}
 .formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;
@@ -82,7 +83,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px}
 .ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
 .ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:160px;color:var(--bois)}
-.ansrow input:focus{outline:none;border-color:var(--or-bas)}
+.ansrow input:focus{outline:3px solid var(--or-bas);outline-offset:2px;border-color:var(--or-bas)}
 .opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
 .opt{font-family:'Fredoka';font-weight:700;font-size:1.1rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
   border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
@@ -126,13 +127,10 @@ button,input{touch-action:manipulation}
 .cfeed.ok{color:var(--vert-bas)} .cfeed.no{color:var(--orange-bas)}
 .cline{font-family:'Fredoka';font-weight:700;font-size:1.12rem;color:var(--bois);line-height:2.1;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
 .cblank{font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;border:none;border-bottom:3px solid var(--or-bas);background:#fff;border-radius:8px 8px 0 0;padding:6px;color:var(--bois)}
-.cblank:focus{outline:none;border-bottom-color:var(--teal-bas,#2f9aa6);background:#fffdf3}
+.cblank:focus{outline:3px solid var(--or-bas);outline-offset:1px;border-bottom-color:var(--teal-bas,#2f9aa6);background:#fffdf3}
 .cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
 .cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
 .cverify{margin-top:10px}
-.cfrac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 5px}
-.cfnum,.cfden{display:flex;align-items:center;gap:3px;padding:1px 5px;justify-content:center}
-.cfbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
 .cblank.mini{font-size:1rem;width:54px}
 .kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
   background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);transition:transform .1s}
@@ -187,12 +185,12 @@ button,input{touch-action:manipulation}
 .lex-pill.accent{background:var(--bleu);color:#fff;border-color:var(--bleu-bas)}
 .lex-pill.lvert{background:var(--vert);color:#fff;border-color:var(--vert-bas)}
 .lex-pill.lorange{background:var(--orange);color:#fff;border-color:var(--orange-bas)}
+.lex-pill.lviolet{background:var(--violet);color:#fff;border-color:var(--violet-bas)}
 .tab-v{width:100%;border-collapse:separate;border-spacing:4px;margin:12px 0}
 .tab-v th{background:var(--teal);color:#fff;font-family:'Fredoka';font-weight:700;padding:10px 14px;border-radius:10px;font-size:1rem}
 .tab-v td{background:var(--creme);font-family:'Fredoka';font-weight:700;padding:10px 14px;border-radius:10px;font-size:1.05rem;text-align:center}
 .tab-v td.ans{background:var(--bleu);color:#fff}
 </style>
-
 </head>
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
@@ -201,25 +199,25 @@ button,input{touch-action:manipulation}
 <section id="accueil" class="screen active">
   <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
   <div class="hero">
-    <div class="coin">🔄✨</div>
-    <h1>Transformations — 3ème</h1>
-    <p class="sub">Symétries, translation, rotation. Valide chaque thème pour débloquer le suivant !</p>
+    <div class="coin">🎯🧮</div>
+    <h1>Priorités opératoires — 6ème</h1>
+    <p class="sub">Parenthèses, × et ÷, puis + et −. Valide chaque thème pour débloquer le suivant !</p>
   </div>
   <div class="map">
-    <div class="etape e1" id="mapSymetrie" onclick="tapTheme('symetrie')">
-      <div class="num">🪞</div><div class="txt"><h3>1 · Symétrie axiale</h3><p>Le reflet dans un miroir</p></div><div class="status">▶</div>
+    <div class="etape e1" id="mapPriorite1" onclick="tapTheme('priorite1')">
+      <div class="num">🎯</div><div class="txt"><h3>1 · × et ÷ avant + et −</h3><p>Les multiplications et divisions passent en premier</p></div><div class="status">▶</div>
     </div>
-    <div class="etape e2" id="mapSymetricen" onclick="tapTheme('symetricen')">
-      <div class="num">🔵</div><div class="txt"><h3>2 · Symétrie centrale</h3><p>Un demi-tour autour d'un point</p></div><div class="status">🔒</div>
+    <div class="etape e2" id="mapParentheses" onclick="tapTheme('parentheses')">
+      <div class="num">📐</div><div class="txt"><h3>2 · Les parenthèses d'abord</h3><p>Ce qui est entre ( ) se calcule en premier</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e3" id="mapTranslation" onclick="tapTheme('translation')">
-      <div class="num">➡️</div><div class="txt"><h3>3 · Translation</h3><p>Un glissement dans une direction</p></div><div class="status">🔒</div>
+    <div class="etape e3" id="mapChaine" onclick="tapTheme('chaine')">
+      <div class="num">⛓️</div><div class="txt"><h3>3 · Chaîne d'opérations</h3><p>De gauche à droite quand les opérations sont identiques</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e4" id="mapRotation" onclick="tapTheme('rotation')">
-      <div class="num">🔄</div><div class="txt"><h3>4 · Rotation</h3><p>Tourner autour d'un centre</p></div><div class="status">🔒</div>
+    <div class="etape e4" id="mapEnsemble" onclick="tapTheme('ensemble')">
+      <div class="num">🧩</div><div class="txt"><h3>4 · Tout ensemble</h3><p>Priorités complètes : ( ) puis × ÷ puis + −</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e5" id="mapHomothetie" onclick="tapTheme('homothetie')">
-      <div class="num">🔍</div><div class="txt"><h3>5 · Homothétie</h3><p>Agrandir ou réduire depuis un centre</p></div><div class="status">🔒</div>
+    <div class="etape e5" id="mapProblemes" onclick="tapTheme('problemes')">
+      <div class="num">🔍</div><div class="txt"><h3>5 · Résolution de problèmes</h3><p>Écrire et calculer une expression de la vraie vie</p></div><div class="status">🔒</div>
     </div>
     <div class="etape e6" id="mapArene" onclick="tapArene()">
       <div class="num" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Tout mélangé — entraînement libre</p></div><div class="status">🔒</div>
@@ -227,254 +225,227 @@ button,input{touch-action:manipulation}
   </div>
 </section>
 
-<!-- LEÇON SYMÉTRIE AXIALE -->
-<section id="expSymetrie" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🪞 Symétrie axiale</h2></div>
+<!-- LEÇON × et ÷ AVANT + et − -->
+<section id="expPriorite1" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>🎯 × et ÷ avant + et −</h2></div>
 
-  <div id="sym_step0" class="lex-step active">
+  <div id="p1_step0" class="lex-step active">
     <div class="card">
       <span class="tag" style="background:var(--violet)">La leçon — étape 1 sur 3</span>
       <div class="lex-bubble">
-        🪞 Une <b>symétrie axiale</b>, c'est comme regarder dans un <b>miroir</b> !<br>
-        L'axe de symétrie, c'est la surface du miroir. Le point A se retrouve de l'autre côté, à la même distance.
+        🎯 Dans un calcul <b>SANS parenthèses</b>, il y a un ordre à respecter :<br><br>
+        ➡️ On effectue d'abord les <b>multiplications et divisions</b>, de gauche à droite,<br>
+        ➡️ PUIS les <b>additions et soustractions</b>.
       </div>
-      <div class="mid" id="sym_svg0"></div>
+      <div class="mid">
+        <div class="formule">× et ÷ avant + et −</div>
+      </div>
+      <p class="note">C'est la règle des <b>priorités opératoires</b>.</p>
     </div>
-    <div class="mid"><button class="btn violet" onclick="symNext(1)">Suivant →</button></div>
+    <div class="mid"><button class="btn violet" onclick="p1Next(1)">Suivant →</button></div>
   </div>
 
-  <div id="sym_step1" class="lex-step">
+  <div id="p1_step1" class="lex-step">
     <div class="card">
       <span class="tag" style="background:var(--teal)">La leçon — étape 2 sur 3</span>
       <div class="lex-bubble">
-        📐 <b>Méthode pour trouver A' :</b><br>
-        Tu comptes les carreaux de A jusqu'à l'axe. Tu recomptes le même nombre de l'autre côté.
+        📌 <b>Exemples :</b><br><br>
+        <b>3 + 4 × 2</b> → on fait d'abord 4 × 2 = 8, puis 3 + 8 = <b>11</b><br>
+        <span style="color:var(--rouge-bas)">⚠️ PAS 7 × 2 = 14 !</span><br><br>
+        <b>10 − 6 ÷ 3</b> → on fait d'abord 6 ÷ 3 = 2, puis 10 − 2 = <b>8</b>
       </div>
-      <div class="mid" id="sym_svg1"></div>
       <div class="lex-row">
-        <div class="lex-pill accent">Axe horizontal y = k ➜ A'(x ; 2k − y)</div>
-        <div class="lex-pill lvert">Axe vertical x = k ➜ A'(2k − x ; y)</div>
+        <div class="lex-pill lviolet">4 × 2 = 8 d'abord</div>
+        <div class="lex-pill accent">3 + 8 = 11 ensuite</div>
       </div>
     </div>
-    <div class="mid"><button class="btn teal" onclick="symNext(2)">Suivant →</button></div>
+    <div class="mid"><button class="btn teal" onclick="p1Next(2)">Suivant →</button></div>
   </div>
 
-  <div id="sym_step2" class="lex-step">
+  <div id="p1_step2" class="lex-step">
     <div class="card">
       <span class="tag" style="background:var(--orange)">La leçon — étape 3 sur 3</span>
       <div class="lex-bubble">
-        🎯 <b>Exemple :</b> A(3 ; 2), axe y = 0 (l'axe des x).<br>
-        L'ordonnée change de signe : A'(3 ; −2).<br>
-        Si l'axe est x = 0 (l'axe des y) : A'(−3 ; 2).
-      </div>
-      <div class="formule" style="margin:10px auto;display:block;text-align:center">
-        Axe y = 0 → A'(x ; −y)<br>Axe x = 0 → A'(−x ; y)
+        ❌ <b>Erreurs fréquentes à éviter :</b><br><br>
+        <b>2 + 3 × 4</b><br>
+        <span style="color:var(--rouge-bas)">Faux : (2+3) × 4 = 5 × 4 = 20</span><br>
+        <span style="color:var(--vert-bas)">✅ Juste : 2 + (3×4) = 2 + 12 = 14</span><br><br>
+        💡 La multiplication est <b>prioritaire</b> sur l'addition !
       </div>
     </div>
-    <div class="mid"><button class="btn orange" onclick="startTrain('symetrie')">🚀 S'entraîner !</button></div>
+    <div class="mid"><button class="btn orange" onclick="startTrain('priorite1')">🚀 Je m'entraîne !</button></div>
   </div>
 </section>
 
-<!-- LEÇON SYMÉTRIE CENTRALE -->
-<section id="expSymetricen" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🔵 Symétrie centrale</h2></div>
+<!-- LEÇON PARENTHÈSES -->
+<section id="expParentheses" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>📐 Les parenthèses d'abord</h2></div>
 
-  <div id="scen_step0" class="lex-step active">
+  <div id="pa_step0" class="lex-step active">
     <div class="card">
       <span class="tag" style="background:var(--teal)">La leçon — étape 1 sur 3</span>
       <div class="lex-bubble">
-        🔵 Une <b>symétrie centrale</b>, c'est un <b>demi-tour</b> (rotation de 180°) autour d'un point O.<br>
-        Le point O est le <b>milieu</b> du segment [AA'].
+        📐 Les <b>parenthèses</b> sont prioritaires sur <b>TOUT</b>.<br><br>
+        On calcule <b>TOUJOURS</b> ce qu'il y a dans les parenthèses <b>EN PREMIER</b>, avant toute autre opération.
       </div>
-      <div class="mid" id="scen_svg0"></div>
+      <div class="mid">
+        <div class="formule">( ) → priorité absolue !</div>
+      </div>
     </div>
-    <div class="mid"><button class="btn teal" onclick="scenNext(1)">Suivant →</button></div>
+    <div class="mid"><button class="btn teal" onclick="paNext(1)">Suivant →</button></div>
   </div>
 
-  <div id="scen_step1" class="lex-step">
+  <div id="pa_step1" class="lex-step">
     <div class="card">
       <span class="tag" style="background:var(--orange)">La leçon — étape 2 sur 3</span>
       <div class="lex-bubble">
-        📐 <b>Si le centre est O(0 ; 0) :</b><br>
-        A(x ; y) → A'(−x ; −y)<br><br>
-        Les deux coordonnées changent de signe !
+        🔍 <b>Comparaison :</b><br><br>
+        <b>Avec parenthèses :</b> (3 + 4) × 2 = <span style="color:var(--teal-bas)">7</span> × 2 = <b>14</b><br>
+        <b>Sans parenthèses :</b> 3 + 4 × 2 = 3 + <span style="color:var(--teal-bas)">8</span> = <b>11</b><br><br>
+        Les parenthèses <b>CHANGENT</b> le résultat !
       </div>
-      <div class="formule" style="display:block;text-align:center;margin:10px auto">
-        Centre O(0;0) : A'(−x ; −y)
+      <div class="lex-row">
+        <div class="lex-pill lorange">(3+4)×2 = 14</div>
+        <div class="lex-pill accent">3+4×2 = 11</div>
       </div>
     </div>
-    <div class="mid"><button class="btn orange" onclick="scenNext(2)">Suivant →</button></div>
+    <div class="mid"><button class="btn orange" onclick="paNext(2)">Suivant →</button></div>
   </div>
 
-  <div id="scen_step2" class="lex-step">
+  <div id="pa_step2" class="lex-step">
     <div class="card">
       <span class="tag" style="background:var(--vert)">La leçon — étape 3 sur 3</span>
       <div class="lex-bubble">
-        🎯 <b>Formule générale</b> avec un centre O(a ; b) quelconque :<br>
-        A'(2a − x ; 2b − y)
+        🧮 <b>Plusieurs parenthèses :</b> on les calcule toutes avant de continuer.<br><br>
+        (2 + 3) × (5 − 1) = <span style="color:var(--teal-bas)">5</span> × <span style="color:var(--teal-bas)">4</span> = <b>20</b><br><br>
+        💡 Si des parenthèses sont imbriquées, on commence par les <b>plus intérieures</b>.
       </div>
-      <div class="formule" style="display:block;text-align:center;margin:10px auto">
-        Centre O(a;b) : A'(2a − xA ; 2b − yA)
-      </div>
-      <p class="note">Exemple : O(1 ; 2), A(3 ; 4) → A'(2×1−3 ; 2×2−4) = A'(−1 ; 0)</p>
+      <ul class="steps">
+        <li>Calculer ce qui est entre les ( )</li>
+        <li>Effectuer × et ÷ de gauche à droite</li>
+        <li>Effectuer + et − de gauche à droite</li>
+      </ul>
     </div>
-    <div class="mid"><button class="btn vert" onclick="startTrain('symetricen')">🚀 S'entraîner !</button></div>
+    <div class="mid"><button class="btn vert" onclick="startTrain('parentheses')">🚀 Je m'entraîne !</button></div>
   </div>
 </section>
 
-<!-- LEÇON TRANSLATION -->
-<section id="expTranslation" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>➡️ Translation</h2></div>
+<!-- LEÇON CHAÎNE D'OPÉRATIONS -->
+<section id="expChaine" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>⛓️ Chaîne d'opérations</h2></div>
 
-  <div id="trans_step0" class="lex-step active">
+  <div id="ch_step0" class="lex-step active">
     <div class="card">
-      <span class="tag" style="background:var(--orange)">La leçon — étape 1 sur 3</span>
+      <span class="tag" style="background:var(--orange)">La leçon — étape 1 sur 2</span>
       <div class="lex-bubble">
-        ➡️ Une <b>translation</b>, c'est un <b>glissement</b>.<br>
-        Tous les points se déplacent dans la même direction, du même nombre de cases.<br>
-        C'est comme faire glisser une pièce de puzzle sans la tourner.
+        ⛓️ Quand il y a seulement des <b>+ et −</b> (ou seulement des <b>× et ÷</b>), on calcule de <b>GAUCHE À DROITE</b>.<br><br>
+        C'est comme lire un texte : on part du début et on avance !
       </div>
-      <div class="mid" id="trans_svg0"></div>
+      <div class="mid">
+        <div class="formule">Gauche → Droite</div>
+      </div>
     </div>
-    <div class="mid"><button class="btn orange" onclick="transNext(1)">Suivant →</button></div>
+    <div class="mid"><button class="btn orange" onclick="chNext(1)">Suivant →</button></div>
   </div>
 
-  <div id="trans_step1" class="lex-step">
+  <div id="ch_step1" class="lex-step">
     <div class="card">
-      <span class="tag" style="background:var(--vert)">La leçon — étape 2 sur 3</span>
+      <span class="tag" style="background:var(--vert)">La leçon — étape 2 sur 2</span>
       <div class="lex-bubble">
-        📦 On décrit la translation avec un <b>vecteur t(dx ; dy)</b> :<br>
-        • dx = déplacement horizontal (+ = droite, − = gauche)<br>
-        • dy = déplacement vertical (+ = haut, − = bas)
-      </div>
-      <div class="lex-row">
-        <div class="lex-pill accent">t(3 ; 1) → 3 cases à droite, 1 case en haut</div>
-        <div class="lex-pill lorange">t(−2 ; 3) → 2 cases à gauche, 3 cases en haut</div>
+        🎯 <b>Exemples :</b><br><br>
+        <b>20 − 8 + 3</b><br>
+        → 20 − 8 = 12, puis 12 + 3 = <b>15</b><br>
+        <span style="color:var(--rouge-bas)">⚠️ PAS 20 − (8+3) = 9 !</span><br><br>
+        <b>24 ÷ 4 × 2</b><br>
+        → 24 ÷ 4 = 6, puis 6 × 2 = <b>12</b><br>
+        <span style="color:var(--rouge-bas)">⚠️ PAS 24 ÷ (4×2) = 3 !</span>
       </div>
     </div>
-    <div class="mid"><button class="btn vert" onclick="transNext(2)">Suivant →</button></div>
-  </div>
-
-  <div id="trans_step2" class="lex-step">
-    <div class="card">
-      <span class="tag" style="background:var(--bleu)">La leçon — étape 3 sur 3</span>
-      <div class="lex-bubble">
-        🎯 <b>Formule :</b><br>
-        Si A(x ; y) et vecteur t(dx ; dy) :<br>
-        A'(x + dx ; y + dy)
-      </div>
-      <div class="formule" style="display:block;text-align:center;margin:10px auto">
-        A'(xA + dx ; yA + dy)
-      </div>
-      <p class="note">Exemple : A(2 ; 3), t(4 ; −1) → A'(2+4 ; 3+(−1)) = A'(6 ; 2)</p>
-    </div>
-    <div class="mid"><button class="btn bleu" onclick="startTrain('translation')">🚀 S'entraîner !</button></div>
+    <div class="mid"><button class="btn vert" onclick="startTrain('chaine')">🚀 Je m'entraîne !</button></div>
   </div>
 </section>
 
-<!-- LEÇON ROTATION -->
-<section id="expRotation" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🔄 Rotation</h2></div>
+<!-- LEÇON TOUT ENSEMBLE -->
+<section id="expEnsemble" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>🧩 Tout ensemble</h2></div>
 
-  <div id="rot_step0" class="lex-step active">
+  <div id="en_step0" class="lex-step active">
     <div class="card">
-      <span class="tag" style="background:var(--vert)">La leçon — étape 1 sur 3</span>
+      <span class="tag" style="background:var(--vert)">La leçon — étape 1 sur 2</span>
       <div class="lex-bubble">
-        🔄 Une <b>rotation</b>, c'est tourner autour d'un point <b>O</b> d'un certain <b>angle</b>.<br>
-        La distance de A au centre O ne change pas. Seule la direction change.
+        🧩 La règle complète des <b>priorités opératoires</b> :
       </div>
-      <div class="mid" id="rot_svg0"></div>
+      <div class="msteps">
+        <div class="mstep" style="background:var(--violet);color:#fff">1️⃣ Les parenthèses ( ) en premier</div>
+        <div class="mstep" style="background:var(--teal);color:#fff">2️⃣ × et ÷ de gauche à droite</div>
+        <div class="mstep" style="background:var(--orange);color:#fff">3️⃣ + et − de gauche à droite</div>
+      </div>
+      <p class="note">Cette règle est <b>universelle</b> en mathématiques !</p>
     </div>
-    <div class="mid"><button class="btn vert" onclick="rotNext(1)">Suivant →</button></div>
+    <div class="mid"><button class="btn vert" onclick="enNext(1)">Suivant →</button></div>
   </div>
 
-  <div id="rot_step1" class="lex-step">
+  <div id="en_step1" class="lex-step">
     <div class="card">
-      <span class="tag" style="background:var(--bleu)">La leçon — étape 2 sur 3</span>
+      <span class="tag" style="background:var(--bleu)">La leçon — étape 2 sur 2</span>
       <div class="lex-bubble">
-        🔃 <b>Rotation de 180°</b> autour de O(0 ; 0) :<br>
-        C'est exactement la même chose que la symétrie centrale par O !<br>
-        A(x ; y) → A'(−x ; −y)
+        🧮 <b>Exemple complet :</b><br><br>
+        <b>(3 + 1) × 5 − 8 ÷ 4 = ?</b><br><br>
+        <span style="color:var(--violet-bas)">① Parenthèses : 3+1 = 4 → 4 × 5 − 8 ÷ 4</span><br>
+        <span style="color:var(--teal-bas)">② × et ÷ : 4×5=20 et 8÷4=2 → 20 − 2</span><br>
+        <span style="color:var(--orange-bas)">③ Soustraction : 20 − 2 = <b>18</b></span>
       </div>
-      <div class="formule" style="display:block;text-align:center;margin:10px auto">
-        Rot 180° : A'(−x ; −y)
+      <div class="mid">
+        <div class="formule">(3+1)×5−8÷4 = <b>18</b></div>
       </div>
     </div>
-    <div class="mid"><button class="btn bleu" onclick="rotNext(2)">Suivant →</button></div>
-  </div>
-
-  <div id="rot_step2" class="lex-step">
-    <div class="card">
-      <span class="tag" style="background:var(--or)">La leçon — étape 3 sur 3</span>
-      <div class="lex-bubble">
-        ↩️ <b>Rotation de 90° dans le sens direct</b> (sens anti-horaire) autour de O(0 ; 0) :<br>
-        A(x ; y) → A'(−y ; x)<br><br>
-        ↪️ <b>Rotation de 90° dans le sens indirect</b> (sens des aiguilles d'une montre) :<br>
-        A(x ; y) → A'(y ; −x)
-      </div>
-      <div class="lex-row">
-        <div class="lex-pill accent">90° direct : A'(−y ; x)</div>
-        <div class="lex-pill lvert">90° indirect : A'(y ; −x)</div>
-      </div>
-    </div>
-    <div class="mid"><button class="btn" onclick="startTrain('rotation')">🚀 S'entraîner !</button></div>
+    <div class="mid"><button class="btn bleu" onclick="startTrain('ensemble')">🚀 Je m'entraîne !</button></div>
   </div>
 </section>
 
-<!-- LEÇON HOMOTHÉTIE -->
-<section id="expHomothetie" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🔍 Homothétie</h2></div>
+<!-- LEÇON PROBLÈMES -->
+<section id="expProblemes" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>🔍 Résolution de problèmes</h2></div>
 
-  <div id="hom_step0" class="lex-step active">
+  <div id="pb_step0" class="lex-step active">
     <div class="card">
-      <span class="tag" style="background:var(--bleu)">La leçon — étape 1 sur 3</span>
+      <span class="tag" style="background:var(--bleu)">La leçon — étape 1 sur 2</span>
       <div class="lex-bubble">
-        🔍 Une <b>homothétie</b>, c'est comme zoomer ou dézoomer sur une photo.<br>
-        On choisit un centre O et un <b>rapport k</b>.<br>
-        • Si k &gt; 1 : on agrandit<br>
-        • Si 0 &lt; k &lt; 1 : on réduit<br>
-        • Si k &lt; 0 : on retourne et on agrandit/réduit
+        🔍 En mathématiques, un problème peut souvent s'écrire avec une <b>seule expression</b>.<br><br>
+        Les priorités opératoires assurent que <b>tout le monde obtient le même résultat</b> — c'est pour ça qu'elles existent !
+      </div>
+      <div class="mid">
+        <div class="formule">Un problème → une expression</div>
       </div>
     </div>
-    <div class="mid"><button class="btn bleu" onclick="homNext(1)">Suivant →</button></div>
+    <div class="mid"><button class="btn bleu" onclick="pbNext(1)">Suivant →</button></div>
   </div>
 
-  <div id="hom_step1" class="lex-step">
+  <div id="pb_step1" class="lex-step">
     <div class="card">
-      <span class="tag" style="background:var(--or)">La leçon — étape 2 sur 3</span>
+      <span class="tag" style="background:var(--vert)">La leçon — étape 2 sur 2</span>
       <div class="lex-bubble">
-        📐 <b>Formule avec centre O(0 ; 0) :</b><br>
-        A(x ; y) → A'(k×x ; k×y)<br><br>
-        Les deux coordonnées sont <b>multipliées par k</b>.
+        📋 <b>Stratégie en 5 étapes :</b>
       </div>
-      <div class="formule" style="display:block;text-align:center;margin:10px auto">
-        Centre O(0;0) : A'(k×x ; k×y)
+      <ul class="steps">
+        <li>Lire attentivement le problème</li>
+        <li>Identifier les opérations (quoi faire ?)</li>
+        <li>Écrire l'expression mathématique</li>
+        <li>Respecter les priorités opératoires</li>
+        <li>Calculer pas à pas et vérifier</li>
+      </ul>
+      <div class="lex-bubble" style="margin-top:10px">
+        🍬 <b>Exemple :</b> Paul a 15 bonbons. Il en donne 3 à chacun de ses 4 amis.<br>
+        Expression : <b>15 − 3 × 4</b> = 15 − 12 = <b>3</b> bonbons restants.
       </div>
-      <p class="note">Exemple : k = 2, A(3 ; 1) → A'(6 ; 2) — distances doublées !</p>
     </div>
-    <div class="mid"><button class="btn" onclick="homNext(2)">Suivant →</button></div>
-  </div>
-
-  <div id="hom_step2" class="lex-step">
-    <div class="card">
-      <span class="tag" style="background:var(--orange)">La leçon — étape 3 sur 3</span>
-      <div class="lex-bubble">
-        🎯 <b>Formule générale</b> avec centre C(a ; b) :<br>
-        A'(a + k×(xA − a) ; b + k×(yA − b))
-      </div>
-      <div class="formule" style="display:block;text-align:center;margin:10px auto">
-        A'(a + k(xA−a) ; b + k(yA−b))
-      </div>
-      <p class="note">Exemple : k = 2, C(1;0), A(3;2) → A'(1+2×(3−1) ; 0+2×(2−0)) = A'(5 ; 4)</p>
-      <p class="note">Si k = −1 et C = O(0;0) : c'est une symétrie centrale !</p>
-    </div>
-    <div class="mid"><button class="btn orange" onclick="startTrain('homothetie')">🚀 S'entraîner !</button></div>
+    <div class="mid"><button class="btn vert" onclick="startTrain('problemes')">🚀 Je m'entraîne !</button></div>
   </div>
 </section>
 
 <!-- ÉCRAN ENTRAÎNEMENT -->
 <section id="ecranTrain" class="screen">
-  <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card" id="tq_card">
     <div class="serieprog" id="tq_prog"></div>
     <div class="helpnote" id="tq_help"></div>
@@ -499,7 +470,7 @@ button,input{touch-action:manipulation}
     </div>
   </div>
   <div class="card result" id="tq_result" style="display:none">
-    <div class="big" id="tq_rbig">0 / 6</div>
+    <div class="big" id="tq_rbig">0 / 8</div>
     <div class="msg" id="tq_rmsg"></div>
     <div class="rbtns" id="tq_rbtns"></div>
   </div>
@@ -507,16 +478,16 @@ button,input{touch-action:manipulation}
 
 <!-- ARÈNE -->
 <section id="arene" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>⚔️ L'arène des transformations !</h2></div>
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>⚔️ L'arène des priorités !</h2></div>
   <div class="card" id="areneMenu">
     <p class="lead" style="text-align:center">Bravo, séquence terminée ! Entraînement libre, sans note.</p>
     <div class="catgrid">
-      <button class="cat" style="background:var(--violet)" onclick="startArene('symetrie')"><span class="ic">🪞</span>Symétrie axiale</button>
-      <button class="cat" style="background:var(--teal)" onclick="startArene('symetricen')"><span class="ic">🔵</span>Symétrie centrale</button>
-      <button class="cat" style="background:var(--orange)" onclick="startArene('translation')"><span class="ic">➡️</span>Translation</button>
-      <button class="cat" style="background:var(--vert)" onclick="startArene('rotation')"><span class="ic">🔄</span>Rotation</button>
-      <button class="cat" style="background:var(--bleu)" onclick="startArene('homothetie')"><span class="ic">🔍</span>Homothétie</button>
-      <button class="cat" style="background:var(--rouge)" onclick="startArene('mix')"><span class="ic">🎲</span>Mix tout</button>
+      <button class="cat" style="background:var(--violet)" onclick="startArene('priorite1')"><span class="ic">🎯</span>× et ÷ avant + et −</button>
+      <button class="cat" style="background:var(--teal)" onclick="startArene('parentheses')"><span class="ic">📐</span>Parenthèses</button>
+      <button class="cat" style="background:var(--orange)" onclick="startArene('chaine')"><span class="ic">⛓️</span>Chaîne d'opérations</button>
+      <button class="cat" style="background:var(--vert)" onclick="startArene('ensemble')"><span class="ic">🧩</span>Tout ensemble</button>
+      <button class="cat" style="background:var(--bleu)" onclick="startArene('problemes')"><span class="ic">🔍</span>Problèmes</button>
+      <button class="cat" style="background:var(--rouge)" onclick="startArene('mix')"><span class="ic">🎲</span>Tout mélanger</button>
     </div>
   </div>
   <div class="card" id="areneJeu" style="display:none">
@@ -548,327 +519,369 @@ button,input{touch-action:manipulation}
 <button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">🧮</button>
 <div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
   <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
-  <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
-  <div class="kc-keys" id="kcKeys"></div>
+  <div id="kcStdPanel">
+    <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
+    <div class="kc-keys" id="kcKeys"></div>
+  </div>
 </div>
 
 <script>
 /* ===== SUIVI ===== */
-var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Transformations 3ème'};
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',
+  f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},
+  nom:'Priorités opératoires 6ème'};
 function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' \u00b7 '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
 var SSDONE={};
 function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e2=localStorage.getItem('kc_eleve')||'?',c2=localStorage.getItem('kc_classe')||'?';var co2=(localStorage.getItem('kc_college')||'').trim();if(co2)c2=co2+' \u00b7 '+c2;var b2=new URLSearchParams();b2.append(SUIVI.f.classe,c2);b2.append(SUIVI.f.eleve,e2);b2.append(SUIVI.f.parcours,SUIVI.nom+' \u203a '+label);b2.append(SUIVI.f.statut,'Termin\u00e9');b2.append(SUIVI.f.score,'');b2.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b2.toString()});}catch(_){}}
 
 /* ===== ARCHITECTURE ===== */
-var ORDER=['symetrie','symetricen','translation','rotation','homothetie'];
-var EXP={symetrie:'expSymetrie',symetricen:'expSymetricen',translation:'expTranslation',rotation:'expRotation',homothetie:'expHomothetie'};
-var MAPID={symetrie:'mapSymetrie',symetricen:'mapSymetricen',translation:'mapTranslation',rotation:'mapRotation',homothetie:'mapHomothetie'};
-var TITLE={symetrie:'Symétrie axiale',symetricen:'Symétrie centrale',translation:'Translation',rotation:'Rotation',homothetie:'Homothétie'};
+var EXP={priorite1:'expPriorite1',parentheses:'expParentheses',chaine:'expChaine',ensemble:'expEnsemble',problemes:'expProblemes'};
+var MAPID={priorite1:'mapPriorite1',parentheses:'mapParentheses',chaine:'mapChaine',ensemble:'mapEnsemble',problemes:'mapProblemes'};
+var TITLE={priorite1:'× et ÷ avant + et −',parentheses:'Les parenthèses',chaine:'Chaîne d\'opérations',ensemble:'Tout ensemble',problemes:'Problèmes'};
 var HELP={
-  symetrie:'Axe horizontal y=k : A\'(x ; 2k−y). Axe vertical x=k : A\'(2k−x ; y).',
-  symetricen:'Centre O(a;b) : A\'(2a−x ; 2b−y). Si O est l\'origine : A\'(−x ; −y).',
-  translation:'Vecteur t(dx;dy) : A\'(x+dx ; y+dy).',
-  rotation:'180° : A\'(−x;−y). 90° direct : A\'(−y;x). 90° indirect : A\'(y;−x).',
-  homothetie:'Centre O(0;0) : A\'(k×x ; k×y). Centre C(a;b) : A\'(a+k(xA−a) ; b+k(yA−b)).'
+  priorite1:'× et ÷ sont prioritaires sur + et −. On les calcule en premier, de gauche à droite.',
+  parentheses:'Les parenthèses ( ) sont prioritaires sur tout. On calcule toujours l\'intérieur en premier.',
+  chaine:'Même niveau (tout + et −, ou tout × et ÷) : on calcule de gauche à droite.',
+  ensemble:'Ordre complet : 1) parenthèses  2) × et ÷ de gauche à droite  3) + et − de gauche à droite.',
+  problemes:'Lis le problème, identifie les opérations, écris l\'expression, applique les priorités.'
 };
-var BRIQUE={symetrie:{serie:6,seuil:4},symetricen:{serie:6,seuil:4},translation:{serie:6,seuil:4},rotation:{serie:6,seuil:4},homothetie:{serie:6,seuil:4}};
-var THEME_CATS={symetrie:['symetrie'],symetricen:['symetricen'],translation:['translation'],rotation:['rotation'],homothetie:['homothetie']};
-var CATNOM={symetrie:'Symétrie axiale',symetricen:'Symétrie centrale',translation:'Translation',rotation:'Rotation'};
-var unlocked={symetrie:true,symetricen:true,translation:true,rotation:true,homothetie:true,arene:true};
-var themeDone={symetrie:false,symetricen:false,translation:false,rotation:false,homothetie:false};
-var currentTheme='symetrie';
+var BRIQUE={priorite1:{serie:8,seuil:6},parentheses:{serie:8,seuil:6},chaine:{serie:8,seuil:6},ensemble:{serie:8,seuil:6},problemes:{serie:8,seuil:6}};
+var THEME_CATS={priorite1:['priorite1'],parentheses:['parentheses'],chaine:['chaine'],ensemble:['ensemble'],problemes:['problemes']};
+var CATNOM={priorite1:'× et ÷ avant + et −',parentheses:'Parenthèses',chaine:'Chaîne d\'opérations',ensemble:'Tout ensemble',problemes:'Problèmes'};
+var ORDER=['priorite1','parentheses','chaine','ensemble','problemes'];
+var unlocked={priorite1:true,parentheses:false,chaine:false,ensemble:false,problemes:false,arene:false};
+var themeDone={priorite1:false,parentheses:false,chaine:false,ensemble:false,problemes:false};
+var currentTheme='priorite1';
 
 /* ===== UTILITAIRES ===== */
 function gid(x){return document.getElementById(x);}
 function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;var v=parseFloat(s);return isFinite(v)?v:null;}
+function rnd(n){return Math.floor(Math.random()*n);}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function rint(mn,mx){return Math.floor(Math.random()*(mx-mn+1))+mn;}
+function pgcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a;}
 function serieLen(){return BRIQUE[currentTheme].serie;}
 function seuilFor(){return BRIQUE[currentTheme].seuil;}
 function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
 
-/* ===== SVG GRILLE ===== */
-function svgGrille(pts, opts) {
-  opts = opts || {};
-  var W = opts.W || 260, H = opts.H || 260;
-  var xmin = -6, xmax = 6, ymin = -6, ymax = 6;
-  function sx(x){return (x-xmin)/(xmax-xmin)*W;}
-  function sy(y){return H-(y-ymin)/(ymax-ymin)*H;}
-
-  var s = '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="font-family:\'Fredoka\',sans-serif;display:block;margin:0 auto">';
-
-  // Grille
-  for(var gx=xmin;gx<=xmax;gx++){
-    s+='<line x1="'+sx(gx)+'" y1="0" x2="'+sx(gx)+'" y2="'+H+'" stroke="#e7d3a8" stroke-width="'+(gx===0?'0':'1')+'"/>';
-  }
-  for(var gy=ymin;gy<=ymax;gy++){
-    s+='<line x1="0" y1="'+sy(gy)+'" x2="'+W+'" y2="'+sy(gy)+'" stroke="#e7d3a8" stroke-width="'+(gy===0?'0':'1')+'"/>';
-  }
-  // Axes
-  s+='<line x1="0" y1="'+sy(0)+'" x2="'+W+'" y2="'+sy(0)+'" stroke="#5C3D2E" stroke-width="2.5"/>';
-  s+='<line x1="'+sx(0)+'" y1="0" x2="'+sx(0)+'" y2="'+H+'" stroke="#5C3D2E" stroke-width="2.5"/>';
-  // Labels axes
-  for(var lx=xmin+1;lx<xmax;lx++){if(lx===0)continue;
-    s+='<text x="'+sx(lx)+'" y="'+(sy(0)+16)+'" text-anchor="middle" font-size="10" fill="#8a6650">'+lx+'</text>';
-  }
-  for(var ly=ymin+1;ly<ymax;ly++){if(ly===0)continue;
-    s+='<text x="'+(sx(0)-6)+'" y="'+(sy(ly)+4)+'" text-anchor="end" font-size="10" fill="#8a6650">'+ly+'</text>';
-  }
-  s+='<text x="'+(W-8)+'" y="'+(sy(0)-6)+'" font-size="11" fill="#5C3D2E" font-weight="700">x</text>';
-  s+='<text x="'+(sx(0)+6)+'" y="12" font-size="11" fill="#5C3D2E" font-weight="700">y</text>';
-
-  // Axe de symétrie horizontal y=k
-  if(opts.axeH !== undefined){
-    var ay=sy(opts.axeH);
-    s+='<line x1="4" y1="'+ay+'" x2="'+(W-4)+'" y2="'+ay+'" stroke="#EF5D60" stroke-width="3" stroke-dasharray="8,4"/>';
-    var axLab='axe (y='+opts.axeH+')';
-    s+='<text x="'+(W-6)+'" y="'+(ay-6)+'" text-anchor="end" font-size="11" font-weight="700" fill="#EF5D60">'+axLab+'</text>';
-  }
-  // Axe de symétrie vertical x=k
-  if(opts.axeV !== undefined){
-    var avx=sx(opts.axeV);
-    s+='<line x1="'+avx+'" y1="4" x2="'+avx+'" y2="'+(H-4)+'" stroke="#EF5D60" stroke-width="3" stroke-dasharray="8,4"/>';
-    var axLab2='axe (x='+opts.axeV+')';
-    s+='<text x="'+(avx+5)+'" y="14" font-size="11" font-weight="700" fill="#EF5D60">'+axLab2+'</text>';
-  }
-  // Centre de symétrie
-  if(opts.centre){
-    var cx=sx(opts.centre.x), cy=sy(opts.centre.y);
-    s+='<circle cx="'+cx+'" cy="'+cy+'" r="5" fill="#46BECB" stroke="#2E8A98" stroke-width="2"/>';
-    s+='<text x="'+(cx+8)+'" y="'+(cy-7)+'" font-size="13" font-weight="700" fill="#46BECB">O</text>';
-  }
-  // Vecteur (flèche)
-  if(opts.vecteur){
-    var vf=opts.vecteur.from;
-    var fx=sx(vf.x), fy=sy(vf.y);
-    var tx2=sx(vf.x+opts.vecteur.dx), ty2=sy(vf.y+opts.vecteur.dy);
-    s+='<defs><marker id="varr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#FF8A4C"/></marker></defs>';
-    s+='<line x1="'+fx+'" y1="'+fy+'" x2="'+tx2+'" y2="'+ty2+'" stroke="#FF8A4C" stroke-width="2.5" marker-end="url(#varr)"/>';
-    s+='<text x="'+((fx+tx2)/2+6)+'" y="'+((fy+ty2)/2-6)+'" font-size="12" font-weight="700" fill="#FF8A4C">t('+opts.vecteur.dx+';'+opts.vecteur.dy+')</text>';
-  }
-  // Segment AA' pointillé
-  if(pts.length===2){
-    s+='<line x1="'+sx(pts[0].x)+'" y1="'+sy(pts[0].y)+'" x2="'+sx(pts[1].x)+'" y2="'+sy(pts[1].y)+'" stroke="#ccc" stroke-width="1.5" stroke-dasharray="5,3"/>';
-  }
-  // Points
-  pts.forEach(function(p){
-    var px2=sx(p.x), py2=sy(p.y);
-    s+='<circle cx="'+px2+'" cy="'+py2+'" r="6" fill="'+(p.color||'#4FA3D1')+'"/>';
-    var offx=(p.x<0)?-8:8, offy=(p.y<0)?14:-8;
-    s+='<text x="'+(px2+offx)+'" y="'+(py2+offy)+'" text-anchor="'+(p.x<0?'end':'start')+'" font-size="13" font-weight="700" fill="'+(p.color||'#4FA3D1')+'">'+p.label+'('+p.x+';'+p.y+')</text>';
-  });
-
-  s+='</svg>';
-  return s;
-}
-
-/* ===== SVG LEÇONS STATIQUES ===== */
-function initLeconsViz(){
-  // Symétrie axiale step 0 : A(3,2), axe y=0, A'(3,-2)
-  var el=document.getElementById('sym_svg0');
-  if(el)el.innerHTML=svgGrille([{x:3,y:2,label:'A',color:'#4FA3D1'},{x:3,y:-2,label:"A'",color:'#EF5D60'}],{axeH:0,W:260,H:220});
-  // Symétrie axiale step 1 : A(2,4), axe y=1, A'(2,-2)
-  var el2=document.getElementById('sym_svg1');
-  if(el2)el2.innerHTML=svgGrille([{x:2,y:4,label:'A',color:'#4FA3D1'},{x:2,y:-2,label:"A'",color:'#EF5D60'}],{axeH:1,W:260,H:260});
-  // Symétrie centrale step 0 : A(3,2), O(0,0), A'(-3,-2)
-  var el3=document.getElementById('scen_svg0');
-  if(el3)el3.innerHTML=svgGrille([{x:3,y:2,label:'A',color:'#4FA3D1'},{x:-3,y:-2,label:"A'",color:'#EF5D60'}],{centre:{x:0,y:0},W:260,H:220});
-  // Translation step 0 : A(1,1), vecteur (3,2), A'(4,3)
-  var el4=document.getElementById('trans_svg0');
-  if(el4)el4.innerHTML=svgGrille([{x:1,y:1,label:'A',color:'#4FA3D1'},{x:4,y:3,label:"A'",color:'#EF5D60'}],{vecteur:{dx:3,dy:2,from:{x:1,y:1}},W:260,H:220});
-  // Rotation step 0 : A(3,1), rotation 90° direct → A'(-1,3)
-  var el5=document.getElementById('rot_svg0');
-  if(el5)el5.innerHTML=svgGrille([{x:3,y:1,label:'A',color:'#4FA3D1'},{x:-1,y:3,label:"A'",color:'#EF5D60'}],{centre:{x:0,y:0},W:260,H:220});
-}
-
-/* ===== NAVIGATION LEÇONS ===== */
-function symNext(n){document.querySelectorAll('[id^="sym_step"]').forEach(function(e){e.classList.remove('active');});var el=document.getElementById('sym_step'+n);if(el)el.classList.add('active');}
-function scenNext(n){document.querySelectorAll('[id^="scen_step"]').forEach(function(e){e.classList.remove('active');});var el=document.getElementById('scen_step'+n);if(el)el.classList.add('active');}
-function transNext(n){document.querySelectorAll('[id^="trans_step"]').forEach(function(e){e.classList.remove('active');});var el=document.getElementById('trans_step'+n);if(el)el.classList.add('active');}
-function rotNext(n){document.querySelectorAll('[id^="rot_step"]').forEach(function(e){e.classList.remove('active');});var el=document.getElementById('rot_step'+n);if(el)el.classList.add('active');}
-function homNext(n){document.querySelectorAll('[id^="hom_step"]').forEach(function(e){e.classList.remove('active');});var el=document.getElementById('hom_step'+n);if(el)el.classList.add('active');}
-
-/* ===== GÉNÉRATEURS ===== */
-
-function genSymetrie(){
-  // type : 'axeH' (axe y=k) ou 'axeV' (axe x=k)
-  var types=['axeH','axeV'];
-  var type=pick(types);
-  var k=(Math.random()<0.6)?0:pick([-2,-1,1,2]);
-
-  var ax, ay;
-  do{ax=rint(-4,4);}while(ax===0||ax===k);
-  do{ay=rint(-4,4);}while(ay===0||ay===k);
-
-  var prx, pry, axeDesc;
-  if(type==='axeH'){
-    prx=ax; pry=2*k-ay;
-    axeDesc=k===0?"l'axe des abscisses (y = 0)":"l'axe d'équation y = "+k;
+/* ===== GÉNÉRATEUR THÈME 1 : × et ÷ avant + et − ===== */
+function genPriorite1(){
+  var sub=rnd(3);
+  if(sub===0){
+    // Type A: a + b × c
+    var a=rint(2,20),b=rint(2,9),c=rint(2,5);
+    var bc=b*c,res=a+bc;
+    return {type:'casc',cat:'priorite1',sig:'p1A'+a+b+c,
+      text:'Pose la rédaction en colonne :<br><b>'+a+' + '+b+' × '+c+'</b>',viz:'',
+      steps:[
+        {prompt:'<b>× est prioritaire sur +.</b> Calcule '+b+' × '+c+' et réécris la ligne :',
+         parts:['= '+a+' + ',{kind:'num',ans:bc,w:70},''],
+         aide:b+' × '+c+' = '+bc+'. La ligne suivante : = '+a+' + '+bc},
+        {prompt:'<b>Calcule l\'addition :</b>',
+         parts:['= ',{kind:'num',ans:res,w:70},''],
+         aide:a+' + '+bc+' = '+res}
+      ]};
+  } else if(sub===1){
+    // Type B: a − b ÷ c  (b divisible par c)
+    var c2=pick([2,3,4,5]);
+    var b2=c2*rint(2,8);
+    var a2=rint(b2/c2+1,20);
+    var bc2=b2/c2,res2=a2-bc2;
+    return {type:'casc',cat:'priorite1',sig:'p1B'+a2+b2+c2,
+      text:'Pose la rédaction en colonne :<br><b>'+a2+' − '+b2+' ÷ '+c2+'</b>',viz:'',
+      steps:[
+        {prompt:'<b>÷ est prioritaire sur −.</b> Calcule '+b2+' ÷ '+c2+' et réécris la ligne :',
+         parts:['= '+a2+' − ',{kind:'num',ans:bc2,w:70},''],
+         aide:b2+' ÷ '+c2+' = '+bc2+'. La ligne suivante : = '+a2+' − '+bc2},
+        {prompt:'<b>Calcule la soustraction :</b>',
+         parts:['= ',{kind:'num',ans:res2,w:70},''],
+         aide:a2+' − '+bc2+' = '+res2}
+      ]};
   } else {
-    prx=2*k-ax; pry=ay;
-    axeDesc=k===0?"l'axe des ordonnées (x = 0)":"l'axe d'équation x = "+k;
+    // Type C: a × b + c × d
+    var a3=rint(2,9),b3=rint(2,8),c3=rint(2,6),d3=rint(2,8);
+    var ab3=a3*b3,cd3=c3*d3,res3=ab3+cd3;
+    return {type:'casc',cat:'priorite1',sig:'p1C'+a3+b3+c3+d3,
+      text:'Pose la rédaction en colonne :<br><b>'+a3+' × '+b3+' + '+c3+' × '+d3+'</b>',viz:'',
+      steps:[
+        {prompt:'<b>Deux multiplications prioritaires.</b> Calcule '+a3+' × '+b3+' et réécris la ligne :',
+         parts:['= ',{kind:'num',ans:ab3,w:70},' + '+c3+' × '+d3],
+         aide:a3+' × '+b3+' = '+ab3+'. On remplace la 1ère multiplication.'},
+        {prompt:'<b>Calcule la 2ème multiplication :</b>',
+         parts:['= '+ab3+' + ',{kind:'num',ans:cd3,w:70},''],
+         aide:c3+' × '+d3+' = '+cd3},
+        {prompt:'<b>Calcule l\'addition :</b>',
+         parts:['= ',{kind:'num',ans:res3,w:70},''],
+         aide:ab3+' + '+cd3+' = '+res3}
+      ]};
   }
-
-  var vizOpts=type==='axeH'?{axeH:k,W:260,H:220}:{axeV:k,W:260,H:220};
-  var viz=svgGrille([{x:ax,y:ay,label:'A',color:'#4FA3D1'}],vizOpts);
-
-  return {
-    type:'casc', sig:'sym'+type+ax+ay+k, cat:'symetrie',
-    viz:viz,
-    text:'Le point A('+ax+' ; '+ay+') est symétrique par rapport à '+axeDesc+'.<br>Quelles sont les coordonnées de A\' ?',
-    explain:'A\'('+prx+' ; '+pry+')',
-    steps:[
-      {prompt:'<b>Étape 1 :</b> Quelle est l\'abscisse de A\' ?',
-       parts:["A' = ( ", {kind:'num',ans:prx,show:''+prx,w:50}, ' ; _____ )'],
-       aide:type==='axeH'?'L\'abscisse ne change pas : A\'x = Ax = '+ax:'Calcule 2×'+k+'−'+ax+' = '+(2*k-ax)},
-      {prompt:'<b>Étape 2 :</b> Quelle est l\'ordonnée de A\' ?',
-       parts:["A' = ( "+prx+" ; ", {kind:'num',ans:pry,show:''+pry,w:50}, ' )'],
-       aide:type==='axeH'?'Calcule 2×'+k+'−'+ay+' = '+(2*k-ay):'L\'ordonnée ne change pas : A\'y = Ay = '+ay}
-    ]
-  };
 }
 
-function genSymetricen(){
-  var simple=Math.random()<0.5;
-  var ox=simple?0:pick([-2,-1,1,2]);
-  var oy=simple?0:pick([-2,-1,1,2]);
-
-  var ax, ay;
-  do{ax=rint(-4,4);}while(ax===ox);
-  do{ay=rint(-4,4);}while(ay===oy);
-
-  var prx=2*ox-ax, pry=2*oy-ay;
-  var centreDesc=simple?'l\'origine O(0 ; 0)':'le point O('+ox+' ; '+oy+')';
-  var vizOpts={centre:{x:ox,y:oy},W:260,H:220};
-  var viz=svgGrille([{x:ax,y:ay,label:'A',color:'#4FA3D1'}],vizOpts);
-
-  var aideX=simple?'−('+ax+') = '+prx:'2×'+ox+'−'+ax+' = '+prx;
-  var aideY=simple?'−('+ay+') = '+pry:'2×'+oy+'−'+ay+' = '+pry;
-
-  return {
-    type:'casc', sig:'scen'+ax+ay+ox+oy, cat:'symetricen',
-    viz:viz,
-    text:'A('+ax+' ; '+ay+') est symétrique par rapport à '+centreDesc+'.<br>Quelles sont les coordonnées de A\' ?',
-    explain:'A\'('+prx+' ; '+pry+')',
-    steps:[
-      {prompt:'<b>Étape 1 :</b> Quelle est l\'abscisse de A\' ?',
-       parts:["A' = ( ", {kind:'num',ans:prx,show:''+prx,w:50}, ' ; _____ )'],
-       aide:'Formule : 2×'+ox+' − '+ax+' = '+aideX},
-      {prompt:'<b>Étape 2 :</b> Quelle est l\'ordonnée de A\' ?',
-       parts:["A' = ( "+prx+" ; ", {kind:'num',ans:pry,show:''+pry,w:50}, ' )'],
-       aide:'Formule : 2×'+oy+' − '+ay+' = '+aideY}
-    ]
-  };
-}
-
-function genTranslation(){
-  var dx=pick([-3,-2,-1,1,2,3]);
-  var dy=pick([-3,-2,-1,1,2,3]);
-  var ax=rint(-3,3), ay=rint(-3,3);
-  // S'assurer que A' reste dans [-5,5]
-  var safety=0;
-  while(Math.abs(ax+dx)>5&&safety<20){dx=pick([-3,-2,-1,1,2,3]);safety++;}
-  safety=0;
-  while(Math.abs(ay+dy)>5&&safety<20){dy=pick([-3,-2,-1,1,2,3]);safety++;}
-
-  var prx=ax+dx, pry=ay+dy;
-  var vizOpts={vecteur:{dx:dx,dy:dy,from:{x:ax,y:ay}},W:260,H:220};
-  var viz=svgGrille([{x:ax,y:ay,label:'A',color:'#4FA3D1'}],vizOpts);
-  var dxStr=dx>0?'+'+dx:''+dx;
-  var dyStr=dy>0?'+'+dy:''+dy;
-
-  return {
-    type:'casc', sig:'trans'+ax+ay+dx+dy, cat:'translation',
-    viz:viz,
-    text:'On applique la translation de vecteur t('+dx+' ; '+dy+') au point A('+ax+' ; '+ay+').<br>Quelles sont les coordonnées de A\' ?',
-    explain:'A\'('+prx+' ; '+pry+')',
-    steps:[
-      {prompt:'<b>Étape 1 :</b> Quelle est l\'abscisse de A\' ?',
-       parts:["A' = ( ", {kind:'num',ans:prx,show:''+prx,w:50}, ' ; _____ )'],
-       aide:'Abscisse : '+ax+dxStr+' = '+prx},
-      {prompt:'<b>Étape 2 :</b> Quelle est l\'ordonnée de A\' ?',
-       parts:["A' = ( "+prx+" ; ", {kind:'num',ans:pry,show:''+pry,w:50}, ' )'],
-       aide:'Ordonnée : '+ay+dyStr+' = '+pry}
-    ]
-  };
-}
-
-function genRotation(){
-  var angles=['180','90d','90i'];
-  var angle=pick(angles);
-  var ax=rint(-4,4); while(ax===0)ax=rint(-4,4);
-  var ay=rint(-4,4); while(ay===0)ay=rint(-4,4);
-
-  var prx, pry, angleDesc, aide1, aide2;
-  if(angle==='180'){
-    prx=-ax; pry=-ay;
-    angleDesc='180°';
-    aide1='Rotation 180° : abscisse = −'+ax+' = '+prx;
-    aide2='Rotation 180° : ordonnée = −'+ay+' = '+pry;
-  } else if(angle==='90d'){
-    prx=-ay; pry=ax;
-    angleDesc='90° dans le sens direct (anti-horaire)';
-    aide1='Rotation 90° direct : abscisse = −y = −('+ay+') = '+prx;
-    aide2='Rotation 90° direct : ordonnée = x = '+ax+' = '+pry;
+/* ===== GÉNÉRATEUR THÈME 2 : PARENTHÈSES ===== */
+function genParentheses(){
+  var sub=rnd(4);
+  if(sub===0){
+    // Type A: (a + b) × c
+    var a=rint(2,12),b=rint(2,10),c=rint(2,8);
+    var ab=a+b,res=ab*c;
+    return {type:'casc',cat:'parentheses',sig:'paA'+a+b+c,
+      text:'Pose la rédaction en colonne :<br><b>('+a+' + '+b+') × '+c+'</b>',viz:'',
+      steps:[
+        {prompt:'<b>Parenthèses d\'abord.</b> Calcule '+a+' + '+b+' et réécris la ligne :',
+         parts:['= ',{kind:'num',ans:ab,w:70},' × '+c],
+         aide:a+' + '+b+' = '+ab+'. On remplace ('+a+' + '+b+') par '+ab+'.'},
+        {prompt:'<b>Calcule la multiplication :</b>',
+         parts:['= ',{kind:'num',ans:res,w:70},''],
+         aide:ab+' × '+c+' = '+res}
+      ]};
+  } else if(sub===1){
+    // Type B: (a − b) × c  (a > b)
+    var a2=rint(6,15),b2=rint(2,a2-2),c2=rint(2,8);
+    var ab2=a2-b2,res2=ab2*c2;
+    return {type:'casc',cat:'parentheses',sig:'paB'+a2+b2+c2,
+      text:'Pose la rédaction en colonne :<br><b>('+a2+' − '+b2+') × '+c2+'</b>',viz:'',
+      steps:[
+        {prompt:'<b>Parenthèses d\'abord.</b> Calcule '+a2+' − '+b2+' et réécris la ligne :',
+         parts:['= ',{kind:'num',ans:ab2,w:70},' × '+c2],
+         aide:a2+' − '+b2+' = '+ab2+'. On remplace ('+a2+' − '+b2+') par '+ab2+'.'},
+        {prompt:'<b>Calcule la multiplication :</b>',
+         parts:['= ',{kind:'num',ans:res2,w:70},''],
+         aide:ab2+' × '+c2+' = '+res2}
+      ]};
+  } else if(sub===2){
+    // Type C: a × (b + c) − d
+    var a3=rint(2,7),b3=rint(2,9),c3=rint(2,8),d3=rint(2,10);
+    var bc3=b3+c3,abc3=a3*bc3,res3=abc3-d3;
+    return {type:'casc',cat:'parentheses',sig:'paC'+a3+b3+c3+d3,
+      text:'Pose la rédaction en colonne :<br><b>'+a3+' × ('+b3+' + '+c3+') − '+d3+'</b>',viz:'',
+      steps:[
+        {prompt:'<b>Parenthèses d\'abord.</b> Calcule '+b3+' + '+c3+' et réécris la ligne :',
+         parts:['= '+a3+' × ',{kind:'num',ans:bc3,w:70},' − '+d3],
+         aide:b3+' + '+c3+' = '+bc3+'. On remplace ('+b3+' + '+c3+') par '+bc3+'.'},
+        {prompt:'<b>Calcule la multiplication :</b>',
+         parts:['= ',{kind:'num',ans:abc3,w:70},' − '+d3],
+         aide:a3+' × '+bc3+' = '+abc3},
+        {prompt:'<b>Calcule la soustraction :</b>',
+         parts:['= ',{kind:'num',ans:res3,w:70},''],
+         aide:abc3+' − '+d3+' = '+res3}
+      ]};
   } else {
-    prx=ay; pry=-ax;
-    angleDesc='90° dans le sens indirect (horaire)';
-    aide1='Rotation 90° indirect : abscisse = y = '+ay+' = '+prx;
-    aide2='Rotation 90° indirect : ordonnée = −x = −('+ax+') = '+pry;
+    // Type D: (a + b) × (c − d)  (c > d)
+    var a4=rint(2,10),b4=rint(2,9),c4=rint(5,15),d4=rint(2,c4-1);
+    var ab4=a4+b4,cd4=c4-d4,res4=ab4*cd4;
+    return {type:'casc',cat:'parentheses',sig:'paD'+a4+b4+c4+d4,
+      text:'Pose la rédaction en colonne :<br><b>('+a4+' + '+b4+') × ('+c4+' − '+d4+')</b>',viz:'',
+      steps:[
+        {prompt:'<b>1ères parenthèses.</b> Calcule '+a4+' + '+b4+' et réécris la ligne :',
+         parts:['= ',{kind:'num',ans:ab4,w:70},' × ('+c4+' − '+d4+')'],
+         aide:a4+' + '+b4+' = '+ab4},
+        {prompt:'<b>2èmes parenthèses.</b> Calcule '+c4+' − '+d4+' et réécris la ligne :',
+         parts:['= '+ab4+' × ',{kind:'num',ans:cd4,w:70},''],
+         aide:c4+' − '+d4+' = '+cd4},
+        {prompt:'<b>Calcule le produit :</b>',
+         parts:['= ',{kind:'num',ans:res4,w:70},''],
+         aide:ab4+' × '+cd4+' = '+res4}
+      ]};
   }
-
-  var viz=svgGrille([{x:ax,y:ay,label:'A',color:'#4FA3D1'}],{centre:{x:0,y:0},W:260,H:220});
-
-  return {
-    type:'casc', sig:'rot'+angle+ax+ay, cat:'rotation',
-    viz:viz,
-    text:'On effectue une rotation de <b>'+angleDesc+'</b> autour de O(0 ; 0) sur le point A('+ax+' ; '+ay+').<br>Quelles sont les coordonnées de A\' ?',
-    explain:'A\'('+prx+' ; '+pry+')',
-    steps:[
-      {prompt:'<b>Étape 1 :</b> Quelle est l\'abscisse de A\' ?',
-       parts:["A' = ( ", {kind:'num',ans:prx,show:''+prx,w:50}, ' ; _____ )'],
-       aide:aide1},
-      {prompt:'<b>Étape 2 :</b> Quelle est l\'ordonnée de A\' ?',
-       parts:["A' = ( "+prx+" ; ", {kind:'num',ans:pry,show:''+pry,w:50}, ' )'],
-       aide:aide2}
-    ]
-  };
 }
 
-function genHomothetie(){
-  // rapport k entier simple : 2, -2, 3, -3, ou fraction 1/2 (rendu comme 0.5)
-  var rapports=[2,-2,3,-3];
-  var k=pick(rapports);
-  var simple=Math.random()<0.6; // centre O(0,0)
-  var cx=simple?0:pick([-1,1,2,-2]);
-  var cy=simple?0:pick([-1,1,2,-2]);
-  // Point A tel que A' reste dans [-5,5]
-  var ax,ay,prx,pry,tries=0;
-  do{
-    ax=rint(-3,3);ay=rint(-3,3);
-    prx=cx+k*(ax-cx);pry=cy+k*(ay-cy);
-    tries++;
-  }while((Math.abs(prx)>5||Math.abs(pry)>5||ax===cx&&ay===cy)&&tries<20);
-  var centreDesc=simple?'O(0 ; 0)':'C('+cx+' ; '+cy+')';
-  var viz=svgGrille([{x:ax,y:ay,label:'A',color:'#4FA3D1'}],{centre:{x:cx,y:cy},W:260,H:220});
-  var aide1=simple?'k×xA = '+k+'×'+ax+' = '+prx:''+cx+' + '+k+'×('+ax+'−'+cx+') = '+prx;
-  var aide2=simple?'k×yA = '+k+'×'+ay+' = '+pry:''+cy+' + '+k+'×('+ay+'−'+cy+') = '+pry;
-  return {
-    type:'casc',sig:'hom'+k+ax+ay+cx+cy,cat:'homothetie',
-    viz:viz,
-    text:'Homothétie de centre '+centreDesc+' et de rapport k = '+k+'.<br>A('+ax+' ; '+ay+'). Quelles sont les coordonnées de A\' ?',
-    explain:'A\'('+prx+' ; '+pry+')',
-    steps:[
-      {prompt:'<b>Étape 1 :</b> Abscisse de A\' ?',
-       parts:["A' = ( ",{kind:'num',ans:prx,w:50},' ; _____ )'],
-       aide:aide1},
-      {prompt:'<b>Étape 2 :</b> Ordonnée de A\' ?',
-       parts:["A' = ( "+prx+" ; ",{kind:'num',ans:pry,w:50},' )'],
-       aide:aide2}
-    ]
-  };
+/* ===== GÉNÉRATEUR THÈME 3 : CHAÎNE D'OPÉRATIONS ===== */
+function genChaine(){
+  var sub=rnd(3);
+  if(sub===0){
+    // Type A: a − b + c  (a > b, all positive)
+    var a,b,c,tries=0;
+    do{a=rint(10,25);b=rint(2,a-3);c=rint(2,10);tries++;}while(a-b<=0&&tries<20);
+    var ab=a-b,res=ab+c;
+    return {type:'casc',cat:'chaine',sig:'chA'+a+b+c,
+      text:'Pose la rédaction en colonne :<br><b>'+a+' − '+b+' + '+c+'</b>',viz:'',
+      steps:[
+        {prompt:'<b>De gauche à droite.</b> Calcule '+a+' − '+b+' et réécris la ligne :',
+         parts:['= ',{kind:'num',ans:ab,w:70},' + '+c],
+         aide:a+' − '+b+' = '+ab},
+        {prompt:'<b>Calcule l\'addition :</b>',
+         parts:['= ',{kind:'num',ans:res,w:70},''],
+         aide:ab+' + '+c+' = '+res}
+      ]};
+  } else if(sub===1){
+    // Type B: a ÷ b × c  (clean division)
+    var b2=pick([2,3,4,5,6]);
+    var a2=b2*rint(3,8),c2=rint(2,7);
+    var ab2=a2/b2,res2=ab2*c2;
+    return {type:'casc',cat:'chaine',sig:'chB'+a2+b2+c2,
+      text:'Pose la rédaction en colonne :<br><b>'+a2+' ÷ '+b2+' × '+c2+'</b>',viz:'',
+      steps:[
+        {prompt:'<b>De gauche à droite.</b> Calcule '+a2+' ÷ '+b2+' et réécris la ligne :',
+         parts:['= ',{kind:'num',ans:ab2,w:70},' × '+c2],
+         aide:a2+' ÷ '+b2+' = '+ab2},
+        {prompt:'<b>Calcule la multiplication :</b>',
+         parts:['= ',{kind:'num',ans:res2,w:70},''],
+         aide:ab2+' × '+c2+' = '+res2}
+      ]};
+  } else {
+    // Type C: a + b − c + d  (all positive intermediate results)
+    var a3,b3,c3,d3,t=0;
+    do{a3=rint(5,18);b3=rint(2,10);c3=rint(2,a3+b3-2);d3=rint(2,10);t++;}while((a3+b3-c3)<=0&&t<20);
+    var s1=a3+b3,s2=s1-c3,res3=s2+d3;
+    return {type:'casc',cat:'chaine',sig:'chC'+a3+b3+c3+d3,
+      text:'Pose la rédaction en colonne :<br><b>'+a3+' + '+b3+' − '+c3+' + '+d3+'</b>',viz:'',
+      steps:[
+        {prompt:'<b>De gauche à droite.</b> Calcule '+a3+' + '+b3+' et réécris la ligne :',
+         parts:['= ',{kind:'num',ans:s1,w:70},' − '+c3+' + '+d3],
+         aide:a3+' + '+b3+' = '+s1},
+        {prompt:'<b>Calcule la soustraction :</b>',
+         parts:['= ',{kind:'num',ans:s2,w:70},' + '+d3],
+         aide:s1+' − '+c3+' = '+s2},
+        {prompt:'<b>Calcule l\'addition :</b>',
+         parts:['= ',{kind:'num',ans:res3,w:70},''],
+         aide:s2+' + '+d3+' = '+res3}
+      ]};
+  }
 }
-var GEN={symetrie:genSymetrie,symetricen:genSymetricen,translation:genTranslation,rotation:genRotation,homothetie:genHomothetie};
+
+/* ===== GÉNÉRATEUR THÈME 4 : TOUT ENSEMBLE ===== */
+function genEnsemble(){
+  var sub=rnd(3);
+  if(sub===0){
+    // Type A: (a + b) × c − d
+    var a=rint(2,10),b=rint(2,9),c=rint(2,7),d=rint(2,15);
+    var ab=a+b,x=ab*c,res=x-d;
+    return {type:'casc',cat:'ensemble',sig:'enA'+a+b+c+d,
+      text:'Calcule en respectant les priorités :<br><b>('+a+' + '+b+') × '+c+' − '+d+'</b>',viz:'',
+      steps:[
+        {prompt:'<b>① Parenthèses d\'abord.</b> Calcule '+a+' + '+b+' et réécris la ligne :',
+         parts:['= ',{kind:'num',ans:ab,w:70},' × '+c+' − '+d],
+         aide:a+' + '+b+' = '+ab},
+        {prompt:'<b>② Multiplication.</b> Calcule '+ab+' × '+c+' et réécris la ligne :',
+         parts:['= ',{kind:'num',ans:x,w:70},' − '+d],
+         aide:ab+' × '+c+' = '+x},
+        {prompt:'<b>③ Calcule la soustraction :</b>',
+         parts:['= ',{kind:'num',ans:res,w:70},''],
+         aide:x+' − '+d+' = '+res}
+      ]};
+  } else if(sub===1){
+    // Type B: a + b × (c − d)  (c > d)
+    var a2=rint(2,15),b2=rint(2,8),c2=rint(5,14),d2=rint(2,c2-1);
+    var cd2=c2-d2,y2=b2*cd2,res2=a2+y2;
+    return {type:'casc',cat:'ensemble',sig:'enB'+a2+b2+c2+d2,
+      text:'Calcule en respectant les priorités :<br><b>'+a2+' + '+b2+' × ('+c2+' − '+d2+')</b>',viz:'',
+      steps:[
+        {prompt:'<b>① Parenthèses d\'abord.</b> Calcule '+c2+' − '+d2+' et réécris la ligne :',
+         parts:['= '+a2+' + '+b2+' × ',{kind:'num',ans:cd2,w:70},''],
+         aide:c2+' − '+d2+' = '+cd2},
+        {prompt:'<b>② Multiplication.</b> Calcule '+b2+' × '+cd2+' et réécris la ligne :',
+         parts:['= '+a2+' + ',{kind:'num',ans:y2,w:70},''],
+         aide:b2+' × '+cd2+' = '+y2},
+        {prompt:'<b>③ Calcule l\'addition :</b>',
+         parts:['= ',{kind:'num',ans:res2,w:70},''],
+         aide:a2+' + '+y2+' = '+res2}
+      ]};
+  } else {
+    // Type C: (a × b + c) ÷ d — ensure divisible
+    var d3=pick([2,3,4,5]);
+    var a3=rint(2,7),b3=rint(2,8);
+    var ab3=a3*b3;
+    var rem=ab3%d3;
+    var c3=(rem===0)?0:(d3-rem);
+    if(c3===0)c3=d3;
+    var s3=ab3+c3,res3=s3/d3;
+    return {type:'casc',cat:'ensemble',sig:'enC'+a3+b3+c3+d3,
+      text:'Calcule en respectant les priorités :<br><b>('+a3+' × '+b3+' + '+c3+') ÷ '+d3+'</b>',viz:'',
+      steps:[
+        {prompt:'<b>① Dans la parenthèse, × d\'abord.</b> Calcule '+a3+' × '+b3+' et réécris la ligne :',
+         parts:['= (',{kind:'num',ans:ab3,w:70},' + '+c3+') ÷ '+d3],
+         aide:'× prioritaire sur + dans la parenthèse. '+a3+' × '+b3+' = '+ab3},
+        {prompt:'<b>② Termine la parenthèse.</b> Calcule '+ab3+' + '+c3+' et réécris la ligne :',
+         parts:['= ',{kind:'num',ans:s3,w:70},' ÷ '+d3],
+         aide:ab3+' + '+c3+' = '+s3},
+        {prompt:'<b>③ Calcule la division :</b>',
+         parts:['= ',{kind:'num',ans:res3,w:70},''],
+         aide:s3+' ÷ '+d3+' = '+res3}
+      ]};
+  }
+}
+
+/* ===== GÉNÉRATEUR THÈME 5 : PROBLÈMES ===== */
+function genProblemes(){
+  var sub=rnd(5);
+  if(sub===0){
+    // Bonbons : total − donne × amis
+    var total=rint(15,30),donnep=rint(2,5),amis=rint(3,6);
+    var donne=donnep*amis,reste=total-donne;
+    if(reste<0){total=donne+rint(2,10);reste=total-donne;}
+    return {type:'casc',cat:'problemes',sig:'pb0'+total+donnep+amis,
+      text:'🍬 <b>Problème :</b> Paul a <b>'+total+'</b> bonbons. Il en donne <b>'+donnep+'</b> à chacun de ses <b>'+amis+'</b> amis. Combien lui en reste-t-il ?<br><div class="formule" style="margin:10px 0;font-size:1.05rem">'+total+' − '+donnep+' × '+amis+'</div>',viz:'',
+      steps:[
+        {prompt:'<b>× prioritaire.</b> Calcule '+donnep+' × '+amis+' et réécris la ligne :',
+         parts:['= '+total+' − ',{kind:'num',ans:donne,w:70},''],
+         aide:donnep+' × '+amis+' = '+donne+' bonbons donnés en tout'},
+        {prompt:'<b>Calcule la soustraction :</b>',
+         parts:['= ',{kind:'num',ans:reste,w:70},' bonbon'+(reste>1?'s':'')],
+         aide:total+' − '+donne+' = '+reste}
+      ]};
+  } else if(sub===1){
+    // Sièges : rangées × par rangée + supplémentaires
+    var rangees=rint(3,8),parRangee=rint(5,12),supp=rint(1,8);
+    var total2=rangees*parRangee+supp;
+    return {type:'casc',cat:'problemes',sig:'pb1'+rangees+parRangee+supp,
+      text:'💺 <b>Problème :</b> Une salle a <b>'+rangees+'</b> rangées de <b>'+parRangee+'</b> sièges, plus <b>'+supp+'</b> sièges supplémentaires. Combien de sièges en tout ?<br><div class="formule" style="margin:10px 0;font-size:1.05rem">'+rangees+' × '+parRangee+' + '+supp+'</div>',viz:'',
+      steps:[
+        {prompt:'<b>× prioritaire.</b> Calcule '+rangees+' × '+parRangee+' et réécris la ligne :',
+         parts:['= ',{kind:'num',ans:rangees*parRangee,w:70},' + '+supp],
+         aide:rangees+' × '+parRangee+' = '+(rangees*parRangee)+' sièges dans les rangées'},
+        {prompt:'<b>Calcule l\'addition :</b>',
+         parts:['= ',{kind:'num',ans:total2,w:70},' sièges au total'],
+         aide:(rangees*parRangee)+' + '+supp+' = '+total2}
+      ]};
+  } else if(sub===2){
+    // Argent : salaire × heures − dépense
+    var sal=rint(8,15),heures=rint(2,6),depense=rint(3,20);
+    var gagne=sal*heures,reste2=gagne-depense;
+    if(reste2<0){depense=rint(1,gagne-1);reste2=gagne-depense;}
+    return {type:'casc',cat:'problemes',sig:'pb2'+sal+heures+depense,
+      text:'💶 <b>Problème :</b> Sarah gagne <b>'+sal+' €</b> par heure. Elle travaille <b>'+heures+' heures</b> et dépense <b>'+depense+' €</b>. Combien lui reste-t-il ?<br><div class="formule" style="margin:10px 0;font-size:1.05rem">'+sal+' × '+heures+' − '+depense+'</div>',viz:'',
+      steps:[
+        {prompt:'<b>× prioritaire.</b> Calcule '+sal+' × '+heures+' et réécris la ligne :',
+         parts:['= ',{kind:'num',ans:gagne,w:70},' − '+depense],
+         aide:sal+' × '+heures+' = '+gagne+' €'},
+        {prompt:'<b>Calcule la soustraction :</b>',
+         parts:['= ',{kind:'num',ans:reste2,w:70},' €'],
+         aide:gagne+' − '+depense+' = '+reste2+' €'}
+      ]};
+  } else if(sub===3){
+    // Points partagés : (a + b) ÷ 2
+    var pa=rint(10,30),pb=rint(4,20);
+    if((pa+pb)%2!==0)pb++;
+    var somme=pa+pb,moitie=somme/2;
+    return {type:'casc',cat:'problemes',sig:'pb3'+pa+pb,
+      text:'🎮 <b>Problème :</b> Léa a <b>'+pa+'</b> points et Tom a <b>'+pb+'</b> points. Ils mettent leurs points en commun et se les partagent équitablement. Combien chacun aura-t-il ?<br><div class="formule" style="margin:10px 0;font-size:1.05rem">('+pa+' + '+pb+') ÷ 2</div>',viz:'',
+      steps:[
+        {prompt:'<b>Parenthèses d\'abord.</b> Calcule '+pa+' + '+pb+' et réécris la ligne :',
+         parts:['= ',{kind:'num',ans:somme,w:70},' ÷ 2'],
+         aide:pa+' + '+pb+' = '+somme+' points en tout'},
+        {prompt:'<b>Calcule la division :</b>',
+         parts:['= ',{kind:'num',ans:moitie,w:70},' points chacun'],
+         aide:somme+' ÷ 2 = '+moitie}
+      ]};
+  } else {
+    // Boîtes de chocolats : nb × (a + b)
+    var nb=rint(2,6),a5=rint(2,8),b5=rint(2,6);
+    var ab5=a5+b5,total5=nb*ab5;
+    return {type:'casc',cat:'problemes',sig:'pb4'+nb+a5+b5,
+      text:'🍫 <b>Problème :</b> <b>'+nb+'</b> boîtes contiennent chacune <b>('+a5+' + '+b5+')</b> chocolats. Combien y a-t-il de chocolats en tout ?<br><div class="formule" style="margin:10px 0;font-size:1.05rem">'+nb+' × ('+a5+' + '+b5+')</div>',viz:'',
+      steps:[
+        {prompt:'<b>Parenthèses d\'abord.</b> Calcule '+a5+' + '+b5+' et réécris la ligne :',
+         parts:['= '+nb+' × ',{kind:'num',ans:ab5,w:70},''],
+         aide:a5+' + '+b5+' = '+ab5+' chocolats par boîte'},
+        {prompt:'<b>Calcule la multiplication :</b>',
+         parts:['= ',{kind:'num',ans:total5,w:70},' chocolats au total'],
+         aide:nb+' × '+ab5+' = '+total5}
+      ]};
+  }
+}
+
+
+var GEN={priorite1:genPriorite1,parentheses:genParentheses,chaine:genChaine,ensemble:genEnsemble,problemes:genProblemes};
 
 /* ===== MOTEUR QUIZ ===== */
 var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,casc:null,lastText:'',timer:0};
@@ -884,17 +897,19 @@ function quizNext(){clearTimeout(Q.timer);
   Q.locked=false;var e=Q.els;e.feed.textContent='';e.feed.className='feedback';if(e.stars)e.stars.textContent='';if(e.next)e.next.style.display='none';
   if(e.casc){e.casc.style.display='none';e.casc.innerHTML='';}
   var cat,cur,tries=0;do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while((cur.sig||cur.text)===Q.lastText&&tries<8);
-  Q.cur=cur;Q.lastText=(cur.sig||cur.text);e.cat.textContent=CATNOM[cat];e.text.innerHTML=cur.text;
+  Q.cur=cur;Q.lastText=(cur.sig||cur.text);e.cat.innerHTML=CATNOM[cat]||cat;e.text.innerHTML=cur.text;
   if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
-  if(cur.type==='qcm'){if(e.work)e.work.style.display='block';e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';cur.options.forEach(function(o,i){var btn=document.createElement('button');btn.className='opt';btn.textContent=o;btn.onclick=(function(ii){return function(){quizPick(ii);};})(i);e.opts.appendChild(btn);});}
-  else if(cur.type==='casc'){if(e.work)e.work.style.display='none';e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);}
-  else{if(e.work)e.work.style.display='block';e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
+  if(cur.type==='casc'){
+    if(e.work)e.work.style.display='none';e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);
+  } else {
+    if(e.work)e.work.style.display='block';e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();
+  }
   quizScore();}
-function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='\u00c9cris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La r\u00e9ponse est '+Q.cur.disp+'.');}
-function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'La bonne r\u00e9ponse\u00a0: '+Q.cur.options[Q.cur.correct]+'.');}
+
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;if(!e.input.value.trim()){e.feed.className='feedback no';e.feed.textContent='Écris ta réponse d\'abord !';return;}var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre valide.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La r\u00e9ponse est '+Q.cur.disp+'.');}
 function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
-  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='\u2705 Bravo\u00a0!<div class="feedlab">'+Q.cur.explain+'</div>';if(e.stars)e.stars.textContent='\u2b50'.repeat(Math.min(Q.streak,5));confettis();}
-  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='\u274c '+correctTxt+'<div class="feedlab">'+Q.cur.explain+'</div>';if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
+  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='\u2705 Bravo\u00a0!'+(Q.cur.explain?'<div class="feedlab">'+Q.cur.explain+'</div>':'');if(e.stars)e.stars.textContent='\u2b50'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='\u274c '+correctTxt+(Q.cur.explain&&Q.cur.explain!==correctTxt?'<div class="feedlab">'+Q.cur.explain+'</div>':'');if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
   quizScore();
   var last=Q.guided&&Q.answered>=serieLen();
   if(ok&&!last){Q.timer=setTimeout(quizNext,1500);}
@@ -933,13 +948,12 @@ function cascMkBlank(p,e,idx){
 }
 function cascRenderParts(parent,arr,e,idx){
   arr.forEach(function(p){
-    if(typeof p==='string'){var sp=document.createElement('span');sp.textContent=p;parent.appendChild(sp);}
-    else if(p.frac){var f=document.createElement('span');f.className='cfrac';
-      var nu=document.createElement('span');nu.className='cfnum';cascRenderParts(nu,p.frac[0],e,idx);
-      var ba=document.createElement('span');ba.className='cfbar';
-      var de=document.createElement('span');de.className='cfden';cascRenderParts(de,p.frac[1],e,idx);
-      f.appendChild(nu);f.appendChild(ba);f.appendChild(de);parent.appendChild(f);}
-    else{parent.appendChild(cascMkBlank(p,e,idx));}
+    if(typeof p==='string'){
+      if(p===''){return;}
+      var sp=document.createElement('span');sp.innerHTML=p;parent.appendChild(sp);
+    } else if(p&&typeof p==='object'&&p.kind){
+      parent.appendChild(cascMkBlank(p,e,idx));
+    }
   });
 }
 function cascRender(e,idx){
@@ -967,7 +981,7 @@ function cascVerify(e,idx){
   if(allOK){st._done=true;st._blanks.forEach(function(z){z.el.disabled=true;});fb.className='cfeed ok';fb.textContent='\u2705 Bien r\u00e9dig\u00e9.';cascAdvance(e,idx);return;}
   st._tries++;
   if(st._tries>=3){Q.casc.clean=false;st._done=true;
-    st._blanks.forEach(function(z){z.el.value=z.bk.show;z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});
+    st._blanks.forEach(function(z){z.el.value=String(z.bk.ans);z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});
     fb.className='cfeed no';fb.textContent='Voici la bonne \u00e9criture \u2014 observe-la bien avant de continuer.';cascAdvance(e,idx);}
   else if(st._tries===2){fb.className='cfeed no';fb.innerHTML='\ud83d\udca1 '+(Q.casc.q.steps[idx].aide||'Reprends doucement et corrige les cases en orange.');}
   else{fb.className='cfeed no';fb.textContent='Pas tout \u00e0 fait\u00a0: corrige les cases en orange.';}
@@ -991,16 +1005,23 @@ function cascDone(e){
 /* ===== NAVIGATION ===== */
 function go(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();if(id!=='accueil'){try{history.pushState({screen:id},'','');}catch(_){}}}
 window.addEventListener('popstate',function(){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid('accueil').classList.add('active');window.scrollTo(0,0);});
-function wiggle(id){var el=gid(id);el.classList.add('shake');setTimeout(function(){el.classList.remove('shake');},400);}
+function wiggle(id){var el=gid(id);if(!el)return;el.classList.add('shake');setTimeout(function(){el.classList.remove('shake');},400);}
 function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
 function tapArene(){if(unlocked.arene)go('arene');else wiggle('mapArene');}
 function openTheme(t){currentTheme=t;go(EXP[t]);}
-function updateMap(){ORDER.forEach(function(t){var c=gid(MAPID[t]);c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'\u2705':(unlocked[t]?'\u25b6':'\ud83d\udd12');});
-  var ar=gid('mapArene');ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'\u25b6':'\ud83d\udd12';}
+function updateMap(){ORDER.forEach(function(t){var c=gid(MAPID[t]);if(!c)return;c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'\u2705':(unlocked[t]?'\u25b6':'\ud83d\udd12');});
+  var ar=gid('mapArene');if(ar){ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'\u25b6':'\ud83d\udd12';}}
 function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entra\u00eenement \u2014 '+TITLE[t];go('ecranTrain');var els=elsTrain();els.help.textContent=HELP[t];quizStart(THEME_CATS[t],true,els);}
 function trainDone(){var t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}var idx=ORDER.indexOf(t);if(idx<ORDER.length-1){var nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{unlocked.arene=true;updateMap();go('arene');}}
 function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';var cats=cat==='mix'?ORDER.slice():[cat];quizStart(cats,false,elsArene());}
 function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
+
+/* ===== NAVIGATION LEÇONS ===== */
+function p1Next(n){document.querySelectorAll('[id^="p1_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('p1_step'+n);if(el)el.classList.add('active');}
+function paNext(n){document.querySelectorAll('[id^="pa_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('pa_step'+n);if(el)el.classList.add('active');}
+function chNext(n){document.querySelectorAll('[id^="ch_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('ch_step'+n);if(el)el.classList.add('active');}
+function enNext(n){document.querySelectorAll('[id^="en_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('en_step'+n);if(el)el.classList.add('active');}
+function pbNext(n){document.querySelectorAll('[id^="pb_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('pb_step'+n);if(el)el.classList.add('active');}
 
 document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(!gid('kcPanel').hidden)return;
   var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
@@ -1036,6 +1057,7 @@ function kcClear(){kcS='';kcJust=false;kcRender();}
 function kcBack(){if(kcJust)kcJust=false;kcS=kcS.slice(0,-1);kcRender();}
 function kcEq(){var v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
 function kcToggle(){gid('kcPanel').hidden=!gid('kcPanel').hidden;}
+
 var KEYS2=[
   {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
   {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},
@@ -1082,11 +1104,6 @@ function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var 
   if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
 if(typeof updateMap==='function'){var _um=updateMap;updateMap=function(){var r=_um.apply(this,arguments);try{progSave();}catch(_){}return r;};}
 
-// SVG leçons statiques
-document.addEventListener('DOMContentLoaded', function(){
-  try{initLeconsViz();}catch(e){}
-});
-// Progression
 try{progLoad();if(typeof updateMap==='function')updateMap();}catch(_){}
 </script>
 </body>

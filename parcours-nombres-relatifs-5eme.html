@@ -4,7 +4,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Transformations — 3e</title>
+<title>Nombres relatifs — 5ème</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
@@ -65,7 +65,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
 .e4 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
 .e5 .num{background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)}
-.e6 .num{background:var(--or);box-shadow:0 5px 0 var(--or-bas)}
+.e6 .num{background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)}
 .lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
 .mid{text-align:center;margin:16px 0}
 .formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;
@@ -130,9 +130,12 @@ button,input{touch-action:manipulation}
 .cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
 .cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
 .cverify{margin-top:10px}
-.cfrac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 5px}
-.cfnum,.cfden{display:flex;align-items:center;gap:3px;padding:1px 5px;justify-content:center}
-.cfbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
+
+.cfnum{font-size:1.1rem;line-height:1.2;color:var(--bois);display:flex;align-items:center;gap:3px;padding:1px 5px;justify-content:center}
+
+.cfden{font-size:1.1rem;line-height:1.2;color:var(--bois);display:flex;align-items:center;gap:3px;padding:1px 5px;justify-content:center}
+
+
 .cblank.mini{font-size:1rem;width:54px}
 .kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
   background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);transition:transform .1s}
@@ -155,6 +158,26 @@ button,input{touch-action:manipulation}
 .kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1.05rem}
 .kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
 .kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .figbox{margin:8px auto 4px;text-align:center}
 .steps{list-style:none;padding:0;margin:8px 0;counter-reset:st}
 .steps li{position:relative;padding:8px 8px 8px 42px;margin:6px 0;background:var(--blanc);border-radius:12px;box-shadow:0 3px 0 rgba(92,61,46,.1);font-weight:700;color:var(--bois)}
@@ -187,39 +210,48 @@ button,input{touch-action:manipulation}
 .lex-pill.accent{background:var(--bleu);color:#fff;border-color:var(--bleu-bas)}
 .lex-pill.lvert{background:var(--vert);color:#fff;border-color:var(--vert-bas)}
 .lex-pill.lorange{background:var(--orange);color:#fff;border-color:var(--orange-bas)}
+.lex-pill.lviolet{background:var(--violet);color:#fff;border-color:var(--violet-bas)}
 .tab-v{width:100%;border-collapse:separate;border-spacing:4px;margin:12px 0}
 .tab-v th{background:var(--teal);color:#fff;font-family:'Fredoka';font-weight:700;padding:10px 14px;border-radius:10px;font-size:1rem}
 .tab-v td{background:var(--creme);font-family:'Fredoka';font-weight:700;padding:10px 14px;border-radius:10px;font-size:1.05rem;text-align:center}
 .tab-v td.ans{background:var(--bleu);color:#fff}
+
+/* QCM signe */
+.sign-btns{display:flex;gap:14px;justify-content:center;margin:16px 0}
+.sign-btn{font-family:'Fredoka';font-weight:700;font-size:2rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);border-radius:18px;padding:12px 28px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;transition:transform .08s}
+.sign-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.sign-btn.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
+.sign-btn.bad{background:var(--orange);color:#fff;border-color:var(--orange-bas);box-shadow:0 5px 0 var(--orange-bas)}
 </style>
 
 </head>
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="wrap">
+
 <!-- ACCUEIL -->
 <section id="accueil" class="screen active">
   <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
   <div class="hero">
-    <div class="coin">🔄✨</div>
-    <h1>Transformations — 3ème</h1>
-    <p class="sub">Symétries, translation, rotation. Valide chaque thème pour débloquer le suivant !</p>
+    <div class="coin">🌡️➖</div>
+    <h1>Nombres relatifs — 5ème</h1>
+    <p class="sub">Positif, négatif, comparer, additionner, soustraire. Valide chaque thème pour débloquer le suivant !</p>
   </div>
   <div class="map">
-    <div class="etape e1" id="mapSymetrie" onclick="tapTheme('symetrie')">
-      <div class="num">🪞</div><div class="txt"><h3>1 · Symétrie axiale</h3><p>Le reflet dans un miroir</p></div><div class="status">▶</div>
+    <div class="etape e1" id="mapReconn" onclick="tapTheme('reconn')">
+      <div class="num">🌡️</div><div class="txt"><h3>1 · Reconnaître & repérer</h3><p>Positif, négatif, valeur absolue, opposé</p></div><div class="status">▶</div>
     </div>
-    <div class="etape e2" id="mapSymetricen" onclick="tapTheme('symetricen')">
-      <div class="num">🔵</div><div class="txt"><h3>2 · Symétrie centrale</h3><p>Un demi-tour autour d'un point</p></div><div class="status">🔒</div>
+    <div class="etape e2" id="mapComparer" onclick="tapTheme('comparer')">
+      <div class="num">📏</div><div class="txt"><h3>2 · Comparer</h3><p>Ordre sur la droite des nombres</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e3" id="mapTranslation" onclick="tapTheme('translation')">
-      <div class="num">➡️</div><div class="txt"><h3>3 · Translation</h3><p>Un glissement dans une direction</p></div><div class="status">🔒</div>
+    <div class="etape e3" id="mapAdditionner" onclick="tapTheme('additionner')">
+      <div class="num">➕</div><div class="txt"><h3>3 · Additionner</h3><p>Règles des signes pour l'addition</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e4" id="mapRotation" onclick="tapTheme('rotation')">
-      <div class="num">🔄</div><div class="txt"><h3>4 · Rotation</h3><p>Tourner autour d'un centre</p></div><div class="status">🔒</div>
+    <div class="etape e4" id="mapSoustraire" onclick="tapTheme('soustraire')">
+      <div class="num">✂️</div><div class="txt"><h3>4 · Soustraire</h3><p>Soustraire = ajouter l'opposé</p></div><div class="status">🔒</div>
     </div>
-    <div class="etape e5" id="mapHomothetie" onclick="tapTheme('homothetie')">
-      <div class="num">🔍</div><div class="txt"><h3>5 · Homothétie</h3><p>Agrandir ou réduire depuis un centre</p></div><div class="status">🔒</div>
+    <div class="etape e5" id="mapProblemes" onclick="tapTheme('problemes')">
+      <div class="num">🌍</div><div class="txt"><h3>5 · Problèmes</h3><p>Températures, altitudes, comptes</p></div><div class="status">🔒</div>
     </div>
     <div class="etape e6" id="mapArene" onclick="tapArene()">
       <div class="num" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Tout mélangé — entraînement libre</p></div><div class="status">🔒</div>
@@ -227,296 +259,203 @@ button,input{touch-action:manipulation}
   </div>
 </section>
 
-<!-- LEÇON SYMÉTRIE AXIALE -->
-<section id="expSymetrie" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🪞 Symétrie axiale</h2></div>
-
-  <div id="sym_step0" class="lex-step active">
+<!-- LEÇON RECONNAÎTRE -->
+<section id="expReconn" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>🌡️ Reconnaître & repérer</h2></div>
+  <div id="rpl_step0" class="lex-step active">
     <div class="card">
       <span class="tag" style="background:var(--violet)">La leçon — étape 1 sur 3</span>
-      <div class="lex-bubble">
-        🪞 Une <b>symétrie axiale</b>, c'est comme regarder dans un <b>miroir</b> !<br>
-        L'axe de symétrie, c'est la surface du miroir. Le point A se retrouve de l'autre côté, à la même distance.
+      <div class="lex-bubble">🌡️ Un <b>nombre relatif</b> est un nombre avec un signe :<br>
+      <ul style="margin:8px 0;padding-left:20px">
+        <li><b>positif</b> si &gt; 0 : +5, +12, +0,3…</li>
+        <li><b>négatif</b> si &lt; 0 : −3, −8, −0,7…</li>
+        <li><b>nul</b> si = 0</li>
+      </ul>
       </div>
-      <div class="mid" id="sym_svg0"></div>
+      <div class="lex-row">
+        <div class="lex-pill accent">−8°C → négatif</div>
+        <div class="lex-pill lvert">+1200 m → positif</div>
+        <div class="lex-pill lorange">0 € → nul</div>
+      </div>
     </div>
-    <div class="mid"><button class="btn violet" onclick="symNext(1)">Suivant →</button></div>
+    <div class="mid"><button class="btn violet" onclick="rplNext(1)">Suivant →</button></div>
   </div>
-
-  <div id="sym_step1" class="lex-step">
+  <div id="rpl_step1" class="lex-step">
     <div class="card">
       <span class="tag" style="background:var(--teal)">La leçon — étape 2 sur 3</span>
-      <div class="lex-bubble">
-        📐 <b>Méthode pour trouver A' :</b><br>
-        Tu comptes les carreaux de A jusqu'à l'axe. Tu recomptes le même nombre de l'autre côté.
+      <div class="lex-bubble">📏 La <b>valeur absolue</b> = distance à 0 (toujours positive ou nulle).<br><br>
+      On note |a|. |−3| = 3. |+5| = 5. |0| = 0.
       </div>
-      <div class="mid" id="sym_svg1"></div>
-      <div class="lex-row">
-        <div class="lex-pill accent">Axe horizontal y = k ➜ A'(x ; 2k − y)</div>
-        <div class="lex-pill lvert">Axe vertical x = k ➜ A'(2k − x ; y)</div>
-      </div>
+      <div class="mid"><div class="formule">|−7| = 7 &nbsp;·&nbsp; |+4| = 4 &nbsp;·&nbsp; |0| = 0</div></div>
     </div>
-    <div class="mid"><button class="btn teal" onclick="symNext(2)">Suivant →</button></div>
+    <div class="mid"><button class="btn teal" onclick="rplNext(2)">Suivant →</button></div>
   </div>
-
-  <div id="sym_step2" class="lex-step">
+  <div id="rpl_step2" class="lex-step">
     <div class="card">
       <span class="tag" style="background:var(--orange)">La leçon — étape 3 sur 3</span>
-      <div class="lex-bubble">
-        🎯 <b>Exemple :</b> A(3 ; 2), axe y = 0 (l'axe des x).<br>
-        L'ordonnée change de signe : A'(3 ; −2).<br>
-        Si l'axe est x = 0 (l'axe des y) : A'(−3 ; 2).
+      <div class="lex-bubble">🔄 L'<b>opposé</b> de a est −a. On change juste le signe !<br><br>
+      Opposé de −4 = +4. Opposé de +7 = −7. Opposé de 0 = 0.
       </div>
-      <div class="formule" style="margin:10px auto;display:block;text-align:center">
-        Axe y = 0 → A'(x ; −y)<br>Axe x = 0 → A'(−x ; y)
+      <div class="lex-row">
+        <div class="lex-pill lviolet">opposé(−3) = +3</div>
+        <div class="lex-pill lorange">opposé(+8) = −8</div>
       </div>
     </div>
-    <div class="mid"><button class="btn orange" onclick="startTrain('symetrie')">🚀 S'entraîner !</button></div>
+    <div class="mid"><button class="btn orange" onclick="startTrain('reconn')">🚀 Je m'entraîne !</button></div>
   </div>
 </section>
 
-<!-- LEÇON SYMÉTRIE CENTRALE -->
-<section id="expSymetricen" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🔵 Symétrie centrale</h2></div>
-
-  <div id="scen_step0" class="lex-step active">
+<!-- LEÇON COMPARER -->
+<section id="expComparer" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>📏 Comparer des nombres relatifs</h2></div>
+  <div id="cmp2_step0" class="lex-step active">
     <div class="card">
       <span class="tag" style="background:var(--teal)">La leçon — étape 1 sur 3</span>
-      <div class="lex-bubble">
-        🔵 Une <b>symétrie centrale</b>, c'est un <b>demi-tour</b> (rotation de 180°) autour d'un point O.<br>
-        Le point O est le <b>milieu</b> du segment [AA'].
+      <div class="lex-bubble">📐 Sur la droite des nombres, plus on va à <b>droite</b>, plus le nombre est <b>grand</b>.<br><br>
+      Tout nombre <b>positif</b> est plus grand que 0, qui est plus grand que tout nombre <b>négatif</b>.
       </div>
-      <div class="mid" id="scen_svg0"></div>
+      <div class="mid"><div class="formule">… −3 &lt; −1 &lt; 0 &lt; 2 &lt; 5 …</div></div>
     </div>
-    <div class="mid"><button class="btn teal" onclick="scenNext(1)">Suivant →</button></div>
+    <div class="mid"><button class="btn teal" onclick="cmpNext2(1)">Suivant →</button></div>
   </div>
-
-  <div id="scen_step1" class="lex-step">
+  <div id="cmp2_step1" class="lex-step">
     <div class="card">
       <span class="tag" style="background:var(--orange)">La leçon — étape 2 sur 3</span>
-      <div class="lex-bubble">
-        📐 <b>Si le centre est O(0 ; 0) :</b><br>
-        A(x ; y) → A'(−x ; −y)<br><br>
-        Les deux coordonnées changent de signe !
+      <div class="lex-bubble">❄️ Entre deux nombres <b>négatifs</b> : le plus proche de 0 est le plus grand !<br><br>
+      −2 &gt; −5 car −2 est plus proche de 0 que −5.
       </div>
-      <div class="formule" style="display:block;text-align:center;margin:10px auto">
-        Centre O(0;0) : A'(−x ; −y)
+      <div class="lex-row">
+        <div class="lex-pill lorange">−1 &gt; −10</div>
+        <div class="lex-pill accent">−3 &gt; −8</div>
+        <div class="lex-pill lvert">−0,5 &gt; −4</div>
       </div>
     </div>
-    <div class="mid"><button class="btn orange" onclick="scenNext(2)">Suivant →</button></div>
+    <div class="mid"><button class="btn orange" onclick="cmpNext2(2)">Suivant →</button></div>
   </div>
-
-  <div id="scen_step2" class="lex-step">
+  <div id="cmp2_step2" class="lex-step">
     <div class="card">
       <span class="tag" style="background:var(--vert)">La leçon — étape 3 sur 3</span>
-      <div class="lex-bubble">
-        🎯 <b>Formule générale</b> avec un centre O(a ; b) quelconque :<br>
-        A'(2a − x ; 2b − y)
+      <div class="lex-bubble">🎯 <b>Règle pratique :</b><br>
+      • Tout positif &gt; 0 &gt; tout négatif<br>
+      • Deux positifs : le plus grand en valeur absolue est le plus grand<br>
+      • Deux négatifs : le plus grand en valeur absolue est le <b>plus petit</b> !
       </div>
-      <div class="formule" style="display:block;text-align:center;margin:10px auto">
-        Centre O(a;b) : A'(2a − xA ; 2b − yA)
-      </div>
-      <p class="note">Exemple : O(1 ; 2), A(3 ; 4) → A'(2×1−3 ; 2×2−4) = A'(−1 ; 0)</p>
     </div>
-    <div class="mid"><button class="btn vert" onclick="startTrain('symetricen')">🚀 S'entraîner !</button></div>
+    <div class="mid"><button class="btn vert" onclick="startTrain('comparer')">🚀 Je m'entraîne !</button></div>
   </div>
 </section>
 
-<!-- LEÇON TRANSLATION -->
-<section id="expTranslation" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>➡️ Translation</h2></div>
-
-  <div id="trans_step0" class="lex-step active">
+<!-- LEÇON ADDITIONNER -->
+<section id="expAdditionner" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>➕ Additionner des nombres relatifs</h2></div>
+  <div id="add_step0" class="lex-step active">
     <div class="card">
       <span class="tag" style="background:var(--orange)">La leçon — étape 1 sur 3</span>
-      <div class="lex-bubble">
-        ➡️ Une <b>translation</b>, c'est un <b>glissement</b>.<br>
-        Tous les points se déplacent dans la même direction, du même nombre de cases.<br>
-        C'est comme faire glisser une pièce de puzzle sans la tourner.
+      <div class="lex-bubble">🤝 <b>Même signe</b> : on additionne les valeurs absolues et on garde le signe.<br><br>
+      (+3) + (+5) = <b>+8</b><br>
+      (−3) + (−5) = <b>−8</b>
       </div>
-      <div class="mid" id="trans_svg0"></div>
+      <div class="mid"><div class="formule">(−6) + (−2) → même signe → −(6+2) = −8</div></div>
     </div>
-    <div class="mid"><button class="btn orange" onclick="transNext(1)">Suivant →</button></div>
+    <div class="mid"><button class="btn orange" onclick="addNext(1)">Suivant →</button></div>
   </div>
-
-  <div id="trans_step1" class="lex-step">
+  <div id="add_step1" class="lex-step">
     <div class="card">
-      <span class="tag" style="background:var(--vert)">La leçon — étape 2 sur 3</span>
-      <div class="lex-bubble">
-        📦 On décrit la translation avec un <b>vecteur t(dx ; dy)</b> :<br>
-        • dx = déplacement horizontal (+ = droite, − = gauche)<br>
-        • dy = déplacement vertical (+ = haut, − = bas)
+      <span class="tag" style="background:var(--teal)">La leçon — étape 2 sur 3</span>
+      <div class="lex-bubble">⚖️ <b>Signes différents</b> : on soustrait les valeurs absolues et on garde le signe du plus grand (en valeur absolue).<br><br>
+      (+7) + (−3) = <b>+4</b> (7 &gt; 3, signe de +7)<br>
+      (−7) + (+3) = <b>−4</b> (7 &gt; 3, signe de −7)
+      </div>
+    </div>
+    <div class="mid"><button class="btn teal" onclick="addNext(2)">Suivant →</button></div>
+  </div>
+  <div id="add_step2" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--vert)">La leçon — étape 3 sur 3</span>
+      <div class="lex-bubble">🧮 <b>Exemples guidés :</b><br>
+      (−5) + (−9) = ? → même signe → −(5+9) = <b>−14</b><br>
+      (+8) + (−3) = ? → signes diff, |8|&gt;|3| → +(8−3) = <b>+5</b><br>
+      (−6) + (+10) = ? → signes diff, |10|&gt;|6| → +(10−6) = <b>+4</b>
+      </div>
+    </div>
+    <div class="mid"><button class="btn vert" onclick="startTrain('additionner')">🚀 Je m'entraîne !</button></div>
+  </div>
+</section>
+
+<!-- LEÇON SOUSTRAIRE -->
+<section id="expSoustraire" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>✂️ Soustraire des nombres relatifs</h2></div>
+  <div id="sou_step0" class="lex-step active">
+    <div class="card">
+      <span class="tag" style="background:var(--vert)">La leçon — étape 1 sur 2</span>
+      <div class="lex-bubble">🔑 <b>Soustraire = ajouter l'opposé</b><br><br>
+      a − b = a + (−b)<br><br>
+      (+5) − (+3) = (+5) + (−3) = +2<br>
+      (−4) − (−2) = (−4) + (+2) = −2
+      </div>
+      <div class="mid"><div class="formule">a − b = a + (−b)</div></div>
+    </div>
+    <div class="mid"><button class="btn vert" onclick="souNext(1)">Suivant →</button></div>
+  </div>
+  <div id="sou_step1" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--bleu)">La leçon — étape 2 sur 2</span>
+      <div class="lex-bubble">⚠️ <b>Cas piège :</b> soustraire un négatif = additionner un positif !<br><br>
+      (+3) − (−5) = (+3) + (<b>+5</b>) = <b>+8</b><br>
+      (−2) − (−7) = (−2) + (<b>+7</b>) = <b>+5</b>
       </div>
       <div class="lex-row">
-        <div class="lex-pill accent">t(3 ; 1) → 3 cases à droite, 1 case en haut</div>
-        <div class="lex-pill lorange">t(−2 ; 3) → 2 cases à gauche, 3 cases en haut</div>
+        <div class="lex-pill lorange">− (−a) = + a</div>
+        <div class="lex-pill lvert">Deux − font un +</div>
       </div>
     </div>
-    <div class="mid"><button class="btn vert" onclick="transNext(2)">Suivant →</button></div>
-  </div>
-
-  <div id="trans_step2" class="lex-step">
-    <div class="card">
-      <span class="tag" style="background:var(--bleu)">La leçon — étape 3 sur 3</span>
-      <div class="lex-bubble">
-        🎯 <b>Formule :</b><br>
-        Si A(x ; y) et vecteur t(dx ; dy) :<br>
-        A'(x + dx ; y + dy)
-      </div>
-      <div class="formule" style="display:block;text-align:center;margin:10px auto">
-        A'(xA + dx ; yA + dy)
-      </div>
-      <p class="note">Exemple : A(2 ; 3), t(4 ; −1) → A'(2+4 ; 3+(−1)) = A'(6 ; 2)</p>
-    </div>
-    <div class="mid"><button class="btn bleu" onclick="startTrain('translation')">🚀 S'entraîner !</button></div>
+    <div class="mid"><button class="btn bleu" onclick="startTrain('soustraire')">🚀 Je m'entraîne !</button></div>
   </div>
 </section>
 
-<!-- LEÇON ROTATION -->
-<section id="expRotation" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🔄 Rotation</h2></div>
-
-  <div id="rot_step0" class="lex-step active">
+<!-- LEÇON PROBLÈMES -->
+<section id="expProblemes" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>🌍 Problèmes avec relatifs</h2></div>
+  <div id="prb_step0" class="lex-step active">
     <div class="card">
-      <span class="tag" style="background:var(--vert)">La leçon — étape 1 sur 3</span>
-      <div class="lex-bubble">
-        🔄 Une <b>rotation</b>, c'est tourner autour d'un point <b>O</b> d'un certain <b>angle</b>.<br>
-        La distance de A au centre O ne change pas. Seule la direction change.
+      <span class="tag" style="background:var(--bleu)">La leçon — étape 1 sur 2</span>
+      <div class="lex-bubble">🌍 Les nombres relatifs modélisent des situations réelles :<br>
+      <ul style="margin:8px 0;padding-left:20px">
+        <li>🌡️ <b>Températures</b> : −3°C, +15°C</li>
+        <li>⛰️ <b>Altitudes</b> : −50 m (sous la mer), +2000 m</li>
+        <li>💳 <b>Comptes</b> : −30 € (dette), +80 € (crédit)</li>
+        <li>⚽ <b>Goal average</b> : −4 (buts encaissés en excès)</li>
+      </ul>
       </div>
-      <div class="mid" id="rot_svg0"></div>
     </div>
-    <div class="mid"><button class="btn vert" onclick="rotNext(1)">Suivant →</button></div>
+    <div class="mid"><button class="btn bleu" onclick="prbNext(1)">Suivant →</button></div>
   </div>
-
-  <div id="rot_step1" class="lex-step">
+  <div id="prb_step1" class="lex-step">
     <div class="card">
-      <span class="tag" style="background:var(--bleu)">La leçon — étape 2 sur 3</span>
-      <div class="lex-bubble">
-        🔃 <b>Rotation de 180°</b> autour de O(0 ; 0) :<br>
-        C'est exactement la même chose que la symétrie centrale par O !<br>
-        A(x ; y) → A'(−x ; −y)
-      </div>
-      <div class="formule" style="display:block;text-align:center;margin:10px auto">
-        Rot 180° : A'(−x ; −y)
+      <span class="tag" style="background:var(--teal)">La leçon — étape 2 sur 2</span>
+      <div class="lex-bubble">🔍 <b>Méthode :</b><br>
+      1. Repérer ce qui <b>augmente</b> (+) et ce qui <b>diminue</b> (−)<br>
+      2. Écrire l'opération<br>
+      3. Appliquer les règles des signes<br><br>
+      Ex : température −3°C, baisse de 5°C → (−3) + (−5) = −8°C
       </div>
     </div>
-    <div class="mid"><button class="btn bleu" onclick="rotNext(2)">Suivant →</button></div>
-  </div>
-
-  <div id="rot_step2" class="lex-step">
-    <div class="card">
-      <span class="tag" style="background:var(--or)">La leçon — étape 3 sur 3</span>
-      <div class="lex-bubble">
-        ↩️ <b>Rotation de 90° dans le sens direct</b> (sens anti-horaire) autour de O(0 ; 0) :<br>
-        A(x ; y) → A'(−y ; x)<br><br>
-        ↪️ <b>Rotation de 90° dans le sens indirect</b> (sens des aiguilles d'une montre) :<br>
-        A(x ; y) → A'(y ; −x)
-      </div>
-      <div class="lex-row">
-        <div class="lex-pill accent">90° direct : A'(−y ; x)</div>
-        <div class="lex-pill lvert">90° indirect : A'(y ; −x)</div>
-      </div>
-    </div>
-    <div class="mid"><button class="btn" onclick="startTrain('rotation')">🚀 S'entraîner !</button></div>
-  </div>
-</section>
-
-<!-- LEÇON HOMOTHÉTIE -->
-<section id="expHomothetie" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🔍 Homothétie</h2></div>
-
-  <div id="hom_step0" class="lex-step active">
-    <div class="card">
-      <span class="tag" style="background:var(--bleu)">La leçon — étape 1 sur 3</span>
-      <div class="lex-bubble">
-        🔍 Une <b>homothétie</b>, c'est comme zoomer ou dézoomer sur une photo.<br>
-        On choisit un centre O et un <b>rapport k</b>.<br>
-        • Si k &gt; 1 : on agrandit<br>
-        • Si 0 &lt; k &lt; 1 : on réduit<br>
-        • Si k &lt; 0 : on retourne et on agrandit/réduit
-      </div>
-    </div>
-    <div class="mid"><button class="btn bleu" onclick="homNext(1)">Suivant →</button></div>
-  </div>
-
-  <div id="hom_step1" class="lex-step">
-    <div class="card">
-      <span class="tag" style="background:var(--or)">La leçon — étape 2 sur 3</span>
-      <div class="lex-bubble">
-        📐 <b>Formule avec centre O(0 ; 0) :</b><br>
-        A(x ; y) → A'(k×x ; k×y)<br><br>
-        Les deux coordonnées sont <b>multipliées par k</b>.
-      </div>
-      <div class="formule" style="display:block;text-align:center;margin:10px auto">
-        Centre O(0;0) : A'(k×x ; k×y)
-      </div>
-      <p class="note">Exemple : k = 2, A(3 ; 1) → A'(6 ; 2) — distances doublées !</p>
-    </div>
-    <div class="mid"><button class="btn" onclick="homNext(2)">Suivant →</button></div>
-  </div>
-
-  <div id="hom_step2" class="lex-step">
-    <div class="card">
-      <span class="tag" style="background:var(--orange)">La leçon — étape 3 sur 3</span>
-      <div class="lex-bubble">
-        🎯 <b>Formule générale</b> avec centre C(a ; b) :<br>
-        A'(a + k×(xA − a) ; b + k×(yA − b))
-      </div>
-      <div class="formule" style="display:block;text-align:center;margin:10px auto">
-        A'(a + k(xA−a) ; b + k(yA−b))
-      </div>
-      <p class="note">Exemple : k = 2, C(1;0), A(3;2) → A'(1+2×(3−1) ; 0+2×(2−0)) = A'(5 ; 4)</p>
-      <p class="note">Si k = −1 et C = O(0;0) : c'est une symétrie centrale !</p>
-    </div>
-    <div class="mid"><button class="btn orange" onclick="startTrain('homothetie')">🚀 S'entraîner !</button></div>
-  </div>
-</section>
-
-<!-- ÉCRAN ENTRAÎNEMENT -->
-<section id="ecranTrain" class="screen">
-  <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
-  <div class="card" id="tq_card">
-    <div class="serieprog" id="tq_prog"></div>
-    <div class="helpnote" id="tq_help"></div>
-    <div class="qcard">
-      <div class="qcat" id="tq_cat"></div>
-      <div class="figbox" id="tq_viz" style="display:none"></div>
-      <div class="question" id="tq_text"></div>
-      <div class="opts" id="tq_opts" style="display:none"></div>
-      <div class="ansrow" id="tq_ansrow">
-        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
-        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
-      </div>
-      <div class="cascade" id="tq_casc" style="display:none"></div>
-      <div id="tq_work">
-        <div class="mathpad" id="tq_pad"></div>
-        <div class="brouillon-lab">✏️ Brouillon — pose tes calculs ligne par ligne (facultatif)</div>
-        <textarea id="tq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici, une par ligne…"></textarea>
-      </div>
-      <div class="feedback" id="tq_feed"></div>
-      <div class="stars" id="tq_stars"></div>
-      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant →</button></div>
-    </div>
-  </div>
-  <div class="card result" id="tq_result" style="display:none">
-    <div class="big" id="tq_rbig">0 / 6</div>
-    <div class="msg" id="tq_rmsg"></div>
-    <div class="rbtns" id="tq_rbtns"></div>
+    <div class="mid"><button class="btn teal" onclick="startTrain('problemes')">🚀 Je m'entraîne !</button></div>
   </div>
 </section>
 
 <!-- ARÈNE -->
 <section id="arene" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>⚔️ L'arène des transformations !</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>⚔️ L'arène des nombres relatifs !</h2></div>
   <div class="card" id="areneMenu">
     <p class="lead" style="text-align:center">Bravo, séquence terminée ! Entraînement libre, sans note.</p>
     <div class="catgrid">
-      <button class="cat" style="background:var(--violet)" onclick="startArene('symetrie')"><span class="ic">🪞</span>Symétrie axiale</button>
-      <button class="cat" style="background:var(--teal)" onclick="startArene('symetricen')"><span class="ic">🔵</span>Symétrie centrale</button>
-      <button class="cat" style="background:var(--orange)" onclick="startArene('translation')"><span class="ic">➡️</span>Translation</button>
-      <button class="cat" style="background:var(--vert)" onclick="startArene('rotation')"><span class="ic">🔄</span>Rotation</button>
-      <button class="cat" style="background:var(--bleu)" onclick="startArene('homothetie')"><span class="ic">🔍</span>Homothétie</button>
-      <button class="cat" style="background:var(--rouge)" onclick="startArene('mix')"><span class="ic">🎲</span>Mix tout</button>
+      <button class="cat" style="background:var(--violet)" onclick="startArene('reconn')"><span class="ic">🌡️</span>Reconnaître</button>
+      <button class="cat" style="background:var(--teal)" onclick="startArene('comparer')"><span class="ic">📏</span>Comparer</button>
+      <button class="cat" style="background:var(--orange)" onclick="startArene('additionner')"><span class="ic">➕</span>Additionner</button>
+      <button class="cat" style="background:var(--vert)" onclick="startArene('soustraire')"><span class="ic">✂️</span>Soustraire</button>
+      <button class="cat" style="background:var(--bleu)" onclick="startArene('problemes')"><span class="ic">🌍</span>Problèmes</button>
+      <button class="cat" style="background:var(--rouge)" onclick="startArene('mix')"><span class="ic">🎲</span>Tout mélanger</button>
     </div>
   </div>
   <div class="card" id="areneJeu" style="display:none">
@@ -548,327 +487,264 @@ button,input{touch-action:manipulation}
 <button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">🧮</button>
 <div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
   <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
-  <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
-  <div class="kc-keys" id="kcKeys"></div>
-</div>
+
+  <div id="kcStdPanel">
+    <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
+    <div class="kc-keys" id="kcKeys"></div>
+  </div>
+  </div>
 
 <script>
 /* ===== SUIVI ===== */
-var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Transformations 3ème'};
-function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' \u00b7 '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
-var SSDONE={};
-function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e2=localStorage.getItem('kc_eleve')||'?',c2=localStorage.getItem('kc_classe')||'?';var co2=(localStorage.getItem('kc_college')||'').trim();if(co2)c2=co2+' \u00b7 '+c2;var b2=new URLSearchParams();b2.append(SUIVI.f.classe,c2);b2.append(SUIVI.f.eleve,e2);b2.append(SUIVI.f.parcours,SUIVI.nom+' \u203a '+label);b2.append(SUIVI.f.statut,'Termin\u00e9');b2.append(SUIVI.f.score,'');b2.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b2.toString()});}catch(_){}}
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Nombres relatifs 5ème'};
+function suiviEnvoi(statut,score,total){if(!SUIVI||!SUIVI.url)return;var el='';var cl='';try{el=localStorage.getItem('kc_eleve')||'';cl=localStorage.getItem('kc_classe')||'';}catch(_){}var fd=new FormData();fd.append(SUIVI.f.eleve,el);fd.append(SUIVI.f.classe,cl);fd.append(SUIVI.f.parcours,SUIVI.nom);fd.append(SUIVI.f.statut,statut);fd.append(SUIVI.f.score,String(score));fd.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',body:fd}).catch(function(){});}
+function suiviSousSection(titre){suiviEnvoi('Sous-section : '+titre,0,0);}
 
-/* ===== ARCHITECTURE ===== */
-var ORDER=['symetrie','symetricen','translation','rotation','homothetie'];
-var EXP={symetrie:'expSymetrie',symetricen:'expSymetricen',translation:'expTranslation',rotation:'expRotation',homothetie:'expHomothetie'};
-var MAPID={symetrie:'mapSymetrie',symetricen:'mapSymetricen',translation:'mapTranslation',rotation:'mapRotation',homothetie:'mapHomothetie'};
-var TITLE={symetrie:'Symétrie axiale',symetricen:'Symétrie centrale',translation:'Translation',rotation:'Rotation',homothetie:'Homothétie'};
+var EXP={reconn:'expReconn',comparer:'expComparer',additionner:'expAdditionner',soustraire:'expSoustraire',problemes:'expProblemes'};
+var MAPID={reconn:'mapReconn',comparer:'mapComparer',additionner:'mapAdditionner',soustraire:'mapSoustraire',problemes:'mapProblemes'};
+var TITLE={reconn:'Reconnaître & repérer',comparer:'Comparer',additionner:'Additionner',soustraire:'Soustraire',problemes:'Problèmes'};
+var ORDER=['reconn','comparer','additionner','soustraire','problemes'];
 var HELP={
-  symetrie:'Axe horizontal y=k : A\'(x ; 2k−y). Axe vertical x=k : A\'(2k−x ; y).',
-  symetricen:'Centre O(a;b) : A\'(2a−x ; 2b−y). Si O est l\'origine : A\'(−x ; −y).',
-  translation:'Vecteur t(dx;dy) : A\'(x+dx ; y+dy).',
-  rotation:'180° : A\'(−x;−y). 90° direct : A\'(−y;x). 90° indirect : A\'(y;−x).',
-  homothetie:'Centre O(0;0) : A\'(k×x ; k×y). Centre C(a;b) : A\'(a+k(xA−a) ; b+k(yA−b)).'
+  reconn:'Positif si > 0, négatif si < 0. Valeur absolue = distance à 0.',
+  comparer:'Sur la droite, plus on va à droite, plus le nombre est grand. Tout positif > 0 > tout négatif.',
+  additionner:'Même signe : additionner les valeurs absolues, garder le signe. Signes diff : soustraire les valeurs absolues, signe du plus grand.',
+  soustraire:'Soustraire = ajouter l\'opposé. a − b = a + (−b). Deux moins font un plus.',
+  problemes:'Repérer augmentation (+) et diminution (−), écrire l\'opération, appliquer les règles des signes.'
 };
-var BRIQUE={symetrie:{serie:6,seuil:4},symetricen:{serie:6,seuil:4},translation:{serie:6,seuil:4},rotation:{serie:6,seuil:4},homothetie:{serie:6,seuil:4}};
-var THEME_CATS={symetrie:['symetrie'],symetricen:['symetricen'],translation:['translation'],rotation:['rotation'],homothetie:['homothetie']};
-var CATNOM={symetrie:'Symétrie axiale',symetricen:'Symétrie centrale',translation:'Translation',rotation:'Rotation'};
-var unlocked={symetrie:true,symetricen:true,translation:true,rotation:true,homothetie:true,arene:true};
-var themeDone={symetrie:false,symetricen:false,translation:false,rotation:false,homothetie:false};
-var currentTheme='symetrie';
+var GEN={reconn:genReconn,comparer:genComparer,additionner:genAdditionner,soustraire:genSoustraire,problemes:genProblemes};
+var BRIQUE={reconn:{serie:8,seuil:6},comparer:{serie:8,seuil:6},additionner:{serie:8,seuil:6},soustraire:{serie:8,seuil:6},problemes:{serie:8,seuil:6}};
+var THEME_CATS={reconn:['reconn'],comparer:['comparer'],additionner:['additionner'],soustraire:['soustraire'],problemes:['problemes']};
+var CATNOM={reconn:'Reconnaître & repérer',comparer:'Comparer',additionner:'Additionner',soustraire:'Soustraire',problemes:'Problèmes'};
+var unlocked={reconn:true,comparer:false,additionner:false,soustraire:false,problemes:false,arene:false};
+var themeDone={reconn:false,comparer:false,additionner:false,soustraire:false,problemes:false};
+var currentTheme='reconn';
 
 /* ===== UTILITAIRES ===== */
 function gid(x){return document.getElementById(x);}
 function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;var v=parseFloat(s);return isFinite(v)?v:null;}
+function rnd(n){return Math.floor(Math.random()*n);}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function rint(mn,mx){return Math.floor(Math.random()*(mx-mn+1))+mn;}
 function serieLen(){return BRIQUE[currentTheme].serie;}
 function seuilFor(){return BRIQUE[currentTheme].seuil;}
 function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
 
-/* ===== SVG GRILLE ===== */
-function svgGrille(pts, opts) {
-  opts = opts || {};
-  var W = opts.W || 260, H = opts.H || 260;
-  var xmin = -6, xmax = 6, ymin = -6, ymax = 6;
-  function sx(x){return (x-xmin)/(xmax-xmin)*W;}
-  function sy(y){return H-(y-ymin)/(ymax-ymin)*H;}
-
-  var s = '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="font-family:\'Fredoka\',sans-serif;display:block;margin:0 auto">';
-
-  // Grille
-  for(var gx=xmin;gx<=xmax;gx++){
-    s+='<line x1="'+sx(gx)+'" y1="0" x2="'+sx(gx)+'" y2="'+H+'" stroke="#e7d3a8" stroke-width="'+(gx===0?'0':'1')+'"/>';
-  }
-  for(var gy=ymin;gy<=ymax;gy++){
-    s+='<line x1="0" y1="'+sy(gy)+'" x2="'+W+'" y2="'+sy(gy)+'" stroke="#e7d3a8" stroke-width="'+(gy===0?'0':'1')+'"/>';
-  }
-  // Axes
-  s+='<line x1="0" y1="'+sy(0)+'" x2="'+W+'" y2="'+sy(0)+'" stroke="#5C3D2E" stroke-width="2.5"/>';
-  s+='<line x1="'+sx(0)+'" y1="0" x2="'+sx(0)+'" y2="'+H+'" stroke="#5C3D2E" stroke-width="2.5"/>';
-  // Labels axes
-  for(var lx=xmin+1;lx<xmax;lx++){if(lx===0)continue;
-    s+='<text x="'+sx(lx)+'" y="'+(sy(0)+16)+'" text-anchor="middle" font-size="10" fill="#8a6650">'+lx+'</text>';
-  }
-  for(var ly=ymin+1;ly<ymax;ly++){if(ly===0)continue;
-    s+='<text x="'+(sx(0)-6)+'" y="'+(sy(ly)+4)+'" text-anchor="end" font-size="10" fill="#8a6650">'+ly+'</text>';
-  }
-  s+='<text x="'+(W-8)+'" y="'+(sy(0)-6)+'" font-size="11" fill="#5C3D2E" font-weight="700">x</text>';
-  s+='<text x="'+(sx(0)+6)+'" y="12" font-size="11" fill="#5C3D2E" font-weight="700">y</text>';
-
-  // Axe de symétrie horizontal y=k
-  if(opts.axeH !== undefined){
-    var ay=sy(opts.axeH);
-    s+='<line x1="4" y1="'+ay+'" x2="'+(W-4)+'" y2="'+ay+'" stroke="#EF5D60" stroke-width="3" stroke-dasharray="8,4"/>';
-    var axLab='axe (y='+opts.axeH+')';
-    s+='<text x="'+(W-6)+'" y="'+(ay-6)+'" text-anchor="end" font-size="11" font-weight="700" fill="#EF5D60">'+axLab+'</text>';
-  }
-  // Axe de symétrie vertical x=k
-  if(opts.axeV !== undefined){
-    var avx=sx(opts.axeV);
-    s+='<line x1="'+avx+'" y1="4" x2="'+avx+'" y2="'+(H-4)+'" stroke="#EF5D60" stroke-width="3" stroke-dasharray="8,4"/>';
-    var axLab2='axe (x='+opts.axeV+')';
-    s+='<text x="'+(avx+5)+'" y="14" font-size="11" font-weight="700" fill="#EF5D60">'+axLab2+'</text>';
-  }
-  // Centre de symétrie
-  if(opts.centre){
-    var cx=sx(opts.centre.x), cy=sy(opts.centre.y);
-    s+='<circle cx="'+cx+'" cy="'+cy+'" r="5" fill="#46BECB" stroke="#2E8A98" stroke-width="2"/>';
-    s+='<text x="'+(cx+8)+'" y="'+(cy-7)+'" font-size="13" font-weight="700" fill="#46BECB">O</text>';
-  }
-  // Vecteur (flèche)
-  if(opts.vecteur){
-    var vf=opts.vecteur.from;
-    var fx=sx(vf.x), fy=sy(vf.y);
-    var tx2=sx(vf.x+opts.vecteur.dx), ty2=sy(vf.y+opts.vecteur.dy);
-    s+='<defs><marker id="varr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#FF8A4C"/></marker></defs>';
-    s+='<line x1="'+fx+'" y1="'+fy+'" x2="'+tx2+'" y2="'+ty2+'" stroke="#FF8A4C" stroke-width="2.5" marker-end="url(#varr)"/>';
-    s+='<text x="'+((fx+tx2)/2+6)+'" y="'+((fy+ty2)/2-6)+'" font-size="12" font-weight="700" fill="#FF8A4C">t('+opts.vecteur.dx+';'+opts.vecteur.dy+')</text>';
-  }
-  // Segment AA' pointillé
-  if(pts.length===2){
-    s+='<line x1="'+sx(pts[0].x)+'" y1="'+sy(pts[0].y)+'" x2="'+sx(pts[1].x)+'" y2="'+sy(pts[1].y)+'" stroke="#ccc" stroke-width="1.5" stroke-dasharray="5,3"/>';
-  }
-  // Points
-  pts.forEach(function(p){
-    var px2=sx(p.x), py2=sy(p.y);
-    s+='<circle cx="'+px2+'" cy="'+py2+'" r="6" fill="'+(p.color||'#4FA3D1')+'"/>';
-    var offx=(p.x<0)?-8:8, offy=(p.y<0)?14:-8;
-    s+='<text x="'+(px2+offx)+'" y="'+(py2+offy)+'" text-anchor="'+(p.x<0?'end':'start')+'" font-size="13" font-weight="700" fill="'+(p.color||'#4FA3D1')+'">'+p.label+'('+p.x+';'+p.y+')</text>';
-  });
-
-  s+='</svg>';
-  return s;
-}
-
-/* ===== SVG LEÇONS STATIQUES ===== */
-function initLeconsViz(){
-  // Symétrie axiale step 0 : A(3,2), axe y=0, A'(3,-2)
-  var el=document.getElementById('sym_svg0');
-  if(el)el.innerHTML=svgGrille([{x:3,y:2,label:'A',color:'#4FA3D1'},{x:3,y:-2,label:"A'",color:'#EF5D60'}],{axeH:0,W:260,H:220});
-  // Symétrie axiale step 1 : A(2,4), axe y=1, A'(2,-2)
-  var el2=document.getElementById('sym_svg1');
-  if(el2)el2.innerHTML=svgGrille([{x:2,y:4,label:'A',color:'#4FA3D1'},{x:2,y:-2,label:"A'",color:'#EF5D60'}],{axeH:1,W:260,H:260});
-  // Symétrie centrale step 0 : A(3,2), O(0,0), A'(-3,-2)
-  var el3=document.getElementById('scen_svg0');
-  if(el3)el3.innerHTML=svgGrille([{x:3,y:2,label:'A',color:'#4FA3D1'},{x:-3,y:-2,label:"A'",color:'#EF5D60'}],{centre:{x:0,y:0},W:260,H:220});
-  // Translation step 0 : A(1,1), vecteur (3,2), A'(4,3)
-  var el4=document.getElementById('trans_svg0');
-  if(el4)el4.innerHTML=svgGrille([{x:1,y:1,label:'A',color:'#4FA3D1'},{x:4,y:3,label:"A'",color:'#EF5D60'}],{vecteur:{dx:3,dy:2,from:{x:1,y:1}},W:260,H:220});
-  // Rotation step 0 : A(3,1), rotation 90° direct → A'(-1,3)
-  var el5=document.getElementById('rot_svg0');
-  if(el5)el5.innerHTML=svgGrille([{x:3,y:1,label:'A',color:'#4FA3D1'},{x:-1,y:3,label:"A'",color:'#EF5D60'}],{centre:{x:0,y:0},W:260,H:220});
-}
-
-/* ===== NAVIGATION LEÇONS ===== */
-function symNext(n){document.querySelectorAll('[id^="sym_step"]').forEach(function(e){e.classList.remove('active');});var el=document.getElementById('sym_step'+n);if(el)el.classList.add('active');}
-function scenNext(n){document.querySelectorAll('[id^="scen_step"]').forEach(function(e){e.classList.remove('active');});var el=document.getElementById('scen_step'+n);if(el)el.classList.add('active');}
-function transNext(n){document.querySelectorAll('[id^="trans_step"]').forEach(function(e){e.classList.remove('active');});var el=document.getElementById('trans_step'+n);if(el)el.classList.add('active');}
-function rotNext(n){document.querySelectorAll('[id^="rot_step"]').forEach(function(e){e.classList.remove('active');});var el=document.getElementById('rot_step'+n);if(el)el.classList.add('active');}
-function homNext(n){document.querySelectorAll('[id^="hom_step"]').forEach(function(e){e.classList.remove('active');});var el=document.getElementById('hom_step'+n);if(el)el.classList.add('active');}
-
-/* ===== GÉNÉRATEURS ===== */
-
-function genSymetrie(){
-  // type : 'axeH' (axe y=k) ou 'axeV' (axe x=k)
-  var types=['axeH','axeV'];
-  var type=pick(types);
-  var k=(Math.random()<0.6)?0:pick([-2,-1,1,2]);
-
-  var ax, ay;
-  do{ax=rint(-4,4);}while(ax===0||ax===k);
-  do{ay=rint(-4,4);}while(ay===0||ay===k);
-
-  var prx, pry, axeDesc;
-  if(type==='axeH'){
-    prx=ax; pry=2*k-ay;
-    axeDesc=k===0?"l'axe des abscisses (y = 0)":"l'axe d'équation y = "+k;
+/* ===== GÉNÉRATEUR THÈME 1 : RECONNAÎTRE ===== */
+function genReconn(){
+  var sub=rnd(3);
+  if(sub===0){
+    // Valeur absolue
+    var a=pick([-9,-8,-7,-6,-5,-4,-3,-2,2,3,4,5,6,7,8,9,10,12,15]);
+    var av=Math.abs(a);
+    return {type:'casc',cat:'reconn',sig:'re0_'+a,
+      text:'Calcule la valeur absolue :<br><b>|'+a+'|</b>',viz:'',
+      steps:[{prompt:'La valeur absolue = distance à 0 (toujours positive).',
+              parts:['|'+a+'| = ',{kind:'num',ans:av,w:70},''],
+              aide:'|'+a+'| = '+av+' (distance entre '+a+' et 0 sur la droite)'}]};
+  } else if(sub===1){
+    // Opposé
+    var b=pick([-12,-9,-7,-5,-4,-3,-2,2,3,4,5,6,8,10,11]);
+    var bopp=-b;
+    return {type:'casc',cat:'reconn',sig:'re1_'+b,
+      text:'Donne l'opposé de <b>'+b+'</b>',viz:'',
+      steps:[{prompt:'L'opposé de b est −b (on change le signe).',
+              parts:['Opposé de ('+b+') = ',{kind:'num',ans:bopp,w:70},''],
+              aide:'Opposé de '+b+' = '+bopp+' (on change le signe)'}]};
   } else {
-    prx=2*k-ax; pry=ay;
-    axeDesc=k===0?"l'axe des ordonnées (x = 0)":"l'axe d'équation x = "+k;
+    // Valeur absolue + opposé combiné
+    var c=pick([-10,-8,-6,-5,-3,-2,2,4,6,7,9,11]);
+    var cv=Math.abs(c),copp=-c;
+    return {type:'casc',cat:'reconn',sig:'re2_'+c,
+      text:'Pour le nombre <b>'+c+'</b>, calcule sa valeur absolue et son opposé.',viz:'',
+      steps:[
+        {prompt:'Valeur absolue de ('+c+') :',
+         parts:['|'+c+'| = ',{kind:'num',ans:cv,w:70},''],
+         aide:'|'+c+'| = '+cv},
+        {prompt:'Opposé de ('+c+') :',
+         parts:['opposé = ',{kind:'num',ans:copp,w:70},''],
+         aide:'opposé de '+c+' = '+copp}
+      ]};
   }
-
-  var vizOpts=type==='axeH'?{axeH:k,W:260,H:220}:{axeV:k,W:260,H:220};
-  var viz=svgGrille([{x:ax,y:ay,label:'A',color:'#4FA3D1'}],vizOpts);
-
-  return {
-    type:'casc', sig:'sym'+type+ax+ay+k, cat:'symetrie',
-    viz:viz,
-    text:'Le point A('+ax+' ; '+ay+') est symétrique par rapport à '+axeDesc+'.<br>Quelles sont les coordonnées de A\' ?',
-    explain:'A\'('+prx+' ; '+pry+')',
-    steps:[
-      {prompt:'<b>Étape 1 :</b> Quelle est l\'abscisse de A\' ?',
-       parts:["A' = ( ", {kind:'num',ans:prx,show:''+prx,w:50}, ' ; _____ )'],
-       aide:type==='axeH'?'L\'abscisse ne change pas : A\'x = Ax = '+ax:'Calcule 2×'+k+'−'+ax+' = '+(2*k-ax)},
-      {prompt:'<b>Étape 2 :</b> Quelle est l\'ordonnée de A\' ?',
-       parts:["A' = ( "+prx+" ; ", {kind:'num',ans:pry,show:''+pry,w:50}, ' )'],
-       aide:type==='axeH'?'Calcule 2×'+k+'−'+ay+' = '+(2*k-ay):'L\'ordonnée ne change pas : A\'y = Ay = '+ay}
-    ]
-  };
 }
 
-function genSymetricen(){
-  var simple=Math.random()<0.5;
-  var ox=simple?0:pick([-2,-1,1,2]);
-  var oy=simple?0:pick([-2,-1,1,2]);
-
-  var ax, ay;
-  do{ax=rint(-4,4);}while(ax===ox);
-  do{ay=rint(-4,4);}while(ay===oy);
-
-  var prx=2*ox-ax, pry=2*oy-ay;
-  var centreDesc=simple?'l\'origine O(0 ; 0)':'le point O('+ox+' ; '+oy+')';
-  var vizOpts={centre:{x:ox,y:oy},W:260,H:220};
-  var viz=svgGrille([{x:ax,y:ay,label:'A',color:'#4FA3D1'}],vizOpts);
-
-  var aideX=simple?'−('+ax+') = '+prx:'2×'+ox+'−'+ax+' = '+prx;
-  var aideY=simple?'−('+ay+') = '+pry:'2×'+oy+'−'+ay+' = '+pry;
-
-  return {
-    type:'casc', sig:'scen'+ax+ay+ox+oy, cat:'symetricen',
-    viz:viz,
-    text:'A('+ax+' ; '+ay+') est symétrique par rapport à '+centreDesc+'.<br>Quelles sont les coordonnées de A\' ?',
-    explain:'A\'('+prx+' ; '+pry+')',
-    steps:[
-      {prompt:'<b>Étape 1 :</b> Quelle est l\'abscisse de A\' ?',
-       parts:["A' = ( ", {kind:'num',ans:prx,show:''+prx,w:50}, ' ; _____ )'],
-       aide:'Formule : 2×'+ox+' − '+ax+' = '+aideX},
-      {prompt:'<b>Étape 2 :</b> Quelle est l\'ordonnée de A\' ?',
-       parts:["A' = ( "+prx+" ; ", {kind:'num',ans:pry,show:''+pry,w:50}, ' )'],
-       aide:'Formule : 2×'+oy+' − '+ay+' = '+aideY}
-    ]
-  };
-}
-
-function genTranslation(){
-  var dx=pick([-3,-2,-1,1,2,3]);
-  var dy=pick([-3,-2,-1,1,2,3]);
-  var ax=rint(-3,3), ay=rint(-3,3);
-  // S'assurer que A' reste dans [-5,5]
-  var safety=0;
-  while(Math.abs(ax+dx)>5&&safety<20){dx=pick([-3,-2,-1,1,2,3]);safety++;}
-  safety=0;
-  while(Math.abs(ay+dy)>5&&safety<20){dy=pick([-3,-2,-1,1,2,3]);safety++;}
-
-  var prx=ax+dx, pry=ay+dy;
-  var vizOpts={vecteur:{dx:dx,dy:dy,from:{x:ax,y:ay}},W:260,H:220};
-  var viz=svgGrille([{x:ax,y:ay,label:'A',color:'#4FA3D1'}],vizOpts);
-  var dxStr=dx>0?'+'+dx:''+dx;
-  var dyStr=dy>0?'+'+dy:''+dy;
-
-  return {
-    type:'casc', sig:'trans'+ax+ay+dx+dy, cat:'translation',
-    viz:viz,
-    text:'On applique la translation de vecteur t('+dx+' ; '+dy+') au point A('+ax+' ; '+ay+').<br>Quelles sont les coordonnées de A\' ?',
-    explain:'A\'('+prx+' ; '+pry+')',
-    steps:[
-      {prompt:'<b>Étape 1 :</b> Quelle est l\'abscisse de A\' ?',
-       parts:["A' = ( ", {kind:'num',ans:prx,show:''+prx,w:50}, ' ; _____ )'],
-       aide:'Abscisse : '+ax+dxStr+' = '+prx},
-      {prompt:'<b>Étape 2 :</b> Quelle est l\'ordonnée de A\' ?',
-       parts:["A' = ( "+prx+" ; ", {kind:'num',ans:pry,show:''+pry,w:50}, ' )'],
-       aide:'Ordonnée : '+ay+dyStr+' = '+pry}
-    ]
-  };
-}
-
-function genRotation(){
-  var angles=['180','90d','90i'];
-  var angle=pick(angles);
-  var ax=rint(-4,4); while(ax===0)ax=rint(-4,4);
-  var ay=rint(-4,4); while(ay===0)ay=rint(-4,4);
-
-  var prx, pry, angleDesc, aide1, aide2;
-  if(angle==='180'){
-    prx=-ax; pry=-ay;
-    angleDesc='180°';
-    aide1='Rotation 180° : abscisse = −'+ax+' = '+prx;
-    aide2='Rotation 180° : ordonnée = −'+ay+' = '+pry;
-  } else if(angle==='90d'){
-    prx=-ay; pry=ax;
-    angleDesc='90° dans le sens direct (anti-horaire)';
-    aide1='Rotation 90° direct : abscisse = −y = −('+ay+') = '+prx;
-    aide2='Rotation 90° direct : ordonnée = x = '+ax+' = '+pry;
+/* ===== GÉNÉRATEUR THÈME 2 : COMPARER ===== */
+function genComparer(){
+  var sub=rnd(3);
+  // Toujours signqcm < = >
+  var a,b,correct,explain;
+  if(sub===0){
+    // un positif vs un négatif
+    a=rint(1,12); b=-rint(1,12);
+    correct='>'; explain='Tout nombre positif est plus grand que tout nombre négatif. '+a+' > '+b+'.';
+  } else if(sub===1){
+    // deux négatifs
+    a=-rint(1,10); b=-rint(1,10);
+    while(a===b){b=-rint(1,10);}
+    correct=Math.abs(a)<Math.abs(b)?'>':'<';
+    explain='Deux négatifs : celui qui a la plus petite valeur absolue est le plus grand. |'+a+'|='+Math.abs(a)+', |'+b+'|='+Math.abs(b)+'. Donc '+a+(correct==='>'?' > ':' < ')+b+'.';
   } else {
-    prx=ay; pry=-ax;
-    angleDesc='90° dans le sens indirect (horaire)';
-    aide1='Rotation 90° indirect : abscisse = y = '+ay+' = '+prx;
-    aide2='Rotation 90° indirect : ordonnée = −x = −('+ax+') = '+pry;
+    // deux positifs ou mêlés
+    a=pick([-8,-5,-3,-1,0,1,3,5,8,10]); b=pick([-8,-5,-3,-1,0,1,3,5,8,10]);
+    while(a===b){b=pick([-8,-5,-3,-1,0,1,3,5,8,10]);}
+    correct=a<b?'<':(a>b?'>':'=');
+    explain=a+' '+correct+' '+b;
   }
-
-  var viz=svgGrille([{x:ax,y:ay,label:'A',color:'#4FA3D1'}],{centre:{x:0,y:0},W:260,H:220});
-
-  return {
-    type:'casc', sig:'rot'+angle+ax+ay, cat:'rotation',
-    viz:viz,
-    text:'On effectue une rotation de <b>'+angleDesc+'</b> autour de O(0 ; 0) sur le point A('+ax+' ; '+ay+').<br>Quelles sont les coordonnées de A\' ?',
-    explain:'A\'('+prx+' ; '+pry+')',
-    steps:[
-      {prompt:'<b>Étape 1 :</b> Quelle est l\'abscisse de A\' ?',
-       parts:["A' = ( ", {kind:'num',ans:prx,show:''+prx,w:50}, ' ; _____ )'],
-       aide:aide1},
-      {prompt:'<b>Étape 2 :</b> Quelle est l\'ordonnée de A\' ?',
-       parts:["A' = ( "+prx+" ; ", {kind:'num',ans:pry,show:''+pry,w:50}, ' )'],
-       aide:aide2}
-    ]
-  };
+  return {type:'signqcm',cat:'comparer',sig:'cmp_'+a+'_'+b,
+    text:'Compare ces deux nombres :<br><br><b style="font-size:1.4rem">'+a+'</b> &nbsp;□&nbsp; <b style="font-size:1.4rem">'+b+'</b>',viz:'',
+    options:['<','=','>'],correct:correct,explain:explain};
 }
 
-function genHomothetie(){
-  // rapport k entier simple : 2, -2, 3, -3, ou fraction 1/2 (rendu comme 0.5)
-  var rapports=[2,-2,3,-3];
-  var k=pick(rapports);
-  var simple=Math.random()<0.6; // centre O(0,0)
-  var cx=simple?0:pick([-1,1,2,-2]);
-  var cy=simple?0:pick([-1,1,2,-2]);
-  // Point A tel que A' reste dans [-5,5]
-  var ax,ay,prx,pry,tries=0;
-  do{
-    ax=rint(-3,3);ay=rint(-3,3);
-    prx=cx+k*(ax-cx);pry=cy+k*(ay-cy);
-    tries++;
-  }while((Math.abs(prx)>5||Math.abs(pry)>5||ax===cx&&ay===cy)&&tries<20);
-  var centreDesc=simple?'O(0 ; 0)':'C('+cx+' ; '+cy+')';
-  var viz=svgGrille([{x:ax,y:ay,label:'A',color:'#4FA3D1'}],{centre:{x:cx,y:cy},W:260,H:220});
-  var aide1=simple?'k×xA = '+k+'×'+ax+' = '+prx:''+cx+' + '+k+'×('+ax+'−'+cx+') = '+prx;
-  var aide2=simple?'k×yA = '+k+'×'+ay+' = '+pry:''+cy+' + '+k+'×('+ay+'−'+cy+') = '+pry;
-  return {
-    type:'casc',sig:'hom'+k+ax+ay+cx+cy,cat:'homothetie',
-    viz:viz,
-    text:'Homothétie de centre '+centreDesc+' et de rapport k = '+k+'.<br>A('+ax+' ; '+ay+'). Quelles sont les coordonnées de A\' ?',
-    explain:'A\'('+prx+' ; '+pry+')',
-    steps:[
-      {prompt:'<b>Étape 1 :</b> Abscisse de A\' ?',
-       parts:["A' = ( ",{kind:'num',ans:prx,w:50},' ; _____ )'],
-       aide:aide1},
-      {prompt:'<b>Étape 2 :</b> Ordonnée de A\' ?',
-       parts:["A' = ( "+prx+" ; ",{kind:'num',ans:pry,w:50},' )'],
-       aide:aide2}
-    ]
-  };
+/* ===== GÉNÉRATEUR THÈME 3 : ADDITIONNER ===== */
+function genAdditionner(){
+  var sub=rnd(3);
+  if(sub===0){
+    // Même signe (négatif + négatif)
+    var a=rint(1,12),b=rint(1,12);
+    var res=-(a+b);
+    return {type:'casc',cat:'additionner',sig:'add0_'+a+'_'+b,
+      text:'Calcule :<br><b>(−'+a+') + (−'+b+')</b>',viz:'',
+      steps:[
+        {prompt:'Même signe (tous les deux négatifs). Additionne les valeurs absolues :',
+         parts:[a+' + '+b+' = ',{kind:'num',ans:a+b,w:70},''],
+         aide:a+' + '+b+' = '+(a+b)},
+        {prompt:'Les deux sont négatifs → résultat négatif :',
+         parts:['(−'+a+') + (−'+b+') = ',{kind:'num',ans:res,w:70},''],
+         aide:'résultat = −'+(a+b)+' = '+res}
+      ]};
+  } else if(sub===1){
+    // Signes différents (grand positif + petit négatif)
+    var big=rint(5,15),small=rint(1,big-1);
+    var signChoice=rnd(2);
+    var aa=signChoice===0?big:-big, bb=signChoice===0?-small:small;
+    var res2=aa+bb;
+    return {type:'casc',cat:'additionner',sig:'add1_'+aa+'_'+bb,
+      text:'Calcule :<br><b>('+aa+') + ('+bb+')</b>',viz:'',
+      steps:[
+        {prompt:'Signes différents. Soustrais les valeurs absolues :',
+         parts:[Math.abs(aa)+' − '+Math.abs(bb)+' = ',{kind:'num',ans:Math.abs(aa)-Math.abs(bb),w:70},''],
+         aide:Math.abs(aa)+' − '+Math.abs(bb)+' = '+(Math.abs(aa)-Math.abs(bb))},
+        {prompt:'On garde le signe du plus grand en valeur absolue ('+aa+') :',
+         parts:['('+aa+') + ('+bb+') = ',{kind:'num',ans:res2,w:70},''],
+         aide:'signe de '+aa+' → résultat = '+res2}
+      ]};
+  } else {
+    // Direct (addition simple)
+    var x=pick([-10,-8,-6,-5,-4,-3,3,4,5,6,8,10]);
+    var y=pick([-8,-6,-5,-3,-2,2,3,5,6,7,9]);
+    var res3=x+y;
+    return {type:'casc',cat:'additionner',sig:'add2_'+x+'_'+y,
+      text:'Calcule :<br><b>('+x+') + ('+y+')</b>',viz:'',
+      steps:[{prompt:'Applique la règle des signes :',
+              parts:['('+x+') + ('+y+') = ',{kind:'num',ans:res3,w:70},''],
+              aide:x+(y>=0?' + ':' − ')+Math.abs(y)+' = '+res3}]};
+  }
 }
-var GEN={symetrie:genSymetrie,symetricen:genSymetricen,translation:genTranslation,rotation:genRotation,homothetie:genHomothetie};
+
+/* ===== GÉNÉRATEUR THÈME 4 : SOUSTRAIRE ===== */
+function genSoustraire(){
+  var sub=rnd(3);
+  if(sub===0){
+    // a − (−b) = a + b  (cas piège)
+    var a=rint(1,10),b=rint(1,10);
+    var res=a+b;
+    return {type:'casc',cat:'soustraire',sig:'sou0_'+a+'_'+b,
+      text:'Calcule :<br><b>(+'+a+') − (−'+b+')</b>',viz:'',
+      steps:[
+        {prompt:'Soustraire un négatif = ajouter son opposé :',
+         parts:['(+'+a+') − (−'+b+') = (+'+a+') + (',{kind:'num',ans:b,w:60},')'],
+         aide:'−(−'+b+') = +(+'+b+') → on remplace par + '+b},
+        {prompt:'Calcule l'addition :',
+         parts:['(+'+a+') + (+'+b+') = ',{kind:'num',ans:res,w:70},''],
+         aide:a+' + '+b+' = '+res}
+      ]};
+  } else if(sub===1){
+    // a − b où b positif (résultat quelconque)
+    var aa=rint(-8,8),bb=rint(1,10);
+    var res2=aa-bb;
+    return {type:'casc',cat:'soustraire',sig:'sou1_'+aa+'_'+bb,
+      text:'Calcule :<br><b>('+aa+') − (+'+bb+')</b>',viz:'',
+      steps:[
+        {prompt:'Soustraire = ajouter l'opposé :',
+         parts:['('+aa+') − (+'+bb+') = ('+aa+') + (',{kind:'num',ans:-bb,w:70},')'],
+         aide:'opposé de +'+bb+' = −'+bb},
+        {prompt:'Calcule l'addition :',
+         parts:['('+aa+') + (−'+bb+') = ',{kind:'num',ans:res2,w:70},''],
+         aide:aa+' + (−'+bb+') = '+res2}
+      ]};
+  } else {
+    // (−a) − (−b)
+    var a3=rint(1,12),b3=rint(1,12);
+    var res3=-a3+b3;
+    return {type:'casc',cat:'soustraire',sig:'sou2_'+a3+'_'+b3,
+      text:'Calcule :<br><b>(−'+a3+') − (−'+b3+')</b>',viz:'',
+      steps:[
+        {prompt:'−(−'+b3+') = +'+b3+'. Transforme :',
+         parts:['(−'+a3+') − (−'+b3+') = (−'+a3+') + (',{kind:'num',ans:b3,w:60},')'],
+         aide:'deux moins font un plus : −(−'+b3+') = +'+b3},
+        {prompt:'Calcule :',
+         parts:['(−'+a3+') + (+'+b3+') = ',{kind:'num',ans:res3,w:70},''],
+         aide:'−'+a3+' + '+b3+' = '+res3}
+      ]};
+  }
+}
+
+/* ===== GÉNÉRATEUR THÈME 5 : PROBLÈMES ===== */
+function genProblemes(){
+  var sub=rnd(4);
+  if(sub===0){
+    // Température baisse
+    var t0=rint(-8,5),baisse=rint(2,8);
+    var res=t0-baisse;
+    return {type:'casc',cat:'problemes',sig:'pb0_'+t0+'_'+baisse,
+      text:'🌡️ La température est de <b>'+t0+'°C</b>. Elle baisse de <b>'+baisse+'°C</b>. Quelle est la nouvelle température ?',viz:'',
+      steps:[
+        {prompt:'Baisse = soustraction. Écris l'opération :',
+         parts:['('+t0+') + (−'+baisse+') = ',{kind:'num',ans:res,w:70},''],
+         aide:t0+' + (−'+baisse+') = '+res}
+      ]};
+  } else if(sub===1){
+    // Plongeur remonte
+    var prof=rint(-20,-6),remonte=rint(2,Math.abs(prof)-1);
+    var res2=prof+remonte;
+    return {type:'casc',cat:'problemes',sig:'pb1_'+prof+'_'+remonte,
+      text:'⛱️ Un plongeur est à <b>'+prof+' m</b>. Il remonte de <b>'+remonte+' m</b>. À quelle profondeur est-il ?',viz:'',
+      steps:[
+        {prompt:'Remonter = ajouter un positif :',
+         parts:['('+prof+') + (+'+remonte+') = ',{kind:'num',ans:res2,w:70},' m'],
+         aide:prof+' + '+remonte+' = '+res2+' m'}
+      ]};
+  } else if(sub===2){
+    // Compte bancaire
+    var solde=rint(-20,30),dep=rint(5,25);
+    var res3=solde-dep;
+    return {type:'casc',cat:'problemes',sig:'pb2_'+solde+'_'+dep,
+      text:'💳 Solde : <b>'+solde+' €</b>. Dépense de <b>'+dep+' €</b>. Nouveau solde ?',viz:'',
+      steps:[
+        {prompt:'Dépense = soustraction :',
+         parts:['('+solde+') + (−'+dep+') = ',{kind:'num',ans:res3,w:70},' €'],
+         aide:solde+' + (−'+dep+') = '+res3+' €'}
+      ]};
+  } else {
+    // Variation de température (deux étapes)
+    var t1=rint(-5,5),h1=rint(2,6),h2=rint(2,6);
+    var signH2=rnd(2)===0?1:-1;
+    var change=h1*signH2;
+    var res4=t1-h1+change;
+    // simpler: just two additions
+    var ta=rint(-6,4),drop=rint(1,5),rise=rint(1,4);
+    var mid=ta-drop,fin=mid+rise;
+    return {type:'casc',cat:'problemes',sig:'pb3_'+ta+'_'+drop+'_'+rise,
+      text:'🌤️ Matin : <b>'+ta+'°C</b>. La nuit baisse de <b>'+drop+'°C</b>, le lendemain matin monte de <b>'+rise+'°C</b>. Température finale ?',viz:'',
+      steps:[
+        {prompt:'Après la baisse nocturne :',
+         parts:['('+ta+') + (−'+drop+') = ',{kind:'num',ans:mid,w:70},'°C'],
+         aide:ta+' + (−'+drop+') = '+mid},
+        {prompt:'Après la remontée :',
+         parts:['('+mid+') + (+'+rise+') = ',{kind:'num',ans:fin,w:70},'°C'],
+         aide:mid+' + '+rise+' = '+fin}
+      ]};
+  }
+}
 
 /* ===== MOTEUR QUIZ ===== */
 var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,casc:null,lastText:'',timer:0};
@@ -884,17 +760,44 @@ function quizNext(){clearTimeout(Q.timer);
   Q.locked=false;var e=Q.els;e.feed.textContent='';e.feed.className='feedback';if(e.stars)e.stars.textContent='';if(e.next)e.next.style.display='none';
   if(e.casc){e.casc.style.display='none';e.casc.innerHTML='';}
   var cat,cur,tries=0;do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while((cur.sig||cur.text)===Q.lastText&&tries<8);
-  Q.cur=cur;Q.lastText=(cur.sig||cur.text);e.cat.textContent=CATNOM[cat];e.text.innerHTML=cur.text;
+  Q.cur=cur;Q.lastText=(cur.sig||cur.text);e.cat.innerHTML=CATNOM[cat]||cat;e.text.innerHTML=cur.text;
   if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
-  if(cur.type==='qcm'){if(e.work)e.work.style.display='block';e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';cur.options.forEach(function(o,i){var btn=document.createElement('button');btn.className='opt';btn.textContent=o;btn.onclick=(function(ii){return function(){quizPick(ii);};})(i);e.opts.appendChild(btn);});}
-  else if(cur.type==='casc'){if(e.work)e.work.style.display='none';e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);}
-  else{if(e.work)e.work.style.display='block';e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
+  if(cur.type==='signqcm'){
+    if(e.work)e.work.style.display='none';e.opts.style.display='none';e.ansrow.style.display='none';
+    renderSignQcm(cur,e);
+  } else if(cur.type==='casc'){
+    if(e.work)e.work.style.display='none';e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);
+  } else {
+    if(e.work)e.work.style.display='block';e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();
+  }
   quizScore();}
+
+/* QCM signe < = > */
+function renderSignQcm(cur,e){
+  e.casc.style.display='block';
+  var html='<div class="sign-btns">';
+  ['<','=','>'].forEach(function(s){
+    html+='<button class="sign-btn" onclick="pickSign(\''+s+'\')" data-sign="'+s+'">'+s+'</button>';
+  });
+  html+='</div>';
+  e.casc.innerHTML=html;
+}
+function pickSign(s){
+  if(Q.locked)return;var e=Q.els;
+  var btns=e.casc.querySelectorAll('.sign-btn');
+  btns.forEach(function(b){
+    if(b.dataset.sign===Q.cur.correct)b.classList.add('good');
+    if(b.dataset.sign===s&&s!==Q.cur.correct)b.classList.add('bad');
+    b.disabled=true;
+  });
+  quizResolve(s===Q.cur.correct,Q.cur.explain);
+}
+
 function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='\u00c9cris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La r\u00e9ponse est '+Q.cur.disp+'.');}
 function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'La bonne r\u00e9ponse\u00a0: '+Q.cur.options[Q.cur.correct]+'.');}
 function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
-  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='\u2705 Bravo\u00a0!<div class="feedlab">'+Q.cur.explain+'</div>';if(e.stars)e.stars.textContent='\u2b50'.repeat(Math.min(Q.streak,5));confettis();}
-  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='\u274c '+correctTxt+'<div class="feedlab">'+Q.cur.explain+'</div>';if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
+  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='\u2705 Bravo\u00a0!'+(Q.cur.explain?'<div class="feedlab">'+Q.cur.explain+'</div>':'');if(e.stars)e.stars.textContent='\u2b50'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='\u274c '+correctTxt+(Q.cur.explain&&Q.cur.explain!==correctTxt?'<div class="feedlab">'+Q.cur.explain+'</div>':'');if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
   quizScore();
   var last=Q.guided&&Q.answered>=serieLen();
   if(ok&&!last){Q.timer=setTimeout(quizNext,1500);}
@@ -933,13 +836,18 @@ function cascMkBlank(p,e,idx){
 }
 function cascRenderParts(parent,arr,e,idx){
   arr.forEach(function(p){
-    if(typeof p==='string'){var sp=document.createElement('span');sp.textContent=p;parent.appendChild(sp);}
-    else if(p.frac){var f=document.createElement('span');f.className='cfrac';
+    if(typeof p==='string'){
+      if(p===''){return;}
+      var sp=document.createElement('span');sp.innerHTML=p;parent.appendChild(sp);
+    } else if(p&&p.frac){
+      var f=document.createElement('span');f.className='cfrac';
       var nu=document.createElement('span');nu.className='cfnum';cascRenderParts(nu,p.frac[0],e,idx);
       var ba=document.createElement('span');ba.className='cfbar';
       var de=document.createElement('span');de.className='cfden';cascRenderParts(de,p.frac[1],e,idx);
-      f.appendChild(nu);f.appendChild(ba);f.appendChild(de);parent.appendChild(f);}
-    else{parent.appendChild(cascMkBlank(p,e,idx));}
+      f.appendChild(nu);f.appendChild(ba);f.appendChild(de);parent.appendChild(f);
+    } else if(p&&typeof p==='object'&&p.kind){
+      parent.appendChild(cascMkBlank(p,e,idx));
+    }
   });
 }
 function cascRender(e,idx){
@@ -967,7 +875,7 @@ function cascVerify(e,idx){
   if(allOK){st._done=true;st._blanks.forEach(function(z){z.el.disabled=true;});fb.className='cfeed ok';fb.textContent='\u2705 Bien r\u00e9dig\u00e9.';cascAdvance(e,idx);return;}
   st._tries++;
   if(st._tries>=3){Q.casc.clean=false;st._done=true;
-    st._blanks.forEach(function(z){z.el.value=z.bk.show;z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});
+    st._blanks.forEach(function(z){z.el.value=String(z.bk.ans);z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});
     fb.className='cfeed no';fb.textContent='Voici la bonne \u00e9criture \u2014 observe-la bien avant de continuer.';cascAdvance(e,idx);}
   else if(st._tries===2){fb.className='cfeed no';fb.innerHTML='\ud83d\udca1 '+(Q.casc.q.steps[idx].aide||'Reprends doucement et corrige les cases en orange.');}
   else{fb.className='cfeed no';fb.textContent='Pas tout \u00e0 fait\u00a0: corrige les cases en orange.';}
@@ -991,16 +899,23 @@ function cascDone(e){
 /* ===== NAVIGATION ===== */
 function go(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();if(id!=='accueil'){try{history.pushState({screen:id},'','');}catch(_){}}}
 window.addEventListener('popstate',function(){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid('accueil').classList.add('active');window.scrollTo(0,0);});
-function wiggle(id){var el=gid(id);el.classList.add('shake');setTimeout(function(){el.classList.remove('shake');},400);}
+function wiggle(id){var el=gid(id);if(!el)return;el.classList.add('shake');setTimeout(function(){el.classList.remove('shake');},400);}
 function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
 function tapArene(){if(unlocked.arene)go('arene');else wiggle('mapArene');}
 function openTheme(t){currentTheme=t;go(EXP[t]);}
-function updateMap(){ORDER.forEach(function(t){var c=gid(MAPID[t]);c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'\u2705':(unlocked[t]?'\u25b6':'\ud83d\udd12');});
-  var ar=gid('mapArene');ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'\u25b6':'\ud83d\udd12';}
+function updateMap(){ORDER.forEach(function(t){var c=gid(MAPID[t]);if(!c)return;c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'\u2705':(unlocked[t]?'\u25b6':'\ud83d\udd12');});
+  var ar=gid('mapArene');if(ar){ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'\u25b6':'\ud83d\udd12';}}
 function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entra\u00eenement \u2014 '+TITLE[t];go('ecranTrain');var els=elsTrain();els.help.textContent=HELP[t];quizStart(THEME_CATS[t],true,els);}
 function trainDone(){var t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}var idx=ORDER.indexOf(t);if(idx<ORDER.length-1){var nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{unlocked.arene=true;updateMap();go('arene');}}
 function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';var cats=cat==='mix'?ORDER.slice():[cat];quizStart(cats,false,elsArene());}
 function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
+
+/* ===== NAVIGATION LEÇONS ===== */
+function rplNext(n){document.querySelectorAll('[id^="rpl_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('rpl_step'+n);if(el)el.classList.add('active');}
+function cmpNext2(n){document.querySelectorAll('[id^="cmp_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('cmp_step'+n);if(el)el.classList.add('active');}
+function addNext(n){document.querySelectorAll('[id^="add_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('add_step'+n);if(el)el.classList.add('active');}
+function souNext(n){document.querySelectorAll('[id^="sou_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('sou_step'+n);if(el)el.classList.add('active');}
+function prbNext(n){document.querySelectorAll('[id^="prb_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('prb_step'+n);if(el)el.classList.add('active');}
 
 document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(!gid('kcPanel').hidden)return;
   var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
@@ -1036,6 +951,10 @@ function kcClear(){kcS='';kcJust=false;kcRender();}
 function kcBack(){if(kcJust)kcJust=false;kcS=kcS.slice(0,-1);kcRender();}
 function kcEq(){var v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
 function kcToggle(){gid('kcPanel').hidden=!gid('kcPanel').hidden;}
+
+/* ===== CALCULATRICE — ONGLETS ===== */
+}
+
 var KEYS2=[
   {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
   {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},
@@ -1082,11 +1001,6 @@ function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var 
   if(o&&o.u)Object.keys(o.u).forEach(function(k){if(k in unlocked)unlocked[k]=o.u[k];});}catch(_){}}
 if(typeof updateMap==='function'){var _um=updateMap;updateMap=function(){var r=_um.apply(this,arguments);try{progSave();}catch(_){}return r;};}
 
-// SVG leçons statiques
-document.addEventListener('DOMContentLoaded', function(){
-  try{initLeconsViz();}catch(e){}
-});
-// Progression
 try{progLoad();if(typeof updateMap==='function')updateMap();}catch(_){}
 </script>
 </body>

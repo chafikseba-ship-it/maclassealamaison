@@ -82,10 +82,15 @@
   .cache{display:none;}
   .btn-pouce{font-family:'Fredoka';font-weight:600;font-size:14px;padding:8px 14px;margin:6px 0;background:var(--jaune);color:var(--brun);border:none;cursor:pointer;border-radius:14px;box-shadow:0 3px 0 var(--jaune-fonce);}
   .btn-pouce:active{transform:translateY(2px);box-shadow:0 1px 0 var(--jaune-fonce);}
+  .btn-retour{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka';font-weight:600;font-size:16px;
+    background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.5);color:#fff;border-radius:12px;
+    padding:8px 14px;cursor:pointer;text-decoration:none;margin-bottom:10px;transition:background .12s}
+  .btn-retour:hover{background:rgba(255,255,255,.4)}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <a href="index.html" class="btn-retour">← Accueil</a>
 <div class="entete"><h1>DNB blanc</h1><p>Organisation &amp; Gestion de donnees</p></div>
   <div class="progression" id="progression"></div>
   <div id="zone-ecrans"></div>
@@ -127,7 +132,7 @@ function acosd(x){return Math.acos(x)*180/Math.PI;}
 function asind(x){return Math.asin(x)*180/Math.PI;}
 function atand(x){return Math.atan(x)*180/Math.PI;}
 function sqrtF(x){return Math.sqrt(x);}
-function toggleCalc(){document.getElementById('calc').classList.toggle('ouvert');}
+function toggleCalc(){var cal=document.getElementById('calc');cal.classList.toggle('ouvert');if(cal.classList.contains('ouvert')){var active=document.activeElement;if(active&&active.matches&&active.matches('.etape input[type=text]')){dernierChamp=active;active.blur();}}}
 function majEcran(){document.getElementById('calc-ecran').textContent=calcExpr||"0";}
 function cTok(t){calcExpr+=t;majEcran();}
 function cClear(){calcExpr="";majEcran();}

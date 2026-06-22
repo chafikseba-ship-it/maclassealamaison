@@ -463,7 +463,8 @@ function seuilFor(){return CASCADE_THEMES[currentTheme]?3:SEUIL;}
 const CATNOM={reconn:'Solides',boule:'Boule',volume:'Volumes',repere:'Repérage',sphere:'Sphère terrestre',synth:'Synthèse'};
 const HELP={reconn:'Observe le nombre de faces, d\'arêtes et de sommets pour identifier le solide.',boule:'V = 4/3 × π × r³ — calcule r³ d\'abord.',volume:'Applique la bonne formule selon le solide. Divise par 3 pour pyramide et cône.',repere:'O est en A, x = AB, y = AD, z = AE.',sphere:'Latitude = angle depuis l\'équateur, longitude = angle depuis Greenwich.',synth:'Identifie chaque solide, calcule chaque volume, puis additionne ou convertis.'};
 function gid(x){return document.getElementById(x);}
-function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));gid(id).classList.add('active');window.scrollTo(0,0);}
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));gid(id).classList.add('active');window.scrollTo(0,0);if(id!=='accueil'){try{history.pushState({screen:id},'','');}catch(_){}}}
+window.addEventListener('popstate',function(){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid('accueil').classList.add('active');window.scrollTo(0,0);});
 function wiggle(id){const el=gid(id);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}
 function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
 function openTheme(t){currentTheme=t;go(EXP[t]);}

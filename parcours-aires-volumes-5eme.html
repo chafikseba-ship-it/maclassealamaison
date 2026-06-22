@@ -384,7 +384,9 @@ function go(id){
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
   if(id==='arene') finArene();
+  if(id!=='accueil'){try{history.pushState({screen:id},'','');}catch(_){}}
 }
+window.addEventListener('popstate',function(){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid('accueil').classList.add('active');window.scrollTo(0,0);});
 function wiggle(id){const el=document.getElementById(id);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}
 function tapTheme(t){ if(unlocked[t]||themeDone[t]) openTheme(t); else wiggle('map'+LETTER[t]); }
 function tapArene(){ if(unlocked.arene) go('arene'); else wiggle('mapArene'); }

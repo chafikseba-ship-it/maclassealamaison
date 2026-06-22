@@ -85,7 +85,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .question .v{color:var(--orange-bas)}
 .ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
 .ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:180px;color:var(--bois)}
-.ansrow input:focus{outline:3px solid var(--or-bas);outline-offset:2px;border-color:var(--or-bas)}
+.ansrow input:focus{outline:none;border-color:var(--or-bas)}
 .feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
 .feedback.ok{color:var(--vert-bas)}
 .feedback.no{color:var(--orange-bas)}
@@ -180,7 +180,6 @@ button,input{touch-action:manipulation}
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="wrap">
 
-<!-- ===== BARRE TEST ===== -->
 <!-- ===== ACCUEIL ===== -->
 <section id="accueil" class="screen active">
   <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
@@ -225,7 +224,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== LEÇON AIRES ===== -->
 <section id="expAires" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>📐 Aires des figures</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>📐 Aires des figures</h2></div>
 
   <!-- Step 0 : Carré & Rectangle -->
   <div id="aires_step0" class="lex-step active">
@@ -369,7 +368,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== LEÇON PAVÉ DROIT ===== -->
 <section id="expPave" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>📦 Le pavé droit</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>📦 Le pavé droit</h2></div>
 
   <!-- Step 0 : Vocabulaire -->
   <div id="pave_step0" class="lex-step active">
@@ -529,7 +528,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== LEÇON CONVERSIONS ===== -->
 <section id="expConversions" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>🔄 Conversions</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>🔄 Conversions</h2></div>
 
   <!-- Step 0 : Longueurs -->
   <div id="conv_step0" class="lex-step active">
@@ -647,7 +646,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== LEÇON UNITÉS D'AIRES ===== -->
 <section id="expAires2" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>Unités d'aires</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Unités d'aires</h2></div>
   <div class="card">
     <span class="tag" style="background:var(--orange)">Explication</span>
     <p class="lead">Pour les aires, chaque fois qu'on change d'unité on multiplie ou divise par <b>100</b>. Deux cases dans le tableau valent ×10 chacune, soit ×100 ensemble.</p>
@@ -659,7 +658,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== LEÇON UNITÉS DE VOLUMES ===== -->
 <section id="expVol2" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>Unités de volumes</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>Unités de volumes</h2></div>
   <div class="card">
     <span class="tag" style="background:var(--teal)">Explication</span>
     <p class="lead">Pour les volumes, chaque changement d'unité correspond à <b>3 colonnes</b> (×1000).</p>
@@ -671,7 +670,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== ECRAN TABLEAU 2 (aires/volumes) ===== -->
 <section id="ecranTable2" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" id="backTable2" onclick="go(EXP2[currentTheme2]||'accueil')">←</button><h2 id="tableTitle2">Le tableau</h2></div>
+  <div class="topbar"><button class="back" id="backTable2" onclick="go(EXP2[currentTheme2]||'accueil')">←</button><h2 id="tableTitle2">Le tableau</h2></div>
   <div class="card">
     <p class="lead">Place ton nombre dans le tableau, puis déplace la virgule jusqu'à l'unité d'arrivée.</p>
     <div class="tablescroll"><div id="tableHolder2"></div></div>
@@ -683,7 +682,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== ECRAN ENTRAINEMENT ===== -->
 <section id="ecranTrain" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card">
     <div class="scorebar">
       <span class="pill">⭐ <span id="tq_score">0</span></span>
@@ -709,7 +708,7 @@ button,input{touch-action:manipulation}
 
 <!-- ===== ARÈNE ===== -->
 <section id="arene" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>⚔️ Arène finale</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>⚔️ Arène finale</h2></div>
   <div class="card" id="areneMenu">
     <p class="lead" style="text-align:center">Bravo ! Entraîne-toi librement sur le thème de ton choix.</p>
     <div class="catgrid">
@@ -793,7 +792,9 @@ function go(id){
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
   if(id==='arene') finArene();
+  if(id!=='accueil'){try{history.pushState({screen:id},'','');}catch(_){}}
 }
+window.addEventListener('popstate',function(){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid('accueil').classList.add('active');window.scrollTo(0,0);});
 function wiggle(id){var el=document.getElementById(id);el.classList.add('shake');setTimeout(function(){el.classList.remove('shake');},400);}
 function tapTheme(t){
   if(unlocked[t]||themeDone[t]) openTheme(t);
@@ -1170,10 +1171,9 @@ function quizValidate(){
   if(Q.locked||!Q.els)return;
   if(Q.cur.type==='qcm')return;
   var e=Q.els;
-  if(!(e.input?e.input.value:'').trim()){e.feed.className='feedback no';e.feed.textContent='Écris ta réponse d\'abord !';return;}
   var raw=e.input?e.input.value:'';
   var g=normalizeNum(raw);
-  if(g===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre valide (ex. 12,5).';return;}
+  if(g===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre (ex. 12,5).';return;}
   Q.locked=true;if(e.input)e.input.disabled=true;if(e.valid)e.valid.disabled=true;Q.total++;
   var repNorm=normalizeNum(String(Q.answer));
   var tol=Q.cur.tol||0;

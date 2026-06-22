@@ -80,10 +80,15 @@
   .fin{background:linear-gradient(135deg,var(--vert),var(--jaune));color:#fff;text-align:center;}
   .fin h2{font-size:24px;}
   .cache{display:none;}
+  .btn-retour{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka';font-weight:600;font-size:16px;
+    background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.5);color:#fff;border-radius:12px;
+    padding:8px 14px;cursor:pointer;text-decoration:none;margin-bottom:10px;transition:background .12s}
+  .btn-retour:hover{background:rgba(255,255,255,.4)}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <a href="index.html" class="btn-retour">← Accueil</a>
 <div class="entete"><h1>DNB blanc</h1><p>Nombres et calcul</p></div>
   <div class="progression" id="progression"></div>
   <div id="zone-ecrans"></div>
@@ -131,7 +136,7 @@ function nbs(inp){
 
 /* ===== CALCULATRICE ===== */
 var calcExpr="";
-function toggleCalc(){document.getElementById('calc').classList.toggle('ouvert');}
+function toggleCalc(){var cal=document.getElementById('calc');cal.classList.toggle('ouvert');if(cal.classList.contains('ouvert')){var active=document.activeElement;if(active&&active.matches&&active.matches('.etape input[type=text]')){dernierChamp=active;active.blur();}}}
 function majEcran(){document.getElementById('calc-ecran').textContent=calcExpr||"0";}
 function cTok(t){calcExpr+=t;majEcran();}
 function cClear(){calcExpr="";majEcran();}
@@ -145,7 +150,7 @@ function cBack(){
 function calcEval(expr){
   var e=expr;
   if(/[a-zA-Z]/.test(e.replace(/Math|sqrt|PI/g,''))) throw new Error("invalide");
-  return Function('"use strict";return ('+e+').')();
+  return Function('"use strict";return ('+e+')')();
 }
 function cEgal(){
   try{
