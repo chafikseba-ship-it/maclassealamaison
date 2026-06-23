@@ -445,6 +445,38 @@ button,input{touch-action:manipulation}
 </section>
 
 <!-- ARÈNE -->
+<section id="ecranTrain" class="screen">
+  <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="card" id="tq_card">
+    <div class="serieprog" id="tq_prog"></div>
+    <div class="helpnote" id="tq_help"></div>
+    <div class="qcard">
+      <div class="qcat" id="tq_cat"></div>
+      <div class="figbox" id="tq_viz" style="display:none"></div>
+      <div class="question" id="tq_text"></div>
+      <div class="opts" id="tq_opts" style="display:none"></div>
+      <div class="ansrow" id="tq_ansrow">
+        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="tq_casc" style="display:none"></div>
+      <div id="tq_work">
+        <div class="mathpad" id="tq_pad"></div>
+        <div class="brouillon-lab">✏️ Brouillon — pose tes calculs ligne par ligne (facultatif)</div>
+        <textarea id="tq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici, une par ligne…"></textarea>
+      </div>
+      <div class="feedback" id="tq_feed"></div>
+      <div class="stars" id="tq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant →</button></div>
+    </div>
+  </div>
+  <div class="card result" id="tq_result" style="display:none">
+    <div class="big" id="tq_rbig">0 / 8</div>
+    <div class="msg" id="tq_rmsg"></div>
+    <div class="rbtns" id="tq_rbtns"></div>
+  </div>
+</section>
+
 <section id="arene" class="screen">
   <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>⚔️ L'arène des nombres relatifs !</h2></div>
   <div class="card" id="areneMenu">
@@ -546,8 +578,8 @@ function genReconn(){
     var b=pick([-12,-9,-7,-5,-4,-3,-2,2,3,4,5,6,8,10,11]);
     var bopp=-b;
     return {type:'casc',cat:'reconn',sig:'re1_'+b,
-      text:'Donne l'opposé de <b>'+b+'</b>',viz:'',
-      steps:[{prompt:'L'opposé de b est −b (on change le signe).',
+      text:'Donne l\'opposé de <b>'+b+'</b>',viz:'',
+      steps:[{prompt:'L\'opposé de b est −b (on change le signe).',
               parts:['Opposé de ('+b+') = ',{kind:'num',ans:bopp,w:70},''],
               aide:'Opposé de '+b+' = '+bopp+' (on change le signe)'}]};
   } else {
@@ -653,7 +685,7 @@ function genSoustraire(){
         {prompt:'Soustraire un négatif = ajouter son opposé :',
          parts:['(+'+a+') − (−'+b+') = (+'+a+') + (',{kind:'num',ans:b,w:60},')'],
          aide:'−(−'+b+') = +(+'+b+') → on remplace par + '+b},
-        {prompt:'Calcule l'addition :',
+        {prompt:'Calcule l\'addition :',
          parts:['(+'+a+') + (+'+b+') = ',{kind:'num',ans:res,w:70},''],
          aide:a+' + '+b+' = '+res}
       ]};
@@ -664,10 +696,10 @@ function genSoustraire(){
     return {type:'casc',cat:'soustraire',sig:'sou1_'+aa+'_'+bb,
       text:'Calcule :<br><b>('+aa+') − (+'+bb+')</b>',viz:'',
       steps:[
-        {prompt:'Soustraire = ajouter l'opposé :',
+        {prompt:'Soustraire = ajouter l\'opposé :',
          parts:['('+aa+') − (+'+bb+') = ('+aa+') + (',{kind:'num',ans:-bb,w:70},')'],
          aide:'opposé de +'+bb+' = −'+bb},
-        {prompt:'Calcule l'addition :',
+        {prompt:'Calcule l\'addition :',
          parts:['('+aa+') + (−'+bb+') = ',{kind:'num',ans:res2,w:70},''],
          aide:aa+' + (−'+bb+') = '+res2}
       ]};
@@ -698,7 +730,7 @@ function genProblemes(){
     return {type:'casc',cat:'problemes',sig:'pb0_'+t0+'_'+baisse,
       text:'🌡️ La température est de <b>'+t0+'°C</b>. Elle baisse de <b>'+baisse+'°C</b>. Quelle est la nouvelle température ?',viz:'',
       steps:[
-        {prompt:'Baisse = soustraction. Écris l'opération :',
+        {prompt:'Baisse = soustraction. Écris l\'opération :',
          parts:['('+t0+') + (−'+baisse+') = ',{kind:'num',ans:res,w:70},''],
          aide:t0+' + (−'+baisse+') = '+res}
       ]};
@@ -950,10 +982,7 @@ function kcIns(ch){if(kcJust&&/[0-9.\u03c0(\u221a]/.test(ch))kcS='';kcJust=false
 function kcClear(){kcS='';kcJust=false;kcRender();}
 function kcBack(){if(kcJust)kcJust=false;kcS=kcS.slice(0,-1);kcRender();}
 function kcEq(){var v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
-function kcToggle(){gid('kcPanel').hidden=!gid('kcPanel').hidden;}
-
-/* ===== CALCULATRICE — ONGLETS ===== */
-}
+function kcToggle(){var p=gid('kcPanel');p.hidden=!p.hidden;if(!p.hidden){var a=document.activeElement;if(a&&a.matches&&(a.id==='tq_input'||a.id==='aq_input'))a.blur();}}
 
 var KEYS2=[
   {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
