@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masse volumique — 3ème</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#FFC93C;--or-bas:#E0A41E;--vert:#8BC34A;--vert-bas:#5E9426;
+  --orange:#FF8A4C;--orange-bas:#E0672E;--teal:#46BECB;--teal-bas:#2E8A98;
+  --violet:#A78BC4;--violet-bas:#7E61A1;--rouge:#EF5D60;--rouge-bas:#c43e41;
+  --bleu:#4FA3D1;--bleu-bas:#2f7ba8;
+  --bois:#5C3D2E;--bois-clair:#8a6650;--creme:#FFF4DC;--blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18),0 14px 22px rgba(92,61,46,.12);
+  --acc:#46BECB;--acc-bas:#2E8A98;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
+  background:linear-gradient(160deg,#EAF6FF 0%,#D0EEFF 55%,#B8E4FF 100%);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 100px;position:relative;z-index:1}
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.4;z-index:0}
+.b1{width:180px;height:180px;background:#A8D8FF;top:-40px;left:-50px}
+.b2{width:140px;height:140px;background:#FFD0A0;bottom:40px;right:-40px}
+.b3{width:120px;height:120px;background:#BCE29A;top:40%;left:-50px}
+.screen{display:none;animation:pop .35s ease}
+.screen.active{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
+  padding:14px 22px;cursor:pointer;background:var(--acc);box-shadow:0 6px 0 var(--acc-bas);
+  transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--acc-bas)}
+.btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
+.btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
+.btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
+.btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
+.btn.bleu{background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)}
+.btn.or{background:var(--or);color:var(--bois);box-shadow:0 6px 0 var(--or-bas)}
+.btn.rouge{background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)}
+.btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
+.btn:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.back{background:var(--blanc);color:var(--bois);border:none;border-radius:14px;width:48px;height:48px;
+  font-size:1.5rem;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;font-family:'Fredoka'}
+.back:active{transform:translateY(4px);box-shadow:0 1px 0 #e7d3a8}
+.card{background:var(--blanc);border-radius:26px;padding:22px;box-shadow:var(--ombre);margin:16px 0}
+.tag{display:inline-block;font-family:'Fredoka';font-weight:600;color:#fff;padding:5px 14px;border-radius:30px;font-size:.85rem;margin-bottom:8px}
+.hero{text-align:center;padding:26px 16px 8px}
+.hero h1{font-size:2.5rem;line-height:1.05;margin:.1em 0;color:var(--bois)}
+.hero .sub{font-size:1.1rem;color:var(--bois-clair);font-weight:700;max-width:560px;margin:6px auto 0}
+.coin{font-size:3.4rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
+.map{display:grid;gap:16px;margin-top:8px}
+.etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;
+  box-shadow:var(--ombre);cursor:pointer;border:4px solid transparent;transition:transform .12s}
+.etape:hover{transform:translateY(-3px)}
+.etape:active{transform:translateY(1px)}
+.etape .num{flex:0 0 60px;height:60px;border-radius:18px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.7rem;color:#fff}
+.etape .txt h3{margin:0 0 2px;font-size:1.16rem}
+.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.92rem}
+.etape .status{margin-left:auto;font-size:1.5rem}
+.e1 .num{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
+.e2 .num{background:var(--violet);box-shadow:0 5px 0 var(--violet-bas)}
+.e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
+.e4 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
+.lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
+.mid{text-align:center;margin:16px 0}
+/* Vraie fraction empilée */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 6px;line-height:1.1}
+.fnum,.fden{display:block;text-align:center;padding:2px 8px;font-family:'Fredoka';font-weight:700}
+.fbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
+.formule-box{display:inline-flex;align-items:center;background:var(--creme);border:2px dashed var(--teal-bas);
+  border-radius:14px;padding:10px 18px;font-family:'Fredoka';font-weight:700;font-size:1.2rem;
+  color:var(--bois);gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
+.encadre{border-left:5px solid var(--teal);background:var(--creme);border-radius:0 14px 14px 0;
+  padding:12px 14px;margin:12px 0;font-family:'Fredoka';font-weight:700;font-size:1.05rem;
+  color:var(--bois);line-height:1.5}
+.encadre.violet{border-left-color:var(--violet)}
+.encadre.orange{border-left-color:var(--orange)}
+.encadre.vert{border-left-color:var(--vert)}
+.encadre.or{border-left-color:var(--or)}
+.lecon-anim{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:14px 0}
+.lecon-bloc{background:var(--teal);color:#fff;font-family:'Fredoka';font-weight:700;font-size:1.2rem;padding:10px 16px;border-radius:14px;box-shadow:0 5px 0 var(--teal-bas)}
+.lecon-op{font-family:'Fredoka';font-weight:700;font-size:1.4rem;color:var(--bois)}
+.lecon-res{background:var(--vert);color:#fff;font-family:'Fredoka';font-weight:700;font-size:1.3rem;padding:10px 18px;border-radius:14px;box-shadow:0 5px 0 var(--vert-bas)}
+.tableau{width:100%;border-collapse:separate;border-spacing:0 6px;margin:10px 0}
+.tableau th{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.95rem;padding:6px 12px;text-align:center}
+.tableau td{background:var(--blanc);font-family:'Fredoka';font-weight:700;color:var(--bois);padding:10px 14px;text-align:center;border-radius:10px}
+.tableau tr:nth-child(odd) td{background:var(--creme)}
+/* Entraînement */
+.serieprog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
+.qcard{text-align:center}
+.qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
+.helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px;background:var(--creme);border-radius:10px;padding:8px 12px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
+.ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
+.ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;
+  border:3px solid #f0dca8;border-radius:16px;padding:12px;width:180px;color:var(--bois)}
+.ansrow input:focus{outline:none;border-color:var(--teal-bas)}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.05rem;border:3px solid #e7d3a8;background:var(--blanc);
+  color:var(--bois);border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
+.opt.bad{background:var(--orange);color:#fff;border-color:var(--orange-bas);box-shadow:0 5px 0 var(--orange-bas)}
+.feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
+.feedback.ok{color:var(--vert-bas)}
+.feedback.no{color:var(--orange-bas)}
+.feedlab{font-family:'Nunito';font-weight:800;font-size:.92rem;color:var(--bois-clair);margin-top:6px}
+.stars{font-size:1.5rem;letter-spacing:3px;margin-top:8px;min-height:1.6em}
+.mathpad{min-height:10px}
+.brouillon-lab{font-family:'Nunito';font-weight:800;font-size:.88rem;color:var(--bois-clair);margin:14px 0 4px}
+.brouillon{width:100%;border:2px solid #e7d3a8;border-radius:14px;padding:10px 12px;font-family:'Nunito';
+  font-weight:700;font-size:1rem;color:var(--bois);resize:vertical;background:var(--blanc)}
+.brouillon:focus{outline:none;border-color:var(--teal-bas)}
+.conf{position:fixed;width:12px;height:12px;top:-20px;z-index:50;border-radius:3px;pointer-events:none}
+.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.result{text-align:center}
+.result .big{font-family:'Fredoka';font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
+.result .big.ok{color:var(--vert-bas)}.result .big.no{color:var(--orange-bas)}
+.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
+.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+/* CASCADE */
+.cascade{margin:6px 0 2px;text-align:left}
+.cstep{display:none;background:var(--creme);border-radius:16px;padding:14px 16px;margin:10px 0;animation:pop .3s ease}
+.cstep.on{display:block}
+.cprompt{font-family:'Fredoka';font-weight:700;color:var(--bois);font-size:1.05rem;margin-bottom:10px;line-height:1.35}
+.cbody{display:flex;flex-direction:column;gap:8px}
+.cfeed{font-family:'Nunito';font-weight:800;font-size:.92rem;margin-top:8px;min-height:1em;line-height:1.35}
+.cfeed.ok{color:var(--vert-bas)}.cfeed.no{color:var(--orange-bas)}
+.cline{font-family:'Fredoka';font-weight:700;font-size:1.12rem;color:var(--bois);line-height:2.6;
+  display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.cblank{font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;border:none;
+  border-bottom:3px solid var(--teal-bas);background:#fff;border-radius:8px 8px 0 0;padding:6px;color:var(--bois)}
+.cblank:focus{outline:3px solid var(--teal-bas);outline-offset:1px;background:#f0fbff}
+.cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
+.cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
+.cverify{margin-top:10px}
+.cfrac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 5px}
+.cfnum,.cfden{display:block;text-align:center;padding:2px 6px}
+.cfbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
+.figbox{margin:8px auto 4px;text-align:center}
+.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka';font-weight:600;font-size:.85rem;
+  color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;
+  box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+/* ===== TABLEAU DE CONVERSION (réutilisé depuis parcours-aires-volumes) ===== */
+.tablescroll{overflow-x:auto;padding:10px 2px 6px;-webkit-overflow-scrolling:touch}
+.tboard{--cellw:44px;--slotw:18px;display:grid;justify-content:start;align-items:stretch;margin:0;width:max-content}
+.thead{font-family:'Fredoka';font-weight:700;background:var(--creme);color:var(--bois);border:2px solid #f0dca8;text-align:center;padding:6px 2px;font-size:.92rem;display:grid;place-items:center;line-height:1.15}
+.thead small{display:block;font-size:.62rem;font-weight:700;margin-top:1px;color:var(--teal-bas)}
+.tcell{height:56px;border:2px solid #f0dca8;text-align:center;background:#fff;font-family:'Fredoka';font-weight:700;font-size:1.5rem;color:var(--bois);padding:0;outline:none;border-radius:0}
+.tcell[data-u="1"]{background:#fbf2da}
+.tcell:focus{background:#e8f9fc;border-color:var(--teal-bas);box-shadow:inset 0 0 0 2px var(--teal-bas)}
+.tcell.pad{background:var(--blanc);border-style:dashed;border-color:#dde8ea}
+.tcell.pad:focus{background:#e8f9fc;border-style:solid;border-color:var(--teal-bas)}
+.tslot{position:relative;cursor:pointer;display:grid;place-items:center}
+.tslot .dot{width:7px;height:7px;border-radius:50%;background:#cce8ee;align-self:end;margin-bottom:8px;transition:.15s}
+.tslot:hover .dot{background:var(--teal-bas);transform:scale(1.5)}
+.tslot .comma{position:absolute;bottom:-6px;left:50%;transform:translateX(-55%) scale(.3);font-family:'Fredoka';font-weight:700;font-size:2.7rem;color:var(--orange-bas);opacity:0;transition:.2s;pointer-events:none}
+.tslot.on .comma{opacity:1;transform:translateX(-55%) scale(1)}
+.tslot.on .dot{opacity:0}
+.toolbar-tb{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0 4px}
+.tresult{text-align:center;font-family:'Fredoka';font-weight:700;font-size:1.35rem;margin-top:6px;min-height:1.5em;color:var(--bois)}
+.tresult b{color:var(--teal-bas)}
+@media(max-width:480px){.tboard{--cellw:36px;--slotw:14px}.tcell{height:48px;font-size:1.25rem}.thead{font-size:.78rem}}
+/* ===== CALCULATRICE ===== */
+.kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;
+  box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);transition:transform .1s}
+.kc-fab:active{transform:translateY(4px)}
+.kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(330px,calc(100vw - 32px));
+  background:var(--blanc);border-radius:22px;padding:14px;
+  box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);animation:kcpop .25s ease}
+.kc-panel[hidden]{display:none}
+@keyframes kcpop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.kc-head{display:flex;align-items:center;justify-content:space-between;font-family:'Fredoka';font-weight:700;
+  color:var(--bois);margin:2px 4px 10px;font-size:1.05rem}
+.kc-x{border:none;background:var(--creme);color:var(--bois);width:32px;height:32px;border-radius:10px;
+  font-size:1rem;cursor:pointer;font-family:'Fredoka';box-shadow:0 3px 0 #e7d3a8}
+.kc-x:active{transform:translateY(2px);box-shadow:0 1px 0 #e7d3a8}
+.kc-screen{background:#2b2b2b;border-radius:14px;padding:10px 14px;text-align:right;margin-bottom:12px;
+  min-height:74px;display:flex;flex-direction:column;justify-content:center}
+.kc-expr{font-family:'Fredoka';font-weight:600;color:#cfe6ee;font-size:1rem;min-height:1.2em;word-break:break-all;line-height:1.25}
+.kc-res{font-family:'Fredoka';font-weight:700;color:#fff;font-size:1.7rem;line-height:1.1;margin-top:2px}
+.kc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kc-key{border:none;border-radius:14px;padding:14px 0;font-family:'Fredoka';font-weight:700;
+  font-size:1.15rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.kc-key:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.kc-key.op{background:var(--creme);color:var(--orange-bas)}
+.kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1rem}
+.kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
+.kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
+.kc-send{width:100%;margin-top:8px;border:none;border-radius:14px;padding:12px;font-family:'Fredoka';
+  font-weight:700;font-size:1rem;background:var(--teal);color:#fff;cursor:pointer;box-shadow:0 4px 0 var(--teal-bas)}
+.kc-send:active{transform:translateY(3px);box-shadow:0 1px 0 var(--teal-bas)}
+button,input,textarea{touch-action:manipulation}
+@media(max-width:480px){
+  .wrap{padding:14px 12px 90px}
+  .hero h1{font-size:2rem}.coin{font-size:2.8rem}
+  .card{padding:16px;border-radius:20px}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem}
+  .question{font-size:1.18rem}
+  .ansrow input{width:60%;max-width:200px}
+  .btn{font-size:1rem;padding:13px 18px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+
+<div class="wrap">
+
+<!-- ========== ACCUEIL ========== -->
+<section id="accueil" class="screen active">
+  <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
+  <div class="hero">
+    <div class="coin">⚖️💧</div>
+    <h1>Masse volumique</h1>
+    <p class="sub">4 étapes guidées — lis la leçon, puis entraîne-toi ! 💪</p>
+  </div>
+  <div class="map">
+    <div class="etape e1" id="mapIntro" onclick="tapTheme('intro')">
+      <div class="num">⚖️</div>
+      <div class="txt"><h3>1 · C'est quoi la masse volumique ?</h3><p>Définition, unités, formule ρ = m/V</p></div>
+      <div class="status" id="stIntro">▶</div>
+    </div>
+    <div class="etape e2" id="mapCalcul" onclick="tapTheme('calcul')">
+      <div class="num">🧮</div>
+      <div class="txt"><h3>2 · Calculer ρ, m ou V</h3><p>Isoler la grandeur cherchée étape par étape</p></div>
+      <div class="status" id="stCalcul">▶</div>
+    </div>
+    <div class="etape e3" id="mapConversion" onclick="tapTheme('conversion')">
+      <div class="num">🔄</div>
+      <div class="txt"><h3>3 · Conversions d'unités</h3><p>g/cm³ ↔ kg/m³, mL ↔ L ↔ cm³, g ↔ kg</p></div>
+      <div class="status" id="stConversion">▶</div>
+    </div>
+    <div class="etape e4" id="mapFlotte" onclick="tapTheme('flotte')">
+      <div class="num">🚢</div>
+      <div class="txt"><h3>4 · Flotte ou coule ?</h3><p>Comparer ρ objet et ρ eau — identifier un matériau</p></div>
+      <div class="status" id="stFlotte">▶</div>
+    </div>
+  </div>
+  <div class="mid" style="margin-top:20px">
+    <button class="btn teal" onclick="go('arene')">🏟️ Arène libre — mélange tout !</button>
+  </div>
+</section>
+
+<!-- ========== LEÇON 1 : INTRO ========== -->
+<section id="expIntro" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>⚖️ C'est quoi la masse volumique ?</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">👀 Observe</span>
+    <p class="lead">Un kilo de plume et un kilo de plomb ont <b>la même masse</b>. Pourtant le plomb est bien plus <b>petit</b> ! C'est parce que le plomb est beaucoup plus <b>dense</b>.</p>
+    <div class="encadre">
+      La <b>masse volumique</b> (notée <b>ρ</b>, se lit "rho") mesure <b>combien de kilogrammes tient dans 1 m³</b> d'un matériau.<br><br>
+      Plus ρ est grande → le matériau est <b>lourd pour son volume</b>.<br>
+      Plus ρ est petite → le matériau est <b>léger pour son volume</b>.
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">📐 La formule</span>
+    <p class="lead" style="text-align:center">La masse volumique se calcule avec cette formule :</p>
+    <div class="mid">
+      <div class="formule-box">
+        <span>ρ =</span>
+        <span class="frac"><span class="fnum">m</span><span class="fbar"></span><span class="fden">V</span></span>
+      </div>
+    </div>
+    <div class="encadre">
+      <b>ρ</b> = masse volumique → unité : <b>g/cm³</b> ou <b>kg/m³</b><br>
+      <b>m</b> = masse → unité : <b>g</b> ou <b>kg</b><br>
+      <b>V</b> = volume → unité : <b>cm³</b> ou <b>m³</b>
+    </div>
+    <p class="note">⚠️ Toujours utiliser des unités <b>cohérentes</b> dans le même calcul !</p>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">📊 Masses volumiques à connaître</span>
+    <table class="tableau">
+      <thead><tr><th>Matériau</th><th>ρ (g/cm³)</th><th>ρ (kg/m³)</th></tr></thead>
+      <tbody>
+        <tr><td>Eau (liquide)</td><td>1,0</td><td>1 000</td></tr>
+        <tr><td>Glace</td><td>0,92</td><td>920</td></tr>
+        <tr><td>Bois (chêne)</td><td>0,85</td><td>850</td></tr>
+        <tr><td>Aluminium</td><td>2,7</td><td>2 700</td></tr>
+        <tr><td>Fer / acier</td><td>7,9</td><td>7 900</td></tr>
+        <tr><td>Plomb</td><td>11,3</td><td>11 300</td></tr>
+        <tr><td>Or</td><td>19,3</td><td>19 300</td></tr>
+      </tbody>
+    </table>
+    <p class="note">💡 Retiens : l'eau vaut <b>1 g/cm³</b>. C'est la référence !</p>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">🔬 Exemple guidé</span>
+    <p class="lead">Un bloc d'aluminium a une masse de <b>270 g</b> et un volume de <b>100 cm³</b>. Calcule ρ.</p>
+    <div class="encadre orange">
+      J'écris la relation :
+      <div class="mid" style="margin:8px 0">
+        <div class="formule-box" style="font-size:1.1rem">
+          ρ = <span class="frac"><span class="fnum">m</span><span class="fbar"></span><span class="fden">V</span></span>
+        </div>
+      </div>
+      Je remplace par les valeurs avec leurs unités :
+      <div class="lecon-anim">
+        <div class="lecon-bloc">ρ =</div>
+        <div style="font-family:'Fredoka';font-weight:700;font-size:1.15rem">
+          <span class="frac" style="font-size:1.1rem">
+            <span class="fnum">270 g</span><span class="fbar"></span><span class="fden">100 cm³</span>
+          </span>
+        </div>
+        <div class="lecon-res">= 2,7 g/cm³</div>
+      </div>
+      <b>Conclusion :</b> la masse volumique de cet objet est <b>2,7 g/cm³</b>. C'est de l'aluminium !
+    </div>
+  </div>
+
+  <div class="mid"><button class="btn teal" onclick="startTrain('intro')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== LEÇON 2 : CALCULER ========== -->
+<section id="expCalcul" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🧮 Calculer ρ, m ou V</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">💡 Comment isoler la grandeur cherchée ?</span>
+    <p class="lead">On part toujours de la même relation :</p>
+    <div class="mid">
+      <div class="formule-box">
+        ρ = <span class="frac"><span class="fnum">m</span><span class="fbar"></span><span class="fden">V</span></span>
+      </div>
+    </div>
+    <div class="encadre violet">
+      <b>Pour trouver m</b> → je multiplie les deux membres par V :<br>
+      &nbsp;&nbsp;&nbsp;<b>m = ρ × V</b>
+    </div>
+    <div class="encadre orange">
+      <b>Pour trouver V</b> → je divise les deux membres par ρ :<br>
+      &nbsp;&nbsp;&nbsp;<b>V =</b>
+      <span class="frac"><span class="fnum">m</span><span class="fbar"></span><span class="fden">ρ</span></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">🔬 Exemple — Trouver la masse m</span>
+    <p class="lead">Un bloc de fer a un volume de <b>50 cm³</b>. ρ(fer) = <b>7,9 g/cm³</b>. Calcule sa masse.</p>
+    <div class="encadre violet">
+      Relation : ρ = <span class="frac" style="vertical-align:middle"><span class="fnum">m</span><span class="fbar"></span><span class="fden">V</span></span>
+      &nbsp;→&nbsp; m = ρ × V<br><br>
+      Application : m = 7,9 × 50<br>
+      <b>m = 395 g</b>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">🔬 Exemple — Trouver le volume V</span>
+    <p class="lead">Un objet en plomb a une masse de <b>565 g</b>. ρ(plomb) = <b>11,3 g/cm³</b>. Calcule son volume.</p>
+    <div class="encadre orange">
+      Relation : ρ = <span class="frac" style="vertical-align:middle"><span class="fnum">m</span><span class="fbar"></span><span class="fden">V</span></span>
+      &nbsp;→&nbsp; V = <span class="frac" style="vertical-align:middle"><span class="fnum">m</span><span class="fbar"></span><span class="fden">ρ</span></span><br><br>
+      Application : V = <span class="frac" style="vertical-align:middle"><span class="fnum">565</span><span class="fbar"></span><span class="fden">11,3</span></span> = <b>50 cm³</b>
+    </div>
+  </div>
+
+  <div class="mid"><button class="btn violet" onclick="startTrain('calcul')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== LEÇON 3 : CONVERSIONS ========== -->
+<section id="expConversion" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🔄 Conversions d'unités</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">⚠️ Les 3 tableaux à retenir</span>
+    <div class="encadre">
+      <b>Volume (cubes) :</b><br>
+      km³ — m³ — dm³ — cm³ — mm³<br>
+      💧 dm³ = <b>L</b> (litre) &nbsp;·&nbsp; cm³ = <b>mL</b> (millilitre)
+    </div>
+    <div class="encadre violet" style="margin-top:10px">
+      <b>Masse volumique :</b> 1 g/cm³ = <b>1 000 kg/m³</b><br>
+      (on multiplie par 1 000 pour passer en kg/m³)
+    </div>
+    <div class="encadre orange" style="margin-top:10px">
+      <b>Masse :</b><br>
+      t — kg — g — mg<br>
+      1 kg = <b>1 000 g</b> &nbsp;·&nbsp; 1 t = <b>1 000 kg</b>
+    </div>
+  </div>
+
+  <div class="mid"><button class="btn orange" onclick="startTrain('conversion')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== LEÇON 4 : FLOTTE/COULE ========== -->
+<section id="expFlotte" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🚢 Flotte ou coule ?</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">💡 La règle</span>
+    <div class="encadre vert">
+      Un objet <b>flotte</b> dans l'eau si sa masse volumique est <b>inférieure</b> à celle de l'eau.<br><br>
+      ρ objet &lt; 1 g/cm³ → <b>flotte 🚢</b><br>
+      ρ objet &gt; 1 g/cm³ → <b>coule 🪨</b><br>
+      ρ objet = 1 g/cm³ → reste en suspension
+    </div>
+    <p class="note">💡 La glace (0,92 g/cm³) flotte sur l'eau — c'est pour ça que les icebergs flottent !</p>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">🔬 Identifier un matériau inconnu</span>
+    <div class="encadre vert">
+      <b>Étape 1</b> : Mesurer la masse m (balance) et le volume V (éprouvette)<br>
+      <b>Étape 2</b> : Calculer ρ = m/V<br>
+      <b>Étape 3</b> : Comparer au tableau de référence<br>
+      <b>Étape 4</b> : Conclure en citant le matériau et son comportement dans l'eau
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">🔬 Exemple</span>
+    <p class="lead">Un objet inconnu : masse = <b>158 g</b>, volume = <b>20 cm³</b>. Quel matériau ? Flotte-t-il ?</p>
+    <div class="encadre vert">
+      ρ = <span class="frac" style="vertical-align:middle"><span class="fnum">158</span><span class="fbar"></span><span class="fden">20</span></span> = <b>7,9 g/cm³</b><br><br>
+      D'après le tableau → c'est du <b>fer</b>.<br>
+      7,9 &gt; 1 → cet objet <b>coule</b> dans l'eau. 🪨
+    </div>
+  </div>
+
+  <div class="mid"><button class="btn vert" onclick="startTrain('flotte')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== ENTRAÎNEMENT ========== -->
+<section id="ecranTrain" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button>
+    <h2 id="trainTitle">Entraînement</h2>
+  </div>
+  <div class="card" id="tq_card">
+    <div class="serieprog" id="tq_prog"></div>
+    <div class="helpnote" id="tq_help"></div>
+    <div class="qcard">
+      <div class="qcat" id="tq_cat"></div>
+      <div class="figbox" id="tq_viz" style="display:none"></div>
+      <div class="question" id="tq_text"></div>
+      <div class="opts" id="tq_opts" style="display:none"></div>
+      <div class="ansrow" id="tq_ansrow">
+        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="tq_casc" style="display:none"></div>
+      <!-- Tableau interactif de conversion (affiché uniquement pour les exos de conversion) -->
+      <div id="tq_tableau" style="display:none;margin:10px 0">
+        <div class="tablescroll"><div id="tq_board"></div></div>
+        <div class="toolbar-tb">
+          <button class="btn fant" style="font-size:.85rem;padding:8px 14px" onclick="tbClear('tq_board','tq_board_res')">🧽 Effacer</button>
+        </div>
+        <div class="tresult" id="tq_board_res">Écris ton nombre, puis déplace la virgule…</div>
+      </div>
+      <div id="tq_work">
+        <div class="mathpad" id="tq_pad"></div>
+        <div class="brouillon-lab">✏️ Brouillon — pose tes calculs ici (facultatif)</div>
+        <textarea id="tq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici, une par ligne…"></textarea>
+      </div>
+      <div class="feedback" id="tq_feed"></div>
+      <div class="stars" id="tq_stars"></div>
+      <div class="mid" style="margin-top:14px">
+        <button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant →</button>
+      </div>
+    </div>
+  </div>
+  <div class="card result" id="tq_result" style="display:none">
+    <div class="big" id="tq_rbig">0 / 8</div>
+    <div class="msg" id="tq_rmsg"></div>
+    <div class="rbtns" id="tq_rbtns"></div>
+  </div>
+</section>
+
+<!-- ========== ARÈNE ========== -->
+<section id="arene" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🏟️ Arène libre</h2>
+  </div>
+  <div id="areneMenu">
+    <div class="card">
+      <p class="lead">Entraînement libre — toutes les questions mélangées. Aucune limite !</p>
+      <div class="mid"><button class="btn teal" onclick="startArene()">C'est parti ! 🚀</button></div>
+    </div>
+  </div>
+  <div id="areneJeu" style="display:none">
+    <div class="card">
+      <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:10px;font-family:'Fredoka';font-weight:700">
+        <div style="background:var(--creme);border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8">✅ <span id="aq_corr">0</span> / <span id="aq_tot">0</span></div>
+        <div style="background:var(--creme);border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8">🔥 série : <span id="aq_streak">0</span></div>
+      </div>
+      <div class="qcat" id="aq_cat"></div>
+      <div class="figbox" id="aq_viz" style="display:none"></div>
+      <div class="question" id="aq_text"></div>
+      <div class="opts" id="aq_opts" style="display:none"></div>
+      <div class="ansrow" id="aq_ansrow">
+        <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="aq_casc" style="display:none"></div>
+      <div class="feedback" id="aq_feed"></div>
+      <div class="stars" id="aq_stars"></div>
+      <div class="mid" style="margin-top:14px">
+        <button class="btn orange" id="aq_next" style="display:none" onclick="quizNext()">Suivant →</button>
+      </div>
+    </div>
+    <div class="mid"><button class="btn fant" onclick="finArene()">⬅ Retour arène</button></div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<!-- Calculatrice flottante -->
+<button class="kc-fab" onclick="kcToggle()" title="Calculatrice">🧮</button>
+<div class="kc-panel" id="kcPanel" hidden>
+  <div class="kc-head">🧮 Calculatrice<button class="kc-x" onclick="kcToggle()">✕</button></div>
+  <div class="kc-screen">
+    <div class="kc-expr" id="kcExpr"></div>
+    <div class="kc-res" id="kcRes">0</div>
+  </div>
+  <div class="kc-keys" id="kcKeys"></div>
+  <button class="kc-send" onclick="kcSend()">📥 Mettre le résultat dans ma réponse</button>
+</div>
+
+<script>
+/* ===== SUIVI ===== */
+var SUIVI={
+  url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',
+  nom:'Masse volumique 3ème',
+  f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',
+     statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'}
+};
+function suiviEnvoi(statut,score,total){
+  try{
+    var e=localStorage.getItem('kc_eleve')||'',c=localStorage.getItem('kc_classe')||'';
+    var fd=new FormData();
+    fd.append(SUIVI.f.classe,c);fd.append(SUIVI.f.eleve,e);
+    fd.append(SUIVI.f.parcours,SUIVI.nom);fd.append(SUIVI.f.statut,statut);
+    fd.append(SUIVI.f.score,score);fd.append(SUIVI.f.total,total);
+    fetch(SUIVI.url,{method:'POST',mode:'no-cors',body:fd});
+  }catch(_){}
+}
+
+/* ===== VARIABLES ===== */
+var EXP={intro:'expIntro',calcul:'expCalcul',conversion:'expConversion',flotte:'expFlotte'};
+var MAPID={intro:'mapIntro',calcul:'mapCalcul',conversion:'mapConversion',flotte:'mapFlotte'};
+var TITLE={intro:'C\'est quoi la masse volumique ?',calcul:'Calculer ρ, m ou V',
+           conversion:'Conversions d\'unités',flotte:'Flotte ou coule ?'};
+var ORDER=['intro','calcul','conversion','flotte'];
+var HELP={
+  intro:'ρ = m ÷ V. La masse (m) sur le volume (V).',
+  calcul:'ρ = m/V → m = ρ×V → V = m/ρ. Utilise la calculatrice !',
+  conversion:'1 g/cm³ = 1 000 kg/m³. 1 mL = 1 cm³. 1 L = 1 000 cm³.',
+  flotte:'ρ < 1 g/cm³ → flotte. ρ > 1 g/cm³ → coule. ρ eau = 1 g/cm³.'
+};
+var BRIQUE={
+  intro:   {serie:8,seuil:6},
+  calcul:  {serie:8,seuil:6},
+  conversion:{serie:8,seuil:6},
+  flotte:  {serie:8,seuil:6}
+};
+var THEME_CATS={intro:['intro'],calcul:['calcul'],conversion:['conversion'],flotte:['flotte']};
+var CATNOM={intro:'Définition & ρ = m/V',calcul:'Calculer ρ, m ou V',
+            conversion:'Conversions d\'unités',flotte:'Flotte ou coule ?'};
+var unlocked={intro:true,calcul:true,conversion:true,flotte:true,arene:true};
+var themeDone={intro:false,calcul:false,conversion:false,flotte:false};
+var currentTheme='intro';
+
+/* ===== UTILITAIRES ===== */
+function gid(x){return document.getElementById(x);}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;var v=parseFloat(s);return isFinite(v)?v:null;}
+function serieLen(){return BRIQUE[currentTheme].serie;}
+function seuilFor(){return BRIQUE[currentTheme].seuil;}
+function rnd(n){return Math.floor(Math.random()*n);}
+function rint(a,b){return a+Math.floor(Math.random()*(b-a+1));}
+function fmtFR(v,dec){if(dec===undefined)dec=2;return (Math.round(v*Math.pow(10,dec))/Math.pow(10,dec)).toString().replace('.',',');}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
+
+/* ===== NAVIGATION ===== */
+function go(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  gid(id).classList.add('active');window.scrollTo(0,0);
+  if(id==='arene')finArene();
+  if(id!=='accueil'){try{history.pushState({screen:id},'','');}catch(_){}}
+}
+window.addEventListener('popstate',function(){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  gid('accueil').classList.add('active');window.scrollTo(0,0);
+});
+function tapTheme(t){currentTheme=t;go(EXP[t]);}
+function updateMap(){
+  ORDER.forEach(function(t){
+    var key='st'+t.charAt(0).toUpperCase()+t.slice(1);
+    var el=gid(key);if(el)el.textContent=themeDone[t]?'✅':'▶';
+  });
+}
+
+/* ===== DONNÉES ===== */
+var MATERIAUX=[
+  {nom:'aluminium',rho:2.7},
+  {nom:'fer',rho:7.9},
+  {nom:'plomb',rho:11.3},
+  {nom:'or',rho:19.3},
+  {nom:'bois',rho:0.85},
+  {nom:'glace',rho:0.92},
+  {nom:'cuivre',rho:8.9},
+  {nom:'béton',rho:2.3}
+];
+var FLOTTE_POOL=[
+  {nom:'bois',rho:0.85,flotte:true},{nom:'glace',rho:0.92,flotte:true},
+  {nom:'liège',rho:0.12,flotte:true},{nom:'paraffine',rho:0.9,flotte:true},
+  {nom:'aluminium',rho:2.7,flotte:false},{nom:'fer',rho:7.9,flotte:false},
+  {nom:'plomb',rho:11.3,flotte:false},{nom:'cuivre',rho:8.9,flotte:false},
+  {nom:'béton',rho:2.3,flotte:false}
+];
+
+/* ===== GÉNÉRATEUR 1 : INTRO ===== */
+function genIntro(){
+  var mode=pick(['def_qcm','rho_cascade']);
+  if(mode==='def_qcm'){
+    var pools=[
+      {t:'La masse volumique ρ se calcule comment ?',o:['ρ = masse ÷ volume','ρ = volume ÷ masse','ρ = masse × volume','ρ = masse + volume'],c:0,e:'ρ = m / V : on divise la masse par le volume !'},
+      {t:'Quelles sont les unités courantes de la masse volumique ?',o:['g/cm³ et kg/m³','g/L et mg/mL','cm³/g et m³/kg','kg/cm³'],c:0,e:'g/cm³ et kg/m³ sont les deux unités les plus courantes !'},
+      {t:'La masse volumique de l\'eau vaut…',o:['1 g/cm³','10 g/cm³','0,1 g/cm³','100 g/cm³'],c:0,e:'L\'eau : ρ = 1 g/cm³ = 1 000 kg/m³. C\'est la référence !'},
+      {t:'Quel est le symbole de la masse volumique ?',o:['ρ (rho)','μ (mu)','π (pi)','σ (sigma)'],c:0,e:'La masse volumique se note ρ — la lettre grecque "rho" !'},
+      {t:'Parmi ces matériaux, lequel a la plus grande masse volumique ?',o:['Or (19,3 g/cm³)','Aluminium (2,7 g/cm³)','Fer (7,9 g/cm³)','Bois (0,85 g/cm³)'],c:0,e:'L\'or est le plus dense des quatre : 19,3 g/cm³ !'},
+      {t:'Un objet a une masse de 100 g et un volume de 50 cm³. Sa masse volumique vaut…',o:['2 g/cm³','5 g/cm³','50 g/cm³','0,5 g/cm³'],c:0,e:'ρ = 100 ÷ 50 = 2 g/cm³ !'},
+      {t:'Que mesure la masse volumique ?',o:['La masse contenue dans 1 cm³ (ou 1 m³)','Le poids d\'un objet dans l\'eau','La surface d\'un objet','La vitesse de chute d\'un objet'],c:0,e:'La masse volumique indique la masse par unité de volume — combien de grammes tient dans 1 cm³ !'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'intro',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+  /* cascade : ρ = m/V */
+  var mat=pick(MATERIAUX.slice(0,6));
+  var V=rint(2,20)*10; /* joli multiple de 10 */
+  var m=Math.round(mat.rho*V*10)/10;
+  var mS=fmtFR(m,1);var rS=fmtFR(mat.rho,2);
+  return {
+    type:'cascade',cat:'intro',sig:'RI'+mat.nom+V,
+    text:'Un objet en <b>'+mat.nom+'</b> a une masse de <b>'+mS+' g</b> et un volume de <b>'+V+' cm³</b>.<br>Calcule sa masse volumique ρ en g/cm³.',
+    steps:[
+      {prompt:'Étape 1 — Écris la formule de la masse volumique (sous forme d\'une fraction)',
+       aide:'La masse volumique : ρ = m divisé par V. m est au numérateur, V au dénominateur.',
+       parts:['ρ = ',{b:1,kind:'num',ans:m,show:mS,w:70},' g ÷ ',{b:1,kind:'num',ans:V,show:''+V,w:60},' cm³']},
+      {prompt:'Étape 2 — Calcule le résultat (utilise la calculatrice si besoin)',
+       aide:mS+' ÷ '+V+' = '+rS+' g/cm³',
+       parts:['ρ = ',{b:1,kind:'num',ans:mat.rho,show:rS,w:80,tol:0.05},' g/cm³']}
+    ]
+  };
+}
+
+/* ===== GÉNÉRATEUR 2 : CALCUL ===== */
+function genCalcul(){
+  var mat=pick(MATERIAUX.slice(0,7));
+  var mode=pick(['rho','m','V']);
+  var V=rint(2,20)*10;
+  var m=Math.round(mat.rho*V*10)/10;
+  var mS=fmtFR(m,1);var VS=fmtFR(V,0);var rS=fmtFR(mat.rho,2);
+  if(mode==='rho'){
+    return {
+      type:'cascade',cat:'calcul',sig:'CR'+mat.nom+V,
+      text:'Un objet a une masse de <b>'+mS+' g</b> et un volume de <b>'+VS+' cm³</b>.<br>Calcule ρ en g/cm³.',
+      steps:[
+        {prompt:'Étape 1 — Pose le calcul : ρ = masse ÷ volume. Remplace par les nombres.',
+         aide:'Masse = '+mS+' g. Volume = '+VS+' cm³. Donc ρ = '+mS+' ÷ '+VS,
+         parts:['ρ = ',{b:1,kind:'num',ans:m,show:mS,w:70},' ÷ ',{b:1,kind:'num',ans:V,show:VS,w:60}]},
+        {prompt:'Étape 2 — Calcule (utilise la calculatrice) et donne le résultat avec l\'unité.',
+         aide:mS+' ÷ '+VS+' = '+rS+' g/cm³',
+         parts:['ρ = ',{b:1,kind:'num',ans:mat.rho,show:rS,w:80,tol:0.05},' g/cm³']}
+      ]
+    };
+  } else if(mode==='m'){
+    return {
+      type:'cascade',cat:'calcul',sig:'CM'+mat.nom+V,
+      text:'Un objet en <b>'+mat.nom+'</b> a un volume de <b>'+VS+' cm³</b>.<br>Sa masse volumique est <b>'+rS+' g/cm³</b>.<br>Calcule sa masse en grammes.',
+      steps:[
+        {prompt:'Étape 1 — ρ = m/V. Pour obtenir m, que fait-on avec ρ et V ?',
+         aide:'On multiplie ρ par V : m = ρ × V',
+         parts:['m = ',{b:1,kind:'num',ans:mat.rho,show:rS,w:70},' × ',{b:1,kind:'num',ans:V,show:VS,w:60}]},
+        {prompt:'Étape 2 — Calcule m en grammes.',
+         aide:rS+' × '+VS+' = '+mS+' g',
+         parts:['m = ',{b:1,kind:'num',ans:m,show:mS,w:90,tol:0.05},' g']}
+      ]
+    };
+  } else {
+    return {
+      type:'cascade',cat:'calcul',sig:'CV'+mat.nom+V,
+      text:'Un objet en <b>'+mat.nom+'</b> a une masse de <b>'+mS+' g</b>.<br>Sa masse volumique est <b>'+rS+' g/cm³</b>.<br>Calcule son volume en cm³.',
+      steps:[
+        {prompt:'Étape 1 — ρ = m/V. Pour obtenir V, que fait-on avec m et ρ ?',
+         aide:'On divise m par ρ : V = m ÷ ρ',
+         parts:['V = ',{b:1,kind:'num',ans:m,show:mS,w:70},' ÷ ',{b:1,kind:'num',ans:mat.rho,show:rS,w:70}]},
+        {prompt:'Étape 2 — Calcule V en cm³.',
+         aide:mS+' ÷ '+rS+' = '+VS+' cm³',
+         parts:['V = ',{b:1,kind:'num',ans:V,show:VS,w:80,tol:0.5},' cm³']}
+      ]
+    };
+  }
+}
+
+/* ===== GÉNÉRATEUR 3 : CONVERSIONS ===== */
+function genConversion(){
+  var mode=pick(['gcm3_kgm3','kgm3_gcm3','ml_cm3','l_cm3','g_kg','kg_g']);
+  if(mode==='gcm3_kgm3'){
+    var mat=pick(MATERIAUX.slice(0,6));
+    var src=mat.rho;var res=src*1000;
+    return {
+      type:'cascade',cat:'conversion',sig:'CK'+mat.nom,
+      text:'Convertis la masse volumique du <b>'+mat.nom+'</b> en kg/m³.<br>ρ = <b>'+fmtFR(src,2)+' g/cm³</b>',
+      steps:[
+        {prompt:'Rappel — 1 g/cm³ vaut combien de kg/m³ ?',
+         aide:'1 g/cm³ = 1 000 kg/m³. On multiplie par 1 000.',
+         parts:['1 g/cm³ = ',{b:1,kind:'num',ans:1000,show:'1 000',w:90,tol:0},' kg/m³']},
+        {prompt:'Convertis '+fmtFR(src,2)+' g/cm³ en kg/m³.',
+         aide:fmtFR(src,2)+' × 1 000 = '+fmtFR(res,0)+' kg/m³',
+         parts:[fmtFR(src,2)+' g/cm³ = ',{b:1,kind:'num',ans:res,show:fmtFR(res,0),w:110,tol:1},' kg/m³']}
+      ]
+    };
+  } else if(mode==='kgm3_gcm3'){
+    var mat2=pick(MATERIAUX.slice(0,6));
+    var src2=Math.round(mat2.rho*1000);
+    return {
+      type:'cascade',cat:'conversion',sig:'CG'+mat2.nom,
+      text:'Convertis <b>'+src2+' kg/m³</b> en g/cm³.',
+      steps:[
+        {prompt:'Rappel — 1 kg/m³ vaut combien de g/cm³ ?',
+         aide:'1 kg/m³ = 0,001 g/cm³. On divise par 1 000.',
+         parts:['1 kg/m³ = ',{b:1,kind:'num',ans:0.001,show:'0,001',w:90,tol:0.0001},' g/cm³']},
+        {prompt:'Convertis '+src2+' kg/m³ en g/cm³.',
+         aide:src2+' ÷ 1 000 = '+fmtFR(mat2.rho,2)+' g/cm³',
+         parts:[src2+' kg/m³ = ',{b:1,kind:'num',ans:mat2.rho,show:fmtFR(mat2.rho,2),w:90,tol:0.005},' g/cm³']}
+      ]
+    };
+  } else if(mode==='ml_cm3'){
+    var v=rint(1,20)*50;
+    return {
+      type:'cascade',cat:'conversion',sig:'ML'+v,tableau:'volume',
+      text:'Convertis <b>'+v+' mL</b> en cm³.',
+      steps:[
+        {prompt:'Rappel — 1 mL vaut combien de cm³ ?',
+         aide:'1 mL = 1 cm³. Ces deux unités sont équivalentes !',
+         parts:['1 mL = ',{b:1,kind:'num',ans:1,show:'1',w:60,tol:0},' cm³']},
+        {prompt:'Donc '+v+' mL = ? cm³',
+         aide:v+' mL = '+v+' cm³',
+         parts:[v+' mL = ',{b:1,kind:'num',ans:v,show:''+v,w:80,tol:0},' cm³']}
+      ]
+    };
+  } else if(mode==='l_cm3'){
+    var lv=rint(1,10);var cm3=lv*1000;
+    return {
+      type:'cascade',cat:'conversion',sig:'LC'+lv,tableau:'volume',
+      text:'Convertis <b>'+lv+' L</b> en cm³.',
+      steps:[
+        {prompt:'Rappel — 1 L vaut combien de cm³ ?',
+         aide:'1 L = 1 000 cm³ = 1 dm³.',
+         parts:['1 L = ',{b:1,kind:'num',ans:1000,show:'1 000',w:90,tol:0},' cm³']},
+        {prompt:'Donc '+lv+' L = ? cm³',
+         aide:lv+' × 1 000 = '+cm3+' cm³',
+         parts:[lv+' L = ',{b:1,kind:'num',ans:cm3,show:fmtFR(cm3,0),w:90,tol:0},' cm³']}
+      ]
+    };
+  } else if(mode==='g_kg'){
+    var gv=rint(1,20)*500;var kg=gv/1000;
+    return {
+      type:'cascade',cat:'conversion',sig:'GK'+gv,tableau:'masse',
+      text:'Convertis <b>'+gv+' g</b> en kg.',
+      steps:[
+        {prompt:'Rappel — 1 kg vaut combien de grammes ?',
+         aide:'1 kg = 1 000 g. Pour convertir des g en kg, on divise par 1 000.',
+         parts:['1 kg = ',{b:1,kind:'num',ans:1000,show:'1 000',w:90,tol:0},' g']},
+        {prompt:'Donc '+gv+' g = ? kg',
+         aide:gv+' ÷ 1 000 = '+fmtFR(kg,3)+' kg',
+         parts:[gv+' g = ',{b:1,kind:'num',ans:kg,show:fmtFR(kg,3),w:90,tol:0.001},' kg']}
+      ]
+    };
+  } else {
+    var kgv=rint(1,10);var gres=kgv*1000;
+    return {
+      type:'cascade',cat:'conversion',sig:'KG'+kgv,tableau:'masse',
+      text:'Convertis <b>'+kgv+' kg</b> en grammes.',
+      steps:[
+        {prompt:'Rappel — 1 kg vaut combien de grammes ?',
+         aide:'1 kg = 1 000 g. Pour convertir des kg en g, on multiplie par 1 000.',
+         parts:['1 kg = ',{b:1,kind:'num',ans:1000,show:'1 000',w:90,tol:0},' g']},
+        {prompt:'Donc '+kgv+' kg = ? g',
+         aide:kgv+' × 1 000 = '+gres+' g',
+         parts:[kgv+' kg = ',{b:1,kind:'num',ans:gres,show:fmtFR(gres,0),w:90,tol:0},' g']}
+      ]
+    };
+  }
+}
+
+/* ===== GÉNÉRATEUR 4 : FLOTTE/COULE ===== */
+function genFlotte(){
+  var mode=pick(['qcm_direct','cascade_calc','cascade_identifie']);
+  if(mode==='qcm_direct'){
+    var mat=pick(FLOTTE_POOL);
+    var rS=fmtFR(mat.rho,2);
+    var opts=['Flotte 🚢','Coule 🪨'];if(!mat.flotte)opts.reverse();
+    opts.push('Impossible à dire');opts.push('Ça dépend de la forme');
+    opts=shuffle(opts);
+    var correct=opts.indexOf(mat.flotte?'Flotte 🚢':'Coule 🪨');
+    return {
+      type:'qcm',cat:'flotte',
+      text:'La masse volumique du <b>'+mat.nom+'</b> est <b>'+rS+' g/cm³</b>.<br>Que se passe-t-il quand on le met dans l\'eau (ρ eau = 1 g/cm³) ?',
+      options:opts,correct:correct,
+      explain:rS+(mat.rho<1?' < 1 → flotte !':(mat.rho>1?' > 1 → coule !':' = 1 → reste en suspension'))
+    };
+  } else if(mode==='cascade_calc'){
+    var mat2=pick(FLOTTE_POOL.slice(0,7));
+    var V2=rint(2,10)*20;var m2=Math.round(mat2.rho*V2*10)/10;
+    var m2S=fmtFR(m2,1);var rS2=fmtFR(mat2.rho,2);
+    return {
+      type:'cascade',cat:'flotte',sig:'FC'+mat2.nom+V2,
+      text:'Un objet a une masse de <b>'+m2S+' g</b> et un volume de <b>'+V2+' cm³</b>.<br>Calcule ρ et indique si l\'objet flotte dans l\'eau.',
+      steps:[
+        {prompt:'Étape 1 — Pose ρ = m ÷ V et remplace par les valeurs.',
+         aide:'ρ = '+m2S+' ÷ '+V2+' = '+rS2+' g/cm³',
+         parts:['ρ = ',{b:1,kind:'num',ans:m2,show:m2S,w:70},' ÷ ',{b:1,kind:'num',ans:V2,show:''+V2,w:60}]},
+        {prompt:'Étape 2 — Calcule ρ.',
+         aide:'ρ = '+rS2+' g/cm³',
+         parts:['ρ = ',{b:1,kind:'num',ans:mat2.rho,show:rS2,w:80,tol:0.05},' g/cm³']},
+        {prompt:'Étape 3 — Compare à ρ eau = 1 g/cm³. L\'objet flotte-t-il ? (réponds : flotte ou coule)',
+         aide:mat2.rho<1?rS2+' < 1 g/cm³ → l\'objet flotte !':rS2+' > 1 g/cm³ → l\'objet coule !',
+         parts:[{b:1,kind:'txt',accept:mat2.flotte?['flotte','flot']:['coule','coul'],show:mat2.flotte?'flotte':'coule',w:140}]}
+      ]
+    };
+  } else {
+    var mat3=pick(FLOTTE_POOL.slice(0,7));
+    var V3=rint(2,10)*20;var m3=Math.round(mat3.rho*V3*10)/10;
+    var m3S=fmtFR(m3,1);var rS3=fmtFR(mat3.rho,2);
+    return {
+      type:'cascade',cat:'flotte',sig:'FI'+mat3.nom+V3,
+      text:'Un objet inconnu a une masse de <b>'+m3S+' g</b> et un volume de <b>'+V3+' cm³</b>.<br>Identifie le matériau et dis s\'il flotte dans l\'eau.',
+      steps:[
+        {prompt:'Étape 1 — Calcule ρ = m ÷ V.',
+         aide:'ρ = '+m3S+' ÷ '+V3+' = '+rS3+' g/cm³',
+         parts:['ρ = ',{b:1,kind:'num',ans:mat3.rho,show:rS3,w:80,tol:0.05},' g/cm³']},
+        {prompt:'Étape 2 — D\'après le tableau des masses volumiques, quel est ce matériau ?',
+         aide:''+rS3+' g/cm³ correspond au '+mat3.nom,
+         parts:['Matériau : ',{b:1,kind:'txt',accept:[mat3.nom,mat3.nom.split(' ')[0]],show:mat3.nom,w:160}]},
+        {prompt:'Étape 3 — Cet objet flotte-t-il dans l\'eau ? (réponds : flotte ou coule)',
+         aide:mat3.rho<1?rS3+' < 1 → flotte !':rS3+' > 1 → coule !',
+         parts:[{b:1,kind:'txt',accept:mat3.flotte?['flotte','flot']:['coule','coul'],show:mat3.flotte?'flotte':'coule',w:140}]}
+      ]
+    };
+  }
+}
+
+var GEN={intro:genIntro,calcul:genCalcul,conversion:genConversion,flotte:genFlotte};
+
+/* ===== MOTEUR QUIZ ===== */
+var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastSig:'',timer:0,casc:null};
+var MATHTARGET=null;
+
+function elsTrain(){return{prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),next:gid('tq_next'),casc:gid('tq_casc'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
+function elsArene(){return{corr:gid('aq_corr'),tot:gid('aq_tot'),streak:gid('aq_streak'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next'),casc:gid('aq_casc')};}
+
+function quizStart(cats,guided,els){Q.cats=cats;Q.guided=guided;Q.els=els;Q.score=0;Q.answered=0;Q.correct=0;Q.streak=0;Q.locked=false;Q.lastSig='';if(els.result)els.result.style.display='none';if(els.card)els.card.style.display='block';quizScore();quizNext();}
+function quizScore(){var e=Q.els;if(e.corr)e.corr.textContent=Q.correct;if(e.tot)e.tot.textContent=Q.answered;if(e.streak)e.streak.textContent=Q.streak;if(Q.guided&&e.prog)e.prog.innerHTML='Question <b>'+Math.min(Q.answered+1,serieLen())+'</b> / '+serieLen()+'&nbsp;·&nbsp;✅ '+Q.correct;}
+function quizNext(){
+  clearTimeout(Q.timer);
+  if(Q.guided&&Q.answered>=serieLen())return quizResult();
+  Q.locked=false;var e=Q.els;
+  e.feed.textContent='';e.feed.className='feedback';
+  if(e.stars)e.stars.textContent='';
+  if(e.next)e.next.style.display='none';
+  if(e.help)e.help.textContent=HELP[currentTheme]||'';
+  if(e.casc){e.casc.style.display='none';e.casc.innerHTML='';}
+  var cat,cur,tries=0;
+  do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while(cur.sig===Q.lastSig&&tries<8);
+  Q.cur=cur;Q.lastSig=cur.sig||cur.text||'';
+  e.cat.textContent=CATNOM[cat]||cat;
+  if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
+  /* Tableau de conversion — apparaît uniquement pendant les exos de conversion avec tableau */
+  var tqTab=gid('tq_tableau');
+  if(tqTab){
+    if(cur.tableau&&gid('ecranTrain').classList.contains('active')){
+      tqTab.style.display='block';
+      tbBuild(cur.tableau,'tq_board','tq_board_res');
+    } else {
+      tqTab.style.display='none';
+    }
+  }
+  if(cur.type==='qcm'){
+    e.text.innerHTML=cur.text;e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';
+    cur.options.forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.innerHTML=o;b.onclick=function(){quizPick(i);};e.opts.appendChild(b);});
+  } else if(cur.type==='cascade'){
+    e.text.innerHTML=cur.text;e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);
+  } else {
+    e.text.innerHTML=cur.text;e.opts.style.display='none';e.ansrow.style.display='flex';
+    e.input.value='';e.input.disabled=false;e.valid.disabled=false;
+    setTimeout(function(){try{e.input.focus();}catch(_){}},60);
+  }
+  quizScore();
+}
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;if(!e.input.value.trim()){e.feed.className='feedback no';e.feed.textContent='Écris ta réponse !';return;}var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre valide.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La réponse est '+Q.cur.disp+'.');}
+function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'Bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');}
+function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Super ! Bien joué !<div class="feedlab">'+(Q.cur.explain||correctTxt)+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='❌ Pas encore… '+correctTxt+'<div class="feedlab">'+(Q.cur.explain||'')+'</div>';if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}quizScore();var last=Q.guided&&Q.answered>=serieLen();if(ok&&!last){Q.timer=setTimeout(quizNext,1800);}else{if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}}
+function quizResult(){var e=Q.els;if(!e.result)return;e.card.style.display='none';e.result.style.display='block';var SL=serieLen(),SE=seuilFor(),sc=Q.correct,ok=sc>=SE;try{suiviEnvoi(ok?'Validé':'Échoué',sc,SL);}catch(_){}e.rbig.textContent=sc+' / '+SL;e.rbig.className='big '+(ok?'ok':'no');e.rmsg.innerHTML=ok?'🎉 Bravo ! Tu as réussi avec <b>'+sc+'/'+SL+'</b> !':'Il faut <b>'+SE+'/'+SL+'</b> pour valider. Tu as eu '+sc+'/'+SL+'. Courage, tu peux recommencer 💪';e.rbtns.innerHTML='';if(ok){themeDone[currentTheme]=true;updateMap();var b=document.createElement('button');b.className='btn vert';b.textContent='Continuer ➜';b.onclick=function(){var idx=ORDER.indexOf(currentTheme);if(idx<ORDER.length-1)tapTheme(ORDER[idx+1]);else go('arene');};e.rbtns.appendChild(b);}else{var b1=document.createElement('button');b1.className='btn orange';b1.textContent='Nouvelle série 🔄';b1.onclick=function(){startTrain(currentTheme);};e.rbtns.appendChild(b1);var b2=document.createElement('button');b2.className='btn fant';b2.textContent='Continuer quand même ➜';b2.onclick=function(){var idx=ORDER.indexOf(currentTheme);if(idx<ORDER.length-1)tapTheme(ORDER[idx+1]);else go('arene');};e.rbtns.appendChild(b2);}}
+
+function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entraînement — '+TITLE[t];go('ecranTrain');var e=elsTrain();if(e.help)e.help.textContent=HELP[t];quizStart(THEME_CATS[t],true,e);}
+function startArene(){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';quizStart(ORDER,false,elsArene());}
+function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
+
+/* ===== CASCADE ENGINE ===== */
+function normTxt(s){return String(s).toLowerCase().trim().replace(/\s+/g,'').replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ïî]/g,'i').replace(/[ôö]/g,'o').replace(/[ûü]/g,'u').replace(/['']/g,'');}
+function blankOK(bk,raw){
+  if(bk.kind==='num'){var v=parseNum(raw);return v!==null&&Math.abs(v-bk.ans)<(bk.tol===undefined?0.001:bk.tol);}
+  var n=normTxt(raw);if(n==='')return false;
+  var acc=bk.accept.map(normTxt);
+  return acc.some(function(a){return n===a||n.indexOf(a)>=0;});
+}
+function cscEl(sel){return Q.casc.box.querySelector(sel);}
+function cascMkBlank(p,e,idx){
+  var inp=document.createElement('input');
+  inp.className='cblank';
+  inp.setAttribute('inputmode',p.kind==='num'?'decimal':'text');
+  inp.autocomplete='off';
+  /* pas de placeholder suggestif */
+  if(p.w)inp.style.width=p.w+'px';
+  inp.addEventListener('focus',function(){MATHTARGET=this;});
+  inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();cascVerify(e,idx);}});
+  Q.casc.q.steps[idx]._blanks.push({bk:p,el:inp});
+  return inp;
+}
+function cascRenderParts(parent,arr,e,idx){
+  if(!arr)return;
+  arr.forEach(function(p){
+    if(typeof p==='string'){var sp=document.createElement('span');sp.innerHTML=p;parent.appendChild(sp);}
+    else if(p.frac){var f=document.createElement('span');f.className='cfrac';var nu=document.createElement('span');nu.className='cfnum';cascRenderParts(nu,p.frac[0],e,idx);var ba=document.createElement('span');ba.className='cfbar';var de=document.createElement('span');de.className='cfden';cascRenderParts(de,p.frac[1],e,idx);f.appendChild(nu);f.appendChild(ba);f.appendChild(de);parent.appendChild(f);}
+    else if(p.b){parent.appendChild(cascMkBlank(p,e,idx));}
+  });
+}
+function cascRender(e,idx){
+  var st=Q.casc.q.steps[idx];var body=cscEl('#cbody'+idx);body.innerHTML='';
+  st._tries=0;st._done=false;st._blanks=[];
+  var line=document.createElement('div');line.className='cline';
+  cascRenderParts(line,st.parts,e,idx);body.appendChild(line);
+  var row=document.createElement('div');row.className='cverify';
+  var btn=document.createElement('button');btn.className='btn vert';btn.textContent='Vérifier ✓';
+  btn.onclick=function(){cascVerify(e,idx);};row.appendChild(btn);body.appendChild(row);
+  var f=st._blanks[0];if(f)setTimeout(function(){try{f.el.focus();}catch(_){}},60);
+}
+function cascStart(cur,e){
+  Q.casc={q:cur,clean:true,box:e.casc};e.casc.style.display='block';
+  var html='';
+  cur.steps.forEach(function(st,idx){
+    html+='<div class="cstep'+(idx===0?' on':'')+'" id="cstep'+idx+'">'
+      +'<div class="cprompt">'+st.prompt+'</div>'
+      +'<div class="cbody" id="cbody'+idx+'"></div>'
+      +'<div class="cfeed" id="cfeed'+idx+'"></div></div>';
+  });
+  e.casc.innerHTML=html;cascRender(e,0);
+}
+function cascVerify(e,idx){
+  var st=Q.casc.q.steps[idx];if(st._done)return;
+  var fb=cscEl('#cfeed'+idx);
+  if(st._blanks.some(function(z){return z.el.value.trim()==='';})){fb.className='cfeed no';fb.textContent='Complète toutes les cases.';return;}
+  var allOK=true;
+  st._blanks.forEach(function(z){var ok=blankOK(z.bk,z.el.value);z.el.classList.remove('cbok','cbno');z.el.classList.add(ok?'cbok':'cbno');if(!ok)allOK=false;});
+  if(allOK){st._done=true;st._blanks.forEach(function(z){z.el.disabled=true;});fb.className='cfeed ok';fb.textContent='✅ Correct !';cascAdvance(e,idx);return;}
+  st._tries++;
+  if(st._tries>=3){Q.casc.clean=false;st._done=true;st._blanks.forEach(function(z){z.el.value=z.bk.show||'?';z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});fb.className='cfeed no';fb.textContent='Voici la bonne réponse — observe bien avant de continuer !';cascAdvance(e,idx);}
+  else if(st._tries===2){fb.className='cfeed no';fb.innerHTML='💡 Indice : '+(st.aide||'Regarde bien la leçon et réessaie.');}
+  else{fb.className='cfeed no';fb.textContent='Pas tout à fait — les cases en orange sont à corriger. Tu peux le faire !';}
+}
+function cascAdvance(e,idx){var nx=idx+1;if(nx<Q.casc.q.steps.length){var blk=cscEl('#cstep'+nx);blk.classList.add('on');cascRender(e,nx);setTimeout(function(){blk.scrollIntoView({behavior:'smooth',block:'center'});},140);}else{cascDone(e);}}
+function cascDone(e){Q.locked=true;Q.answered++;if(Q.casc.clean){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Parfait, sans erreur !';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}else{Q.streak=0;e.feed.className='feedback ok';e.feed.innerHTML='👍 Exercice terminé ! Relis les corrections pour progresser !';}quizScore();var last=Q.guided&&Q.answered>=serieLen();if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}
+
+/* ===== CALCULATRICE ===== */
+function kcEval(expr){var s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');var toks=[];var i=0;while(i<s.length){var c=s[i];if((c>='0'&&c<='9')||c==='.'){var j=i+1;while(j<s.length&&((s[j]>='0'&&s[j]<='9')||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}if('+-*/^()'.indexOf(c)>=0){toks.push({t:c});i++;continue;}return null;}var p=0,err=false;var peek=function(){return toks[p];},next=function(){return toks[p++];};function E(){var v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){var o=next().t;var r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}function T(){var v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){var o=next().t;var r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}function U(){var t=peek();if(t&&t.t==='-'){next();return-U();}if(t&&t.t==='+'){next();return U();}return P();}function P(){var b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();var e=U();if(err)return 0;b=Math.pow(b,e);}return b;}function PR(){var t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='('){var v=E();if(err)return 0;var c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}err=true;return 0;}var val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;}
+function kcFmt(v){return(Math.round(v*1e9)/1e9).toString().replace('-','\u2212').replace('.',',');}
+var kcS='',kcJust=false;
+function kcRender(){gid('kcExpr').textContent=kcS;var v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
+function kcIns(ch){if(kcJust&&/[0-9.,(]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
+function kcClear(){kcS='';kcJust=false;kcRender();}
+function kcBack(){if(kcJust)kcJust=false;kcS=kcS.slice(0,-1);kcRender();}
+function kcEq(){var v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
+function kcToggle(){var p=gid('kcPanel');p.hidden=!p.hidden;if(!p.hidden){var a=document.activeElement;if(a&&a.matches&&(a.matches('.cblank')||a.id==='tq_input'||a.id==='aq_input'))a.blur();}}
+function kcSend(){var v=kcEval(kcS);if(v===null)return;var txt=kcFmt(v);var t=MATHTARGET;if(!t||t.disabled){t=gid('tq_input');if(gid('arene').classList.contains('active'))t=gid('aq_input');}if(t&&!t.disabled){var s=t.selectionStart||0,en=t.selectionEnd||t.value.length;t.value=t.value.slice(0,s)+txt+t.value.slice(en);t.focus();try{t.setSelectionRange(s+txt.length,s+txt.length);}catch(_){}}}
+var KC_KEYS=[
+  {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
+  {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},
+  {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'},
+  {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'\u2212',a:'\u2212',c:'op'},
+  {l:'0',a:'0'},{l:',',a:','},{l:'x\u207f',a:'^',c:'fn'},{l:'+',a:'+',c:'op'},
+  {l:'\u00f7',a:'\u00f7',c:'op'},{l:'\u00d7',a:'\u00d7',c:'op'},{l:'x\u00b2',a:'^2',c:'fn'},{l:'=',a:'eq',c:'eq'}
+];
+(function(){var box=gid('kcKeys');KC_KEYS.forEach(function(k){var b=document.createElement('button');b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;b.onclick=function(){if(k.a==='clr')kcClear();else if(k.a==='back')kcBack();else if(k.a==='eq')kcEq();else kcIns(k.a);};box.appendChild(b);});kcRender();})();
+document.addEventListener('keydown',function(ev){if(gid('kcPanel').hidden)return;if(ev.key==='Enter'){ev.preventDefault();kcEq();}else if(ev.key==='Escape')kcToggle();else if(ev.key==='Backspace'){ev.preventDefault();kcBack();}else if(/[0-9.+\-*/()^]/.test(ev.key)){var map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[ev.key]||ev.key);}});
+document.addEventListener('keydown',function(ev){if(ev.key!=='Enter')return;if(!gid('kcPanel').hidden)return;var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';if(!(onT||onA))return;var nx=onT?gid('tq_next'):gid('aq_next');if(nx&&nx.style.display!=='none'){quizNext();return;}if(!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
+
+/* ===== TABLEAU DE CONVERSION ===== */
+/* Adapté depuis parcours-aires-volumes-3eme.html (maths) */
+var TB_MODES={
+  volume:{
+    ranks:['km³','hm³','dam³','m³','dm³','cm³','mm³'],
+    cells:3,
+    sub:{4:'= L',5:'= mL'},
+    subcol:'var(--teal-bas)'
+  },
+  masse:{
+    ranks:['t','kg','g','mg'],
+    cells:3,
+    sub:{},
+    subcol:''
+  }
+};
+var tbState={};/* {holderId: {mode,comma}} */
+
+function tbSlotHTML(j,holder){
+  return '<div class="tslot" data-j="'+j+'" style="grid-column:'+(2*j+1)+';grid-row:2" onclick="tbSetComma(\''+holder+'\','+j+')"><span class="dot"></span><span class="comma">,</span></div>';
+}
+function tbBuild(mode,holder,resultId){
+  var M=TB_MODES[mode];
+  var unitCells=M.ranks.length*M.cells;
+  var PAD=2;var n=PAD+unitCells+PAD;
+  var tmpl='';for(var i=0;i<n;i++)tmpl+='var(--slotw) var(--cellw) ';tmpl+='var(--slotw)';
+  var html='<div class="tboard" style="grid-template-columns:'+tmpl+'">';
+  M.ranks.forEach(function(r,ui){
+    var k0=PAD+ui*M.cells,k1=k0+M.cells-1;
+    var sub=M.sub[ui]?'<small>'+M.sub[ui]+'</small>':'';
+    html+='<div class="thead" style="grid-column:'+(2*k0+2)+'/'+(2*k1+3)+';grid-row:1">'+r+sub+'</div>';
+  });
+  html+=tbSlotHTML(0,holder);
+  for(var k=0;k<n;k++){
+    var inU=(k>=PAD&&k<PAD+unitCells);
+    var ui2=Math.floor((k-PAD)/M.cells);
+    html+='<input class="tcell'+(inU?'':' pad')+'" data-k="'+k+'" data-u="'+(inU?(ui2%2):0)+'" maxlength="1" inputmode="numeric" autocomplete="off" style="grid-column:'+(2*k+2)+';grid-row:2">';
+    html+=tbSlotHTML(k+1,holder);
+  }
+  html+='</div>';
+  gid(holder).innerHTML=html;
+  tbState[holder]={mode:mode,comma:PAD+unitCells,resultId:resultId,PAD:PAD,unitCells:unitCells};
+  tbSetComma(holder,PAD+unitCells);
+  tbBind(holder,resultId);
+  tbRead(holder,resultId);
+}
+function tbBind(holder,resultId){
+  var cells=[].slice.call(gid(holder).querySelectorAll('.tcell'));
+  cells.forEach(function(c,i){
+    c.addEventListener('input',function(){c.value=c.value.replace(/[^0-9]/g,'').slice(0,1);if(c.value&&i<cells.length-1)cells[i+1].focus();tbRead(holder,resultId);});
+    c.addEventListener('keydown',function(e){
+      if(e.key==='Backspace'&&c.value===''&&i>0)cells[i-1].focus();
+      else if(e.key==='ArrowLeft'&&i>0)cells[i-1].focus();
+      else if(e.key==='ArrowRight'&&i<cells.length-1)cells[i+1].focus();
+    });
+  });
+}
+function tbSetComma(holder,j){
+  var st=tbState[holder];if(!st)return;
+  st.comma=j;
+  [].slice.call(gid(holder).querySelectorAll('.tslot')).forEach(function(s){s.classList.toggle('on',+s.dataset.j===j);});
+  tbRead(holder,st.resultId);
+}
+function tbRead(holder,resultId){
+  var st=tbState[holder];if(!st)return;
+  var M=TB_MODES[st.mode];
+  var cells=[].slice.call(gid(holder).querySelectorAll('.tcell'));
+  var out=gid(resultId);if(!out)return;
+  if(!cells.some(function(c){return c.value!=='';})){out.innerHTML='<span style="color:var(--bois-clair)">Écris ton nombre, puis déplace la virgule…</span>';return;}
+  var j=st.comma;
+  var intD=cells.slice(0,j).map(function(c){return c.value||'0';}).join('');
+  var frD=cells.slice(j).map(function(c){return c.value||'0';}).join('');
+  var intP=intD.replace(/^0+(?=\d)/,'')||'0';var frP=frD.replace(/0+$/,'');
+  var numFr=intP+(frP?','+frP:'');
+  var PAD=st.PAD;var rel=j-PAD;var uTxt='';
+  if(rel%M.cells===0&&rel>=M.cells&&rel<=M.ranks.length*M.cells){
+    uTxt=' '+M.ranks[rel/M.cells-1];
+    if(M.sub[rel/M.cells-1])uTxt+=' ('+M.sub[rel/M.cells-1].replace('= ','')+')';
+  }
+  out.innerHTML='<b>'+numFr+uTxt+'</b>';
+}
+function tbClear(holder,resultId){
+  [].slice.call(gid(holder).querySelectorAll('.tcell')).forEach(function(c){c.value='';});
+  tbRead(holder,resultId);
+  var f=gid(holder).querySelector('.tcell');if(f)f.focus();
+}
+function tbExample(holder,resultId,mode){
+  var M=TB_MODES[mode];var PAD=2;
+  tbClear(holder,resultId);
+  var cells=[].slice.call(gid(holder).querySelectorAll('.tcell'));
+  /* Place "3" dans la colonne m³ (rank 3, index 3) pour volume, kg (rank 1) pour masse */
+  var refRank=mode==='volume'?3:1; /* m³ pour volume, kg pour masse */
+  var baseOnes=PAD+refRank*M.cells-1;
+  if(cells[baseOnes])cells[baseOnes].value='3';
+  tbSetComma(holder,PAD+refRank*M.cells);
+  tbRead(holder,resultId);
+}
+
+/* Les tableaux sont construits à la demande dans quizNext() — pas d'init au chargement */
+
+
+/* ===== PROGRESSION ===== */
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}return 'prog_'+e+'_'+SUIVI.nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});}catch(_){}}
+
+var _um=updateMap;
+updateMap=function(){_um.apply(this,arguments);try{progSave();}catch(_){}};
+progLoad();
+/* Tous débloqués — ne jamais restaurer unlocked depuis localStorage */
+Object.keys(unlocked).forEach(function(k){unlocked[k]=true;});
+updateMap();
+</script>
+</body>
+</html>

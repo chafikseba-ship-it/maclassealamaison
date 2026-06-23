@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>États de la matière — 3ème</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#FFC93C;--or-bas:#E0A41E;--vert:#8BC34A;--vert-bas:#5E9426;
+  --orange:#FF8A4C;--orange-bas:#E0672E;--teal:#46BECB;--teal-bas:#2E8A98;
+  --violet:#A78BC4;--violet-bas:#7E61A1;--rouge:#EF5D60;--rouge-bas:#c43e41;
+  --bleu:#4FA3D1;--bleu-bas:#2f7ba8;
+  --bois:#5C3D2E;--bois-clair:#8a6650;--creme:#FFF4DC;--blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18),0 14px 22px rgba(92,61,46,.12);
+  --acc:#46BECB;--acc-bas:#2E8A98;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
+  background:linear-gradient(160deg,#EAF6FF 0%,#D0EEFF 55%,#B8E4FF 100%);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 100px;position:relative;z-index:1}
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.4;z-index:0}
+.b1{width:180px;height:180px;background:#A8D8FF;top:-40px;left:-50px}
+.b2{width:140px;height:140px;background:#FFD0A0;bottom:40px;right:-40px}
+.b3{width:120px;height:120px;background:#BCE29A;top:40%;left:-50px}
+.screen{display:none;animation:pop .35s ease}
+.screen.active{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
+  padding:14px 22px;cursor:pointer;background:var(--acc);box-shadow:0 6px 0 var(--acc-bas);
+  transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--acc-bas)}
+.btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
+.btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
+.btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
+.btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
+.btn.bleu{background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)}
+.btn.or{background:var(--or);color:var(--bois);box-shadow:0 6px 0 var(--or-bas)}
+.btn.rouge{background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)}
+.btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
+.btn:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.back{background:var(--blanc);color:var(--bois);border:none;border-radius:14px;width:48px;height:48px;
+  font-size:1.5rem;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;font-family:'Fredoka'}
+.back:active{transform:translateY(4px);box-shadow:0 1px 0 #e7d3a8}
+.card{background:var(--blanc);border-radius:26px;padding:22px;box-shadow:var(--ombre);margin:16px 0}
+.tag{display:inline-block;font-family:'Fredoka';font-weight:600;color:#fff;padding:5px 14px;border-radius:30px;font-size:.85rem;margin-bottom:8px}
+.hero{text-align:center;padding:26px 16px 8px}
+.hero h1{font-size:2.5rem;line-height:1.05;margin:.1em 0;color:var(--bois)}
+.hero .sub{font-size:1.1rem;color:var(--bois-clair);font-weight:700;max-width:560px;margin:6px auto 0}
+.coin{font-size:3.4rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
+.map{display:grid;gap:16px;margin-top:8px}
+.etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;
+  box-shadow:var(--ombre);cursor:pointer;border:4px solid transparent;transition:transform .12s}
+.etape:hover{transform:translateY(-3px)}
+.etape:active{transform:translateY(1px)}
+.etape .num{flex:0 0 60px;height:60px;border-radius:18px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.7rem;color:#fff}
+.etape .txt h3{margin:0 0 2px;font-size:1.16rem}
+.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.92rem}
+.etape .status{margin-left:auto;font-size:1.5rem}
+.e1 .num{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
+.e2 .num{background:var(--violet);box-shadow:0 5px 0 var(--violet-bas)}
+.e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
+.e4 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
+.lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
+.mid{text-align:center;margin:16px 0}
+.encadre{border-left:5px solid var(--teal);background:var(--creme);border-radius:0 14px 14px 0;
+  padding:12px 14px;margin:12px 0;font-family:'Fredoka';font-weight:700;font-size:1.05rem;
+  color:var(--bois);line-height:1.5}
+.encadre.violet{border-left-color:var(--violet)}
+.encadre.orange{border-left-color:var(--orange)}
+.encadre.vert{border-left-color:var(--vert)}
+.encadre.or{border-left-color:var(--or)}
+.note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
+.lecon-anim{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:14px 0}
+.lecon-bloc{background:var(--teal);color:#fff;font-family:'Fredoka';font-weight:700;font-size:1.2rem;padding:10px 16px;border-radius:14px;box-shadow:0 5px 0 var(--teal-bas)}
+.lecon-op{font-family:'Fredoka';font-weight:700;font-size:1.4rem;color:var(--bois)}
+.lecon-res{background:var(--vert);color:#fff;font-family:'Fredoka';font-weight:700;font-size:1.3rem;padding:10px 18px;border-radius:14px;box-shadow:0 5px 0 var(--vert-bas)}
+.tableau{width:100%;border-collapse:separate;border-spacing:0 6px;margin:10px 0}
+.tableau th{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.95rem;padding:6px 12px;text-align:center}
+.tableau td{background:var(--blanc);font-family:'Fredoka';font-weight:700;color:var(--bois);padding:10px 14px;text-align:center;border-radius:10px}
+.tableau tr:nth-child(odd) td{background:var(--creme)}
+/* Entraînement */
+.serieprog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
+.qcard{text-align:center}
+.qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
+.helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px;background:var(--creme);border-radius:10px;padding:8px 12px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
+.ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
+.ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;
+  border:3px solid #f0dca8;border-radius:16px;padding:12px;width:180px;color:var(--bois)}
+.ansrow input:focus{outline:none;border-color:var(--teal-bas)}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.05rem;border:3px solid #e7d3a8;background:var(--blanc);
+  color:var(--bois);border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
+.opt.bad{background:var(--orange);color:#fff;border-color:var(--orange-bas);box-shadow:0 5px 0 var(--orange-bas)}
+.feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
+.feedback.ok{color:var(--vert-bas)}
+.feedback.no{color:var(--orange-bas)}
+.feedlab{font-family:'Nunito';font-weight:800;font-size:.92rem;color:var(--bois-clair);margin-top:6px}
+.stars{font-size:1.5rem;letter-spacing:3px;margin-top:8px;min-height:1.6em}
+.mathpad{min-height:10px}
+.brouillon-lab{font-family:'Nunito';font-weight:800;font-size:.88rem;color:var(--bois-clair);margin:14px 0 4px}
+.brouillon{width:100%;border:2px solid #e7d3a8;border-radius:14px;padding:10px 12px;font-family:'Nunito';
+  font-weight:700;font-size:1rem;color:var(--bois);resize:vertical;background:var(--blanc)}
+.brouillon:focus{outline:none;border-color:var(--teal-bas)}
+.conf{position:fixed;width:12px;height:12px;top:-20px;z-index:50;border-radius:3px;pointer-events:none}
+.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.result{text-align:center}
+.result .big{font-family:'Fredoka';font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
+.result .big.ok{color:var(--vert-bas)}.result .big.no{color:var(--orange-bas)}
+.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
+.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+/* CASCADE */
+.cascade{margin:6px 0 2px;text-align:left}
+.cstep{display:none;background:var(--creme);border-radius:16px;padding:14px 16px;margin:10px 0;animation:pop .3s ease}
+.cstep.on{display:block}
+.cprompt{font-family:'Fredoka';font-weight:700;color:var(--bois);font-size:1.05rem;margin-bottom:10px;line-height:1.35}
+.cbody{display:flex;flex-direction:column;gap:8px}
+.cfeed{font-family:'Nunito';font-weight:800;font-size:.92rem;margin-top:8px;min-height:1em;line-height:1.35}
+.cfeed.ok{color:var(--vert-bas)}.cfeed.no{color:var(--orange-bas)}
+.cline{font-family:'Fredoka';font-weight:700;font-size:1.12rem;color:var(--bois);line-height:2.6;
+  display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.cblank{font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;border:none;
+  border-bottom:3px solid var(--teal-bas);background:#fff;border-radius:8px 8px 0 0;padding:6px;color:var(--bois)}
+.cblank:focus{outline:3px solid var(--teal-bas);outline-offset:1px;background:#f0fbff}
+.cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
+.cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
+.cverify{margin-top:10px}
+.cfrac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 5px}
+.cfnum,.cfden{display:block;text-align:center;padding:2px 6px}
+.cfbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
+.figbox{margin:8px auto 4px;text-align:center}
+.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka';font-weight:600;font-size:.85rem;
+  color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;
+  box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+/* Animations particules (leçon modèle) */
+.particules-box{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.etat-anim{text-align:center;flex:1;min-width:120px}
+.etat-anim h4{font-family:'Fredoka';font-weight:700;color:var(--bois);margin:0 0 8px;font-size:1rem}
+.etat-scene{width:120px;height:120px;background:var(--creme);border-radius:16px;border:2px solid #e7d3a8;
+  position:relative;margin:0 auto;overflow:hidden}
+.particule{width:18px;height:18px;border-radius:50%;position:absolute;background:var(--teal)}
+/* Solide : grille régulière */
+.sol .p1{top:10px;left:10px}.sol .p2{top:10px;left:35px}.sol .p3{top:10px;left:60px}.sol .p4{top:10px;left:85px}
+.sol .p5{top:35px;left:10px}.sol .p6{top:35px;left:35px}.sol .p7{top:35px;left:60px}.sol .p8{top:35px;left:85px}
+.sol .p9{top:60px;left:10px}.sol .p10{top:60px;left:35px}.sol .p11{top:60px;left:60px}.sol .p12{top:60px;left:85px}
+.sol .p13{top:85px;left:10px}.sol .p14{top:85px;left:35px}.sol .p15{top:85px;left:60px}.sol .p16{top:85px;left:85px}
+/* Liquide : groupées mais un peu irrégulières */
+.liq .particule{background:var(--bleu)}
+.liq .p1{top:15px;left:12px}.liq .p2{top:12px;left:38px}.liq .p3{top:18px;left:62px}.liq .p4{top:13px;left:85px}
+.liq .p5{top:38px;left:8px}.liq .p6{top:42px;left:33px}.liq .p7{top:36px;left:58px}.liq .p8{top:40px;left:82px}
+.liq .p9{top:65px;left:15px}.liq .p10{top:60px;left:40px}.liq .p11{top:68px;left:65px}.liq .p12{top:62px;left:88px}
+.liq .p13{top:88px;left:10px}.liq .p14{top:85px;left:36px}.liq .p15{top:90px;left:62px}.liq .p16{top:87px;left:86px}
+/* Gaz : dispersées, animation */
+.gaz .particule{background:var(--orange);animation:flottgaz 2.5s ease-in-out infinite alternate}
+.gaz .p1{top:8px;left:8px;animation-delay:0s}.gaz .p2{top:10px;left:70px;animation-delay:.3s}
+.gaz .p3{top:50px;left:5px;animation-delay:.7s}.gaz .p4{top:55px;left:90px;animation-delay:.1s}
+.gaz .p5{top:85px;left:20px;animation-delay:.5s}.gaz .p6{top:80px;left:75px;animation-delay:.9s}
+.gaz .p7{top:30px;left:40px;animation-delay:.4s}.gaz .p8{top:70px;left:48px;animation-delay:.2s}
+@keyframes flottgaz{from{transform:translate(0,0)}to{transform:translate(8px,-8px)}}
+/* Graphique température stylisé */
+.graphtemp{background:var(--creme);border-radius:16px;padding:16px;margin:10px 0;font-family:'Fredoka';font-weight:700}
+.graphtemp svg{display:block;margin:0 auto;overflow:visible}
+/* ===== CALCULATRICE ===== */
+.kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;
+  box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);transition:transform .1s}
+.kc-fab:active{transform:translateY(4px)}
+.kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(330px,calc(100vw - 32px));
+  background:var(--blanc);border-radius:22px;padding:14px;
+  box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);animation:kcpop .25s ease}
+.kc-panel[hidden]{display:none}
+@keyframes kcpop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.kc-head{display:flex;align-items:center;justify-content:space-between;font-family:'Fredoka';font-weight:700;
+  color:var(--bois);margin:2px 4px 10px;font-size:1.05rem}
+.kc-x{border:none;background:var(--creme);color:var(--bois);width:32px;height:32px;border-radius:10px;
+  font-size:1rem;cursor:pointer;font-family:'Fredoka';box-shadow:0 3px 0 #e7d3a8}
+.kc-x:active{transform:translateY(2px);box-shadow:0 1px 0 #e7d3a8}
+.kc-screen{background:#2b2b2b;border-radius:14px;padding:10px 14px;text-align:right;margin-bottom:12px;
+  min-height:74px;display:flex;flex-direction:column;justify-content:center}
+.kc-expr{font-family:'Fredoka';font-weight:600;color:#cfe6ee;font-size:1rem;min-height:1.2em;word-break:break-all;line-height:1.25}
+.kc-res{font-family:'Fredoka';font-weight:700;color:#fff;font-size:1.7rem;line-height:1.1;margin-top:2px}
+.kc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kc-key{border:none;border-radius:14px;padding:14px 0;font-family:'Fredoka';font-weight:700;
+  font-size:1.15rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.kc-key:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.kc-key.op{background:var(--creme);color:var(--orange-bas)}
+.kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1rem}
+.kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
+.kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
+.kc-send{width:100%;margin-top:8px;border:none;border-radius:14px;padding:12px;font-family:'Fredoka';
+  font-weight:700;font-size:1rem;background:var(--teal);color:#fff;cursor:pointer;box-shadow:0 4px 0 var(--teal-bas)}
+.kc-send:active{transform:translateY(3px);box-shadow:0 1px 0 var(--teal-bas)}
+button,input,textarea{touch-action:manipulation}
+@media(max-width:480px){
+  .wrap{padding:14px 12px 90px}
+  .hero h1{font-size:2rem}.coin{font-size:2.8rem}
+  .card{padding:16px;border-radius:20px}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem}
+  .question{font-size:1.18rem}
+  .ansrow input{width:60%;max-width:200px}
+  .btn{font-size:1rem;padding:13px 18px}
+  .etat-scene{width:100px;height:100px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+
+<div class="wrap">
+
+<!-- ========== ACCUEIL ========== -->
+<section id="accueil" class="screen active">
+  <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
+  <div class="hero">
+    <div class="coin">🧊💧💨</div>
+    <h1>États de la matière</h1>
+    <p class="sub">4 étapes guidées — lis la leçon, puis entraîne-toi ! 💪</p>
+  </div>
+  <div class="map">
+    <div class="etape e1" id="mapIntro" onclick="tapTheme('intro')">
+      <div class="num">🧊</div>
+      <div class="txt"><h3>1 · Les 3 états de la matière</h3><p>Solide, liquide, gaz — propriétés et exemples</p></div>
+      <div class="status" id="stIntro">▶</div>
+    </div>
+    <div class="etape e2" id="mapChangements" onclick="tapTheme('changements')">
+      <div class="num">🔄</div>
+      <div class="txt"><h3>2 · Les changements d'état</h3><p>Fusion, solidification, vaporisation… les 6 changements</p></div>
+      <div class="status" id="stChangements">▶</div>
+    </div>
+    <div class="etape e3" id="mapTemperature" onclick="tapTheme('temperature')">
+      <div class="num">🌡️</div>
+      <div class="txt"><h3>3 · Palier de température</h3><p>La température reste constante pendant un changement d'état</p></div>
+      <div class="status" id="stTemperature">▶</div>
+    </div>
+    <div class="etape e4" id="mapModele" onclick="tapTheme('modele')">
+      <div class="num">🔬</div>
+      <div class="txt"><h3>4 · Modèle particulaire</h3><p>Comment sont arrangées les particules dans chaque état ?</p></div>
+      <div class="status" id="stModele">▶</div>
+    </div>
+  </div>
+  <div class="mid" style="margin-top:20px">
+    <button class="btn teal" onclick="go('arene')">🏟️ Arène libre — mélange tout !</button>
+  </div>
+</section>
+
+<!-- ========== LEÇON 1 : INTRO ========== -->
+<section id="expIntro" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🧊 Les 3 états de la matière</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">👀 Observe autour de toi</span>
+    <p class="lead">La matière peut exister sous <b>3 formes</b> différentes que l'on appelle <b>états</b>.<br>
+    Tu les vois tous les jours : un glaçon 🧊, de l'eau 💧, de la vapeur 💨</p>
+    <div class="lecon-anim">
+      <div class="lecon-bloc">🧊 Solide</div>
+      <div class="lecon-op">→</div>
+      <div class="lecon-bloc" style="background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)">💧 Liquide</div>
+      <div class="lecon-op">→</div>
+      <div class="lecon-bloc" style="background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)">💨 Gaz</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">📋 Propriétés des états</span>
+    <table class="tableau">
+      <thead><tr><th>État</th><th>Forme</th><th>Volume</th><th>Exemples</th></tr></thead>
+      <tbody>
+        <tr><td>🧊 <b>Solide</b></td><td>Propre (garde sa forme)</td><td>Propre (fixe)</td><td>Glace, fer, bois, sel</td></tr>
+        <tr><td>💧 <b>Liquide</b></td><td>Prend la forme du récipient</td><td>Propre (fixe)</td><td>Eau, jus, huile, mercure</td></tr>
+        <tr><td>💨 <b>Gaz</b></td><td>Occupe tout l'espace disponible</td><td>Aucun (variable)</td><td>Vapeur, air, fumée, CO₂</td></tr>
+      </tbody>
+    </table>
+    <div class="encadre vert">
+      💡 <b>Astuce pour retenir :</b><br>
+      Solide = <b>rigide</b> (comme un s dans solide !)<br>
+      Liquide = <b>coule</b> et prend la forme du récipient<br>
+      Gaz = <b>invisible</b> et remplit tout l'espace
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">🧐 Exemples du quotidien</span>
+    <div class="encadre violet">
+      <b>L'eau</b> peut exister dans les 3 états :<br>
+      → Glace (solide) 🧊 — dans le congélateur<br>
+      → Eau liquide (liquide) 💧 — dans un verre<br>
+      → Vapeur d'eau (gaz) 💨 — au-dessus d'une casserole bouillante
+    </div>
+    <p class="note">☕ Quand tu fais bouillir de l'eau, tu vois de la "fumée" blanche : c'est de la vapeur d'eau qui se condense !</p>
+  </div>
+
+  <div class="mid"><button class="btn teal" onclick="startTrain('intro')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== LEÇON 2 : CHANGEMENTS D'ÉTAT ========== -->
+<section id="expChangements" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🔄 Les changements d'état</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">📚 Les 6 changements à connaître</span>
+    <p class="lead">Quand on chauffe ou refroidit une substance, elle peut changer d'état. Il y a <b>6 changements d'état</b> :</p>
+    <table class="tableau">
+      <thead><tr><th>Changement d'état</th><th>De → Vers</th><th>Condition</th></tr></thead>
+      <tbody>
+        <tr><td>🔥 <b>Fusion</b></td><td>Solide → Liquide</td><td>On chauffe</td></tr>
+        <tr><td>❄️ <b>Solidification</b></td><td>Liquide → Solide</td><td>On refroidit</td></tr>
+        <tr><td>♨️ <b>Vaporisation</b></td><td>Liquide → Gaz</td><td>On chauffe</td></tr>
+        <tr><td>💧 <b>Liquéfaction</b></td><td>Gaz → Liquide</td><td>On refroidit</td></tr>
+        <tr><td>✨ <b>Sublimation</b></td><td>Solide → Gaz</td><td>On chauffe (direct !)</td></tr>
+        <tr><td>⛄ <b>Condensation solide</b></td><td>Gaz → Solide</td><td>On refroidit (direct !)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">🔗 Schéma des changements</span>
+    <div class="lecon-anim" style="flex-direction:column;gap:6px">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center">
+        <div class="lecon-bloc">🧊 Solide</div>
+        <div style="text-align:center">
+          <div style="font-family:'Fredoka';font-weight:700;color:var(--orange-bas);font-size:.9rem">🔥 Fusion →</div>
+          <div style="font-family:'Fredoka';font-weight:700;color:var(--bleu-bas);font-size:.9rem">← ❄️ Solidification</div>
+        </div>
+        <div class="lecon-bloc" style="background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)">💧 Liquide</div>
+        <div style="text-align:center">
+          <div style="font-family:'Fredoka';font-weight:700;color:var(--orange-bas);font-size:.9rem">♨️ Vaporisation →</div>
+          <div style="font-family:'Fredoka';font-weight:700;color:var(--bleu-bas);font-size:.9rem">← 💧 Liquéfaction</div>
+        </div>
+        <div class="lecon-bloc" style="background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)">💨 Gaz</div>
+      </div>
+      <div style="font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.92rem;text-align:center">
+        ✨ Sublimation (Solide → Gaz direct) &nbsp;|&nbsp; ⛄ Condensation solide (Gaz → Solide direct)
+      </div>
+    </div>
+    <div class="encadre or">
+      💡 <b>Moyen mémo :</b><br>
+      → Chauffe = solide monte vers gaz ☀️<br>
+      → Refroidit = gaz descend vers solide ❄️<br>
+      "Fusion" = glace qui fond au soleil !
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">🔬 Exemples concrets</span>
+    <div class="encadre orange">
+      <b>Sublimation :</b> la neige carbonique (CO₂ solide) disparaît directement en gaz — pas de liquide ! ✨<br><br>
+      <b>Vaporisation lente (évaporation) :</b> une flaque d'eau sèche au soleil 🌞<br><br>
+      <b>Vaporisation rapide (ébullition) :</b> l'eau bout à 100 °C — bulles de vapeur !
+    </div>
+  </div>
+
+  <div class="mid"><button class="btn violet" onclick="startTrain('changements')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== LEÇON 3 : TEMPÉRATURE ========== -->
+<section id="expTemperature" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🌡️ Palier de température</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">🌡️ Températures de changement d'état de l'eau</span>
+    <p class="lead">L'eau change d'état à des températures précises :</p>
+    <div class="lecon-anim">
+      <div class="lecon-bloc">Fusion : <b>0 °C</b></div>
+      <div class="lecon-op">·</div>
+      <div class="lecon-bloc" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">Ébullition : <b>100 °C</b></div>
+    </div>
+    <div class="encadre orange">
+      À <b>0 °C</b> : la glace fond (ou l'eau gèle) → changement solide ↔ liquide<br>
+      À <b>100 °C</b> : l'eau bout → changement liquide ↔ gaz
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">📈 Le palier de température</span>
+    <p class="lead">Quand on chauffe de la glace, voici ce qui se passe :</p>
+    <div class="graphtemp">
+      <svg width="280" height="160" viewBox="0 0 280 160" style="max-width:100%">
+        <!-- Axes -->
+        <line x1="30" y1="10" x2="30" y2="140" stroke="#8a6650" stroke-width="2"/>
+        <line x1="30" y1="140" x2="270" y2="140" stroke="#8a6650" stroke-width="2"/>
+        <!-- Flèches -->
+        <polygon points="30,6 26,14 34,14" fill="#8a6650"/>
+        <polygon points="274,140 266,136 266,144" fill="#8a6650"/>
+        <!-- Labels axes -->
+        <text x="12" y="80" font-family="Fredoka" font-size="11" fill="#8a6650" transform="rotate(-90,12,80)">Temp. (°C)</text>
+        <text x="250" y="155" font-family="Fredoka" font-size="11" fill="#8a6650">Temps</text>
+        <!-- Courbe : montée solide, palier fusion (0°C), montée liquide, palier ébullition (100°C), montée gaz -->
+        <polyline points="40,130 70,105 70,85 110,85 110,25 160,25 160,15 200,15" fill="none" stroke="#46BECB" stroke-width="3" stroke-linejoin="round"/>
+        <!-- Palier 1 à 0°C -->
+        <line x1="30" y1="85" x2="40" y2="85" stroke="#EF5D60" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="2" y="88" font-family="Fredoka" font-size="10" fill="#EF5D60">0°C</text>
+        <!-- Palier 2 à 100°C -->
+        <line x1="30" y1="25" x2="40" y2="25" stroke="#EF5D60" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="-4" y="28" font-family="Fredoka" font-size="10" fill="#EF5D60">100°C</text>
+        <!-- Labels zones -->
+        <text x="42" y="122" font-family="Fredoka" font-size="10" fill="#2E8A98">Solide</text>
+        <text x="72" y="98" font-family="Fredoka" font-size="10" fill="#FF8A4C">Palier</text>
+        <text x="115" y="60" font-family="Fredoka" font-size="10" fill="#4FA3D1">Liquide</text>
+        <text x="162" y="22" font-family="Fredoka" font-size="10" fill="#FF8A4C">Palier</text>
+        <text x="200" y="18" font-family="Fredoka" font-size="10" fill="#E0672E">Gaz</text>
+      </svg>
+    </div>
+    <div class="encadre">
+      📌 <b>Le palier :</b> pendant un changement d'état, la température <b>ne change pas</b> — elle reste constante !<br><br>
+      C'est parce que toute l'énergie sert à changer l'état, pas à chauffer.
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">✅ Ce qu'il faut retenir</span>
+    <div class="encadre vert">
+      ✅ Pendant un changement d'état : température = <b>constante</b><br>
+      ✅ Glace fond à <b>0 °C</b> (pression normale)<br>
+      ✅ Eau bout à <b>100 °C</b> (pression normale)<br>
+      ✅ Le palier dure le temps que tout le solide soit fondu (ou tout le liquide vaporisé)
+    </div>
+  </div>
+
+  <div class="mid"><button class="btn orange" onclick="startTrain('temperature')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== LEÇON 4 : MODÈLE PARTICULAIRE ========== -->
+<section id="expModele" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🔬 Modèle particulaire</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">🔬 La matière est faite de particules !</span>
+    <p class="lead">Toute la matière est composée de <b>particules</b> très très petites (atomes, molécules…). Leur arrangement explique l'état de la matière.</p>
+    <div class="particules-box">
+      <div class="etat-anim">
+        <h4>🧊 Solide</h4>
+        <div class="etat-scene sol">
+          <div class="particule p1"></div><div class="particule p2"></div><div class="particule p3"></div><div class="particule p4"></div>
+          <div class="particule p5"></div><div class="particule p6"></div><div class="particule p7"></div><div class="particule p8"></div>
+          <div class="particule p9"></div><div class="particule p10"></div><div class="particule p11"></div><div class="particule p12"></div>
+          <div class="particule p13"></div><div class="particule p14"></div><div class="particule p15"></div><div class="particule p16"></div>
+        </div>
+        <p style="font-family:'Fredoka';font-size:.9rem;color:var(--bois-clair);margin:6px 0">Ordonnées &amp; proches</p>
+      </div>
+      <div class="etat-anim">
+        <h4>💧 Liquide</h4>
+        <div class="etat-scene liq">
+          <div class="particule p1"></div><div class="particule p2"></div><div class="particule p3"></div><div class="particule p4"></div>
+          <div class="particule p5"></div><div class="particule p6"></div><div class="particule p7"></div><div class="particule p8"></div>
+          <div class="particule p9"></div><div class="particule p10"></div><div class="particule p11"></div><div class="particule p12"></div>
+          <div class="particule p13"></div><div class="particule p14"></div><div class="particule p15"></div><div class="particule p16"></div>
+        </div>
+        <p style="font-family:'Fredoka';font-size:.9rem;color:var(--bois-clair);margin:6px 0">Proches mais désordonnées</p>
+      </div>
+      <div class="etat-anim">
+        <h4>💨 Gaz</h4>
+        <div class="etat-scene gaz">
+          <div class="particule p1"></div><div class="particule p2"></div><div class="particule p3"></div><div class="particule p4"></div>
+          <div class="particule p5"></div><div class="particule p6"></div><div class="particule p7"></div><div class="particule p8"></div>
+        </div>
+        <p style="font-family:'Fredoka';font-size:.9rem;color:var(--bois-clair);margin:6px 0">Éloignées &amp; libres</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">📋 Tableau récapitulatif</span>
+    <table class="tableau">
+      <thead><tr><th>État</th><th>Arrangement</th><th>Distance</th><th>Mouvement</th></tr></thead>
+      <tbody>
+        <tr><td>🧊 <b>Solide</b></td><td>Ordonné (grille)</td><td>Très proches</td><td>Vibrations sur place</td></tr>
+        <tr><td>💧 <b>Liquide</b></td><td>Désordonné</td><td>Proches</td><td>Glissent les unes sur les autres</td></tr>
+        <tr><td>💨 <b>Gaz</b></td><td>Très désordonné</td><td>Très éloignées</td><td>Se déplacent librement, vite</td></tr>
+      </tbody>
+    </table>
+    <div class="encadre vert">
+      💡 <b>À retenir :</b><br>
+      Solide → particules <b>ordonnées et compactes</b><br>
+      Liquide → particules <b>proches mais mobiles</b><br>
+      Gaz → particules <b>éloignées et libres</b>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">🔥 Que se passe-t-il quand on chauffe ?</span>
+    <div class="encadre">
+      En chauffant, on donne de l'<b>énergie</b> aux particules. Elles bougent de plus en plus vite.<br><br>
+      → Les liaisons entre particules se <b>cassent</b><br>
+      → L'état change : solide → liquide → gaz
+    </div>
+    <p class="note">🧊 Dans la glace, chaque molécule d'eau est "accrochée" à ses voisines. En chauffant, ces liens se brisent !</p>
+  </div>
+
+  <div class="mid"><button class="btn vert" onclick="startTrain('modele')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== ENTRAÎNEMENT ========== -->
+<section id="ecranTrain" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button>
+    <h2 id="trainTitle">Entraînement</h2>
+  </div>
+  <div class="card" id="tq_card">
+    <div class="serieprog" id="tq_prog"></div>
+    <div class="helpnote" id="tq_help"></div>
+    <div class="qcard">
+      <div class="qcat" id="tq_cat"></div>
+      <div class="figbox" id="tq_viz" style="display:none"></div>
+      <div class="question" id="tq_text"></div>
+      <div class="opts" id="tq_opts" style="display:none"></div>
+      <div class="ansrow" id="tq_ansrow">
+        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="tq_casc" style="display:none"></div>
+      <div id="tq_work">
+        <div class="mathpad" id="tq_pad"></div>
+        <div class="brouillon-lab">✏️ Brouillon (facultatif)</div>
+        <textarea id="tq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici…"></textarea>
+      </div>
+      <div class="feedback" id="tq_feed"></div>
+      <div class="stars" id="tq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant →</button></div>
+    </div>
+  </div>
+  <div class="card result" id="tq_result" style="display:none">
+    <div class="big" id="tq_rbig">0 / 8</div>
+    <div class="msg" id="tq_rmsg"></div>
+    <div class="rbtns" id="tq_rbtns"></div>
+  </div>
+</section>
+
+<!-- ========== ARÈNE ========== -->
+<section id="arene" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🏟️ Arène libre</h2>
+  </div>
+  <div id="areneMenu">
+    <div class="card">
+      <p class="lead">Entraînement libre — toutes les questions mélangées. Aucune limite !</p>
+      <div class="mid"><button class="btn teal" onclick="startArene()">C'est parti ! 🚀</button></div>
+    </div>
+  </div>
+  <div id="areneJeu" style="display:none">
+    <div class="card">
+      <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:10px;font-family:'Fredoka';font-weight:700">
+        <div style="background:var(--creme);border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8">✅ <span id="aq_corr">0</span> / <span id="aq_tot">0</span></div>
+        <div style="background:var(--creme);border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8">🔥 série : <span id="aq_streak">0</span></div>
+      </div>
+      <div class="qcat" id="aq_cat"></div>
+      <div class="figbox" id="aq_viz" style="display:none"></div>
+      <div class="question" id="aq_text"></div>
+      <div class="opts" id="aq_opts" style="display:none"></div>
+      <div class="ansrow" id="aq_ansrow">
+        <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="aq_casc" style="display:none"></div>
+      <div class="feedback" id="aq_feed"></div>
+      <div class="stars" id="aq_stars"></div>
+      <div class="mid" style="margin-top:14px">
+        <button class="btn orange" id="aq_next" style="display:none" onclick="quizNext()">Suivant →</button>
+      </div>
+    </div>
+    <div class="mid"><button class="btn fant" onclick="finArene()">⬅ Retour arène</button></div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<!-- Calculatrice flottante -->
+<button class="kc-fab" onclick="kcToggle()" title="Calculatrice">🧮</button>
+<div class="kc-panel" id="kcPanel" hidden>
+  <div class="kc-head">🧮 Calculatrice<button class="kc-x" onclick="kcToggle()">✕</button></div>
+  <div class="kc-screen">
+    <div class="kc-expr" id="kcExpr"></div>
+    <div class="kc-res" id="kcRes">0</div>
+  </div>
+  <div class="kc-keys" id="kcKeys"></div>
+  <button class="kc-send" onclick="kcSend()">📥 Mettre le résultat dans ma réponse</button>
+</div>
+
+<script>
+/* ===== SUIVI ===== */
+var SUIVI={
+  url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',
+  nom:'États de la matière 3ème',
+  f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',
+     statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'}
+};
+function suiviEnvoi(statut,score,total){
+  try{
+    var e=localStorage.getItem('kc_eleve')||'',c=localStorage.getItem('kc_classe')||'';
+    var fd=new FormData();
+    fd.append(SUIVI.f.classe,c);fd.append(SUIVI.f.eleve,e);
+    fd.append(SUIVI.f.parcours,SUIVI.nom);fd.append(SUIVI.f.statut,statut);
+    fd.append(SUIVI.f.score,score);fd.append(SUIVI.f.total,total);
+    fetch(SUIVI.url,{method:'POST',mode:'no-cors',body:fd});
+  }catch(_){}
+}
+
+/* ===== VARIABLES ===== */
+var EXP={intro:'expIntro',changements:'expChangements',temperature:'expTemperature',modele:'expModele'};
+var MAPID={intro:'mapIntro',changements:'mapChangements',temperature:'mapTemperature',modele:'mapModele'};
+var TITLE={
+  intro:'Les 3 états de la matière',
+  changements:'Les changements d\'état',
+  temperature:'Palier de température',
+  modele:'Modèle particulaire'
+};
+var ORDER=['intro','changements','temperature','modele'];
+var HELP={
+  intro:'Solide = forme propre + volume propre. Liquide = forme du récipient + volume propre. Gaz = remplit tout.',
+  changements:'Fusion (S→L), Solidification (L→S), Vaporisation (L→G), Liquéfaction (G→L), Sublimation (S→G), Condensation solide (G→S).',
+  temperature:'Pendant un changement d\'état, la température reste CONSTANTE. Eau : 0 °C (fusion), 100 °C (ébullition).',
+  modele:'Solide : particules ordonnées et proches. Liquide : proches mais désordonnées. Gaz : éloignées et libres.'
+};
+var BRIQUE={
+  intro:       {serie:8,seuil:6},
+  changements: {serie:8,seuil:6},
+  temperature: {serie:8,seuil:6},
+  modele:      {serie:8,seuil:6}
+};
+var THEME_CATS={intro:['intro'],changements:['changements'],temperature:['temperature'],modele:['modele']};
+var CATNOM={
+  intro:'Les 3 états',
+  changements:'Changements d\'état',
+  temperature:'Palier de température',
+  modele:'Modèle particulaire'
+};
+var unlocked={intro:true,changements:true,temperature:true,modele:true,arene:true};
+var themeDone={intro:false,changements:false,temperature:false,modele:false};
+var currentTheme='intro';
+
+/* ===== UTILITAIRES ===== */
+function gid(x){return document.getElementById(x);}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;var v=parseFloat(s);return isFinite(v)?v:null;}
+function serieLen(){return BRIQUE[currentTheme].serie;}
+function seuilFor(){return BRIQUE[currentTheme].seuil;}
+function rnd(n){return Math.floor(Math.random()*n);}
+function rint(a,b){return a+Math.floor(Math.random()*(b-a+1));}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
+
+/* ===== NAVIGATION ===== */
+function go(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  gid(id).classList.add('active');window.scrollTo(0,0);
+  if(id==='arene')finArene();
+  if(id!=='accueil'){try{history.pushState({screen:id},'','');}catch(_){}}
+}
+window.addEventListener('popstate',function(){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  gid('accueil').classList.add('active');window.scrollTo(0,0);
+});
+function tapTheme(t){currentTheme=t;go(EXP[t]);}
+function updateMap(){
+  ORDER.forEach(function(t){
+    var key='st'+t.charAt(0).toUpperCase()+t.slice(1);
+    var el=gid(key);if(el)el.textContent=themeDone[t]?'✅':'▶';
+  });
+}
+
+/* ===== DONNÉES ===== */
+var ETATS_EXEMPLES=[
+  {ex:'Un glaçon',etat:'solide',emoji:'🧊'},
+  {ex:'L\'eau dans un verre',etat:'liquide',emoji:'💧'},
+  {ex:'La fumée d\'une bougie',etat:'gaz',emoji:'💨'},
+  {ex:'Un fer à repasser',etat:'solide',emoji:'🔩'},
+  {ex:'Le jus d\'orange',etat:'liquide',emoji:'🍊'},
+  {ex:'L\'air dans un ballon',etat:'gaz',emoji:'🎈'},
+  {ex:'La cire fondue d\'une bougie',etat:'liquide',emoji:'🕯️'},
+  {ex:'Le sel de table',etat:'solide',emoji:'🧂'},
+  {ex:'La vapeur au-dessus d\'une casserole',etat:'gaz',emoji:'♨️'},
+  {ex:'Un cube de sucre',etat:'solide',emoji:'🍬'},
+  {ex:'L\'huile dans une poêle',etat:'liquide',emoji:'🫙'},
+  {ex:'Le dioxyde de carbone (CO₂)',etat:'gaz',emoji:'💨'}
+];
+
+var CHANGEMENTS_DATA=[
+  {from:'solide',to:'liquide',nom:'fusion',ex:'La glace qui fond',inverse:'solidification'},
+  {from:'liquide',to:'solide',nom:'solidification',ex:'L\'eau qui gèle',inverse:'fusion'},
+  {from:'liquide',to:'gaz',nom:'vaporisation',ex:'L\'eau qui bout',inverse:'liquéfaction'},
+  {from:'gaz',to:'liquide',nom:'liquéfaction',ex:'La vapeur qui se condense en gouttelettes',inverse:'vaporisation'},
+  {from:'solide',to:'gaz',nom:'sublimation',ex:'La neige carbonique qui disparaît',inverse:'condensation solide'},
+  {from:'gaz',to:'solide',nom:'condensation solide',ex:'Le givre qui se forme sur une vitre',inverse:'sublimation'}
+];
+
+/* ===== GÉNÉRATEUR 1 : INTRO ===== */
+function genIntro(){
+  var mode=pick(['qcm_exemple','qcm_propriete','cascade_propriete']);
+  if(mode==='qcm_exemple'){
+    var item=pick(ETATS_EXEMPLES);
+    var wrongEtats=['solide','liquide','gaz'].filter(function(e){return e!==item.etat;});
+    var opts=shuffle([item.etat,wrongEtats[0],wrongEtats[1],'plasma']);
+    var correct=opts.indexOf(item.etat);
+    return {
+      type:'qcm',cat:'intro',
+      text:item.emoji+' <b>'+item.ex+'</b> est dans quel état ?',
+      options:opts,correct:correct,
+      explain:item.ex+' est bien à l\'état <b>'+item.etat+'</b> !'
+    };
+  }
+  if(mode==='qcm_propriete'){
+    var pools=[
+      {t:'Un solide a…',o:['une forme propre et un volume propre','la forme du récipient et un volume propre','aucune forme ni volume fixe','un volume variable'],c:0,e:'Le solide garde sa propre forme ET son propre volume !'},
+      {t:'Un liquide a…',o:['la forme du récipient mais un volume propre','une forme propre et un volume propre','aucune forme ni volume fixe','la forme et le volume du récipient'],c:0,e:'Le liquide prend la forme du récipient, mais son volume reste fixe !'},
+      {t:'Un gaz…',o:['occupe tout l\'espace disponible','garde sa forme propre','a un volume fixe','se dépose toujours au fond'],c:0,e:'Le gaz n\'a pas de forme ni de volume propre — il remplit tout l\'espace !'},
+      {t:'Parmi ces exemples, lequel est un solide ?',o:['Un glaçon 🧊','Du lait 🥛','De la vapeur 💨','Du jus de citron 🍋'],c:0,e:'Le glaçon est bien à l\'état solide — il garde sa forme !'},
+      {t:'Parmi ces exemples, lequel est un gaz ?',o:['La fumée de cigarette 💨','L\'eau dans un verre 💧','Un cube de glace 🧊','L\'huile d\'olive 🫙'],c:0,e:'La fumée est un gaz — elle se répand partout !'},
+      {t:'Parmi ces exemples, lequel est un liquide ?',o:['Le mercure dans un thermomètre 🌡️','Un morceau de fer 🔩','De l\'air comprimé 💨','Du sel 🧂'],c:0,e:'Le mercure est liquide à température ambiante !'},
+      {t:'Quelle propriété distingue le solide du liquide ?',o:['Le solide a une forme propre, pas le liquide','Le solide n\'a pas de volume fixe','Le liquide a une forme propre','Le liquide occupe tout l\'espace'],c:0,e:'Le solide garde SA forme. Le liquide prend la forme du récipient.'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'intro',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+  /* cascade propriete */
+  var etatPool=[
+    {nom:'solide',forme:'propre',volume:'propre',ex:'glaçon'},
+    {nom:'liquide',forme:'du récipient',volume:'propre',ex:'eau'},
+    {nom:'gaz',forme:'aucune (remplit tout)',volume:'aucun (variable)',ex:'vapeur'}
+  ];
+  var et=pick(etatPool);
+  return {
+    type:'cascade',cat:'intro',sig:'IP'+et.nom,
+    text:'Complète les propriétés de l\'état <b>'+et.nom+'</b> (exemple : '+et.ex+') :',
+    steps:[
+      {prompt:'Quelle est la forme d\'un '+et.nom+' ?',
+       aide:'Un '+et.nom+' a une forme '+et.forme+'.',
+       parts:['Forme : ',{b:1,kind:'txt',accept:[et.forme,et.forme.split(' ')[0]],show:et.forme,w:180}]},
+      {prompt:'Quel est le volume d\'un '+et.nom+' ?',
+       aide:'Un '+et.nom+' a un volume '+et.volume.split(' ')[0]+'.',
+       parts:['Volume : ',{b:1,kind:'txt',accept:[et.volume,et.volume.split(' ')[0],'variable','fixe','propre'],show:et.volume,w:200}]}
+    ]
+  };
+}
+
+/* ===== GÉNÉRATEUR 2 : CHANGEMENTS D'ÉTAT ===== */
+function genChangements(){
+  var mode=pick(['qcm_nom','qcm_inverse','cascade_from_to','cascade_nom']);
+  if(mode==='qcm_nom'){
+    var ch=pick(CHANGEMENTS_DATA);
+    var noms=['fusion','solidification','vaporisation','liquéfaction','sublimation','condensation solide'];
+    var wrongs=noms.filter(function(n){return n!==ch.nom;});
+    var opts=shuffle([ch.nom,wrongs[0],wrongs[1],wrongs[2]]);
+    return {
+      type:'qcm',cat:'changements',
+      text:'Comment s\'appelle le changement d\'état de <b>'+ch.from+'</b> vers <b>'+ch.to+'</b> ?<br><small style="color:var(--bois-clair)">Exemple : '+ch.ex+'</small>',
+      options:opts,correct:opts.indexOf(ch.nom),
+      explain:'<b>'+ch.from+' → '+ch.to+'</b> : c\'est la <b>'+ch.nom+'</b> !'
+    };
+  }
+  if(mode==='qcm_inverse'){
+    var ch2=pick(CHANGEMENTS_DATA);
+    var noms2=['fusion','solidification','vaporisation','liquéfaction','sublimation','condensation solide'];
+    var wrongs2=noms2.filter(function(n){return n!==ch2.inverse;});
+    var opts2=shuffle([ch2.inverse,wrongs2[0],wrongs2[1],wrongs2[2]]);
+    return {
+      type:'qcm',cat:'changements',
+      text:'Quel est le changement d\'état inverse de la <b>'+ch2.nom+'</b> ?',
+      options:opts2,correct:opts2.indexOf(ch2.inverse),
+      explain:'L\'inverse de la <b>'+ch2.nom+'</b> est la <b>'+ch2.inverse+'</b> !'
+    };
+  }
+  if(mode==='cascade_from_to'){
+    var ch3=pick(CHANGEMENTS_DATA);
+    var etats=['solide','liquide','gaz'];
+    return {
+      type:'cascade',cat:'changements',sig:'CF'+ch3.nom,
+      text:'La <b>'+ch3.nom+'</b> est le passage de quel état à quel état ?',
+      steps:[
+        {prompt:'État de départ (avant le changement) :',
+         aide:'La '+ch3.nom+' part de l\'état '+ch3.from+'.',
+         parts:['État de départ : ',{b:1,kind:'txt',accept:[ch3.from,ch3.from.slice(0,3)],show:ch3.from,w:130}]},
+        {prompt:'État d\'arrivée (après le changement) :',
+         aide:'La '+ch3.nom+' arrive à l\'état '+ch3.to+'.',
+         parts:['État d\'arrivée : ',{b:1,kind:'txt',accept:[ch3.to,ch3.to.slice(0,3)],show:ch3.to,w:130}]}
+      ]
+    };
+  }
+  /* cascade_nom */
+  var ch4=pick(CHANGEMENTS_DATA);
+  return {
+    type:'cascade',cat:'changements',sig:'CN'+ch4.nom,
+    text:'<b>'+ch4.ex+'</b> — quel est le nom de ce changement d\'état ?',
+    steps:[
+      {prompt:'Identifie l\'état de départ et l\'état d\'arrivée :',
+       aide:'Départ : '+ch4.from+' → Arrivée : '+ch4.to,
+       parts:['De ',{b:1,kind:'txt',accept:[ch4.from,ch4.from.slice(0,3)],show:ch4.from,w:120},' vers ',{b:1,kind:'txt',accept:[ch4.to,ch4.to.slice(0,3)],show:ch4.to,w:120}]},
+      {prompt:'Quel est le nom de ce changement d\'état ?',
+       aide:''+ch4.from+' → '+ch4.to+' : c\'est la '+ch4.nom,
+       parts:['Nom : ',{b:1,kind:'txt',accept:[ch4.nom,ch4.nom.split(' ')[0]],show:ch4.nom,w:200}]}
+    ]
+  };
+}
+
+/* ===== GÉNÉRATEUR 3 : TEMPÉRATURE ===== */
+function genTemperature(){
+  var mode=pick(['qcm_palier','qcm_temp','cascade_temp','cascade_lecture']);
+  if(mode==='qcm_palier'){
+    var pools=[
+      {t:'Pendant un changement d\'état, que fait la température ?',o:['Elle reste constante (palier)','Elle monte tout le temps','Elle descend','Elle varie aléatoirement'],c:0,e:'C\'est le PALIER : la température reste constante pendant tout le changement d\'état !'},
+      {t:'Pourquoi la température ne monte pas pendant un changement d\'état ?',o:['Toute l\'énergie sert à changer l\'état, pas à chauffer','Il n\'y a plus de chaleur','L\'eau est froide','Le thermomètre est cassé'],c:0,e:'L\'énergie apportée sert UNIQUEMENT à changer l\'état — pas à faire monter la température !'},
+      {t:'Sur un graphique température/temps, le palier se reconnaît comment ?',o:['C\'est une partie horizontale de la courbe','C\'est la partie la plus haute','C\'est quand la courbe descend','C\'est un pic vers le haut'],c:0,e:'Le palier = partie HORIZONTALE ! La température ne bouge plus pendant le changement d\'état.'},
+      {t:'À quelle température l\'eau bout-elle (à pression normale) ?',o:['100 °C','0 °C','50 °C','212 °C'],c:0,e:'L\'eau bout à 100 °C à pression atmosphérique normale !'},
+      {t:'À quelle température la glace fond-elle (à pression normale) ?',o:['0 °C','100 °C','-10 °C','4 °C'],c:0,e:'La glace fond à 0 °C — c\'est la température de fusion de l\'eau !'},
+      {t:'Quand on chauffe de la glace à 0 °C, que se passe-t-il ?',o:['La température reste à 0 °C jusqu\'à ce que tout soit fondu','La température monte immédiatement','La glace disparaît instantanément','La température descend'],c:0,e:'La glace fond à 0 °C — la température reste à 0 °C pendant toute la fusion !'},
+      {t:'Un palier à 100 °C sur un graphique température/temps correspond à…',o:['L\'ébullition de l\'eau (liquide → gaz)','La fusion de la glace','La solidification de l\'eau','La sublimation'],c:0,e:'Le palier à 100 °C correspond à l\'ébullition — passage liquide → gaz !'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'temperature',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+  if(mode==='qcm_temp'){
+    var substances=[
+      {nom:'l\'eau',tfusion:0,tebul:100},
+      {nom:'l\'éthanol (alcool)',tfusion:-114,tebul:78},
+      {nom:'le fer',tfusion:1538,tebul:2861}
+    ];
+    var sub=pick(substances);
+    var qtype=pick(['fusion','ebullition']);
+    var tref=qtype==='fusion'?sub.tfusion:sub.tebul;
+    var libelle=qtype==='fusion'?'fond':'bout';
+    var wrongs=[tref+10,tref-10,tref+50].map(function(v){return v+' °C';});
+    var opts=shuffle([tref+' °C',wrongs[0],wrongs[1],wrongs[2]]);
+    return {
+      type:'qcm',cat:'temperature',
+      text:'À quelle température <b>'+sub.nom+'</b> <b>'+libelle+'</b>-'+('il')+(qtype==='fusion'?' (température de fusion) ?':' (température d\'ébullition) ?'),
+      options:opts,correct:opts.indexOf(tref+' °C'),
+      explain:sub.nom.charAt(0).toUpperCase()+sub.nom.slice(1)+' '+libelle+' à <b>'+tref+' °C</b> !'
+    };
+  }
+  if(mode==='cascade_temp'){
+    return {
+      type:'cascade',cat:'temperature',sig:'CT_eau',
+      text:'Complète les températures de changement d\'état de l\'eau :',
+      steps:[
+        {prompt:'À quelle température la glace fond-elle ? (en °C)',
+         aide:'La glace fond à 0 °C — c\'est la température de fusion de l\'eau.',
+         parts:['Température de fusion de l\'eau : ',{b:1,kind:'num',ans:0,show:'0',w:70,tol:0},' °C']},
+        {prompt:'À quelle température l\'eau bout-elle ? (en °C)',
+         aide:'L\'eau bout à 100 °C — c\'est la température d\'ébullition de l\'eau.',
+         parts:['Température d\'ébullition de l\'eau : ',{b:1,kind:'num',ans:100,show:'100',w:80,tol:0},' °C']}
+      ]
+    };
+  }
+  /* cascade_lecture : description d'un graphique */
+  return {
+    type:'cascade',cat:'temperature',sig:'CT_graph',
+    text:'On chauffe de l\'eau depuis −10 °C. À 0 °C, le thermomètre reste bloqué pendant plusieurs minutes.<br>Réponds aux questions sur ce graphique :',
+    steps:[
+      {prompt:'Comment appelle-t-on la partie du graphique où la température reste à 0 °C ?',
+       aide:'Quand la température reste constante pendant un changement d\'état, on appelle ça un palier.',
+       parts:['C\'est un ',{b:1,kind:'txt',accept:['palier','plateau'],show:'palier',w:120},' de température.']},
+      {prompt:'Quel changement d\'état se produit à 0 °C pour l\'eau ?',
+       aide:'À 0 °C, la glace (solide) se transforme en eau liquide — c\'est la fusion.',
+       parts:['C\'est la ',{b:1,kind:'txt',accept:['fusion','fus'],show:'fusion',w:120},'.']},
+      {prompt:'Pendant ce palier, la température est… (constante ou variable ?)',
+       aide:'Pendant un changement d\'état, la température est toujours constante.',
+       parts:['La température est ',{b:1,kind:'txt',accept:['constante','constant','stable'],show:'constante',w:160},'.']},
+    ]
+  };
+}
+
+/* ===== GÉNÉRATEUR 4 : MODÈLE PARTICULAIRE ===== */
+function genModele(){
+  var mode=pick(['qcm_arrangement','qcm_mouvement','cascade_etat','cascade_compare']);
+  if(mode==='qcm_arrangement'){
+    var pools=[
+      {t:'Dans un <b>solide</b>, comment sont arrangées les particules ?',o:['Ordonnées et très proches (compact)','Désordonnées et proches','Éloignées et libres','Aléatoirement dispersées'],c:0,e:'Dans un solide, les particules sont ORDONNÉES et TRÈS PROCHES — comme une grille bien rangée !'},
+      {t:'Dans un <b>gaz</b>, comment sont arrangées les particules ?',o:['Très éloignées et désordonnées','Ordonnées et proches','Proches et désordonnées','En file indienne'],c:0,e:'Dans un gaz, les particules sont TRÈS ÉLOIGNÉES et se déplacent librement dans tous les sens !'},
+      {t:'Dans un <b>liquide</b>, comment sont arrangées les particules ?',o:['Proches mais désordonnées','Ordonnées et très compactes','Très éloignées et libres','Toujours en mouvement circulaire'],c:0,e:'Dans un liquide, les particules sont PROCHES mais dans un ordre désordonné !'},
+      {t:'Pourquoi un solide garde-t-il sa forme ?',o:['Les particules sont solidement liées entre elles','Les particules bougent trop vite','Il n\'y a pas de particules','Les particules sont libres'],c:0,e:'Dans un solide, les particules sont LIÉES entre elles — elles ne peuvent pas s\'échapper. D\'où la forme fixe !'},
+      {t:'Pourquoi un gaz n\'a-t-il pas de forme propre ?',o:['Les particules sont libres et se déplacent partout','Les particules sont trop grosses','Il n\'y a qu\'une seule particule','Les particules sont collées'],c:0,e:'Dans un gaz, les particules sont LIBRES — elles vont partout. C\'est pour ça que le gaz remplit tout l\'espace !'},
+      {t:'Que se passe-t-il aux particules quand on chauffe un solide jusqu\'à le faire fondre ?',o:['Les liaisons entre particules se brisent, elles deviennent mobiles','Les particules grossissent','Les particules disparaissent','Les particules se collent davantage'],c:0,e:'En chauffant, on donne de l\'énergie aux particules — elles bougent plus vite et les liaisons se brisent !'},
+      {t:'Quelle est la principale différence entre un liquide et un gaz au niveau particulaire ?',o:['Dans un gaz, les particules sont beaucoup plus éloignées','Dans un liquide, les particules ne bougent pas','Dans un gaz, les particules sont ordonnées','Dans un liquide, les particules sont libres'],c:0,e:'La grande différence : dans un gaz, les particules sont TRÈS éloignées (volume plus grand). Dans un liquide, elles restent proches !'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'modele',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+  if(mode==='qcm_mouvement'){
+    var pools2=[
+      {t:'Dans un <b>solide</b>, quel est le mouvement des particules ?',o:['Elles vibrent sur place','Elles glissent librement','Elles volent dans tous les sens','Elles sont immobiles'],c:0,e:'Dans un solide, les particules vibrent sur place — elles bougent un peu, mais ne se déplacent pas !'},
+      {t:'Dans un <b>gaz</b>, quel est le mouvement des particules ?',o:['Elles se déplacent librement et rapidement','Elles vibrent sur place','Elles glissent les unes sur les autres','Elles sont immobiles'],c:0,e:'Dans un gaz, les particules se déplacent LIBREMENT et très rapidement dans toutes les directions !'},
+      {t:'Dans un <b>liquide</b>, quel est le mouvement des particules ?',o:['Elles glissent les unes sur les autres','Elles vibrent sur place sans bouger','Elles volent librement','Elles sont complètement immobiles'],c:0,e:'Dans un liquide, les particules glissent les unes sur les autres — c\'est pour ça que le liquide coule !'}
+    ];
+    var q2=pick(pools2);var opts2=shuffle(q2.o);
+    return {type:'qcm',cat:'modele',text:q2.t,options:opts2,correct:opts2.indexOf(q2.o[q2.c]),explain:q2.e};
+  }
+  if(mode==='cascade_etat'){
+    var etats=[
+      {nom:'solide',arrangement:'ordonnées',distance:'très proches',mouvement:'vibrent sur place'},
+      {nom:'liquide',arrangement:'désordonnées',distance:'proches',mouvement:'glissent librement'},
+      {nom:'gaz',arrangement:'désordonnées',distance:'très éloignées',mouvement:'se déplacent librement'}
+    ];
+    var et=pick(etats);
+    return {
+      type:'cascade',cat:'modele',sig:'ME'+et.nom,
+      text:'Décris le modèle particulaire de l\'état <b>'+et.nom+'</b> :',
+      steps:[
+        {prompt:'Comment sont arrangées les particules dans un '+et.nom+' ?',
+         aide:'Dans un '+et.nom+', les particules sont '+et.arrangement+'.',
+         parts:['Les particules sont ',{b:1,kind:'txt',accept:[et.arrangement,et.arrangement.split(' ')[0]],show:et.arrangement,w:160},'.']},
+        {prompt:'Quelle est la distance entre les particules dans un '+et.nom+' ?',
+         aide:'Dans un '+et.nom+', les particules sont '+et.distance+'.',
+         parts:['Les particules sont ',{b:1,kind:'txt',accept:[et.distance,et.distance.split(' ')[0],et.distance.split(' ').pop()],show:et.distance,w:180},'.']},
+        {prompt:'Quel est le mouvement des particules dans un '+et.nom+' ?',
+         aide:'Dans un '+et.nom+', les particules '+et.mouvement+'.',
+         parts:['Les particules ',{b:1,kind:'txt',accept:[et.mouvement,et.mouvement.split(' ')[0]],show:et.mouvement,w:220},'.']},
+      ]
+    };
+  }
+  /* cascade_compare */
+  return {
+    type:'cascade',cat:'modele',sig:'MC_compare',
+    text:'Compare les états solide et gaz au niveau des particules :',
+    steps:[
+      {prompt:'Dans un solide, les particules sont éloignées ou proches ?',
+       aide:'Dans un solide, les particules sont très proches et ordonnées.',
+       parts:['Dans un solide : particules ',{b:1,kind:'txt',accept:['proches','proche','compactes','compacte'],show:'proches',w:130},' et ordonnées.']},
+      {prompt:'Dans un gaz, les particules sont éloignées ou proches ?',
+       aide:'Dans un gaz, les particules sont très éloignées les unes des autres.',
+       parts:['Dans un gaz : particules ',{b:1,kind:'txt',accept:['éloignées','eloignees','éloignée','libres'],show:'éloignées',w:150},' et libres.']},
+      {prompt:'Lequel du solide ou du gaz occupe plus de volume pour le même nombre de particules ?',
+       aide:'Le gaz ! Ses particules sont très éloignées — beaucoup plus d\'espace entre elles.',
+       parts:['C\'est le ',{b:1,kind:'txt',accept:['gaz','gas'],show:'gaz',w:80},' qui occupe plus de volume.']}
+    ]
+  };
+}
+
+var GEN={intro:genIntro,changements:genChangements,temperature:genTemperature,modele:genModele};
+
+/* ===== MOTEUR QUIZ ===== */
+var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastSig:'',timer:0,casc:null};
+var MATHTARGET=null;
+
+function elsTrain(){return{prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),next:gid('tq_next'),casc:gid('tq_casc'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
+function elsArene(){return{corr:gid('aq_corr'),tot:gid('aq_tot'),streak:gid('aq_streak'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next'),casc:gid('aq_casc')};}
+
+function quizStart(cats,guided,els){Q.cats=cats;Q.guided=guided;Q.els=els;Q.score=0;Q.answered=0;Q.correct=0;Q.streak=0;Q.locked=false;Q.lastSig='';if(els.result)els.result.style.display='none';if(els.card)els.card.style.display='block';quizScore();quizNext();}
+function quizScore(){var e=Q.els;if(e.corr)e.corr.textContent=Q.correct;if(e.tot)e.tot.textContent=Q.answered;if(e.streak)e.streak.textContent=Q.streak;if(Q.guided&&e.prog)e.prog.innerHTML='Question <b>'+Math.min(Q.answered+1,serieLen())+'</b> / '+serieLen()+'&nbsp;·&nbsp;✅ '+Q.correct;}
+function quizNext(){
+  clearTimeout(Q.timer);
+  if(Q.guided&&Q.answered>=serieLen())return quizResult();
+  Q.locked=false;var e=Q.els;
+  e.feed.textContent='';e.feed.className='feedback';
+  if(e.stars)e.stars.textContent='';
+  if(e.next)e.next.style.display='none';
+  if(e.help)e.help.textContent=HELP[currentTheme]||'';
+  if(e.casc){e.casc.style.display='none';e.casc.innerHTML='';}
+  var cat,cur,tries=0;
+  do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while(cur.sig===Q.lastSig&&tries<8);
+  Q.cur=cur;Q.lastSig=cur.sig||cur.text||'';
+  e.cat.textContent=CATNOM[cat]||cat;
+  if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
+  if(cur.type==='qcm'){
+    e.text.innerHTML=cur.text;e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';
+    cur.options.forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.innerHTML=o;b.onclick=function(){quizPick(i);};e.opts.appendChild(b);});
+  } else if(cur.type==='cascade'){
+    e.text.innerHTML=cur.text;e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);
+  } else {
+    e.text.innerHTML=cur.text;e.opts.style.display='none';e.ansrow.style.display='flex';
+    e.input.value='';e.input.disabled=false;e.valid.disabled=false;
+    setTimeout(function(){try{e.input.focus();}catch(_){}},60);
+  }
+  quizScore();
+}
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;if(!e.input.value.trim()){e.feed.className='feedback no';e.feed.textContent='Écris ta réponse !';return;}var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre valide.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La réponse est '+Q.cur.disp+'.');}
+function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'Bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');}
+function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Super ! Bien joué !<div class="feedlab">'+(Q.cur.explain||correctTxt)+'</div>';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='❌ Pas encore… '+correctTxt+'<div class="feedlab">'+(Q.cur.explain||'')+'</div>';if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}quizScore();var last=Q.guided&&Q.answered>=serieLen();if(ok&&!last){Q.timer=setTimeout(quizNext,1800);}else{if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}}
+function quizResult(){var e=Q.els;if(!e.result)return;e.card.style.display='none';e.result.style.display='block';var SL=serieLen(),SE=seuilFor(),sc=Q.correct,ok=sc>=SE;try{suiviEnvoi(ok?'Validé':'Échoué',sc,SL);}catch(_){}e.rbig.textContent=sc+' / '+SL;e.rbig.className='big '+(ok?'ok':'no');e.rmsg.innerHTML=ok?'🎉 Bravo ! Tu as réussi avec <b>'+sc+'/'+SL+'</b> !':'Il faut <b>'+SE+'/'+SL+'</b> pour valider. Tu as eu '+sc+'/'+SL+'. Courage, tu peux recommencer 💪';e.rbtns.innerHTML='';if(ok){themeDone[currentTheme]=true;updateMap();var b=document.createElement('button');b.className='btn vert';b.textContent='Continuer ➜';b.onclick=function(){var idx=ORDER.indexOf(currentTheme);if(idx<ORDER.length-1)tapTheme(ORDER[idx+1]);else go('arene');};e.rbtns.appendChild(b);}else{var b1=document.createElement('button');b1.className='btn orange';b1.textContent='Nouvelle série 🔄';b1.onclick=function(){startTrain(currentTheme);};e.rbtns.appendChild(b1);var b2=document.createElement('button');b2.className='btn fant';b2.textContent='Continuer quand même ➜';b2.onclick=function(){var idx=ORDER.indexOf(currentTheme);if(idx<ORDER.length-1)tapTheme(ORDER[idx+1]);else go('arene');};e.rbtns.appendChild(b2);}}
+
+function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entraînement — '+TITLE[t];go('ecranTrain');var e=elsTrain();if(e.help)e.help.textContent=HELP[t];quizStart(THEME_CATS[t],true,e);}
+function startArene(){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';quizStart(ORDER,false,elsArene());}
+function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
+
+/* ===== CASCADE ENGINE ===== */
+function normTxt(s){return String(s).toLowerCase().trim().replace(/\s+/g,'').replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ïî]/g,'i').replace(/[ôö]/g,'o').replace(/[ûü]/g,'u').replace(/['']/g,'');}
+function blankOK(bk,raw){
+  if(bk.kind==='num'){var v=parseNum(raw);return v!==null&&Math.abs(v-bk.ans)<(bk.tol===undefined?0.001:bk.tol);}
+  var n=normTxt(raw);if(n==='')return false;
+  var acc=bk.accept.map(normTxt);
+  return acc.some(function(a){return n===a||n.indexOf(a)>=0;});
+}
+function cscEl(sel){return Q.casc.box.querySelector(sel);}
+function cascMkBlank(p,e,idx){
+  var inp=document.createElement('input');
+  inp.className='cblank';
+  inp.setAttribute('inputmode',p.kind==='num'?'decimal':'text');
+  inp.autocomplete='off';
+  /* pas de placeholder suggestif */
+  if(p.w)inp.style.width=p.w+'px';
+  inp.addEventListener('focus',function(){MATHTARGET=this;});
+  inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();cascVerify(e,idx);}});
+  Q.casc.q.steps[idx]._blanks.push({bk:p,el:inp});
+  return inp;
+}
+function cascRenderParts(parent,arr,e,idx){
+  if(!arr)return;
+  arr.forEach(function(p){
+    if(typeof p==='string'){var sp=document.createElement('span');sp.innerHTML=p;parent.appendChild(sp);}
+    else if(p.frac){var f=document.createElement('span');f.className='cfrac';var nu=document.createElement('span');nu.className='cfnum';cascRenderParts(nu,p.frac[0],e,idx);var ba=document.createElement('span');ba.className='cfbar';var de=document.createElement('span');de.className='cfden';cascRenderParts(de,p.frac[1],e,idx);f.appendChild(nu);f.appendChild(ba);f.appendChild(de);parent.appendChild(f);}
+    else if(p.b){parent.appendChild(cascMkBlank(p,e,idx));}
+  });
+}
+function cascRender(e,idx){
+  var st=Q.casc.q.steps[idx];var body=cscEl('#cbody'+idx);body.innerHTML='';
+  st._tries=0;st._done=false;st._blanks=[];
+  var line=document.createElement('div');line.className='cline';
+  cascRenderParts(line,st.parts,e,idx);body.appendChild(line);
+  var row=document.createElement('div');row.className='cverify';
+  var btn=document.createElement('button');btn.className='btn vert';btn.textContent='Vérifier ✓';
+  btn.onclick=function(){cascVerify(e,idx);};row.appendChild(btn);body.appendChild(row);
+  var f=st._blanks[0];if(f)setTimeout(function(){try{f.el.focus();}catch(_){}},60);
+}
+function cascStart(cur,e){
+  Q.casc={q:cur,clean:true,box:e.casc};e.casc.style.display='block';
+  var html='';
+  cur.steps.forEach(function(st,idx){
+    html+='<div class="cstep'+(idx===0?' on':'')+'" id="cstep'+idx+'">'
+      +'<div class="cprompt">'+st.prompt+'</div>'
+      +'<div class="cbody" id="cbody'+idx+'"></div>'
+      +'<div class="cfeed" id="cfeed'+idx+'"></div></div>';
+  });
+  e.casc.innerHTML=html;cascRender(e,0);
+}
+function cascVerify(e,idx){
+  var st=Q.casc.q.steps[idx];if(st._done)return;
+  var fb=cscEl('#cfeed'+idx);
+  if(st._blanks.some(function(z){return z.el.value.trim()==='';})){fb.className='cfeed no';fb.textContent='Complète toutes les cases.';return;}
+  var allOK=true;
+  st._blanks.forEach(function(z){var ok=blankOK(z.bk,z.el.value);z.el.classList.remove('cbok','cbno');z.el.classList.add(ok?'cbok':'cbno');if(!ok)allOK=false;});
+  if(allOK){st._done=true;st._blanks.forEach(function(z){z.el.disabled=true;});fb.className='cfeed ok';fb.textContent='✅ Correct !';cascAdvance(e,idx);return;}
+  st._tries++;
+  if(st._tries>=3){Q.casc.clean=false;st._done=true;st._blanks.forEach(function(z){z.el.value=z.bk.show||'?';z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});fb.className='cfeed no';fb.textContent='Voici la bonne réponse — observe bien avant de continuer !';cascAdvance(e,idx);}
+  else if(st._tries===2){fb.className='cfeed no';fb.innerHTML='💡 Indice : '+(st.aide||'Regarde bien la leçon et réessaie.');}
+  else{fb.className='cfeed no';fb.textContent='Pas tout à fait — les cases en orange sont à corriger. Tu peux le faire !';}
+}
+function cascAdvance(e,idx){var nx=idx+1;if(nx<Q.casc.q.steps.length){var blk=cscEl('#cstep'+nx);blk.classList.add('on');cascRender(e,nx);setTimeout(function(){blk.scrollIntoView({behavior:'smooth',block:'center'});},140);}else{cascDone(e);}}
+function cascDone(e){Q.locked=true;Q.answered++;if(Q.casc.clean){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='✅ Parfait, sans erreur !';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}else{Q.streak=0;e.feed.className='feedback ok';e.feed.innerHTML='👍 Exercice terminé ! Relis les corrections pour progresser !';}quizScore();var last=Q.guided&&Q.answered>=serieLen();if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}
+
+/* ===== CALCULATRICE ===== */
+function kcEval(expr){var s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');var toks=[];var i=0;while(i<s.length){var c=s[i];if((c>='0'&&c<='9')||c==='.'){var j=i+1;while(j<s.length&&((s[j]>='0'&&s[j]<='9')||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}if('+-*/^()'.indexOf(c)>=0){toks.push({t:c});i++;continue;}return null;}var p=0,err=false;var peek=function(){return toks[p];},next=function(){return toks[p++];};function E(){var v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){var o=next().t;var r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}function T(){var v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){var o=next().t;var r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}function U(){var t=peek();if(t&&t.t==='-'){next();return-U();}if(t&&t.t==='+'){next();return U();}return P();}function P(){var b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();var e=U();if(err)return 0;b=Math.pow(b,e);}return b;}function PR(){var t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='('){var v=E();if(err)return 0;var c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}err=true;return 0;}var val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;}
+function kcFmt(v){return(Math.round(v*1e9)/1e9).toString().replace('-','\u2212').replace('.',',');}
+var kcS='',kcJust=false;
+function kcRender(){gid('kcExpr').textContent=kcS;var v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
+function kcIns(ch){if(kcJust&&/[0-9.,(]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
+function kcClear(){kcS='';kcJust=false;kcRender();}
+function kcBack(){if(kcJust)kcJust=false;kcS=kcS.slice(0,-1);kcRender();}
+function kcEq(){var v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
+function kcToggle(){var p=gid('kcPanel');p.hidden=!p.hidden;if(!p.hidden){var a=document.activeElement;if(a&&a.matches&&(a.matches('.cblank')||a.id==='tq_input'||a.id==='aq_input'))a.blur();}}
+function kcSend(){var v=kcEval(kcS);if(v===null)return;var txt=kcFmt(v);var t=MATHTARGET;if(!t||t.disabled){t=gid('tq_input');if(gid('arene').classList.contains('active'))t=gid('aq_input');}if(t&&!t.disabled){var s=t.selectionStart||0,en=t.selectionEnd||t.value.length;t.value=t.value.slice(0,s)+txt+t.value.slice(en);t.focus();try{t.setSelectionRange(s+txt.length,s+txt.length);}catch(_){}}}
+var KC_KEYS=[
+  {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
+  {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},
+  {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'},
+  {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'\u2212',a:'\u2212',c:'op'},
+  {l:'0',a:'0'},{l:',',a:','},{l:'x\u207f',a:'^',c:'fn'},{l:'+',a:'+',c:'op'},
+  {l:'\u00f7',a:'\u00f7',c:'op'},{l:'\u00d7',a:'\u00d7',c:'op'},{l:'x\u00b2',a:'^2',c:'fn'},{l:'=',a:'eq',c:'eq'}
+];
+(function(){var box=gid('kcKeys');KC_KEYS.forEach(function(k){var b=document.createElement('button');b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;b.onclick=function(){if(k.a==='clr')kcClear();else if(k.a==='back')kcBack();else if(k.a==='eq')kcEq();else kcIns(k.a);};box.appendChild(b);});kcRender();})();
+document.addEventListener('keydown',function(ev){if(gid('kcPanel').hidden)return;if(ev.key==='Enter'){ev.preventDefault();kcEq();}else if(ev.key==='Escape')kcToggle();else if(ev.key==='Backspace'){ev.preventDefault();kcBack();}else if(/[0-9.+\-*/()^]/.test(ev.key)){var map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};kcIns(map[ev.key]||ev.key);}});
+document.addEventListener('keydown',function(ev){if(ev.key!=='Enter')return;if(!gid('kcPanel').hidden)return;var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';if(!(onT||onA))return;var nx=onT?gid('tq_next'):gid('aq_next');if(nx&&nx.style.display!=='none'){quizNext();return;}if(!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
+
+/* ===== PROGRESSION ===== */
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}return 'prog_'+e+'_'+SUIVI.nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});}catch(_){}}
+
+var _um=updateMap;
+updateMap=function(){_um.apply(this,arguments);try{progSave();}catch(_){}};
+progLoad();
+/* Tous débloqués — ne jamais restaurer unlocked depuis localStorage */
+Object.keys(unlocked).forEach(function(k){unlocked[k]=true;});
+updateMap();
+</script>
+</body>
+</html>

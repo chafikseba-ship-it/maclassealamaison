@@ -2,153 +2,437 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculatrice collège</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Calculatrice Collège+</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --or:#FFC93C; --or-bas:#E0A41E; --vert:#8BC34A; --vert-bas:#5E9426;
-  --orange:#FF8A4C; --orange-bas:#E0672E; --teal:#46BECB; --teal-bas:#2E8A98;
-  --violet:#A78BC4; --violet-bas:#7E61A1; --rouge:#EF5D60; --rouge-bas:#c43e41;
-  --bois:#5C3D2E; --bois-clair:#8a6650; --creme:#FFF4DC; --blanc:#FFFDF6;
-}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
-  background:linear-gradient(160deg,#FFF7E2 0%,#FFE6BC 55%,#FFD9A0 100%);min-height:100vh}
-.demo{max-width:640px;margin:0 auto;padding:40px 20px;text-align:center}
-.demo h1{font-family:'Fredoka';font-weight:700;font-size:2.2rem;margin:.2em 0}
-.demo p{font-weight:700;color:var(--bois-clair);line-height:1.5}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;
+  background:linear-gradient(160deg,#FFF7E2 0%,#FFE6BC 55%,#FFD9A0 100%);
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-bottom:40px}
 
-/* ===================== CALCULATRICE COLLÈGE (bloc autonome) ===================== */
-.kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:60px;height:60px;border:none;border-radius:50%;
-  background:var(--teal);color:#fff;font-size:1.7rem;cursor:pointer;box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);
-  transition:transform .1s}
-.kc-fab:active{transform:translateY(4px)}
-.kc-fab:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
-.kc-panel{position:fixed;right:18px;bottom:90px;z-index:60;width:min(320px,calc(100vw - 32px));
-  background:var(--blanc);border-radius:22px;padding:14px;box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);
-  animation:kcpop .25s ease}
-.kc-panel[hidden]{display:none}
-@keyframes kcpop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
-.kc-head{display:flex;align-items:center;justify-content:space-between;font-family:'Fredoka';font-weight:700;
-  color:var(--bois);margin:2px 4px 10px;font-size:1.05rem}
-.kc-x{border:none;background:var(--creme);color:var(--bois);width:32px;height:32px;border-radius:10px;
-  font-size:1rem;cursor:pointer;font-family:'Fredoka';box-shadow:0 3px 0 #e7d3a8}
-.kc-x:active{transform:translateY(2px);box-shadow:0 1px 0 #e7d3a8}
-.kc-screen{background:#2b2b2b;border-radius:14px;padding:10px 14px;text-align:right;margin-bottom:12px;min-height:74px;
-  display:flex;flex-direction:column;justify-content:center}
-.kc-expr{font-family:'Fredoka';font-weight:600;color:#cfe6ee;font-size:1rem;min-height:1.2em;
-  word-break:break-all;line-height:1.25}
-.kc-res{font-family:'Fredoka';font-weight:700;color:#fff;font-size:1.7rem;line-height:1.1;margin-top:2px}
-.kc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.kc-key{border:none;border-radius:14px;padding:14px 0;font-family:'Fredoka';font-weight:700;font-size:1.2rem;
-  cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
-.kc-key:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
-.kc-key.op{background:var(--creme);color:var(--orange-bas)}
-.kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1.05rem}
-.kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
-.kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-/* =================== fin du bloc calculatrice =================== */
+/* ── Page header ─────────────────────────────────────────────── */
+.topbar{width:100%;max-width:400px;display:flex;align-items:center;gap:10px;padding:14px 16px 10px}
+.back-btn{background:rgba(92,61,46,.12);border:none;border-radius:10px;padding:8px 14px;
+  font-family:'Fredoka';font-weight:700;color:#5C3D2E;cursor:pointer;font-size:1rem;
+  transition:background .15s}
+.back-btn:active{background:rgba(92,61,46,.22)}
+.page-title{font-family:'Fredoka';font-weight:700;font-size:1.3rem;color:#5C3D2E}
+
+/* ── Calculator body ─────────────────────────────────────────── */
+.calc{width:min(360px,calc(100vw - 20px));background:#1e2328;
+  border-radius:14px;border:2px solid #383e47;
+  box-shadow:0 18px 0 #0a0c0e,0 28px 54px rgba(0,0,0,.55);overflow:hidden}
+
+/* solar strip */
+.solar{height:10px;
+  background:linear-gradient(90deg,#1a3a1a 0%,#2d5a2d 30%,#1a3a1a 60%,#0d200d 100%);
+  border-bottom:1px solid #0a1a0a}
+
+/* brand bar */
+.brand{display:flex;align-items:center;gap:8px;padding:8px 12px 6px;
+  border-bottom:1px solid #2d3440}
+.brand-name{font-family:Georgia,serif;font-weight:700;font-size:1.15rem;color:#fff;
+  letter-spacing:.04em}
+.brand-model{flex:1;font-family:Arial,sans-serif;font-size:.63rem;color:#8a9aaa;
+  letter-spacing:.06em;text-transform:uppercase}
+.deg-badge{font-family:Arial,sans-serif;font-size:.65rem;background:#1a3a1a;
+  color:#7ab47a;border-radius:4px;padding:2px 6px;letter-spacing:.04em;
+  cursor:pointer;user-select:none;border:1px solid #2d5a2d;transition:background .15s}
+.deg-badge:active{background:#2d5a2d}
+
+/* screen */
+.screen{background:#1a2c14;margin:10px 12px 8px;border-radius:8px;
+  padding:10px 14px;min-height:86px;display:flex;flex-direction:column;
+  justify-content:flex-end;align-items:flex-end;
+  border:1px solid #0d1a0a;box-shadow:inset 0 2px 8px rgba(0,0,0,.4);
+  overflow:hidden}
+.sc-expr{font-family:'Courier New',monospace;font-size:.85rem;color:#5a7a50;
+  min-height:1.1em;word-break:break-all;line-height:1.3;width:100%;text-align:right}
+.sc-main{font-family:'Courier New',monospace;font-weight:700;font-size:1.85rem;
+  color:#b8d4a0;line-height:1.15;width:100%;text-align:right;margin-top:2px;
+  word-break:break-all}
+.sc-main.sm{font-size:1.1rem;line-height:1.4}
+.sc-alt{font-family:'Courier New',monospace;font-size:.8rem;color:#6a9a5a;
+  min-height:1.1em;width:100%;text-align:right;margin-top:3px}
+
+/* fraction inside sc-main */
+.frac{display:inline-flex;flex-direction:column;align-items:center;
+  vertical-align:middle;line-height:1.1}
+.frac-n{border-bottom:2px solid #b8d4a0;padding:0 4px;font-size:1.6rem;line-height:1.2}
+.frac-d{padding:0 4px;font-size:1.6rem;line-height:1.2}
+
+/* copy button */
+.copy-row{display:flex;justify-content:flex-end;padding:0 12px 6px}
+.copy-btn{background:#2d3440;border:none;border-radius:8px;padding:5px 12px;
+  color:#8a9aaa;font-family:Arial,sans-serif;font-size:.75rem;cursor:pointer;
+  transition:background .15s}
+.copy-btn:active{background:#383e47}
+.copy-btn.ok{color:#7ab47a}
+
+/* ── Keys ────────────────────────────────────────────────────── */
+.keys{padding:4px 10px 10px;display:flex;flex-direction:column;gap:5px}
+.krow{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.krow5{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+
+.k{border:none;border-radius:5px;padding:11px 0;font-family:Arial,sans-serif;
+  font-weight:700;cursor:pointer;transition:transform .07s;line-height:1}
+.k:active{transform:translateY(2px)}
+.k.num{background:#505762;color:#e8eaf0;box-shadow:0 3px 0 #282d35;font-size:1.05rem}
+.k.num:active{box-shadow:0 1px 0 #282d35}
+.k.op {background:#383e47;color:#b8cce0;box-shadow:0 3px 0 #1e2228;font-size:1rem}
+.k.op:active{box-shadow:0 1px 0 #1e2228}
+.k.sp {background:#183848;color:#7accee;box-shadow:0 3px 0 #0a1e2a;font-size:.75rem}
+.k.sp:active{box-shadow:0 1px 0 #0a1e2a}
+.k.tr {background:#18284a;color:#8ab4f0;box-shadow:0 3px 0 #0a1428;font-size:.75rem}
+.k.tr:active{box-shadow:0 1px 0 #0a1428}
+.k.act{background:#8b1a1a;color:#ffcccc;box-shadow:0 3px 0 #4a0a0a;font-size:1rem}
+.k.act:active{box-shadow:0 1px 0 #4a0a0a}
+.k.eq {background:#003280;color:#fff;box-shadow:0 3px 0 #001840;font-size:1.2rem}
+.k.eq:active{box-shadow:0 1px 0 #001840}
+.k.fd {background:#3a2800;color:#f5c542;box-shadow:0 3px 0 #1e1400;font-size:.78rem}
+.k.fd:active{box-shadow:0 1px 0 #1e1400}
+.k.mem{background:#2d3440;color:#c8aa70;box-shadow:0 3px 0 #161a22;font-size:.88rem}
+.k.mem:active{box-shadow:0 1px 0 #161a22}
+.k.w2{grid-column:span 2}
 </style>
 </head>
 <body>
 
-<div class="demo">
-  <h1>🧮 Calculatrice collège</h1>
-  <p>Voici la calculatrice telle qu'elle apparaîtra dans tes fiches : un bouton rond en bas à droite, qu'on déplie au besoin.<br><br>Touche-le pour l'ouvrir, et fais quelques calculs : parenthèses, racine carrée √, puissances ^, carré x², et π sont gérés, avec les bonnes priorités.</p>
+<div class="topbar">
+  <button class="back-btn" onclick="location.href='index.html'">← Accueil</button>
+  <span class="page-title">Calculatrice</span>
 </div>
 
-<!-- ===================== CALCULATRICE COLLÈGE (bloc à copier dans une fiche) ===================== -->
-<button id="kcFab" class="kc-fab" onclick="kcToggle()" aria-label="Ouvrir la calculatrice">🧮</button>
-<div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
-  <div class="kc-head"><span>Calculatrice</span><button class="kc-x" onclick="kcToggle()" aria-label="Fermer">✕</button></div>
-  <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
-  <div class="kc-keys" id="kcKeys"></div>
-<button onclick="kcSend()" style="margin-top:10px;width:100%;font-family:'Fredoka',sans-serif;font-weight:700;font-size:15px;border:none;cursor:pointer;background:#8BC34A;color:#fff;border-radius:14px;padding:11px;box-shadow:0 4px 0 #5E9426;">⬆ Envoyer le résultat dans la réponse</button>
+<div class="calc">
+  <div class="solar"></div>
+  <div class="brand">
+    <span class="brand-name">Calc</span>
+    <span class="brand-model">Collège +</span>
+    <span class="deg-badge" id="degBadge" onclick="kcToggleDeg()" title="Clic : basculer DEG/RAD">DEG</span>
+  </div>
+  <div class="screen">
+    <div class="sc-expr" id="scExpr"></div>
+    <div class="sc-main" id="scMain">0</div>
+    <div class="sc-alt"  id="scAlt"></div>
+  </div>
+  <div class="copy-row">
+    <button class="copy-btn" id="copyBtn" onclick="kcCopy()">📋 Copier</button>
+  </div>
+  <div class="keys" id="kcKeys"></div>
 </div>
+
 <script>
-/* --- évaluateur (analyse récursive, priorités correctes) --- */
-function kcEval(expr){
-  let s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-');
-  const toks=[]; let i=0; const isD=c=>c>='0'&&c<='9';
-  while(i<s.length){const c=s[i];
-    if(isD(c)||c==='.'){let j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
-    if(c==='\u03c0'){toks.push({t:'pi'});i++;continue;}
-    if(c==='\u221a'){toks.push({t:'sqrt'});i++;continue;}
-    if('+-*/^()'.includes(c)){toks.push({t:c});i++;continue;}
-    return null;
+/* ============================================================
+   CALCULATRICE COLLÈGE+  — version autonome
+   Fonctions : PGCD · PPCM · Décomp · ÷R (reste) · F↔D
+               sin/cos/tan/arcsin/arccos/arctan · log · ln
+               |x| · n! · √ · xⁿ · π · Rép (mémoire)
+   ============================================================ */
+
+/* ─── Utilitaires mathématiques ─────────────────────────────── */
+function gcdf(a,b){a=Math.abs(Math.round(a));b=Math.abs(Math.round(b));while(b){var t=b;b=a%b;a=t;}return a;}
+function lcmf(a,b){var g=gcdf(a,b);return g?Math.abs(Math.round(a)*Math.round(b))/g:0;}
+function factf(n){n=Math.round(n);if(n<0||n>170)return null;var r=1;for(var i=2;i<=n;i++)r*=i;return r;}
+function r10(v){return Math.round(v*1e10)/1e10;}
+
+function primeDecomp(orig){
+  var n=Math.abs(Math.round(orig));
+  if(n<2)return null;
+  var facs={},d=2,m=n;
+  while(d*d<=m){while(m%d===0){facs[d]=(facs[d]||0)+1;m=Math.floor(m/d);}d++;}
+  if(m>1)facs[m]=(facs[m]||0)+1;
+  var sup='⁰¹²³⁴⁵⁶⁷⁸⁹';
+  var parts=Object.keys(facs).sort(function(a,b){return a-b;}).map(function(p){
+    var c=facs[p],e=c>1?String(c).split('').map(function(ch){return sup[+ch];}).join(''):'';
+    return p+e;
+  });
+  return {type:'decomp',n:n,str:n+' = '+parts.join(' × ')};
+}
+
+function toFracR(v){
+  if(!isFinite(v)||Math.abs(v-Math.round(v))<1e-9)return null;
+  var sign=v<0?-1:1,av=Math.abs(v),bn=1,bd=1,be=1e18;
+  for(var d=1;d<=1000;d++){var nn=Math.round(av*d),e=Math.abs(av-nn/d);if(e<be){be=e;bn=nn;bd=d;}if(be<1e-9)break;}
+  if(be>1e-6)return null;
+  var g=gcdf(bn,bd);return{num:sign*(bn/g),den:bd/g};
+}
+
+/* ─── État ──────────────────────────────────────────────────── */
+var kcS='';          /* expression courante */
+var kcAns=0;         /* dernier résultat numérique */
+var kcJust=false;    /* vrai juste après = */
+var kcMode='deg';    /* 'deg' ou 'rad' */
+var kcSpecial=null;  /* résultat spécial (decomp / divr) */
+var kcFracMode=false;/* affichage fraction actif */
+
+/* ─── Tokeniseur ─────────────────────────────────────────────── */
+function tokenize(s){
+  var toks=[],i=0;
+  var FNS=['arcsin','arccos','arctan','sin','cos','tan','log','ln','sqrt','abs','decomp','pgcd','ppcm','divr'];
+  while(i<s.length){
+    var c=s[i];
+    if((c>='0'&&c<='9')||c==='.'){
+      var j=i+1;while(j<s.length&&((s[j]>='0'&&s[j]<='9')||s[j]==='.'))j++;
+      toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;
+    }
+    if(c==='π'){toks.push({t:'pi'});i++;continue;}
+    var m=false;
+    for(var fi=0;fi<FNS.length;fi++){
+      var fn=FNS[fi];
+      if(s.slice(i,i+fn.length+1)===fn+'('){toks.push({t:'fn',v:fn});i+=fn.length+1;m=true;break;}
+    }
+    if(m)continue;
+    if('+-*/^();!'.indexOf(c)>=0){toks.push({t:c});i++;continue;}
+    return null; /* caractère inconnu */
   }
-  let p=0, err=false;
-  const peek=()=>toks[p], next=()=>toks[p++];
-  function E(){let v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){const o=next().t;const r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
-  function T(){let v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){const o=next().t;const r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v/=r;}else v*=r;}return v;}
-  function U(){const t=peek();
-    if(t&&t.t==='-'){next();return -U();}
-    if(t&&t.t==='+'){next();return U();}
-    if(t&&t.t==='sqrt'){next();const a=U();if(err)return 0;if(a<0){err=true;return 0;}return Math.sqrt(a);}
-    return P();}
-  function P(){let b=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();const e=U();if(err)return 0;b=Math.pow(b,e);}return b;}
-  function PR(){const t=next();if(!t){err=true;return 0;}
-    if(t.t==='num')return t.v; if(t.t==='pi')return Math.PI;
-    if(t.t==='('){const v=E();if(err)return 0;const c=next();if(!c||c.t!==')'){err=true;return 0;}return v;}
-    err=true;return 0;}
-  const val=E();
-  if(err||p!==toks.length||toks.length===0)return null;
+  return toks;
+}
+
+/* ─── Évaluateur (descente récursive) ──────────────────────── */
+function kcEval(expr){
+  kcSpecial=null;
+  /* Normalisation */
+  var s=expr.replace(/\s/g,'')
+    .replace(/,/g,'.')
+    .replace(/÷R\(/g,'divr(')
+    .replace(/Décomp\(/g,'decomp(')
+    .replace(/PGCD\(/g,'pgcd(')
+    .replace(/PPCM\(/g,'ppcm(')
+    .replace(/÷/g,'/')
+    .replace(/×/g,'*')
+    .replace(/−/g,'-')
+    .replace(/Rép/g,function(){return String(+kcAns.toFixed(10));});
+  var toks=tokenize(s);
+  if(!toks)return null;
+  var p=0,err=false;
+  function peek(){return toks[p];}
+  function nx(){return toks[p++];}
+  function E(){var v=T();while(!err&&peek()&&(peek().t==='+'||peek().t==='-')){var o=nx().t,r=T();if(!err)v=o==='+'?v+r:v-r;}return v;}
+  function T(){var v=U();while(!err&&peek()&&(peek().t==='*'||peek().t==='/')){var o=nx().t,r=U();if(!err){if(o==='/'){if(!r){err=true;}else v/=r;}else v*=r;}}return v;}
+  function U(){var t=peek();if(t&&t.t==='-'){nx();return-U();}if(t&&t.t==='+'){nx();return U();}return Pw();}
+  function Pw(){var b=Ps();if(!err&&peek()&&peek().t==='^'){nx();var e=U();if(!err)b=Math.pow(b,e);}return b;}
+  function Ps(){var v=Pr();if(!err&&peek()&&peek().t==='!'){nx();var n=Math.round(v);if(n<0||n>170){err=true;return 0;}v=factf(n);}return v;}
+  function arg1(){var a=E();if(err)return 0;var cl=nx();if(!cl||cl.t!==')'){err=true;return 0;}return a;}
+  function Pr(){
+    var t=nx();if(!t){err=true;return 0;}
+    if(t.t==='num')return t.v;
+    if(t.t==='pi')return Math.PI;
+    if(t.t==='('){var v=E();if(err)return 0;var c=nx();if(!c||c.t!==')'){err=true;return 0;}return v;}
+    if(t.t==='fn'){
+      var fn=t.v;
+      /* Fonctions à 2 arguments (séparateur ;) */
+      if(fn==='pgcd'||fn==='ppcm'||fn==='divr'){
+        var a=E();if(err)return 0;
+        var sep=nx();if(!sep||sep.t!==';'){err=true;return 0;}
+        var b=E();if(err)return 0;
+        var cl=nx();if(!cl||cl.t!==')'){err=true;return 0;}
+        var ai=Math.round(a),bi=Math.round(b);
+        if(fn==='pgcd')return gcdf(ai,bi);
+        if(fn==='ppcm')return lcmf(ai,bi);
+        /* divr */
+        if(!bi){err=true;return 0;}
+        var q=Math.floor(ai/bi),r=ai-q*bi;
+        kcSpecial={type:'divr',a:ai,b:bi,q:q,r:r};
+        return q;
+      }
+      /* Fonctions à 1 argument */
+      var av=arg1();if(err)return 0;
+      if(fn==='sqrt'){if(av<0){err=true;return 0;}return Math.sqrt(av);}
+      if(fn==='abs')return Math.abs(av);
+      if(fn==='log'){if(av<=0){err=true;return 0;}return r10(Math.log10(av));}
+      if(fn==='ln'){if(av<=0){err=true;return 0;}return r10(Math.log(av));}
+      if(fn==='decomp'){var ni=Math.round(Math.abs(av));if(ni<2){err=true;return 0;}kcSpecial=primeDecomp(ni);return ni;}
+      /* Trigonométrie */
+      var rad=(kcMode==='deg')?av*Math.PI/180:av;
+      if(fn==='sin')return r10(Math.sin(rad));
+      if(fn==='cos')return r10(Math.cos(rad));
+      if(fn==='tan'){var co=Math.cos(rad);if(Math.abs(co)<1e-10){err=true;return 0;}return r10(Math.tan(rad));}
+      var fact_=kcMode==='deg'?180/Math.PI:1;
+      if(fn==='arcsin'){if(av<-1||av>1){err=true;return 0;}return r10(Math.asin(av)*fact_);}
+      if(fn==='arccos'){if(av<-1||av>1){err=true;return 0;}return r10(Math.acos(av)*fact_);}
+      if(fn==='arctan')return r10(Math.atan(av)*fact_);
+    }
+    err=true;return 0;
+  }
+  var val=E();
+  if(err||p!==toks.length||!toks.length)return null;
+  if(kcSpecial)return kcSpecial;
   return isFinite(val)?val:null;
 }
-function kcFmt(v){
-  let s=(Math.round(v*1e10)/1e10).toString();
-  return s.replace('-','\u2212').replace('.',',');
+
+/* ─── Formatage ─────────────────────────────────────────────── */
+function fmtNum(v){
+  var r=r10(v),s=r.toString();
+  return s.replace('-','−').replace('.',',');
 }
-/* --- état & affichage --- */
-let kcS='', kcJust=false;
-const kcGid=x=>document.getElementById(x);
-function kcRender(){
-  kcGid('kcExpr').textContent=kcS;
-  const v=kcEval(kcS);
-  kcGid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));
+
+/* ─── Rendu écran ────────────────────────────────────────────── */
+function render(){
+  if(kcJust||kcFracMode)return; /* déjà rendu par kcEq ou kcFD */
+  var ex=document.getElementById('scExpr'),
+      ma=document.getElementById('scMain'),
+      al=document.getElementById('scAlt');
+  ex.textContent=kcS;
+  ma.className='sc-main';
+  if(!kcS){ma.textContent='0';al.textContent='';return;}
+  var v=kcEval(kcS);
+  if(v===null){ma.textContent='…';al.textContent='';return;}
+  if(typeof v==='object'){ma.textContent='…';al.textContent='';}
+  else{ma.textContent=fmtNum(v);al.textContent='';}
 }
+
+/* ─── Actions touches ───────────────────────────────────────── */
 function kcIns(ch){
-  if(kcJust && /[0-9.\u03c0(\u221a]/.test(ch)){kcS='';} // nouveau calcul après "="
-  kcJust=false; kcS+=ch; kcRender();
+  if(kcJust&&/^[0-9πR]/.test(ch)){kcS='';}
+  kcJust=false;kcFracMode=false;kcSpecial=null;
+  kcS+=ch;render();
 }
-function kcClear(){kcS='';kcJust=false;kcRender();}
-function kcBack(){if(kcJust){kcJust=false;}kcS=kcS.slice(0,-1);kcRender();}
-function kcEq(){const v=kcEval(kcS);if(v===null){kcGid('kcRes').textContent='Erreur';return;}kcS=kcFmt(v);kcJust=true;kcGid('kcExpr').textContent='';kcGid('kcRes').textContent=kcS;}
-function kcToggle(){const p=kcGid('kcPanel');p.hidden=!p.hidden;}
-/* --- clavier tactile --- */
-const KEYS2=[
-  {l:'C',a:'clr',c:'act'},{l:'\u232b',a:'back',c:'op'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
-  {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'},
-  {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'},
-  {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'\u2212',a:'\u2212',c:'op'},
-  {l:'0',a:'0'},{l:',',a:','},{l:'\u221a',a:'\u221a',c:'fn'},{l:'+',a:'+',c:'op'},
-  {l:'x\u00b2',a:'^2',c:'fn'},{l:'x\u02b8',a:'^',c:'fn'},{l:'\u03c0',a:'\u03c0',c:'fn'},{l:'=',a:'eq',c:'eq'}
+function kcClear(){
+  kcS='';kcJust=false;kcFracMode=false;kcSpecial=null;
+  var ma=document.getElementById('scMain');
+  ma.className='sc-main';ma.textContent='0';
+  document.getElementById('scExpr').textContent='';
+  document.getElementById('scAlt').textContent='';
+}
+function kcBack(){
+  if(kcJust){kcJust=false;kcFracMode=false;kcSpecial=null;kcS=fmtNum(kcAns);}
+  else kcS=kcS.slice(0,-1);
+  render();
+}
+function kcEq(){
+  kcFracMode=false;
+  var v=kcEval(kcS);
+  var ex=document.getElementById('scExpr'),
+      ma=document.getElementById('scMain'),
+      al=document.getElementById('scAlt');
+  ex.textContent=kcS;
+  ma.className='sc-main';
+  if(v===null){ma.textContent='Erreur';al.textContent='';return;}
+  if(typeof v==='object'){
+    kcSpecial=v;
+    if(v.type==='decomp'){
+      ma.className='sc-main sm';
+      ma.textContent=v.str;
+      al.textContent='Décomposition primale';
+      kcAns=v.n;
+    } else if(v.type==='divr'){
+      ma.textContent=v.q+' Reste '+v.r;
+      al.textContent=v.a+' ÷ '+v.b;
+      kcAns=v.q;
+    }
+    kcS='';kcJust=true;
+  } else {
+    kcAns=v;
+    ma.textContent=fmtNum(v);
+    al.textContent='';
+    kcS=fmtNum(v);kcJust=true;
+  }
+}
+function kcFD(){
+  var ma=document.getElementById('scMain'),al=document.getElementById('scAlt');
+  if(kcFracMode){
+    kcFracMode=false;
+    ma.className='sc-main';
+    ma.textContent=fmtNum(kcAns);
+    al.textContent='';
+  } else {
+    var f=toFracR(kcAns);
+    if(!f)return;
+    kcFracMode=true;
+    ma.className='sc-main';
+    ma.innerHTML='<span class="frac"><span class="frac-n">'+f.num+'</span><span class="frac-d">'+f.den+'</span></span>';
+    al.textContent='= '+fmtNum(kcAns);
+  }
+}
+function kcToggleDeg(){
+  kcMode=kcMode==='deg'?'rad':'deg';
+  document.getElementById('degBadge').textContent=kcMode.toUpperCase();
+  if(!kcJust&&!kcFracMode)render();
+}
+function kcCopy(){
+  var ma=document.getElementById('scMain');
+  var txt=(kcSpecial&&kcSpecial.type==='decomp')?kcSpecial.str:
+          (kcSpecial&&kcSpecial.type==='divr')?(kcSpecial.q+' Reste '+kcSpecial.r):
+          ma.textContent;
+  try{navigator.clipboard.writeText(txt);}catch(e){}
+  var btn=document.getElementById('copyBtn');
+  btn.className='copy-btn ok';btn.textContent='✓ Copié';
+  setTimeout(function(){btn.className='copy-btn';btn.textContent='📋 Copier';},1500);
+}
+
+/* ─── Disposition des touches ───────────────────────────────── */
+var ROWS=[
+  /* Fonctions spéciales */
+  [{l:'PGCD(',a:'PGCD(',c:'sp'},{l:'PPCM(',a:'PPCM(',c:'sp'},{l:'Décomp(',a:'Décomp(',c:'sp'},{l:'÷R(',a:'÷R(',c:'sp'}],
+  /* Trigonométrie directe */
+  [{l:'sin(',a:'sin(',c:'tr'},{l:'cos(',a:'cos(',c:'tr'},{l:'tan(',a:'tan(',c:'tr'},{l:'F↔D',a:'fd',c:'fd'}],
+  /* Trigonométrie inverse + factorielle */
+  [{l:'arcsin(',a:'arcsin(',c:'tr'},{l:'arccos(',a:'arccos(',c:'tr'},{l:'arctan(',a:'arctan(',c:'tr'},{l:'n!',a:'!',c:'tr'}],
+  /* Logarithmes + divers */
+  [{l:'log(',a:'log(',c:'sp'},{l:'ln(',a:'ln(',c:'sp'},{l:'|x|(',a:'abs(',c:'sp'},{l:'π',a:'π',c:'mem'}],
+  /* Puissances + mémoire */
+  [{l:'x²',a:'^2',c:'op'},{l:'√(',a:'sqrt(',c:'op'},{l:'xⁿ',a:'^',c:'op'},{l:'Rép',a:'Rép',c:'mem'}],
+  /* Contrôle (5 colonnes) */
+  'row5',
+  /* Pavé numérique */
+  [{l:'7',a:'7',c:'num'},{l:'8',a:'8',c:'num'},{l:'9',a:'9',c:'num'},{l:'÷',a:'÷',c:'op'}],
+  [{l:'4',a:'4',c:'num'},{l:'5',a:'5',c:'num'},{l:'6',a:'6',c:'num'},{l:'×',a:'×',c:'op'}],
+  [{l:'1',a:'1',c:'num'},{l:'2',a:'2',c:'num'},{l:'3',a:'3',c:'num'},{l:'−',a:'−',c:'op'}],
+  [{l:'0',a:'0',c:'num w2'},{l:',',a:',',c:'num'},{l:'+',a:'+',c:'op'},{l:'=',a:'eq',c:'eq'}]
 ];
+
+var ROW5=[
+  {l:'AC',a:'clr',c:'act'},{l:'⌫',a:'back',c:'act'},
+  {l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},{l:';',a:';',c:'op'}
+];
+
+function makeKey(k){
+  var b=document.createElement('button');
+  var cls=(k.c||'num').split(' ');
+  var wide=cls.indexOf('w2')>=0;
+  cls=cls.filter(function(c){return c!=='w2';});
+  b.className='k '+cls.join(' ')+(wide?' w2':'');
+  b.textContent=k.l;
+  b.addEventListener('mousedown',function(ev){ev.preventDefault();});
+  b.onclick=function(){
+    if(k.a==='clr')kcClear();
+    else if(k.a==='back')kcBack();
+    else if(k.a==='eq')kcEq();
+    else if(k.a==='fd')kcFD();
+    else kcIns(k.a);
+  };
+  return b;
+}
+
 (function(){
-  const box=kcGid('kcKeys');
-  KEYS2.forEach(k=>{
-    const b=document.createElement('button');
-    b.className='kc-key'+(k.c?' '+k.c:'');b.textContent=k.l;
-    b.onclick=()=>{ if(k.a==='clr')kcClear(); else if(k.a==='back')kcBack(); else if(k.a==='eq')kcEq(); else kcIns(k.a); };
-    box.appendChild(b);
+  var box=document.getElementById('kcKeys');
+  ROWS.forEach(function(row){
+    var d=document.createElement('div');
+    if(row==='row5'){
+      d.className='krow5';
+      ROW5.forEach(function(k){d.appendChild(makeKey(k));});
+    } else {
+      d.className='krow';
+      row.forEach(function(k){d.appendChild(makeKey(k));});
+    }
+    box.appendChild(d);
   });
-  kcRender();
 })();
-document.addEventListener('keydown',e=>{
-  if(kcGid('kcPanel').hidden)return;
+
+/* ─── Clavier physique ──────────────────────────────────────── */
+document.addEventListener('keydown',function(e){
   if(e.key==='Enter'){e.preventDefault();kcEq();}
-  else if(e.key==='Escape')kcToggle();
+  else if(e.key==='Escape')kcClear();
   else if(e.key==='Backspace'){e.preventDefault();kcBack();}
-  else if(/[0-9.+\-*/()^]/.test(e.key)){
-    const map={'*':'\u00d7','/':'\u00f7','-':'\u2212','.':','};
-    kcIns(map[e.key]||e.key);
+  else if(e.key===',')kcIns(',');
+  else if(e.key===';')kcIns(';');
+  else if(/^[0-9.+\-*/()^!π]$/.test(e.key)){
+    var m={'*':'×','/':'÷','-':'−'};
+    kcIns(m[e.key]||e.key);
   }
 });
 </script>
-<!-- =================== fin du bloc calculatrice =================== -->
 </body>
 </html>

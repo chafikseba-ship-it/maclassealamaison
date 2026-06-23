@@ -449,8 +449,8 @@ button,input{touch-action:manipulation}
 <div class="kc-panel" id="kcPanel" hidden>
   <div class="kc-solar"></div>
   <div class="kc-brand">
-    <span class="kc-ti">TI</span>
-    <span class="kc-model">Collège Plus Solaire</span>
+    <span class="kc-ti">Calc</span>
+    <span class="kc-model">Collège +</span>
     <button class="kc-x" onclick="kcToggle()">✕</button>
   </div>
   <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
@@ -726,6 +726,7 @@ function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
   else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='❌ '+correctTxt+'<div class="feedlab">'+Q.cur.explain+'</div>';}
   quizScore();
   var last=Q.guided&&Q.answered>=serieLen();
+  if(last){resumeClear();}else if(Q.guided){resumeSave();}
   if(ok&&!last){Q.timer=setTimeout(quizNext,1500);}
   else{if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}}
 function quizResult(){var e=Q.els;if(!e.result)return;e.card.style.display='none';e.result.style.display='block';
@@ -749,9 +750,33 @@ function normTxt(s){return String(s).toLowerCase().trim().replace(/\s+/g,'').rep
 function blankOK(bk,raw){if(bk.kind==='num'){var v=parseNum(raw);return v!==null&&Math.abs(v-bk.ans)<(bk.tol||0.1);}var n=normTxt(raw);if(n==='')return false;if(bk.mode==='contains')return bk.accept.some(function(a){return n.indexOf(a)>=0;});return bk.accept.indexOf(n)>=0;}
 function cascVerify(e,idx){var st=Q.casc.q.steps[idx];if(st._done)return;var fb=cscEl('#cfeed'+idx);if(st._blanks.some(function(z){return z.el.value.trim()===''})){fb.className='cfeed no';fb.textContent='Complète toutes les cases.';return;}var allOK=true;st._blanks.forEach(function(z){var ok=blankOK(z.bk,z.el.value);z.el.classList.remove('cbok','cbno');z.el.classList.add(ok?'cbok':'cbno');if(!ok)allOK=false;});if(allOK){st._done=true;st._blanks.forEach(function(z){z.el.disabled=true;});fb.className='cfeed ok';fb.textContent='✅ Correct !';cascAdvance(e,idx);return;}st._tries++;if(st._tries>=3){Q.casc.clean=false;st._done=true;st._blanks.forEach(function(z){z.el.value=z.bk.show;z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});fb.className='cfeed no';fb.textContent='Voici la bonne réponse — observe-la.';cascAdvance(e,idx);}else if(st._tries===2){fb.className='cfeed no';fb.textContent='💡 '+(st.aide||'Relis l\'aide.');}else{fb.className='cfeed no';fb.textContent='Pas tout à fait : corrige les cases en orange.';}}
 function cascAdvance(e,idx){var nx=idx+1;if(nx<Q.casc.q.steps.length){var blk=cscEl('#cstep'+nx);blk.classList.add('on');cascRender(e,nx);setTimeout(function(){blk.scrollIntoView({behavior:'smooth',block:'center'});},140);}else{cascDone(e);}}
-function cascDone(e){Q.locked=true;Q.answered++;if(Q.casc.clean){Q.correct++;Q.streak++;e.feed.className='feedback ok';e.feed.innerHTML='✅ Parfait, sans erreur !';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}else{Q.streak=0;e.feed.className='feedback ok';e.feed.innerHTML='👍 Terminé. Vise zéro erreur !';if(e.stars)e.stars.textContent='';}quizScore();var last=Q.guided&&Q.answered>=serieLen();if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}
+function cascDone(e){Q.locked=true;Q.answered++;if(Q.casc.clean){Q.correct++;Q.streak++;e.feed.className='feedback ok';e.feed.innerHTML='✅ Parfait, sans erreur !';if(e.stars)e.stars.textContent='⭐'.repeat(Math.min(Q.streak,5));confettis();}else{Q.streak=0;e.feed.className='feedback ok';e.feed.innerHTML='👍 Terminé. Vise zéro erreur !';if(e.stars)e.stars.textContent='';}quizScore();var last=Q.guided&&Q.answered>=serieLen();
+  if(last){resumeClear();}else if(Q.guided){resumeSave();}if(e.next){e.next.textContent=last?'Voir mon résultat ➜':'Suivant ➜';e.next.style.display='inline-flex';}}
 
-function startTrain(t){currentTheme=t;gid('trainTitle').textContent=TITLE[t];go('ecranTrain');var els=elsTrain();els.help.textContent=HELP[t];quizStart([t],true,els);}
+function _resumeKey(t){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;return 'resume_'+e+'_'+nom+'_'+t;}
+function resumeSave(){if(!Q.guided)return;try{localStorage.setItem(_resumeKey(currentTheme),JSON.stringify({a:Q.answered,c:Q.correct,s:Q.score}));}catch(_){}}
+function resumeClear(t){try{localStorage.removeItem(_resumeKey(t||currentTheme));}catch(_){}}
+function startTrain(t){
+  currentTheme=t;gid('trainTitle').textContent='Entra\u00eenement \u2014 '+TITLE[t];go('ecranTrain');
+  var els=elsTrain();els.help.textContent=HELP[t];
+  var saved=null;try{var _rs=localStorage.getItem(_resumeKey(t));if(_rs)saved=JSON.parse(_rs);}catch(_){}
+  var sl=(typeof serieLen==='function')?serieLen():(typeof BRIQUE!=='undefined'&&BRIQUE&&BRIQUE[t])?BRIQUE[t].serie:8;
+  if(saved&&saved.a>0&&saved.a<sl){
+    els.card.style.display='block';if(els.result)els.result.style.display='none';
+    els.prog.innerHTML='Tu avais fait <b>'+saved.a+'\u00a0/\u00a0'+sl+'</b> questions \u00b7 \u2705 '+saved.c+' correctes.';
+    els.text.innerHTML='<div style="text-align:center;padding:8px 0;font-size:1.05rem"><b>Reprendre o\u00f9 tu t\u2019\u00e9tais arr\u00eat\u00e9\u00a0?</b></div>';
+    els.opts.innerHTML='';els.opts.style.display='flex';els.ansrow.style.display='none';
+    if(els.work)els.work.style.display='none';els.feed.textContent='';if(els.stars)els.stars.textContent='';if(els.next)els.next.style.display='none';
+    if(els.casc){els.casc.style.display='none';els.casc.innerHTML='';}
+    Q.locked=true;Q.cur=null;Q.cats=[];Q.guided=true;Q.els=els;
+    var b1=document.createElement('button');b1.className='opt';b1.innerHTML='\u25b6\ufe0f Reprendre (question '+(saved.a+1)+'\u00a0/\u00a0'+sl+')';
+    b1.onclick=function(){quizStart(THEME_CATS[t],true,els);Q.answered=saved.a;Q.correct=saved.c;Q.score=saved.s;quizScore();quizNext();};
+    els.opts.appendChild(b1);
+    var b2=document.createElement('button');b2.className='opt';b2.innerHTML='\ud83d\udd04 Nouvelle s\u00e9rie (repartir de z\u00e9ro)';
+    b2.onclick=function(){resumeClear(t);quizStart(THEME_CATS[t],true,els);};
+    els.opts.appendChild(b2);
+  } else {resumeClear(t);quizStart(THEME_CATS[t],true,els);}
+}
 function trainDone(){var t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}var idx=ORDER.indexOf(t);if(idx<ORDER.length-1){var nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{updateMap();go('accueil');}}
 
 document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(!gid('kcPanel').hidden)return;if(!gid('ecranTrain').classList.contains('active'))return;var nx=gid('tq_next');if(nx&&nx.style.display!=='none'){quizNext();return;}if(!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});

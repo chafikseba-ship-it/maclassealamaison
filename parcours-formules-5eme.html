@@ -488,8 +488,8 @@ button,input{touch-action:manipulation}
 <div class="kc-panel" id="kcPanel" hidden>
   <div class="kc-solar"></div>
   <div class="kc-brand">
-    <span class="kc-ti">TI</span>
-    <span class="kc-model">Collège Plus Solaire</span>
+    <span class="kc-ti">Calc</span>
+    <span class="kc-model">Collège +</span>
     <button class="kc-x" onclick="kcToggle()">✕</button>
   </div>
   <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
@@ -717,7 +717,30 @@ function quizResolve(ok,correctTxt){Q.locked=true;Q.total++;const e=Q.els;
 function confettis(){const cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];
   for(let i=0;i<24;i++){const d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';
     document.body.appendChild(d);const fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout(()=>d.remove(),fall);}}
-function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entraînement — '+TITLE[t];go('ecranTrain');const els=elsTrain();els.help.textContent=HELP[t];quizStart(THEME_CATS[t],REQUIRED,true,els);}
+function _resumeKey(t){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;return 'resume_'+e+'_'+nom+'_'+t;}
+function resumeSave(){if(!Q.guided)return;try{localStorage.setItem(_resumeKey(currentTheme),JSON.stringify({a:Q.answered,c:Q.correct,s:Q.score}));}catch(_){}}
+function resumeClear(t){try{localStorage.removeItem(_resumeKey(t||currentTheme));}catch(_){}}
+function startTrain(t){
+  currentTheme=t;gid('trainTitle').textContent='Entra\u00eenement \u2014 '+TITLE[t];go('ecranTrain');
+  var els=elsTrain();els.help.textContent=HELP[t];
+  var saved=null;try{var _rs=localStorage.getItem(_resumeKey(t));if(_rs)saved=JSON.parse(_rs);}catch(_){}
+  var sl=(typeof BRIQUE!=='undefined'&&BRIQUE&&BRIQUE[t])?BRIQUE[t].serie:8;
+  if(saved&&saved.a>0&&saved.a<sl){
+    els.card.style.display='block';if(els.result)els.result.style.display='none';
+    els.prog.innerHTML='Tu avais fait <b>'+saved.a+'\u00a0/\u00a0'+sl+'</b> questions \u00b7 \u2705 '+saved.c+' correctes.';
+    els.text.innerHTML='<div style="text-align:center;padding:8px 0;font-size:1.05rem"><b>Reprendre o\u00f9 tu t\u2019\u00e9tais arr\u00eat\u00e9\u00a0?</b></div>';
+    els.opts.innerHTML='';els.opts.style.display='flex';els.ansrow.style.display='none';
+    if(els.work)els.work.style.display='none';els.feed.textContent='';if(els.stars)els.stars.textContent='';if(els.next)els.next.style.display='none';
+    if(els.casc){els.casc.style.display='none';els.casc.innerHTML='';}
+    Q.locked=true;Q.cur=null;Q.cats=[];Q.guided=true;Q.els=els;
+    var b1=document.createElement('button');b1.className='opt';b1.innerHTML='\u25b6\ufe0f Reprendre (question '+(saved.a+1)+'\u00a0/\u00a0'+sl+')';
+    b1.onclick=function(){quizStart(THEME_CATS[t],true,els);Q.answered=saved.a;Q.correct=saved.c;Q.score=saved.s;quizScore();quizNext();};
+    els.opts.appendChild(b1);
+    var b2=document.createElement('button');b2.className='opt';b2.innerHTML='\ud83d\udd04 Nouvelle s\u00e9rie (repartir de z\u00e9ro)';
+    b2.onclick=function(){resumeClear(t);quizStart(THEME_CATS[t],true,els);};
+    els.opts.appendChild(b2);
+  } else {resumeClear(t);quizStart(THEME_CATS[t],true,els);}
+}
 function trainDone(){const t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}const idx=ORDER.indexOf(t);
   if(idx<ORDER.length-1){const nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{try{suiviEnvoi('Terminé','','');}catch(_){}unlocked.arene=true;updateMap();go('arene');}}
 function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';const cats=cat==='mix'?ORDER.slice():[cat];quizStart(cats,0,false,elsArene());}
