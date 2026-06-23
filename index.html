@@ -123,7 +123,7 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 
   <div id="map"></div>
 
-  <p class="foot"><span id="idgreet"></span><br>Touche une tuile pour commencer.<br><span class="reslink" onclick="idReset()">Changer d'élève</span></p>
+  <p class="foot"><span id="idgreet"></span><br>Touche une tuile pour commencer.<br><span class="reslink" onclick="idReset()">Changer d'élève</span> · <a href="tableau-bord-eleve.html" style="font-family:'Fredoka';font-weight:700;color:var(--violet,#A78BC4);text-decoration:none">📊 Mon tableau de bord</a></p>
 </div>
 
 <script>
@@ -160,6 +160,9 @@ const PARCOURS=[
   {emoji:'🔷', titre:'Figures usuelles',          soustitre:"Reconnaître & décrire",          niveau:'5ème', couleur:'violet', fichier:'parcours-figures-5eme.html'},
   {emoji:'📐', titre:'Formules d\'aires & volumes', soustitre:"Aires et volumes",              niveau:'5ème', couleur:'teal',   fichier:'parcours-formules-5eme.html'},
   {emoji:'📏', titre:'Conversions', soustitre:"Le parcours des conversions",   niveau:'5ème', couleur:'or',     fichier:'parcours-aires-volumes-5eme.html'},
+  /* --- Je rentre en 2nde --- */
+  {emoji:'ℝ',  titre:'Ensembles de nombres',        soustitre:"ℕ ℤ ℚ ℝ — appartenance ∈ ∉ — inclusion ⊂",         niveau:'2nde', couleur:'violet', fichier:'parcours-ensembles-2nde.html'},
+  {emoji:'📏', titre:'Intervalles & valeur absolue', soustitre:"[a,b] ]a,b[ — |x| distance à 0 — inégalités",        niveau:'2nde', couleur:'teal',   fichier:'parcours-intervalles-2nde.html'},
   /* --- DNB blancs 3ème --- */
   {emoji:'⚡', titre:'Automatismes',           soustitre:"Calcul rapide — entraînement au brevet",      niveau:'3ème', couleur:'or',     fichier:'parcours-automatismes-3eme.html',       type:'dnb'},
   {emoji:'🔢', titre:'Nombres & Calcul',       soustitre:"DNB blanc — 2 exercices tirés aléatoirement", niveau:'3ème', couleur:'bleu',   fichier:'dnb-blanc-nombres-calcul.html',         type:'dnb'},
@@ -199,7 +202,7 @@ function backLink(label, fn){
   return a;
 }
 
-const LEVELS=['3ème','5ème','6ème'];
+const LEVELS=['2nde','3ème','5ème','6ème'];
 
 function buildLevelChooser(){
   mapWrap.innerHTML='';
@@ -208,8 +211,8 @@ function buildLevelChooser(){
   var grid=document.createElement('div');grid.className='map';
   LEVELS.forEach(function(niv){
     if(!PARCOURS.some(function(p){return p.niveau===niv;}))return;
-    var c=COUL[niv==='3ème'?'teal':niv==='5ème'?'violet':'vert'];
-    var emoji=niv==='3ème'?'🎓':niv==='5ème'?'📘':'📗';
+    var c=COUL[niv==='2nde'?'rouge':niv==='3ème'?'teal':niv==='5ème'?'violet':'vert'];
+    var emoji=niv==='2nde'?'🚀':niv==='3ème'?'🎓':niv==='5ème'?'📘':'📗';
     var a=document.createElement('a');a.className='etape';a.href='javascript:void(0)';
     a.onclick=function(){chooseLevel(niv);};
     a.innerHTML='<div class="num" style="background:'+c[0]+';box-shadow:0 5px 0 '+c[1]+'">'+emoji+'</div>'

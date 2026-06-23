@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon tableau de bord</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#FFC93C;--or-bas:#E0A41E;--vert:#8BC34A;--vert-bas:#5E9426;
+  --orange:#FF8A4C;--orange-bas:#E0672E;--teal:#46BECB;--teal-bas:#2E8A98;
+  --violet:#A78BC4;--violet-bas:#7E61A1;--rouge:#EF5D60;--rouge-bas:#c43e41;
+  --bleu:#4FA3D1;--bleu-bas:#2f7ba8;
+  --bois:#5C3D2E;--bois-clair:#8a6650;--creme:#FFF4DC;--blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18),0 14px 22px rgba(92,61,46,.12);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
+  background:linear-gradient(160deg,#F0EEFF 0%,#E4DAFF 55%,#D4C4FF 100%);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 80px;position:relative;z-index:1}
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.4;z-index:0}
+.b1{width:200px;height:200px;background:#C8B8FF;top:-50px;left:-60px}
+.b2{width:160px;height:160px;background:#B0EEFF;bottom:30px;right:-50px}
+.b3{width:130px;height:130px;background:#FFD4B8;top:45%;left:-55px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.back{background:var(--blanc);color:var(--bois);border:none;border-radius:14px;width:48px;height:48px;
+  font-size:1.5rem;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;font-family:'Fredoka'}
+.back:active{transform:translateY(4px);box-shadow:0 1px 0 #e7d3a8}
+.card{background:var(--blanc);border-radius:26px;padding:22px;box-shadow:var(--ombre);margin:14px 0}
+/* Hero */
+.hero{text-align:center;padding:22px 16px 10px}
+.hero .coin{font-size:3rem;line-height:1;filter:drop-shadow(0 5px 0 rgba(92,61,46,.15))}
+.hero h1{font-size:2.2rem;margin:.1em 0;color:var(--bois)}
+.hero .sub{font-size:1rem;color:var(--bois-clair);font-weight:700;max-width:520px;margin:4px auto 0}
+/* Summary pills */
+.summary{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:14px 0}
+.spill{background:var(--blanc);border-radius:18px;padding:14px 20px;text-align:center;box-shadow:var(--ombre);flex:1;min-width:120px;max-width:180px}
+.spill .num{font-family:'Fredoka';font-weight:700;font-size:2.2rem;line-height:1;color:var(--violet)}
+.spill .lbl{font-size:.82rem;font-weight:700;color:var(--bois-clair);margin-top:3px}
+.spill.ok .num{color:var(--vert-bas)}
+.spill.prog .num{color:var(--teal-bas)}
+/* Level headers */
+.niv-head{display:flex;align-items:center;gap:10px;margin:22px 0 8px}
+.niv-badge{font-family:'Fredoka';font-weight:700;font-size:.9rem;color:#fff;padding:5px 14px;border-radius:30px}
+.niv-line{flex:1;height:2px;background:#e7d3a8;border-radius:2px}
+/* Parcours rows */
+.prow{display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:20px;
+  background:var(--blanc);box-shadow:0 4px 0 rgba(92,61,46,.10),0 6px 14px rgba(92,61,46,.07);
+  margin:8px 0;border:3px solid transparent;cursor:pointer;transition:transform .1s,border-color .1s;text-decoration:none;color:var(--bois)}
+.prow:hover{transform:translateY(-2px)}
+.prow:active{transform:translateY(1px)}
+.prow.done{border-color:var(--vert)}
+.prow.started{border-color:var(--or)}
+.prow .ico{flex:0 0 46px;height:46px;border-radius:14px;display:grid;place-items:center;
+  font-family:'Fredoka';font-weight:700;font-size:1.4rem;color:#fff}
+.prow .info{flex:1;min-width:0}
+.prow .info .titre{font-size:1rem;font-family:'Fredoka';font-weight:700;margin:0 0 4px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow .info .prog-bar{height:8px;background:#f0e8d0;border-radius:6px;overflow:hidden;margin-top:5px}
+.prow .info .prog-fill{height:100%;border-radius:6px;transition:width .4s ease}
+.prow .info .prog-txt{font-size:.78rem;font-weight:700;color:var(--bois-clair);margin-top:3px}
+.prow .badge{font-family:'Fredoka';font-weight:700;font-size:1.3rem;flex:0 0 auto}
+/* Couleurs ico */
+.ic-violet{background:var(--violet);box-shadow:0 4px 0 var(--violet-bas)}
+.ic-teal{background:var(--teal);box-shadow:0 4px 0 var(--teal-bas)}
+.ic-vert{background:var(--vert);box-shadow:0 4px 0 var(--vert-bas)}
+.ic-orange{background:var(--orange);box-shadow:0 4px 0 var(--orange-bas)}
+.ic-bleu{background:var(--bleu);box-shadow:0 4px 0 var(--bleu-bas)}
+.ic-rouge{background:var(--rouge);box-shadow:0 4px 0 var(--rouge-bas)}
+.ic-or{background:var(--or);box-shadow:0 4px 0 var(--or-bas)}
+/* Vide */
+.empty{text-align:center;color:var(--bois-clair);font-weight:700;font-size:.95rem;padding:18px 0}
+/* Btn */
+.btn{font-family:'Fredoka';font-weight:600;font-size:1rem;color:#fff;border:none;border-radius:16px;
+  padding:12px 20px;cursor:pointer;background:var(--violet);box-shadow:0 5px 0 var(--violet-bas);
+  display:inline-flex;align-items:center;gap:8px;transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--violet-bas)}
+.btn.teal{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
+.mid{text-align:center;margin:14px 0}
+@media(max-width:480px){
+  .wrap{padding:14px 12px 70px}
+  .hero h1{font-size:1.8rem}.hero .coin{font-size:2.5rem}
+  .card{padding:15px;border-radius:20px}
+  .prow{gap:10px;padding:11px 13px}
+  .prow .ico{flex:0 0 40px;height:40px;font-size:1.2rem;border-radius:12px}
+  .prow .info .titre{font-size:.9rem}
+  .spill{padding:11px 14px}.spill .num{font-size:1.8rem}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="wrap">
+
+<div class="topbar">
+  <button class="back" onclick="location.href='index.html'">←</button>
+  <h2 style="font-family:'Fredoka';font-size:1.4rem;margin:0">Mon tableau de bord</h2>
+</div>
+
+<div class="hero">
+  <div class="coin">📊</div>
+  <h1 id="heroNom">Mon parcours</h1>
+  <p class="sub" id="heroClasse">Classe —</p>
+</div>
+
+<!-- Résumé global -->
+<div class="summary" id="summary"></div>
+
+<!-- Contenu par niveau -->
+<div id="content"></div>
+
+<div class="mid" style="margin-top:24px">
+  <button class="btn teal" onclick="location.href='index.html'">🏠 Retour aux parcours</button>
+</div>
+
+</div>
+<script>
+var ELEVE='',CLASSE='';
+try{ELEVE=localStorage.getItem('kc_eleve')||'';CLASSE=localStorage.getItem('kc_classe')||'';}catch(_){}
+
+document.getElementById('heroNom').textContent=ELEVE||'Élève';
+document.getElementById('heroClasse').textContent=CLASSE?('Classe : '+CLASSE):'—';
+
+/* ===== LISTE DES PARCOURS (nom = SUIVI.nom, total = nb thèmes) ===== */
+var PARCOURS=[
+  /* --- 6ème --- */
+  {emoji:'📐',titre:'Aires & Volumes',nom:'Longueur',total:5,niveau:'6ème',coul:'vert',fichier:'parcours-aires-volumes-6eme.html'},
+  {emoji:'🎯',titre:'Priorités opératoires',nom:'Priorités opératoires 6ème',total:5,niveau:'6ème',coul:'violet',fichier:'parcours-priorites-calculs-6eme.html'},
+  /* --- 5ème --- */
+  {emoji:'🌡️',titre:'Nombres relatifs',nom:'Nombres relatifs 5ème',total:5,niveau:'5ème',coul:'bleu',fichier:'parcours-nombres-relatifs-5eme.html'},
+  {emoji:'⬡', titre:'Parallélogramme',nom:'Parallélogramme 5ème',total:5,niveau:'5ème',coul:'teal',fichier:'parcours-parallelogramme-5eme.html'},
+  {emoji:'➗',titre:'Fractions',nom:'Fractions 5ème',total:5,niveau:'5ème',coul:'violet',fichier:'parcours-fractions-5eme.html'},
+  {emoji:'🔷',titre:'Figures usuelles',nom:'Figures usuelles & propriétés',total:5,niveau:'5ème',coul:'violet',fichier:'parcours-figures-5eme.html'},
+  {emoji:'📐',titre:"Formules d'aires & volumes",nom:"Formules d'aires & volumes",total:5,niveau:'5ème',coul:'teal',fichier:'parcours-formules-5eme.html'},
+  {emoji:'📏',titre:'Conversions',nom:'Conversions 5ème',total:3,niveau:'5ème',coul:'or',fichier:'parcours-aires-volumes-5eme.html'},
+  /* --- 3ème --- */
+  {emoji:'🎲',titre:'Probabilités',nom:'Probabilités',total:6,niveau:'3ème',coul:'violet',fichier:'parcours-probabilites-3eme.html'},
+  {emoji:'📐',titre:'Aires & Volumes',nom:'Aires & Volumes',total:3,niveau:'3ème',coul:'teal',fichier:'parcours-aires-volumes-3eme.html'},
+  {emoji:'📈',titre:'Fonctions',nom:'Fonctions 3ème',total:6,niveau:'3ème',coul:'orange',fichier:'parcours-fonctions-3eme.html'},
+  {emoji:'🔤',titre:'Calcul littéral',nom:'Calcul littéral',total:5,niveau:'3ème',coul:'bleu',fichier:'parcours-calcul-litteral-3eme.html'},
+  {emoji:'📐',titre:'Thalès',nom:'Thalès',total:6,niveau:'3ème',coul:'vert',fichier:'parcours-thales-3eme.html'},
+  {emoji:'📊',titre:'Statistiques',nom:'Statistiques',total:6,niveau:'3ème',coul:'rouge',fichier:'parcours-statistiques-3eme.html'},
+  {emoji:'🔺',titre:'Trigonométrie',nom:'Trigonométrie',total:4,niveau:'3ème',coul:'or',fichier:'parcours-trigonometrie-3eme.html'},
+  {emoji:'🔢',titre:'Arithmétique',nom:'Arithmétique 3ème',total:6,niveau:'3ème',coul:'bleu',fichier:'parcours-arithmetique-3eme.html'},
+  {emoji:'🔟',titre:'Puissances',nom:'Puissances & Écriture scientifique',total:6,niveau:'3ème',coul:'teal',fichier:'parcours-puissances-3eme.html'},
+  {emoji:'⚖️',titre:'Équations',nom:'Équations',total:5,niveau:'3ème',coul:'rouge',fichier:'parcours-equations-3eme.html'},
+  {emoji:'🧊',titre:'Espaces & Solides',nom:'Espaces & Solides',total:6,niveau:'3ème',coul:'vert',fichier:'parcours-espaces-solides-3eme.html'},
+  {emoji:'🔄',titre:'Transformations',nom:'Transformations 3ème',total:5,niveau:'3ème',coul:'orange',fichier:'parcours-transformations-3eme.html'},
+  /* --- 2nde --- */
+  {emoji:'ℝ', titre:'Ensembles de nombres',nom:'Ensembles 2nde',total:3,niveau:'2nde',coul:'violet',fichier:'parcours-ensembles-2nde.html'},
+  {emoji:'📏',titre:'Intervalles & valeur absolue',nom:'Intervalles 2nde',total:3,niveau:'2nde',coul:'teal',fichier:'parcours-intervalles-2nde.html'},
+  {emoji:'📈',titre:'Fonctions',nom:'Fonctions 2nde',total:5,niveau:'2nde',coul:'orange',fichier:'parcours-fonctions-2nde.html'},
+  {emoji:'🔣',titre:'Calcul algébrique',nom:'Calcul algébrique 2nde',total:5,niveau:'2nde',coul:'bleu',fichier:'parcours-calcul-algebrique-2nde.html'}
+];
+
+/* ===== LECTURE PROGRESSION ===== */
+function getProgress(nom){
+  try{
+    var key='prog_'+ELEVE+'_'+nom;
+    var raw=localStorage.getItem(key);
+    if(!raw)return null;
+    var o=JSON.parse(raw);
+    if(!o||!o.d)return null;
+    var keys=Object.keys(o.d);
+    if(!keys.length)return null;
+    var done=keys.filter(function(k){return o.d[k]===true;}).length;
+    return {done:done,total:keys.length};
+  }catch(_){return null;}
+}
+
+/* ===== RENDU ===== */
+var NIV_ORDER=['6ème','5ème','3ème','2nde'];
+var NIV_COLOR={
+  '6ème':'#8BC34A','5ème':'#46BECB','3ème':'#A78BC4','2nde':'#4FA3D1'
+};
+var COUL_CLASS={
+  violet:'ic-violet',teal:'ic-teal',vert:'ic-vert',orange:'ic-orange',
+  bleu:'ic-bleu',rouge:'ic-rouge',or:'ic-or'
+};
+var FILL_COLOR={
+  violet:'var(--violet)',teal:'var(--teal)',vert:'var(--vert)',orange:'var(--orange)',
+  bleu:'var(--bleu)',rouge:'var(--rouge)',or:'var(--or)'
+};
+
+var totalParcours=0,totalStarted=0,totalDone=0,totalThemesDone=0,totalThemes=0;
+
+function render(){
+  var content=document.getElementById('content');
+  content.innerHTML='';
+
+  NIV_ORDER.forEach(function(niv){
+    var list=PARCOURS.filter(function(p){return p.niveau===niv;});
+    if(!list.length)return;
+
+    var head=document.createElement('div');
+    head.className='niv-head';
+    head.innerHTML='<div class="niv-badge" style="background:'+NIV_COLOR[niv]+'">'+niv+'</div><div class="niv-line"></div>';
+    content.appendChild(head);
+
+    list.forEach(function(p){
+      totalParcours++;
+      var prog=getProgress(p.nom);
+      totalThemes+=p.total;
+
+      var row=document.createElement('a');
+      row.href=p.fichier;
+      row.className='prow';
+
+      var done=0,pct=0,label='',badge='▶';
+      if(prog){
+        done=prog.done;
+        var realTotal=prog.total||p.total;
+        pct=Math.round(done/realTotal*100);
+        totalThemesDone+=done;
+        if(done===realTotal){
+          totalDone++;totalStarted++;
+          row.classList.add('done');
+          badge='✅';
+          label=realTotal+' / '+realTotal+' thèmes — Validé !';
+        } else if(done>0){
+          totalStarted++;
+          row.classList.add('started');
+          badge='🔥';
+          label=done+' / '+realTotal+' thèmes';
+        } else {
+          label='0 / '+realTotal+' thèmes — Pas encore commencé';
+        }
+      } else {
+        label='0 / '+p.total+' thèmes — Pas encore commencé';
+      }
+
+      row.innerHTML=
+        '<div class="ico '+COUL_CLASS[p.coul]+'">'+p.emoji+'</div>'+
+        '<div class="info">'+
+          '<div class="titre">'+p.titre+'</div>'+
+          '<div class="prog-bar"><div class="prog-fill" style="width:'+pct+'%;background:'+FILL_COLOR[p.coul]+'"></div></div>'+
+          '<div class="prog-txt">'+label+'</div>'+
+        '</div>'+
+        '<div class="badge">'+badge+'</div>';
+
+      content.appendChild(row);
+    });
+  });
+}
+
+function renderSummary(){
+  var pct=totalThemes>0?Math.round(totalThemesDone/totalThemes*100):0;
+  var s=document.getElementById('summary');
+  s.innerHTML=
+    '<div class="spill ok">'+
+      '<div class="num">'+totalDone+'</div>'+
+      '<div class="lbl">Parcours<br>validés</div>'+
+    '</div>'+
+    '<div class="spill prog">'+
+      '<div class="num">'+totalStarted+'</div>'+
+      '<div class="lbl">Parcours<br>commencés</div>'+
+    '</div>'+
+    '<div class="spill">'+
+      '<div class="num" style="color:var(--violet)">'+totalThemesDone+'</div>'+
+      '<div class="lbl">Thèmes<br>réussis</div>'+
+    '</div>'+
+    '<div class="spill">'+
+      '<div class="num" style="color:var(--or-bas)">'+pct+'%</div>'+
+      '<div class="lbl">Progression<br>globale</div>'+
+    '</div>';
+}
+
+render();
+renderSummary();
+</script>
+</body>
+</html>

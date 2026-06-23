@@ -4,7 +4,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nombres relatifs — 5ème</title>
+<title>Ensembles de nombres — 2nde</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
@@ -130,13 +130,6 @@ button,input{touch-action:manipulation}
 .cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
 .cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
 .cverify{margin-top:10px}
-
-.cfnum{font-size:1.1rem;line-height:1.2;color:var(--bois);display:flex;align-items:center;gap:3px;padding:1px 5px;justify-content:center}
-
-.cfden{font-size:1.1rem;line-height:1.2;color:var(--bois);display:flex;align-items:center;gap:3px;padding:1px 5px;justify-content:center}
-
-
-.cblank.mini{font-size:1rem;width:54px}
 .kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
   background:#1e2328;color:#9aab7e;font-size:1.5rem;cursor:pointer;box-shadow:0 6px 0 #0a0c0e,0 10px 18px rgba(0,0,0,.35);transition:transform .1s;border:2px solid #383e47}
 .kc-fab:active{transform:translateY(4px)}
@@ -163,26 +156,6 @@ button,input{touch-action:manipulation}
 .kc-key.act{background:#8b1a1a;color:#ffcccc;box-shadow:0 3px 0 #4a0a0a}
 .kc-key.nde{background:#2d3440;color:#f5c542;font-size:.8rem}
 .kc-key.eq{background:#003280;color:#fff;box-shadow:0 3px 0 #001840}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .figbox{margin:8px auto 4px;text-align:center}
 .steps{list-style:none;padding:0;margin:8px 0;counter-reset:st}
 .steps li{position:relative;padding:8px 8px 8px 42px;margin:6px 0;background:var(--blanc);border-radius:12px;box-shadow:0 3px 0 rgba(92,61,46,.1);font-weight:700;color:var(--bois)}
@@ -206,7 +179,6 @@ button,input{touch-action:manipulation}
 .mkey.fn{background:#eef6f8;color:var(--teal-bas)}
 .mkey.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas);font-size:1rem}
 .mkey.nl{background:var(--violet);color:#fff;box-shadow:0 4px 0 var(--violet-bas);font-size:.82rem}
-/* lecon par etapes */
 .lex-step{display:none}
 .lex-step.active{display:block;animation:pop .3s ease}
 .lex-bubble{background:var(--creme);border:3px solid var(--or-bas);border-radius:20px;padding:14px 18px;margin:10px 0;font-family:'Fredoka';font-weight:700;font-size:1.1rem;color:var(--bois);line-height:1.5}
@@ -220,15 +192,7 @@ button,input{touch-action:manipulation}
 .tab-v th{background:var(--teal);color:#fff;font-family:'Fredoka';font-weight:700;padding:10px 14px;border-radius:10px;font-size:1rem}
 .tab-v td{background:var(--creme);font-family:'Fredoka';font-weight:700;padding:10px 14px;border-radius:10px;font-size:1.05rem;text-align:center}
 .tab-v td.ans{background:var(--bleu);color:#fff}
-
-/* QCM signe */
-.sign-btns{display:flex;gap:14px;justify-content:center;margin:16px 0}
-.sign-btn{font-family:'Fredoka';font-weight:700;font-size:2rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);border-radius:18px;padding:12px 28px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;transition:transform .08s}
-.sign-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
-.sign-btn.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
-.sign-btn.bad{background:var(--orange);color:#fff;border-color:var(--orange-bas);box-shadow:0 5px 0 var(--orange-bas)}
 </style>
-
 </head>
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
@@ -238,218 +202,314 @@ button,input{touch-action:manipulation}
 <section id="accueil" class="screen active">
   <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
   <div class="hero">
-    <div class="coin">🌡️➖</div>
-    <h1>Nombres relatifs — 5ème</h1>
-    <p class="sub">Positif, négatif, comparer, additionner, soustraire. Valide chaque thème pour débloquer le suivant !</p>
+    <div class="coin">🔢</div>
+    <h1>Ensembles de nombres — 2nde</h1>
+    <p class="sub">ℕ, ℤ, ℚ, ℝ — intervalles — valeur absolue. Les notations essentielles pour la seconde !</p>
   </div>
   <div class="map">
-    <div class="etape e1" id="mapReconn" onclick="tapTheme('reconn')">
-      <div class="num">🌡️</div><div class="txt"><h3>1 · Reconnaître & repérer</h3><p>Positif, négatif, valeur absolue, opposé</p></div><div class="status">▶</div>
+    <div class="etape e1" id="mapEnsembles" onclick="tapTheme('ensembles')">
+      <div class="num">ℝ</div><div class="txt"><h3>1 · Les ensembles ℕ ℤ ℚ ℝ</h3><p>Définitions, hiérarchie, exemples</p></div><div class="status">▶</div>
     </div>
-    <div class="etape e2" id="mapComparer" onclick="tapTheme('comparer')">
-      <div class="num">📏</div><div class="txt"><h3>2 · Comparer</h3><p>Ordre sur la droite des nombres</p></div><div class="status">🔒</div>
+    <div class="etape e2" id="mapAppartenance" onclick="tapTheme('appartenance')">
+      <div class="num">∈</div><div class="txt"><h3>2 · Appartenance ∈ ∉</h3><p>Classer un nombre dans son ensemble</p></div><div class="status">▶</div>
     </div>
-    <div class="etape e3" id="mapAdditionner" onclick="tapTheme('additionner')">
-      <div class="num">➕</div><div class="txt"><h3>3 · Additionner</h3><p>Règles des signes pour l'addition</p></div><div class="status">🔒</div>
+    <div class="etape e3" id="mapIntervalles" onclick="tapTheme('intervalles')">
+      <div class="num">[ ]</div><div class="txt"><h3>3 · Intervalles</h3><p>Crochets, infini, traduction en inégalités</p></div><div class="status">▶</div>
     </div>
-    <div class="etape e4" id="mapSoustraire" onclick="tapTheme('soustraire')">
-      <div class="num">✂️</div><div class="txt"><h3>4 · Soustraire</h3><p>Soustraire = ajouter l'opposé</p></div><div class="status">🔒</div>
+    <div class="etape e4" id="mapAbsolu" onclick="tapTheme('absolu')">
+      <div class="num">|x|</div><div class="txt"><h3>4 · Valeur absolue</h3><p>Distance à 0, résoudre |x| = k</p></div><div class="status">▶</div>
     </div>
-    <div class="etape e5" id="mapProblemes" onclick="tapTheme('problemes')">
-      <div class="num">🌍</div><div class="txt"><h3>5 · Problèmes</h3><p>Températures, altitudes, comptes</p></div><div class="status">🔒</div>
+    <div class="etape e5" id="mapInclusion" onclick="tapTheme('inclusion')">
+      <div class="num">⊂</div><div class="txt"><h3>5 · Inclusion ⊂</h3><p>ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ — schémas de Venn</p></div><div class="status">▶</div>
     </div>
     <div class="etape e6" id="mapArene" onclick="tapArene()">
-      <div class="num" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Tout mélangé — entraînement libre</p></div><div class="status">🔒</div>
+      <div class="num" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Tout mélangé — entraînement libre</p></div><div class="status">▶</div>
     </div>
   </div>
 </section>
 
-<!-- LEÇON RECONNAÎTRE -->
-<section id="expReconn" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>🌡️ Reconnaître & repérer</h2></div>
-  <div id="rpl_step0" class="lex-step active">
+<!-- LEÇON ENSEMBLES -->
+<section id="expEnsembles" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>ℝ Les ensembles ℕ ℤ ℚ ℝ</h2></div>
+
+  <div id="ens_step0" class="lex-step active">
     <div class="card">
       <span class="tag" style="background:var(--violet)">La leçon — étape 1 sur 3</span>
-      <div class="lex-bubble">🌡️ Un <b>nombre relatif</b> est un nombre avec un signe :<br>
-      <ul style="margin:8px 0;padding-left:20px">
-        <li><b>positif</b> si &gt; 0 : +5, +12, +0,3…</li>
-        <li><b>négatif</b> si &lt; 0 : −3, −8, −0,7…</li>
-        <li><b>nul</b> si = 0</li>
-      </ul>
+      <div class="lex-bubble">
+        Il existe <b>4 grands ensembles de nombres</b>, du plus petit au plus grand :<br><br>
+        <b>ℕ</b> = {0, 1, 2, 3, 4, …} — les <b>entiers naturels</b> (positifs ou nuls)<br>
+        <b>ℤ</b> = {…, −2, −1, 0, 1, 2, …} — les <b>entiers relatifs</b> (positifs et négatifs)<br>
+        <b>ℚ</b> = fractions a/b (a et b entiers, b ≠ 0) — les <b>rationnels</b><br>
+        <b>ℝ</b> = tous les réels (y compris √2, π) — les <b>réels</b>
       </div>
-      <div class="lex-row">
-        <div class="lex-pill accent">−8°C → négatif</div>
-        <div class="lex-pill lvert">+1200 m → positif</div>
-        <div class="lex-pill lorange">0 € → nul</div>
+      <div class="mid">
+        <svg width="280" height="160" viewBox="0 0 280 160" style="max-width:100%">
+          <ellipse cx="140" cy="80" rx="130" ry="70" fill="#ffd9a0" stroke="#E0A41E" stroke-width="2"/>
+          <ellipse cx="140" cy="80" rx="95" ry="50" fill="#BCE29A" stroke="#5E9426" stroke-width="2"/>
+          <ellipse cx="140" cy="80" rx="60" ry="32" fill="#B8E4F9" stroke="#2f7ba8" stroke-width="2"/>
+          <ellipse cx="140" cy="80" rx="30" ry="16" fill="#d9c4f0" stroke="#7E61A1" stroke-width="2"/>
+          <text x="140" y="84" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="14" fill="#5C3D2E">ℕ</text>
+          <text x="180" y="76" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="13" fill="#2f7ba8">ℤ</text>
+          <text x="218" y="72" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="13" fill="#5E9426">ℚ</text>
+          <text x="258" y="68" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="13" fill="#E0672E">ℝ</text>
+        </svg>
       </div>
+      <p class="note">ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ : chaque ensemble est inclus dans le suivant !</p>
     </div>
-    <div class="mid"><button class="btn violet" onclick="rplNext(1)">Suivant →</button></div>
+    <div class="mid"><button class="btn violet" onclick="ensNext(1)">Suivant →</button></div>
   </div>
-  <div id="rpl_step1" class="lex-step">
+
+  <div id="ens_step1" class="lex-step">
     <div class="card">
       <span class="tag" style="background:var(--teal)">La leçon — étape 2 sur 3</span>
-      <div class="lex-bubble">📏 La <b>valeur absolue</b> = distance à 0 (toujours positive ou nulle).<br><br>
-      On note |a|. |−3| = 3. |+5| = 5. |0| = 0.
+      <div class="lex-bubble">
+        Un nombre dans ℕ est <b>aussi</b> dans ℤ, ℚ et ℝ !<br>
+        Exemple avec <b>3</b> :
       </div>
-      <div class="mid"><div class="formule">|−7| = 7 &nbsp;·&nbsp; |+4| = 4 &nbsp;·&nbsp; |0| = 0</div></div>
+      <div class="lex-row">
+        <div class="lex-pill lviolet">3 ∈ ℕ</div>
+        <div class="lex-pill accent">3 ∈ ℤ</div>
+        <div class="lex-pill lvert">3 ∈ ℚ</div>
+        <div class="lex-pill lorange">3 ∈ ℝ</div>
+      </div>
+      <div class="lex-bubble" style="margin-top:10px">
+        En revanche, <b>−5</b> :<br>
+        −5 ∉ ℕ &nbsp;(pas dans les naturels)<br>
+        −5 ∈ ℤ &nbsp;(entier relatif ✓)<br>
+        −5 ∈ ℚ &nbsp;(−5/1 est une fraction ✓)<br>
+        −5 ∈ ℝ &nbsp;(tout entier est réel ✓)
+      </div>
     </div>
-    <div class="mid"><button class="btn teal" onclick="rplNext(2)">Suivant →</button></div>
+    <div class="mid"><button class="btn teal" onclick="ensNext(2)">Suivant →</button></div>
   </div>
-  <div id="rpl_step2" class="lex-step">
+
+  <div id="ens_step2" class="lex-step">
     <div class="card">
       <span class="tag" style="background:var(--orange)">La leçon — étape 3 sur 3</span>
-      <div class="lex-bubble">🔄 L'<b>opposé</b> de a est −a. On change juste le signe !<br><br>
-      Opposé de −4 = +4. Opposé de +7 = −7. Opposé de 0 = 0.
+      <div class="lex-bubble">
+        Les <b>irrationnels</b> sont dans ℝ mais <b>pas</b> dans ℚ !<br><br>
+        √2 ≈ 1,4142… (ne s'écrit pas comme fraction a/b) → √2 ∈ ℝ, √2 ∉ ℚ<br>
+        π ≈ 3,1415… → π ∈ ℝ, π ∉ ℚ
       </div>
-      <div class="lex-row">
-        <div class="lex-pill lviolet">opposé(−3) = +3</div>
-        <div class="lex-pill lorange">opposé(+8) = −8</div>
-      </div>
+      <table class="tab-v">
+        <tr><th>Nombre</th><th>ℕ</th><th>ℤ</th><th>ℚ</th><th>ℝ</th></tr>
+        <tr><td>5</td><td class="ans">✓</td><td class="ans">✓</td><td class="ans">✓</td><td class="ans">✓</td></tr>
+        <tr><td>−3</td><td>✗</td><td class="ans">✓</td><td class="ans">✓</td><td class="ans">✓</td></tr>
+        <tr><td>1/2</td><td>✗</td><td>✗</td><td class="ans">✓</td><td class="ans">✓</td></tr>
+        <tr><td>√2</td><td>✗</td><td>✗</td><td>✗</td><td class="ans">✓</td></tr>
+      </table>
     </div>
-    <div class="mid"><button class="btn orange" onclick="startTrain('reconn')">🚀 Je m'entraîne !</button></div>
+    <div class="mid"><button class="btn orange" onclick="startTrain('ensembles')">🚀 Je m'entraîne !</button></div>
   </div>
 </section>
 
-<!-- LEÇON COMPARER -->
-<section id="expComparer" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>📏 Comparer des nombres relatifs</h2></div>
-  <div id="cmp2_step0" class="lex-step active">
+<!-- LEÇON APPARTENANCE -->
+<section id="expAppartenance" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>∈ Appartenance ∈ ∉</h2></div>
+
+  <div id="app_step0" class="lex-step active">
     <div class="card">
-      <span class="tag" style="background:var(--teal)">La leçon — étape 1 sur 3</span>
-      <div class="lex-bubble">📐 Sur la droite des nombres, plus on va à <b>droite</b>, plus le nombre est <b>grand</b>.<br><br>
-      Tout nombre <b>positif</b> est plus grand que 0, qui est plus grand que tout nombre <b>négatif</b>.
+      <span class="tag" style="background:var(--teal)">La leçon — étape 1 sur 2</span>
+      <div class="lex-bubble">
+        <b>∈</b> se lit « appartient à » &nbsp;|&nbsp; <b>∉</b> se lit « n'appartient pas à »<br><br>
+        <b>Exemples :</b><br>
+        −3 ∈ ℤ &nbsp;(−3 est un entier relatif ✓)<br>
+        −3 ∉ ℕ &nbsp;(−3 est négatif, pas dans ℕ ✗)<br>
+        1/2 ∈ ℚ &nbsp;(c'est une fraction ✓)<br>
+        1/2 ∉ ℤ &nbsp;(pas un entier ✗)<br>
+        √2 ∈ ℝ &nbsp;(c'est un réel ✓)<br>
+        √2 ∉ ℚ &nbsp;(irrationnel ✗)
       </div>
-      <div class="mid"><div class="formule">… −3 &lt; −1 &lt; 0 &lt; 2 &lt; 5 …</div></div>
     </div>
-    <div class="mid"><button class="btn teal" onclick="cmpNext2(1)">Suivant →</button></div>
+    <div class="mid"><button class="btn teal" onclick="appNext(1)">Suivant →</button></div>
   </div>
-  <div id="cmp2_step1" class="lex-step">
+
+  <div id="app_step1" class="lex-step">
     <div class="card">
-      <span class="tag" style="background:var(--orange)">La leçon — étape 2 sur 3</span>
-      <div class="lex-bubble">❄️ Entre deux nombres <b>négatifs</b> : le plus proche de 0 est le plus grand !<br><br>
-      −2 &gt; −5 car −2 est plus proche de 0 que −5.
+      <span class="tag" style="background:var(--orange)">La leçon — étape 2 sur 2</span>
+      <div class="lex-bubble">
+        🗺️ <b>Méthode pour classer un nombre :</b>
       </div>
-      <div class="lex-row">
-        <div class="lex-pill lorange">−1 &gt; −10</div>
-        <div class="lex-pill accent">−3 &gt; −8</div>
-        <div class="lex-pill lvert">−0,5 &gt; −4</div>
-      </div>
+      <ul class="steps">
+        <li>Est-ce un entier ≥ 0 ? → Il est dans <b>ℕ</b> (et aussi ℤ, ℚ, ℝ)</li>
+        <li>Est-ce un entier négatif ? → Il est dans <b>ℤ\ℕ</b> (et aussi ℚ, ℝ)</li>
+        <li>Est-ce une fraction a/b (non entier) ? → Il est dans <b>ℚ\ℤ</b> (et aussi ℝ)</li>
+        <li>Est-ce √2, π, etc. ? → Il est dans <b>ℝ\ℚ</b> seulement</li>
+      </ul>
     </div>
-    <div class="mid"><button class="btn orange" onclick="cmpNext2(2)">Suivant →</button></div>
-  </div>
-  <div id="cmp2_step2" class="lex-step">
-    <div class="card">
-      <span class="tag" style="background:var(--vert)">La leçon — étape 3 sur 3</span>
-      <div class="lex-bubble">🎯 <b>Règle pratique :</b><br>
-      • Tout positif &gt; 0 &gt; tout négatif<br>
-      • Deux positifs : le plus grand en valeur absolue est le plus grand<br>
-      • Deux négatifs : le plus grand en valeur absolue est le <b>plus petit</b> !
-      </div>
-    </div>
-    <div class="mid"><button class="btn vert" onclick="startTrain('comparer')">🚀 Je m'entraîne !</button></div>
+    <div class="mid"><button class="btn orange" onclick="startTrain('appartenance')">🚀 Je m'entraîne !</button></div>
   </div>
 </section>
 
-<!-- LEÇON ADDITIONNER -->
-<section id="expAdditionner" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>➕ Additionner des nombres relatifs</h2></div>
-  <div id="add_step0" class="lex-step active">
+<!-- LEÇON INTERVALLES -->
+<section id="expIntervalles" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>[ ] Intervalles</h2></div>
+
+  <div id="int_step0" class="lex-step active">
     <div class="card">
       <span class="tag" style="background:var(--orange)">La leçon — étape 1 sur 3</span>
-      <div class="lex-bubble">🤝 <b>Même signe</b> : on additionne les valeurs absolues et on garde le signe.<br><br>
-      (+3) + (+5) = <b>+8</b><br>
-      (−3) + (−5) = <b>−8</b>
+      <div class="lex-bubble">
+        Un <b>intervalle</b> est un ensemble de réels entre deux bornes.<br><br>
+        <b>[a ; b]</b> : a <b>inclus</b>, b <b>inclus</b> → a ≤ x ≤ b<br>
+        <b>]a ; b[</b> : a <b>exclu</b>, b <b>exclu</b> → a &lt; x &lt; b<br>
+        <b>[a ; b[</b> : a inclus, b exclu → a ≤ x &lt; b<br>
+        <b>]a ; b]</b> : a exclu, b inclus → a &lt; x ≤ b
       </div>
-      <div class="mid"><div class="formule">(−6) + (−2) → même signe → −(6+2) = −8</div></div>
-    </div>
-    <div class="mid"><button class="btn orange" onclick="addNext(1)">Suivant →</button></div>
-  </div>
-  <div id="add_step1" class="lex-step">
-    <div class="card">
-      <span class="tag" style="background:var(--teal)">La leçon — étape 2 sur 3</span>
-      <div class="lex-bubble">⚖️ <b>Signes différents</b> : on soustrait les valeurs absolues et on garde le signe du plus grand (en valeur absolue).<br><br>
-      (+7) + (−3) = <b>+4</b> (7 &gt; 3, signe de +7)<br>
-      (−7) + (+3) = <b>−4</b> (7 &gt; 3, signe de −7)
+      <div class="mid">
+        <svg width="280" height="60" viewBox="0 0 280 60" style="max-width:100%">
+          <line x1="20" y1="30" x2="260" y2="30" stroke="#5C3D2E" stroke-width="2"/>
+          <line x1="80" y1="30" x2="200" y2="30" stroke="#46BECB" stroke-width="4"/>
+          <circle cx="80" cy="30" r="7" fill="#46BECB" stroke="#2E8A98" stroke-width="2"/>
+          <circle cx="200" cy="30" r="7" fill="white" stroke="#2E8A98" stroke-width="2"/>
+          <text x="80" y="52" text-anchor="middle" font-family="Fredoka" font-size="13" fill="#5C3D2E">a</text>
+          <text x="200" y="52" text-anchor="middle" font-family="Fredoka" font-size="13" fill="#5C3D2E">b</text>
+          <text x="140" y="18" text-anchor="middle" font-family="Fredoka" font-size="12" fill="#2E8A98">[a ; b[</text>
+        </svg>
       </div>
+      <p class="note">Crochet fermé [ ] = borne incluse (point plein) · Crochet ouvert ] [ = borne exclue (cercle vide)</p>
     </div>
-    <div class="mid"><button class="btn teal" onclick="addNext(2)">Suivant →</button></div>
+    <div class="mid"><button class="btn orange" onclick="intNext(1)">Suivant →</button></div>
   </div>
-  <div id="add_step2" class="lex-step">
-    <div class="card">
-      <span class="tag" style="background:var(--vert)">La leçon — étape 3 sur 3</span>
-      <div class="lex-bubble">🧮 <b>Exemples guidés :</b><br>
-      (−5) + (−9) = ? → même signe → −(5+9) = <b>−14</b><br>
-      (+8) + (−3) = ? → signes diff, |8|&gt;|3| → +(8−3) = <b>+5</b><br>
-      (−6) + (+10) = ? → signes diff, |10|&gt;|6| → +(10−6) = <b>+4</b>
-      </div>
-    </div>
-    <div class="mid"><button class="btn vert" onclick="startTrain('additionner')">🚀 Je m'entraîne !</button></div>
-  </div>
-</section>
 
-<!-- LEÇON SOUSTRAIRE -->
-<section id="expSoustraire" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>✂️ Soustraire des nombres relatifs</h2></div>
-  <div id="sou_step0" class="lex-step active">
+  <div id="int_step1" class="lex-step">
     <div class="card">
-      <span class="tag" style="background:var(--vert)">La leçon — étape 1 sur 2</span>
-      <div class="lex-bubble">🔑 <b>Soustraire = ajouter l'opposé</b><br><br>
-      a − b = a + (−b)<br><br>
-      (+5) − (+3) = (+5) + (−3) = +2<br>
-      (−4) − (−2) = (−4) + (+2) = −2
-      </div>
-      <div class="mid"><div class="formule">a − b = a + (−b)</div></div>
-    </div>
-    <div class="mid"><button class="btn vert" onclick="souNext(1)">Suivant →</button></div>
-  </div>
-  <div id="sou_step1" class="lex-step">
-    <div class="card">
-      <span class="tag" style="background:var(--bleu)">La leçon — étape 2 sur 2</span>
-      <div class="lex-bubble">⚠️ <b>Cas piège :</b> soustraire un négatif = additionner un positif !<br><br>
-      (+3) − (−5) = (+3) + (<b>+5</b>) = <b>+8</b><br>
-      (−2) − (−7) = (−2) + (<b>+7</b>) = <b>+5</b>
+      <span class="tag" style="background:var(--violet)">La leçon — étape 2 sur 3</span>
+      <div class="lex-bubble">
+        Les intervalles peuvent être <b>infinis</b> :<br><br>
+        <b>]−∞ ; a]</b> : tous les réels ≤ a &nbsp;(−∞ est toujours exclu !)<br>
+        <b>[a ; +∞[</b> : tous les réels ≥ a<br>
+        <b>]−∞ ; +∞[</b> = <b>ℝ</b> : tous les réels
       </div>
       <div class="lex-row">
-        <div class="lex-pill lorange">− (−a) = + a</div>
-        <div class="lex-pill lvert">Deux − font un +</div>
+        <div class="lex-pill lviolet">x ≤ 3 → x ∈ ]−∞ ; 3]</div>
+        <div class="lex-pill accent">x > −2 → x ∈ ]−2 ; +∞[</div>
+      </div>
+      <div class="lex-bubble" style="background:#fff0e2;border-color:var(--orange-bas)">
+        ⚠️ On écrit toujours <b>]−∞</b> et <b>+∞[</b> avec des crochets ouverts — jamais [−∞ ou +∞]
       </div>
     </div>
-    <div class="mid"><button class="btn bleu" onclick="startTrain('soustraire')">🚀 Je m'entraîne !</button></div>
+    <div class="mid"><button class="btn violet" onclick="intNext(2)">Suivant →</button></div>
+  </div>
+
+  <div id="int_step2" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--vert)">La leçon — étape 3 sur 3</span>
+      <div class="lex-bubble">
+        🎯 <b>Traduction intervalle ↔ inégalités :</b>
+      </div>
+      <table class="tab-v">
+        <tr><th>Intervalle</th><th>Inégalité</th></tr>
+        <tr><td>[−3 ; 5]</td><td class="ans">−3 ≤ x ≤ 5</td></tr>
+        <tr><td>]2 ; 7[</td><td class="ans">2 &lt; x &lt; 7</td></tr>
+        <tr><td>[0 ; +∞[</td><td class="ans">x ≥ 0</td></tr>
+        <tr><td>]−∞ ; −1[</td><td class="ans">x &lt; −1</td></tr>
+      </table>
+    </div>
+    <div class="mid"><button class="btn vert" onclick="startTrain('intervalles')">🚀 Je m'entraîne !</button></div>
   </div>
 </section>
 
-<!-- LEÇON PROBLÈMES -->
-<section id="expProblemes" class="screen">
-  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>🌍 Problèmes avec relatifs</h2></div>
-  <div id="prb_step0" class="lex-step active">
+<!-- LEÇON VALEUR ABSOLUE -->
+<section id="expAbsolu" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>|x| Valeur absolue</h2></div>
+
+  <div id="abs_step0" class="lex-step active">
+    <div class="card">
+      <span class="tag" style="background:var(--vert)">La leçon — étape 1 sur 2</span>
+      <div class="lex-bubble">
+        <b>|x|</b> = la <b>distance</b> de x à 0 sur la droite numérique.<br><br>
+        |x| = x si x ≥ 0 &nbsp;(ex : |3| = 3)<br>
+        |x| = −x si x &lt; 0 &nbsp;(ex : |−4| = −(−4) = 4)<br>
+        <b>|x| ≥ 0 toujours !</b>
+      </div>
+      <div class="mid">
+        <svg width="280" height="70" viewBox="0 0 280 70" style="max-width:100%">
+          <line x1="20" y1="35" x2="260" y2="35" stroke="#5C3D2E" stroke-width="2"/>
+          <line x1="140" y1="28" x2="140" y2="42" stroke="#5C3D2E" stroke-width="2"/>
+          <line x1="80" y1="28" x2="80" y2="42" stroke="#5C3D2E" stroke-width="2"/>
+          <line x1="200" y1="28" x2="200" y2="42" stroke="#5C3D2E" stroke-width="2"/>
+          <text x="140" y="58" text-anchor="middle" font-family="Fredoka" font-size="13" fill="#5C3D2E">0</text>
+          <text x="80" y="58" text-anchor="middle" font-family="Fredoka" font-size="13" fill="#EF5D60">−4</text>
+          <text x="200" y="58" text-anchor="middle" font-family="Fredoka" font-size="13" fill="#5E9426">4</text>
+          <path d="M80,22 Q140,8 200,22" fill="none" stroke="#46BECB" stroke-width="2" marker-end="url(#arr)"/>
+          <text x="140" y="14" text-anchor="middle" font-family="Fredoka" font-size="11" fill="#2E8A98">|−4| = |4| = 4</text>
+        </svg>
+      </div>
+      <div class="lex-row">
+        <div class="lex-pill lvert">|7| = 7</div>
+        <div class="lex-pill lorange">|−7| = 7</div>
+        <div class="lex-pill accent">|0| = 0</div>
+      </div>
+    </div>
+    <div class="mid"><button class="btn vert" onclick="absNext(1)">Suivant →</button></div>
+  </div>
+
+  <div id="abs_step1" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--bleu)">La leçon — étape 2 sur 2</span>
+      <div class="lex-bubble">
+        🎯 <b>Résoudre |x| = k :</b><br><br>
+        Si k &gt; 0 : |x| = k → <b>x = k ou x = −k</b> &nbsp;(deux solutions)<br>
+        Si k = 0 : |x| = 0 → <b>x = 0</b> &nbsp;(une solution)<br>
+        Si k &lt; 0 : |x| = −1 → <b>pas de solution</b> (|x| ≥ 0 toujours)
+      </div>
+      <div class="lex-row">
+        <div class="lex-pill lviolet">|x| = 5 → x = 5 ou x = −5</div>
+        <div class="lex-pill accent">|x| = 0 → x = 0</div>
+      </div>
+    </div>
+    <div class="mid"><button class="btn bleu" onclick="startTrain('absolu')">🚀 Je m'entraîne !</button></div>
+  </div>
+</section>
+
+<!-- LEÇON INCLUSION -->
+<section id="expInclusion" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>⊂ Inclusion</h2></div>
+
+  <div id="inc_step0" class="lex-step active">
     <div class="card">
       <span class="tag" style="background:var(--bleu)">La leçon — étape 1 sur 2</span>
-      <div class="lex-bubble">🌍 Les nombres relatifs modélisent des situations réelles :<br>
-      <ul style="margin:8px 0;padding-left:20px">
-        <li>🌡️ <b>Températures</b> : −3°C, +15°C</li>
-        <li>⛰️ <b>Altitudes</b> : −50 m (sous la mer), +2000 m</li>
-        <li>💳 <b>Comptes</b> : −30 € (dette), +80 € (crédit)</li>
-        <li>⚽ <b>Goal average</b> : −4 (buts encaissés en excès)</li>
-      </ul>
+      <div class="lex-bubble">
+        <b>E ⊂ F</b> se lit « E est inclus dans F ».<br>
+        Cela signifie : <b>tout élément de E est aussi dans F</b>.<br><br>
+        Exemple : ℕ ⊂ ℤ car tout entier naturel (0, 1, 2…) est aussi un entier relatif.
+      </div>
+      <div class="mid">
+        <svg width="220" height="120" viewBox="0 0 220 120" style="max-width:100%">
+          <ellipse cx="110" cy="60" rx="100" ry="52" fill="#ffd9a0" stroke="#E0A41E" stroke-width="2"/>
+          <ellipse cx="95" cy="62" rx="55" ry="35" fill="#d9c4f0" stroke="#7E61A1" stroke-width="2"/>
+          <text x="95" y="67" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="16" fill="#5C3D2E">E</text>
+          <text x="168" y="50" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="16" fill="#5C3D2E">F</text>
+          <text x="110" y="110" text-anchor="middle" font-family="Fredoka" font-size="13" fill="#7E61A1">E ⊂ F</text>
+        </svg>
+      </div>
+      <div class="lex-row">
+        <div class="lex-pill lviolet">ℕ ⊂ ℤ</div>
+        <div class="lex-pill accent">ℤ ⊂ ℚ</div>
+        <div class="lex-pill lvert">ℚ ⊂ ℝ</div>
       </div>
     </div>
-    <div class="mid"><button class="btn bleu" onclick="prbNext(1)">Suivant →</button></div>
+    <div class="mid"><button class="btn bleu" onclick="incNext(1)">Suivant →</button></div>
   </div>
-  <div id="prb_step1" class="lex-step">
+
+  <div id="inc_step1" class="lex-step">
     <div class="card">
-      <span class="tag" style="background:var(--teal)">La leçon — étape 2 sur 2</span>
-      <div class="lex-bubble">🔍 <b>Méthode :</b><br>
-      1. Repérer ce qui <b>augmente</b> (+) et ce qui <b>diminue</b> (−)<br>
-      2. Écrire l'opération<br>
-      3. Appliquer les règles des signes<br><br>
-      Ex : température −3°C, baisse de 5°C → (−3) + (−5) = −8°C
+      <span class="tag" style="background:var(--rouge)">La leçon — étape 2 sur 2</span>
+      <div class="lex-bubble">
+        🚫 <b>Contre-exemples d'inclusions fausses :</b><br><br>
+        ℤ ⊄ ℕ &nbsp;car −1 ∈ ℤ mais −1 ∉ ℕ<br>
+        ℚ ⊄ ℤ &nbsp;car 1/2 ∈ ℚ mais 1/2 ∉ ℤ<br>
+        ℝ ⊄ ℚ &nbsp;car √2 ∈ ℝ mais √2 ∉ ℚ
+      </div>
+      <div class="lex-bubble" style="background:#e8f7e0;border-color:var(--vert-bas)">
+        ✅ <b>À retenir :</b> ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ &nbsp;— dans ce sens seulement !
       </div>
     </div>
-    <div class="mid"><button class="btn teal" onclick="startTrain('problemes')">🚀 Je m'entraîne !</button></div>
+    <div class="mid"><button class="btn" style="background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)" onclick="startTrain('inclusion')">🚀 Je m'entraîne !</button></div>
   </div>
 </section>
 
-<!-- ARÈNE -->
+<!-- ÉCRAN ENTRAÎNEMENT -->
 <section id="ecranTrain" class="screen">
   <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
   <div class="card" id="tq_card">
@@ -482,16 +542,17 @@ button,input{touch-action:manipulation}
   </div>
 </section>
 
+<!-- ARÈNE -->
 <section id="arene" class="screen">
-  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>⚔️ L'arène des nombres relatifs !</h2></div>
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>⚔️ L'arène des ensembles !</h2></div>
   <div class="card" id="areneMenu">
-    <p class="lead" style="text-align:center">Bravo, séquence terminée ! Entraînement libre, sans note.</p>
+    <p class="lead" style="text-align:center">Entraînement libre, sans note. Choisis une catégorie !</p>
     <div class="catgrid">
-      <button class="cat" style="background:var(--violet)" onclick="startArene('reconn')"><span class="ic">🌡️</span>Reconnaître</button>
-      <button class="cat" style="background:var(--teal)" onclick="startArene('comparer')"><span class="ic">📏</span>Comparer</button>
-      <button class="cat" style="background:var(--orange)" onclick="startArene('additionner')"><span class="ic">➕</span>Additionner</button>
-      <button class="cat" style="background:var(--vert)" onclick="startArene('soustraire')"><span class="ic">✂️</span>Soustraire</button>
-      <button class="cat" style="background:var(--bleu)" onclick="startArene('problemes')"><span class="ic">🌍</span>Problèmes</button>
+      <button class="cat" style="background:var(--violet)" onclick="startArene('ensembles')"><span class="ic">ℝ</span>Ensembles ℕℤℚℝ</button>
+      <button class="cat" style="background:var(--teal)" onclick="startArene('appartenance')"><span class="ic">∈</span>Appartenance</button>
+      <button class="cat" style="background:var(--orange)" onclick="startArene('intervalles')"><span class="ic">[ ]</span>Intervalles</button>
+      <button class="cat" style="background:var(--vert)" onclick="startArene('absolu')"><span class="ic">|x|</span>Valeur absolue</button>
+      <button class="cat" style="background:var(--bleu)" onclick="startArene('inclusion')"><span class="ic">⊂</span>Inclusion</button>
       <button class="cat" style="background:var(--rouge)" onclick="startArene('mix')"><span class="ic">🎲</span>Tout mélanger</button>
     </div>
   </div>
@@ -525,264 +586,175 @@ button,input{touch-action:manipulation}
 <div id="kcPanel" class="kc-panel" hidden role="dialog" aria-label="Calculatrice">
   <div class="kc-solar"></div>
   <div class="kc-brand"><span class="kc-ti">TI</span><span class="kc-model">Collège Plus Solaire</span><button class="kc-x" onclick="kcToggle()">✕</button></div>
-
   <div id="kcStdPanel">
     <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
     <div class="kc-keys" id="kcKeys"></div>
   </div>
-  </div>
+</div>
 
 <script>
 /* ===== SUIVI ===== */
-var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Nombres relatifs 5ème'};
-function suiviEnvoi(statut,score,total){if(!SUIVI||!SUIVI.url)return;var el='';var cl='';try{el=localStorage.getItem('kc_eleve')||'';cl=localStorage.getItem('kc_classe')||'';}catch(_){}var fd=new FormData();fd.append(SUIVI.f.eleve,el);fd.append(SUIVI.f.classe,cl);fd.append(SUIVI.f.parcours,SUIVI.nom);fd.append(SUIVI.f.statut,statut);fd.append(SUIVI.f.score,String(score));fd.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',body:fd}).catch(function(){});}
-function suiviSousSection(titre){suiviEnvoi('Sous-section : '+titre,0,0);}
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Ensembles de nombres 2nde'};
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' \u00b7 '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+var SSDONE={};
+function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e2=localStorage.getItem('kc_eleve')||'?',c2=localStorage.getItem('kc_classe')||'?';var co2=(localStorage.getItem('kc_college')||'').trim();if(co2)c2=co2+' \u00b7 '+c2;var b2=new URLSearchParams();b2.append(SUIVI.f.classe,c2);b2.append(SUIVI.f.eleve,e2);b2.append(SUIVI.f.parcours,SUIVI.nom+' \u203a '+label);b2.append(SUIVI.f.statut,'Termin\u00e9');b2.append(SUIVI.f.score,'');b2.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b2.toString()});}catch(_){}}
 
-var EXP={reconn:'expReconn',comparer:'expComparer',additionner:'expAdditionner',soustraire:'expSoustraire',problemes:'expProblemes'};
-var MAPID={reconn:'mapReconn',comparer:'mapComparer',additionner:'mapAdditionner',soustraire:'mapSoustraire',problemes:'mapProblemes'};
-var TITLE={reconn:'Reconnaître & repérer',comparer:'Comparer',additionner:'Additionner',soustraire:'Soustraire',problemes:'Problèmes'};
-var ORDER=['reconn','comparer','additionner','soustraire','problemes'];
+/* ===== ARCHITECTURE ===== */
+var ORDER=['ensembles','appartenance','intervalles','absolu','inclusion'];
+var EXP={ensembles:'expEnsembles',appartenance:'expAppartenance',intervalles:'expIntervalles',absolu:'expAbsolu',inclusion:'expInclusion'};
+var MAPID={ensembles:'mapEnsembles',appartenance:'mapAppartenance',intervalles:'mapIntervalles',absolu:'mapAbsolu',inclusion:'mapInclusion'};
+var TITLE={ensembles:'Les ensembles \u2115 \u2124 \u211a \u211d',appartenance:'Appartenance \u2208 \u2209',intervalles:'Intervalles',absolu:'Valeur absolue |x|',inclusion:'Inclusion \u2282'};
 var HELP={
-  reconn:'Positif si > 0, négatif si < 0. Valeur absolue = distance à 0.',
-  comparer:'Sur la droite, plus on va à droite, plus le nombre est grand. Tout positif > 0 > tout négatif.',
-  additionner:'Même signe : additionner les valeurs absolues, garder le signe. Signes diff : soustraire les valeurs absolues, signe du plus grand.',
-  soustraire:'Soustraire = ajouter l\'opposé. a − b = a + (−b). Deux moins font un plus.',
-  problemes:'Repérer augmentation (+) et diminution (−), écrire l\'opération, appliquer les règles des signes.'
+  ensembles:'\u2115 \u2282 \u2124 \u2282 \u211a \u2282 \u211d. \u2115 entiers naturels, \u2124 entiers relatifs, \u211a rationnels (fractions), \u211d tous les r\u00e9els.',
+  appartenance:'x \u2208 E signifie que x appartient \u00e0 E. x \u2209 E signifie que x n\'appartient pas \u00e0 E.',
+  intervalles:'[a;b] = de a \u00e0 b inclus. ]a;b[ = de a \u00e0 b exclus. ]-\u221e;a] = tous les r\u00e9els \u2264 a.',
+  absolu:'|x| = distance de x \u00e0 0. |x| \u2265 0 toujours. |x| = x si x\u22650, |x| = -x si x<0.',
+  inclusion:'E \u2282 F signifie que tout \u00e9l\u00e9ment de E est aussi dans F. \u2115 \u2282 \u2124 \u2282 \u211a \u2282 \u211d.'
 };
-var GEN={reconn:genReconn,comparer:genComparer,additionner:genAdditionner,soustraire:genSoustraire,problemes:genProblemes};
-var BRIQUE={reconn:{serie:8,seuil:6},comparer:{serie:8,seuil:6},additionner:{serie:8,seuil:6},soustraire:{serie:8,seuil:6},problemes:{serie:8,seuil:6}};
-var THEME_CATS={reconn:['reconn'],comparer:['comparer'],additionner:['additionner'],soustraire:['soustraire'],problemes:['problemes']};
-var CATNOM={reconn:'Reconnaître & repérer',comparer:'Comparer',additionner:'Additionner',soustraire:'Soustraire',problemes:'Problèmes'};
-var unlocked={reconn:true,comparer:true,additionner:true,soustraire:true,problemes:true,arene:true};
-var themeDone={reconn:false,comparer:false,additionner:false,soustraire:false,problemes:false};
-var currentTheme='reconn';
+var BRIQUE={ensembles:{serie:8,seuil:6},appartenance:{serie:8,seuil:6},intervalles:{serie:8,seuil:6},absolu:{serie:8,seuil:6},inclusion:{serie:8,seuil:6}};
+var THEME_CATS={ensembles:['ensembles'],appartenance:['appartenance'],intervalles:['intervalles'],absolu:['absolu'],inclusion:['inclusion']};
+var CATNOM={ensembles:'Ensembles \u2115 \u2124 \u211a \u211d',appartenance:'Appartenance \u2208 \u2209',intervalles:'Intervalles',absolu:'Valeur absolue',inclusion:'Inclusion \u2282'};
+var unlocked={ensembles:true,appartenance:true,intervalles:true,absolu:true,inclusion:true,arene:true};
+var themeDone={ensembles:false,appartenance:false,intervalles:false,absolu:false,inclusion:false};
+var currentTheme='ensembles';
 
 /* ===== UTILITAIRES ===== */
 function gid(x){return document.getElementById(x);}
-function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;var v=parseFloat(s);return isFinite(v)?v:null;}
-function rnd(n){return Math.floor(Math.random()*n);}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
-function rint(mn,mx){return Math.floor(Math.random()*(mx-mn+1))+mn;}
+function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;var v=parseFloat(s);return isFinite(v)?v:null;}
 function serieLen(){return BRIQUE[currentTheme].serie;}
 function seuilFor(){return BRIQUE[currentTheme].seuil;}
+function rnd(n){return Math.floor(Math.random()*n);}
+function rint(a,b){return a+Math.floor(Math.random()*(b-a+1));}
 function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
 
-/* ===== GÉNÉRATEUR THÈME 1 : RECONNAÎTRE ===== */
-function genReconn(){
-  var sub=rnd(3);
-  if(sub===0){
-    // Valeur absolue
-    var a=pick([-9,-8,-7,-6,-5,-4,-3,-2,2,3,4,5,6,7,8,9,10,12,15]);
-    var av=Math.abs(a);
-    return {type:'casc',cat:'reconn',sig:'re0_'+a,
-      text:'Calcule la valeur absolue :<br><b>|'+a+'|</b>',viz:'',
-      steps:[{prompt:'La valeur absolue = distance à 0 (toujours positive).',
-              parts:['|'+a+'| = ',{kind:'num',ans:av,w:70},''],
-              aide:'|'+a+'| = '+av+' (distance entre '+a+' et 0 sur la droite)'}]};
-  } else if(sub===1){
-    // Opposé
-    var b=pick([-12,-9,-7,-5,-4,-3,-2,2,3,4,5,6,8,10,11]);
-    var bopp=-b;
-    return {type:'casc',cat:'reconn',sig:'re1_'+b,
-      text:'Donne l\'opposé de <b>'+b+'</b>',viz:'',
-      steps:[{prompt:'L\'opposé de b est −b (on change le signe).',
-              parts:['Opposé de ('+b+') = ',{kind:'num',ans:bopp,w:70},''],
-              aide:'Opposé de '+b+' = '+bopp+' (on change le signe)'}]};
+/* ===== GÉNÉRATEUR : ENSEMBLES ===== */
+function genEnsembles(){
+  var items=[
+    {num:'−5',opts:['ℕ seulement','ℤ mais pas ℕ','ℚ mais pas ℤ','ℝ mais pas ℚ'],ans:1,explain:'−5 est un entier négatif : il est dans ℤ mais pas dans ℕ (qui ne contient que les entiers ≥ 0).'},
+    {num:'7',opts:['ℕ (et ℤ, ℚ, ℝ)','ℤ mais pas ℕ','ℚ mais pas ℤ','ℝ mais pas ℚ'],ans:0,explain:'7 est un entier naturel : il est dans ℕ, et donc aussi dans ℤ, ℚ et ℝ.'},
+    {num:'3/4',opts:['ℕ seulement','ℤ mais pas ℕ','ℚ mais pas ℤ','ℝ mais pas ℚ'],ans:2,explain:'3/4 est une fraction (rationnel) mais n\'est pas un entier : il est dans ℚ mais pas dans ℤ.'},
+    {num:'√2',opts:['ℕ seulement','ℤ mais pas ℕ','ℚ mais pas ℤ','ℝ mais pas ℚ'],ans:3,explain:'√2 est irrationnel : il ne s\'écrit pas comme fraction. Il est dans ℝ mais pas dans ℚ.'},
+    {num:'0',opts:['ℕ (et ℤ, ℚ, ℝ)','ℤ mais pas ℕ','ℚ mais pas ℤ','ℝ mais pas ℚ'],ans:0,explain:'0 est un entier naturel (ℕ contient 0). Il est donc aussi dans ℤ, ℚ et ℝ.'},
+    {num:'−2/3',opts:['ℕ seulement','ℤ mais pas ℕ','ℚ mais pas ℤ','ℝ mais pas ℚ'],ans:2,explain:'−2/3 est une fraction négative : rationnel mais pas entier → dans ℚ mais pas dans ℤ.'},
+    {num:'π',opts:['ℕ seulement','ℤ mais pas ℕ','ℚ mais pas ℤ','ℝ mais pas ℚ'],ans:3,explain:'π ≈ 3,14159… est irrationnel. Il est dans ℝ mais pas dans ℚ.'},
+    {num:'−√3',opts:['ℕ seulement','ℤ mais pas ℕ','ℚ mais pas ℤ','ℝ mais pas ℚ'],ans:3,explain:'−√3 est irrationnel (négatif). Il est dans ℝ mais pas dans ℚ, ℤ ou ℕ.'},
+    {num:'2,5',opts:['ℕ seulement','ℤ mais pas ℕ','ℚ mais pas ℤ','ℝ mais pas ℚ'],ans:2,explain:'2,5 = 5/2, c\'est un rationnel non entier : dans ℚ mais pas dans ℤ.'},
+    {num:'0,333…',opts:['ℕ seulement','ℤ mais pas ℕ','ℚ mais pas ℤ','ℝ mais pas ℚ'],ans:2,explain:'0,333… = 1/3, c\'est un rationnel (fraction) non entier : dans ℚ mais pas dans ℤ.'},
+    {num:'12',opts:['ℕ (et ℤ, ℚ, ℝ)','ℤ mais pas ℕ','ℚ mais pas ℤ','ℝ mais pas ℚ'],ans:0,explain:'12 est un entier naturel : il est dans ℕ, ℤ, ℚ et ℝ.'},
+    {num:'−8',opts:['ℕ seulement','ℤ mais pas ℕ','ℚ mais pas ℤ','ℝ mais pas ℚ'],ans:1,explain:'−8 est un entier négatif : dans ℤ mais pas dans ℕ.'}
+  ];
+  var item=pick(items);
+  return {type:'qcm',cat:'ensembles',sig:'ens'+item.num,
+    text:'Dans quel ensemble se trouve <b>'+item.num+'</b> ?',
+    opts:item.opts,ans:item.ans,explain:item.explain};
+}
+
+/* ===== GÉNÉRATEUR : APPARTENANCE ===== */
+function genAppartenance(){
+  var items=[
+    {q:'−3 ∈ ℕ',opts:['Vrai','Faux'],ans:1,explain:'−3 est négatif, donc il n\'est pas dans ℕ (entiers naturels ≥ 0).'},
+    {q:'0,5 ∈ ℚ',opts:['Vrai','Faux'],ans:0,explain:'0,5 = 1/2, c\'est un rationnel, donc 0,5 ∈ ℚ.'},
+    {q:'√2 ∈ ℚ',opts:['Vrai','Faux'],ans:1,explain:'√2 est irrationnel, il ne s\'écrit pas comme fraction : √2 ∉ ℚ.'},
+    {q:'5 ∈ ℤ',opts:['Vrai','Faux'],ans:0,explain:'5 est un entier, donc 5 ∈ ℤ (et aussi ℕ, ℚ, ℝ).'},
+    {q:'−1/2 ∈ ℤ',opts:['Vrai','Faux'],ans:1,explain:'−1/2 n\'est pas un entier, donc −1/2 ∉ ℤ.'},
+    {q:'π ∈ ℝ',opts:['Vrai','Faux'],ans:0,explain:'π est un réel (irrationnel), donc π ∈ ℝ.'},
+    {q:'0 ∈ ℕ',opts:['Vrai','Faux'],ans:0,explain:'0 appartient à ℕ (les entiers naturels commencent à 0).'},
+    {q:'−7 ∈ ℤ',opts:['Vrai','Faux'],ans:0,explain:'−7 est un entier relatif négatif, donc −7 ∈ ℤ.'},
+    {q:'3/7 ∈ ℤ',opts:['Vrai','Faux'],ans:1,explain:'3/7 est une fraction non entière, donc 3/7 ∉ ℤ.'},
+    {q:'√4 ∈ ℕ',opts:['Vrai','Faux'],ans:0,explain:'√4 = 2, qui est un entier naturel, donc √4 ∈ ℕ.'},
+    {q:'−√5 ∈ ℚ',opts:['Vrai','Faux'],ans:1,explain:'√5 est irrationnel, donc −√5 ∉ ℚ.'},
+    {q:'2,75 ∈ ℚ',opts:['Vrai','Faux'],ans:0,explain:'2,75 = 11/4, c\'est un rationnel, donc 2,75 ∈ ℚ.'}
+  ];
+  var item=pick(items);
+  return {type:'qcm',cat:'appartenance',sig:'app'+item.q,
+    text:item.q+' — Vrai ou Faux ?',
+    opts:item.opts,ans:item.ans,explain:item.explain};
+}
+
+/* ===== GÉNÉRATEUR : INTERVALLES ===== */
+function genIntervalles(){
+  var items=[
+    {q:'L\'intervalle [−2 ; 5] contient-il −2 ?',opts:['Oui, −2 est inclus','Non, −2 est exclu'],ans:0,explain:'Le crochet [ à gauche signifie que −2 est inclus dans l\'intervalle.'},
+    {q:'Quelle notation représente tous les réels strictement supérieurs à 3 ?',opts:['[3 ; +∞[',']3 ; +∞[',']−∞ ; 3[','[−∞ ; 3]'],ans:1,explain:'x > 3 s\'écrit x ∈ ]3 ; +∞[ (crochet ouvert car 3 exclu).'},
+    {q:'x ∈ ]−1 ; 4[. Quelle inégalité cela représente-t-il ?',opts:['−1 ≤ x ≤ 4','−1 < x < 4','−1 ≤ x < 4','−1 < x ≤ 4'],ans:1,explain:'Les deux crochets sont ouverts ] et [ donc les deux bornes sont exclues : −1 < x < 4.'},
+    {q:'x ∈ [0 ; +∞[. Quelle inégalité cela représente-t-il ?',opts:['x > 0','x ≥ 0','x < 0','x ≤ 0'],ans:1,explain:'Le crochet [ signifie que 0 est inclus, donc x ≥ 0.'},
+    {q:'L\'intervalle ]2 ; 7[ contient-il 7 ?',opts:['Oui, 7 est inclus','Non, 7 est exclu'],ans:1,explain:'Le crochet ] à droite signifie que 7 est exclu de l\'intervalle.'},
+    {q:'Quelle notation représente −3 ≤ x ≤ 8 ?',opts:['[−3 ; 8]',']−3 ; 8[','[−3 ; 8[',']−3 ; 8]'],ans:0,explain:'Les deux bornes sont incluses (≤), donc on utilise des crochets fermés : [−3 ; 8].'},
+    {q:'L\'intervalle ]−∞ ; 5] correspond à quelle inégalité ?',opts:['x < 5','x > 5','x ≤ 5','x ≥ 5'],ans:2,explain:'Le crochet ] à droite signifie que 5 est inclus, donc x ≤ 5.'},
+    {q:'Quelle notation représente x < −1 ?',opts:[']−∞ ; −1[',']−∞ ; −1]','[−1 ; +∞[',']−1 ; +∞['],ans:0,explain:'x < −1 signifie que −1 est exclu (strictement inférieur), donc ]−∞ ; −1[.'},
+    {q:'x ∈ [−4 ; 2[. La borne −4 est-elle incluse ou exclue ?',opts:['Incluse','Exclue'],ans:0,explain:'Le crochet [ à gauche signifie que −4 est incluse dans l\'intervalle.'},
+    {q:'Quelle notation représente tous les réels ?',opts:['[0 ; +∞[','[−∞ ; +∞]',']−∞ ; +∞[','ℚ'],ans:2,explain:'L\'ensemble de tous les réels s\'écrit ]−∞ ; +∞[ = ℝ. On utilise toujours des crochets ouverts avec ±∞.'}
+  ];
+  var item=pick(items);
+  return {type:'qcm',cat:'intervalles',sig:'int'+item.q.slice(0,20),
+    text:item.q,
+    opts:item.opts,ans:item.ans,explain:item.explain};
+}
+
+/* ===== GÉNÉRATEUR : VALEUR ABSOLUE ===== */
+function genAbsolu(){
+  var subtype=rnd(3);
+  if(subtype===0){
+    // Calcul direct |n|
+    var neg=pick([-8,-6,-5,-4,-3,-2,8,6,5,4,3,2]);
+    var abs=Math.abs(neg);
+    return {type:'qcm',cat:'absolu',sig:'abs'+neg,
+      text:'Calcule |'+neg+'|',
+      opts:[String(abs),String(-abs),'0','−'+abs],
+      ans:0,
+      explain:'|'+neg+'| = '+abs+' (distance de '+neg+' à 0 sur la droite numérique).'};
+  } else if(subtype===1){
+    // Plus grande valeur absolue
+    var a=pick([-8,-7,-6,-5]);
+    var b=pick([4,3,2,1]);
+    var c=pick([-3,-2,-1]);
+    var d=pick([6,5,7]);
+    var vals=[a,b,c,d];
+    var maxAbs=vals.reduce(function(m,v){return Math.abs(v)>Math.abs(m)?v:m;},vals[0]);
+    var idx=vals.indexOf(maxAbs);
+    return {type:'qcm',cat:'absolu',sig:'absmax'+a+b,
+      text:'Parmi ces nombres, lequel a la plus grande valeur absolue ?',
+      opts:vals.map(String),
+      ans:idx,
+      explain:'|'+a+'|='+Math.abs(a)+', |'+b+'|='+b+', |'+c+'|='+Math.abs(c)+', |'+d+'|='+d+'. Le plus grand est |'+maxAbs+'|='+Math.abs(maxAbs)+'.'};
   } else {
-    // Valeur absolue + opposé combiné
-    var c=pick([-10,-8,-6,-5,-3,-2,2,4,6,7,9,11]);
-    var cv=Math.abs(c),copp=-c;
-    return {type:'casc',cat:'reconn',sig:'re2_'+c,
-      text:'Pour le nombre <b>'+c+'</b>, calcule sa valeur absolue et son opposé.',viz:'',
-      steps:[
-        {prompt:'Valeur absolue de ('+c+') :',
-         parts:['|'+c+'| = ',{kind:'num',ans:cv,w:70},''],
-         aide:'|'+c+'| = '+cv},
-        {prompt:'Opposé de ('+c+') :',
-         parts:['opposé = ',{kind:'num',ans:copp,w:70},''],
-         aide:'opposé de '+c+' = '+copp}
-      ]};
+    // CASCADE : |x| = k
+    var k=pick([2,3,4,5,6,7,8]);
+    return {
+      type:'casc',cat:'absolu',sig:'abssolve'+k,
+      text:'Résous |x| = '+k,
+      viz:'',
+      steps:[{
+        prompt:'|x| = '+k+' signifie que x est à distance '+k+' de 0. Il y a <b>deux solutions</b>.',
+        parts:['x = ',{kind:'num',ans:k,w:60},' ou x = ',{kind:'num',ans:-k,w:60},''],
+        aide:'|x| = k donne x = k ou x = −k. Ici k = '+k+', donc x = '+k+' ou x = −'+k+'.'
+      }]
+    };
   }
 }
 
-/* ===== GÉNÉRATEUR THÈME 2 : COMPARER ===== */
-function genComparer(){
-  var sub=rnd(3);
-  // Toujours signqcm < = >
-  var a,b,correct,explain;
-  if(sub===0){
-    // un positif vs un négatif
-    a=rint(1,12); b=-rint(1,12);
-    correct='>'; explain='Tout nombre positif est plus grand que tout nombre négatif. '+a+' > '+b+'.';
-  } else if(sub===1){
-    // deux négatifs
-    a=-rint(1,10); b=-rint(1,10);
-    while(a===b){b=-rint(1,10);}
-    correct=Math.abs(a)<Math.abs(b)?'>':'<';
-    explain='Deux négatifs : celui qui a la plus petite valeur absolue est le plus grand. |'+a+'|='+Math.abs(a)+', |'+b+'|='+Math.abs(b)+'. Donc '+a+(correct==='>'?' > ':' < ')+b+'.';
-  } else {
-    // deux positifs ou mêlés
-    a=pick([-8,-5,-3,-1,0,1,3,5,8,10]); b=pick([-8,-5,-3,-1,0,1,3,5,8,10]);
-    while(a===b){b=pick([-8,-5,-3,-1,0,1,3,5,8,10]);}
-    correct=a<b?'<':(a>b?'>':'=');
-    explain=a+' '+correct+' '+b;
-  }
-  return {type:'signqcm',cat:'comparer',sig:'cmp_'+a+'_'+b,
-    text:'Compare ces deux nombres :<br><br><b style="font-size:1.4rem">'+a+'</b> &nbsp;□&nbsp; <b style="font-size:1.4rem">'+b+'</b>',viz:'',
-    options:['<','=','>'],correct:correct,explain:explain};
+/* ===== GÉNÉRATEUR : INCLUSION ===== */
+function genInclusion(){
+  var items=[
+    {q:'ℕ ⊂ ℤ',opts:['Vrai','Faux'],ans:0,explain:'Tout entier naturel est aussi un entier relatif : ℕ ⊂ ℤ est vrai.'},
+    {q:'ℝ ⊂ ℚ',opts:['Vrai','Faux'],ans:1,explain:'Il existe des réels irrationnels (√2, π) qui ne sont pas dans ℚ, donc ℝ ⊄ ℚ.'},
+    {q:'Si x ∈ ℕ, alors x ∈ ℝ',opts:['Vrai','Faux'],ans:0,explain:'ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ, donc tout naturel est aussi un réel.'},
+    {q:'ℤ ⊂ ℕ',opts:['Vrai','Faux'],ans:1,explain:'−1 ∈ ℤ mais −1 ∉ ℕ, donc ℤ ⊄ ℕ.'},
+    {q:'ℚ ⊂ ℝ',opts:['Vrai','Faux'],ans:0,explain:'Tout rationnel est un réel : ℚ ⊂ ℝ est vrai.'},
+    {q:'Si x ∈ ℤ, alors x ∈ ℚ',opts:['Vrai','Faux'],ans:0,explain:'ℤ ⊂ ℚ, donc tout entier relatif est aussi un rationnel.'},
+    {q:'ℝ ⊂ ℤ',opts:['Vrai','Faux'],ans:1,explain:'Par exemple 1/2 ∈ ℝ mais 1/2 ∉ ℤ, donc ℝ ⊄ ℤ.'},
+    {q:'ℕ ⊂ ℚ',opts:['Vrai','Faux'],ans:0,explain:'ℕ ⊂ ℤ ⊂ ℚ, donc ℕ ⊂ ℚ est vrai.'},
+    {q:'ℚ ⊂ ℕ',opts:['Vrai','Faux'],ans:1,explain:'1/2 ∈ ℚ mais 1/2 ∉ ℕ, donc ℚ ⊄ ℕ.'},
+    {q:'Si x ∈ ℝ, alors x ∈ ℚ',opts:['Vrai','Faux'],ans:1,explain:'√2 ∈ ℝ mais √2 ∉ ℚ (irrationnel), donc l\'affirmation est fausse.'}
+  ];
+  var item=pick(items);
+  return {type:'qcm',cat:'inclusion',sig:'inc'+item.q,
+    text:item.q+' — Vrai ou Faux ?',
+    opts:item.opts,ans:item.ans,explain:item.explain};
 }
 
-/* ===== GÉNÉRATEUR THÈME 3 : ADDITIONNER ===== */
-function genAdditionner(){
-  var sub=rnd(3);
-  if(sub===0){
-    // Même signe (négatif + négatif)
-    var a=rint(1,12),b=rint(1,12);
-    var res=-(a+b);
-    return {type:'casc',cat:'additionner',sig:'add0_'+a+'_'+b,
-      text:'Calcule :<br><b>(−'+a+') + (−'+b+')</b>',viz:'',
-      steps:[
-        {prompt:'Même signe (tous les deux négatifs). Additionne les valeurs absolues :',
-         parts:[a+' + '+b+' = ',{kind:'num',ans:a+b,w:70},''],
-         aide:a+' + '+b+' = '+(a+b)},
-        {prompt:'Les deux sont négatifs → résultat négatif :',
-         parts:['(−'+a+') + (−'+b+') = ',{kind:'num',ans:res,w:70},''],
-         aide:'résultat = −'+(a+b)+' = '+res}
-      ]};
-  } else if(sub===1){
-    // Signes différents (grand positif + petit négatif)
-    var big=rint(5,15),small=rint(1,big-1);
-    var signChoice=rnd(2);
-    var aa=signChoice===0?big:-big, bb=signChoice===0?-small:small;
-    var res2=aa+bb;
-    return {type:'casc',cat:'additionner',sig:'add1_'+aa+'_'+bb,
-      text:'Calcule :<br><b>('+aa+') + ('+bb+')</b>',viz:'',
-      steps:[
-        {prompt:'Signes différents. Soustrais les valeurs absolues :',
-         parts:[Math.abs(aa)+' − '+Math.abs(bb)+' = ',{kind:'num',ans:Math.abs(aa)-Math.abs(bb),w:70},''],
-         aide:Math.abs(aa)+' − '+Math.abs(bb)+' = '+(Math.abs(aa)-Math.abs(bb))},
-        {prompt:'On garde le signe du plus grand en valeur absolue ('+aa+') :',
-         parts:['('+aa+') + ('+bb+') = ',{kind:'num',ans:res2,w:70},''],
-         aide:'signe de '+aa+' → résultat = '+res2}
-      ]};
-  } else {
-    // Direct (addition simple)
-    var x=pick([-10,-8,-6,-5,-4,-3,3,4,5,6,8,10]);
-    var y=pick([-8,-6,-5,-3,-2,2,3,5,6,7,9]);
-    var res3=x+y;
-    return {type:'casc',cat:'additionner',sig:'add2_'+x+'_'+y,
-      text:'Calcule :<br><b>('+x+') + ('+y+')</b>',viz:'',
-      steps:[{prompt:'Applique la règle des signes :',
-              parts:['('+x+') + ('+y+') = ',{kind:'num',ans:res3,w:70},''],
-              aide:x+(y>=0?' + ':' − ')+Math.abs(y)+' = '+res3}]};
-  }
-}
-
-/* ===== GÉNÉRATEUR THÈME 4 : SOUSTRAIRE ===== */
-function genSoustraire(){
-  var sub=rnd(3);
-  if(sub===0){
-    // a − (−b) = a + b  (cas piège)
-    var a=rint(1,10),b=rint(1,10);
-    var res=a+b;
-    return {type:'casc',cat:'soustraire',sig:'sou0_'+a+'_'+b,
-      text:'Calcule :<br><b>(+'+a+') − (−'+b+')</b>',viz:'',
-      steps:[
-        {prompt:'Soustraire un négatif = ajouter son opposé :',
-         parts:['(+'+a+') − (−'+b+') = (+'+a+') + (',{kind:'num',ans:b,w:60},')'],
-         aide:'−(−'+b+') = +(+'+b+') → on remplace par + '+b},
-        {prompt:'Calcule l\'addition :',
-         parts:['(+'+a+') + (+'+b+') = ',{kind:'num',ans:res,w:70},''],
-         aide:a+' + '+b+' = '+res}
-      ]};
-  } else if(sub===1){
-    // a − b où b positif (résultat quelconque)
-    var aa=rint(-8,8),bb=rint(1,10);
-    var res2=aa-bb;
-    return {type:'casc',cat:'soustraire',sig:'sou1_'+aa+'_'+bb,
-      text:'Calcule :<br><b>('+aa+') − (+'+bb+')</b>',viz:'',
-      steps:[
-        {prompt:'Soustraire = ajouter l\'opposé :',
-         parts:['('+aa+') − (+'+bb+') = ('+aa+') + (',{kind:'num',ans:-bb,w:70},')'],
-         aide:'opposé de +'+bb+' = −'+bb},
-        {prompt:'Calcule l\'addition :',
-         parts:['('+aa+') + (−'+bb+') = ',{kind:'num',ans:res2,w:70},''],
-         aide:aa+' + (−'+bb+') = '+res2}
-      ]};
-  } else {
-    // (−a) − (−b)
-    var a3=rint(1,12),b3=rint(1,12);
-    var res3=-a3+b3;
-    return {type:'casc',cat:'soustraire',sig:'sou2_'+a3+'_'+b3,
-      text:'Calcule :<br><b>(−'+a3+') − (−'+b3+')</b>',viz:'',
-      steps:[
-        {prompt:'−(−'+b3+') = +'+b3+'. Transforme :',
-         parts:['(−'+a3+') − (−'+b3+') = (−'+a3+') + (',{kind:'num',ans:b3,w:60},')'],
-         aide:'deux moins font un plus : −(−'+b3+') = +'+b3},
-        {prompt:'Calcule :',
-         parts:['(−'+a3+') + (+'+b3+') = ',{kind:'num',ans:res3,w:70},''],
-         aide:'−'+a3+' + '+b3+' = '+res3}
-      ]};
-  }
-}
-
-/* ===== GÉNÉRATEUR THÈME 5 : PROBLÈMES ===== */
-function genProblemes(){
-  var sub=rnd(4);
-  if(sub===0){
-    // Température baisse
-    var t0=rint(-8,5),baisse=rint(2,8);
-    var res=t0-baisse;
-    return {type:'casc',cat:'problemes',sig:'pb0_'+t0+'_'+baisse,
-      text:'🌡️ La température est de <b>'+t0+'°C</b>. Elle baisse de <b>'+baisse+'°C</b>. Quelle est la nouvelle température ?',viz:'',
-      steps:[
-        {prompt:'Baisse = soustraction. Écris l\'opération :',
-         parts:['('+t0+') + (−'+baisse+') = ',{kind:'num',ans:res,w:70},''],
-         aide:t0+' + (−'+baisse+') = '+res}
-      ]};
-  } else if(sub===1){
-    // Plongeur remonte
-    var prof=rint(-20,-6),remonte=rint(2,Math.abs(prof)-1);
-    var res2=prof+remonte;
-    return {type:'casc',cat:'problemes',sig:'pb1_'+prof+'_'+remonte,
-      text:'⛱️ Un plongeur est à <b>'+prof+' m</b>. Il remonte de <b>'+remonte+' m</b>. À quelle profondeur est-il ?',viz:'',
-      steps:[
-        {prompt:'Remonter = ajouter un positif :',
-         parts:['('+prof+') + (+'+remonte+') = ',{kind:'num',ans:res2,w:70},' m'],
-         aide:prof+' + '+remonte+' = '+res2+' m'}
-      ]};
-  } else if(sub===2){
-    // Compte bancaire
-    var solde=rint(-20,30),dep=rint(5,25);
-    var res3=solde-dep;
-    return {type:'casc',cat:'problemes',sig:'pb2_'+solde+'_'+dep,
-      text:'💳 Solde : <b>'+solde+' €</b>. Dépense de <b>'+dep+' €</b>. Nouveau solde ?',viz:'',
-      steps:[
-        {prompt:'Dépense = soustraction :',
-         parts:['('+solde+') + (−'+dep+') = ',{kind:'num',ans:res3,w:70},' €'],
-         aide:solde+' + (−'+dep+') = '+res3+' €'}
-      ]};
-  } else {
-    // Variation de température (deux étapes)
-    var t1=rint(-5,5),h1=rint(2,6),h2=rint(2,6);
-    var signH2=rnd(2)===0?1:-1;
-    var change=h1*signH2;
-    var res4=t1-h1+change;
-    // simpler: just two additions
-    var ta=rint(-6,4),drop=rint(1,5),rise=rint(1,4);
-    var mid=ta-drop,fin=mid+rise;
-    return {type:'casc',cat:'problemes',sig:'pb3_'+ta+'_'+drop+'_'+rise,
-      text:'🌤️ Matin : <b>'+ta+'°C</b>. La nuit baisse de <b>'+drop+'°C</b>, le lendemain matin monte de <b>'+rise+'°C</b>. Température finale ?',viz:'',
-      steps:[
-        {prompt:'Après la baisse nocturne :',
-         parts:['('+ta+') + (−'+drop+') = ',{kind:'num',ans:mid,w:70},'°C'],
-         aide:ta+' + (−'+drop+') = '+mid},
-        {prompt:'Après la remontée :',
-         parts:['('+mid+') + (+'+rise+') = ',{kind:'num',ans:fin,w:70},'°C'],
-         aide:mid+' + '+rise+' = '+fin}
-      ]};
-  }
-}
+var GEN={ensembles:genEnsembles,appartenance:genAppartenance,intervalles:genIntervalles,absolu:genAbsolu,inclusion:genInclusion};
 
 /* ===== MOTEUR QUIZ ===== */
 var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,casc:null,lastText:'',timer:0};
@@ -800,39 +772,30 @@ function quizNext(){clearTimeout(Q.timer);
   var cat,cur,tries=0;do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while((cur.sig||cur.text)===Q.lastText&&tries<8);
   Q.cur=cur;Q.lastText=(cur.sig||cur.text);e.cat.innerHTML=CATNOM[cat]||cat;e.text.innerHTML=cur.text;
   if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
-  if(cur.type==='signqcm'){
-    if(e.work)e.work.style.display='none';e.opts.style.display='none';e.ansrow.style.display='none';
-    renderSignQcm(cur,e);
-  } else if(cur.type==='casc'){
+  if(cur.type==='casc'){
     if(e.work)e.work.style.display='none';e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);
+  } else if(cur.type==='qcm'){
+    cur.options=cur.options||cur.opts;cur.correct=(cur.correct!=null)?cur.correct:cur.ans;
+    if(e.work)e.work.style.display='none';e.ansrow.style.display='none';
+    e.opts.innerHTML='';
+    (cur.options||[]).forEach(function(opt,i){
+      var b=document.createElement('button');b.className='opt';b.innerHTML=opt;
+      b.onclick=(function(idx){return function(){quizPick(idx);};})(i);
+      e.opts.appendChild(b);
+    });
+    e.opts.style.display='flex';
   } else {
     if(e.work)e.work.style.display='block';e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();
   }
   quizScore();}
 
-/* QCM signe < = > */
-function renderSignQcm(cur,e){
-  e.casc.style.display='block';
-  var html='<div class="sign-btns">';
-  ['<','=','>'].forEach(function(s){
-    html+='<button class="sign-btn" onclick="pickSign(\''+s+'\')" data-sign="'+s+'">'+s+'</button>';
-  });
-  html+='</div>';
-  e.casc.innerHTML=html;
-}
-function pickSign(s){
-  if(Q.locked)return;var e=Q.els;
-  var btns=e.casc.querySelectorAll('.sign-btn');
-  btns.forEach(function(b){
-    if(b.dataset.sign===Q.cur.correct)b.classList.add('good');
-    if(b.dataset.sign===s&&s!==Q.cur.correct)b.classList.add('bad');
-    b.disabled=true;
-  });
-  quizResolve(s===Q.cur.correct,Q.cur.explain);
-}
-
 function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='\u00c9cris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La r\u00e9ponse est '+Q.cur.disp+'.');}
-function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'La bonne r\u00e9ponse\u00a0: '+Q.cur.options[Q.cur.correct]+'.');}
+function quizPick(i){if(Q.locked||!Q.cur)return;var e=Q.els;
+  var cur=Q.cur;cur.options=cur.options||cur.opts;cur.correct=(cur.correct!=null)?cur.correct:cur.ans;
+  var btns=[].slice.call(e.opts.children);
+  btns.forEach(function(b,j){b.disabled=true;if(j===cur.correct)b.classList.add('good');});
+  if(i!==cur.correct)btns[i].classList.add('bad');
+  quizResolve(i===cur.correct,'La bonne r\u00e9ponse\u00a0: '+(cur.options[cur.correct]||'')+'.');}
 function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
   if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='\u2705 Bravo\u00a0!'+(Q.cur.explain?'<div class="feedlab">'+Q.cur.explain+'</div>':'');if(e.stars)e.stars.textContent='\u2b50'.repeat(Math.min(Q.streak,5));confettis();}
   else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='\u274c '+correctTxt+(Q.cur.explain&&Q.cur.explain!==correctTxt?'<div class="feedlab">'+Q.cur.explain+'</div>':'');if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
@@ -949,11 +912,11 @@ function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').s
 function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
 
 /* ===== NAVIGATION LEÇONS ===== */
-function rplNext(n){document.querySelectorAll('[id^="rpl_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('rpl_step'+n);if(el)el.classList.add('active');}
-function cmpNext2(n){document.querySelectorAll('[id^="cmp2_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('cmp2_step'+n);if(el)el.classList.add('active');}
-function addNext(n){document.querySelectorAll('[id^="add_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('add_step'+n);if(el)el.classList.add('active');}
-function souNext(n){document.querySelectorAll('[id^="sou_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('sou_step'+n);if(el)el.classList.add('active');}
-function prbNext(n){document.querySelectorAll('[id^="prb_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('prb_step'+n);if(el)el.classList.add('active');}
+function ensNext(n){document.querySelectorAll('[id^="ens_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('ens_step'+n);if(el)el.classList.add('active');}
+function appNext(n){document.querySelectorAll('[id^="app_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('app_step'+n);if(el)el.classList.add('active');}
+function intNext(n){document.querySelectorAll('[id^="int_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('int_step'+n);if(el)el.classList.add('active');}
+function absNext(n){document.querySelectorAll('[id^="abs_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('abs_step'+n);if(el)el.classList.add('active');}
+function incNext(n){document.querySelectorAll('[id^="inc_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('inc_step'+n);if(el)el.classList.add('active');}
 
 document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(!gid('kcPanel').hidden)return;
   var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
@@ -1026,6 +989,7 @@ var KC_ROWS=[
     box.appendChild(rowDiv);
   });
 })();
+
 document.addEventListener('keydown',function(e){if(gid('kcPanel').hidden)return;
   if(e.key==='Enter'){e.preventDefault();kcEq();}else if(e.key==='Escape')kcToggle();
   else if(e.key==='Backspace'){e.preventDefault();kcBack();}

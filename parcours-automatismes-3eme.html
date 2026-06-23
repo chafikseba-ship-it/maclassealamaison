@@ -327,31 +327,16 @@ body{
 </div><!-- /wrap -->
 
 <!-- Calculatrice flottante -->
-<button class="kc-fab" id="kcFab" onclick="kcToggle()" title="Calculatrice">🧮</button>
-<div class="kc-panel" id="kcPanel">
-  <div class="kc-affichage" id="kcAff">0</div>
-  <div class="kc-grille">
-    <button class="kc-btn cl" onclick="kcClear()">C</button>
-    <button class="kc-btn op" onclick="kcOp('back')">⌫</button>
-    <button class="kc-btn op" onclick="kcOp('%')">%</button>
-    <button class="kc-btn op" onclick="kcOp('/')">÷</button>
-    <button class="kc-btn" onclick="kcChiffre('7')">7</button>
-    <button class="kc-btn" onclick="kcChiffre('8')">8</button>
-    <button class="kc-btn" onclick="kcChiffre('9')">9</button>
-    <button class="kc-btn op" onclick="kcOp('*')">×</button>
-    <button class="kc-btn" onclick="kcChiffre('4')">4</button>
-    <button class="kc-btn" onclick="kcChiffre('5')">5</button>
-    <button class="kc-btn" onclick="kcChiffre('6')">6</button>
-    <button class="kc-btn op" onclick="kcOp('-')">−</button>
-    <button class="kc-btn" onclick="kcChiffre('1')">1</button>
-    <button class="kc-btn" onclick="kcChiffre('2')">2</button>
-    <button class="kc-btn" onclick="kcChiffre('3')">3</button>
-    <button class="kc-btn op" onclick="kcOp('+')">+</button>
-    <button class="kc-btn" onclick="kcChiffre('0')" style="grid-column:span 2">0</button>
-    <button class="kc-btn" onclick="kcChiffre('.')">.</button>
-    <button class="kc-btn eg" onclick="kcEgal()">=</button>
+<button class="kc-fab" onclick="kcToggle()" aria-label="Calculatrice">🖩</button>
+<div class="kc-panel" id="kcPanel" hidden>
+  <div class="kc-solar"></div>
+  <div class="kc-brand">
+    <span class="kc-ti">TI</span>
+    <span class="kc-model">Collège Plus Solaire</span>
+    <button class="kc-x" onclick="kcToggle()">✕</button>
   </div>
-  <button class="kc-send" onclick="kcEnvoyer()">Copier le résultat dans la réponse</button>
+  <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
+  <div class="kc-keys" id="kcKeys"></div>
 </div>
 
 <script>
@@ -1717,71 +1702,71 @@ function afficherFin(){
   });
 }
 
-/* =====================================================
-   CALCULATRICE
-===================================================== */
-var kcExpr='';
-var kcNouvel=true;
-
-function kcToggle(){
-  const p=document.getElementById('kcPanel');
-  p.classList.toggle('open');
-}
-
-function kcChiffre(c){
-  if(kcNouvel){kcExpr='';kcNouvel=false;}
-  kcExpr+=c;
-  kcAfficher(kcExpr);
-}
-
-function kcOp(op){
-  if(op==='back'){
-    kcExpr=kcExpr.slice(0,-1)||'0';
-    kcAfficher(kcExpr);
-    return;
+/* ===== CALCULATRICE ===== */
+var kcAns=0;
+function kcEval(expr){
+  var s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-').replace(/R\u00e9p/g,String(kcAns));
+  var toks=[];var i=0;
+  function isD(c){return c>='0'&&c<='9';}
+  var FUNS=['sin','cos','tan','sqrt'];
+  while(i<s.length){
+    var c=s[i];
+    if(isD(c)||c==='.'){var j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
+    if(c==='\u03c0'){toks.push({t:'pi'});i++;continue;}
+    if(c==='\u221a'){toks.push({t:'fn',v:'sqrt'});i++;continue;}
+    var matched=false;
+    for(var fi=0;fi<FUNS.length;fi++){var fn=FUNS[fi];if(s.slice(i,i+fn.length+1)===fn+'('){toks.push({t:'fn',v:fn});i+=fn.length+1;matched=true;break;}}
+    if(matched)continue;
+    if('+-*/^()'.indexOf(c)>=0){toks.push({t:c});i++;continue;}
+    return null;
   }
-  if(op==='%'){
-    try{kcExpr=String(eval(kcExpr)/100);}catch(e){kcExpr='Err';}
-    kcAfficher(kcExpr);
-    kcNouvel=true;
-    return;
-  }
-  kcNouvel=false;
-  kcExpr+=op;
-  kcAfficher(kcExpr);
+  var p=0,err=false;
+  function peek(){return toks[p];}function next(){return toks[p++];}
+  function E(){var v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){var o=next().t;var r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
+  function T(){var v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){var o=next().t;var r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v=v/r;}else v=v*r;}return v;}
+  function U(){var t=peek();if(t&&t.t==='-'){next();return -U();}if(t&&t.t==='+'){next();return U();}if(t&&t.t==='fn'){var fn=next().v;var aa;if(fn==='sqrt'){aa=U();if(err)return 0;if(aa<0){err=true;return 0;}return Math.sqrt(aa);}else{aa=E();if(err)return 0;var cl=next();if(!cl||cl.t!==')'){err=true;return 0;}var rad=aa*Math.PI/180;if(fn==='sin')return Math.round(Math.sin(rad)*1e10)/1e10;if(fn==='cos')return Math.round(Math.cos(rad)*1e10)/1e10;if(fn==='tan'){if(Math.abs(Math.cos(rad))<1e-10){err=true;return 0;}return Math.round(Math.tan(rad)*1e10)/1e10;}}}return Pw();}
+  function Pw(){var bv=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();var ex=U();if(err)return 0;bv=Math.pow(bv,ex);}return bv;}
+  function PR(){var t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='pi')return Math.PI;if(t.t==='('){var v=E();if(err)return 0;var cl=next();if(!cl||cl.t!==')'){err=true;return 0;}return v;}err=true;return 0;}
+  var val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;
 }
-
-function kcEgal(){
-  try{
-    var r=eval(kcExpr.replace(/,/g,'.'));
-    r=Math.round(r*1e10)/1e10;
-    kcExpr=String(r);
-    kcAfficher(kcExpr);
-  }catch(e){
-    kcAfficher('Erreur');
-    kcExpr='';
-  }
-  kcNouvel=true;
-}
-
-function kcClear(){
-  kcExpr='';
-  kcNouvel=true;
-  kcAfficher('0');
-}
-
-function kcAfficher(v){
-  document.getElementById('kcAff').textContent=v||'0';
-}
-
-function kcEnvoyer(){
-  const inp=document.getElementById('num-inp');
-  if(inp&&!inp.disabled){
-    inp.value=kcExpr||document.getElementById('kcAff').textContent;
-    inp.focus();
-  }
-  document.getElementById('kcPanel').classList.remove('open');
-}
+function kcFmt(v){var s=(Math.round(v*1e10)/1e10).toString();return s.replace('-','\u2212').replace('.',',');}
+var kcS='',kcJust=false;
+function kcRender(){document.getElementById('kcExpr').textContent=kcS;var v=kcEval(kcS);document.getElementById('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
+function kcIns(ch){if(kcJust&&/[0-9.,\u03c0(\u221a]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
+function kcClear(){kcS='';kcJust=false;kcRender();}
+function kcBack(){if(kcJust){kcJust=false;kcS='';kcRender();return;}kcS=kcS.slice(0,-1);kcRender();}
+function kcEq(){var v=kcEval(kcS);if(v===null){document.getElementById('kcRes').textContent='Erreur';return;}kcAns=v;kcS=kcFmt(v);kcJust=true;document.getElementById('kcExpr').textContent='';document.getElementById('kcRes').textContent=kcS;}
+function kcToggle(){var p=document.getElementById('kcPanel');p.hidden=!p.hidden;}
+var KC_ROWS=[
+  [{l:'2NDE',a:'',c:'nde'},{l:'\u232b',a:'back',c:'act'},{l:'AC',a:'clr',c:'act'},{l:'ON',a:'',c:'act'}],
+  [{l:'x\u00b2',a:'^2',c:'fn'},{l:'\u221a',a:'\u221a',c:'fn'},{l:'(-)',a:'\u2212',c:'fn'},{l:'R\u00e9p',a:'R\u00e9p',c:'fn'}],
+  [{l:'sin',a:'sin(',c:'fn'},{l:'cos',a:'cos(',c:'fn'},{l:'tan',a:'tan(',c:'fn'},{l:'\u00d710\u02e3',a:'\u00d710^',c:'fn'}],
+  [{l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'}],
+  [{l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'}],
+  [{l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'\u2212',a:'\u2212',c:'op'}],
+  [{l:'0',a:'0',c:'wide2'},{l:',',a:','},{l:'+',a:'+',c:'op'},{l:'=',a:'eq',c:'eq'}]
+];
+(function(){
+  var box=document.getElementById('kcKeys');
+  KC_ROWS.forEach(function(row){
+    var rowDiv=document.createElement('div');rowDiv.className='kc-row';
+    row.forEach(function(k){
+      var b=document.createElement('button');
+      b.className='kc-key'+(k.c?' '+k.c:'');
+      b.textContent=k.l;
+      b.addEventListener('mousedown',function(ev){ev.preventDefault();});
+      b.onclick=function(){
+        if(k.a===''||k.a==='on')return;
+        if(k.a==='clr')kcClear();
+        else if(k.a==='back')kcBack();
+        else if(k.a==='eq')kcEq();
+        else kcIns(k.a);
+      };
+      rowDiv.appendChild(b);
+    });
+    box.appendChild(rowDiv);
+  });
+})();
 </script>
 </body>
 </html>

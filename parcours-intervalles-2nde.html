@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intervalles et valeur absolue — 2nde</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#FFC93C; --or-bas:#E0A41E; --vert:#8BC34A; --vert-bas:#5E9426;
+  --orange:#FF8A4C; --orange-bas:#E0672E; --teal:#46BECB; --teal-bas:#2E8A98;
+  --violet:#A78BC4; --violet-bas:#7E61A1; --rouge:#EF5D60; --rouge-bas:#c43e41;
+  --bleu:#4FA3D1; --bleu-bas:#2f7ba8;
+  --bois:#5C3D2E; --bois-clair:#8a6650; --creme:#FFF4DC; --blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18), 0 14px 22px rgba(92,61,46,.12);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
+  background:linear-gradient(160deg,#EFFFEF 0%,#DCFFDC 55%,#C9F0C9 100%);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 90px;position:relative;z-index:1}
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.45;z-index:0}
+.b1{width:180px;height:180px;background:#C3FFCE;top:-40px;left:-50px}
+.b2{width:140px;height:140px;background:#B0FFD0;bottom:40px;right:-40px}
+.b3{width:120px;height:120px;background:#D4FFD8;top:40%;left:-50px}
+.screen{display:none;animation:pop .35s ease}
+.screen.active{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
+  padding:14px 22px;cursor:pointer;background:var(--or);box-shadow:0 6px 0 var(--or-bas);
+  transition:transform .08s, box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--or-bas)}
+.btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
+.btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
+.btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
+.btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
+.btn.bleu{background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)}
+.btn.rouge{background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)}
+.btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
+.btn:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.back{background:var(--blanc);color:var(--bois);border:none;border-radius:14px;width:48px;height:48px;
+  font-size:1.5rem;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;font-family:'Fredoka'}
+.back:active{transform:translateY(4px);box-shadow:0 1px 0 #e7d3a8}
+.card{background:var(--blanc);border-radius:26px;padding:22px;box-shadow:var(--ombre);margin:16px 0}
+.tag{display:inline-block;font-family:'Fredoka';font-weight:600;color:#fff;padding:5px 14px;border-radius:30px;font-size:.85rem;margin-bottom:8px}
+.hero{text-align:center;padding:26px 16px 8px}
+.hero h1{font-size:2.3rem;line-height:1.05;margin:.1em 0;color:var(--bois)}
+.hero .sub{font-size:1.05rem;color:var(--bois-clair);font-weight:700;max-width:560px;margin:6px auto 0}
+.coin{font-size:3.2rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
+.map{display:grid;gap:16px;margin-top:8px}
+.etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;
+  box-shadow:var(--ombre);cursor:pointer;border:4px solid transparent;transition:transform .12s}
+.etape:hover{transform:translateY(-3px)}
+.etape:active{transform:translateY(1px)}
+.etape.lock{opacity:.6;filter:grayscale(.35)}
+.etape .num{flex:0 0 60px;height:60px;border-radius:18px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.5rem;color:#fff}
+.etape .txt h3{margin:0 0 2px;font-size:1.16rem}
+.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.92rem}
+.etape .status{margin-left:auto;font-size:1.5rem}
+.e1 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
+.e2 .num{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
+.e3 .num{background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)}
+.earene .num{background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)}
+.lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
+.mid{text-align:center;margin:16px 0}
+.formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;
+  padding:12px 22px;font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois)}
+.note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
+.scorebar{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:4px 0 14px;font-family:'Fredoka';font-weight:700}
+.scorebar .pill{background:var(--creme);border-radius:16px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8}
+.qcard{text-align:center}
+.qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
+.helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px}
+.ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
+.ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:160px;color:var(--bois)}
+.ansrow input:focus{outline:none;border-color:var(--or-bas)}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.1rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
+  border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
+.opt.bad{background:var(--orange);color:#fff;border-color:var(--orange-bas);box-shadow:0 5px 0 var(--orange-bas)}
+.feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
+.feedback.ok{color:var(--vert-bas)}
+.feedback.no{color:var(--orange-bas)}
+.feedlab{font-family:'Nunito';font-weight:800;font-size:.92rem;color:var(--bois-clair);margin-top:6px}
+.stars{font-size:1.5rem;letter-spacing:3px;margin-top:8px;min-height:1.6em}
+.catgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:6px}
+@media(min-width:640px){.catgrid{grid-template-columns:repeat(3,1fr)}}
+.cat{border:none;border-radius:20px;padding:16px 8px;cursor:pointer;color:#fff;font-family:'Fredoka';font-weight:700;font-size:1rem;line-height:1.2;text-align:center}
+.cat .ic{font-size:1.6rem;display:block;margin-bottom:4px}
+.conf{position:fixed;width:12px;height:12px;top:-20px;z-index:50;border-radius:3px;pointer-events:none}
+.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+button,input{touch-action:manipulation}
+@media(max-width:480px){
+  .wrap{padding:14px 12px 80px}
+  .hero{padding:18px 10px 4px}
+  .hero h1{font-size:1.8rem}.hero .sub{font-size:.95rem}.coin{font-size:2.6rem}
+  .card{padding:16px;border-radius:20px}
+  .topbar h2{font-size:1.1rem}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 50px;height:50px;font-size:1.2rem;border-radius:14px}
+  .etape .txt h3{font-size:1.02rem}.etape .txt p{font-size:.82rem}
+  .formule{font-size:1rem;padding:10px 14px;white-space:normal}
+  .lead{font-size:1rem}.question{font-size:1.18rem}
+  .ansrow input{width:60%;max-width:200px}
+  .btn{font-size:1rem;padding:13px 18px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.cascade{margin:6px 0 2px;text-align:left}
+.cstep{display:none;background:var(--creme);border-radius:16px;padding:14px 16px;margin:10px 0;animation:pop .3s ease}
+.cstep.on{display:block}
+.cprompt{font-family:'Fredoka';font-weight:700;color:var(--bois);font-size:1.05rem;margin-bottom:10px;line-height:1.35}
+.cbody{display:flex;flex-direction:column;gap:8px}
+.cfeed{font-family:'Nunito';font-weight:800;font-size:.92rem;margin-top:8px;min-height:1em;line-height:1.35}
+.cfeed.ok{color:var(--vert-bas)} .cfeed.no{color:var(--orange-bas)}
+.cline{font-family:'Fredoka';font-weight:700;font-size:1.12rem;color:var(--bois);line-height:2.1;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.cblank{font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;border:none;border-bottom:3px solid var(--or-bas);background:#fff;border-radius:8px 8px 0 0;padding:6px;color:var(--bois)}
+.cblank:focus{outline:none;border-bottom-color:var(--teal-bas);background:#fffdf3}
+.cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
+.cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
+.cverify{margin-top:10px}
+.kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
+  background:#1e2328;color:#9aab7e;font-size:1.5rem;cursor:pointer;box-shadow:0 6px 0 #0a0c0e,0 10px 18px rgba(0,0,0,.35);transition:transform .1s;border:2px solid #383e47}
+.kc-fab:active{transform:translateY(4px)}
+.kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(300px,calc(100vw - 32px));
+  background:#1e2328;border-radius:12px;padding:0 0 10px;box-shadow:0 14px 0 #0a0c0e,0 20px 40px rgba(0,0,0,.55);animation:kcpop .2s ease;border:2px solid #383e47}
+.kc-panel[hidden]{display:none}
+@keyframes kcpop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.kc-solar{height:8px;background:linear-gradient(90deg,#1a3a1a 0%,#2d5a2d 30%,#1a3a1a 60%,#0d200d 100%);border-radius:10px 10px 0 0;border-bottom:1px solid #0a1a0a}
+.kc-brand{display:flex;align-items:center;padding:6px 10px 4px;border-bottom:1px solid #2d3440}
+.kc-ti{font-family:Georgia,serif;font-weight:700;font-size:1.1rem;color:#fff;letter-spacing:.05em;margin-right:6px}
+.kc-model{font-family:Arial,sans-serif;font-size:.62rem;color:#8a9aaa;flex:1;letter-spacing:.04em;text-transform:uppercase}
+.kc-x{border:none;background:#2d3440;color:#8a9aaa;width:26px;height:26px;border-radius:6px;font-size:.85rem;cursor:pointer;font-family:Arial,sans-serif}
+.kc-x:active{background:#383e47}
+.kc-screen{background:#9aab7e;margin:8px 10px 6px;border-radius:6px;padding:8px 10px;text-align:right;min-height:62px;display:flex;flex-direction:column;justify-content:center;border:2px inset #6a8060;box-shadow:inset 0 2px 6px rgba(0,0,0,.25)}
+.kc-expr{font-family:'Courier New',monospace;font-weight:400;color:#1e2328;font-size:.85rem;min-height:1.1em;word-break:break-all;opacity:.75}
+.kc-res{font-family:'Courier New',monospace;font-weight:700;color:#1e2328;font-size:1.5rem;line-height:1.1;margin-top:2px}
+.kc-keys{padding:6px 8px 0;display:flex;flex-direction:column;gap:5px}
+.kc-row{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.kc-key{border:none;border-radius:5px;padding:10px 0;font-family:Arial,sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;background:#505762;color:#e8eaf0;box-shadow:0 3px 0 #282d35;transition:transform .08s}
+.kc-key:active{transform:translateY(2px);box-shadow:0 1px 0 #282d35}
+.kc-key.wide2{grid-column:span 2}
+.kc-key.op{background:#383e47;color:#b8cce0}
+.kc-key.fn{background:#2d3440;color:#9ab8d0;font-size:.85rem}
+.kc-key.act{background:#8b1a1a;color:#ffcccc;box-shadow:0 3px 0 #4a0a0a}
+.kc-key.nde{background:#2d3440;color:#f5c542;font-size:.8rem}
+.kc-key.eq{background:#003280;color:#fff;box-shadow:0 3px 0 #001840}
+.serieprog{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
+.result{text-align:center}
+.result .big{font-family:'Fredoka',sans-serif;font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
+.result .big.ok{color:var(--vert-bas)} .result .big.no{color:var(--orange-bas)}
+.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
+.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.brouillon-lab{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.88rem;text-align:left;margin:12px 0 4px}
+.brouillon{width:100%;box-sizing:border-box;min-height:96px;resize:vertical;border:3px dashed #e7d3a8;border-radius:16px;padding:10px 14px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.15rem;line-height:1.9;color:var(--bois);background:var(--blanc)}
+.brouillon:focus{outline:none;border-color:var(--orange-bas)}
+.mathpad{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;max-width:360px;margin:12px auto 0}
+.mkey{border:none;border-radius:13px;padding:13px 0;font-family:'Fredoka';font-weight:700;font-size:1.18rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.mkey:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.mkey.op{background:var(--creme);color:var(--orange-bas)}
+.mkey.fn{background:#eef6f8;color:var(--teal-bas)}
+.mkey.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
+/* Leçon par étapes */
+.lex-step{display:none}
+.lex-step.active{display:block;animation:pop .3s ease}
+.lex-bubble{background:var(--creme);border:3px solid var(--or-bas);border-radius:20px;padding:14px 18px;margin:10px 0;font-family:'Fredoka';font-weight:700;font-size:1.1rem;color:var(--bois);line-height:1.5}
+.lex-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.lex-pill{background:var(--creme);border-radius:14px;padding:10px 16px;font-family:'Fredoka';font-weight:700;font-size:1.05rem;color:var(--bois);border:2px solid #e7d3a8}
+.lex-pill.accent{background:var(--bleu);color:#fff;border-color:var(--bleu-bas)}
+.lex-pill.lvert{background:var(--vert);color:#fff;border-color:var(--vert-bas)}
+.lex-pill.lorange{background:var(--orange);color:#fff;border-color:var(--orange-bas)}
+.lex-pill.lviolet{background:var(--violet);color:#fff;border-color:var(--violet-bas)}
+.lex-pill.lteal{background:var(--teal);color:#fff;border-color:var(--teal-bas)}
+.lex-pill.lrouge{background:var(--rouge);color:#fff;border-color:var(--rouge-bas)}
+.tab-v{width:100%;border-collapse:separate;border-spacing:4px;margin:12px 0}
+.tab-v th{background:var(--vert);color:#fff;font-family:'Fredoka';font-weight:700;padding:10px 14px;border-radius:10px;font-size:1rem}
+.tab-v td{background:var(--creme);font-family:'Fredoka';font-weight:700;padding:10px 14px;border-radius:10px;font-size:1.05rem;text-align:center}
+.tab-v td.hi{background:var(--vert);color:#fff}
+/* Mini-quiz leçon */
+.lq-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0}
+.lq-feed{font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin:8px 0 4px;line-height:1.4;text-align:center;min-height:1.6em}
+.lq-feed.ok{color:var(--vert-bas)} .lq-feed.no{color:var(--orange-bas)}
+.sym{font-family:'Fredoka';font-weight:700;font-size:1.6rem;color:var(--vert-bas);padding:0 4px}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="wrap">
+
+<!-- ACCUEIL -->
+<section id="accueil" class="screen active">
+  <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
+  <div class="hero">
+    <div class="coin">📏 |x|</div>
+    <h1>Intervalles et valeur absolue</h1>
+    <p class="sub">Intervalles [a,b], ]a,b[, valeur absolue |x| et inégalités. 2nde.</p>
+  </div>
+  <div class="map">
+    <div class="etape e1" id="mapIntervalles" onclick="tapTheme('intervalles')">
+      <div class="num">📏</div><div class="txt"><h3>1 · Intervalles [a,b] et ]a,b[</h3><p>Comprendre les notations crochets ouverts/fermés</p></div><div class="status">▶</div>
+    </div>
+    <div class="etape e2" id="mapAbsolu" onclick="tapTheme('absolu')">
+      <div class="num">|x|</div><div class="txt"><h3>2 · Valeur absolue</h3><p>Distance à 0 sur la droite des réels</p></div><div class="status">▶</div>
+    </div>
+    <div class="etape e3" id="mapInegalites" onclick="tapTheme('inegalites')">
+      <div class="num">≤</div><div class="txt"><h3>3 · Inégalités et intervalles</h3><p>Passer de la notation intervalle à l'inégalité</p></div><div class="status">▶</div>
+    </div>
+    <div class="etape earene" id="mapArene" onclick="tapArene()">
+      <div class="num">⚔️</div><div class="txt"><h3>Arène — entraînement libre</h3><p>Tout mélangé, sans limite</p></div><div class="status">▶</div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== LEÇON 1 : INTERVALLES =================== -->
+<section id="expIntervalles" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>📏 Intervalles</h2></div>
+
+  <!-- ÉTAPE 0 : La droite des réels -->
+  <div id="itv_step0" class="lex-step active">
+    <div class="card">
+      <span class="tag" style="background:var(--vert)">Étape 1 — La droite des réels</span>
+      <div class="lex-bubble">
+        🧠 Tu connais déjà la droite numérique depuis le collège. Chaque point sur cette droite est un <b>nombre réel</b>.<br><br>
+        Les réels comprennent les entiers, les décimaux, et même des nombres comme √2 ou π.<br><br>
+        En 2nde, on va apprendre à désigner des <b>portions de la droite</b> avec une nouvelle notation : <b>]a, b[</b> et <b>[a, b]</b>.
+      </div>
+      <svg viewBox="-60 -30 340 60" style="max-width:360px;margin:10px auto;display:block;font-family:'Fredoka',sans-serif">
+        <!-- axe -->
+        <line x1="-40" y1="0" x2="300" y2="0" stroke="#5C3D2E" stroke-width="2.5" marker-end="url(#arr)"/>
+        <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#5C3D2E"/></marker></defs>
+        <!-- ticks et labels -->
+        <line x1="0" y1="-8" x2="0" y2="8" stroke="#5C3D2E" stroke-width="2"/>
+        <text x="0" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#5C3D2E">−3</text>
+        <line x1="50" y1="-8" x2="50" y2="8" stroke="#5C3D2E" stroke-width="2"/>
+        <text x="50" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#5C3D2E">−2</text>
+        <line x1="100" y1="-8" x2="100" y2="8" stroke="#5C3D2E" stroke-width="2"/>
+        <text x="100" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#5C3D2E">−1</text>
+        <line x1="150" y1="-8" x2="150" y2="8" stroke="#5C3D2E" stroke-width="2"/>
+        <text x="150" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#5C3D2E">0</text>
+        <line x1="200" y1="-8" x2="200" y2="8" stroke="#5C3D2E" stroke-width="2"/>
+        <text x="200" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#5C3D2E">1</text>
+        <line x1="250" y1="-8" x2="250" y2="8" stroke="#5C3D2E" stroke-width="2"/>
+        <text x="250" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#5C3D2E">2</text>
+        <text x="285" y="-10" font-size="13" font-weight="700" fill="#8BC34A">ℝ</text>
+      </svg>
+      <div class="note">Tous les points de la droite forment l'ensemble ℝ des réels.</div>
+    </div>
+    <div class="mid"><button class="btn vert" onclick="itvNext(1)">Suivant →</button></div>
+  </div>
+
+  <!-- ÉTAPE 1 : Intervalle fermé [a,b] -->
+  <div id="itv_step1" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--vert)">Étape 2 — Intervalle fermé [a, b]</span>
+      <div class="lex-bubble">
+        <span class="sym">[a, b]</span> = intervalle <b>fermé</b><br><br>
+        Les <b>crochets fermés [ ]</b> signifient que les bornes <b>SONT incluses</b>.<br><br>
+        Exemple : <b>[2, 5]</b> contient 2, 3, 4, 5 et <em>tous</em> les réels entre 2 et 5.<br>
+        ✅ 2 ∈ [2, 5] &nbsp;·&nbsp; 3,7 ∈ [2, 5] &nbsp;·&nbsp; 5 ∈ [2, 5]<br>
+        ❌ 1,9 ∉ [2, 5] &nbsp;·&nbsp; 5,1 ∉ [2, 5]
+      </div>
+      <svg viewBox="0 0 300 50" style="max-width:340px;margin:10px auto;display:block;font-family:'Fredoka',sans-serif">
+        <line x1="20" y1="25" x2="280" y2="25" stroke="#ccc" stroke-width="2"/>
+        <!-- segment coloré -->
+        <line x1="90" y1="25" x2="210" y2="25" stroke="#8BC34A" stroke-width="5"/>
+        <!-- points fermés (remplis) -->
+        <circle cx="90" cy="25" r="7" fill="#8BC34A" stroke="#5E9426" stroke-width="2"/>
+        <circle cx="210" cy="25" r="7" fill="#8BC34A" stroke="#5E9426" stroke-width="2"/>
+        <text x="85" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#5E9426">2</text>
+        <text x="215" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#5E9426">5</text>
+        <text x="150" y="14" text-anchor="middle" font-size="12" font-weight="700" fill="#5E9426">[2, 5]</text>
+      </svg>
+      <div class="note">Les points remplis ● indiquent que les bornes sont incluses.</div>
+      <div class="lex-bubble" style="background:#f0f7e6;border-color:#8BC34A;font-size:.98rem">
+        💡 <b>Mémo crochet fermé :</b> le crochet <b>[ ]</b> "serre" la borne, comme une pince — la borne EST prise.<br>
+        ✅ 2 ∈ [2, 5] &nbsp;·&nbsp; ✅ 5 ∈ [2, 5]
+      </div>
+    </div>
+    <div class="mid"><button class="btn vert" onclick="itvNext(2)">Je teste ! →</button></div>
+  </div>
+
+  <!-- ÉTAPE 2 : mini-quiz fermé -->
+  <div id="itv_step2" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--rouge)">🧩 Test rapide — étape 3</span>
+      <div class="lex-bubble" style="text-align:center;font-size:1.3rem">
+        3,7 ∈ [2, 5] ?<br>
+        <small style="font-size:.9rem;font-weight:700;color:var(--bois-clair)">[2, 5] = tous les réels entre 2 et 5, bornes incluses</small>
+      </div>
+      <div class="lq-btns" id="lq_itv2_btns">
+        <button class="btn vert" onclick="lessonPick('itv2',this,true,'Exact ! 2 ≤ 3,7 ≤ 5, donc 3,7 ∈ [2, 5]. Les crochets fermés incluent les bornes.','')">Oui, 3,7 ∈ [2, 5]</button>
+        <button class="btn orange" onclick="lessonPick('itv2',this,false,'','Si ! 2 ≤ 3,7 ≤ 5 est vrai, donc 3,7 ∈ [2, 5].')">Non, 3,7 ∉ [2, 5]</button>
+      </div>
+      <div class="lq-feed" id="lq_itv2_feed" style="display:none"></div>
+      <div class="mid" id="lq_itv2_nxt" style="display:none"><button class="btn teal" onclick="itvNext(3)">Suivant →</button></div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 : Intervalle ouvert ]a,b[ -->
+  <div id="itv_step3" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--teal)">Étape 4 — Intervalle ouvert ]a, b[</span>
+      <div class="lex-bubble">
+        <span class="sym">]a, b[</span> = intervalle <b>ouvert</b><br><br>
+        Les <b>crochets ouverts ] [</b> signifient que les bornes <b>NE sont PAS incluses</b>.<br><br>
+        Exemple : <b>]2, 5[</b><br>
+        ❌ 2 ∉ ]2, 5[ (2 est exclu !)<br>
+        ✅ 3,7 ∈ ]2, 5[<br>
+        ❌ 5 ∉ ]2, 5[ (5 est exclu !)
+      </div>
+      <svg viewBox="0 0 300 50" style="max-width:340px;margin:10px auto;display:block;font-family:'Fredoka',sans-serif">
+        <line x1="20" y1="25" x2="280" y2="25" stroke="#ccc" stroke-width="2"/>
+        <!-- segment coloré -->
+        <line x1="90" y1="25" x2="210" y2="25" stroke="#46BECB" stroke-width="5"/>
+        <!-- points ouverts (vides) -->
+        <circle cx="90" cy="25" r="7" fill="white" stroke="#2E8A98" stroke-width="2.5"/>
+        <circle cx="210" cy="25" r="7" fill="white" stroke="#2E8A98" stroke-width="2.5"/>
+        <text x="85" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#2E8A98">2</text>
+        <text x="215" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#2E8A98">5</text>
+        <text x="150" y="14" text-anchor="middle" font-size="12" font-weight="700" fill="#2E8A98">]2, 5[</text>
+      </svg>
+      <div class="note">Les cercles vides ○ indiquent que les bornes sont <b>exclues</b>.</div>
+      <div class="lex-bubble" style="background:#ffe8e8;border-color:#EF5D60;font-size:.98rem">
+        ❌ <b>Contre-exemple :</b> 2 ∈ [2, 5] MAIS 2 ∉ ]2, 5[<br>
+        Même borne, résultat opposé ! Le crochet <b>] [</b> "repousse" la borne — elle est exclue.<br>
+        💡 <b>Mémo :</b> ] ouvert = borne dehors &nbsp;·&nbsp; [ fermé = borne dedans
+      </div>
+    </div>
+    <div class="mid"><button class="btn teal" onclick="itvNext(4)">Je teste ! →</button></div>
+  </div>
+
+  <!-- ÉTAPE 4 : mini-quiz ouvert -->
+  <div id="itv_step4" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--rouge)">🧩 Test rapide — étape 5</span>
+      <div class="lex-bubble" style="text-align:center;font-size:1.3rem">
+        5 ∈ ]2, 5[ ?<br>
+        <small style="font-size:.9rem;font-weight:700;color:var(--bois-clair)">]2, 5[ : les crochets ] [ excluent les bornes</small>
+      </div>
+      <div class="lq-btns" id="lq_itv4_btns">
+        <button class="btn vert" onclick="lessonPick('itv4',this,false,'','Non ! Dans ]2, 5[, la borne 5 est exclue (crochet ouvert). 5 ∉ ]2, 5[.')">Oui, 5 ∈ ]2, 5[</button>
+        <button class="btn orange" onclick="lessonPick('itv4',this,true,'Exact ! Le crochet ouvert ] [ exclut les bornes. 5 ∉ ]2, 5[.','')">Non, 5 ∉ ]2, 5[</button>
+      </div>
+      <div class="lq-feed" id="lq_itv4_feed" style="display:none"></div>
+      <div class="mid" id="lq_itv4_nxt" style="display:none"><button class="btn teal" onclick="itvNext(5)">Suivant →</button></div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 5 : Intervalles mixtes et infinis -->
+  <div id="itv_step5" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--bleu)">Étape 6 — Intervalles mixtes et infinis</span>
+      <div class="lex-bubble">
+        On peut aussi mélanger crochets fermés et ouverts :<br><br>
+        <b>[a, b[</b> → a inclus, b exclu &nbsp;·&nbsp; 2 ≤ x &lt; 5<br>
+        <b>]a, b]</b> → a exclu, b inclus &nbsp;·&nbsp; 2 &lt; x ≤ 5<br><br>
+        Et pour les intervalles infinis, on utilise <b>+∞</b> et <b>−∞</b> :<br>
+        <b>]−∞, a]</b> → tous les réels ≤ a (ex: ]−∞, 3] = x ≤ 3)<br>
+        <b>[a, +∞[</b> → tous les réels ≥ a (ex: [2, +∞[ = x ≥ 2)
+      </div>
+      <div class="lex-row">
+        <div class="lex-pill lteal">−∞ et +∞ ont toujours un crochet ouvert</div>
+      </div>
+      <div class="lex-bubble" style="background:#f0faff;border-color:#46BECB;font-size:.95rem">
+        <b>Pourquoi ∞ est toujours ouvert ?</b> Parce que l'infini n'est pas un nombre — on ne peut pas l'atteindre ni l'inclure.<br><br>
+        <b>Récap des 6 formes :</b><br>
+        [a, b] → a ≤ x ≤ b &nbsp;·&nbsp; ]a, b[ → a &lt; x &lt; b<br>
+        [a, b[ → a ≤ x &lt; b &nbsp;·&nbsp; ]a, b] → a &lt; x ≤ b<br>
+        ]−∞, b] → x ≤ b &nbsp;·&nbsp; [a, +∞[ → x ≥ a
+      </div>
+    </div>
+    <div class="mid"><button class="btn bleu" onclick="itvNext(6)">Je teste ! →</button></div>
+  </div>
+
+  <!-- ÉTAPE 6 : mini-quiz infini -->
+  <div id="itv_step6" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--rouge)">🧩 Test rapide — étape 7</span>
+      <div class="lex-bubble" style="text-align:center;font-size:1.3rem">
+        −1 ∈ ]−∞, 3[ ?<br>
+        <small style="font-size:.9rem;font-weight:700;color:var(--bois-clair)">]−∞, 3[ = tous les réels strictement inférieurs à 3</small>
+      </div>
+      <div class="lq-btns" id="lq_itv6_btns">
+        <button class="btn vert" onclick="lessonPick('itv6',this,true,'Oui ! −1 &lt; 3, donc −1 ∈ ]−∞, 3[. Tout réel strictement inférieur à 3 y appartient.','')">Oui, −1 ∈ ]−∞, 3[</button>
+        <button class="btn orange" onclick="lessonPick('itv6',this,false,'','Si ! −1 &lt; 3, donc −1 appartient bien à ]−∞, 3[.')">Non, −1 ∉ ]−∞, 3[</button>
+      </div>
+      <div class="lq-feed" id="lq_itv6_feed" style="display:none"></div>
+      <div class="mid" id="lq_itv6_nxt" style="display:none"><button class="btn vert" onclick="startTrain('intervalles')">🚀 Je m'entraîne !</button></div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 7 : bouton entraînement (redondant, géré par step6) -->
+  <div id="itv_step7" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--vert)">Prêt !</span>
+      <div class="lex-bubble" style="text-align:center">
+        Tu connais maintenant les intervalles ouverts, fermés et infinis. 🎉<br><br>
+        Lance l'entraînement pour tester tes connaissances !
+      </div>
+    </div>
+    <div class="mid"><button class="btn vert" onclick="startTrain('intervalles')">🚀 Je m'entraîne !</button></div>
+  </div>
+</section>
+
+<!-- =================== LEÇON 2 : VALEUR ABSOLUE =================== -->
+<section id="expAbsolu" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>|x| Valeur absolue</h2></div>
+
+  <!-- ÉTAPE 0 : La valeur absolue -->
+  <div id="abs_step0" class="lex-step active">
+    <div class="card">
+      <span class="tag" style="background:var(--teal)">Étape 1 — La valeur absolue |x|</span>
+      <div class="lex-bubble">
+        <span class="sym">|x|</span> = la <b>distance</b> de x à 0 sur la droite numérique.<br><br>
+        |3| = 3 &nbsp;(3 est à 3 unités de 0)<br>
+        |−3| = 3 &nbsp;(−3 est aussi à 3 unités de 0)<br><br>
+        💡 La valeur absolue est <b>toujours positive ou nulle</b>. Jamais négative !
+      </div>
+      <div class="lex-bubble" style="background:#fff7e6;border-color:#E0A41E;font-size:.98rem">
+        📐 <b>Définition précise :</b><br>
+        Si x ≥ 0 → |x| = x &nbsp;&nbsp;(ex : |5| = 5)<br>
+        Si x &lt; 0 → |x| = −x &nbsp;&nbsp;(ex : |−3| = −(−3) = 3)<br><br>
+        Autrement dit : on <b>enlève le signe négatif</b>. Le résultat est toujours ≥ 0.
+      </div>
+      <svg viewBox="0 0 300 70" style="max-width:340px;margin:10px auto;display:block;font-family:'Fredoka',sans-serif">
+        <line x1="20" y1="35" x2="280" y2="35" stroke="#ccc" stroke-width="2"/>
+        <!-- 0 -->
+        <line x1="150" y1="28" x2="150" y2="42" stroke="#5C3D2E" stroke-width="2"/>
+        <text x="150" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#5C3D2E">0</text>
+        <!-- -3 -->
+        <line x1="60" y1="28" x2="60" y2="42" stroke="#EF5D60" stroke-width="2"/>
+        <text x="60" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#c43e41">−3</text>
+        <!-- +3 -->
+        <line x1="240" y1="28" x2="240" y2="42" stroke="#8BC34A" stroke-width="2"/>
+        <text x="240" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#5E9426">3</text>
+        <!-- flèches distance -->
+        <line x1="60" y1="20" x2="150" y2="20" stroke="#c43e41" stroke-width="2" marker-end="url(#arrR)" marker-start="url(#arrL)"/>
+        <defs>
+          <marker id="arrR" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#c43e41"/></marker>
+          <marker id="arrL" markerWidth="7" markerHeight="7" refX="2" refY="3" orient="auto-start-reverse"><path d="M0,0 L0,6 L7,3 z" fill="#c43e41"/></marker>
+        </defs>
+        <text x="105" y="14" text-anchor="middle" font-size="11" font-weight="700" fill="#c43e41">|−3| = 3</text>
+        <line x1="150" y1="20" x2="240" y2="20" stroke="#5E9426" stroke-width="2" marker-end="url(#arrG)" marker-start="url(#arrGL)"/>
+        <defs>
+          <marker id="arrG" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#5E9426"/></marker>
+          <marker id="arrGL" markerWidth="7" markerHeight="7" refX="2" refY="3" orient="auto-start-reverse"><path d="M0,0 L0,6 L7,3 z" fill="#5E9426"/></marker>
+        </defs>
+        <text x="195" y="14" text-anchor="middle" font-size="11" font-weight="700" fill="#5E9426">|3| = 3</text>
+      </svg>
+    </div>
+    <div class="mid"><button class="btn teal" onclick="absNext(1)">Je teste ! →</button></div>
+  </div>
+
+  <!-- ÉTAPE 1 : mini-quiz |−7| -->
+  <div id="abs_step1" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--rouge)">🧩 Test rapide — étape 2</span>
+      <div class="lex-bubble" style="text-align:center;font-size:1.3rem">
+        |−7| = ?<br>
+        <small style="font-size:.9rem;font-weight:700;color:var(--bois-clair)">La valeur absolue = distance à 0</small>
+      </div>
+      <div class="lq-btns" id="lq_abs1_btns">
+        <button class="btn vert" onclick="lessonPick('abs1',this,true,'Exact ! |−7| = 7 car −7 est à 7 unités de 0. La valeur absolue est toujours positive.','')">7</button>
+        <button class="btn orange" onclick="lessonPick('abs1',this,false,'','Non ! |−7| = 7, pas −7. La valeur absolue est TOUJOURS positive ou nulle.')">−7</button>
+      </div>
+      <div class="lq-feed" id="lq_abs1_feed" style="display:none"></div>
+      <div class="mid" id="lq_abs1_nxt" style="display:none"><button class="btn teal" onclick="absNext(2)">Suivant →</button></div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 : Calculer |x − a| -->
+  <div id="abs_step2" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--teal)">Étape 3 — Calculer |x − a|</span>
+      <div class="lex-bubble">
+        <span class="sym">|x − a|</span> = la <b>distance</b> entre x et a sur la droite.<br><br>
+        Exemple : |x − 2| = distance entre x et 2.<br><br>
+        |5 − 2| = |3| = 3 &nbsp;·&nbsp; (5 est à 3 unités de 2)<br>
+        |−1 − 2| = |−3| = 3 &nbsp;·&nbsp; (−1 est aussi à 3 unités de 2)
+      </div>
+      <svg viewBox="0 0 300 60" style="max-width:340px;margin:10px auto;display:block;font-family:'Fredoka',sans-serif">
+        <line x1="20" y1="35" x2="280" y2="35" stroke="#ccc" stroke-width="2"/>
+        <line x1="60" y1="28" x2="60" y2="42" stroke="#EF5D60" stroke-width="2"/>
+        <text x="60" y="56" text-anchor="middle" font-size="12" font-weight="700" fill="#c43e41">−1</text>
+        <line x1="150" y1="28" x2="150" y2="42" stroke="#46BECB" stroke-width="2.5"/>
+        <text x="150" y="56" text-anchor="middle" font-size="12" font-weight="700" fill="#2E8A98">2</text>
+        <line x1="240" y1="28" x2="240" y2="42" stroke="#8BC34A" stroke-width="2"/>
+        <text x="240" y="56" text-anchor="middle" font-size="12" font-weight="700" fill="#5E9426">5</text>
+        <!-- distance arrows -->
+        <line x1="60" y1="18" x2="150" y2="18" stroke="#c43e41" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="105" y="12" text-anchor="middle" font-size="10" font-weight="700" fill="#c43e41">distance = 3</text>
+        <line x1="150" y1="18" x2="240" y2="18" stroke="#5E9426" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="195" y="12" text-anchor="middle" font-size="10" font-weight="700" fill="#5E9426">distance = 3</text>
+      </svg>
+    </div>
+    <div class="mid"><button class="btn teal" onclick="absNext(3)">Je teste ! →</button></div>
+  </div>
+
+  <!-- ÉTAPE 3 : mini-quiz |−4| -->
+  <div id="abs_step3" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--rouge)">🧩 Test rapide — étape 4</span>
+      <div class="lex-bubble" style="text-align:center;font-size:1.3rem">
+        |−4| = ?<br>
+        <small style="font-size:.9rem;font-weight:700;color:var(--bois-clair)">|x| = distance de x à 0, toujours ≥ 0</small>
+      </div>
+      <div class="lq-btns" id="lq_abs3_btns">
+        <button class="btn vert" onclick="lessonPick('abs3',this,true,'Bravo ! |−4| = 4. La valeur absolue supprime le signe négatif.','')">4</button>
+        <button class="btn orange" onclick="lessonPick('abs3',this,false,'','Non ! |−4| = 4, pas −4. La valeur absolue est toujours positive.')">−4</button>
+      </div>
+      <div class="lq-feed" id="lq_abs3_feed" style="display:none"></div>
+      <div class="mid" id="lq_abs3_nxt" style="display:none"><button class="btn teal" onclick="absNext(4)">Suivant →</button></div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 : Lien avec les intervalles -->
+  <div id="abs_step4" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--bleu)">Étape 5 — Lien avec les intervalles</span>
+      <div class="lex-bubble">
+        Il y a un lien puissant entre valeur absolue et intervalles :<br><br>
+        <b>|x| ≤ 3</b> signifie : x est à moins de 3 unités de 0<br>
+        ↔ −3 ≤ x ≤ 3<br>
+        ↔ x ∈ [−3, 3]<br><br>
+        <b>|x| &lt; 3</b> ↔ −3 &lt; x &lt; 3 ↔ x ∈ ]−3, 3[
+      </div>
+      <div class="lex-row">
+        <div class="lex-pill lteal">|x| ≤ a ↔ x ∈ [−a, a]</div>
+        <div class="lex-pill lvert">|x| &lt; a ↔ x ∈ ]−a, a[</div>
+      </div>
+    </div>
+    <div class="mid"><button class="btn bleu" onclick="startTrain('absolu')">🚀 Je m'entraîne !</button></div>
+  </div>
+
+  <!-- ÉTAPE 5 : bouton entraînement -->
+  <div id="abs_step5" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--teal)">Prêt !</span>
+      <div class="lex-bubble" style="text-align:center">
+        Tu maîtrises la valeur absolue ! Lance l'entraînement. 💪
+      </div>
+    </div>
+    <div class="mid"><button class="btn teal" onclick="startTrain('absolu')">🚀 Je m'entraîne !</button></div>
+  </div>
+</section>
+
+<!-- =================== LEÇON 3 : INÉGALITÉS =================== -->
+<section id="expInegalites" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>≤ Inégalités et intervalles</h2></div>
+
+  <!-- ÉTAPE 0 : Appartenance = inégalité -->
+  <div id="ineq_step0" class="lex-step active">
+    <div class="card">
+      <span class="tag" style="background:var(--bleu)">Étape 1 — Appartenance = inégalité double</span>
+      <div class="lex-bubble">
+        Écrire <b>x ∈ [2, 7]</b> et écrire <b>2 ≤ x ≤ 7</b> c'est la <b>même chose</b> !<br><br>
+        Le crochet fermé [ → signe ≤ (inférieur ou égal)<br>
+        Le crochet ouvert ] → signe &lt; (strictement inférieur)<br>
+      </div>
+      <div class="lex-bubble" style="background:#f0f7e6;border-color:#8BC34A;font-size:.98rem">
+        🔑 <b>L'astuce :</b> regarde le crochet du côté de la borne.<br>
+        <b>Crochet fermé [</b> ou <b>]</b> (pointe vers l'intérieur) → borne incluse → signe <b>≤</b><br>
+        <b>Crochet ouvert ]</b> ou <b>[</b> (pointe vers l'extérieur) → borne exclue → signe <b>&lt;</b>
+      </div>
+      <table class="tab-v">
+        <tr><th>Notation intervalle</th><th>Inégalité équivalente</th></tr>
+        <tr><td>[2, 7]</td><td class="hi">2 ≤ x ≤ 7</td></tr>
+        <tr><td>]−1, 4[</td><td class="hi">−1 &lt; x &lt; 4</td></tr>
+        <tr><td>[−3, 5[</td><td class="hi">−3 ≤ x &lt; 5</td></tr>
+        <tr><td>]0, +∞[</td><td class="hi">x &gt; 0</td></tr>
+      </table>
+    </div>
+    <div class="mid"><button class="btn bleu" onclick="ineqNext(1)">Je teste ! →</button></div>
+  </div>
+
+  <!-- ÉTAPE 1 : mini-quiz [−3, 5] -->
+  <div id="ineq_step1" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--rouge)">🧩 Test rapide — étape 2</span>
+      <div class="lex-bubble" style="text-align:center;font-size:1.2rem">
+        x ∈ [−3, 5] équivaut à ?<br>
+        <small style="font-size:.85rem;font-weight:700;color:var(--bois-clair)">[ = crochet fermé = borne incluse = signe ≤</small>
+      </div>
+      <div class="lq-btns" id="lq_ineq1_btns">
+        <button class="btn vert" onclick="lessonPick('ineq1',this,true,'Exact ! [−3, 5] avec crochets fermés des deux côtés → −3 ≤ x ≤ 5.','')">−3 ≤ x ≤ 5</button>
+        <button class="btn orange" onclick="lessonPick('ineq1',this,false,'','Non ! Les crochets fermés [ ] correspondent à ≤ (pas &lt;). La bonne réponse est −3 ≤ x ≤ 5.')">−3 &lt; x &lt; 5</button>
+        <button class="btn orange" onclick="lessonPick('ineq1',this,false,'','Non ! Le crochet gauche [ est fermé → ≤, mais le droit ] aussi. → −3 ≤ x ≤ 5.')">−3 ≤ x &lt; 5</button>
+        <button class="btn orange" onclick="lessonPick('ineq1',this,false,'','Non ! Les deux crochets sont fermés [ ] → les deux signes sont ≤. → −3 ≤ x ≤ 5.')">−3 &lt; x ≤ 5</button>
+      </div>
+      <div class="lq-feed" id="lq_ineq1_feed" style="display:none"></div>
+      <div class="mid" id="lq_ineq1_nxt" style="display:none"><button class="btn bleu" onclick="ineqNext(2)">Suivant →</button></div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 : Résoudre x ∈ [a,b] -->
+  <div id="ineq_step2" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--bleu)">Étape 3 — Méthode pas-à-pas</span>
+      <div class="lex-bubble">
+        Pour savoir si un nombre appartient à un intervalle, remplace par la <b>double inégalité</b> :<br><br>
+        <b>Question :</b> 6 ∈ [−3, 5] ?<br><br>
+        <b>Étape 1 :</b> [−3, 5] ↔ −3 ≤ x ≤ 5<br>
+        <b>Étape 2 :</b> Remplace x par 6 : −3 ≤ <b>6</b> ≤ 5<br>
+        <b>Étape 3 :</b> Vrai ou faux ? → 6 ≤ 5 est <b>FAUX</b><br>
+        <b>Réponse :</b> 6 ∉ [−3, 5] ❌
+      </div>
+    </div>
+    <div class="mid"><button class="btn bleu" onclick="ineqNext(3)">Je teste ! →</button></div>
+  </div>
+
+  <!-- ÉTAPE 3 : mini-quiz 4 ∈ ]−1, 4[ -->
+  <div id="ineq_step3" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--rouge)">🧩 Test rapide — étape 4</span>
+      <div class="lex-bubble" style="text-align:center;font-size:1.3rem">
+        4 ∈ ]−1, 4[ ?<br>
+        <small style="font-size:.9rem;font-weight:700;color:var(--bois-clair)">]−1, 4[ ↔ −1 &lt; x &lt; 4</small>
+      </div>
+      <div class="lq-btns" id="lq_ineq3_btns">
+        <button class="btn vert" onclick="lessonPick('ineq3',this,false,'','Non ! ]−1, 4[ ↔ −1 &lt; x &lt; 4. Il faut x &lt; 4 strictement. Or 4 &lt; 4 est faux → 4 ∉ ]−1, 4[.')">Oui, 4 ∈ ]−1, 4[</button>
+        <button class="btn orange" onclick="lessonPick('ineq3',this,true,'Exact ! ]−1, 4[ ↔ −1 &lt; x &lt; 4 (strictement). Or 4 &lt; 4 est faux → 4 ∉ ]−1, 4[.','')">Non, 4 ∉ ]−1, 4[</button>
+      </div>
+      <div class="lq-feed" id="lq_ineq3_feed" style="display:none"></div>
+      <div class="mid" id="lq_ineq3_nxt" style="display:none"><button class="btn bleu" onclick="ineqNext(4)">Suivant →</button></div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 : Tableau récap -->
+  <div id="ineq_step4" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--bleu)">Étape 5 — Tableau récapitulatif</span>
+      <div class="lex-bubble">
+        Mémo final pour ne jamais se tromper :
+      </div>
+      <table class="tab-v">
+        <tr><th>Notation</th><th>Type</th><th>Inégalité</th></tr>
+        <tr><td>[a, b]</td><td class="hi">Fermé</td><td>a ≤ x ≤ b</td></tr>
+        <tr><td>]a, b[</td><td class="hi">Ouvert</td><td>a &lt; x &lt; b</td></tr>
+        <tr><td>[a, b[</td><td class="hi">Semi-ouvert</td><td>a ≤ x &lt; b</td></tr>
+        <tr><td>]a, b]</td><td class="hi">Semi-ouvert</td><td>a &lt; x ≤ b</td></tr>
+        <tr><td>]−∞, b]</td><td class="hi">Infini gauche</td><td>x ≤ b</td></tr>
+        <tr><td>[a, +∞[</td><td class="hi">Infini droit</td><td>x ≥ a</td></tr>
+      </table>
+    </div>
+    <div class="mid"><button class="btn bleu" onclick="startTrain('inegalites')">🚀 Je m'entraîne !</button></div>
+  </div>
+
+  <!-- ÉTAPE 5 : bouton entraînement -->
+  <div id="ineq_step5" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--bleu)">Prêt !</span>
+      <div class="lex-bubble" style="text-align:center">
+        Tu maîtrises le lien intervalles ↔ inégalités ! Lance l'entraînement. 🎯
+      </div>
+    </div>
+    <div class="mid"><button class="btn bleu" onclick="startTrain('inegalites')">🚀 Je m'entraîne !</button></div>
+  </div>
+</section>
+
+<!-- =================== ENTRAÎNEMENT =================== -->
+<section id="ecranTrain" class="screen">
+  <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="card" id="tq_card">
+    <div class="serieprog" id="tq_prog"></div>
+    <div class="helpnote" id="tq_help"></div>
+    <div class="qcard">
+      <div class="qcat" id="tq_cat"></div>
+      <div class="figbox" id="tq_viz" style="display:none"></div>
+      <div class="question" id="tq_text"></div>
+      <div class="opts" id="tq_opts" style="display:none"></div>
+      <div class="ansrow" id="tq_ansrow">
+        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="tq_casc" style="display:none"></div>
+      <div id="tq_work">
+        <div class="mathpad" id="tq_pad"></div>
+        <div class="brouillon-lab">✏️ Brouillon — pose tes calculs ligne par ligne (facultatif)</div>
+        <textarea id="tq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici, une par ligne…"></textarea>
+      </div>
+      <div class="feedback" id="tq_feed"></div>
+      <div class="stars" id="tq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant →</button></div>
+    </div>
+  </div>
+  <div class="card result" id="tq_result" style="display:none">
+    <div class="big" id="tq_rbig">0 / 8</div>
+    <div class="msg" id="tq_rmsg"></div>
+    <div class="rbtns" id="tq_rbtns"></div>
+  </div>
+</section>
+
+<!-- =================== ARÈNE =================== -->
+<section id="arene" class="screen">
+  <div class="topbar"><button class="back" onclick="go('accueil')">←</button><h2>⚔️ L'arène des intervalles !</h2></div>
+  <div class="card" id="areneMenu">
+    <p class="lead" style="text-align:center">Bravo, séquence terminée ! Entraînement libre, sans note.</p>
+    <div class="catgrid">
+      <button class="cat" style="background:var(--vert)" onclick="startArene('intervalles')"><span class="ic">📏</span>Intervalles</button>
+      <button class="cat" style="background:var(--teal)" onclick="startArene('absolu')"><span class="ic">|x|</span>Valeur absolue</button>
+      <button class="cat" style="background:var(--bleu)" onclick="startArene('inegalites')"><span class="ic">≤</span>Inégalités</button>
+      <button class="cat" style="background:var(--or)" onclick="startArene('mix')"><span class="ic">🎲</span>Tout mélangé</button>
+    </div>
+  </div>
+  <div class="card" id="areneJeu" style="display:none">
+    <div class="scorebar">
+      <div class="pill">Score : <b id="aq_score">0</b></div>
+      <div class="pill">🔥 <b id="aq_streak">0</b></div>
+      <div class="pill">✅ <b id="aq_corr">0</b> / <b id="aq_tot">0</b></div>
+    </div>
+    <div class="qcard">
+      <div class="qcat" id="aq_cat"></div>
+      <div class="figbox" id="aq_viz" style="display:none"></div>
+      <div class="question" id="aq_text"></div>
+      <div class="opts" id="aq_opts" style="display:none"></div>
+      <div class="ansrow" id="aq_ansrow">
+        <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="aq_casc" style="display:none"></div>
+      <div id="aq_work" style="display:none"></div>
+      <div class="feedback" id="aq_feed"></div>
+      <div class="stars" id="aq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="aq_next" style="display:none" onclick="quizNext()">Suivant →</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- Calculatrice -->
+<button class="kc-fab" onclick="kcToggle()" aria-label="Calculatrice">🖩</button>
+<div class="kc-panel" id="kcPanel" hidden>
+  <div class="kc-solar"></div>
+  <div class="kc-brand">
+    <span class="kc-ti">TI</span>
+    <span class="kc-model">Collège Plus Solaire</span>
+    <button class="kc-x" onclick="kcToggle()">✕</button>
+  </div>
+  <div class="kc-screen"><div class="kc-expr" id="kcExpr"></div><div class="kc-res" id="kcRes">0</div></div>
+  <div class="kc-keys" id="kcKeys"></div>
+</div>
+
+</div><!-- /wrap -->
+<script>
+/* ===== UTILITAIRES ===== */
+function gid(x){return document.getElementById(x);}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;var v=parseFloat(s);return isFinite(v)?v:null;}
+function serieLen(){return BRIQUE[currentTheme].serie;}
+function seuilFor(){return BRIQUE[currentTheme].seuil;}
+function rnd(n){return Math.floor(Math.random()*n);}
+function rint(a,b){return a+Math.floor(Math.random()*(b-a+1));}
+function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
+
+/* ===== MINI-QUIZ LEÇON ===== */
+function lessonPick(bid, btn, ok, feedOk, feedNo) {
+  var btns=gid('lq_'+bid+'_btns');
+  var feed=gid('lq_'+bid+'_feed');
+  var nxt =gid('lq_'+bid+'_nxt');
+  if(btns)Array.from(btns.children).forEach(function(b){b.disabled=true;});
+  if(btn){btn.classList.remove('vert','orange');btn.classList.add(ok?'vert':'orange');}
+  if(feed){feed.innerHTML=(ok?'\u2705 '+feedOk:'\u274c '+feedNo);feed.className='lq-feed '+(ok?'ok':'no');feed.style.display='block';}
+  if(nxt)nxt.style.display='block';
+}
+
+/* ===== NAVIGATION LEÇONS ===== */
+function itvNext(n){document.querySelectorAll('[id^="itv_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('itv_step'+n);if(el)el.classList.add('active');}
+function absNext(n){document.querySelectorAll('[id^="abs_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('abs_step'+n);if(el)el.classList.add('active');}
+function ineqNext(n){document.querySelectorAll('[id^="ineq_step"]').forEach(function(e){e.classList.remove('active');});var el=gid('ineq_step'+n);if(el)el.classList.add('active');}
+
+/* ===== VARIABLES ===== */
+var EXP={intervalles:'expIntervalles',absolu:'expAbsolu',inegalites:'expInegalites'};
+var MAPID={intervalles:'mapIntervalles',absolu:'mapAbsolu',inegalites:'mapInegalites'};
+var TITLE={intervalles:'Intervalles',absolu:'Valeur absolue',inegalites:'Inégalités et intervalles'};
+var ORDER=['intervalles','absolu','inegalites'];
+var HELP={intervalles:'[a,b] bornes incluses, ]a,b[ bornes exclues',absolu:'|x| = distance à 0, toujours ≥ 0',inegalites:'x ∈ [a,b] ⟺ a ≤ x ≤ b'};
+var BRIQUE={intervalles:{serie:8,seuil:6},absolu:{serie:8,seuil:6},inegalites:{serie:8,seuil:6}};
+var THEME_CATS={intervalles:['intervalles'],absolu:['absolu'],inegalites:['inegalites']};
+var CATNOM={intervalles:'Intervalles',absolu:'Valeur absolue |x|',inegalites:'Inégalités'};
+var unlocked={intervalles:true,absolu:true,inegalites:true,arene:true};
+var themeDone={intervalles:false,absolu:false,inegalites:false};
+var currentTheme='intervalles';
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',nom:'Intervalles 2nde',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'}};
+
+/* ===== GÉNÉRATEURS ===== */
+
+/* Thème 1 : intervalles */
+function genIntervalles(){
+  var sub=rnd(3);
+  if(sub===0){
+    // Pool fixe
+    var pool=[
+      {t:'3 ∈ [1, 5] ?',opts:['Oui','Non'],ans:0,ex:'1 ≤ 3 ≤ 5 est vrai → 3 ∈ [1, 5].'},
+      {t:'5 ∈ [1, 5[ ?',opts:['Oui','Non'],ans:1,ex:'[1, 5[ → crochet ouvert en 5 → 5 est exclu → 5 ∉ [1, 5[.'},
+      {t:'1 ∈ [1, 5] ?',opts:['Oui','Non'],ans:0,ex:'Crochet fermé en 1 → 1 est inclus → 1 ∈ [1, 5].'},
+      {t:'1 ∈ ]1, 5] ?',opts:['Oui','Non'],ans:1,ex:']1, 5] → crochet ouvert en 1 → 1 est exclu → 1 ∉ ]1, 5].'},
+      {t:'0 ∈ ]−2, 3[ ?',opts:['Oui','Non'],ans:0,ex:'−2 < 0 < 3 est vrai → 0 ∈ ]−2, 3[.'},
+      {t:'−2 ∈ ]−2, 3[ ?',opts:['Oui','Non'],ans:1,ex:'Crochet ouvert en −2 → −2 est exclu → −2 ∉ ]−2, 3[.'},
+      {t:'10 ∈ ]−∞, 7] ?',opts:['Oui','Non'],ans:1,ex:'10 > 7 → 10 n\'est pas ≤ 7 → 10 ∉ ]−∞, 7].'},
+      {t:'−5 ∈ ]−∞, 3[ ?',opts:['Oui','Non'],ans:0,ex:'−5 < 3 → −5 ∈ ]−∞, 3[.'},
+    ];
+    var q=pool[rnd(pool.length)];
+    return {type:'qcm',cat:'intervalles',sig:'itv_pool_'+rnd(500),text:q.t,opts:q.opts,ans:q.ans,explain:q.ex};
+  } else {
+    // Aléatoire : pick a, b, x avec types de crochets
+    var a=rint(-5,0);
+    var b=rint(3,8);
+    var openL=rnd(2)===0; // ] si true
+    var openR=rnd(2)===0; // [ si true
+    var lb=openL?']':'[';
+    var rb=openR?'[':']';
+    // pick x : dedans, sur borne, ou dehors
+    var xOpts=[a, b, rint(a+1,b-1), a-1, b+1];
+    var x=pick(xOpts);
+    var inside;
+    if(openL&&openR) inside=(x>a&&x<b);
+    else if(openL&&!openR) inside=(x>a&&x<=b);
+    else if(!openL&&openR) inside=(x>=a&&x<b);
+    else inside=(x>=a&&x<=b);
+    var ans=inside?0:1;
+    var itv=lb+a+', '+b+rb;
+    var ineq=(openL?(a+' < x'):(a+' ≤ x'))+' '+(openR?('< '+b):('≤ '+b));
+    var expl=itv+' ↔ '+ineq+'. Pour x='+x+' : '+ineq.replace(/x/g,String(x))+' → '+(inside?'Vrai → ':'Faux → ')+x+(inside?(' ∈ '+itv):(' ∉ '+itv))+'.';
+    return {type:'qcm',cat:'intervalles',sig:'itv_rand_'+a+'_'+b+'_'+x,text:x+' ∈ '+itv+' ?',opts:['Oui','Non'],ans:ans,explain:expl};
+  }
+}
+
+/* Thème 2 : valeur absolue */
+function genAbsolu(){
+  var sub=rnd(3);
+  if(sub===0){
+    // cascade : |a| = ? avec a négatif aléatoire
+    var a=-rint(1,12);
+    var ans=Math.abs(a);
+    return {type:'casc',cat:'absolu',sig:'abs_casc_'+a,text:'Calcule :',
+      steps:[{prompt:'La valeur absolue = distance à 0 (toujours positive) :',parts:['|'+a+'| = ',{kind:'num',ans:ans,w:70},''],aide:'|'+a+'| = '+ans+' (on enlève le signe)'}]};
+  } else if(sub===1){
+    // QCM choix 4
+    var pool=[
+      {t:'Que vaut |−8| ?',opts:['8','−8','0','64'],ans:0,ex:'|−8| = 8 : distance de −8 à 0 = 8.'},
+      {t:'Que vaut |−5| ?',opts:['5','−5','0','25'],ans:0,ex:'|−5| = 5 : distance de −5 à 0 = 5.'},
+      {t:'Que vaut |12| ?',opts:['12','−12','0','144'],ans:0,ex:'|12| = 12 : 12 est positif, sa valeur absolue est 12.'},
+      {t:'Que vaut |0| ?',opts:['0','1','−1','Impossible'],ans:0,ex:'|0| = 0 : 0 est à 0 unité de 0.'},
+      {t:'Que vaut |−1| ?',opts:['1','−1','0','11'],ans:0,ex:'|−1| = 1.'},
+    ];
+    var q=pick(pool);
+    return {type:'qcm',cat:'absolu',sig:'abs_qcm_'+rnd(300),text:q.t,opts:q.opts,ans:q.ans,explain:q.ex};
+  } else {
+    // QCM : parmi 4 nombres, lequel a la plus grande valeur absolue ?
+    var candidates=[];
+    while(candidates.length<4){var v=rint(-15,15);if(candidates.indexOf(v)<0)candidates.push(v);}
+    var maxAbs=candidates.reduce(function(m,v){return Math.abs(v)>Math.abs(m)?v:m;},candidates[0]);
+    var maxIdx=candidates.indexOf(maxAbs);
+    // shuffle
+    var shuffled=candidates.slice();
+    for(var i=shuffled.length-1;i>0;i--){var j=rnd(i+1);var tmp=shuffled[i];shuffled[i]=shuffled[j];shuffled[j]=tmp;}
+    var correctOpt=shuffled.indexOf(maxAbs);
+    var expl='|'+shuffled.join('|, |')+'| → valeurs absolues : '+shuffled.map(function(v){return Math.abs(v);}).join(', ')+'. La plus grande est '+Math.abs(maxAbs)+' pour '+maxAbs+'.';
+    return {type:'qcm',cat:'absolu',sig:'abs_max_'+rnd(400),
+      text:'Parmi ces nombres, lequel a la valeur absolue la plus grande ?',
+      opts:shuffled.map(String),ans:correctOpt,explain:expl};
+  }
+}
+
+/* Thème 3 : inégalités */
+function genInegalites(){
+  var sub=rnd(3);
+  if(sub===0){
+    // Pool equiv
+    var pool=[
+      {t:'x ∈ [2, 6] équivaut à ?',opts:['2 ≤ x ≤ 6','2 < x < 6','2 ≤ x < 6','2 < x ≤ 6'],ans:0,ex:'[2, 6] : crochets fermés des deux côtés → 2 ≤ x ≤ 6.'},
+      {t:'x ∈ ]−1, 4[ équivaut à ?',opts:['−1 ≤ x ≤ 4','−1 < x < 4','−1 ≤ x < 4','−1 < x ≤ 4'],ans:1,ex:']−1, 4[ : crochets ouverts des deux côtés → −1 < x < 4.'},
+      {t:'x ∈ [0, 3[ équivaut à ?',opts:['0 ≤ x ≤ 3','0 < x < 3','0 ≤ x < 3','0 < x ≤ 3'],ans:2,ex:'[0, 3[ : crochet fermé en 0, ouvert en 3 → 0 ≤ x < 3.'},
+      {t:'x ∈ ]−4, 1] équivaut à ?',opts:['−4 ≤ x ≤ 1','−4 < x < 1','−4 ≤ x < 1','−4 < x ≤ 1'],ans:3,ex:']−4, 1] : crochet ouvert en −4, fermé en 1 → −4 < x ≤ 1.'},
+      {t:'3 ∈ [3, 7] ?',opts:['Oui','Non'],ans:0,ex:'Crochet fermé en 3 → 3 ∈ [3, 7].'},
+      {t:'7 ∈ [3, 7[ ?',opts:['Oui','Non'],ans:1,ex:'Crochet ouvert en 7 → 7 est exclu → 7 ∉ [3, 7[.'},
+      {t:'−1 ∈ ]−3, 1] ?',opts:['Oui','Non'],ans:0,ex:'−3 < −1 ≤ 1 est vrai → −1 ∈ ]−3, 1].'},
+    ];
+    var q=pick(pool);
+    return {type:'qcm',cat:'inegalites',sig:'ineq_pool_'+rnd(400),text:q.t,opts:q.opts,ans:q.ans,explain:q.ex};
+  } else {
+    // Aléatoire
+    var a=rint(-4,-1);
+    var b=rint(2,6);
+    var openL=rnd(2)===0;
+    var openR=rnd(2)===0;
+    var xChoices=[a, b, rint(a+1,b-1)];
+    var x=pick(xChoices);
+    var inside;
+    if(openL&&openR) inside=(x>a&&x<b);
+    else if(openL&&!openR) inside=(x>a&&x<=b);
+    else if(!openL&&openR) inside=(x>=a&&x<b);
+    else inside=(x>=a&&x<=b);
+    var lb=openL?']':'[';
+    var rb=openR?'[':']';
+    var itv=lb+a+', '+b+rb;
+    var ineq=(openL?(a+' < x'):(a+' ≤ x'))+' '+(openR?('< '+b):('≤ '+b));
+    var expl=itv+' ↔ '+ineq+'. Pour x='+x+' : '+(inside?'vrai':'faux')+' → '+x+(inside?(' ∈ '+itv):(' ∉ '+itv))+'.';
+    return {type:'qcm',cat:'inegalites',sig:'ineq_rand_'+a+'_'+b+'_'+x,text:x+' ∈ '+itv+' ?',opts:['Oui','Non'],ans:inside?0:1,explain:expl};
+  }
+}
+
+var GEN={intervalles:genIntervalles,absolu:genAbsolu,inegalites:genInegalites};
+
+/* ===== MOTEUR QUIZ ===== */
+var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,casc:null,lastText:'',timer:0};
+function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),next:gid('tq_next'),casc:gid('tq_casc'),work:gid('tq_work'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
+function elsArene(){return {score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next'),casc:gid('aq_casc'),work:gid('aq_work')};}
+function quizStart(cats,guided,els){Q.cats=cats;Q.guided=guided;Q.els=els;Q.score=0;Q.answered=0;Q.correct=0;Q.streak=0;Q.locked=false;Q.lastText='';
+  if(els.result)els.result.style.display='none';if(els.card)els.card.style.display='block';
+  quizScore();quizNext();}
+function quizScore(){var e=Q.els;if(e.score)e.score.textContent=Q.score;if(e.streak)e.streak.textContent=Q.streak;if(e.corr)e.corr.textContent=Q.correct;if(e.tot)e.tot.textContent=Q.answered;
+  if(Q.guided&&e.prog)e.prog.innerHTML='Question <b>'+Math.min(Q.answered+1,serieLen())+'</b> / '+serieLen()+'\u00a0\u00b7\u00a0\u2705 '+Q.correct;}
+function quizNext(){clearTimeout(Q.timer);
+  if(Q.guided&&Q.answered>=serieLen()){return quizResult();}
+  Q.locked=false;var e=Q.els;e.feed.textContent='';e.feed.className='feedback';if(e.stars)e.stars.textContent='';if(e.next)e.next.style.display='none';
+  if(e.casc){e.casc.style.display='none';e.casc.innerHTML='';}
+  var cat,cur,tries=0;do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while((cur.sig||cur.text)===Q.lastText&&tries<8);
+  Q.cur=cur;Q.lastText=(cur.sig||cur.text);e.cat.innerHTML=CATNOM[cat]||cat;e.text.innerHTML=cur.text;
+  if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
+  if(cur.type==='qcm'){
+    cur.options=cur.options||cur.opts;cur.correct=(cur.correct!=null)?cur.correct:cur.ans;
+    if(e.work)e.work.style.display='none';e.ansrow.style.display='none';
+    e.opts.innerHTML='';
+    (cur.options||[]).forEach(function(opt,i){var b=document.createElement('button');b.className='opt';b.innerHTML=opt;b.onclick=(function(idx){return function(){quizPick(idx);};})(i);e.opts.appendChild(b);});
+    e.opts.style.display='flex';
+  } else if(cur.type==='casc'){
+    if(e.work)e.work.style.display='none';e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);
+  } else {
+    if(e.work)e.work.style.display='block';e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();
+  }
+  quizScore();}
+/* ===== MOTEUR CASCADE ===== */
+function cscEl(sel){return Q.casc.box.querySelector(sel);}
+function cascStart(cur,e){Q.casc={q:cur,clean:true,box:e.casc};e.casc.style.display='block';var html='';cur.steps.forEach(function(st,idx){html+='<div class="cstep'+(idx===0?' on':'')+'" id="cstep'+idx+'"><div class="cprompt">'+st.prompt+'</div><div class="cbody" id="cbody'+idx+'"></div><div class="cfeed" id="cfeed'+idx+'"></div></div>';});e.casc.innerHTML=html;cascRender(e,0);}
+function cascMkBlank(p,e,idx){var inp=document.createElement('input');inp.className='cblank'+(p.mini?' mini':'');inp.setAttribute('inputmode',p.kind==='num'?'decimal':'text');inp.autocomplete='off';if(p.ph)inp.placeholder=p.ph;if(p.w)inp.style.width=p.w+'px';inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();cascVerify(e,idx);}});Q.casc.q.steps[idx]._blanks.push({bk:p,el:inp});return inp;}
+function cascRenderParts(parent,arr,e,idx){arr.forEach(function(p){if(typeof p==='string'){if(p===''){return;}var sp=document.createElement('span');sp.innerHTML=p;parent.appendChild(sp);}else if(p&&typeof p==='object'&&p.kind){parent.appendChild(cascMkBlank(p,e,idx));}});}
+function cascRender(e,idx){var st=Q.casc.q.steps[idx],body=cscEl('#cbody'+idx);body.innerHTML='';st._tries=0;st._done=false;st._blanks=[];var line=document.createElement('div');line.className='cline';cascRenderParts(line,st.parts,e,idx);body.appendChild(line);var row=document.createElement('div');row.className='cverify';var btn=document.createElement('button');btn.className='btn vert';btn.textContent='V\u00e9rifier';btn.onclick=(function(ii){return function(){cascVerify(e,ii);};})(idx);row.appendChild(btn);body.appendChild(row);var f=st._blanks[0];if(f)setTimeout(function(){try{f.el.focus();}catch(_){}},60);}
+function normTxt(s){return String(s).toLowerCase().trim().replace(/\s+/g,'').replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ïî]/g,'i').replace(/[ôö]/g,'o').replace(/[ûü]/g,'u').replace(/['']/g,'');}
+function blankOK(bk,raw){if(bk.kind==='num'){var v=parseNum(raw);return v!==null&&Math.abs(v-bk.ans)<(bk.tol||0.001);}var n=normTxt(raw);if(n==='')return false;if(bk.mode==='contains')return bk.accept.some(function(a){return n.indexOf(a)>=0;});return bk.accept.indexOf(n)>=0;}
+function cascVerify(e,idx){var st=Q.casc.q.steps[idx];if(st._done)return;var fb=cscEl('#cfeed'+idx);if(st._blanks.some(function(z){return z.el.value.trim()==='';  })){fb.className='cfeed no';fb.textContent='Compl\u00e8te toutes les cases.';return;}var allOK=true;st._blanks.forEach(function(z){var ok=blankOK(z.bk,z.el.value);z.el.classList.remove('cbok','cbno');z.el.classList.add(ok?'cbok':'cbno');if(!ok)allOK=false;});if(allOK){st._done=true;st._blanks.forEach(function(z){z.el.disabled=true;});fb.className='cfeed ok';fb.textContent='\u2705 Bien r\u00e9dig\u00e9.';cascAdvance(e,idx);return;}st._tries++;if(st._tries>=3){Q.casc.clean=false;st._done=true;st._blanks.forEach(function(z){z.el.value=String(z.bk.ans);z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});fb.className='cfeed no';fb.textContent='Voici la bonne \u00e9criture \u2014 observe-la bien avant de continuer.';cascAdvance(e,idx);}else if(st._tries===2){fb.className='cfeed no';fb.innerHTML='\ud83d\udca1 '+(Q.casc.q.steps[idx].aide||'Reprends doucement.');}else{fb.className='cfeed no';fb.textContent='Pas tout \u00e0 fait\u00a0: corrige les cases en orange.';}}
+function cascAdvance(e,idx){var nx=idx+1;if(nx<Q.casc.q.steps.length){var blk=cscEl('#cstep'+nx);blk.classList.add('on');cascRender(e,nx);setTimeout(function(){blk.scrollIntoView({behavior:'smooth',block:'center'});},140);}else cascDone(e);}
+function cascDone(e){Q.locked=true;Q.answered++;if(Q.casc.clean){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='\u2705 R\u00e9daction compl\u00e8te, sans erreur. Bravo\u00a0!';if(e.stars)e.stars.textContent='\u2b50'.repeat(Math.min(Q.streak,5));confettis();}else{Q.streak=0;e.feed.className='feedback ok';e.feed.innerHTML='\ud83d\udc4d R\u00e9daction termin\u00e9e.';if(e.stars)e.stars.textContent='';}quizScore();var last=Q.guided&&Q.answered>=serieLen();if(e.next){e.next.textContent=last?'Voir mon r\u00e9sultat \u279c':'Suivant \u279c';e.next.style.display='inline-flex';}}
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='\u00c9cris un nombre.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La r\u00e9ponse est '+Q.cur.disp+'.');}
+function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var c=(Q.cur.correct!=null?Q.cur.correct:Q.cur.ans);var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===c)b.classList.add('good');});if(i!==c)btns[i].classList.add('bad');quizResolve(i===c,(Q.cur.opts||Q.cur.options)?'La bonne r\u00e9ponse\u00a0: '+(Q.cur.opts||Q.cur.options)[c]+'.':'');}
+function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
+  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='\u2705 Bravo\u00a0!'+(Q.cur.explain?'<div class="feedlab">'+Q.cur.explain+'</div>':'');if(e.stars)e.stars.textContent='\u2b50'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='\u274c '+correctTxt+(Q.cur.explain&&Q.cur.explain!==correctTxt?'<div class="feedlab">'+Q.cur.explain+'</div>':'');if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
+  quizScore();
+  var last=Q.guided&&Q.answered>=serieLen();
+  if(ok&&!last){Q.timer=setTimeout(quizNext,1500);}
+  else{if(e.next){e.next.textContent=last?'Voir mon r\u00e9sultat \u279c':'Suivant \u279c';e.next.style.display='inline-flex';}}}
+function quizResult(){var e=Q.els;if(!e.result){return;}e.card.style.display='none';e.result.style.display='block';
+  var SL=serieLen(),SE=seuilFor();
+  var sc=Q.correct,ok=sc>=SE;try{suiviEnvoi(ok?'Valid\u00e9':'\u00c9chou\u00e9',sc,SL);}catch(_){}e.rbig.textContent=sc+' / '+SL;e.rbig.className='big '+(ok?'ok':'no');
+  e.rmsg.innerHTML=ok?'Parcours valid\u00e9\u00a0! Tu as obtenu <b>'+sc+'/'+SL+'</b>. Bravo\u00a0\ud83d\udc4f':'Il faut <b>'+SE+'/'+SL+'</b> pour valider, et tu as eu '+sc+'/'+SL+'. Tu peux recommencer ou passer \u00e0 la suite.';
+  e.rbtns.innerHTML='';
+  if(ok){var b=document.createElement('button');b.className='btn vert';b.textContent='Continuer \u279c';b.onclick=trainDone;e.rbtns.appendChild(b);}
+  else{var b1=document.createElement('button');b1.className='btn orange';b1.textContent='Nouvelle s\u00e9rie \ud83d\udd04';b1.onclick=function(){startTrain(currentTheme);};e.rbtns.appendChild(b1);
+       var b2=document.createElement('button');b2.className='btn fant';b2.textContent='Passer \u00e0 la suite \u279c';b2.onclick=trainDone;e.rbtns.appendChild(b2);}
+}
+
+/* ===== NAVIGATION ===== */
+function go(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();if(id!=='accueil'){try{history.pushState({screen:id},'','');}catch(_){}}}
+window.addEventListener('popstate',function(){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid('accueil').classList.add('active');window.scrollTo(0,0);});
+function wiggle(id){var el=gid(id);if(!el)return;el.classList.add('shake');setTimeout(function(){el.classList.remove('shake');},400);}
+function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
+function tapArene(){if(unlocked.arene)go('arene');else wiggle('mapArene');}
+function openTheme(t){currentTheme=t;go(EXP[t]);}
+function updateMap(){ORDER.forEach(function(t){var c=gid(MAPID[t]);if(!c)return;c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'\u2705':(unlocked[t]?'\u25b6':'\ud83d\udd12');});var ar=gid('mapArene');if(ar){ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'\u25b6':'\ud83d\udd12';}}
+function startTrain(t){currentTheme=t;gid('trainTitle').textContent='Entra\u00eenement \u2014 '+TITLE[t];go('ecranTrain');var els=elsTrain();els.help.textContent=HELP[t];quizStart(THEME_CATS[t],true,els);}
+function trainDone(){var t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}var idx=ORDER.indexOf(t);if(idx<ORDER.length-1){var nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{unlocked.arene=true;updateMap();go('arene');}}
+function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';var cats=cat==='mix'?ORDER.slice():[cat];quizStart(cats,false,elsArene());}
+function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
+
+/* ===== SUIVI ===== */
+function suiviEnvoi(statut,score,total){if(!SUIVI||!SUIVI.url)return;var el='';var cl='';try{el=localStorage.getItem('kc_eleve')||'';cl=localStorage.getItem('kc_classe')||'';}catch(_){}var fd=new FormData();fd.append(SUIVI.f.eleve,el);fd.append(SUIVI.f.classe,cl);fd.append(SUIVI.f.parcours,SUIVI.nom);fd.append(SUIVI.f.statut,statut);fd.append(SUIVI.f.score,String(score));fd.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',body:fd}).catch(function(){});}
+function suiviSousSection(titre){suiviEnvoi('Sous-section : '+titre,0,0);}
+
+/* ===== CALCULATRICE ===== */
+var kcAns=0;
+function kcEval(expr){
+  var s=expr.replace(/\s/g,'').replace(/,/g,'.').replace(/\u00d7/g,'*').replace(/\u00f7/g,'/').replace(/\u2212/g,'-').replace(/R\u00e9p/g,String(kcAns));
+  var toks=[];var i=0;
+  function isD(c){return c>='0'&&c<='9';}
+  var FUNS=['sin','cos','tan','sqrt'];
+  while(i<s.length){
+    var c=s[i];
+    if(isD(c)||c==='.'){var j=i+1;while(j<s.length&&(isD(s[j])||s[j]==='.'))j++;toks.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}
+    if(c==='\u03c0'){toks.push({t:'pi'});i++;continue;}
+    if(c==='\u221a'){toks.push({t:'fn',v:'sqrt'});i++;continue;}
+    var matched=false;
+    for(var fi=0;fi<FUNS.length;fi++){var fn=FUNS[fi];if(s.slice(i,i+fn.length+1)===fn+'('){toks.push({t:'fn',v:fn});i+=fn.length+1;matched=true;break;}}
+    if(matched)continue;
+    if('+-*/^()'.indexOf(c)>=0){toks.push({t:c});i++;continue;}
+    return null;
+  }
+  var p=0,err=false;
+  function peek(){return toks[p];}function next(){return toks[p++];}
+  function E(){var v=T();while(peek()&&(peek().t==='+'||peek().t==='-')){var o=next().t;var r=T();if(err)return 0;v=o==='+'?v+r:v-r;}return v;}
+  function T(){var v=U();while(peek()&&(peek().t==='*'||peek().t==='/')){var o=next().t;var r=U();if(err)return 0;if(o==='/'){if(r===0){err=true;return 0;}v=v/r;}else v=v*r;}return v;}
+  function U(){var t=peek();if(t&&t.t==='-'){next();return -U();}if(t&&t.t==='+'){next();return U();}if(t&&t.t==='fn'){var fn=next().v;var aa;if(fn==='sqrt'){aa=U();if(err)return 0;if(aa<0){err=true;return 0;}return Math.sqrt(aa);}else{aa=E();if(err)return 0;var cl=next();if(!cl||cl.t!==')'){err=true;return 0;}var rad=aa*Math.PI/180;if(fn==='sin')return Math.round(Math.sin(rad)*1e10)/1e10;if(fn==='cos')return Math.round(Math.cos(rad)*1e10)/1e10;if(fn==='tan'){if(Math.abs(Math.cos(rad))<1e-10){err=true;return 0;}return Math.round(Math.tan(rad)*1e10)/1e10;}}}return Pw();}
+  function Pw(){var bv=PR();if(err)return 0;if(peek()&&peek().t==='^'){next();var ex=U();if(err)return 0;bv=Math.pow(bv,ex);}return bv;}
+  function PR(){var t=next();if(!t){err=true;return 0;}if(t.t==='num')return t.v;if(t.t==='pi')return Math.PI;if(t.t==='('){var v=E();if(err)return 0;var cl=next();if(!cl||cl.t!==')'){err=true;return 0;}return v;}err=true;return 0;}
+  var val=E();if(err||p!==toks.length||toks.length===0)return null;return isFinite(val)?val:null;
+}
+function kcFmt(v){var s=(Math.round(v*1e10)/1e10).toString();return s.replace('-','\u2212').replace('.',',');}
+var kcS='',kcJust=false;
+function kcRender(){gid('kcExpr').textContent=kcS;var v=kcEval(kcS);gid('kcRes').textContent=(kcS==='')?'0':(v===null?'\u2026':kcFmt(v));}
+function kcIns(ch){if(kcJust&&/[0-9.,\u03c0(\u221a]/.test(ch))kcS='';kcJust=false;kcS+=ch;kcRender();}
+function kcClear(){kcS='';kcJust=false;kcRender();}
+function kcBack(){if(kcJust){kcJust=false;kcS='';kcRender();return;}kcS=kcS.slice(0,-1);kcRender();}
+function kcEq(){var v=kcEval(kcS);if(v===null){gid('kcRes').textContent='Erreur';return;}kcAns=v;kcS=kcFmt(v);kcJust=true;gid('kcExpr').textContent='';gid('kcRes').textContent=kcS;}
+function kcToggle(){var p=gid('kcPanel');p.hidden=!p.hidden;if(!p.hidden){var a=document.activeElement;if(a&&a.matches&&(a.id==='tq_input'||a.id==='aq_input'))a.blur();}}
+var KC_ROWS=[
+  [{l:'2NDE',a:'',c:'nde'},{l:'\u232b',a:'back',c:'act'},{l:'AC',a:'clr',c:'act'},{l:'ON',a:'',c:'act'}],
+  [{l:'x\u00b2',a:'^2',c:'fn'},{l:'\u221a',a:'\u221a',c:'fn'},{l:'(-)',a:'\u2212',c:'fn'},{l:'R\u00e9p',a:'R\u00e9p',c:'fn'}],
+  [{l:'sin',a:'sin(',c:'fn'},{l:'cos',a:'cos(',c:'fn'},{l:'tan',a:'tan(',c:'fn'},{l:'\u00d710\u02e3',a:'\u00d710^',c:'fn'}],
+  [{l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u00f7',a:'\u00f7',c:'op'}],
+  [{l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'\u00d7',a:'\u00d7',c:'op'}],
+  [{l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'\u2212',a:'\u2212',c:'op'}],
+  [{l:'0',a:'0',c:'wide2'},{l:',',a:','},{l:'+',a:'+',c:'op'},{l:'=',a:'eq',c:'eq'}]
+];
+(function(){
+  var box=gid('kcKeys');
+  KC_ROWS.forEach(function(row){
+    var rowDiv=document.createElement('div');rowDiv.className='kc-row';
+    row.forEach(function(k){
+      var b=document.createElement('button');
+      b.className='kc-key'+(k.c?' '+k.c:'');
+      b.textContent=k.l;
+      b.addEventListener('mousedown',function(ev){ev.preventDefault();});
+      b.onclick=function(){
+        if(k.a===''||k.a==='on')return;
+        if(k.a==='clr')kcClear();
+        else if(k.a==='back')kcBack();
+        else if(k.a==='eq')kcEq();
+        else kcIns(k.a);
+      };
+      rowDiv.appendChild(b);
+    });
+    box.appendChild(rowDiv);
+  });
+})();
+
+/* ===== PROGRESSION ===== */
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;return 'prog_'+e+'_'+nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});}catch(_){}}
+if(typeof updateMap==='function'){var _um=updateMap;updateMap=function(){var r=_um.apply(this,arguments);try{progSave();}catch(_){}return r;};}
+
+try{progLoad();if(typeof updateMap==='function')updateMap();}catch(_){}
+</script>
+</body>
+</html>
