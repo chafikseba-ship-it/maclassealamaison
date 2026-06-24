@@ -1042,6 +1042,32 @@ document.addEventListener('keydown',function(e){
   else if(e.key==='^'){kcIns('^');}
   else if(e.key==='p'||e.key==='P'){kcIns('π');}
 });
+
+/* ── Mode intégré (iframe dans un parcours) ──────────────────── */
+(function(){
+  if(window.parent===window)return; /* page autonome : rien à faire */
+  /* Masquer la barre de navigation */
+  var tb=document.querySelector('.topbar');if(tb)tb.style.display='none';
+  /* Réduire le fond */
+  document.body.style.background='transparent';
+  document.body.style.padding='0';
+  /* Bouton "Envoyer dans la réponse" */
+  var btn=document.createElement('button');
+  btn.textContent='\u2b06 Envoyer dans la r\u00e9ponse';
+  btn.style.cssText='display:block;margin:8px auto 4px;width:min(420px,calc(100vw - 16px));'
+    +'font-family:Arial,sans-serif;font-weight:700;font-size:15px;border:none;cursor:pointer;'
+    +'background:#8BC34A;color:#fff;border-radius:14px;padding:12px;box-shadow:0 4px 0 #5E9426;';
+  btn.onclick=function(){
+    var val=null;
+    /* Récupérer la valeur numérique depuis l'état */
+    if(state.lastVal!==null&&isFinite(state.lastVal))val=String(Math.round(state.lastVal*1e10)/1e10).replace('.',',');
+    else{var el=document.getElementById('scRes');if(el)val=el.textContent;}
+    if(val&&val!=='0'&&val!=='Erreur'){
+      window.parent.postMessage({type:'kc-send',value:val},'*');
+    }
+  };
+  document.body.appendChild(btn);
+})();
 </script>
 </body>
 </html>
