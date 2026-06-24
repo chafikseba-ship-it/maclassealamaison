@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DNB blanc — Physique-Chimie n°1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --creme:#FFF6E6;--creme2:#FFF0D6;--jaune:#FFC93C;--jaune-fonce:#E0A415;
+    --vert:#9FD356;--vert-fonce:#6FA52A;--orange:#FF9F45;--orange-fonce:#E07A1F;
+    --rouge:#E76F51;--brun:#5A4A2F;--brun-clair:#8A744C;--blanc:#FFFFFF;--ombre:rgba(120,90,30,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:var(--creme);color:var(--brun);min-height:100vh;padding:18px 14px 90px;-webkit-text-size-adjust:100%;}
+  h1,h2,h3,.titre{font-family:'Fredoka',sans-serif;}
+  .wrap{max-width:680px;margin:0 auto;}
+  .entete{background:linear-gradient(135deg,var(--jaune),var(--orange));border-radius:24px;padding:22px;color:#fff;text-align:center;box-shadow:0 6px 0 var(--orange-fonce);margin-bottom:18px;}
+  .entete h1{font-size:26px;font-weight:600;text-shadow:0 2px 0 rgba(0,0,0,.12);}
+  .entete p{font-weight:700;opacity:.95;margin-top:4px;}
+  .progression{display:flex;gap:6px;margin-bottom:18px;}
+  .progression .pas{flex:1;height:10px;border-radius:6px;background:var(--creme2);box-shadow:inset 0 2px 4px var(--ombre);}
+  .progression .pas.fait{background:var(--vert);}
+  .progression .pas.actif{background:var(--jaune);}
+  .carte{background:var(--blanc);border-radius:22px;padding:22px;box-shadow:0 5px 0 var(--ombre);margin-bottom:18px;}
+  .carte h2{font-size:21px;color:var(--brun);margin-bottom:6px;font-weight:600;}
+  .carte h2 .num{color:var(--orange-fonce);}
+  .badge-theme{display:inline-block;background:var(--vert);color:#fff;font-family:'Fredoka';font-weight:600;font-size:13px;padding:4px 12px;border-radius:20px;margin-bottom:12px;}
+  .consigne{font-size:17px;line-height:1.5;margin:10px 0;}
+  .sous{color:var(--brun-clair);font-weight:600;font-size:15px;}
+  .btn{font-family:'Fredoka';font-weight:600;font-size:18px;border:none;cursor:pointer;border-radius:18px;padding:14px 22px;color:#fff;transition:transform .05s,box-shadow .05s;display:inline-block;}
+  .btn-vert{background:var(--vert);box-shadow:0 5px 0 var(--vert-fonce);}
+  .btn-jaune{background:var(--jaune);color:var(--brun);box-shadow:0 5px 0 var(--jaune-fonce);}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--vert-fonce);}
+  .btn-jaune:active{box-shadow:0 1px 0 var(--jaune-fonce);}
+  .ligne-btn{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px;}
+  .qbloc{margin:20px 0 6px;padding:13px 15px;background:linear-gradient(135deg,#FFE7B0,#FFD98A);border-radius:14px;box-shadow:0 3px 0 rgba(180,140,40,.2);}
+  .qbloc h3{font-size:18px;color:var(--brun);font-weight:600;}
+  .qbloc p{font-size:15px;line-height:1.45;margin-top:5px;}
+  .etape{border-radius:16px;padding:14px;margin:10px 0;background:var(--creme);border:2px solid var(--creme2);transition:opacity .3s;}
+  .etape.verrou{opacity:.45;pointer-events:none;}
+  .etape.ok{border-color:var(--vert);background:#f3faea;}
+  .etape .role{font-family:'Fredoka';font-weight:600;color:var(--orange-fonce);font-size:14px;text-transform:uppercase;letter-spacing:.5px;}
+  .etape .q{font-size:16px;margin:6px 0 10px;line-height:1.45;}
+  .etape input[type=text]{font-family:'Nunito';font-size:18px;font-weight:700;width:100%;padding:12px 14px;border:2px solid var(--brun-clair);border-radius:12px;background:#fff;color:var(--brun);}
+  .etape input[type=text]:focus{outline:none;border-color:var(--jaune);}
+  .ligne-valid{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap;}
+  .msg{font-weight:700;font-size:15px;margin-top:8px;}
+  .msg.bon{color:var(--vert-fonce);}
+  .msg.faux{color:var(--rouge);}
+  .aide{background:#FFF3D0;border-left:5px solid var(--jaune);border-radius:8px;padding:10px 12px;margin-top:8px;font-size:15px;}
+  .solution{background:#eef7df;border-left:5px solid var(--vert);border-radius:8px;padding:10px 12px;margin-top:8px;font-size:15px;}
+  .frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 4px;}
+  .frac .num{padding:0 6px 2px;border-bottom:2.5px solid var(--brun);}
+  .frac .den{padding:2px 6px 0;}
+  .frac-saisie{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;}
+  .frac-saisie input{width:140px;text-align:center;font-family:'Nunito';font-weight:700;font-size:18px;border:2px solid var(--brun-clair);border-radius:8px;padding:6px;background:#fff;color:var(--brun);}
+  .frac-saisie .barre-frac{height:3px;background:var(--brun);margin:4px 0;border-radius:2px;}
+  #btn-calc{position:fixed;right:18px;bottom:18px;z-index:50;width:60px;height:60px;border-radius:50%;background:var(--orange);color:#fff;border:none;cursor:pointer;font-size:26px;box-shadow:0 5px 0 var(--orange-fonce);}
+  #btn-calc:active{transform:translateY(4px);box-shadow:0 1px 0 var(--orange-fonce);}
+  #calc{position:fixed;right:18px;bottom:88px;z-index:51;width:300px;max-width:calc(100vw - 36px);max-height:calc(100vh - 120px);overflow-y:auto;background:var(--blanc);border-radius:20px;box-shadow:0 8px 24px rgba(80,60,20,.3);padding:14px;display:none;}
+  #calc.ouvert{display:block;}
+  #calc .affichage{position:sticky;top:0;z-index:2;background:var(--creme);border-radius:12px;padding:14px;font-family:'Fredoka';font-weight:600;font-size:24px;text-align:right;min-height:52px;word-break:break-all;margin-bottom:10px;color:var(--brun);border:2px solid var(--jaune);}
+  #calc .mode{font-size:12px;color:var(--brun-clair);text-align:right;margin-bottom:6px;font-weight:700;}
+  #calc .envoyer{width:100%;margin-top:8px;font-family:'Fredoka';font-weight:600;font-size:15px;border:none;cursor:pointer;background:var(--vert);color:#fff;border-radius:12px;padding:12px;box-shadow:0 4px 0 var(--vert-fonce);}
+  #calc .envoyer:active{transform:translateY(3px);box-shadow:0 1px 0 var(--vert-fonce);}
+  .grille-calc{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  .grille-calc button{font-family:'Fredoka';font-weight:500;font-size:16px;border:none;cursor:pointer;border-radius:10px;padding:11px 0;background:var(--creme2);color:var(--brun);}
+  .grille-calc button:active{transform:translateY(2px);}
+  .grille-calc button.op{background:var(--jaune);}
+  .grille-calc button.fct{background:var(--vert);color:#fff;font-size:14px;}
+  .grille-calc button.eg{background:var(--orange);color:#fff;}
+  .clavier-sym{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .clavier-sym button{font-family:'Fredoka';font-weight:600;font-size:16px;border:none;cursor:pointer;background:var(--creme2);color:var(--brun);border-radius:10px;padding:8px 13px;min-width:42px;box-shadow:0 3px 0 var(--ombre);}
+  .clavier-sym button:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ombre);}
+  .fin{background:linear-gradient(135deg,var(--vert),var(--jaune));color:#fff;text-align:center;}
+  .fin h2{font-size:24px;}
+  .cache{display:none;}
+  .btn-retour{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka';font-weight:600;font-size:16px;
+    background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.5);color:#fff;border-radius:12px;
+    padding:8px 14px;cursor:pointer;text-decoration:none;margin-bottom:10px;transition:background .12s}
+  .btn-retour:hover{background:rgba(255,255,255,.4)}
+  .contexte-box{background:var(--creme2);border-left:5px solid var(--orange);border-radius:12px;padding:12px 16px;margin:10px 0 16px;font-size:16px;line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="index.html" class="btn-retour">← Accueil</a>
+  <div class="entete">
+    <h1>⚗️ DNB blanc — Physique-Chimie n°1</h1>
+    <p>Sujet n°1 · 3 exercices · 45 minutes</p>
+  </div>
+  <div class="progression" id="progression"></div>
+  <div id="zone-ecrans"></div>
+</div>
+
+<button id="btn-calc" onclick="toggleCalc()" aria-label="Calculatrice">🧮</button>
+<div id="calc" role="dialog" aria-label="Calculatrice">
+  <div class="mode">degrés (°)</div>
+  <div class="affichage" id="calc-ecran">0</div>
+  <div class="grille-calc">
+    <button class="fct" onclick="cTok('cos(')">cos</button><button class="fct" onclick="cTok('sin(')">sin</button><button class="fct" onclick="cTok('tan(')">tan</button><button class="op" onclick="cClear()">C</button>
+    <button class="fct" onclick="cTok('cos⁻¹(')">cos⁻¹</button><button class="fct" onclick="cTok('sin⁻¹(')">sin⁻¹</button><button class="fct" onclick="cTok('tan⁻¹(')">tan⁻¹</button><button class="op" onclick="cBack()">&#x232B;</button>
+    <button onclick="cTok('7')">7</button><button onclick="cTok('8')">8</button><button onclick="cTok('9')">9</button><button class="op" onclick="cTok('÷')">÷</button>
+    <button onclick="cTok('4')">4</button><button onclick="cTok('5')">5</button><button onclick="cTok('6')">6</button><button class="op" onclick="cTok('×')">×</button>
+    <button onclick="cTok('1')">1</button><button onclick="cTok('2')">2</button><button onclick="cTok('3')">3</button><button class="op" onclick="cTok('-')">&#x2212;</button>
+    <button onclick="cTok('0')">0</button><button onclick="cTok('.')">,</button><button class="op" onclick="cTok('√(')">&#x221A;</button><button class="op" onclick="cTok('+')">+</button>
+    <button class="op" onclick="cTok('(')">(</button><button class="op" onclick="cTok(')')">)</button><button class="op" onclick="cTok('^2')">x²</button><button class="eg" onclick="cEgal()">=</button>
+  </div>
+  <button class="envoyer" onclick="cEnvoyer()">&#x2B06; Envoyer le résultat dans la réponse</button>
+</div>
+
+<script>
+/* ===== OUTILS ===== */
+function fr(x){return (''+x).replace('.',',');}
+
+/* ===== NORMALISATION ===== */
+function norm(inp){return (inp==null?"":inp.toString()).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'').replace(/,/g,'.').replace(/\*/g,'');}
+
+/* ===== CALCULATRICE ===== */
+var calcExpr="";
+function cosd(x){return Math.cos(x*Math.PI/180);}
+function sind(x){return Math.sin(x*Math.PI/180);}
+function tand(x){return Math.tan(x*Math.PI/180);}
+function acosd(x){return Math.acos(x)*180/Math.PI;}
+function asind(x){return Math.asin(x)*180/Math.PI;}
+function atand(x){return Math.atan(x)*180/Math.PI;}
+function toggleCalc(){var cal=document.getElementById('calc');cal.classList.toggle('ouvert');if(cal.classList.contains('ouvert')){var active=document.activeElement;if(active&&active.matches&&active.matches('.etape input[type=text]')){dernierChamp=active;active.blur();}}}
+function majEcran(){document.getElementById('calc-ecran').textContent=calcExpr||"0";}
+function cTok(t){calcExpr+=t;majEcran();}
+function cClear(){calcExpr="";majEcran();}
+function cBack(){var tk=['cos\u207b\xb9(','sin\u207b\xb9(','tan\u207b\xb9(','cos(','sin(','tan(','√(','^2'];for(var ki=0;ki<tk.length;ki++){if(calcExpr.endsWith(tk[ki])){calcExpr=calcExpr.slice(0,-tk[ki].length);majEcran();return;}}calcExpr=calcExpr.slice(0,-1);majEcran();}
+function calcEval(expr){
+  var e=expr.replace(/×/g,'*').replace(/÷/g,'/').replace(/,/g,'.').replace(/π/g,'Math.PI').replace(/√/g,'Math.sqrt').replace(/\^/g,'**')
+    .replace(/cos⁻¹/g,'acosd').replace(/sin⁻¹/g,'asind').replace(/tan⁻¹/g,'atand')
+    .replace(/\bcos\b/g,'cosd').replace(/\bsin\b/g,'sind').replace(/\btan\b/g,'tand');
+  if(/[a-z]/i.test(e.replace(/Math|cosd|sind|tand|acosd|asind|atand|sqrt|PI|e/gi,''))) throw new Error("invalide");
+  return Function('cosd','sind','tand','acosd','asind','atand','"use strict";return ('+e+');')(cosd,sind,tand,acosd,asind,atand);
+}
+function cEgal(){try{var r=calcEval(calcExpr);if(typeof r!=='number'||!isFinite(r))throw 0;r=Math.round(r*1e6)/1e6;calcExpr=fr(r);majEcran();}catch(e){document.getElementById('calc-ecran').textContent="erreur";calcExpr="";}}
+
+/* ===== CHAMP ACTIF + INSERTION ===== */
+var dernierChamp=null;
+function inserer(champ,txt){if(!champ||champ.disabled)return;var d=(champ.selectionStart!=null)?champ.selectionStart:champ.value.length;var f=(champ.selectionEnd!=null)?champ.selectionEnd:champ.value.length;champ.value=champ.value.slice(0,d)+txt+champ.value.slice(f);var p=d+txt.length;champ.focus();try{champ.setSelectionRange(p,p);}catch(e){}}
+function symPress(ev,btn,sym){ev.preventDefault();var etape=btn.closest('.etape');var champ=(dernierChamp&&etape.contains(dernierChamp)&&!dernierChamp.disabled)?dernierChamp:etape.querySelector('input[type=text]:not([disabled])');inserer(champ,sym);}
+function cEnvoyer(){if(dernierChamp&&!dernierChamp.disabled){inserer(dernierChamp,calcExpr);}else{var e=document.getElementById('calc-ecran');var t=e.textContent;e.textContent="clique d'abord dans une réponse";setTimeout(function(){e.textContent=t;},1400);}}
+
+/* ===== MOTEUR REDACTION GUIDEE ===== */
+function construireRedaction(conteneurId, etapes, onFini){
+  var cont=document.getElementById(conteneurId);cont.innerHTML="";
+  etapes.forEach(function(et,i){
+    if(et.question){
+      var h=document.createElement('div');h.className='qbloc';
+      h.innerHTML='<h3>'+et.question+'</h3>'+(et.consigneQ?'<p>'+et.consigneQ+'</p>':'');
+      cont.appendChild(h);
+    }
+    var div=document.createElement('div');
+    div.className='etape'+(i===0?'':' verrou');div.dataset.i=i;
+    var saisieHTML=(et.type==='fraction')
+      ? '<div class="frac-saisie"><input type="text" data-r="num" placeholder="numérateur"><div class="barre-frac"></div><input type="text" data-r="den" placeholder="dénominateur"></div>'
+      : '<input type="text" placeholder="Écris ici…">';
+    var clavierHTML='';
+    if(et.clavier&&et.clavier.length){
+      clavierHTML='<div class="clavier-sym">'+et.clavier.map(function(sym){return '<button type="button" onmousedown="symPress(event,this,\''+(''+sym).replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')">' +sym+'</button>';}).join('')+'</div>';
+    }
+    div.innerHTML='<div class="role">'+et.role+'</div><div class="q">'+et.q+'</div>'+saisieHTML+clavierHTML+'<div class="ligne-valid"><button class="btn btn-jaune" style="font-size:16px;padding:10px 18px" onclick="validerEtape(\''+conteneurId+'\','+i+')">Valider</button></div><div class="msg" data-msg></div><div data-aide></div>';
+    cont.appendChild(div);
+  });
+  cont.__etapes=etapes;cont.__erreurs=etapes.map(function(){return 0;});cont.__onFini=onFini;
+}
+function validerEtape(conteneurId,i){
+  var cont=document.getElementById(conteneurId);var etapes=cont.__etapes;
+  var div=cont.querySelector('.etape[data-i="'+i+'"]');var et=etapes[i];
+  var ok;
+  if(et.type==='fraction'){var num=div.querySelector('input[data-r="num"]').value;var den=div.querySelector('input[data-r="den"]').value;ok=et.verif({num:num,den:den});}
+  else{ok=et.verif(div.querySelector('input[type=text]').value);}
+  var msg=div.querySelector('[data-msg]');var aideBox=div.querySelector('[data-aide]');
+  if(ok){
+    msg.textContent="\u2713 Bien rédigé.";msg.className="msg bon";div.classList.add('ok');
+    div.querySelectorAll('input').forEach(function(inp){inp.disabled=true;});div.querySelector('.ligne-valid').style.display='none';
+    var suiv=cont.querySelector('.etape[data-i="'+(i+1)+'"]');
+    if(suiv){suiv.classList.remove('verrou');suiv.querySelector('input').focus();}
+    else if(cont.__onFini)cont.__onFini();
+  }else{
+    cont.__erreurs[i]++;var n=cont.__erreurs[i];
+    msg.textContent="Pas encore. Relis ton écriture.";msg.className="msg faux";
+    if(n>=3)aideBox.innerHTML='<div class="solution"><b>La bonne écriture :</b><br>'+et.solutionHTML+'</div>';
+    else if(n>=2)aideBox.innerHTML='<div class="aide">💡 '+et.aide+'</div>';
+  }
+}
+
+/* ===== PROGRESSION ===== */
+var score=0;
+var totalExos=3;
+var exosFinis=0;
+
+function majProgression(){
+  var p=document.getElementById('progression');
+  p.querySelectorAll('.pas').forEach(function(d,i){
+    d.className='pas'+(i<exosFinis?' fait':i===exosFinis?' actif':'');
+  });
+}
+
+function exoTermine(){
+  exosFinis++;
+  majProgression();
+  if(exosFinis>=totalExos){
+    afficherFin();
+  }
+}
+
+function afficherFin(){
+  var zone=document.getElementById('zone-ecrans');
+  var fin=document.getElementById('carte-fin');
+  if(fin){fin.classList.remove('cache');}
+  fin.scrollIntoView({behavior:'smooth'});
+}
+
+/* ===== CONSTRUCTION ===== */
+window.addEventListener('DOMContentLoaded',function(){
+  // Progression
+  var p=document.getElementById('progression');
+  for(var i=0;i<totalExos;i++){var d=document.createElement('div');d.className='pas';p.appendChild(d);}
+  majProgression();
+
+  // === EXERCICE 1 — Masse volumique et flottaison ===
+  var carte1=document.createElement('div');
+  carte1.className='carte';
+  carte1.innerHTML=
+    '<h2><span class="num">Exercice 1</span> — Masse volumique et flottaison</h2>'+
+    '<span class="badge-theme">Masse volumique · 3ème</span>'+
+    '<div class="contexte-box">'+
+      'Un bloc de bois a une masse <b>m = 120 g</b> et un volume <b>V = 200 cm³</b>.<br>'+
+      'La masse volumique de l\'eau est <b>ρ<sub>eau</sub> = 1 g/cm³</b>.'+
+    '</div>'+
+    '<div id="ex1"></div>';
+  document.getElementById('zone-ecrans').appendChild(carte1);
+
+  construireRedaction('ex1',[
+    {
+      question:'Question 1 — Masse volumique du bois',
+      consigneQ:'Calcule la masse volumique ρ du bois en g/cm³.',
+      role:'Écrire la formule',
+      clavier:['ρ','=','m','÷','V'],
+      q:'Rappelle la formule de la masse volumique.',
+      verif:function(v){var t=norm(v);return t.includes('m')&&t.includes('v')&&(t.includes('/')|| t.includes('div')||t.includes('='));},
+      aide:'La formule est ρ = m ÷ V',
+      solutionHTML:'ρ = m ÷ V'
+    },
+    {
+      role:'Substituer les valeurs',
+      clavier:['÷','='],
+      q:'Remplace m = 120 g et V = 200 cm³ dans la formule.',
+      verif:function(v){var t=norm(v);return t.includes('120')&&t.includes('200');},
+      aide:'ρ = 120 ÷ 200',
+      solutionHTML:'ρ = 120 ÷ 200'
+    },
+    {
+      role:'Calculer le résultat',
+      clavier:['='],
+      q:'Calcule ρ = 120 ÷ 200 (en g/cm³).',
+      verif:function(v){return Math.abs(parseFloat(norm(v))-0.6)<=0.01;},
+      aide:'120 ÷ 200 = 0,6 g/cm³',
+      solutionHTML:'ρ = 0,6 g/cm³'
+    },
+    {
+      question:'Question 2 — Flottaison du bois',
+      consigneQ:'Le bois flotte-t-il ? Justifie en comparant les masses volumiques.',
+      role:'Conclure',
+      q:'Compare ρ_bois = 0,6 g/cm³ et ρ_eau = 1 g/cm³. Le bois flotte-t-il ?',
+      verif:function(v){var t=norm(v);return t.includes('flotte');},
+      aide:'Comme 0,6 < 1 (ρ_bois < ρ_eau), le bois flotte.',
+      solutionHTML:'0,6 &lt; 1 donc ρ_bois &lt; ρ_eau → le bois <b>flotte</b>.'
+    },
+    {
+      question:'Question 3 — Objet de masse volumique 1,2 g/cm³',
+      consigneQ:'Un objet a ρ = 1,2 g/cm³. Flotte-t-il dans l\'eau ?',
+      role:'Conclure',
+      q:'ρ_objet = 1,2 g/cm³ et ρ_eau = 1 g/cm³. L\'objet flotte-t-il ?',
+      verif:function(v){var t=norm(v);return t.includes('coule');},
+      aide:'Comme 1,2 > 1 (ρ_objet > ρ_eau), l\'objet coule.',
+      solutionHTML:'1,2 &gt; 1 donc ρ_objet &gt; ρ_eau → l\'objet <b>coule</b>.'
+    }
+  ],function(){exoTermine();});
+
+  // === EXERCICE 2 — Circuit électrique et loi d'Ohm ===
+  var carte2=document.createElement('div');
+  carte2.className='carte';
+  carte2.innerHTML=
+    '<h2><span class="num">Exercice 2</span> — Circuit électrique et loi d\'Ohm</h2>'+
+    '<span class="badge-theme">Loi d\'Ohm · 4ème</span>'+
+    '<div class="contexte-box">'+
+      'Un circuit série contient :<br>'+
+      '• une pile de tension <b>U = 9 V</b><br>'+
+      '• une résistance R₁ = <b>30 Ω</b><br>'+
+      '• une lampe de résistance R₂ = <b>15 Ω</b>'+
+    '</div>'+
+    '<div id="ex2"></div>';
+  document.getElementById('zone-ecrans').appendChild(carte2);
+
+  construireRedaction('ex2',[
+    {
+      question:'Question 1 — Tension aux bornes de la lampe',
+      consigneQ:'En série : U = U₁ + U₂. Si U₁ = 6 V, calcule U₂.',
+      role:'Écrire la relation',
+      clavier:['U','=','U₁','+','U₂'],
+      q:'En circuit série, écris la relation entre U, U₁ et U₂.',
+      verif:function(v){var t=norm(v);return t.includes('u')&&(t.includes('u1')||t.includes('u2'))&&t.includes('+')&&t.includes('=');},
+      aide:'En série : U = U₁ + U₂',
+      solutionHTML:'U = U₁ + U₂'
+    },
+    {
+      role:'Isoler U₂',
+      clavier:['U₂','=','U','-','U₁'],
+      q:'Isole U₂ : exprime U₂ en fonction de U et U₁.',
+      verif:function(v){var t=norm(v);return t.includes('u2')&&t.includes('-')&&t.includes('=');},
+      aide:'U₂ = U − U₁',
+      solutionHTML:'U₂ = U − U₁'
+    },
+    {
+      role:'Calculer U₂',
+      clavier:['=','-'],
+      q:'Calcule U₂ = 9 − 6 (en V).',
+      verif:function(v){return Math.abs(parseFloat(norm(v))-3)<=0.01;},
+      aide:'U₂ = 9 − 6 = 3 V',
+      solutionHTML:'U₂ = 9 − 6 = <b>3 V</b>'
+    },
+    {
+      question:'Question 2 — Tension aux bornes de R₁',
+      consigneQ:'L\'intensité dans le circuit est I = 0,2 A. Calcule U₁ = R₁ × I.',
+      role:'Écrire la loi d\'Ohm',
+      clavier:['U₁','=','R₁','×','I'],
+      q:'Rappelle la loi d\'Ohm : exprime U₁ avec R₁ et I.',
+      verif:function(v){var t=norm(v);return t.includes('r')&&t.includes('i')&&(t.includes('×')||t.includes('*')||t.includes('u1'))&&t.includes('=');},
+      aide:'Loi d\'Ohm : U₁ = R₁ × I',
+      solutionHTML:'U₁ = R₁ × I'
+    },
+    {
+      role:'Substituer et calculer U₁',
+      clavier:['×','='],
+      q:'Calcule U₁ = 30 × 0,2 (en V).',
+      verif:function(v){return Math.abs(parseFloat(norm(v))-6)<=0.01;},
+      aide:'U₁ = 30 × 0,2 = 6 V',
+      solutionHTML:'U₁ = 30 × 0,2 = <b>6 V</b>'
+    },
+    {
+      question:'Question 3 — Vérification : tension aux bornes de R₂',
+      consigneQ:'Calcule U₂ = R₂ × I et vérifie que tu retrouves 3 V.',
+      role:'Calculer U₂',
+      clavier:['×','='],
+      q:'Calcule U₂ = R₂ × I = 15 × 0,2 (en V).',
+      verif:function(v){return Math.abs(parseFloat(norm(v))-3)<=0.01;},
+      aide:'U₂ = 15 × 0,2 = 3 V — on retrouve bien le résultat de la question 1.',
+      solutionHTML:'U₂ = 15 × 0,2 = <b>3 V</b> ✓ (cohérent avec U₁ + U₂ = 6 + 3 = 9 V)'
+    }
+  ],function(){exoTermine();});
+
+  // === EXERCICE 3 — Réaction chimique ===
+  var carte3=document.createElement('div');
+  carte3.className='carte';
+  carte3.innerHTML=
+    '<h2><span class="num">Exercice 3</span> — Réaction chimique</h2>'+
+    '<span class="badge-theme">Réactions chimiques · 3ème</span>'+
+    '<div class="contexte-box">'+
+      'On fait brûler <b>4 g de carbone</b> dans du dioxygène.<br>'+
+      'Il se forme uniquement du <b>dioxyde de carbone</b>.<br>'+
+      'La masse de dioxygène consommé est <b>10,67 g</b>.'+
+    '</div>'+
+    '<div id="ex3"></div>';
+  document.getElementById('zone-ecrans').appendChild(carte3);
+
+  construireRedaction('ex3',[
+    {
+      question:'Question 1 — Identifier les réactifs',
+      consigneQ:'Nomme les réactifs de cette réaction chimique.',
+      role:'Nommer les réactifs',
+      q:'Quelles sont les deux substances qui réagissent (les réactifs) ?',
+      verif:function(v){var t=norm(v);return (t.includes('carbone')&&t.includes('dioxygene'))||(t.includes('carbone')&&t.includes('oxygene'));},
+      aide:'Les réactifs sont les substances qui disparaissent : le carbone et le dioxygène.',
+      solutionHTML:'Les réactifs sont : le <b>carbone</b> et le <b>dioxygène</b>.'
+    },
+    {
+      question:'Question 2 — Identifier le produit',
+      consigneQ:'Quel est le produit formé par cette réaction ?',
+      role:'Nommer le produit',
+      q:'Quel est le nom du produit formé lors de la combustion du carbone ?',
+      verif:function(v){var t=norm(v);return t.includes('dioxydedecarbone')||(t.includes('dioxyde')&&t.includes('carbone'));},
+      aide:'La combustion du carbone dans le dioxygène produit du dioxyde de carbone (CO₂).',
+      solutionHTML:'Le produit formé est le <b>dioxyde de carbone</b>.'
+    },
+    {
+      question:'Question 3 — Loi de conservation de la masse (Lavoisier)',
+      consigneQ:'Calcule la masse de dioxyde de carbone formé.',
+      role:'Rappeler la loi de Lavoisier',
+      q:'Énonce la loi de conservation de la masse (loi de Lavoisier).',
+      verif:function(v){var t=norm(v);return (t.includes('reactif')&&t.includes('produit'))||(t.includes('conserv')&&(t.includes('masse')||t.includes('matiere')))||(t.includes('rien')&&t.includes('perd'));},
+      aide:'Loi de Lavoisier : la masse des réactifs = la masse des produits.',
+      solutionHTML:'Masse des réactifs = masse des produits'
+    },
+    {
+      role:'Calculer la masse totale des réactifs',
+      clavier:['+','='],
+      q:'Calcule la masse totale des réactifs : m_carbone + m_dioxygène = 4 + 10,67.',
+      verif:function(v){return Math.abs(parseFloat(norm(v))-14.67)<=0.01;},
+      aide:'4 + 10,67 = 14,67 g',
+      solutionHTML:'m_réactifs = 4 + 10,67 = 14,67 g'
+    },
+    {
+      role:'Conclure sur la masse du produit',
+      q:'D\'après la loi de Lavoisier, quelle est la masse de dioxyde de carbone formé (en g) ?',
+      verif:function(v){return Math.abs(parseFloat(norm(v))-14.67)<=0.01;},
+      aide:'Masse du produit = masse des réactifs = 14,67 g',
+      solutionHTML:'m(CO₂) = 14,67 g'
+    }
+  ],function(){exoTermine();});
+
+  // === CARTE FIN ===
+  var carteFin=document.createElement('div');
+  carteFin.className='carte fin cache';
+  carteFin.id='carte-fin';
+  carteFin.innerHTML=
+    '<h2>Sujet terminé 🎉</h2>'+
+    '<p class="consigne" style="margin:14px 0 20px;">Tu as rédigé les 3 exercices de physique-chimie.<br>Bravo pour ton travail !</p>'+
+    '<div class="ligne-btn">'+
+      '<a href="index.html" class="btn btn-jaune" style="text-decoration:none">← Retour à l\'accueil</a>'+
+    '</div>';
+  document.getElementById('zone-ecrans').appendChild(carteFin);
+});
+
+document.addEventListener('focusin',function(e){if(e.target.matches&&e.target.matches('.etape input[type=text]'))dernierChamp=e.target;});
+</script>
+</body>
+</html>

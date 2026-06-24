@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumière — 4ème</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#FFC93C;--or-bas:#E0A41E;--vert:#8BC34A;--vert-bas:#5E9426;
+  --orange:#FF8A4C;--orange-bas:#E0672E;--teal:#46BECB;--teal-bas:#2E8A98;
+  --violet:#A78BC4;--violet-bas:#7E61A1;--rouge:#EF5D60;--rouge-bas:#c43e41;
+  --bleu:#4FA3D1;--bleu-bas:#2f7ba8;
+  --bois:#5C3D2E;--bois-clair:#8a6650;--creme:#FFF4DC;--blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18),0 14px 22px rgba(92,61,46,.12);
+  --acc:#46BECB;--acc-bas:#2E8A98;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
+  background:linear-gradient(160deg,#EAF6FF 0%,#D0EEFF 55%,#B8E4FF 100%);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 100px;position:relative;z-index:1}
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.4;z-index:0}
+.b1{width:180px;height:180px;background:#A8D8FF;top:-40px;left:-50px}
+.b2{width:140px;height:140px;background:#FFD0A0;bottom:40px;right:-40px}
+.b3{width:120px;height:120px;background:#BCE29A;top:40%;left:-50px}
+.screen{display:none;animation:pop .35s ease}
+.screen.active{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
+  padding:14px 22px;cursor:pointer;background:var(--acc);box-shadow:0 6px 0 var(--acc-bas);
+  transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--acc-bas)}
+.btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
+.btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
+.btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
+.btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
+.btn.bleu{background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)}
+.btn.or{background:var(--or);color:var(--bois);box-shadow:0 6px 0 var(--or-bas)}
+.btn.rouge{background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)}
+.btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
+.btn:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.back{background:var(--blanc);color:var(--bois);border:none;border-radius:14px;width:48px;height:48px;
+  font-size:1.5rem;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;font-family:'Fredoka'}
+.back:active{transform:translateY(4px);box-shadow:0 1px 0 #e7d3a8}
+.card{background:var(--blanc);border-radius:26px;padding:22px;box-shadow:var(--ombre);margin:16px 0}
+.tag{display:inline-block;font-family:'Fredoka';font-weight:600;color:#fff;padding:5px 14px;border-radius:30px;font-size:.85rem;margin-bottom:8px}
+.hero{text-align:center;padding:26px 16px 8px}
+.hero h1{font-size:2.5rem;line-height:1.05;margin:.1em 0;color:var(--bois)}
+.hero .sub{font-size:1.1rem;color:var(--bois-clair);font-weight:700;max-width:560px;margin:6px auto 0}
+.coin{font-size:3.4rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
+.map{display:grid;gap:16px;margin-top:8px}
+.etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;
+  box-shadow:var(--ombre);cursor:pointer;border:4px solid transparent;transition:transform .12s}
+.etape:hover{transform:translateY(-3px)}
+.etape:active{transform:translateY(1px)}
+.etape .num{flex:0 0 60px;height:60px;border-radius:18px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.7rem;color:#fff}
+.etape .txt h3{margin:0 0 2px;font-size:1.16rem}
+.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.92rem}
+.etape .status{margin-left:auto;font-size:1.5rem}
+.e1 .num{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
+.e2 .num{background:var(--violet);box-shadow:0 5px 0 var(--violet-bas)}
+.e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
+.e4 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
+.lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
+.mid{text-align:center;margin:16px 0}
+.encadre{border-left:5px solid var(--teal);background:var(--creme);border-radius:0 14px 14px 0;
+  padding:12px 14px;margin:12px 0;font-family:'Fredoka';font-weight:700;font-size:1.05rem;
+  color:var(--bois);line-height:1.5}
+.encadre.violet{border-left-color:var(--violet)}
+.encadre.orange{border-left-color:var(--orange)}
+.encadre.vert{border-left-color:var(--vert)}
+.encadre.or{border-left-color:var(--or)}
+.note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
+.lecon-anim{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:14px 0}
+.lecon-bloc{background:var(--teal);color:#fff;font-family:'Fredoka';font-weight:700;font-size:1.2rem;padding:10px 16px;border-radius:14px;box-shadow:0 5px 0 var(--teal-bas)}
+.lecon-op{font-family:'Fredoka';font-weight:700;font-size:1.4rem;color:var(--bois)}
+.lecon-res{background:var(--vert);color:#fff;font-family:'Fredoka';font-weight:700;font-size:1.3rem;padding:10px 18px;border-radius:14px;box-shadow:0 5px 0 var(--vert-bas)}
+.tableau{width:100%;border-collapse:separate;border-spacing:0 6px;margin:10px 0}
+.tableau th{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.95rem;padding:6px 12px;text-align:center}
+.tableau td{background:var(--blanc);font-family:'Fredoka';font-weight:700;color:var(--bois);padding:10px 14px;text-align:center;border-radius:10px}
+.tableau tr:nth-child(odd) td{background:var(--creme)}
+.formule-box{display:inline-flex;align-items:center;background:var(--creme);border:2px dashed var(--teal-bas);
+  border-radius:14px;padding:10px 18px;font-family:'Fredoka';font-weight:700;font-size:1.2rem;
+  color:var(--bois);gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 6px;line-height:1.1}
+.fnum,.fden{display:block;text-align:center;padding:2px 8px;font-family:'Fredoka';font-weight:700}
+.fbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
+/* Entraînement */
+.serieprog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
+.qcard{text-align:center}
+.qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
+.helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px;background:var(--creme);border-radius:10px;padding:8px 12px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
+.ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
+.ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;
+  border:3px solid #f0dca8;border-radius:16px;padding:12px;width:180px;color:var(--bois)}
+.ansrow input:focus{outline:none;border-color:var(--teal-bas)}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.05rem;border:3px solid #e7d3a8;background:var(--blanc);
+  color:var(--bois);border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
+.opt.bad{background:var(--orange);color:#fff;border-color:var(--orange-bas);box-shadow:0 5px 0 var(--orange-bas)}
+.feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
+.feedback.ok{color:var(--vert-bas)}
+.feedback.no{color:var(--orange-bas)}
+.stars{font-size:1.5rem;letter-spacing:3px;margin-top:8px;min-height:1.6em}
+.mathpad{min-height:10px}
+.brouillon-lab{font-family:'Nunito';font-weight:800;font-size:.88rem;color:var(--bois-clair);margin:14px 0 4px}
+.brouillon{width:100%;border:2px solid #e7d3a8;border-radius:14px;padding:10px 12px;font-family:'Nunito';
+  font-weight:700;font-size:1rem;color:var(--bois);resize:vertical;background:var(--blanc)}
+.brouillon:focus{outline:none;border-color:var(--teal-bas)}
+.conf{position:fixed;width:12px;height:12px;top:-20px;z-index:50;border-radius:3px;pointer-events:none}
+.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.result{text-align:center}
+.result .big{font-family:'Fredoka';font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
+.result .big.ok{color:var(--vert-bas)}.result .big.no{color:var(--orange-bas)}
+.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
+.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+/* CASCADE */
+.cascade{margin:6px 0 2px;text-align:left}
+.cstep{display:none;background:var(--creme);border-radius:16px;padding:14px 16px;margin:10px 0;animation:pop .3s ease}
+.cstep.on{display:block}
+.cprompt{font-family:'Fredoka';font-weight:700;color:var(--bois);font-size:1.05rem;margin-bottom:10px;line-height:1.35}
+.cbody{display:flex;flex-direction:column;gap:8px}
+.cfeed{font-family:'Nunito';font-weight:800;font-size:.92rem;margin-top:8px;min-height:1em;line-height:1.35}
+.cfeed.ok{color:var(--vert-bas)}.cfeed.no{color:var(--orange-bas)}
+.cline{font-family:'Fredoka';font-weight:700;font-size:1.12rem;color:var(--bois);line-height:2.6;
+  display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.cblank{font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;border:none;
+  border-bottom:3px solid var(--teal-bas);background:#fff;border-radius:8px 8px 0 0;padding:6px;color:var(--bois)}
+.cblank:focus{outline:3px solid var(--teal-bas);outline-offset:1px;background:#f0fbff}
+.cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
+.cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
+.cverify{margin-top:10px}
+.cfrac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 5px}
+.cfnum,.cfden{display:block;text-align:center;padding:2px 6px}
+.cfbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
+.figbox{margin:8px auto 4px;text-align:center}
+.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka';font-weight:600;font-size:.85rem;
+  color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;
+  box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+/* ===== CALCULATRICE ===== */
+.kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;
+  box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);transition:transform .1s}
+.kc-fab:active{transform:translateY(4px)}
+.kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(330px,calc(100vw - 32px));
+  background:var(--blanc);border-radius:22px;padding:14px;
+  box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);animation:kcpop .25s ease}
+.kc-panel[hidden]{display:none}
+@keyframes kcpop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.kc-head{display:flex;align-items:center;justify-content:space-between;font-family:'Fredoka';font-weight:700;
+  color:var(--bois);margin:2px 4px 10px;font-size:1.05rem}
+.kc-x{border:none;background:var(--creme);color:var(--bois);width:32px;height:32px;border-radius:10px;
+  font-size:1rem;cursor:pointer;font-family:'Fredoka';box-shadow:0 3px 0 #e7d3a8}
+.kc-x:active{transform:translateY(2px);box-shadow:0 1px 0 #e7d3a8}
+.kc-screen{background:#2b2b2b;border-radius:14px;padding:10px 14px;text-align:right;margin-bottom:12px;
+  min-height:74px;display:flex;flex-direction:column;justify-content:center}
+.kc-expr{font-family:'Fredoka';font-weight:600;color:#cfe6ee;font-size:1rem;min-height:1.2em;word-break:break-all;line-height:1.25}
+.kc-res{font-family:'Fredoka';font-weight:700;color:#fff;font-size:1.7rem;line-height:1.1;margin-top:2px}
+.kc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kc-key{border:none;border-radius:14px;padding:14px 0;font-family:'Fredoka';font-weight:700;
+  font-size:1.15rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.kc-key:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.kc-key.op{background:var(--creme);color:var(--orange-bas)}
+.kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1rem}
+.kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
+.kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
+.kc-send{width:100%;margin-top:8px;border:none;border-radius:14px;padding:12px;font-family:'Fredoka';
+  font-weight:700;font-size:1rem;background:var(--teal);color:#fff;cursor:pointer;box-shadow:0 4px 0 var(--teal-bas)}
+.kc-send:active{transform:translateY(3px);box-shadow:0 1px 0 var(--teal-bas)}
+button,input,textarea{touch-action:manipulation}
+@media(max-width:480px){
+  .wrap{padding:14px 12px 90px}
+  .hero h1{font-size:2rem}.coin{font-size:2.8rem}
+  .card{padding:16px;border-radius:20px}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem}
+  .question{font-size:1.18rem}
+  .ansrow input{width:60%;max-width:200px}
+  .btn{font-size:1rem;padding:13px 18px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+<div class="wrap">
+
+<!-- ========== ACCUEIL ========== -->
+<section id="accueil" class="screen active">
+  <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
+  <div class="hero">
+    <div class="coin">💡🌅🔭</div>
+    <h1>Lumière</h1>
+    <p class="sub">4 étapes guidées — lis la leçon, puis entraîne-toi ! 💪</p>
+  </div>
+  <div class="map">
+    <div class="etape e1" id="mapPropagation" onclick="tapTheme('propagation')">
+      <div class="num">💡</div>
+      <div class="txt"><h3>1 · Propagation de la lumière</h3><p>Ligne droite, sources primaires / secondaires, vitesse c</p></div>
+      <div class="status" id="stPropagation">▶</div>
+    </div>
+    <div class="etape e2" id="mapOmbres" onclick="tapTheme('ombres')">
+      <div class="num">🌑</div>
+      <div class="txt"><h3>2 · Ombres et éclipses</h3><p>Ombre, pénombre, éclipse de Lune et de Soleil</p></div>
+      <div class="status" id="stOmbres">▶</div>
+    </div>
+    <div class="etape e3" id="mapReflexion" onclick="tapTheme('reflexion')">
+      <div class="num">🪞</div>
+      <div class="txt"><h3>3 · Réflexion de la lumière</h3><p>Loi de réflexion : angle i = angle r</p></div>
+      <div class="status" id="stReflexion">▶</div>
+    </div>
+    <div class="etape e4" id="mapRefraction" onclick="tapTheme('refraction')">
+      <div class="num">💧</div>
+      <div class="txt"><h3>4 · Réfraction de la lumière</h3><p>Changement de direction à l'interface (eau, verre)</p></div>
+      <div class="status" id="stRefraction">▶</div>
+    </div>
+  </div>
+  <div class="mid" style="margin-top:20px">
+    <button class="btn teal" onclick="go('arene')">🏟️ Arène libre — mélange tout !</button>
+  </div>
+</section>
+
+<!-- ========== LEÇON 1 : PROPAGATION ========== -->
+<section id="expPropagation" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>💡 Propagation de la lumière</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">📏 Propagation rectiligne</span>
+    <p class="lead">La lumière se propage <b>en ligne droite</b> dans un milieu homogène (air, eau pure, verre).<br>
+    On appelle cela la <b>propagation rectiligne</b> de la lumière.</p>
+    <div class="figbox">
+      <svg width="320" height="80" viewBox="0 0 320 80" style="max-width:100%;display:block;margin:auto">
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#FFC93C"/>
+          </marker>
+        </defs>
+        <circle cx="20" cy="40" r="16" fill="#FFC93C" stroke="#E0A41E" stroke-width="2"/>
+        <text x="20" y="45" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="13" fill="#5C3D2E">💡</text>
+        <line x1="38" y1="40" x2="290" y2="40" stroke="#FFC93C" stroke-width="3" stroke-dasharray="6,3" marker-end="url(#arrow)"/>
+        <text x="160" y="30" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="13" fill="#5C3D2E">rayon lumineux</text>
+        <circle cx="305" cy="40" r="12" fill="#A78BC4" stroke="#7E61A1" stroke-width="2"/>
+        <text x="305" y="45" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="11" fill="#fff">👁</text>
+      </svg>
+    </div>
+    <div class="encadre">
+      📌 <b>Preuve :</b> Si on perce trois cartons alignés, on ne voit la lumière que lorsque les trous sont parfaitement dans le même axe !
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">🌟 Sources primaires vs secondaires</span>
+    <p class="lead">Toutes les sources de lumière ne sont pas identiques !</p>
+    <table class="tableau">
+      <thead><tr><th>Type</th><th>Définition</th><th>Exemples</th></tr></thead>
+      <tbody>
+        <tr><td>⭐ <b>Source primaire</b></td><td>Produit sa propre lumière</td><td>Soleil, flamme, LED, ampoule, étoile</td></tr>
+        <tr><td>🔵 <b>Source secondaire</b></td><td>Réfléchit la lumière reçue</td><td>Lune, table, vêtements, planètes</td></tr>
+      </tbody>
+    </table>
+    <div class="encadre violet">
+      🌙 <b>La Lune ne produit pas de lumière !</b> Elle réfléchit la lumière du Soleil. C'est une source secondaire.
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">⚡ Vitesse de la lumière</span>
+    <p class="lead">La lumière est la chose la plus rapide de l'Univers !</p>
+    <div style="text-align:center;margin:14px 0">
+      <div class="formule-box">
+        c = 300 000 km/s = 3×10⁸ m/s
+      </div>
+    </div>
+    <div class="encadre orange">
+      🌍 En 1 seconde, la lumière fait <b>7,5 fois le tour de la Terre</b> !<br>
+      🌑 De la Terre à la Lune : environ <b>1,3 seconde</b>.<br>
+      ☀️ De la Terre au Soleil : environ <b>8 minutes</b>.
+    </div>
+    <div class="encadre or">
+      📐 <b>Année-lumière :</b> distance parcourue par la lumière en 1 an.<br>
+      1 année-lumière ≈ <b>9 460 milliards de km</b> ! C'est une unité de <b>distance</b>, pas de temps.
+    </div>
+  </div>
+
+  <div class="mid"><button class="btn teal" onclick="startTrain('propagation')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== LEÇON 2 : OMBRES ========== -->
+<section id="expOmbres" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🌑 Ombres et éclipses</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">🕶️ Ombre et pénombre</span>
+    <p class="lead">Quand un objet opaque bloque la lumière, il crée une <b>ombre</b>.<br>
+    Le type d'ombre dépend de la taille de la source lumineuse.</p>
+    <div class="figbox">
+      <svg width="340" height="110" viewBox="0 0 340 110" style="max-width:100%;display:block;margin:auto">
+        <!-- Source étendue -->
+        <ellipse cx="30" cy="55" rx="20" ry="28" fill="#FFC93C" stroke="#E0A41E" stroke-width="2" opacity="0.9"/>
+        <text x="30" y="98" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="11" fill="#5C3D2E">Source</text>
+        <!-- Rayons haut / bas -->
+        <line x1="50" y1="30" x2="120" y2="45" stroke="#FFC93C" stroke-width="1.5" stroke-dasharray="4,2" opacity="0.7"/>
+        <line x1="50" y1="80" x2="120" y2="65" stroke="#FFC93C" stroke-width="1.5" stroke-dasharray="4,2" opacity="0.7"/>
+        <!-- Objet opaque -->
+        <rect x="115" y="42" width="14" height="26" fill="#5C3D2E" rx="3"/>
+        <!-- Zone ombre franche -->
+        <polygon points="129,48 220,38 220,72 129,62" fill="#5C3D2E" opacity="0.35"/>
+        <!-- Zone pénombre haut -->
+        <polygon points="129,42 220,25 220,38" fill="#8a6650" opacity="0.3"/>
+        <!-- Zone pénombre bas -->
+        <polygon points="129,68 220,72 220,85" fill="#8a6650" opacity="0.3"/>
+        <!-- Étiquettes -->
+        <text x="175" y="57" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="11" fill="#fff">Ombre</text>
+        <text x="210" y="34" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="10" fill="#5C3D2E">Pénombre</text>
+        <text x="210" y="84" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="10" fill="#5C3D2E">Pénombre</text>
+      </svg>
+    </div>
+    <table class="tableau">
+      <thead><tr><th>Zone</th><th>Description</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>⚫ <b>Ombre</b></td><td>Zone où AUCUN rayon n'arrive — obscurité totale</td><td>Source ponctuelle ou étendue</td></tr>
+        <tr><td>🌫️ <b>Pénombre</b></td><td>Zone où une PARTIE des rayons arrive — mi-sombre</td><td>Source étendue uniquement</td></tr>
+      </tbody>
+    </table>
+    <div class="encadre">
+      💡 Avec une source <b>ponctuelle</b> (très petite) : ombre franche, pas de pénombre.<br>
+      Avec une source <b>étendue</b> (grande) : ombre + pénombre autour.
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">🌙 Éclipse de Lune</span>
+    <p class="lead">La Lune entre dans l'ombre de la Terre → éclipse de Lune.</p>
+    <div class="figbox">
+      <svg width="340" height="80" viewBox="0 0 340 80" style="max-width:100%;display:block;margin:auto">
+        <!-- Soleil -->
+        <circle cx="28" cy="40" r="22" fill="#FFC93C" stroke="#E0A41E" stroke-width="2"/>
+        <text x="28" y="45" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="12" fill="#5C3D2E">☀️</text>
+        <!-- Rayons -->
+        <line x1="50" y1="22" x2="160" y2="30" stroke="#FFC93C" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+        <line x1="50" y1="58" x2="160" y2="50" stroke="#FFC93C" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+        <!-- Terre -->
+        <circle cx="175" cy="40" r="18" fill="#4FA3D1" stroke="#2f7ba8" stroke-width="2"/>
+        <text x="175" y="45" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="12" fill="#fff">🌍</text>
+        <!-- Ombre Terre -->
+        <polygon points="193,31 300,20 300,60 193,49" fill="#5C3D2E" opacity="0.3"/>
+        <!-- Lune dans l'ombre -->
+        <circle cx="270" cy="40" r="10" fill="#8a6650" stroke="#5C3D2E" stroke-width="2"/>
+        <text x="270" y="44" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="10" fill="#fff">🌑</text>
+        <!-- Labels -->
+        <text x="175" y="72" text-anchor="middle" font-family="Fredoka" font-size="10" fill="#5C3D2E">Terre</text>
+        <text x="270" y="72" text-anchor="middle" font-family="Fredoka" font-size="10" fill="#5C3D2E">Lune</text>
+      </svg>
+    </div>
+    <div class="encadre orange">
+      📐 Ordre : <b>Soleil — Terre — Lune</b><br>
+      La Lune entre dans le cône d'ombre de la Terre → elle devient rouge sombre.
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">☀️ Éclipse de Soleil</span>
+    <p class="lead">La Lune s'interpose entre le Soleil et la Terre → éclipse de Soleil.</p>
+    <div class="figbox">
+      <svg width="340" height="80" viewBox="0 0 340 80" style="max-width:100%;display:block;margin:auto">
+        <!-- Soleil -->
+        <circle cx="28" cy="40" r="22" fill="#FFC93C" stroke="#E0A41E" stroke-width="2"/>
+        <text x="28" y="45" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="12" fill="#5C3D2E">☀️</text>
+        <!-- Lune (au milieu) -->
+        <circle cx="175" cy="40" r="13" fill="#8a6650" stroke="#5C3D2E" stroke-width="2"/>
+        <text x="175" y="45" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="11" fill="#fff">🌑</text>
+        <!-- Ombre Lune -->
+        <polygon points="188,34 295,25 295,55 188,46" fill="#5C3D2E" opacity="0.3"/>
+        <!-- Pénombre -->
+        <line x1="50" y1="20" x2="188" y2="27" stroke="#FFC93C" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+        <line x1="50" y1="60" x2="188" y2="53" stroke="#FFC93C" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+        <!-- Terre -->
+        <circle cx="305" cy="40" r="16" fill="#4FA3D1" stroke="#2f7ba8" stroke-width="2"/>
+        <text x="305" y="45" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="12" fill="#fff">🌍</text>
+        <!-- Labels -->
+        <text x="175" y="72" text-anchor="middle" font-family="Fredoka" font-size="10" fill="#5C3D2E">Lune</text>
+        <text x="305" y="72" text-anchor="middle" font-family="Fredoka" font-size="10" fill="#5C3D2E">Terre</text>
+      </svg>
+    </div>
+    <div class="encadre vert">
+      📐 Ordre : <b>Soleil — Lune — Terre</b><br>
+      🔵 Éclipse <b>totale</b> : la Lune cache entièrement le Soleil (zone ombre)<br>
+      🔵 Éclipse <b>annulaire</b> : la Lune est trop loin — on voit un anneau lumineux autour<br>
+      🔵 Éclipse <b>partielle</b> : la Lune ne cache qu'une partie du Soleil (zone pénombre)
+    </div>
+    <p class="note">⚠️ Ne jamais regarder directement une éclipse de Soleil sans lunettes spéciales !</p>
+  </div>
+
+  <div class="mid"><button class="btn violet" onclick="startTrain('ombres')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== LEÇON 3 : RÉFLEXION ========== -->
+<section id="expReflexion" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🪞 Réflexion de la lumière</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">📐 La loi de réflexion</span>
+    <p class="lead">Quand un rayon lumineux frappe un miroir, il repart dans une direction précise.<br>
+    <b>L'angle d'incidence est toujours égal à l'angle de réflexion !</b></p>
+    <div style="text-align:center;margin:14px 0">
+      <div class="formule-box">
+        i = r
+      </div>
+    </div>
+    <div class="figbox">
+      <svg width="300" height="160" viewBox="0 0 300 160" style="max-width:100%;display:block;margin:auto">
+        <!-- Miroir -->
+        <line x1="50" y1="130" x2="250" y2="130" stroke="#5C3D2E" stroke-width="4" stroke-linecap="round"/>
+        <text x="150" y="150" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="12" fill="#5C3D2E">Miroir plan</text>
+        <!-- Normale (pointillés) -->
+        <line x1="150" y1="130" x2="150" y2="20" stroke="#8a6650" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="160" y="30" font-family="Fredoka" font-weight="700" font-size="11" fill="#8a6650">Normale</text>
+        <!-- Rayon incident -->
+        <defs>
+          <marker id="arr1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#FFC93C"/>
+          </marker>
+          <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#46BECB"/>
+          </marker>
+        </defs>
+        <line x1="60" y1="30" x2="148" y2="128" stroke="#FFC93C" stroke-width="2.5" marker-end="url(#arr1)"/>
+        <text x="70" y="55" font-family="Fredoka" font-weight="700" font-size="11" fill="#E0A41E">Rayon</text>
+        <text x="60" y="68" font-family="Fredoka" font-weight="700" font-size="11" fill="#E0A41E">incident</text>
+        <!-- Rayon réfléchi -->
+        <line x1="152" y1="128" x2="240" y2="30" stroke="#46BECB" stroke-width="2.5" marker-end="url(#arr2)"/>
+        <text x="215" y="55" font-family="Fredoka" font-weight="700" font-size="11" fill="#2E8A98">Rayon</text>
+        <text x="205" y="68" font-family="Fredoka" font-weight="700" font-size="11" fill="#2E8A98">réfléchi</text>
+        <!-- Angles -->
+        <path d="M 150,110 A 22,22 0 0,0 134,96" fill="none" stroke="#E0A41E" stroke-width="2"/>
+        <text x="128" y="108" font-family="Fredoka" font-weight="700" font-size="13" fill="#E0A41E">i</text>
+        <path d="M 166,96 A 22,22 0 0,0 150,110" fill="none" stroke="#2E8A98" stroke-width="2"/>
+        <text x="162" y="108" font-family="Fredoka" font-weight="700" font-size="13" fill="#2E8A98">r</text>
+      </svg>
+    </div>
+    <div class="encadre orange">
+      📌 La normale est une droite <b>perpendiculaire au miroir</b> au point d'impact.<br>
+      Les angles i et r sont mesurés <b>par rapport à la normale</b>, pas par rapport au miroir.
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">🧮 Exemple guidé : i = 35°</span>
+    <p class="lead">Un rayon frappe un miroir avec un angle d'incidence i = 35°.<br>
+    Quel est l'angle de réflexion r ?</p>
+    <div class="encadre or">
+      = Formule : r = i<br>
+      = r = 35°<br>
+      = <b>r = 35°</b>
+    </div>
+    <p class="note">💡 C'est simple : l'angle réfléchi est toujours ÉGAL à l'angle incident !</p>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">🪞 Miroir plan</span>
+    <p class="lead">Le <b>miroir plan</b> est une surface lisse et réfléchissante (comme un miroir de salle de bain).<br>
+    Il forme une image symétrique de l'objet, à la même distance derrière le miroir.</p>
+    <div class="encadre">
+      ✅ Un miroir plan respecte la loi de réflexion pour chaque rayon.<br>
+      L'image est <b>droite</b>, de <b>même taille</b>, mais <b>inversée gauche-droite</b>.
+    </div>
+  </div>
+
+  <div class="mid"><button class="btn orange" onclick="startTrain('reflexion')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== LEÇON 4 : RÉFRACTION ========== -->
+<section id="expRefraction" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>💧 Réfraction de la lumière</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">🔀 Qu'est-ce que la réfraction ?</span>
+    <p class="lead">Quand la lumière passe d'un milieu dans un autre (air → eau, air → verre),<br>
+    elle <b>change de direction</b>. C'est la <b>réfraction</b> !</p>
+    <div class="figbox">
+      <svg width="300" height="170" viewBox="0 0 300 170" style="max-width:100%;display:block;margin:auto">
+        <!-- Interface air/eau -->
+        <rect x="0" y="90" width="300" height="80" fill="#D0EEFF" rx="0" opacity="0.7"/>
+        <line x1="0" y1="90" x2="300" y2="90" stroke="#2f7ba8" stroke-width="2.5" stroke-dasharray="8,4"/>
+        <text x="10" y="75" font-family="Fredoka" font-weight="700" font-size="12" fill="#5C3D2E">Air</text>
+        <text x="10" y="115" font-family="Fredoka" font-weight="700" font-size="12" fill="#2f7ba8">Eau</text>
+        <!-- Normale -->
+        <line x1="150" y1="20" x2="150" y2="160" stroke="#8a6650" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <!-- Rayon incident -->
+        <defs>
+          <marker id="arrI" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#FFC93C"/>
+          </marker>
+          <marker id="arrR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#46BECB"/>
+          </marker>
+        </defs>
+        <line x1="70" y1="20" x2="149" y2="89" stroke="#FFC93C" stroke-width="2.5" marker-end="url(#arrI)"/>
+        <text x="65" y="48" font-family="Fredoka" font-weight="700" font-size="11" fill="#E0A41E">incident</text>
+        <!-- Rayon réfracté (plus proche de la normale dans l'eau) -->
+        <line x1="151" y1="91" x2="185" y2="160" stroke="#46BECB" stroke-width="2.5" marker-end="url(#arrR)"/>
+        <text x="185" y="135" font-family="Fredoka" font-weight="700" font-size="11" fill="#2E8A98">réfracté</text>
+        <!-- Angles -->
+        <path d="M 150,70 A 22,22 0 0,0 132,76" fill="none" stroke="#E0A41E" stroke-width="2"/>
+        <text x="120" y="78" font-family="Fredoka" font-weight="700" font-size="12" fill="#E0A41E">i</text>
+        <path d="M 150,112 A 18,18 0 0,0 165,109" fill="none" stroke="#2E8A98" stroke-width="2"/>
+        <text x="165" y="122" font-family="Fredoka" font-weight="700" font-size="12" fill="#2E8A98">r</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">📏 Règle de la réfraction</span>
+    <div class="encadre vert">
+      ➡️ La lumière <b>se rapproche de la normale</b> quand elle entre dans un milieu <b>plus dense</b> (air → eau, air → verre).<br>
+      ↩️ La lumière <b>s'éloigne de la normale</b> quand elle entre dans un milieu <b>moins dense</b> (eau → air, verre → air).
+    </div>
+    <table class="tableau">
+      <thead><tr><th>Trajet</th><th>Milieu</th><th>Déviation</th></tr></thead>
+      <tbody>
+        <tr><td>Air → Eau</td><td>Plus dense</td><td>Se rapproche de la normale</td></tr>
+        <tr><td>Air → Verre</td><td>Plus dense</td><td>Se rapproche de la normale</td></tr>
+        <tr><td>Eau → Air</td><td>Moins dense</td><td>S'éloigne de la normale</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">🔍 Exemples du quotidien</span>
+    <div class="encadre">
+      🥄 <b>Crayon dans l'eau :</b> le crayon semble "cassé" à la surface — c'est la réfraction qui dévie les rayons !<br>
+      🔍 <b>Loupe :</b> le verre épais réfracte la lumière pour concentrer les rayons et agrandir les objets.<br>
+      🏊 <b>Piscine :</b> le fond semble moins profond qu'il n'est — la réfraction trompe l'œil !<br>
+      🌈 <b>Arc-en-ciel :</b> les gouttes d'eau réfractent (et dispersent) la lumière du Soleil.
+    </div>
+  </div>
+
+  <div class="mid"><button class="btn vert" onclick="startTrain('refraction')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== ENTRAÎNEMENT ========== -->
+<section id="ecranTrain" class="screen">
+  <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="card" id="tq_card">
+    <div class="serieprog" id="tq_prog"></div>
+    <div class="helpnote" id="tq_help"></div>
+    <div class="qcard">
+      <div class="qcat" id="tq_cat"></div>
+      <div class="figbox" id="tq_viz" style="display:none"></div>
+      <div class="question" id="tq_text"></div>
+      <div class="opts" id="tq_opts" style="display:none"></div>
+      <div class="ansrow" id="tq_ansrow">
+        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="tq_casc" style="display:none"></div>
+      <div id="tq_work">
+        <div class="mathpad" id="tq_pad"></div>
+        <div class="brouillon-lab">✏️ Brouillon (facultatif)</div>
+        <textarea id="tq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici…"></textarea>
+      </div>
+      <div class="feedback" id="tq_feed"></div>
+      <div class="stars" id="tq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant →</button></div>
+    </div>
+  </div>
+  <div class="card result" id="tq_result" style="display:none">
+    <div class="big" id="tq_rbig">0 / 8</div>
+    <div class="msg" id="tq_rmsg"></div>
+    <div class="rbtns" id="tq_rbtns"></div>
+  </div>
+</section>
+
+<!-- ========== ARÈNE ========== -->
+<section id="arene" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🏟️ Arène libre</h2>
+  </div>
+  <div id="areneMenu">
+    <div class="card">
+      <p class="lead">Entraînement libre — toutes les questions mélangées. Aucune limite !</p>
+      <div class="mid"><button class="btn teal" onclick="startArene()">C'est parti ! 🚀</button></div>
+    </div>
+  </div>
+  <div id="areneJeu" style="display:none">
+    <div class="card">
+      <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:10px;font-family:'Fredoka';font-weight:700">
+        <div style="background:var(--creme);border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8">✅ <span id="aq_corr">0</span> / <span id="aq_tot">0</span></div>
+        <div style="background:var(--creme);border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8">🔥 série : <span id="aq_streak">0</span></div>
+      </div>
+      <div class="qcat" id="aq_cat"></div>
+      <div class="figbox" id="aq_viz" style="display:none"></div>
+      <div class="question" id="aq_text"></div>
+      <div class="opts" id="aq_opts" style="display:none"></div>
+      <div class="ansrow" id="aq_ansrow">
+        <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="aq_casc" style="display:none"></div>
+      <div class="feedback" id="aq_feed"></div>
+      <div class="stars" id="aq_stars"></div>
+      <div class="mid" style="margin-top:14px">
+        <button class="btn orange" id="aq_next" style="display:none" onclick="quizNext()">Suivant →</button>
+      </div>
+    </div>
+    <div class="mid"><button class="btn fant" onclick="finArene()">⬅ Retour arène</button></div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<!-- Calculatrice flottante -->
+<button class="kc-fab" onclick="kcToggle()" title="Calculatrice">🧮</button>
+<div class="kc-panel" id="kcPanel" hidden>
+  <div class="kc-head">🧮 Calc <span style="font-size:.85rem;color:var(--bois-clair)">Collège +</span><button class="kc-x" onclick="kcToggle()">✕</button></div>
+  <div class="kc-screen">
+    <div class="kc-expr" id="kcExpr"></div>
+    <div class="kc-res" id="kcRes">0</div>
+  </div>
+  <div class="kc-keys" id="kcKeys"></div>
+  <button class="kc-send" onclick="kcSend()">📥 Mettre le résultat dans ma réponse</button>
+</div>
+
+<script>
+/* ===== SUIVI ===== */
+var SUIVI={
+  url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',
+  nom:'Lumière 4ème',
+  f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',
+     statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'}
+};
+function suiviEnvoi(statut,score,total){
+  try{
+    var e=localStorage.getItem('kc_eleve')||'',c=localStorage.getItem('kc_classe')||'';
+    var fd=new FormData();
+    fd.append(SUIVI.f.classe,c);fd.append(SUIVI.f.eleve,e);
+    fd.append(SUIVI.f.parcours,SUIVI.nom);fd.append(SUIVI.f.statut,statut);
+    fd.append(SUIVI.f.score,score);fd.append(SUIVI.f.total,total);
+    fetch(SUIVI.url,{method:'POST',mode:'no-cors',body:fd});
+  }catch(_){}
+}
+
+/* ===== VARIABLES ===== */
+var EXP={propagation:'expPropagation',ombres:'expOmbres',reflexion:'expReflexion',refraction:'expRefraction'};
+var MAPID={propagation:'mapPropagation',ombres:'mapOmbres',reflexion:'mapReflexion',refraction:'mapRefraction'};
+var TITLE={
+  propagation:'Propagation de la lumière',
+  ombres:'Ombres et éclipses',
+  reflexion:'Réflexion de la lumière',
+  refraction:'Réfraction de la lumière'
+};
+var ORDER=['propagation','ombres','reflexion','refraction'];
+var HELP={
+  propagation:'Propagation rectiligne. Source primaire = produit sa lumière. Source secondaire = réfléchit. c = 300 000 km/s. 1 al = distance en 1 an.',
+  ombres:'Ombre = aucun rayon. Pénombre = partie des rayons (source étendue). Éclipse Lune : Soleil-Terre-Lune. Éclipse Soleil : Soleil-Lune-Terre.',
+  reflexion:'Loi de réflexion : i = r. Angles mesurés par rapport à la normale (perpendiculaire au miroir).',
+  refraction:'En milieu plus dense → se rapproche de la normale. En milieu moins dense → s\'éloigne. Exemples : crayon dans l\'eau, loupe.'
+};
+var BRIQUE={
+  propagation: {serie:8,seuil:6},
+  ombres:      {serie:8,seuil:6},
+  reflexion:   {serie:8,seuil:6},
+  refraction:  {serie:8,seuil:6}
+};
+var THEME_CATS={propagation:['propagation'],ombres:['ombres'],reflexion:['reflexion'],refraction:['refraction']};
+var CATNOM={
+  propagation:'Propagation lumière',
+  ombres:'Ombres & éclipses',
+  reflexion:'Réflexion lumière',
+  refraction:'Réfraction lumière'
+};
+var unlocked={propagation:true,ombres:true,reflexion:true,refraction:true,arene:true};
+var themeDone={propagation:false,ombres:false,reflexion:false,refraction:false};
+var currentTheme='propagation';
+
+/* ===== UTILITAIRES ===== */
+function gid(x){return document.getElementById(x);}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;var v=parseFloat(s);return isFinite(v)?v:null;}
+function serieLen(){return BRIQUE[currentTheme].serie;}
+function seuilFor(){return BRIQUE[currentTheme].seuil;}
+function rnd(n){return Math.floor(Math.random()*n);}
+function rint(a,b){return a+Math.floor(Math.random()*(b-a+1));}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function round2(v){return Math.round(v*100)/100;}
+function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
+
+/* ===== NAVIGATION ===== */
+function go(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  gid(id).classList.add('active');window.scrollTo(0,0);
+  if(id==='arene')finArene();
+  if(id!=='accueil'){try{history.pushState({screen:id},'','');}catch(_){}}
+}
+window.addEventListener('popstate',function(){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  gid('accueil').classList.add('active');window.scrollTo(0,0);
+});
+function tapTheme(t){currentTheme=t;go(EXP[t]);}
+function updateMap(){
+  ORDER.forEach(function(t){
+    var key='st'+t.charAt(0).toUpperCase()+t.slice(1);
+    var el=gid(key);if(el)el.textContent=themeDone[t]?'✅':'▶';
+  });
+}
+
+/* ===== GÉNÉRATEUR 1 : PROPAGATION ===== */
+function genPropagation(){
+  var pools=[
+    {t:'La lumière se propage…',o:['en ligne droite dans un milieu homogène','en courbe autour des obstacles','en spirale','de façon aléatoire'],c:0,e:'Propagation rectiligne : la lumière va tout droit dans un milieu homogène.'},
+    {t:'Une source lumineuse <b>primaire</b>…',o:['produit sa propre lumière','réfléchit la lumière d\'une autre source','absorbe la lumière','dévie la lumière'],c:0,e:'Source primaire = elle crée sa propre lumière. Ex : Soleil, ampoule, flamme, LED.'},
+    {t:'Une source lumineuse <b>secondaire</b>…',o:['réfléchit la lumière reçue d\'une autre source','produit sa propre lumière','absorbe toute la lumière','émet de la chaleur'],c:0,e:'Source secondaire = elle réfléchit la lumière. Ex : Lune, table, vêtements.'},
+    {t:'La Lune est…',o:['une source secondaire (elle réfléchit la lumière du Soleil)','une source primaire (elle produit sa propre lumière)','une étoile','une source de chaleur'],c:0,e:'La Lune ne produit pas de lumière ! Elle réfléchit les rayons du Soleil → source secondaire.'},
+    {t:'Parmi ces exemples, lequel est une source lumineuse <b>primaire</b> ?',o:['Une étoile ⭐','La Lune 🌙','Une table blanche','Un miroir'],c:0,e:'Une étoile produit sa propre lumière par fusion nucléaire → source primaire.'},
+    {t:'La vitesse de la lumière dans le vide est d\'environ…',o:['300 000 km/s','300 km/s','300 000 000 km/s','3 000 km/s'],c:0,e:'c ≈ 300 000 km/s = 3×10⁸ m/s. C\'est la vitesse maximale de l\'Univers !'},
+    {t:'L\'année-lumière est une unité de…',o:['distance','temps','vitesse','luminosité'],c:0,e:'L\'année-lumière = distance parcourue par la lumière en 1 an. C\'est une unité de DISTANCE.'},
+    {t:'En combien de temps environ la lumière du Soleil arrive-t-elle sur Terre ?',o:['8 minutes','8 secondes','8 heures','1 an'],c:0,e:'La lumière du Soleil met environ 8 minutes pour atteindre la Terre.'},
+    {t:'Quel objet est une source lumineuse <b>secondaire</b> ?',o:['La Lune 🌙','Le Soleil ☀️','Une lampe LED','Une flamme 🕯️'],c:0,e:'La Lune réfléchit la lumière du Soleil → source secondaire. Les autres produisent leur propre lumière.'},
+    {t:'Si on perce trois cartons avec un petit trou et qu\'on aligne les trous, on voit la lumière car…',o:['la lumière se propage en ligne droite','la lumière contourne les obstacles','les trous amplifient la lumière','les cartons sont transparents'],c:0,e:'Preuve de la propagation rectiligne : si les trous sont alignés, la lumière passe en ligne droite !'}
+  ];
+  var q=pick(pools);var opts=shuffle(q.o);
+  return {type:'qcm',cat:'propagation',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+}
+
+/* ===== GÉNÉRATEUR 2 : OMBRES ===== */
+function genOmbres(){
+  var pools=[
+    {t:'Une zone d\'<b>ombre</b> est…',o:['une zone où aucun rayon lumineux n\'arrive','une zone où quelques rayons arrivent','une zone éclairée partiellement','une zone derrière un miroir'],c:0,e:'L\'ombre = zone totalement privée de lumière. Aucun rayon ne peut y pénétrer.'},
+    {t:'La <b>pénombre</b> se forme…',o:['avec une source lumineuse étendue (grande)','avec une source ponctuelle très petite','uniquement dans l\'espace','derrière un miroir'],c:0,e:'La pénombre n\'existe qu\'avec une source étendue. Elle reçoit une partie des rayons.'},
+    {t:'Lors d\'une <b>éclipse de Lune</b>, l\'ordre est…',o:['Soleil — Terre — Lune','Soleil — Lune — Terre','Lune — Terre — Soleil','Terre — Soleil — Lune'],c:0,e:'Éclipse de Lune : Soleil → Terre → Lune. La Lune entre dans l\'ombre de la Terre.'},
+    {t:'Lors d\'une <b>éclipse de Soleil</b>, l\'ordre est…',o:['Soleil — Lune — Terre','Soleil — Terre — Lune','Lune — Soleil — Terre','Terre — Lune — Soleil'],c:0,e:'Éclipse de Soleil : Soleil → Lune → Terre. La Lune masque le Soleil pour certains endroits sur Terre.'},
+    {t:'Une <b>éclipse totale de Soleil</b> se produit quand…',o:['la Lune cache entièrement le disque solaire','la Lune cache partiellement le Soleil','la Terre cache le Soleil','la Lune est dans la pénombre'],c:0,e:'Éclipse totale : la Lune est assez proche pour cacher entièrement le Soleil. Zone = cône d\'ombre.'},
+    {t:'Une <b>éclipse annulaire de Soleil</b> se produit quand…',o:['la Lune est trop loin et ne cache pas entièrement le Soleil — on voit un anneau','la Lune cache tout le Soleil','la Terre tourne trop vite','le Soleil est derrière la Terre'],c:0,e:'Éclipse annulaire : la Lune est trop loin (orbite elliptique) → elle semble plus petite → anneau visible.'},
+    {t:'Lors d\'une éclipse de Lune, la Lune entre dans…',o:['le cône d\'ombre de la Terre','le cône d\'ombre du Soleil','la pénombre de la Lune','la pénombre du Soleil'],c:0,e:'La Lune entre dans le cône d\'ombre de la Terre → elle ne reçoit plus de lumière directe → éclipse.'},
+    {t:'Avec une source lumineuse ponctuelle (très petite), on obtient…',o:['une ombre franche sans pénombre','une ombre + une pénombre','seulement de la pénombre','aucune ombre'],c:0,e:'Source ponctuelle = ombre franche nette. Pas de pénombre car tous les rayons viennent d\'un seul point.'},
+    {t:'Pourquoi ne faut-il PAS regarder une éclipse de Soleil sans protection ?',o:['Les rayons du Soleil peuvent brûler la rétine','La Lune émet des rayons dangereux','L\'ombre de la Lune est toxique','Les étoiles sont trop brillantes'],c:0,e:'Les rayons UV et infrarouges du Soleil brûlent la rétine de façon irréversible. Lunettes spéciales obligatoires !'},
+    {t:'Qu\'est-ce qui permet de distinguer ombre et pénombre ?',o:['La taille de la source lumineuse','La couleur de l\'objet','La distance de l\'observateur','La transparence de l\'objet'],c:0,e:'Source ponctuelle → ombre seule. Source étendue → ombre + pénombre. La taille de la source est clé !'}
+  ];
+  var q=pick(pools);var opts=shuffle(q.o);
+  return {type:'qcm',cat:'ombres',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+}
+
+/* ===== GÉNÉRATEUR 3 : RÉFLEXION ===== */
+function genReflexion(){
+  var mode=pick(['cascade_angle','qcm_loi','qcm_normale']);
+
+  if(mode==='cascade_angle'){
+    var iVal=pick([20,25,30,35,40,45,50,55,60,65,70]);
+    return {
+      type:'cascade',cat:'reflexion',
+      sig:'REF'+iVal,
+      text:'Un rayon lumineux frappe un miroir plan avec un angle d\'incidence <b>i = '+iVal+'°</b>.<br>Calcule l\'angle de réflexion r.',
+      steps:[
+        {
+          prompt:'Écris la loi de réflexion :',
+          lines:[
+            {pre:'r =',blank:true,ans:'i',accept:['i','angle i','l\'angle i','angle incident'],unit:'',hint:'La loi dit : angle réfléchi = angle incident → r = i'}
+          ]
+        },
+        {
+          prompt:'Substitue la valeur de i = '+iVal+'° :',
+          lines:[
+            {pre:'r =',blank:true,ans:String(iVal),accept:[String(iVal),String(iVal)+'°'],unit:'°',hint:'Remplace i par '+iVal+'°'}
+          ]
+        }
+      ],
+      finalMsg:'Angle de réflexion r = <b>'+iVal+'°</b> ✅ (r = i, toujours !)'
+    };
+  }
+
+  if(mode==='qcm_loi'){
+    var pools=[
+      {t:'La loi de réflexion dit que…',o:['l\'angle de réflexion est égal à l\'angle d\'incidence (i = r)','l\'angle de réflexion est le double de l\'angle d\'incidence','l\'angle réfléchi est toujours 90°','l\'angle d\'incidence dépend de la couleur'],c:0,e:'Loi de réflexion : i = r. L\'angle réfléchi est toujours égal à l\'angle incident.'},
+      {t:'Un rayon frappe un miroir avec i = 40°. L\'angle réfléchi r vaut…',o:['40°','80°','20°','50°'],c:0,e:'Loi de réflexion : r = i = 40°. Simple !'},
+      {t:'Un rayon frappe un miroir avec i = 60°. L\'angle réfléchi r vaut…',o:['60°','120°','30°','90°'],c:0,e:'r = i = 60°. La loi de réflexion est toujours la même.'},
+      {t:'Si un rayon arrive perpendiculairement à un miroir (i = 0°), il repart…',o:['dans la direction opposée (i = r = 0°)','dans n\'importe quelle direction','à 90°','il est absorbé'],c:0,e:'i = 0° → r = 0°. Le rayon repart exactement dans la direction d\'où il vient.'},
+      {t:'La loi de réflexion est valable…',o:['pour tout miroir plan lisse','seulement pour les miroirs ronds','seulement dans l\'eau','seulement pour la lumière rouge'],c:0,e:'La loi i = r est universelle pour tout miroir plan (surface lisse et réfléchissante).'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'reflexion',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+
+  /* qcm_normale */
+  var pools2=[
+    {t:'La <b>normale</b> à un miroir est…',o:['la droite perpendiculaire au miroir au point d\'impact','la droite parallèle au miroir','la surface du miroir elle-même','le rayon réfléchi'],c:0,e:'La normale est toujours perpendiculaire (à 90°) à la surface au point où le rayon touche le miroir.'},
+    {t:'Les angles i et r sont mesurés…',o:['par rapport à la normale','par rapport à la surface du miroir','par rapport à la verticale','par rapport au rayon incident'],c:0,e:'Toujours mesurer i et r par rapport à la NORMALE (perpendiculaire au miroir), pas par rapport au miroir lui-même !'},
+    {t:'Un miroir plan forme une image…',o:['droite, de même taille, inversée gauche-droite','renversée et plus petite','agrandie','floue et déformée'],c:0,e:'Miroir plan : image droite, même taille, mais les côtés gauche et droit sont inversés.'},
+    {t:'La réflexion de la lumière permet…',o:['de voir les objets qui ne produisent pas leur propre lumière','de changer la couleur de la lumière','d\'augmenter la vitesse de la lumière','de créer de la lumière'],c:0,e:'Grâce à la réflexion, on voit les objets (sources secondaires) qui réfléchissent la lumière vers nos yeux.'}
+  ];
+  var q=pick(pools2);var opts=shuffle(q.o);
+  return {type:'qcm',cat:'reflexion',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+}
+
+/* ===== GÉNÉRATEUR 4 : RÉFRACTION ===== */
+function genRefraction(){
+  var pools=[
+    {t:'La <b>réfraction</b> de la lumière, c\'est…',o:['le changement de direction de la lumière en passant d\'un milieu à un autre','le rebond de la lumière sur une surface','l\'absorption de la lumière par un milieu','la diffusion de la lumière'],c:0,e:'Réfraction = changement de direction à l\'interface entre deux milieux différents (air-eau, air-verre…).'},
+    {t:'Quand la lumière passe de l\'air vers l\'eau, elle…',o:['se rapproche de la normale (déviation vers la normale)','s\'éloigne de la normale','ne change pas de direction','s\'arrête à la surface'],c:0,e:'L\'eau est plus dense que l\'air → la lumière se rapproche de la normale en entrant dans l\'eau.'},
+    {t:'Quand la lumière passe de l\'eau vers l\'air, elle…',o:['s\'éloigne de la normale','se rapproche de la normale','reste parallèle à la surface','s\'arrête'],c:0,e:'En passant dans un milieu moins dense (eau → air), la lumière s\'éloigne de la normale.'},
+    {t:'Pourquoi un crayon plongé dans un verre d\'eau semble-t-il "cassé" ?',o:['La réfraction dévie les rayons à la surface de l\'eau','Le crayon se courbe dans l\'eau','L\'eau agrandit le crayon','La réflexion double l\'image'],c:0,e:'Les rayons venant du crayon se dévient (réfraction) en sortant de l\'eau → le crayon paraît cassé.'},
+    {t:'Une loupe fonctionne grâce à…',o:['la réfraction de la lumière dans le verre épais','la réflexion sur la surface du verre','l\'absorption de la lumière','la diffusion de la lumière'],c:0,e:'Le verre courbé de la loupe réfracte la lumière pour concentrer les rayons → image agrandie.'},
+    {t:'Dans quel cas la lumière se rapproche-t-elle de la normale ?',o:['Quand elle passe dans un milieu plus dense (ex: air → verre)','Quand elle passe dans un milieu moins dense','Quand elle frappe un miroir','Quand elle voyageons dans le vide'],c:0,e:'Milieu plus dense (verre, eau) → la lumière ralentit et se rapproche de la normale.'},
+    {t:'Le fond d\'une piscine semble moins profond qu\'il n\'est car…',o:['la réfraction dévie les rayons en sortant de l\'eau','le fond réfléchit la lumière','l\'eau absorbe la lumière','la pression déforme la lumière'],c:0,e:'Les rayons sortant de l\'eau (eau → air, milieu moins dense) s\'éloignent de la normale → illusion d\'optique.'},
+    {t:'La lumière du Soleil qui traverse une goutte de pluie et crée un arc-en-ciel utilise…',o:['la réfraction (et la dispersion) de la lumière','la réflexion totale','l\'absorption de la lumière','la propagation rectiligne'],c:0,e:'Les gouttes d\'eau réfractent (et dévient différemment chaque couleur) la lumière → arc-en-ciel !'},
+    {t:'La réfraction se produit…',o:['à l\'interface entre deux milieux différents','dans un milieu homogène','sur une surface parfaitement lisse','dans le vide'],c:0,e:'La réfraction nécessite deux milieux différents. Dans un milieu homogène, la lumière va tout droit.'},
+    {t:'Quel phénomène explique que l\'on voit les objets sous l\'eau à une position différente de leur vraie position ?',o:['La réfraction','La réflexion','L\'absorption','La diffusion'],c:0,e:'La réfraction dévie les rayons à la surface de l\'eau → l\'objet paraît à une position différente.'}
+  ];
+  var q=pick(pools);var opts=shuffle(q.o);
+  return {type:'qcm',cat:'refraction',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+}
+
+/* ===== DISPATCH GEN ===== */
+var GEN={propagation:genPropagation,ombres:genOmbres,reflexion:genReflexion,refraction:genRefraction};
+
+/* ===== MOTEUR QUIZ ===== */
+var quizState={mode:'train',q:null,idx:0,score:0,total:0,tries:0,cascStep:0,cascTries:0};
+var IS_ARENE=false;
+
+function elsTrain(){
+  return {
+    prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),
+    text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),
+    inp:gid('tq_input'),valid:gid('tq_valid'),casc:gid('tq_casc'),
+    work:gid('tq_work'),feed:gid('tq_feed'),stars:gid('tq_stars'),
+    next:gid('tq_next'),card:gid('tq_card'),result:gid('tq_result')
+  };
+}
+function elsArene(){
+  return {
+    cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),
+    ansrow:gid('aq_ansrow'),inp:gid('aq_input'),valid:gid('aq_valid'),
+    casc:gid('aq_casc'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next')
+  };
+}
+function els(){return IS_ARENE?elsArene():elsTrain();}
+
+function startTrain(t){
+  currentTheme=t;IS_ARENE=false;
+  quizState={mode:'train',q:null,idx:0,score:0,total:serieLen(),tries:0,cascStep:0,cascTries:0};
+  var e=elsTrain();
+  e.card.style.display='';e.result.style.display='none';
+  gid('trainTitle').textContent=TITLE[t]+' — Entraînement';
+  go('ecranTrain');
+  quizNext();
+}
+function startArene(){
+  IS_ARENE=true;
+  quizState={mode:'arene',q:null,idx:0,score:0,total:0,tries:0,cascStep:0,cascTries:0};
+  gid('areneJeu').style.display='';
+  gid('areneMenu').style.display='none';
+  quizNext();
+}
+function finArene(){
+  gid('areneJeu').style.display='none';
+  gid('areneMenu').style.display='';
+}
+
+function quizPick(){
+  if(IS_ARENE){
+    var cats=[];
+    ORDER.forEach(function(t){cats=cats.concat(THEME_CATS[t]);});
+    var cat=pick(cats);
+    var t=ORDER.filter(function(t){return THEME_CATS[t].indexOf(cat)>=0;})[0]||ORDER[0];
+    var prev=currentTheme;currentTheme=t;
+    var q=GEN[cat]();currentTheme=prev;
+    return q;
+  }
+  return GEN[currentTheme]();
+}
+
+function quizNext(){
+  var e=els();
+  var sl=IS_ARENE?999:serieLen();
+  if(!IS_ARENE&&quizState.idx>=sl){quizResult();return;}
+  quizState.q=quizPick();
+  quizState.tries=0;quizState.cascStep=0;quizState.cascTries=0;
+  quizRender();
+}
+
+function quizRender(){
+  var e=els();var cur=quizState.q;
+  if(!IS_ARENE){
+    e.prog.textContent='Question '+(quizState.idx+1)+' / '+serieLen();
+    e.help.textContent=HELP[currentTheme]||'';
+    e.help.style.display=HELP[currentTheme]?'':'none';
+  }
+  e.cat.textContent=CATNOM[cur.cat]||cur.cat||'';
+  e.text.innerHTML=cur.text;
+  e.feed.textContent='';e.feed.className='feedback';
+  e.stars.textContent='';
+  e.viz.style.display='none';e.viz.innerHTML='';
+  if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='';}
+  if(e.next)e.next.style.display='none';
+
+  if(cur.type==='qcm'){
+    e.ansrow.style.display='none';
+    e.casc.style.display='none';
+    e.opts.style.display='';
+    e.opts.innerHTML='';
+    cur.options.forEach(function(opt,i){
+      var b=document.createElement('button');
+      b.className='opt';b.innerHTML=opt;
+      b.onclick=(function(idx){return function(){qcmChoose(idx);};})(i);
+      e.opts.appendChild(b);
+    });
+    if(e.work)e.work.style.display='none';
+  } else if(cur.type==='cascade'){
+    e.ansrow.style.display='none';
+    e.opts.style.display='none';
+    if(e.work)e.work.style.display='none';
+    cascRender();
+  } else {
+    e.ansrow.style.display='';
+    e.opts.style.display='none';
+    e.casc.style.display='none';
+    if(e.work)e.work.style.display='';
+    e.inp.value='';
+    setTimeout(function(){try{e.inp.focus();}catch(_){}},80);
+  }
+}
+
+function qcmChoose(idx){
+  var e=els();var cur=quizState.q;
+  var btns=e.opts.querySelectorAll('.opt');
+  btns.forEach(function(b){b.onclick=null;b.style.pointerEvents='none';});
+  var ok=(idx===cur.correct);
+  btns[idx].classList.add(ok?'good':'bad');
+  if(!ok&&cur.correct<btns.length)btns[cur.correct].classList.add('good');
+  e.feed.className='feedback '+(ok?'ok':'no');
+  e.feed.innerHTML=ok?'✅ '+cur.explain:'❌ '+cur.explain;
+  e.stars.textContent=ok?'⭐⭐⭐':'';
+  if(!IS_ARENE){
+    if(ok)quizState.score++;
+    quizState.idx++;
+  } else {
+    if(ok){quizState.score++;gid('aq_corr').textContent=quizState.score;}
+    quizState.total++;gid('aq_tot').textContent=quizState.total;
+    var streak=ok?(parseInt(gid('aq_streak').textContent||'0')+1):0;
+    gid('aq_streak').textContent=streak;
+  }
+  if(e.next)e.next.style.display='';
+}
+
+function quizValidate(){
+  var e=els();var cur=quizState.q;
+  if(cur.type==='qcm')return;
+  if(cur.type==='cascade'){cascValidate();return;}
+  var raw=e.inp.value;
+  var v=parseNum(raw);
+  if(v===null){e.inp.classList.add('shake');setTimeout(function(){e.inp.classList.remove('shake');},400);return;}
+  var ok=Math.abs(v-(cur.answer||0))<=(cur.tol||0.01);
+  quizState.tries++;
+  if(ok){
+    e.feed.className='feedback ok';
+    e.feed.innerHTML='✅ '+(cur.explain||'Bravo !');
+    e.stars.textContent='⭐⭐⭐';
+    e.inp.disabled=true;
+    if(e.valid)e.valid.disabled=true;
+    if(!IS_ARENE){quizState.score++;quizState.idx++;}
+    else{quizState.score++;gid('aq_corr').textContent=quizState.score;quizState.total++;gid('aq_tot').textContent=quizState.total;var s=parseInt(gid('aq_streak').textContent||'0')+1;gid('aq_streak').textContent=s;}
+    if(e.next)e.next.style.display='';
+  } else {
+    if(quizState.tries===1){e.feed.className='feedback no';e.feed.textContent='Pas tout à fait… Réessaie !';}
+    else if(quizState.tries===2){e.feed.className='feedback no';e.feed.innerHTML='💡 Aide : '+(cur.explain||HELP[currentTheme]||'');}
+    else{
+      e.feed.className='feedback no';
+      e.feed.innerHTML='La réponse était <b>'+(cur.answer)+'</b>'+(cur.unit?' '+cur.unit:'')+'.<br>'+(cur.explain||'');
+      e.inp.disabled=true;if(e.valid)e.valid.disabled=true;
+      if(!IS_ARENE)quizState.idx++;
+      else{quizState.total++;gid('aq_tot').textContent=quizState.total;gid('aq_streak').textContent=0;}
+      if(e.next)e.next.style.display='';
+    }
+    e.inp.classList.add('shake');setTimeout(function(){e.inp.classList.remove('shake');},400);
+  }
+}
+
+/* ===== CASCADE ===== */
+function cascRender(){
+  var e=els();var cur=quizState.q;
+  e.casc.style.display='';e.casc.innerHTML='';
+  var step=cur.steps[quizState.cascStep];
+  var div=document.createElement('div');div.className='cstep on';
+  var html='<div class="cprompt">'+step.prompt+'</div><div class="cbody">';
+  step.lines.forEach(function(ln,li){
+    html+='<div class="cline">'+ln.pre+' ';
+    if(ln.blank){
+      html+='<input class="cblank" id="cblank_'+li+'" type="text" inputmode="decimal" autocomplete="off" style="width:140px">';
+    } else {
+      html+='<span>'+ln.ans+'</span>';
+    }
+    if(ln.unit)html+=' <span>'+ln.unit+'</span>';
+    html+='</div>';
+  });
+  html+='<div class="cfeed" id="cfeed"></div>';
+  html+='<div class="cverify"><button class="btn vert" onclick="cascValidate()">Vérifier</button></div>';
+  html+='</div>';
+  div.innerHTML=html;
+  e.casc.appendChild(div);
+  setTimeout(function(){var b=div.querySelector('.cblank');if(b)try{b.focus();}catch(_){}},80);
+}
+
+function normTxt(s){return String(s).trim().toLowerCase().replace(/\s+/g,' ').replace(',','.');}
+
+function cascValidate(){
+  var e=els();var cur=quizState.q;
+  var step=cur.steps[quizState.cascStep];
+  var allOk=true;
+  step.lines.forEach(function(ln,li){
+    if(!ln.blank)return;
+    var inp=gid('cblank_'+li);if(!inp)return;
+    var val=normTxt(inp.value);
+    var correct=false;
+    var accepts=ln.accept||[ln.ans];
+    accepts.forEach(function(a){if(normTxt(a)===val)correct=true;});
+    /* tolérance numérique */
+    if(!correct){
+      var vn=parseNum(val);var an=parseNum(ln.ans);
+      if(vn!==null&&an!==null&&Math.abs(vn-an)<=0.01)correct=true;
+    }
+    if(correct){inp.classList.add('cbok');inp.classList.remove('cbno');}
+    else{inp.classList.add('cbno');inp.classList.remove('cbok');allOk=false;}
+    inp.disabled=true;
+  });
+  var cfeed=gid('cfeed');
+  quizState.cascTries++;
+  if(allOk){
+    if(cfeed)cfeed.innerHTML='✅ Parfait !';
+    var cverify=e.casc.querySelector('.cverify');if(cverify)cverify.style.display='none';
+    quizState.cascStep++;
+    if(quizState.cascStep<cur.steps.length){
+      setTimeout(function(){cascRender();},500);
+    } else {
+      var fe=e.feed;fe.className='feedback ok';
+      fe.innerHTML='✅ '+(cur.finalMsg||'Bravo ! Cascade complète.');
+      e.stars.textContent='⭐⭐⭐';
+      if(!IS_ARENE){quizState.score++;quizState.idx++;}
+      else{quizState.score++;gid('aq_corr').textContent=quizState.score;quizState.total++;gid('aq_tot').textContent=quizState.total;var s=parseInt(gid('aq_streak').textContent||'0')+1;gid('aq_streak').textContent=s;}
+      if(e.next)e.next.style.display='';
+    }
+  } else {
+    step.lines.forEach(function(ln,li){
+      if(!ln.blank)return;
+      var inp=gid('cblank_'+li);if(!inp)return;
+      if(inp.classList.contains('cbno')){inp.disabled=false;inp.value='';}
+    });
+    if(quizState.cascTries===1){if(cfeed)cfeed.innerHTML='<span class="cfeed no">Pas tout à fait… Réessaie !</span>';}
+    else if(quizState.cascTries===2){if(cfeed)cfeed.innerHTML='<span class="cfeed no">💡 Indice : '+step.lines.map(function(l){return l.hint||'';}).join(' ')+'</span>';}
+    else{
+      step.lines.forEach(function(ln,li){
+        if(!ln.blank)return;
+        var inp=gid('cblank_'+li);if(!inp)return;
+        inp.value=ln.ans;inp.disabled=true;inp.classList.add('cbok');inp.classList.remove('cbno');
+      });
+      if(cfeed)cfeed.innerHTML='<span class="cfeed no">Réponse affichée. Passe à la suite !</span>';
+      var cverify=e.casc.querySelector('.cverify');if(cverify)cverify.style.display='none';
+      quizState.cascStep++;
+      if(quizState.cascStep<cur.steps.length){
+        setTimeout(function(){cascRender();},800);
+      } else {
+        var fe=e.feed;fe.className='feedback no';
+        fe.innerHTML='💪 Continue ! Regarde bien les étapes pour la prochaine fois.';
+        if(!IS_ARENE)quizState.idx++;
+        else{quizState.total++;gid('aq_tot').textContent=quizState.total;gid('aq_streak').textContent=0;}
+        if(e.next)e.next.style.display='';
+      }
+    }
+  }
+}
+
+function quizResult(){
+  var e=elsTrain();
+  var sc=quizState.score,tot=serieLen(),seuil=seuilFor();
+  e.card.style.display='none';
+  e.result.style.display='';
+  var ok=sc>=seuil;
+  gid('tq_rbig').textContent=sc+' / '+tot;
+  gid('tq_rbig').className='big '+(ok?'ok':'no');
+  gid('tq_rmsg').textContent=ok?'Excellent ! Tu maîtrises ce thème 🎉':'Continue ! Relis la leçon et réessaie 💪';
+  var btns=gid('tq_rbtns');btns.innerHTML='';
+  var b1=document.createElement('button');
+  b1.className='btn teal';b1.textContent='⟳ Recommencer';
+  b1.onclick=function(){startTrain(currentTheme);};btns.appendChild(b1);
+  var b2=document.createElement('button');
+  b2.className='btn fant';b2.textContent='← Carte';
+  b2.onclick=function(){go('accueil');};btns.appendChild(b2);
+  if(ok){
+    confettis();
+    themeDone[currentTheme]=true;
+    progSave();updateMap();
+    suiviEnvoi('terminé',sc,tot);
+  } else {
+    suiviEnvoi('incomplet',sc,tot);
+  }
+}
+
+/* ===== PROG ===== */
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}return 'prog_'+e+'_'+SUIVI.nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});}catch(_){}}
+
+/* ===== CALCULATRICE ===== */
+var kcExpr='',kcAns=0;
+var KC_ROWS=[
+  [{l:'AC',a:'clr',c:'act'},{l:'⌫',a:'back',c:'act'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'}],
+  [{l:'x²',a:'^2',c:'fn'},{l:'√',a:'sqrt(',c:'fn'},{l:'%',a:'%',c:'op'},{l:'÷',a:'/',c:'op'}],
+  [{l:'7'},{l:'8'},{l:'9'},{l:'×',a:'*',c:'op'}],
+  [{l:'4'},{l:'5'},{l:'6'},{l:'\u2212',a:'-',c:'op'}],
+  [{l:'1'},{l:'2'},{l:'3'},{l:'+',a:'+',c:'op'}],
+  [{l:'0',a:'0',c:'w2'},{l:',',a:'.'},{l:'=',a:'eq',c:'eq'}]
+];
+function kcBuild(){
+  var kk=gid('kcKeys');if(!kk)return;kk.innerHTML='';
+  KC_ROWS.forEach(function(row){
+    row.forEach(function(k){
+      var b=document.createElement('button');
+      b.className='kc-key'+(k.c?' '+k.c:'');
+      b.textContent=k.l;
+      var act=k.a!==undefined?k.a:k.l;
+      b.onclick=function(){kcTap(act);};
+      kk.appendChild(b);
+    });
+  });
+}
+function kcTap(a){
+  if(a==='clr'){kcExpr='';kcAns=0;}
+  else if(a==='back'){kcExpr=kcExpr.slice(0,-1);}
+  else if(a==='eq'){
+    try{
+      var expr=kcExpr.replace(/\^2/g,'**2').replace(/sqrt\(/g,'Math.sqrt(').replace(/%/g,'/100');
+      var r=Function('"use strict";return ('+expr+')')();
+      kcAns=isFinite(r)?r:0;
+      gid('kcRes').textContent=String(round2(kcAns)).replace('.',',');
+      gid('kcExpr').textContent=kcExpr;
+      return;
+    }catch(e){gid('kcRes').textContent='Erreur';return;}
+  }
+  else kcExpr+=a;
+  gid('kcExpr').textContent=kcExpr;
+  gid('kcRes').textContent=String(round2(kcAns)).replace('.',',');
+}
+function kcToggle(){var p=gid('kcPanel');p.hidden=!p.hidden;if(!p.hidden){var a=document.activeElement;if(a&&a.matches&&(a.id==='tq_input'||a.id==='aq_input'))a.blur();}}
+function kcSend(){
+  var v=String(round2(kcAns)).replace('.',',');
+  var t=document.getElementById('tq_input');var a=document.getElementById('aq_input');
+  var active=IS_ARENE?a:t;
+  if(active)active.value=v;
+  kcToggle();
+}
+
+/* ===== INIT ===== */
+progLoad();updateMap();kcBuild();
+</script>
+</body>
+</html>

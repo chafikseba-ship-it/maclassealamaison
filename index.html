@@ -196,6 +196,13 @@ var PC=[
   {emoji:'🧪',titre:'Mélanges & solutions',  soustitre:'Corps pur, soluté, solvant, concentration',      niveau:'3ème',couleur:'violet',fichier:'parcours-melanges-solutions-3eme.html'},
   {emoji:'🚀',titre:'Mouvements & forces',   soustitre:'Trajectoire, v = d/t, P = mg, inertie',          niveau:'3ème',couleur:'orange',fichier:'parcours-mouvements-forces-3eme.html'},
   {emoji:'⚡',titre:'Électricité — loi d\'Ohm',soustitre:'Circuit, tension, intensité, U = R × I',       niveau:'4ème',couleur:'vert',  fichier:'parcours-electricite-ohm-4eme.html'},
+  {emoji:'🔥',titre:'Réactions chimiques',    soustitre:'Réactifs, produits, conservation de la masse',   niveau:'3ème',couleur:'rouge', fichier:'parcours-reactions-chimiques-3eme.html'},
+  {emoji:'💡',titre:'Puissance & énergie',    soustitre:'P = U × I, E = P × t, kWh, facture',            niveau:'3ème',couleur:'or',    fichier:'parcours-puissance-energie-3eme.html'},
+  {emoji:'🌈',titre:'Lumière et optique',     soustitre:'Propagation, ombres, réflexion, réfraction',     niveau:'4ème',couleur:'violet',fichier:'parcours-lumiere-4eme.html'},
+  {emoji:'⚗️',titre:'Réactions chimiques',   soustitre:'Combustion, oxydation, équation chimique',       niveau:'4ème',couleur:'orange',fichier:'parcours-reactions-chimiques-4eme.html'},
+  /* --- 3ème DNB PC --- */
+  {emoji:'📝',titre:'DNB blanc PC — n°1',    soustitre:'Masse volumique · Ohm · Réactions chimiques',    niveau:'3ème',couleur:'teal',  fichier:'dnb-blanc-pc-01.html',                type:'dnb'},
+  {emoji:'📝',titre:'DNB blanc PC — n°2',    soustitre:'Mouvements · Puissance & énergie · États matière',niveau:'3ème',couleur:'violet',fichier:'dnb-blanc-pc-02.html',               type:'dnb'},
 ];
 
 /* ======================================================
@@ -410,12 +417,57 @@ function buildListeMaths(niv,type){
    ÉTAPE 3B — Parcours Physique-Chimie
    ====================================================== */
 function buildParcoursPC(niv){
+  updateBreadcrumb();
+  if(niv==='3ème'){
+    build3emePC();
+  } else {
+    buildListePC(niv,'theme');
+  }
+}
+
+function build3emePC(){
   mapWrap.innerHTML='';
   updateBreadcrumb();
-  mapWrap.appendChild(sectionHead('Physique-Chimie '+niv));
+  mapWrap.appendChild(sectionHead('3ème — Physique-Chimie'));
   var grid=document.createElement('div');grid.className='map';
-  PC.filter(function(p){return p.niveau===niv;})
-    .forEach(function(p){grid.appendChild(tileFor(p));});
+
+  var cteal=COUL.teal;
+  var a1=document.createElement('a');a1.className='etape';a1.href='javascript:void(0)';
+  a1.onclick=function(){buildListePC('3ème','theme');};
+  a1.innerHTML='<div class="num" style="background:'+cteal[0]+';box-shadow:0 5px 0 '+cteal[1]+'">⚗️</div>'
+    +'<div class="txt"><h3>Je revois mes chapitres</h3><p>Masse volumique, Ohm, Réactions…</p>'
+    +'<span class="niv" style="background:'+cteal[0]+'">Parcours thématiques</span></div>'
+    +'<div class="status">▶</div>';
+  grid.appendChild(a1);
+
+  var cviolet=COUL.violet;
+  var a2=document.createElement('a');a2.className='etape';a2.href='javascript:void(0)';
+  a2.onclick=function(){buildListePC('3ème','dnb');};
+  a2.innerHTML='<div class="num" style="background:'+cviolet[0]+';box-shadow:0 5px 0 '+cviolet[1]+'">📝</div>'
+    +'<div class="txt"><h3>Je m\'entraîne au brevet</h3><p>Exercices de type DNB blanc</p>'
+    +'<span class="niv" style="background:'+cviolet[0]+'">Sujets DNB blancs</span></div>'
+    +'<div class="status">▶</div>';
+  grid.appendChild(a2);
+
+  mapWrap.appendChild(grid);
+  window.scrollTo(0,0);
+}
+
+function buildListePC(niv,type){
+  mapWrap.innerHTML='';
+  updateBreadcrumb();
+  var titre=type==='dnb'?'Brevet PC — Sujets blancs':'Physique-Chimie '+niv;
+  mapWrap.appendChild(sectionHead(titre));
+  if(type==='dnb'){
+    var intro=document.createElement('p');intro.className='dnb-intro';
+    intro.textContent='Chaque sujet te propose des exercices de physique-chimie de type brevet. Lis bien, rédige et vérifie.';
+    mapWrap.appendChild(intro);
+  }
+  var grid=document.createElement('div');grid.className='map';
+  PC.filter(function(p){
+    if(p.niveau!==niv)return false;
+    return type==='dnb'?p.type==='dnb':p.type!=='dnb';
+  }).forEach(function(p){grid.appendChild(tileFor(p));});
   mapWrap.appendChild(grid);
   window.scrollTo(0,0);
 }

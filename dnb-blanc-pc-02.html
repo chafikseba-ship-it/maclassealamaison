@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DNB blanc — Physique-Chimie n°2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --creme:#FFF6E6;--creme2:#FFF0D6;--jaune:#FFC93C;--jaune-fonce:#E0A415;
+    --vert:#9FD356;--vert-fonce:#6FA52A;--orange:#FF9F45;--orange-fonce:#E07A1F;
+    --rouge:#E76F51;--brun:#5A4A2F;--brun-clair:#8A744C;--blanc:#FFFFFF;--ombre:rgba(120,90,30,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:var(--creme);color:var(--brun);min-height:100vh;padding:18px 14px 90px;-webkit-text-size-adjust:100%;}
+  h1,h2,h3,.titre{font-family:'Fredoka',sans-serif;}
+  .wrap{max-width:680px;margin:0 auto;}
+  .entete{background:linear-gradient(135deg,var(--jaune),var(--orange));border-radius:24px;padding:22px;color:#fff;text-align:center;box-shadow:0 6px 0 var(--orange-fonce);margin-bottom:18px;}
+  .entete h1{font-size:26px;font-weight:600;text-shadow:0 2px 0 rgba(0,0,0,.12);}
+  .entete p{font-weight:700;opacity:.95;margin-top:4px;}
+  .progression{display:flex;gap:6px;margin-bottom:18px;}
+  .progression .pas{flex:1;height:10px;border-radius:6px;background:var(--creme2);box-shadow:inset 0 2px 4px var(--ombre);}
+  .progression .pas.fait{background:var(--vert);}
+  .progression .pas.actif{background:var(--jaune);}
+  .carte{background:var(--blanc);border-radius:22px;padding:22px;box-shadow:0 5px 0 var(--ombre);margin-bottom:18px;}
+  .carte h2{font-size:21px;color:var(--brun);margin-bottom:6px;font-weight:600;}
+  .carte h2 .num{color:var(--orange-fonce);}
+  .badge-theme{display:inline-block;background:var(--vert);color:#fff;font-family:'Fredoka';font-weight:600;font-size:13px;padding:4px 12px;border-radius:20px;margin-bottom:12px;}
+  .consigne{font-size:17px;line-height:1.5;margin:10px 0;}
+  .sous{color:var(--brun-clair);font-weight:600;font-size:15px;}
+  .btn{font-family:'Fredoka';font-weight:600;font-size:18px;border:none;cursor:pointer;border-radius:18px;padding:14px 22px;color:#fff;transition:transform .05s,box-shadow .05s;display:inline-block;}
+  .btn-vert{background:var(--vert);box-shadow:0 5px 0 var(--vert-fonce);}
+  .btn-jaune{background:var(--jaune);color:var(--brun);box-shadow:0 5px 0 var(--jaune-fonce);}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--vert-fonce);}
+  .btn-jaune:active{box-shadow:0 1px 0 var(--jaune-fonce);}
+  .ligne-btn{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px;}
+  .qbloc{margin:20px 0 6px;padding:13px 15px;background:linear-gradient(135deg,#FFE7B0,#FFD98A);border-radius:14px;box-shadow:0 3px 0 rgba(180,140,40,.2);}
+  .qbloc h3{font-size:18px;color:var(--brun);font-weight:600;}
+  .qbloc p{font-size:15px;line-height:1.45;margin-top:5px;}
+  .etape{border-radius:16px;padding:14px;margin:10px 0;background:var(--creme);border:2px solid var(--creme2);transition:opacity .3s;}
+  .etape.verrou{opacity:.45;pointer-events:none;}
+  .etape.ok{border-color:var(--vert);background:#f3faea;}
+  .etape .role{font-family:'Fredoka';font-weight:600;color:var(--orange-fonce);font-size:14px;text-transform:uppercase;letter-spacing:.5px;}
+  .etape .q{font-size:16px;margin:6px 0 10px;line-height:1.45;}
+  .etape input[type=text]{font-family:'Nunito';font-size:18px;font-weight:700;width:100%;padding:12px 14px;border:2px solid var(--brun-clair);border-radius:12px;background:#fff;color:var(--brun);}
+  .etape input[type=text]:focus{outline:none;border-color:var(--jaune);}
+  .ligne-valid{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap;}
+  .msg{font-weight:700;font-size:15px;margin-top:8px;}
+  .msg.bon{color:var(--vert-fonce);}
+  .msg.faux{color:var(--rouge);}
+  .aide{background:#FFF3D0;border-left:5px solid var(--jaune);border-radius:8px;padding:10px 12px;margin-top:8px;font-size:15px;}
+  .solution{background:#eef7df;border-left:5px solid var(--vert);border-radius:8px;padding:10px 12px;margin-top:8px;font-size:15px;}
+  .frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 4px;}
+  .frac .num{padding:0 6px 2px;border-bottom:2.5px solid var(--brun);}
+  .frac .den{padding:2px 6px 0;}
+  .frac-saisie{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;}
+  .frac-saisie input{width:140px;text-align:center;font-family:'Nunito';font-weight:700;font-size:18px;border:2px solid var(--brun-clair);border-radius:8px;padding:6px;background:#fff;color:var(--brun);}
+  .frac-saisie .barre-frac{height:3px;background:var(--brun);margin:4px 0;border-radius:2px;}
+  #btn-calc{position:fixed;right:18px;bottom:18px;z-index:50;width:60px;height:60px;border-radius:50%;background:var(--orange);color:#fff;border:none;cursor:pointer;font-size:26px;box-shadow:0 5px 0 var(--orange-fonce);}
+  #btn-calc:active{transform:translateY(4px);box-shadow:0 1px 0 var(--orange-fonce);}
+  #calc{position:fixed;right:18px;bottom:88px;z-index:51;width:300px;max-width:calc(100vw - 36px);max-height:calc(100vh - 120px);overflow-y:auto;background:var(--blanc);border-radius:20px;box-shadow:0 8px 24px rgba(80,60,20,.3);padding:14px;display:none;}
+  #calc.ouvert{display:block;}
+  #calc .affichage{position:sticky;top:0;z-index:2;background:var(--creme);border-radius:12px;padding:14px;font-family:'Fredoka';font-weight:600;font-size:24px;text-align:right;min-height:52px;word-break:break-all;margin-bottom:10px;color:var(--brun);border:2px solid var(--jaune);}
+  #calc .mode{font-size:12px;color:var(--brun-clair);text-align:right;margin-bottom:6px;font-weight:700;}
+  #calc .envoyer{width:100%;margin-top:8px;font-family:'Fredoka';font-weight:600;font-size:15px;border:none;cursor:pointer;background:var(--vert);color:#fff;border-radius:12px;padding:12px;box-shadow:0 4px 0 var(--vert-fonce);}
+  #calc .envoyer:active{transform:translateY(3px);box-shadow:0 1px 0 var(--vert-fonce);}
+  .grille-calc{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  .grille-calc button{font-family:'Fredoka';font-weight:500;font-size:16px;border:none;cursor:pointer;border-radius:10px;padding:11px 0;background:var(--creme2);color:var(--brun);}
+  .grille-calc button:active{transform:translateY(2px);}
+  .grille-calc button.op{background:var(--jaune);}
+  .grille-calc button.fct{background:var(--vert);color:#fff;font-size:14px;}
+  .grille-calc button.eg{background:var(--orange);color:#fff;}
+  .clavier-sym{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .clavier-sym button{font-family:'Fredoka';font-weight:600;font-size:16px;border:none;cursor:pointer;background:var(--creme2);color:var(--brun);border-radius:10px;padding:8px 13px;min-width:42px;box-shadow:0 3px 0 var(--ombre);}
+  .clavier-sym button:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ombre);}
+  .fin{background:linear-gradient(135deg,var(--vert),var(--jaune));color:#fff;text-align:center;}
+  .fin h2{font-size:24px;}
+  .cache{display:none;}
+  .btn-retour{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka';font-weight:600;font-size:16px;
+    background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.5);color:#fff;border-radius:12px;
+    padding:8px 14px;cursor:pointer;text-decoration:none;margin-bottom:10px;transition:background .12s}
+  .btn-retour:hover{background:rgba(255,255,255,.4)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="index.html" class="btn-retour">← Accueil</a>
+  <div class="entete">
+    <h1>🔬 DNB blanc — Physique-Chimie n°2</h1>
+    <p>Sujet n°2 · 3 exercices · 45 minutes</p>
+  </div>
+  <div class="progression" id="progression"></div>
+  <div id="zone-ecrans"></div>
+</div>
+
+<button id="btn-calc" onclick="toggleCalc()" aria-label="Calculatrice">&#x1F9EE;</button>
+<div id="calc" role="dialog" aria-label="Calculatrice">
+  <div class="mode">degrés (°)</div>
+  <div class="affichage" id="calc-ecran">0</div>
+  <div class="grille-calc">
+    <button class="fct" onclick="cTok('cos(')">cos</button><button class="fct" onclick="cTok('sin(')">sin</button><button class="fct" onclick="cTok('tan(')">tan</button><button class="op" onclick="cClear()">C</button>
+    <button class="fct" onclick="cTok('cos⁻¹(')">cos⁻¹</button><button class="fct" onclick="cTok('sin⁻¹(')">sin⁻¹</button><button class="fct" onclick="cTok('tan⁻¹(')">tan⁻¹</button><button class="op" onclick="cBack()">&#x232B;</button>
+    <button onclick="cTok('7')">7</button><button onclick="cTok('8')">8</button><button onclick="cTok('9')">9</button><button class="op" onclick="cTok('÷')">÷</button>
+    <button onclick="cTok('4')">4</button><button onclick="cTok('5')">5</button><button onclick="cTok('6')">6</button><button class="op" onclick="cTok('×')">×</button>
+    <button onclick="cTok('1')">1</button><button onclick="cTok('2')">2</button><button onclick="cTok('3')">3</button><button class="op" onclick="cTok('-')">&#x2212;</button>
+    <button onclick="cTok('0')">0</button><button onclick="cTok('.')">,</button><button class="op" onclick="cTok('√(')">&#x221A;</button><button class="op" onclick="cTok('+')">+</button>
+    <button class="op" onclick="cTok('(')">(</button><button class="op" onclick="cTok(')')">)</button><button class="op" onclick="cTok('^2')">x²</button><button class="eg" onclick="cEgal()">=</button>
+  </div>
+  <button class="envoyer" onclick="cEnvoyer()">&#x2B06; Envoyer le résultat dans la réponse</button>
+</div>
+
+<script>
+/* ===== OUTILS ===== */
+function fr(x){return (''+x).replace('.',',');}
+
+/* ===== NORMALISATION ===== */
+function norm(inp){return (inp==null?"":inp.toString()).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'').replace(/,/g,'.').replace(/\*/g,'');}
+
+/* ===== CALCULATRICE ===== */
+var calcExpr="";
+function cosd(x){return Math.cos(x*Math.PI/180);}
+function sind(x){return Math.sin(x*Math.PI/180);}
+function tand(x){return Math.tan(x*Math.PI/180);}
+function acosd(x){return Math.acos(x)*180/Math.PI;}
+function asind(x){return Math.asin(x)*180/Math.PI;}
+function atand(x){return Math.atan(x)*180/Math.PI;}
+function toggleCalc(){var cal=document.getElementById('calc');cal.classList.toggle('ouvert');if(cal.classList.contains('ouvert')){var active=document.activeElement;if(active&&active.matches&&active.matches('.etape input[type=text]')){dernierChamp=active;active.blur();}}}
+function majEcran(){document.getElementById('calc-ecran').textContent=calcExpr||"0";}
+function cTok(t){calcExpr+=t;majEcran();}
+function cClear(){calcExpr="";majEcran();}
+function cBack(){var tk=['cos\u207b\xb9(','sin\u207b\xb9(','tan\u207b\xb9(','cos(','sin(','tan(','√(','^2'];for(var ki=0;ki<tk.length;ki++){if(calcExpr.endsWith(tk[ki])){calcExpr=calcExpr.slice(0,-tk[ki].length);majEcran();return;}}calcExpr=calcExpr.slice(0,-1);majEcran();}
+function calcEval(expr){
+  var e=expr.replace(/×/g,'*').replace(/÷/g,'/').replace(/,/g,'.').replace(/π/g,'Math.PI').replace(/√/g,'Math.sqrt').replace(/\^/g,'**')
+    .replace(/cos⁻¹/g,'acosd').replace(/sin⁻¹/g,'asind').replace(/tan⁻¹/g,'atand')
+    .replace(/\bcos\b/g,'cosd').replace(/\bsin\b/g,'sind').replace(/\btan\b/g,'tand');
+  if(/[a-z]/i.test(e.replace(/Math|cosd|sind|tand|acosd|asind|atand|sqrt|PI|e/gi,''))) throw new Error("invalide");
+  return Function('cosd','sind','tand','acosd','asind','atand','"use strict";return ('+e+');')(cosd,sind,tand,acosd,asind,atand);
+}
+function cEgal(){try{var r=calcEval(calcExpr);if(typeof r!=='number'||!isFinite(r))throw 0;r=Math.round(r*1e6)/1e6;calcExpr=fr(r);majEcran();}catch(e){document.getElementById('calc-ecran').textContent="erreur";calcExpr="";}}
+
+/* ===== CHAMP ACTIF + INSERTION ===== */
+var dernierChamp=null;
+function inserer(champ,txt){if(!champ||champ.disabled)return;var d=(champ.selectionStart!=null)?champ.selectionStart:champ.value.length;var f=(champ.selectionEnd!=null)?champ.selectionEnd:champ.value.length;champ.value=champ.value.slice(0,d)+txt+champ.value.slice(f);var p=d+txt.length;champ.focus();try{champ.setSelectionRange(p,p);}catch(e){}}
+function symPress(ev,btn,sym){ev.preventDefault();var etape=btn.closest('.etape');var champ=(dernierChamp&&etape.contains(dernierChamp)&&!dernierChamp.disabled)?dernierChamp:etape.querySelector('input[type=text]:not([disabled])');inserer(champ,sym);}
+function cEnvoyer(){if(dernierChamp&&!dernierChamp.disabled){inserer(dernierChamp,calcExpr);}else{var e=document.getElementById('calc-ecran');var t=e.textContent;e.textContent="clique d'abord dans une réponse";setTimeout(function(){e.textContent=t;},1400);}}
+
+/* ===== MOTEUR REDACTION GUIDEE ===== */
+function construireRedaction(conteneurId, etapes, onFini){
+  var cont=document.getElementById(conteneurId);cont.innerHTML="";
+  etapes.forEach(function(et,i){
+    if(et.question){
+      var h=document.createElement('div');h.className='qbloc';
+      h.innerHTML='<h3>'+et.question+'</h3>'+(et.consigneQ?'<p>'+et.consigneQ+'</p>':'');
+      cont.appendChild(h);
+    }
+    var div=document.createElement('div');
+    div.className='etape'+(i===0?'':' verrou');div.dataset.i=i;
+    var saisieHTML='<input type="text" placeholder="\xc9cris ici\u2026">';
+    var clavierHTML='';
+    if(et.clavier&&et.clavier.length){
+      clavierHTML='<div class="clavier-sym">'+et.clavier.map(function(sym){return '<button type="button" onmousedown="symPress(event,this,\''+(''+sym).replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')">' +sym+'</button>';}).join('')+'</div>';
+    }
+    div.innerHTML='<div class="role">'+et.role+'</div><div class="q">'+et.q+'</div>'+saisieHTML+clavierHTML+'<div class="ligne-valid"><button class="btn btn-jaune" style="font-size:16px;padding:10px 18px" onclick="validerEtape(\''+conteneurId+'\','+i+')">Valider</button></div><div class="msg" data-msg></div><div data-aide></div>';
+    cont.appendChild(div);
+  });
+  cont.__etapes=etapes;cont.__erreurs=etapes.map(function(){return 0;});cont.__onFini=onFini;
+}
+function validerEtape(conteneurId,i){
+  var cont=document.getElementById(conteneurId);var etapes=cont.__etapes;
+  var div=cont.querySelector('.etape[data-i="'+i+'"]');var et=etapes[i];
+  var ok=et.verif(div.querySelector('input[type=text]').value);
+  var msg=div.querySelector('[data-msg]');var aideBox=div.querySelector('[data-aide]');
+  if(ok){
+    msg.textContent="\u2713 Bien r\xe9dig\xe9.";msg.className="msg bon";div.classList.add('ok');
+    div.querySelectorAll('input').forEach(function(inp){inp.disabled=true;});div.querySelector('.ligne-valid').style.display='none';
+    var suiv=cont.querySelector('.etape[data-i="'+(i+1)+'"]');
+    if(suiv){suiv.classList.remove('verrou');suiv.querySelector('input').focus();}
+    else if(cont.__onFini)cont.__onFini();
+  }else{
+    cont.__erreurs[i]++;var n=cont.__erreurs[i];
+    msg.textContent="Pas encore. Relis ton \xe9criture.";msg.className="msg faux";
+    if(n>=3)aideBox.innerHTML='<div class="solution"><b>La bonne \xe9criture :</b><br>'+et.solutionHTML+'</div>';
+    else if(n>=2)aideBox.innerHTML='<div class="aide">\ud83d\udca1 '+et.aide+'</div>';
+  }
+}
+
+/* ===== PROGRESSION + NAVIGATION ===== */
+var ecrans=[],ecranActuel=0;
+function construireProgression(n){var p=document.getElementById('progression');p.innerHTML="";for(var i=0;i<n;i++){var d=document.createElement('div');d.className='pas';p.appendChild(d);}majProgression();}
+function majProgression(){document.querySelectorAll('#progression .pas').forEach(function(d,i){d.className='pas'+(i<ecranActuel?' fait':i===ecranActuel?' actif':'');});}
+function montrerEcran(i){ecrans.forEach(function(e,k){e.classList.toggle('cache',k!==i);});ecranActuel=i;majProgression();window.scrollTo({top:0,behavior:'smooth'});}
+function ecranSuivant(){if(ecranActuel<ecrans.length-1)montrerEcran(ecranActuel+1);}
+document.addEventListener('focusin',function(e){if(e.target.matches&&e.target.matches('.etape input[type=text]'))dernierChamp=e.target;});
+
+/* ===== CONTENU : 3 EXERCICES PC ===== */
+
+/* --- Exercice 1 : Mouvements et vitesse --- */
+var etapesEx1=[
+  {
+    question:'Question 1 — Calcul de la vitesse en m/s',
+    consigneQ:'Une voiture parcourt d = 540 m en t = 30 s. Calcule sa vitesse v en m/s.',
+    role:'Rappeler la formule',
+    q:'Écris la formule de la vitesse (en utilisant v, d et t).',
+    clavier:['v','=','d','÷','t'],
+    verif:function(inp){var t=norm(inp);return t.includes('v')&&t.includes('d')&&t.includes('t')&&t.includes('=');},
+    aide:'La formule est v = d ÷ t',
+    solutionHTML:'v = d ÷ t'
+  },
+  {
+    role:'Substituer les valeurs',
+    clavier:['540','÷','30','='],
+    q:'Remplace d = 540 m et t = 30 s dans la formule.',
+    verif:function(inp){var t=norm(inp);return t.includes('540')&&t.includes('30');},
+    aide:'v = 540 ÷ 30',
+    solutionHTML:'v = 540 ÷ 30'
+  },
+  {
+    role:'Calculer la vitesse',
+    clavier:['×','÷','='],
+    q:'Calcule v = 540 ÷ 30. Donne le résultat avec l\'unité.',
+    verif:function(inp){return (function(){var ns=(norm(inp).match(/\d+(\.\d+)?/g)||[]).map(parseFloat);return ns.some(function(x){return Math.abs(x-18)<=0.05;});}());},
+    aide:'540 ÷ 30 = 18 m/s',
+    solutionHTML:'v = 18 m/s'
+  },
+  {
+    question:'Question 2 — Conversion en km/h',
+    consigneQ:'Convertis la vitesse v = 18 m/s en km/h.',
+    role:'Calculer en km/h',
+    clavier:['18','×','3,6','='],
+    q:'Applique la conversion : v (km/h) = v (m/s) × 3,6. Calcule 18 × 3,6.',
+    verif:function(inp){var ns=(norm(inp).match(/\d+(\.\d+)?/g)||[]).map(parseFloat);return ns.some(function(x){return Math.abs(x-64.8)<=0.05;});},
+    aide:'18 × 3,6 = 64,8 km/h',
+    solutionHTML:'v = 18 × 3,6 = 64,8 km/h'
+  },
+  {
+    question:'Question 3 — Nature du mouvement',
+    consigneQ:'Le mouvement de cette voiture est-il rectiligne uniforme ? Justifie.',
+    role:'Conclure',
+    q:'Le mouvement est-il rectiligne uniforme ? Justifie en une phrase (mentionne la trajectoire et la vitesse).',
+    verif:function(inp){var t=norm(inp);return t.includes('oui')||(t.includes('rect')&&(t.includes('uniform')||t.includes('const')));},
+    aide:'Oui, car la trajectoire est rectiligne et la vitesse est constante.',
+    solutionHTML:'Oui, le mouvement est rectiligne uniforme car la trajectoire est rectiligne et la vitesse est constante.'
+  }
+];
+
+/* --- Exercice 2 : Puissance et énergie électrique --- */
+var etapesEx2=[
+  {
+    question:'Question 1 — Calcul de la puissance (en W)',
+    consigneQ:'Un grille-pain fonctionne sous U = 230 V avec I = 4 A. Calcule sa puissance P.',
+    role:'Rappeler la formule',
+    clavier:['P','=','U','×','I'],
+    q:'Écris la formule de la puissance électrique (avec P, U et I).',
+    verif:function(inp){var t=norm(inp);return t.includes('p')&&t.includes('u')&&t.includes('i')&&t.includes('=');},
+    aide:'La formule est P = U × I',
+    solutionHTML:'P = U × I'
+  },
+  {
+    role:'Substituer les valeurs',
+    clavier:['230','×','4','='],
+    q:'Remplace U = 230 V et I = 4 A dans la formule.',
+    verif:function(inp){var t=norm(inp);return t.includes('230')&&t.includes('4');},
+    aide:'P = 230 × 4',
+    solutionHTML:'P = 230 × 4'
+  },
+  {
+    role:'Calculer la puissance',
+    q:'Calcule P = 230 × 4. Donne le résultat avec l\'unité.',
+    verif:function(inp){var ns=(norm(inp).match(/\d+(\.\d+)?/g)||[]).map(parseFloat);return ns.some(function(x){return Math.abs(x-920)<=0.05;});},
+    aide:'230 × 4 = 920 W',
+    solutionHTML:'P = 920 W'
+  },
+  {
+    question:'Question 2 — Conversion de la durée en secondes',
+    consigneQ:'Le grille-pain fonctionne pendant t = 3 minutes. Convertis en secondes.',
+    role:'Convertir en secondes',
+    clavier:['3','×','60','='],
+    q:'Calcule t en secondes : t = 3 × 60 s.',
+    verif:function(inp){var ns=(norm(inp).match(/\d+(\.\d+)?/g)||[]).map(parseFloat);return ns.some(function(x){return Math.abs(x-180)<=0.05;});},
+    aide:'t = 3 × 60 = 180 s',
+    solutionHTML:'t = 3 × 60 = 180 s'
+  },
+  {
+    question:'Question 3 — Calcul de l\'énergie consommée (en J)',
+    consigneQ:'Calcule l\'énergie E consommée par le grille-pain.',
+    role:'Rappeler la formule',
+    clavier:['E','=','P','×','t'],
+    q:'Écris la formule de l\'énergie électrique (avec E, P et t).',
+    verif:function(inp){var t=norm(inp);return t.includes('e')&&t.includes('p')&&t.includes('t')&&t.includes('=');},
+    aide:'La formule est E = P × t',
+    solutionHTML:'E = P × t'
+  },
+  {
+    role:'Substituer les valeurs',
+    clavier:['920','×','180','='],
+    q:'Remplace P = 920 W et t = 180 s dans la formule.',
+    verif:function(inp){var t=norm(inp);return t.includes('920')&&t.includes('180');},
+    aide:'E = 920 × 180',
+    solutionHTML:'E = 920 × 180'
+  },
+  {
+    role:'Calculer l\'énergie',
+    q:'Calcule E = 920 × 180. Donne le résultat avec l\'unité.',
+    verif:function(inp){var ns=(norm(inp).match(/\d+(\.\d+)?/g)||[]).map(parseFloat);return ns.some(function(x){return Math.abs(x-165600)<=1;});},
+    aide:'920 × 180 = 165 600 J',
+    solutionHTML:'E = 165 600 J'
+  }
+];
+
+/* --- Exercice 3 : États de la matière et changements d'état --- */
+var etapesEx3=[
+  {
+    question:'Question 1 — Changement d\'état à 0 °C',
+    consigneQ:'On chauffe de la glace à −10 °C. La température reste constante à 0 °C un moment. Quel changement d\'état se produit ?',
+    role:'Nommer le changement d\'état',
+    q:'Quel est le nom du changement d\'état qui se produit à 0 °C (passage de l\'état solide à l\'état liquide) ?',
+    verif:function(inp){return norm(inp).includes('fusion');},
+    aide:'C\'est la fusion (passage du solide au liquide).',
+    solutionHTML:'fusion'
+  },
+  {
+    question:'Question 2 — État entre 0 °C et 100 °C',
+    consigneQ:'Entre 0 °C et 100 °C, la température monte. Dans quel état se trouve l\'eau ?',
+    role:'Identifier l\'état',
+    q:'Quel est l\'état physique de l\'eau entre 0 °C et 100 °C ?',
+    verif:function(inp){return norm(inp).includes('liquid');},
+    aide:'L\'eau est à l\'état liquide entre 0 °C et 100 °C.',
+    solutionHTML:'liquide'
+  },
+  {
+    question:'Question 3 — Changement d\'état à 100 °C',
+    consigneQ:'À 100 °C, la température reste constante à nouveau. Quel changement d\'état se produit ?',
+    role:'Nommer le changement d\'état',
+    q:'Quel est le nom du changement d\'état qui se produit à 100 °C (passage de l\'état liquide à l\'état gazeux) ?',
+    verif:function(inp){var t=norm(inp);return t.includes('vaporis')||t.includes('ebullition')||t.includes('ebull');},
+    aide:'C\'est la vaporisation (ou ébullition) : passage du liquide au gaz.',
+    solutionHTML:'vaporisation (ou ébullition)'
+  },
+  {
+    question:'Question 4 — Palier de température',
+    consigneQ:'Pourquoi la température reste-t-elle constante pendant un changement d\'état ?',
+    role:'Expliquer le palier',
+    q:'Explique pourquoi la température ne change pas pendant un changement d\'état (utilise les mots "énergie" ou "palier").',
+    verif:function(inp){var t=norm(inp);return t.includes('energie')||t.includes('palier')||(t.includes('const')&&t.includes('changement'));},
+    aide:'L\'énergie reçue sert entièrement au changement d\'état : c\'est pourquoi on observe un palier de température.',
+    solutionHTML:'L\'énergie reçue sert au changement d\'état (et non à faire monter la température) → palier de température constante.'
+  }
+];
+
+/* ===== CONSTRUCTION DES ECRANS ===== */
+function construireEcrans(){
+  var zone=document.getElementById('zone-ecrans');zone.innerHTML='';
+
+  // Ecran intro
+  zone.insertAdjacentHTML('beforeend',
+    '<div class="carte ecran" data-section="intro">'+
+    '<span class="badge-theme">Physique-Chimie 3ème</span>'+
+    '<h2>Brevet blanc — Physique-Chimie n°2</h2>'+
+    '<p class="consigne">Ce sujet comporte <b>3 exercices</b> de physique-chimie de niveau 3ème. Pour chaque exercice, lis attentivement le contexte puis rédige chaque étape de la solution.</p>'+
+    '<p class="consigne sous">Durée conseillée : 45 minutes · Calculatrice disponible en bas à droite.</p>'+
+    '<div class="ligne-btn"><button class="btn btn-vert" onclick="ecranSuivant()">Commencer</button></div>'+
+    '</div>'
+  );
+
+  // Exercice 1
+  zone.insertAdjacentHTML('beforeend',
+    '<div class="carte ecran cache" data-section="exo0">'+
+    '<h2><span class="num">Exercice 1</span> — Mouvements et vitesse</h2>'+
+    '<p class="consigne"><b>Contexte :</b> Une voiture parcourt une distance <b>d = 540 m</b> en <b>t = 30 s</b> sur une route rectiligne.</p>'+
+    '<div id="redac-0"></div>'+
+    '<div class="ligne-btn cache" id="suite-0"><button class="btn btn-vert" onclick="ecranSuivant()">Exercice suivant</button></div>'+
+    '</div>'
+  );
+
+  // Exercice 2
+  zone.insertAdjacentHTML('beforeend',
+    '<div class="carte ecran cache" data-section="exo1">'+
+    '<h2><span class="num">Exercice 2</span> — Puissance et énergie électrique</h2>'+
+    '<p class="consigne"><b>Contexte :</b> Un grille-pain fonctionne sous une tension <b>U = 230 V</b> et est traversé par un courant d\'intensité <b>I = 4 A</b>. Il fonctionne pendant <b>t = 3 minutes</b>.</p>'+
+    '<div id="redac-1"></div>'+
+    '<div class="ligne-btn cache" id="suite-1"><button class="btn btn-vert" onclick="ecranSuivant()">Exercice suivant</button></div>'+
+    '</div>'
+  );
+
+  // Exercice 3
+  zone.insertAdjacentHTML('beforeend',
+    '<div class="carte ecran cache" data-section="exo2">'+
+    '<h2><span class="num">Exercice 3</span> — États de la matière</h2>'+
+    '<p class="consigne"><b>Contexte :</b> On chauffe de l\'eau initialement à l\'état solide (glace à −10 °C). La température reste constante à 0 °C pendant un certain temps, puis elle monte jusqu\'à 100 °C où elle reste constante à nouveau.</p>'+
+    '<div id="redac-2"></div>'+
+    '<div class="ligne-btn cache" id="suite-2"><button class="btn btn-vert" onclick="ecranSuivant()">Terminer</button></div>'+
+    '</div>'
+  );
+
+  // Ecran fin
+  zone.insertAdjacentHTML('beforeend',
+    '<div class="carte ecran fin cache" data-section="fin">'+
+    '<h2>Bravo, sujet terminé ! 🎉</h2>'+
+    '<p class="consigne" style="color:#fff;margin-top:12px;">Tu as rédigé les 3 exercices de physique-chimie. Relis tes réponses et vérifie tes unités.</p>'+
+    '<div class="ligne-btn"><button class="btn btn-jaune" onclick="location.reload()">Recommencer</button></div>'+
+    '</div>'
+  );
+
+  // Construire les rédactions et lier les boutons suite
+  construireRedaction('redac-0', etapesEx1, function(){document.getElementById('suite-0').classList.remove('cache');});
+  construireRedaction('redac-1', etapesEx2, function(){document.getElementById('suite-1').classList.remove('cache');});
+  construireRedaction('redac-2', etapesEx3, function(){document.getElementById('suite-2').classList.remove('cache');});
+}
+
+window.addEventListener('DOMContentLoaded',function(){
+  construireEcrans();
+  ecrans=Array.from(document.querySelectorAll('#zone-ecrans .ecran'));
+  construireProgression(ecrans.length);
+  montrerEcran(0);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réactions chimiques — 4ème</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#FFC93C;--or-bas:#E0A41E;--vert:#8BC34A;--vert-bas:#5E9426;
+  --orange:#FF8A4C;--orange-bas:#E0672E;--teal:#46BECB;--teal-bas:#2E8A98;
+  --violet:#A78BC4;--violet-bas:#7E61A1;--rouge:#EF5D60;--rouge-bas:#c43e41;
+  --bleu:#4FA3D1;--bleu-bas:#2f7ba8;
+  --bois:#5C3D2E;--bois-clair:#8a6650;--creme:#FFF4DC;--blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18),0 14px 22px rgba(92,61,46,.12);
+  --acc:#46BECB;--acc-bas:#2E8A98;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
+  background:linear-gradient(160deg,#EAF6FF 0%,#D0EEFF 55%,#B8E4FF 100%);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 100px;position:relative;z-index:1}
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.4;z-index:0}
+.b1{width:180px;height:180px;background:#A8D8FF;top:-40px;left:-50px}
+.b2{width:140px;height:140px;background:#FFD0A0;bottom:40px;right:-40px}
+.b3{width:120px;height:120px;background:#BCE29A;top:40%;left:-50px}
+.screen{display:none;animation:pop .35s ease}
+.screen.active{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
+  padding:14px 22px;cursor:pointer;background:var(--acc);box-shadow:0 6px 0 var(--acc-bas);
+  transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--acc-bas)}
+.btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
+.btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
+.btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
+.btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
+.btn.bleu{background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)}
+.btn.or{background:var(--or);color:var(--bois);box-shadow:0 6px 0 var(--or-bas)}
+.btn.rouge{background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)}
+.btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
+.btn:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.back{background:var(--blanc);color:var(--bois);border:none;border-radius:14px;width:48px;height:48px;
+  font-size:1.5rem;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;font-family:'Fredoka'}
+.back:active{transform:translateY(4px);box-shadow:0 1px 0 #e7d3a8}
+.card{background:var(--blanc);border-radius:26px;padding:22px;box-shadow:var(--ombre);margin:16px 0}
+.tag{display:inline-block;font-family:'Fredoka';font-weight:600;color:#fff;padding:5px 14px;border-radius:30px;font-size:.85rem;margin-bottom:8px}
+.hero{text-align:center;padding:26px 16px 8px}
+.hero h1{font-size:2.5rem;line-height:1.05;margin:.1em 0;color:var(--bois)}
+.hero .sub{font-size:1.1rem;color:var(--bois-clair);font-weight:700;max-width:560px;margin:6px auto 0}
+.coin{font-size:3.4rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
+.map{display:grid;gap:16px;margin-top:8px}
+.etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;
+  box-shadow:var(--ombre);cursor:pointer;border:4px solid transparent;transition:transform .12s}
+.etape:hover{transform:translateY(-3px)}
+.etape:active{transform:translateY(1px)}
+.etape .num{flex:0 0 60px;height:60px;border-radius:18px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.7rem;color:#fff}
+.etape .txt h3{margin:0 0 2px;font-size:1.16rem}
+.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.92rem}
+.etape .status{margin-left:auto;font-size:1.5rem}
+.e1 .num{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
+.e2 .num{background:var(--violet);box-shadow:0 5px 0 var(--violet-bas)}
+.e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
+.e4 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
+.lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
+.mid{text-align:center;margin:16px 0}
+.encadre{border-left:5px solid var(--teal);background:var(--creme);border-radius:0 14px 14px 0;
+  padding:12px 14px;margin:12px 0;font-family:'Fredoka';font-weight:700;font-size:1.05rem;
+  color:var(--bois);line-height:1.5}
+.encadre.violet{border-left-color:var(--violet)}
+.encadre.orange{border-left-color:var(--orange)}
+.encadre.vert{border-left-color:var(--vert)}
+.encadre.or{border-left-color:var(--or)}
+.note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
+.lecon-anim{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:14px 0}
+.lecon-bloc{background:var(--teal);color:#fff;font-family:'Fredoka';font-weight:700;font-size:1.2rem;padding:10px 16px;border-radius:14px;box-shadow:0 5px 0 var(--teal-bas)}
+.lecon-op{font-family:'Fredoka';font-weight:700;font-size:1.4rem;color:var(--bois)}
+.lecon-res{background:var(--vert);color:#fff;font-family:'Fredoka';font-weight:700;font-size:1.3rem;padding:10px 18px;border-radius:14px;box-shadow:0 5px 0 var(--vert-bas)}
+.tableau{width:100%;border-collapse:separate;border-spacing:0 6px;margin:10px 0}
+.tableau th{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.95rem;padding:6px 12px;text-align:center}
+.tableau td{background:var(--blanc);font-family:'Fredoka';font-weight:700;color:var(--bois);padding:10px 14px;text-align:center;border-radius:10px}
+.tableau tr:nth-child(odd) td{background:var(--creme)}
+.formule-box{display:inline-flex;align-items:center;background:var(--creme);border:2px dashed var(--teal-bas);
+  border-radius:14px;padding:10px 18px;font-family:'Fredoka';font-weight:700;font-size:1.2rem;
+  color:var(--bois);gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 6px;line-height:1.1}
+.fnum,.fden{display:block;text-align:center;padding:2px 8px;font-family:'Fredoka';font-weight:700}
+.fbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
+/* Entraînement */
+.serieprog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
+.qcard{text-align:center}
+.qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
+.helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px;background:var(--creme);border-radius:10px;padding:8px 12px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
+.ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
+.ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;
+  border:3px solid #f0dca8;border-radius:16px;padding:12px;width:180px;color:var(--bois)}
+.ansrow input:focus{outline:none;border-color:var(--teal-bas)}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.05rem;border:3px solid #e7d3a8;background:var(--blanc);
+  color:var(--bois);border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
+.opt.bad{background:var(--orange);color:#fff;border-color:var(--orange-bas);box-shadow:0 5px 0 var(--orange-bas)}
+.feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
+.feedback.ok{color:var(--vert-bas)}
+.feedback.no{color:var(--orange-bas)}
+.stars{font-size:1.5rem;letter-spacing:3px;margin-top:8px;min-height:1.6em}
+.mathpad{min-height:10px}
+.brouillon-lab{font-family:'Nunito';font-weight:800;font-size:.88rem;color:var(--bois-clair);margin:14px 0 4px}
+.brouillon{width:100%;border:2px solid #e7d3a8;border-radius:14px;padding:10px 12px;font-family:'Nunito';
+  font-weight:700;font-size:1rem;color:var(--bois);resize:vertical;background:var(--blanc)}
+.brouillon:focus{outline:none;border-color:var(--teal-bas)}
+.conf{position:fixed;width:12px;height:12px;top:-20px;z-index:50;border-radius:3px;pointer-events:none}
+.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.result{text-align:center}
+.result .big{font-family:'Fredoka';font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
+.result .big.ok{color:var(--vert-bas)}.result .big.no{color:var(--orange-bas)}
+.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
+.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+/* CASCADE */
+.cascade{margin:6px 0 2px;text-align:left}
+.cstep{display:none;background:var(--creme);border-radius:16px;padding:14px 16px;margin:10px 0;animation:pop .3s ease}
+.cstep.on{display:block}
+.cprompt{font-family:'Fredoka';font-weight:700;color:var(--bois);font-size:1.05rem;margin-bottom:10px;line-height:1.35}
+.cbody{display:flex;flex-direction:column;gap:8px}
+.cfeed{font-family:'Nunito';font-weight:800;font-size:.92rem;margin-top:8px;min-height:1em;line-height:1.35}
+.cfeed.ok{color:var(--vert-bas)}.cfeed.no{color:var(--orange-bas)}
+.cline{font-family:'Fredoka';font-weight:700;font-size:1.12rem;color:var(--bois);line-height:2.6;
+  display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.cblank{font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;border:none;
+  border-bottom:3px solid var(--teal-bas);background:#fff;border-radius:8px 8px 0 0;padding:6px;color:var(--bois)}
+.cblank:focus{outline:3px solid var(--teal-bas);outline-offset:1px;background:#f0fbff}
+.cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
+.cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
+.cverify{margin-top:10px}
+.cfrac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 5px}
+.cfnum,.cfden{display:block;text-align:center;padding:2px 6px}
+.cfbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
+.figbox{margin:8px auto 4px;text-align:center}
+.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka';font-weight:600;font-size:.85rem;
+  color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;
+  box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+/* ===== CALCULATRICE ===== */
+.kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:1.6rem;cursor:pointer;
+  box-shadow:0 6px 0 var(--teal-bas),0 10px 18px rgba(92,61,46,.2);transition:transform .1s}
+.kc-fab:active{transform:translateY(4px)}
+.kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(330px,calc(100vw - 32px));
+  background:var(--blanc);border-radius:22px;padding:14px;
+  box-shadow:0 12px 0 rgba(92,61,46,.12),0 18px 34px rgba(92,61,46,.25);animation:kcpop .25s ease}
+.kc-panel[hidden]{display:none}
+@keyframes kcpop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.kc-head{display:flex;align-items:center;justify-content:space-between;font-family:'Fredoka';font-weight:700;
+  color:var(--bois);margin:2px 4px 10px;font-size:1.05rem}
+.kc-x{border:none;background:var(--creme);color:var(--bois);width:32px;height:32px;border-radius:10px;
+  font-size:1rem;cursor:pointer;font-family:'Fredoka';box-shadow:0 3px 0 #e7d3a8}
+.kc-x:active{transform:translateY(2px);box-shadow:0 1px 0 #e7d3a8}
+.kc-screen{background:#2b2b2b;border-radius:14px;padding:10px 14px;text-align:right;margin-bottom:12px;
+  min-height:74px;display:flex;flex-direction:column;justify-content:center}
+.kc-expr{font-family:'Fredoka';font-weight:600;color:#cfe6ee;font-size:1rem;min-height:1.2em;word-break:break-all;line-height:1.25}
+.kc-res{font-family:'Fredoka';font-weight:700;color:#fff;font-size:1.7rem;line-height:1.1;margin-top:2px}
+.kc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kc-key{border:none;border-radius:14px;padding:14px 0;font-family:'Fredoka';font-weight:700;
+  font-size:1.15rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.kc-key:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.kc-key.op{background:var(--creme);color:var(--orange-bas)}
+.kc-key.fn{background:#eef6f8;color:var(--teal-bas);font-size:1rem}
+.kc-key.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas)}
+.kc-key.eq{background:var(--vert);color:#fff;box-shadow:0 4px 0 var(--vert-bas)}
+.kc-send{width:100%;margin-top:8px;border:none;border-radius:14px;padding:12px;font-family:'Fredoka';
+  font-weight:700;font-size:1rem;background:var(--teal);color:#fff;cursor:pointer;box-shadow:0 4px 0 var(--teal-bas)}
+.kc-send:active{transform:translateY(3px);box-shadow:0 1px 0 var(--teal-bas)}
+button,input,textarea{touch-action:manipulation}
+@media(max-width:480px){
+  .wrap{padding:14px 12px 90px}
+  .hero h1{font-size:2rem}.coin{font-size:2.8rem}
+  .card{padding:16px;border-radius:20px}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem}
+  .question{font-size:1.18rem}
+  .ansrow input{width:60%;max-width:200px}
+  .btn{font-size:1rem;padding:13px 18px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+<div class="wrap">
+
+<!-- ========== ACCUEIL ========== -->
+<section id="accueil" class="screen active">
+  <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
+  <div class="hero">
+    <div class="coin">🔥🦠⚗️</div>
+    <h1>Réactions chimiques</h1>
+    <p class="sub">4 étapes guidées — lis la leçon, puis entraîne-toi ! 💪</p>
+  </div>
+  <div class="map">
+    <div class="etape e1" id="mapCombustion" onclick="tapTheme('combustion')">
+      <div class="num">🔥</div>
+      <div class="txt"><h3>1 · Combustion complète</h3><p>Combustible + O₂ → CO₂ + H₂O — tests de reconnaissance</p></div>
+      <div class="status" id="stCombustion">▶</div>
+    </div>
+    <div class="etape e2" id="mapOxydation" onclick="tapTheme('oxydation')">
+      <div class="num">🦀</div>
+      <div class="txt"><h3>2 · Oxydation</h3><p>Rouille du fer, oxydation lente vs rapide, protection</p></div>
+      <div class="status" id="stOxydation">▶</div>
+    </div>
+    <div class="etape e3" id="mapReactifs" onclick="tapTheme('reactifs')">
+      <div class="num">⚗️</div>
+      <div class="txt"><h3>3 · Réactifs et produits</h3><p>Identifier réactifs, produits, réactif limitant</p></div>
+      <div class="status" id="stReactifs">▶</div>
+    </div>
+    <div class="etape e4" id="mapEquation" onclick="tapTheme('equation')">
+      <div class="num">📝</div>
+      <div class="txt"><h3>4 · Équation bilan</h3><p>Lire une équation en mots, réactifs → produits</p></div>
+      <div class="status" id="stEquation">▶</div>
+    </div>
+  </div>
+  <div class="mid" style="margin-top:20px">
+    <button class="btn teal" onclick="go('arene')">🏟️ Arène libre — mélange tout !</button>
+  </div>
+</section>
+
+<!-- ========== LEÇON 1 : COMBUSTION ========== -->
+<section id="expCombustion" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🔥 Combustion complète</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">🔥 La réaction de combustion</span>
+    <p class="lead">Une <b>combustion complète</b> se produit quand un combustible brûle avec suffisamment de <b>dioxygène (O₂)</b>.<br>
+    Les produits sont toujours les mêmes : du <b>dioxyde de carbone (CO₂)</b> et de l'<b>eau (H₂O)</b>.</p>
+    <div class="lecon-anim">
+      <div class="lecon-bloc">⛽ Combustible</div>
+      <div class="lecon-op">+</div>
+      <div class="lecon-bloc">💨 O₂ (dioxygène)</div>
+      <div class="lecon-op">→</div>
+      <div class="lecon-res">CO₂ + H₂O 💧</div>
+    </div>
+    <div class="encadre">
+      🔑 <b>À retenir :</b> Lors d'une combustion <b>complète</b>, les seuls produits formés sont le <b>dioxyde de carbone CO₂</b> et l'<b>eau H₂O</b>.
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">🕯️ Exemples de combustibles</span>
+    <table class="tableau">
+      <thead><tr><th>Combustible</th><th>Formule</th><th>Exemple d'utilisation</th></tr></thead>
+      <tbody>
+        <tr><td>🕯️ <b>Cire</b></td><td>—</td><td>Bougie</td></tr>
+        <tr><td>🔥 <b>Méthane</b></td><td>CH₄</td><td>Gaz de cuisine (gazinière)</td></tr>
+        <tr><td>⚫ <b>Carbone</b></td><td>C</td><td>Charbon (barbecue)</td></tr>
+        <tr><td>⛽ <b>Butane</b></td><td>C₄H₁₀</td><td>Briquet, camping-gaz</td></tr>
+      </tbody>
+    </table>
+    <p class="note">💡 Tous ces combustibles contiennent du <b>carbone (C)</b> et souvent de l'hydrogène (H).</p>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">🧪 Tests de reconnaissance</span>
+    <p class="lead">Comment savoir si CO₂ ou H₂O sont bien formés ? Il existe des tests chimiques !</p>
+    <table class="tableau">
+      <thead><tr><th>Gaz / Substance</th><th>Test</th><th>Résultat si positif</th></tr></thead>
+      <tbody>
+        <tr><td>💨 <b>CO₂</b> (dioxyde de carbone)</td><td>Eau de chaux</td><td>L'eau de chaux se <b>trouble</b> (devient blanche)</td></tr>
+        <tr><td>💧 <b>H₂O</b> (eau)</td><td>Sulfate de cuivre anhydre (blanc)</td><td>Le sulfate de cuivre devient <b>bleu</b></td></tr>
+      </tbody>
+    </table>
+    <div class="encadre violet">
+      🔬 <b>Expérience :</b> On fait brûler une bougie sous une cloche. On observe de la buée (eau) et en soufflant dans l'eau de chaux → elle se trouble (CO₂) !
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--or)">🔺 Triangle du feu</span>
+    <p class="lead">Pour qu'une combustion démarre, il faut <b>trois conditions</b> réunies :</p>
+    <div class="lecon-anim">
+      <div class="lecon-bloc" style="background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)">⛽ Combustible</div>
+      <div class="lecon-op">+</div>
+      <div class="lecon-bloc" style="background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)">💨 Comburant (O₂)</div>
+      <div class="lecon-op">+</div>
+      <div class="lecon-bloc" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">✨ Énergie d'activation</div>
+    </div>
+    <div class="encadre or">
+      🧯 <b>Éteindre un feu :</b> il suffit de supprimer <b>l'un des trois</b> sommets du triangle. Exemple : souffler (éloigne l'O₂), jeter de l'eau (refroidit = supprime l'énergie), étouffer (supprime O₂ et combustible).
+    </div>
+  </div>
+
+  <div class="mid"><button class="btn teal" onclick="startTrain('combustion')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== LEÇON 2 : OXYDATION ========== -->
+<section id="expOxydation" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🦀 Oxydation</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">🦀 C'est quoi l'oxydation ?</span>
+    <p class="lead">L'<b>oxydation</b> est une réaction chimique entre un corps et le <b>dioxygène (O₂)</b>.<br>
+    Il en existe deux types : <b>lente</b> (comme la rouille) et <b>rapide</b> (comme la combustion).</p>
+    <div class="lecon-anim">
+      <div class="lecon-bloc" style="background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)">🔩 Fer</div>
+      <div class="lecon-op">+</div>
+      <div class="lecon-bloc" style="background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)">💨 O₂</div>
+      <div class="lecon-op">→</div>
+      <div class="lecon-res">🦀 Oxyde de fer (rouille)</div>
+    </div>
+    <div class="encadre">
+      📌 <b>Rouille du fer :</b> Fer + dioxygène → oxyde de fer (rouille)<br>
+      La rouille n'est <b>pas du fer</b> — c'est un nouveau produit formé !
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">⚡ Oxydation lente vs rapide</span>
+    <table class="tableau">
+      <thead><tr><th>Type</th><th>Vitesse</th><th>Exemples</th><th>Chaleur / flamme ?</th></tr></thead>
+      <tbody>
+        <tr><td>🐢 <b>Lente</b></td><td>Jours, mois, années</td><td>Rouille du fer, noircissement de l'argent, brunissement d'une pomme</td><td>Pas de flamme, peu de chaleur</td></tr>
+        <tr><td>🔥 <b>Rapide</b> (combustion)</td><td>Instantané</td><td>Bougie qui brûle, méthane dans le gaz, charbon</td><td>Flamme + beaucoup de chaleur</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">🛡️ Conditions de la rouille</span>
+    <p class="lead">Le fer ne rouille <b>que si</b> deux conditions sont réunies :</p>
+    <div class="encadre orange">
+      💧 <b>Eau</b> (humidité) + 💨 <b>Dioxygène</b> (O₂) sont tous les deux nécessaires.<br>
+      Fer dans eau sans O₂ → pas de rouille.<br>
+      Fer dans O₂ sans eau → pas de rouille.<br>
+      Fer dans eau + O₂ → rouille ! 🦀
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">🛡️ Protection contre la rouille</span>
+    <table class="tableau">
+      <thead><tr><th>Méthode</th><th>Comment ça marche</th><th>Exemple quotidien</th></tr></thead>
+      <tbody>
+        <tr><td>🎨 <b>Peinture</b></td><td>Isole le fer de l'eau et de l'O₂</td><td>Pont métallique, radiateur</td></tr>
+        <tr><td>⚙️ <b>Acier inoxydable (inox)</b></td><td>Alliage fer + chrome qui ne rouille pas</td><td>Couteaux, évier, casseroles</td></tr>
+        <tr><td>🔩 <b>Galvanisation (zinc)</b></td><td>Couche de zinc protège le fer</td><td>Clous galvanisés, toiture</td></tr>
+        <tr><td>🛢️ <b>Graissage</b></td><td>Couche d'huile ou de graisse</td><td>Chaîne de vélo, outils</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mid"><button class="btn violet" onclick="startTrain('oxydation')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== LEÇON 3 : RÉACTIFS ========== -->
+<section id="expReactifs" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>⚗️ Réactifs et produits</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">🔑 Définitions fondamentales</span>
+    <p class="lead">Dans une réaction chimique, on distingue deux types de substances :</p>
+    <div class="lecon-anim">
+      <div class="lecon-bloc" style="background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)">⚗️ Réactifs<br><small style="font-size:.75rem">(consommés)</small></div>
+      <div class="lecon-op">→</div>
+      <div class="lecon-res">🧪 Produits<br><small style="font-size:.75rem">(formés)</small></div>
+    </div>
+    <div class="encadre">
+      🔥 <b>Réactifs :</b> Les substances qui <b>disparaissent</b> (sont consommées) pendant la réaction.<br>
+      🧪 <b>Produits :</b> Les nouvelles substances <b>formées</b> pendant la réaction.<br><br>
+      Exemple combustion du méthane :<br>
+      Réactifs : méthane (CH₄) + dioxygène (O₂)<br>
+      Produits : dioxyde de carbone (CO₂) + eau (H₂O)
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">📊 Tableau récapitulatif</span>
+    <table class="tableau">
+      <thead><tr><th>Terme</th><th>Rôle dans la réaction</th><th>Exemple (combustion méthane)</th></tr></thead>
+      <tbody>
+        <tr><td>⚗️ <b>Réactif</b></td><td>Substance <b>consommée</b> — disparaît</td><td>Méthane CH₄ et dioxygène O₂</td></tr>
+        <tr><td>🧪 <b>Produit</b></td><td>Substance <b>formée</b> — apparaît</td><td>CO₂ et H₂O</td></tr>
+        <tr><td>→</td><td>Symbolise la <b>transformation</b></td><td>Gauche → Droite</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--violet)">⚡ Le réactif limitant</span>
+    <p class="lead">Quand deux réactifs sont en présence, l'un d'eux peut <b>s'épuiser en premier</b> : c'est le <b>réactif limitant</b>.</p>
+    <div class="encadre violet">
+      🎈 <b>Analogie du ballon de baudruche :</b><br>
+      Pour gonfler des ballons, il te faut des ballons ET du gaz.<br>
+      Si tu as 10 ballons mais seulement de quoi en gonfler 6 → le gaz est le réactif limitant !<br>
+      La réaction s'arrête quand le réactif limitant est <b>totalement consommé</b>.
+    </div>
+    <div class="encadre orange">
+      📌 <b>En chimie :</b> Si le méthane est épuisé avant le dioxygène → le méthane est le réactif limitant. La combustion s'arrête.
+    </div>
+  </div>
+
+  <div class="mid"><button class="btn orange" onclick="startTrain('reactifs')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== LEÇON 4 : ÉQUATION ========== -->
+<section id="expEquation" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>📝 Équation bilan</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--vert)">📝 C'est quoi une équation bilan ?</span>
+    <p class="lead">Une <b>équation bilan</b> (ou équation de réaction) décrit en mots ou en formules ce qui se passe pendant une réaction chimique.</p>
+    <div style="text-align:center;margin:14px 0">
+      <div class="formule-box">
+        réactif 1 + réactif 2 → produit 1 + produit 2
+      </div>
+    </div>
+    <div class="encadre vert">
+      ➡️ <b>La flèche →</b> symbolise la transformation chimique.<br>
+      À <b>gauche</b> de la flèche : les <b>réactifs</b> (ce qui est consommé).<br>
+      À <b>droite</b> de la flèche : les <b>produits</b> (ce qui est formé).
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--teal)">🔥 Exemples d'équations en mots</span>
+    <table class="tableau">
+      <thead><tr><th>Réaction</th><th>Équation en mots</th></tr></thead>
+      <tbody>
+        <tr><td>🕯️ <b>Combustion de la bougie</b></td><td>cire + dioxygène → dioxyde de carbone + eau</td></tr>
+        <tr><td>🔥 <b>Combustion du méthane</b></td><td>méthane + dioxygène → dioxyde de carbone + eau</td></tr>
+        <tr><td>⚫ <b>Combustion du carbone</b></td><td>carbone + dioxygène → dioxyde de carbone</td></tr>
+        <tr><td>🦀 <b>Oxydation du fer</b></td><td>fer + dioxygène → oxyde de fer</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <span class="tag" style="background:var(--orange)">⚖️ Conservation des atomes</span>
+    <p class="lead">Dans une réaction chimique, les atomes ne se créent pas et ne disparaissent pas : ils se <b>réarrangent</b> !</p>
+    <div class="encadre orange">
+      ⚖️ <b>Loi de conservation de la masse :</b><br>
+      La masse des réactifs = la masse des produits.<br>
+      Les atomes présents au départ se retrouvent tous dans les produits.<br><br>
+      Exemple : CH₄ + O₂ → CO₂ + H₂O<br>
+      → Les atomes de C, H et O sont tous conservés !
+    </div>
+    <div class="encadre vert">
+      💡 <b>Au niveau 4ème</b> : on apprend à <b>lire</b> les équations et à identifier réactifs/produits.<br>
+      L'équilibrage algébrique (avec les coefficients 1, 2, 3…) sera vu au lycée.
+    </div>
+  </div>
+
+  <div class="mid"><button class="btn vert" onclick="startTrain('equation')">Je m'entraîne ! 💪</button></div>
+</section>
+
+<!-- ========== ENTRAÎNEMENT ========== -->
+<section id="ecranTrain" class="screen">
+  <div class="topbar"><button class="back" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="card" id="tq_card">
+    <div class="serieprog" id="tq_prog"></div>
+    <div class="helpnote" id="tq_help"></div>
+    <div class="qcard">
+      <div class="qcat" id="tq_cat"></div>
+      <div class="figbox" id="tq_viz" style="display:none"></div>
+      <div class="question" id="tq_text"></div>
+      <div class="opts" id="tq_opts" style="display:none"></div>
+      <div class="ansrow" id="tq_ansrow">
+        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="tq_casc" style="display:none"></div>
+      <div id="tq_work">
+        <div class="mathpad" id="tq_pad"></div>
+        <div class="brouillon-lab">✏️ Brouillon (facultatif)</div>
+        <textarea id="tq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici…"></textarea>
+      </div>
+      <div class="feedback" id="tq_feed"></div>
+      <div class="stars" id="tq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant →</button></div>
+    </div>
+  </div>
+  <div class="card result" id="tq_result" style="display:none">
+    <div class="big" id="tq_rbig">0 / 8</div>
+    <div class="msg" id="tq_rmsg"></div>
+    <div class="rbtns" id="tq_rbtns"></div>
+  </div>
+</section>
+
+<!-- ========== ARÈNE ========== -->
+<section id="arene" class="screen">
+  <div class="topbar">
+    <button class="back" onclick="go('accueil')">←</button>
+    <h2>🏟️ Arène libre</h2>
+  </div>
+  <div id="areneMenu">
+    <div class="card">
+      <p class="lead">Entraînement libre — toutes les questions mélangées. Aucune limite !</p>
+      <div class="mid"><button class="btn teal" onclick="startArene()">C'est parti ! 🚀</button></div>
+    </div>
+  </div>
+  <div id="areneJeu" style="display:none">
+    <div class="card">
+      <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:10px;font-family:'Fredoka';font-weight:700">
+        <div style="background:var(--creme);border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8">✅ <span id="aq_corr">0</span> / <span id="aq_tot">0</span></div>
+        <div style="background:var(--creme);border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8">🔥 série : <span id="aq_streak">0</span></div>
+      </div>
+      <div class="qcat" id="aq_cat"></div>
+      <div class="figbox" id="aq_viz" style="display:none"></div>
+      <div class="question" id="aq_text"></div>
+      <div class="opts" id="aq_opts" style="display:none"></div>
+      <div class="ansrow" id="aq_ansrow">
+        <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="aq_casc" style="display:none"></div>
+      <div class="feedback" id="aq_feed"></div>
+      <div class="stars" id="aq_stars"></div>
+      <div class="mid" style="margin-top:14px">
+        <button class="btn orange" id="aq_next" style="display:none" onclick="quizNext()">Suivant →</button>
+      </div>
+    </div>
+    <div class="mid"><button class="btn fant" onclick="finArene()">⬅ Retour arène</button></div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<!-- Calculatrice flottante -->
+<button class="kc-fab" onclick="kcToggle()" title="Calculatrice">🧮</button>
+<div class="kc-panel" id="kcPanel" hidden>
+  <div class="kc-head">🧮 Calc <span style="font-size:.85rem;color:var(--bois-clair)">Collège +</span><button class="kc-x" onclick="kcToggle()">✕</button></div>
+  <div class="kc-screen">
+    <div class="kc-expr" id="kcExpr"></div>
+    <div class="kc-res" id="kcRes">0</div>
+  </div>
+  <div class="kc-keys" id="kcKeys"></div>
+  <button class="kc-send" onclick="kcSend()">📥 Mettre le résultat dans ma réponse</button>
+</div>
+
+<script>
+/* ===== SUIVI ===== */
+var SUIVI={
+  url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',
+  nom:'Réactions chimiques 4ème',
+  f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',
+     statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'}
+};
+function suiviEnvoi(statut,score,total){
+  try{
+    var e=localStorage.getItem('kc_eleve')||'',c=localStorage.getItem('kc_classe')||'';
+    var fd=new FormData();
+    fd.append(SUIVI.f.classe,c);fd.append(SUIVI.f.eleve,e);
+    fd.append(SUIVI.f.parcours,SUIVI.nom);fd.append(SUIVI.f.statut,statut);
+    fd.append(SUIVI.f.score,score);fd.append(SUIVI.f.total,total);
+    fetch(SUIVI.url,{method:'POST',mode:'no-cors',body:fd});
+  }catch(_){}
+}
+
+/* ===== VARIABLES ===== */
+var EXP={combustion:'expCombustion',oxydation:'expOxydation',reactifs:'expReactifs',equation:'expEquation'};
+var MAPID={combustion:'mapCombustion',oxydation:'mapOxydation',reactifs:'mapReactifs',equation:'mapEquation'};
+var TITLE={
+  combustion:'Combustion complète',
+  oxydation:'Oxydation',
+  reactifs:'Réactifs et produits',
+  equation:'Équation bilan'
+};
+var ORDER=['combustion','oxydation','reactifs','equation'];
+var HELP={
+  combustion:'Combustion complète : combustible + O₂ → CO₂ + H₂O. Test CO₂ = eau de chaux (trouble). Test H₂O = sulfate de cuivre (bleu).',
+  oxydation:'Rouille : fer + O₂ + eau → oxyde de fer. Conditions : eau ET O₂. Oxydation lente ≠ rapide (combustion).',
+  reactifs:'Réactif = consommé (disparaît). Produit = formé (apparaît). Réactif limitant = celui épuisé en premier.',
+  equation:'Équation bilan : réactifs → produits. Gauche de → = réactifs. Droite de → = produits. Les atomes sont conservés.'
+};
+var BRIQUE={
+  combustion: {serie:8,seuil:6},
+  oxydation:  {serie:8,seuil:6},
+  reactifs:   {serie:8,seuil:6},
+  equation:   {serie:8,seuil:6}
+};
+var THEME_CATS={combustion:['combustion'],oxydation:['oxydation'],reactifs:['reactifs'],equation:['equation']};
+var CATNOM={
+  combustion:'Combustion',
+  oxydation:'Oxydation',
+  reactifs:'Réactifs & produits',
+  equation:'Équation bilan'
+};
+var unlocked={combustion:true,oxydation:true,reactifs:true,equation:true,arene:true};
+var themeDone={combustion:false,oxydation:false,reactifs:false,equation:false};
+var currentTheme='combustion';
+
+/* ===== UTILITAIRES ===== */
+function gid(x){return document.getElementById(x);}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;var v=parseFloat(s);return isFinite(v)?v:null;}
+function serieLen(){return BRIQUE[currentTheme].serie;}
+function seuilFor(){return BRIQUE[currentTheme].seuil;}
+function rnd(n){return Math.floor(Math.random()*n);}
+function rint(a,b){return a+Math.floor(Math.random()*(b-a+1));}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function round2(v){return Math.round(v*100)/100;}
+function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
+
+/* ===== NAVIGATION ===== */
+function go(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  gid(id).classList.add('active');window.scrollTo(0,0);
+  if(id==='arene')finArene();
+  if(id!=='accueil'){try{history.pushState({screen:id},'','');}catch(_){}}
+}
+window.addEventListener('popstate',function(){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  gid('accueil').classList.add('active');window.scrollTo(0,0);
+});
+function tapTheme(t){currentTheme=t;go(EXP[t]);}
+function updateMap(){
+  ORDER.forEach(function(t){
+    var key='st'+t.charAt(0).toUpperCase()+t.slice(1);
+    var el=gid(key);if(el)el.textContent=themeDone[t]?'✅':'▶';
+  });
+}
+
+/* ===== GÉNÉRATEUR 1 : COMBUSTION ===== */
+function genCombustion(){
+  var mode=pick(['qcm_produits','qcm_test_co2','qcm_test_h2o','qcm_triangle','cascade_methane']);
+
+  if(mode==='qcm_produits'){
+    var pools=[
+      {t:'Lors d\'une combustion <b>complète</b>, les produits formés sont…',o:['Dioxyde de carbone (CO₂) et eau (H₂O)','Dioxygène (O₂) et carbone (C)','Méthane (CH₄) et dioxygène (O₂)','Carbone (C) et hydrogène (H₂)'],c:0,e:'Combustion complète : combustible + O₂ → CO₂ + H₂O. Toujours ces deux produits !'},
+      {t:'Quelle est la formule du dioxyde de carbone produit lors d\'une combustion ?',o:['CO₂','CO','O₂','H₂O'],c:0,e:'Le dioxyde de carbone a pour formule CO₂ (1 atome de carbone + 2 atomes d\'oxygène).'},
+      {t:'Lors de la combustion complète du méthane (CH₄), quel gaz est produit ?',o:['Dioxyde de carbone (CO₂)','Dioxygène (O₂)','Méthane (CH₄)','Dihydrogène (H₂)'],c:0,e:'CH₄ + O₂ → CO₂ + H₂O. Le gaz produit est le CO₂ (dioxyde de carbone).'},
+      {t:'La combustion complète d\'une bougie produit…',o:['CO₂ et H₂O (eau)','Uniquement du CO₂','Uniquement de l\'eau','Du carbone et de l\'oxygène'],c:0,e:'Toute combustion complète produit CO₂ + H₂O. La bougie ne fait pas exception !'},
+      {t:'Quel réactif est indispensable à toute combustion ?',o:['Le dioxygène (O₂)','L\'eau (H₂O)','Le CO₂','L\'azote (N₂)'],c:0,e:'Toute combustion consomme du dioxygène O₂ — sans O₂, pas de combustion !'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'Combustion',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+
+  if(mode==='qcm_test_co2'){
+    var pools=[
+      {t:'Comment tester la présence de <b>dioxyde de carbone (CO₂)</b> ?',o:['On souffle dans l\'eau de chaux → elle se trouble','On met du sulfate de cuivre → il devient bleu','On mesure la température','On utilise un pH-mètre'],c:0,e:'L\'eau de chaux se trouble (devient blanche/laiteuse) en présence de CO₂. C\'est le test spécifique du CO₂ !'},
+      {t:'L\'eau de chaux se trouble. Cela signifie qu\'il y a…',o:['Du dioxyde de carbone (CO₂)','De l\'eau (H₂O)','Du méthane (CH₄)','Du dioxygène (O₂)'],c:0,e:'Eau de chaux + CO₂ → trouble blanc. C\'est le test de reconnaissance du CO₂.'},
+      {t:'Après une combustion, on souffle le gaz produit dans de l\'eau de chaux. Elle se trouble. Que peut-on conclure ?',o:['La combustion a produit du CO₂','La combustion a produit de l\'eau','Le combustible contient du fer','Il n\'y a plus d\'oxygène'],c:0,e:'L\'eau de chaux trouble = présence de CO₂ → la combustion a bien produit du dioxyde de carbone.'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'Combustion',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+
+  if(mode==='qcm_test_h2o'){
+    var pools=[
+      {t:'Comment tester la présence d\'<b>eau (H₂O)</b> lors d\'une combustion ?',o:['On utilise du sulfate de cuivre anhydre (blanc) → il devient bleu','On souffle dans de l\'eau de chaux → elle se trouble','On mesure la masse','On chauffe le gaz produit'],c:0,e:'Le sulfate de cuivre anhydre est blanc. En contact avec de l\'eau, il devient bleu. C\'est le test de l\'eau !'},
+      {t:'Le sulfate de cuivre anhydre (blanc) devient bleu. Cela signifie qu\'il y a…',o:['De l\'eau (H₂O)','Du CO₂','Du dioxygène (O₂)','Du méthane'],c:0,e:'Sulfate de cuivre blanc + eau → bleu. C\'est le test de reconnaissance de l\'eau.'},
+      {t:'Quel réactif chimique blanc devient bleu en présence d\'eau ?',o:['Sulfate de cuivre anhydre','Eau de chaux','Sel (NaCl)','Sucre'],c:0,e:'Le sulfate de cuivre anhydre est blanc à sec et vire au bleu en présence d\'eau. C\'est le test de l\'eau !'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'Combustion',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+
+  if(mode==='qcm_triangle'){
+    var pools=[
+      {t:'Le triangle du feu réunit trois éléments. Lequel des trois manque ici : combustible + dioxygène + … ?',o:['Énergie d\'activation (chaleur, étincelle)','Eau (H₂O)','Dioxyde de carbone (CO₂)','Pression'],c:0,e:'Le triangle du feu = combustible + comburant (O₂) + énergie d\'activation. Sans l\'un des trois, pas de feu !'},
+      {t:'Pour éteindre un feu, il faut…',o:['Supprimer l\'un des trois éléments du triangle du feu','Ajouter plus de combustible','Augmenter la température','Ajouter du CO₂'],c:0,e:'Supprimer le combustible, l\'O₂ ou l\'énergie d\'activation stoppe la combustion. Ex : souffler enlève l\'O₂.'},
+      {t:'Souffler sur une bougie l\'éteint car…',o:['On éloigne le dioxygène (O₂) de la flamme','On ajoute de l\'eau','On refroidit trop le combustible','On supprime le combustible'],c:0,e:'Souffler écarte le dioxygène O₂ de la flamme → un sommet du triangle disparaît → la combustion s\'arrête.'},
+      {t:'Le comburant dans une combustion, c\'est…',o:['Le dioxygène (O₂)','Le combustible (méthane, charbon…)','La chaleur (énergie d\'activation)','Le CO₂ produit'],c:0,e:'Le comburant est le dioxygène O₂ qui "permet" la combustion. Le combustible est ce qui brûle.'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'Combustion',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+
+  /* cascade_methane : nommer les produits de la combustion du méthane étape par étape */
+  return {
+    type:'cascade',cat:'Combustion',
+    sig:'CASC_METH',
+    text:'🔥 On brûle du <b>méthane (CH₄)</b> dans le dioxygène.<br>Complète l\'équation de la combustion complète du méthane.',
+    steps:[
+      {
+        prompt:'Quels sont les réactifs de cette combustion ?',
+        lines:[
+          {pre:'Réactif 1 :',blank:true,ans:'méthane',accept:['méthane','methane','CH4','CH₄'],unit:'',hint:'Le combustible qui brûle ici est le méthane.'},
+          {pre:'Réactif 2 :',blank:true,ans:'dioxygène',accept:['dioxygène','dioxygene','O2','O₂'],unit:'',hint:'Le comburant nécessaire à toute combustion.'}
+        ]
+      },
+      {
+        prompt:'Quels sont les produits formés lors d\'une combustion complète ?',
+        lines:[
+          {pre:'Produit 1 :',blank:true,ans:'dioxyde de carbone',accept:['dioxyde de carbone','CO2','CO₂','dioxyde carbone'],unit:'',hint:'Le gaz qui trouble l\'eau de chaux.'},
+          {pre:'Produit 2 :',blank:true,ans:'eau',accept:['eau','H2O','H₂O'],unit:'',hint:'Le liquide détecté par le sulfate de cuivre.'}
+        ]
+      },
+      {
+        prompt:'Complète l\'équation bilan en mots :',
+        lines:[
+          {pre:'méthane + dioxygène →',blank:true,ans:'dioxyde de carbone + eau',accept:['dioxyde de carbone + eau','CO2 + eau','CO₂ + eau','co2 + h2o','dioxyde de carbone + h2o'],unit:'',hint:'Les deux produits séparés par +'}
+        ]
+      }
+    ],
+    finalMsg:'Bravo ! méthane + dioxygène → <b>dioxyde de carbone + eau</b> ✅'
+  };
+}
+
+/* ===== GÉNÉRATEUR 2 : OXYDATION ===== */
+function genOxydation(){
+  var mode=pick(['qcm_conditions','qcm_protection','qcm_lente_rapide','qcm_exemples']);
+
+  if(mode==='qcm_conditions'){
+    var pools=[
+      {t:'Pour que le fer rouille, il faut obligatoirement…',o:['De l\'eau ET du dioxygène (O₂)','Uniquement de l\'eau','Uniquement du dioxygène (O₂)','De la chaleur uniquement'],c:0,e:'La rouille nécessite les DEUX : eau (humidité) + O₂. Si l\'un manque, pas de rouille !'},
+      {t:'Un clou dans de l\'eau bouillie (sans O₂) — que se passe-t-il ?',o:['Il ne rouille pas (pas d\'O₂)','Il rouille très vite','Il se dissout','Il brûle'],c:0,e:'L\'eau bouillie contient moins d\'O₂ dissous. Sans O₂, le fer ne peut pas rouiller.'},
+      {t:'Un clou dans de l\'air sec (sans eau) — que se passe-t-il ?',o:['Il ne rouille pas (pas d\'eau)','Il rouille normalement','Il rouille plus vite','Il brûle'],c:0,e:'Sans eau, pas de rouille ! L\'humidité est indispensable avec l\'O₂ pour la formation de la rouille.'},
+      {t:'La rouille est un exemple d\'oxydation…',o:['Lente','Rapide','Combustion','Dissolution'],c:0,e:'La rouille se forme en jours/mois → oxydation LENTE. La combustion est une oxydation rapide.'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'Oxydation',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+
+  if(mode==='qcm_protection'){
+    var pools=[
+      {t:'Comment protège-t-on le fer contre la rouille avec de la peinture ?',o:['La peinture isole le fer de l\'eau et de l\'O₂','La peinture réagit avec la rouille','La peinture contient de l\'O₂ en excès','La peinture refroidit le fer'],c:0,e:'La peinture forme une barrière qui empêche le contact entre le fer, l\'eau et l\'O₂ → pas de rouille !'},
+      {t:'L\'acier inoxydable (inox) ne rouille pas car…',o:['C\'est un alliage fer + chrome résistant à l\'oxydation','Il contient du zinc','Il est peint en surface','Il n\'y a pas de fer dedans'],c:0,e:'L\'inox = fer + chrome (et nickel). Le chrome forme une couche protectrice qui empêche l\'oxydation.'},
+      {t:'La galvanisation consiste à recouvrir le fer de…',o:['Zinc','Peinture','Chrome','Graisse'],c:0,e:'Galvaniser = recouvrir de zinc. Le zinc s\'oxyde à la place du fer et le protège.'},
+      {t:'Quelle méthode protège la chaîne d\'un vélo contre la rouille ?',o:['Le graissage (huile)','La peinture','La galvanisation','L\'inox'],c:0,e:'On graisse les chaînes de vélo : l\'huile forme une couche qui empêche le contact avec l\'eau et l\'O₂.'},
+      {t:'Parmi ces objets, lequel est en acier inoxydable (inox) ?',o:['Un couteau de cuisine','Un pont métallique','Une toiture en tôle','Un clou de charpente'],c:0,e:'Les couverts et couteaux de cuisine sont souvent en inox — ils ne rouillent pas au contact de l\'eau.'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'Oxydation',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+
+  if(mode==='qcm_lente_rapide'){
+    var pools=[
+      {t:'Quelle est la différence entre oxydation lente et oxydation rapide ?',o:['L\'oxydation lente se produit sans flamme ni chaleur intense ; la rapide produit une flamme','L\'oxydation lente est plus dangereuse','L\'oxydation rapide ne produit pas de CO₂','Elles sont identiques'],c:0,e:'Oxydation lente (rouille, brunissement) : sans flamme, lente. Oxydation rapide (combustion) : avec flamme, libère beaucoup de chaleur.'},
+      {t:'La combustion d\'une bougie est une oxydation…',o:['Rapide','Lente','Douce','Froide'],c:0,e:'La combustion est une oxydation RAPIDE avec flamme et dégagement de chaleur important.'},
+      {t:'La rouille du fer est une oxydation…',o:['Lente','Rapide','Explosive','Avec flamme'],c:0,e:'La rouille se forme progressivement sur des jours/mois → oxydation LENTE, sans flamme.'},
+      {t:'Le brunissement d\'une tranche de pomme à l\'air est…',o:['Une oxydation lente','Une combustion','Une dissolution','Une précipitation'],c:0,e:'La pomme noircit lentement à cause de l\'O₂ de l\'air → oxydation LENTE. Pas de flamme, très lent.'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'Oxydation',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+
+  /* qcm_exemples */
+  var pools=[
+    {t:'Parmi ces exemples, lequel est une oxydation LENTE ?',o:['Rouille d\'un clou 🦀','Combustion d\'une bougie 🕯️','Combustion du méthane 🔥','Explosion d\'un pétard 💥'],c:0,e:'La rouille d\'un clou se forme lentement (jours, semaines) → oxydation lente.'},
+    {t:'Parmi ces exemples, lequel est une oxydation RAPIDE (combustion) ?',o:['Combustion du gaz de cuisine 🔥','Rouille d\'une grille de jardin 🦀','Brunissement d\'une banane 🍌','Ternissement de l\'argent'],c:0,e:'La combustion du gaz (méthane) est instantanée avec flamme → oxydation rapide.'},
+    {t:'La réaction : fer + dioxygène → oxyde de fer — de quel type est-elle ?',o:['Oxydation lente (formation de rouille)','Combustion rapide','Dissolution','Précipitation'],c:0,e:'Fer + O₂ → oxyde de fer (rouille). Cette réaction est lente — c\'est une oxydation lente.'},
+    {t:'Le ternissement de l\'argent d\'une cuillère est…',o:['Une oxydation lente','Une combustion','Une dissolution dans l\'eau','Une explosion chimique'],c:0,e:'L\'argent noircit lentement au contact de l\'O₂ de l\'air → oxydation lente.'}
+  ];
+  var q=pick(pools);var opts=shuffle(q.o);
+  return {type:'qcm',cat:'Oxydation',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+}
+
+/* ===== GÉNÉRATEUR 3 : RÉACTIFS ===== */
+function genReactifs(){
+  var mode=pick(['qcm_def','qcm_identification','qcm_limitant']);
+
+  if(mode==='qcm_def'){
+    var pools=[
+      {t:'Dans une réaction chimique, un <b>réactif</b> est…',o:['Une substance consommée (qui disparaît) pendant la réaction','Une substance formée pendant la réaction','Le résultat final de la réaction','Un produit de la combustion'],c:0,e:'Réactif = ce qui est CONSOMMÉ. Produit = ce qui est FORMÉ. Réactifs → Produits.'},
+      {t:'Dans une réaction chimique, un <b>produit</b> est…',o:['Une substance formée (qui apparaît) pendant la réaction','Une substance consommée pendant la réaction','Le combustible initial','Ce qui est à gauche de la flèche →'],c:0,e:'Produit = ce qui est FORMÉ (apparaît) à droite de →. Réactif = ce qui disparaît à gauche de →.'},
+      {t:'Dans l\'équation : méthane + dioxygène → CO₂ + eau, le méthane est…',o:['Un réactif (il est consommé)','Un produit (il est formé)','Un catalyseur','Un résidu'],c:0,e:'Le méthane est à GAUCHE de →, donc c\'est un réactif. Il est consommé pendant la combustion.'},
+      {t:'Dans l\'équation : méthane + dioxygène → CO₂ + eau, le CO₂ est…',o:['Un produit (il est formé)','Un réactif (il est consommé)','Le comburant','Ce qui est à gauche de →'],c:0,e:'Le CO₂ est à DROITE de →, donc c\'est un produit. Il est formé pendant la combustion.'},
+      {t:'Que signifie la flèche (→) dans une équation de réaction ?',o:['Elle symbolise la transformation chimique','Elle indique une addition','Elle signifie "est égal à"','Elle indique que les masses sont égales'],c:0,e:'La flèche → signifie "se transforme en". À gauche : réactifs. À droite : produits.'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'Réactifs & produits',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+
+  if(mode==='qcm_identification'){
+    var reactions=[
+      {eq:'cire + dioxygène → <b>dioxyde de carbone</b> + eau',reactifs:['cire','dioxygène'],produits:['dioxyde de carbone','eau']},
+      {eq:'méthane + dioxygène → <b>CO₂</b> + eau',reactifs:['méthane','dioxygène'],produits:['CO₂','eau']},
+      {eq:'carbone + dioxygène → <b>dioxyde de carbone</b>',reactifs:['carbone','dioxygène'],produits:['dioxyde de carbone']},
+      {eq:'fer + dioxygène → <b>oxyde de fer</b>',reactifs:['fer','dioxygène'],produits:['oxyde de fer']}
+    ];
+    var r=pick(reactions);
+    if(pick([true,false])){
+      /* demander un réactif */
+      var correct=pick(r.reactifs);
+      var wrongs=r.produits.concat(['eau de chaux','azote','sel']);
+      var opts=shuffle([correct].concat(shuffle(wrongs).slice(0,3)));
+      return {
+        type:'qcm',cat:'Réactifs & produits',
+        text:'Dans la réaction : <b>'+r.eq+'</b><br>Quel est l\'un des <b>réactifs</b> (ce qui est consommé) ?',
+        options:opts,correct:opts.indexOf(correct),
+        explain:'Les réactifs sont à GAUCHE de → : '+r.reactifs.join(' et ')+'. Les produits sont à droite.'
+      };
+    } else {
+      /* demander un produit */
+      var correct=pick(r.produits);
+      var wrongs=r.reactifs.concat(['eau de chaux','azote','sel']);
+      var opts=shuffle([correct].concat(shuffle(wrongs).slice(0,3)));
+      return {
+        type:'qcm',cat:'Réactifs & produits',
+        text:'Dans la réaction : <b>'+r.eq+'</b><br>Quel est l\'un des <b>produits</b> (ce qui est formé) ?',
+        options:opts,correct:opts.indexOf(correct),
+        explain:'Les produits sont à DROITE de → : '+r.produits.join(' et ')+'. Les réactifs sont à gauche.'
+      };
+    }
+  }
+
+  /* qcm_limitant */
+  var pools=[
+    {t:'Le <b>réactif limitant</b> est…',o:['Celui qui est totalement consommé en premier — la réaction s\'arrête quand il est épuisé','Celui qui est présent en plus grande quantité','Le produit formé en plus grande quantité','Le réactif le plus dangereux'],c:0,e:'Le réactif limitant est épuisé en premier → la réaction s\'arrête. L\'autre réactif est en excès.'},
+    {t:'Pour gonfler des ballons, tu as 10 ballons et du gaz pour en gonfler 6. Lequel est le "réactif limitant" ?',o:['Le gaz (il est épuisé en premier)','Les ballons (il en reste 4)','Les deux en même temps','Il n\'y a pas de réactif limitant'],c:0,e:'Le gaz est épuisé avant les ballons → c\'est le réactif limitant. La réaction s\'arrête quand le gaz est fini.'},
+    {t:'Lors d\'une combustion, si le méthane est totalement consommé avant le dioxygène, alors…',o:['Le méthane est le réactif limitant — la combustion s\'arrête','Le dioxygène est le réactif limitant','La combustion continue indéfiniment','Le CO₂ est le réactif limitant'],c:0,e:'Le méthane épuisé en premier = réactif limitant. La combustion s\'arrête même s\'il reste encore du dioxygène.'},
+    {t:'Que se passe-t-il quand le réactif limitant est épuisé ?',o:['La réaction chimique s\'arrête','La réaction s\'accélère','Les produits redeviennent des réactifs','Rien — la réaction continue'],c:0,e:'Quand le réactif limitant est épuisé, il ne reste plus de réactif limitant → la réaction s\'arrête.'}
+  ];
+  var q=pick(pools);var opts=shuffle(q.o);
+  return {type:'qcm',cat:'Réactifs & produits',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+}
+
+/* ===== GÉNÉRATEUR 4 : ÉQUATION ===== */
+function genEquation(){
+  var mode=pick(['qcm_lecture','qcm_identification_eq','qcm_conservation','cascade_eq']);
+
+  if(mode==='qcm_lecture'){
+    var pools=[
+      {t:'Dans l\'équation : <b>carbone + dioxygène → dioxyde de carbone</b><br>Que représente la flèche (→) ?',o:['La transformation chimique (ce qui est consommé devient ce qui est formé)','Une addition mathématique','L\'égalité des masses','La direction du chauffage'],c:0,e:'La flèche → symbolise la transformation. À gauche : réactifs. À droite : produits.'},
+      {t:'Dans l\'équation en mots : <b>A + B → C + D</b><br>Que représentent A et B ?',o:['Les réactifs (consommés)','Les produits (formés)','Les catalyseurs','Les équipements de sécurité'],c:0,e:'À gauche de → = réactifs (A et B consommés). À droite de → = produits (C et D formés).'},
+      {t:'Dans l\'équation en mots : <b>A + B → C + D</b><br>Que représentent C et D ?',o:['Les produits (formés)','Les réactifs (consommés)','Les combustibles','Ce qui est à gauche de la flèche'],c:0,e:'À droite de → = produits (C et D formés lors de la réaction). À gauche = réactifs consommés.'},
+      {t:'L\'équation <b>cire + dioxygène → dioxyde de carbone + eau</b> décrit…',o:['La combustion complète d\'une bougie','L\'oxydation lente du fer','La dissolution du sel dans l\'eau','La formation d\'une solution aqueuse'],c:0,e:'Cire + O₂ → CO₂ + H₂O : c\'est bien la combustion complète de la bougie !'},
+      {t:'Dans <b>méthane + dioxygène → dioxyde de carbone + eau</b>, combien y a-t-il de réactifs ?',o:['2 réactifs (méthane et dioxygène)','1 réactif (méthane seulement)','2 produits (donc 0 réactifs)','3 réactifs'],c:0,e:'Méthane ET dioxygène sont à gauche de → → 2 réactifs. CO₂ et eau à droite → 2 produits.'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'Équation bilan',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+
+  if(mode==='qcm_identification_eq'){
+    var eqs=[
+      {eq:'bougie + dioxygène → dioxyde de carbone + eau',r:['bougie','dioxygène'],p:['dioxyde de carbone','eau']},
+      {eq:'charbon (carbone) + dioxygène → dioxyde de carbone',r:['charbon (carbone)','dioxygène'],p:['dioxyde de carbone']},
+      {eq:'fer + dioxygène → oxyde de fer',r:['fer','dioxygène'],p:['oxyde de fer']},
+      {eq:'méthane + dioxygène → dioxyde de carbone + eau',r:['méthane','dioxygène'],p:['dioxyde de carbone','eau']}
+    ];
+    var eq=pick(eqs);
+    var askR=pick([true,false]);
+    if(askR){
+      var correct=pick(eq.r);
+      var wrongs=['eau','CO₂','oxyde de fer','dioxyde de carbone'].filter(function(x){return eq.r.indexOf(x)<0;});
+      var opts=shuffle([correct].concat(shuffle(wrongs).slice(0,3)));
+      return {
+        type:'qcm',cat:'Équation bilan',
+        text:'Dans l\'équation : <b>'+eq.eq+'</b><br>Quel est un <b>réactif</b> de cette réaction ?',
+        options:opts,correct:opts.indexOf(correct),
+        explain:'Les réactifs sont à GAUCHE de → : '+eq.r.join(' et ')+'.'
+      };
+    } else {
+      var correct=pick(eq.p);
+      var wrongs=['méthane','fer','carbone','dioxygène'].filter(function(x){return eq.p.indexOf(x)<0;});
+      var opts=shuffle([correct].concat(shuffle(wrongs).slice(0,3)));
+      return {
+        type:'qcm',cat:'Équation bilan',
+        text:'Dans l\'équation : <b>'+eq.eq+'</b><br>Quel est un <b>produit</b> de cette réaction ?',
+        options:opts,correct:opts.indexOf(correct),
+        explain:'Les produits sont à DROITE de → : '+eq.p.join(' et ')+'.'
+      };
+    }
+  }
+
+  if(mode==='qcm_conservation'){
+    var pools=[
+      {t:'La loi de conservation des atomes signifie que…',o:['Les atomes présents dans les réactifs se retrouvent tous dans les produits','Des atomes disparaissent pendant la réaction','Des nouveaux atomes sont créés pendant la réaction','La masse des produits est toujours nulle'],c:0,e:'Les atomes ne disparaissent pas et ne sont pas créés ! Ils se réarrangent. Réactifs → mêmes atomes → Produits.'},
+      {t:'Dans une réaction chimique, la masse totale des réactifs est…',o:['Égale à la masse totale des produits','Plus grande que la masse des produits','Plus petite que la masse des produits','Elle change selon la température'],c:0,e:'Conservation de la masse : masse réactifs = masse produits. Rien ne se crée, rien ne se perd !'},
+      {t:'Dans la combustion du carbone : carbone + dioxygène → CO₂<br>Les atomes de carbone (C) se retrouvent…',o:['Dans le CO₂ (dioxyde de carbone)','Évaporés dans l\'air','Transformés en eau','Détruits par la chaleur'],c:0,e:'Les atomes de carbone C sont conservés → ils se retrouvent dans le CO₂ (carbone + 2 oxygènes).'},
+      {t:'Lors d\'une combustion, l\'eau produite contient des atomes d\'hydrogène (H). D\'où viennent-ils ?',o:['Du combustible (qui contient des atomes H)','De l\'oxygène (O₂)','Du CO₂','De l\'air ambiant'],c:0,e:'L\'hydrogène H vient du COMBUSTIBLE (ex : méthane CH₄ contient H). Les H du combustible forment H₂O.'}
+    ];
+    var q=pick(pools);var opts=shuffle(q.o);
+    return {type:'qcm',cat:'Équation bilan',text:q.t,options:opts,correct:opts.indexOf(q.o[q.c]),explain:q.e};
+  }
+
+  /* cascade_eq : lire une équation bilan */
+  var examples=[
+    {
+      eq:'carbone + dioxygène → dioxyde de carbone',
+      r1:'carbone',r2:'dioxygène',p1:'dioxyde de carbone',p2:null,
+      text:'Voici une équation bilan en mots :<br><b>carbone + dioxygène → dioxyde de carbone</b>'
+    },
+    {
+      eq:'fer + dioxygène → oxyde de fer',
+      r1:'fer',r2:'dioxygène',p1:'oxyde de fer',p2:null,
+      text:'Voici une équation bilan en mots :<br><b>fer + dioxygène → oxyde de fer</b>'
+    }
+  ];
+  var ex=pick(examples);
+  return {
+    type:'cascade',cat:'Équation bilan',
+    sig:'CASC_EQ_'+ex.r1,
+    text:ex.text+'<br>Réponds aux questions pour analyser cette équation.',
+    steps:[
+      {
+        prompt:'Identifie les réactifs (à GAUCHE de →) :',
+        lines:[
+          {pre:'Réactif 1 :',blank:true,ans:ex.r1,accept:[ex.r1],unit:'',hint:'Regarde ce qui est avant le + à gauche de →'},
+          {pre:'Réactif 2 :',blank:true,ans:ex.r2,accept:[ex.r2,'o2','o₂'],unit:'',hint:'Le deuxième élément à gauche de →'}
+        ]
+      },
+      {
+        prompt:'Identifie le(s) produit(s) (à DROITE de →) :',
+        lines:[
+          {pre:'Produit :',blank:true,ans:ex.p1,accept:[ex.p1],unit:'',hint:'Regarde ce qui est à droite de →'}
+        ]
+      }
+    ],
+    finalMsg:'Bravo ! Tu sais lire une équation bilan ✅ Réactifs → Produits !'
+  };
+}
+
+/* ===== DISPATCH GEN ===== */
+var GEN={combustion:genCombustion,oxydation:genOxydation,reactifs:genReactifs,equation:genEquation};
+
+/* ===== MOTEUR QUIZ ===== */
+var quizState={mode:'train',q:null,idx:0,score:0,total:0,tries:0,cascStep:0,cascTries:0};
+var IS_ARENE=false;
+
+function elsTrain(){
+  return {
+    prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),
+    text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),
+    inp:gid('tq_input'),valid:gid('tq_valid'),casc:gid('tq_casc'),
+    work:gid('tq_work'),feed:gid('tq_feed'),stars:gid('tq_stars'),
+    next:gid('tq_next'),card:gid('tq_card'),result:gid('tq_result')
+  };
+}
+function elsArene(){
+  return {
+    cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),
+    ansrow:gid('aq_ansrow'),inp:gid('aq_input'),valid:gid('aq_valid'),
+    casc:gid('aq_casc'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next')
+  };
+}
+function els(){return IS_ARENE?elsArene():elsTrain();}
+
+function startTrain(t){
+  currentTheme=t;IS_ARENE=false;
+  quizState={mode:'train',q:null,idx:0,score:0,total:serieLen(),tries:0,cascStep:0,cascTries:0};
+  var e=elsTrain();
+  e.card.style.display='';e.result.style.display='none';
+  gid('trainTitle').textContent=TITLE[t]+' — Entraînement';
+  go('ecranTrain');
+  quizNext();
+}
+function startArene(){
+  IS_ARENE=true;
+  quizState={mode:'arene',q:null,idx:0,score:0,total:0,tries:0,cascStep:0,cascTries:0};
+  gid('areneJeu').style.display='';
+  gid('areneMenu').style.display='none';
+  quizNext();
+}
+function finArene(){
+  gid('areneJeu').style.display='none';
+  gid('areneMenu').style.display='';
+}
+
+function quizPick(){
+  if(IS_ARENE){
+    var cats=[];
+    ORDER.forEach(function(t){cats=cats.concat(THEME_CATS[t]);});
+    var cat=pick(cats);
+    var t=ORDER.filter(function(t){return THEME_CATS[t].indexOf(cat)>=0;})[0]||ORDER[0];
+    var prev=currentTheme;currentTheme=t;
+    var q=GEN[cat]();currentTheme=prev;
+    return q;
+  }
+  return GEN[currentTheme]();
+}
+
+function quizNext(){
+  var e=els();
+  var sl=IS_ARENE?999:serieLen();
+  if(!IS_ARENE&&quizState.idx>=sl){quizResult();return;}
+  quizState.q=quizPick();
+  quizState.tries=0;quizState.cascStep=0;quizState.cascTries=0;
+  quizRender();
+}
+
+function quizRender(){
+  var e=els();var cur=quizState.q;
+  if(!IS_ARENE){
+    e.prog.textContent='Question '+(quizState.idx+1)+' / '+serieLen();
+    e.help.textContent=HELP[currentTheme]||'';
+    e.help.style.display=HELP[currentTheme]?'':'none';
+  }
+  e.cat.textContent=CATNOM[cur.cat]||cur.cat||'';
+  e.text.innerHTML=cur.text;
+  e.feed.textContent='';e.feed.className='feedback';
+  e.stars.textContent='';
+  e.viz.style.display='none';e.viz.innerHTML='';
+  if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='';}
+  if(e.next)e.next.style.display='none';
+
+  if(cur.type==='qcm'){
+    e.ansrow.style.display='none';
+    e.casc.style.display='none';
+    e.opts.style.display='';
+    e.opts.innerHTML='';
+    cur.options.forEach(function(opt,i){
+      var b=document.createElement('button');
+      b.className='opt';b.innerHTML=opt;
+      b.onclick=(function(idx){return function(){qcmChoose(idx);};})(i);
+      e.opts.appendChild(b);
+    });
+    if(e.work)e.work.style.display='none';
+  } else if(cur.type==='cascade'){
+    e.ansrow.style.display='none';
+    e.opts.style.display='none';
+    if(e.work)e.work.style.display='none';
+    cascRender();
+  } else {
+    e.ansrow.style.display='';
+    e.opts.style.display='none';
+    e.casc.style.display='none';
+    if(e.work)e.work.style.display='';
+    e.inp.value='';
+    setTimeout(function(){try{e.inp.focus();}catch(_){}},80);
+  }
+}
+
+function qcmChoose(idx){
+  var e=els();var cur=quizState.q;
+  var btns=e.opts.querySelectorAll('.opt');
+  btns.forEach(function(b){b.onclick=null;b.style.pointerEvents='none';});
+  var ok=(idx===cur.correct);
+  btns[idx].classList.add(ok?'good':'bad');
+  if(!ok&&cur.correct<btns.length)btns[cur.correct].classList.add('good');
+  e.feed.className='feedback '+(ok?'ok':'no');
+  e.feed.innerHTML=ok?'✅ '+cur.explain:'❌ '+cur.explain;
+  e.stars.textContent=ok?'⭐⭐⭐':'';
+  if(!IS_ARENE){
+    if(ok)quizState.score++;
+    quizState.idx++;
+  } else {
+    if(ok){quizState.score++;gid('aq_corr').textContent=quizState.score;}
+    quizState.total++;gid('aq_tot').textContent=quizState.total;
+    var streak=ok?(parseInt(gid('aq_streak').textContent||'0')+1):0;
+    gid('aq_streak').textContent=streak;
+  }
+  if(e.next)e.next.style.display='';
+}
+
+function quizValidate(){
+  var e=els();var cur=quizState.q;
+  if(cur.type==='qcm')return;
+  if(cur.type==='cascade'){cascValidate();return;}
+  var raw=e.inp.value;
+  var v=parseNum(raw);
+  if(v===null){e.inp.classList.add('shake');setTimeout(function(){e.inp.classList.remove('shake');},400);return;}
+  var ok=Math.abs(v-(cur.answer||0))<=(cur.tol||0.01);
+  quizState.tries++;
+  if(ok){
+    e.feed.className='feedback ok';
+    e.feed.innerHTML='✅ '+(cur.explain||'Bravo !');
+    e.stars.textContent='⭐⭐⭐';
+    e.inp.disabled=true;
+    if(e.valid)e.valid.disabled=true;
+    if(!IS_ARENE){quizState.score++;quizState.idx++;}
+    else{quizState.score++;gid('aq_corr').textContent=quizState.score;quizState.total++;gid('aq_tot').textContent=quizState.total;var s=parseInt(gid('aq_streak').textContent||'0')+1;gid('aq_streak').textContent=s;}
+    if(e.next)e.next.style.display='';
+  } else {
+    if(quizState.tries===1){e.feed.className='feedback no';e.feed.textContent='Pas tout à fait… Réessaie !';}
+    else if(quizState.tries===2){e.feed.className='feedback no';e.feed.innerHTML='💡 Aide : '+(cur.explain||HELP[currentTheme]||'');}
+    else{
+      e.feed.className='feedback no';
+      e.feed.innerHTML='La réponse était <b>'+(cur.answer)+'</b>'+(cur.unit?' '+cur.unit:'')+'.<br>'+(cur.explain||'');
+      e.inp.disabled=true;if(e.valid)e.valid.disabled=true;
+      if(!IS_ARENE)quizState.idx++;
+      else{quizState.total++;gid('aq_tot').textContent=quizState.total;gid('aq_streak').textContent=0;}
+      if(e.next)e.next.style.display='';
+    }
+    e.inp.classList.add('shake');setTimeout(function(){e.inp.classList.remove('shake');},400);
+  }
+}
+
+/* ===== CASCADE ===== */
+function cascRender(){
+  var e=els();var cur=quizState.q;
+  e.casc.style.display='';e.casc.innerHTML='';
+  var step=cur.steps[quizState.cascStep];
+  var div=document.createElement('div');div.className='cstep on';
+  var html='<div class="cprompt">'+step.prompt+'</div><div class="cbody">';
+  step.lines.forEach(function(ln,li){
+    html+='<div class="cline">'+ln.pre+' ';
+    if(ln.blank){
+      html+='<input class="cblank" id="cblank_'+li+'" type="text" inputmode="decimal" autocomplete="off" style="width:200px">';
+    } else {
+      html+='<span>'+ln.ans+'</span>';
+    }
+    if(ln.unit)html+=' <span>'+ln.unit+'</span>';
+    html+='</div>';
+  });
+  html+='<div class="cfeed" id="cfeed"></div>';
+  html+='<div class="cverify"><button class="btn vert" onclick="cascValidate()">Vérifier</button></div>';
+  html+='</div>';
+  div.innerHTML=html;
+  e.casc.appendChild(div);
+  setTimeout(function(){var b=div.querySelector('.cblank');if(b)try{b.focus();}catch(_){}},80);
+}
+
+function normTxt(s){return String(s).trim().toLowerCase().replace(/\s+/g,' ').replace(',','.');}
+
+function cascValidate(){
+  var e=els();var cur=quizState.q;
+  var step=cur.steps[quizState.cascStep];
+  var allOk=true;
+  step.lines.forEach(function(ln,li){
+    if(!ln.blank)return;
+    var inp=gid('cblank_'+li);if(!inp)return;
+    var val=normTxt(inp.value);
+    var correct=false;
+    var accepts=ln.accept||[ln.ans];
+    accepts.forEach(function(a){if(normTxt(a)===val)correct=true;});
+    /* tolérance numérique */
+    if(!correct){
+      var vn=parseNum(val);var an=parseNum(ln.ans);
+      if(vn!==null&&an!==null&&Math.abs(vn-an)<=0.01)correct=true;
+    }
+    if(correct){inp.classList.add('cbok');inp.classList.remove('cbno');}
+    else{inp.classList.add('cbno');inp.classList.remove('cbok');allOk=false;}
+    inp.disabled=true;
+  });
+  var cfeed=gid('cfeed');
+  quizState.cascTries++;
+  if(allOk){
+    if(cfeed)cfeed.innerHTML='✅ Parfait !';
+    var cverify=e.casc.querySelector('.cverify');if(cverify)cverify.style.display='none';
+    /* Étape suivante ou fin */
+    quizState.cascStep++;
+    if(quizState.cascStep<cur.steps.length){
+      setTimeout(function(){cascRender();},500);
+    } else {
+      /* cascade terminée */
+      var fe=e.feed;fe.className='feedback ok';
+      fe.innerHTML='✅ '+(cur.finalMsg||'Bravo ! Cascade complète.');
+      e.stars.textContent='⭐⭐⭐';
+      if(!IS_ARENE){quizState.score++;quizState.idx++;}
+      else{quizState.score++;gid('aq_corr').textContent=quizState.score;quizState.total++;gid('aq_tot').textContent=quizState.total;var s=parseInt(gid('aq_streak').textContent||'0')+1;gid('aq_streak').textContent=s;}
+      if(e.next)e.next.style.display='';
+    }
+  } else {
+    /* Réactivation pour correction */
+    step.lines.forEach(function(ln,li){
+      if(!ln.blank)return;
+      var inp=gid('cblank_'+li);if(!inp)return;
+      if(inp.classList.contains('cbno')){inp.disabled=false;inp.value='';}
+    });
+    if(quizState.cascTries===1){if(cfeed)cfeed.innerHTML='<span class="cfeed no">Pas tout à fait… Réessaie !</span>';}
+    else if(quizState.cascTries===2){if(cfeed)cfeed.innerHTML='<span class="cfeed no">💡 Indice : '+step.lines.map(function(l){return l.hint||'';}).join(' ')+'</span>';}
+    else{
+      /* afficher réponses */
+      step.lines.forEach(function(ln,li){
+        if(!ln.blank)return;
+        var inp=gid('cblank_'+li);if(!inp)return;
+        inp.value=ln.ans;inp.disabled=true;inp.classList.add('cbok');inp.classList.remove('cbno');
+      });
+      if(cfeed)cfeed.innerHTML='<span class="cfeed no">Réponse affichée. Passe à la suite !</span>';
+      var cverify=e.casc.querySelector('.cverify');if(cverify)cverify.style.display='none';
+      quizState.cascStep++;
+      if(quizState.cascStep<cur.steps.length){
+        setTimeout(function(){cascRender();},800);
+      } else {
+        var fe=e.feed;fe.className='feedback no';
+        fe.innerHTML='💪 Continue ! Regarde bien les étapes pour la prochaine fois.';
+        if(!IS_ARENE)quizState.idx++;
+        else{quizState.total++;gid('aq_tot').textContent=quizState.total;gid('aq_streak').textContent=0;}
+        if(e.next)e.next.style.display='';
+      }
+    }
+  }
+}
+
+function quizResult(){
+  var e=elsTrain();
+  var sc=quizState.score,tot=serieLen(),seuil=seuilFor();
+  e.card.style.display='none';
+  e.result.style.display='';
+  var ok=sc>=seuil;
+  gid('tq_rbig').textContent=sc+' / '+tot;
+  gid('tq_rbig').className='big '+(ok?'ok':'no');
+  gid('tq_rmsg').textContent=ok?'Excellent ! Tu maîtrises ce thème 🎉':'Continue ! Relis la leçon et réessaie 💪';
+  var btns=gid('tq_rbtns');btns.innerHTML='';
+  var b1=document.createElement('button');
+  b1.className='btn teal';b1.textContent='⟳ Recommencer';
+  b1.onclick=function(){startTrain(currentTheme);};btns.appendChild(b1);
+  var b2=document.createElement('button');
+  b2.className='btn fant';b2.textContent='← Carte';
+  b2.onclick=function(){go('accueil');};btns.appendChild(b2);
+  if(ok){
+    confettis();
+    themeDone[currentTheme]=true;
+    progSave();updateMap();
+    suiviEnvoi('terminé',sc,tot);
+  } else {
+    suiviEnvoi('incomplet',sc,tot);
+  }
+}
+
+/* ===== PROG ===== */
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}return 'prog_'+e+'_'+SUIVI.nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});}catch(_){}}
+
+/* ===== CALCULATRICE ===== */
+var kcExpr='',kcAns=0;
+var KC_ROWS=[
+  [{l:'AC',a:'clr',c:'act'},{l:'⌫',a:'back',c:'act'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'}],
+  [{l:'x²',a:'^2',c:'fn'},{l:'√',a:'sqrt(',c:'fn'},{l:'%',a:'%',c:'op'},{l:'÷',a:'/',c:'op'}],
+  [{l:'7'},{l:'8'},{l:'9'},{l:'×',a:'*',c:'op'}],
+  [{l:'4'},{l:'5'},{l:'6'},{l:'\u2212',a:'-',c:'op'}],
+  [{l:'1'},{l:'2'},{l:'3'},{l:'+',a:'+',c:'op'}],
+  [{l:'0',a:'0',c:'w2'},{l:',',a:'.'},{l:'=',a:'eq',c:'eq'}]
+];
+function kcBuild(){
+  var kk=gid('kcKeys');if(!kk)return;kk.innerHTML='';
+  KC_ROWS.forEach(function(row){
+    row.forEach(function(k){
+      var b=document.createElement('button');
+      b.className='kc-key'+(k.c?' '+k.c:'');
+      b.textContent=k.l;
+      var act=k.a!==undefined?k.a:k.l;
+      b.onclick=function(){kcTap(act);};
+      kk.appendChild(b);
+    });
+  });
+}
+function kcTap(a){
+  if(a==='clr'){kcExpr='';kcAns=0;}
+  else if(a==='back'){kcExpr=kcExpr.slice(0,-1);}
+  else if(a==='eq'){
+    try{
+      var expr=kcExpr.replace(/\^2/g,'**2').replace(/sqrt\(/g,'Math.sqrt(').replace(/%/g,'/100');
+      var r=Function('"use strict";return ('+expr+')')();
+      kcAns=isFinite(r)?r:0;
+      gid('kcRes').textContent=String(round2(kcAns)).replace('.',',');
+      gid('kcExpr').textContent=kcExpr;
+      return;
+    }catch(e){gid('kcRes').textContent='Erreur';return;}
+  }
+  else kcExpr+=a;
+  gid('kcExpr').textContent=kcExpr;
+  gid('kcRes').textContent=String(round2(kcAns)).replace('.',',');
+}
+function kcToggle(){var p=gid('kcPanel');p.hidden=!p.hidden;if(!p.hidden){var a=document.activeElement;if(a&&a.matches&&(a.id==='tq_input'||a.id==='aq_input'))a.blur();}}
+function kcSend(){
+  var v=String(round2(kcAns)).replace('.',',');
+  var t=document.getElementById('tq_input');var a=document.getElementById('aq_input');
+  var active=IS_ARENE?a:t;
+  if(active)active.value=v;
+  kcToggle();
+}
+
+/* ===== INIT ===== */
+progLoad();updateMap();kcBuild();
+</script>
+</body>
+</html>
