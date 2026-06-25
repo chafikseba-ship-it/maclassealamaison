@@ -494,8 +494,13 @@ function idGetClasse(){
   if(sel.style.display==='none'&&inp)return inp.value.trim();
   return sel.value.trim();
 }
+function normaliseEtablissement(s){
+  var n=s.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+  if(n==='jz'||n==='jeanzay'||n==='collegejeanzay'||n==='lcjeanzay'||n==='jzay')return 'Jean Zay';
+  return s.trim();
+}
 function idSave(){
-  var col=(gid('idCollege').value||'').trim(),c=idGetClasse(),p=(gid('idPrenom').value||'').trim();
+  var col=normaliseEtablissement(gid('idCollege').value||''),c=idGetClasse(),p=(gid('idPrenom').value||'').trim();
   if(!col||!c||!p)return;
   try{localStorage.setItem('kc_college',col);localStorage.setItem('kc_classe',c);localStorage.setItem('kc_eleve',p);}catch(_){}
   gid('idov').hidden=true;idGreet();

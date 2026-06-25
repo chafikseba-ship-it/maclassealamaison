@@ -29,7 +29,6 @@ h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
 .hero .coin{font-size:2.8rem}
 .hero h1{font-size:2rem;margin:.1em 0;color:var(--bois)}
 .hero .sub{color:var(--bois-clair);font-weight:700;margin:4px 0 0}
-
 .card{background:var(--blanc);border-radius:20px;padding:18px;box-shadow:var(--ombre);margin:16px 0}
 .btn{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1rem;color:#fff;background:var(--teal);border:none;
   border-radius:12px;padding:10px 18px;box-shadow:0 4px 0 var(--teal-bas);cursor:pointer}
@@ -42,38 +41,44 @@ input:focus,select:focus{outline:none;border-color:var(--orange-bas)}
 .row.between{justify-content:space-between}
 .muted{color:var(--bois-clair);font-weight:700;font-size:.9rem}
 a{color:var(--bleu-bas)}
-
-/* ---- réglages (saisie du lien) ---- */
-#setup .step{margin:10px 0;line-height:1.5}
 #setup ol{margin:6px 0 0;padding-left:22px}
 #setup li{margin:5px 0}
 #linkInput{width:100%}
-
-/* ---- tableau ---- */
-.tablewrap{overflow-x:auto}
-table{border-collapse:separate;border-spacing:0;width:100%;min-width:680px}
-th,td{padding:10px 8px;text-align:center;font-size:.92rem}
-th{font-family:'Fredoka',sans-serif;font-weight:600;color:#fff;position:sticky;top:0}
-thead th{background:var(--bois)}
-thead th:first-child{border-top-left-radius:12px;text-align:left;padding-left:14px}
-thead th:last-child{border-top-right-radius:12px}
-tbody td:first-child{text-align:left;font-weight:800;padding-left:14px;white-space:nowrap}
-tbody tr:nth-child(even){background:#FFF7E6}
-tbody tr{border-bottom:1px solid #f0e2c4}
-.cell{display:inline-block;min-width:54px;border-radius:10px;padding:5px 8px;font-family:'Fredoka',sans-serif;font-weight:600}
-.ok{background:#E4F4D2;color:var(--vert-bas)}
-.mid{background:#FFEFD6;color:var(--orange-bas)}
-.done{background:#D9F0F3;color:var(--teal-bas)}
-.none{color:#cbb89a}
-.att{display:block;font-family:'Nunito';font-weight:700;font-size:.7rem;color:var(--bois-clair);margin-top:1px}
-.classhead{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.15rem;margin:18px 0 6px;color:var(--bois)}
-.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
-.legend span{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;font-weight:700;color:var(--bois-clair)}
-.dot{width:14px;height:14px;border-radius:5px;display:inline-block}
 .err{background:#FDE2E2;color:var(--rouge-bas);border-radius:12px;padding:12px;font-weight:700}
 .kpi{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
 .kpi div{background:var(--creme);border-radius:14px;padding:10px 16px;font-weight:800;text-align:center}
 .kpi b{display:block;font-family:'Fredoka';font-size:1.5rem;color:var(--bois)}
+
+/* ---- division heading ---- */
+.divhead{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.25rem;
+  margin:22px 0 8px;color:var(--bois);display:flex;align-items:center;gap:10px}
+.divbadge{background:var(--bois);color:#fff;border-radius:10px;padding:2px 12px;font-size:1rem}
+
+/* ---- student rows ---- */
+.eleve-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0e2c4;flex-wrap:wrap}
+.eleve-row:last-child{border-bottom:none}
+.eleve-nom{min-width:160px;font-weight:800;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0}
+.bar-wrap{flex:1;min-width:120px;background:#EDE0C8;border-radius:20px;height:18px;position:relative;overflow:hidden}
+.bar-fill{height:100%;border-radius:20px;transition:width .4s ease}
+.bar-vert{background:var(--vert)}
+.bar-orange{background:var(--orange)}
+.bar-rouge{background:var(--rouge)}
+.bar-label{position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  font-family:'Fredoka',sans-serif;font-size:.8rem;font-weight:700;color:var(--bois-clair);
+  mix-blend-mode:multiply}
+.eleve-detail{font-size:.82rem;font-weight:700;color:var(--bois-clair);white-space:nowrap}
+.tag-valide{background:#E4F4D2;color:var(--vert-bas);border-radius:8px;padding:2px 7px;font-size:.75rem;margin-left:4px}
+.tag-att{color:var(--bois-clair);font-size:.75rem;margin-left:4px}
+
+/* ---- détail expandable ---- */
+.eleve-toggle{background:none;border:none;cursor:pointer;font-size:.8rem;color:var(--bleu-bas);font-weight:700;padding:0;white-space:nowrap}
+.detail-panel{display:none;flex-basis:100%;margin-top:6px}
+.detail-panel.open{display:block}
+.detail-chips{display:flex;flex-wrap:wrap;gap:6px;padding:6px 0}
+.chip{border-radius:10px;padding:4px 10px;font-size:.78rem;font-weight:700}
+.chip-ok{background:#E4F4D2;color:var(--vert-bas)}
+.chip-mid{background:#FFEFD6;color:var(--orange-bas)}
+.chip-done{background:#D9F0F3;color:var(--teal-bas)}
 </style>
 </head>
 <body>
@@ -85,15 +90,13 @@ tbody tr{border-bottom:1px solid #f0e2c4}
     <p class="sub">Progression des élèves, en direct</p>
   </div>
 
-  <!-- ÉCRAN DE RÉGLAGE : saisie du lien CSV -->
   <div class="card" id="setup" style="display:none">
     <h2 style="margin-top:0">Connexion à tes réponses</h2>
-    <p class="step">Une seule fois, tu dois rendre la feuille de réponses lisible par cette page, puis coller son lien ci-dessous.</p>
     <ol>
-      <li>Dans ton <b>formulaire Google</b>, onglet <b>« Réponses »</b>, clique sur l'icône verte <b>Sheets</b> pour créer la feuille de calcul.</li>
-      <li>Dans cette feuille : menu <b>Fichier → Partager → Publier sur le Web</b>.</li>
-      <li>Choisis l'onglet des réponses, puis le format <b>« Valeurs séparées par des virgules (.csv) »</b>, et clique sur <b>Publier</b>.</li>
-      <li>Copie le lien qui s'affiche, colle-le ici, et valide.</li>
+      <li>Dans ton <b>formulaire Google</b>, onglet <b>« Réponses »</b>, clique sur l'icône verte <b>Sheets</b>.</li>
+      <li>Dans la feuille : <b>Fichier → Partager → Publier sur le Web</b>.</li>
+      <li>Choisis l'onglet des réponses, format <b>CSV</b>, puis <b>Publier</b>.</li>
+      <li>Colle le lien ci-dessous et valide.</li>
     </ol>
     <div class="row" style="margin-top:14px">
       <input id="linkInput" type="text" placeholder="Colle ici le lien CSV publié…">
@@ -104,11 +107,10 @@ tbody tr{border-bottom:1px solid #f0e2c4}
     <p class="muted" id="setupMsg" style="margin-top:10px"></p>
   </div>
 
-  <!-- BARRE D'OUTILS -->
   <div class="card" id="toolbar" style="display:none">
     <div class="row between">
       <div class="row">
-        <label class="muted" for="classSel">Classe :</label>
+        <label class="muted" for="classSel">Division :</label>
         <select id="classSel" onchange="render()"></select>
       </div>
       <div class="row">
@@ -120,46 +122,259 @@ tbody tr{border-bottom:1px solid #f0e2c4}
     <p class="muted" id="status" style="margin-top:8px"></p>
   </div>
 
-  <!-- TABLEAU -->
-  <div class="card" id="board" style="display:none">
-    <div id="boardBody"></div>
-    <div class="legend">
-      <span><span class="dot ok"></span> Validé (≥ 8/10)</span>
-      <span><span class="dot mid"></span> Score insuffisant</span>
-      <span><span class="dot done"></span> Parcours terminé</span>
-      <span><span class="none">–</span> Pas encore essayé</span>
-    </div>
-  </div>
+  <div id="board" style="display:none"></div>
 
 </div>
-
 <script>
-/* ===== Réglages ===== */
 var LS_KEY='kc_dash_csv';
-/* Parcours évalués sur 10 (les autres = "terminé / en cours"). */
-var NOTED={'Calcul littéral':1,'Thalès':1,'Statistiques':1,'Trigonométrie':1,'Arithmétique 3ème':1,'Puissances & Écriture scientifique':1,'Équations':1};
-/* Ordre d'affichage préféré des colonnes (3ème puis 6ème puis 5ème) ; les inconnus sont ajoutés à la suite. */
-var ORDER=['Probabilités','Aires & Volumes','Fonctions 3ème','Calcul littéral','Thalès','Statistiques',
-           'Trigonométrie','Arithmétique 3ème','Puissances & Écriture scientifique','Équations',
-           'Espaces & Solides','Transformations 3ème','Algorithmique et tableur 3ème',
-           'Masse volumique 3ème','États de la matière 3ème','Mélanges & solutions 3ème','Mouvements & forces 3ème','Électricité — loi d\'Ohm 4ème',
-           'Réactions chimiques 3ème','Puissance & énergie 3ème','Lumière et optique 4ème','Réactions chimiques 4ème',
-           'Aires & Volumes 6ème','Priorités opératoires 6ème',
-           'Ensembles de nombres 2nde','Fonctions 2nde','Calcul algébrique 2nde',
-           'Nombres relatifs 5ème','Parallélogramme 5ème',
-           'Conversions 5ème','Formules d\u2019aires & volumes','Figures usuelles & propriétés',
-           'Fractions 5ème'];
+
+/* ---- parcours notés sur 10 ---- */
+var NOTED={'Calcul littéral':1,'Thalès':1,'Statistiques':1,'Trigonométrie':1,'Arithmétique 3ème':1,
+  'Puissances & Écriture scientifique':1,'Équations':1};
+
 function isNote(n){return !!NOTED[n];}
-function colsForClass(elv){
-  var set={};
-  Object.keys(elv).forEach(function(e){Object.keys(elv[e]).forEach(function(p){set[p]=1;});});
-  var cols=ORDER.filter(function(n){return set[n];});
-  Object.keys(set).sort().forEach(function(n){if(cols.indexOf(n)<0)cols.push(n);});
-  return cols;
-}
 function gid(x){return document.getElementById(x);}
 
-/* ===== Lecture du lien ===== */
+/* ============================================================
+   NORMALISATION DES DIVISIONS
+   ============================================================ */
+var DIVS=[
+  '3BAKER','3BEKHTI','3DIOP','3GLOVER','3PALMA','3VENTURA',
+  '4ADICHIE','4BAGIEU','4DARWICH','4ERNAUX','4MORRISO','4ODA','4PASCOT','4SENGHOR',
+  '5ARMSTRO','5HARTMAN','5JAMES','5LAMAR','5MAKEBA','5MERCURY','5NAKAMUR','5SIMONE',
+  '6BANKSY','6BAYA','6BONHEUR','6COULIAU','6FRIEDRI','6KAHLO','6KLIMT','6RINGGOL',
+  'DAVIS','SATRAPI'
+];
+
+/* Ordre d'affichage des divisions */
+var DIV_ORDER=DIVS.slice();
+
+function stripAccents(s){
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+function normaliseDiv(raw){
+  /* Retire le préfixe établissement (Jean Zay ·, JZ ·, …) */
+  var s=raw.replace(/jean[-\s]*zay\s*[·•\-:]\s*/gi,'')
+           .replace(/\bjz\b\s*[·•\-:]\s*/gi,'')
+           .trim();
+  /* Uppercase, retire accents, espaces, tirets */
+  s=stripAccents(s).toUpperCase().replace(/[\s\-_\.]/g,'');
+  /* Retire suffixe "ème"/"eme"/"E" après chiffre initial */
+  s=s.replace(/^(\d+)[EÈ][MN]?E?/,'$1');
+  if(!s) return '(non identifiée)';
+  /* Correspondance exacte */
+  if(DIVS.indexOf(s)>=0) return s;
+  /* Commence par */
+  var m=DIVS.filter(function(d){return d.indexOf(s)===0;});
+  if(m.length===1) return m[0];
+  /* La division commence par ce que l'élève a tapé (ex: "3BA" → "3BAKER") */
+  m=DIVS.filter(function(d){return s.length>=2&&d.indexOf(s)===0;});
+  if(m.length===1) return m[0];
+  /* Cherche le chiffre + début de nom */
+  var niveau=s.match(/^(\d+)/);
+  var nom=s.replace(/^\d+/,'');
+  if(niveau&&nom.length>=2){
+    m=DIVS.filter(function(d){return d.indexOf(niveau[1])===0&&d.indexOf(nom)>0;});
+    if(m.length===1) return m[0];
+  }
+  return s||'(non identifiée)';
+}
+
+/* ============================================================
+   NORMALISATION DES NOMS D'ÉLÈVES (dédoublonnage)
+   ============================================================ */
+function normaliseNomKey(raw){
+  /* Clé de dédup : tokens triés, uppercase, sans accents */
+  return stripAccents(raw).toUpperCase()
+    .replace(/[^A-Z0-9 \-]/g,' ')
+    .trim().split(/\s+/).sort().join(' ');
+}
+
+/* ============================================================
+   LECTURE CSV
+   ============================================================ */
+function parseCSV(text){
+  var rows=[],row=[],cur='',i=0,q=false,c;
+  while(i<text.length){
+    c=text[i];
+    if(q){if(c==='"'){if(text[i+1]==='"'){cur+='"';i++;}else q=false;}else cur+=c;}
+    else{if(c==='"')q=true;else if(c===','){row.push(cur);cur='';}
+      else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur='';}
+      else if(c!=='\r')cur+=c;}
+    i++;
+  }
+  if(cur!==''||row.length){row.push(cur);rows.push(row);}
+  return rows;
+}
+function findCol(head,keys){
+  for(var j=0;j<head.length;j++){var h=head[j].toLowerCase();
+    for(var k=0;k<keys.length;k++)if(h.indexOf(keys[k])>=0)return j;}
+  return -1;
+}
+
+var DATA=null;
+
+function ingest(text){
+  var rows=parseCSV(text).filter(function(r){return r.some(function(c){return(c||'').trim()!=='';});});
+  if(!rows.length){DATA={divs:{},total:0,last:''};return;}
+  var head=rows[0];
+  var iH=findCol(head,['horodat','timestamp']);
+  var iCl=findCol(head,['classe']);
+  var iEl=findCol(head,['nom','prénom','prenom','élève','eleve']);
+  var iPa=findCol(head,['parcours','chapitre']);
+  var iSt=findCol(head,['statut']);
+  var iSc=findCol(head,['score']);
+  var divs={},total=0,last='';
+  for(var r=1;r<rows.length;r++){
+    var row=rows[r];
+    var rawClasse=(iCl>=0?row[iCl]:'')||'';
+    var rawEleve=(iEl>=0?row[iEl]:'')||'';
+    var parc=(iPa>=0?row[iPa]:'')||'?';
+    var stat=(iSt>=0?row[iSt]:'')||'';
+    var score=parseInt((iSc>=0?row[iSc]:'')||'',10);
+    var hod=iH>=0?row[iH]:'';
+    rawClasse=rawClasse.trim(); rawEleve=rawEleve.trim(); parc=parc.trim();
+    if(!rawEleve||!parc||parc==='?') continue;
+    if(hod>last) last=hod;
+    total++;
+    var div=normaliseDiv(rawClasse);
+    var key=normaliseNomKey(rawEleve);
+    divs[div]=divs[div]||{};
+    /* Si on a déjà un enregistrement avec cette clé normalisée, on réutilise */
+    var existing=divs[div][key];
+    if(!existing){
+      /* Première fois : crée l'entrée avec le nom brut comme libellé affiché */
+      divs[div][key]={nom:rawEleve,parcours:{}};
+    } else {
+      /* Garde le nom le plus long comme libellé (probablement plus complet) */
+      if(rawEleve.length>existing.nom.length) existing.nom=rawEleve;
+    }
+    var entry=divs[div][key];
+    entry.parcours[parc]=entry.parcours[parc]||{best:null,att:0,valide:false,termine:false};
+    var p=entry.parcours[parc];
+    p.att++;
+    if(!isNaN(score)){if(p.best===null||score>p.best)p.best=score;}
+    var s=stat.toLowerCase();
+    if(s.indexOf('valid')>=0)p.valide=true;
+    if(s.indexOf('termin')>=0)p.termine=true;
+  }
+  DATA={divs:divs,total:total,last:last};
+}
+
+/* ============================================================
+   CALCUL PROGRESSION
+   ============================================================ */
+function scoreEleve(parcours){
+  var valide=0,total=0;
+  Object.keys(parcours).forEach(function(pn){
+    total++;
+    var p=parcours[pn];
+    if(isNote(pn)?p.valide:p.termine) valide++;
+  });
+  return {valide:valide,total:total,pct:total?Math.round(valide/total*100):0};
+}
+
+/* ============================================================
+   AFFICHAGE
+   ============================================================ */
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function barColor(pct){
+  if(pct>=75) return 'bar-vert';
+  if(pct>=40) return 'bar-orange';
+  return 'bar-rouge';
+}
+
+function renderEleve(key,entry,divName,idx){
+  var s=scoreEleve(entry.parcours);
+  var cl=barColor(s.pct);
+  var chips='';
+  Object.keys(entry.parcours).sort().forEach(function(pn){
+    var p=entry.parcours[pn];
+    var ok=isNote(pn)?p.valide:p.termine;
+    var label=isNote(pn)?(p.best!==null?p.best+'/10':'?/10'):(p.termine?'Terminé':'En cours');
+    var chipCls=ok?'chip-ok':(p.termine?'chip-done':'chip-mid');
+    chips+='<span class="chip '+chipCls+'" title="'+esc(pn)+'">'+esc(pn)+' : '+label+'</span>';
+  });
+  var panelId='panel-'+divName.replace(/[^a-z0-9]/gi,'_')+'-'+idx;
+  return '<div class="eleve-row">'
+    +'<div class="eleve-nom" title="'+esc(entry.nom)+'">'+esc(entry.nom)+'</div>'
+    +'<div class="bar-wrap"><div class="bar-fill '+cl+'" style="width:'+s.pct+'%"></div>'
+    +'<span class="bar-label">'+s.pct+'%</span></div>'
+    +'<div class="eleve-detail">'+s.valide+'\u202f/\u202f'+s.total+' parcours</div>'
+    +'<button class="eleve-toggle" onclick="togglePanel(\''+panelId+'\')">▸ détail</button>'
+    +'<div class="detail-panel" id="'+panelId+'">'
+    +'<div class="detail-chips">'+chips+'</div></div>'
+    +'</div>';
+}
+
+function render(){
+  if(!DATA) return;
+  var sel=gid('classSel').value||'__all';
+  var divNames=(sel==='__all')?
+    DIV_ORDER.filter(function(d){return DATA.divs[d];}).concat(
+      Object.keys(DATA.divs).filter(function(d){return DIV_ORDER.indexOf(d)<0;}).sort()
+    ):[sel];
+
+  /* KPI */
+  var nbEleves=0,nbValide=0,nbTotal=0;
+  divNames.forEach(function(dn){
+    var div=DATA.divs[dn]||{};
+    Object.keys(div).forEach(function(k){
+      nbEleves++;
+      var s=scoreEleve(div[k].parcours);
+      nbValide+=s.valide; nbTotal+=s.total;
+    });
+  });
+  gid('kpi').innerHTML=
+    '<div><b>'+DATA.total+'</b>réponses</div>'
+   +'<div><b>'+nbEleves+'</b>élève'+(nbEleves>1?'s':'')+'</div>'
+   +'<div><b>'+nbValide+'</b>parcours validés</div>'
+   +(nbTotal?'<div><b>'+Math.round(nbValide/nbTotal*100)+'%</b>taux global</div>':'');
+  gid('status').textContent=DATA.last?('Dernière réponse : '+DATA.last):'';
+
+  /* Corps */
+  var out='';
+  divNames.forEach(function(dn){
+    var div=DATA.divs[dn]||{};
+    var keys=Object.keys(div).sort(function(a,b){
+      return div[a].nom.localeCompare(div[b].nom,'fr');
+    });
+    if(!keys.length) return;
+    out+='<div class="card">';
+    out+='<div class="divhead"><span class="divbadge">'+esc(dn)+'</span>'
+        +keys.length+' élève'+(keys.length>1?'s':'')+'</div>';
+    keys.forEach(function(k,i){out+=renderEleve(k,div[k],dn,i);});
+    out+='</div>';
+  });
+  if(!out) out='<div class="card"><p class="muted">Aucune réponse pour le moment.</p></div>';
+  gid('board').innerHTML=out;
+}
+
+function togglePanel(id){
+  var p=gid(id); if(!p) return;
+  var open=p.classList.toggle('open');
+  var btn=p.previousElementSibling;
+  if(btn&&btn.classList.contains('eleve-toggle')) btn.textContent=(open?'▾':'▸')+' détail';
+}
+
+/* ============================================================
+   SÉLECTEUR DE DIVISION
+   ============================================================ */
+function buildClassSelect(){
+  var sel=gid('classSel'); var cur=sel.value;
+  var present=DIV_ORDER.filter(function(d){return DATA.divs[d];})
+    .concat(Object.keys(DATA.divs).filter(function(d){return DIV_ORDER.indexOf(d)<0;}).sort());
+  var html='<option value="__all">Toutes les divisions</option>';
+  present.forEach(function(n){html+='<option value="'+esc(n)+'">'+esc(n)+'</option>';});
+  sel.innerHTML=html;
+  if(cur&&(cur==='__all'||DATA.divs[cur])) sel.value=cur;
+}
+
+/* ============================================================
+   CHARGEMENT
+   ============================================================ */
 function getLink(){try{return localStorage.getItem(LS_KEY)||'';}catch(_){return '';}}
 function saveLink(){
   var v=(gid('linkInput').value||'').trim();
@@ -170,171 +385,29 @@ function saveLink(){
 }
 function changeLink(){gid('linkInput').value=getLink();show('setup');}
 function show(which){
-  gid('setup').style.display   = which==='setup'?'block':'none';
-  gid('toolbar').style.display = which==='board'?'block':'none';
-  gid('board').style.display   = which==='board'?'block':'none';
+  gid('setup').style.display   =which==='setup'?'block':'none';
+  gid('toolbar').style.display =which==='board'?'block':'none';
+  gid('board').style.display   =which==='board'?'block':'none';
 }
-
-/* ===== Analyse CSV (gère les virgules et guillemets) ===== */
-function parseCSV(text){
-  var rows=[],row=[],cur='',i=0,q=false,c;
-  while(i<text.length){
-    c=text[i];
-    if(q){
-      if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; }
-      else cur+=c;
-    }else{
-      if(c==='"')q=true;
-      else if(c===','){row.push(cur);cur='';}
-      else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur='';}
-      else if(c==='\r'){}
-      else cur+=c;
-    }
-    i++;
-  }
-  if(cur!==''||row.length){row.push(cur);rows.push(row);}
-  return rows;
-}
-
-/* repère l'index d'une colonne d'après des mots-clés dans l'en-tête */
-function findCol(head,keys){
-  for(var j=0;j<head.length;j++){
-    var h=head[j].toLowerCase();
-    for(var k=0;k<keys.length;k++) if(h.indexOf(keys[k])>=0) return j;
-  }
-  return -1;
-}
-
-var DATA=null; // {classes:{classe:{eleve:{parcours:{best,att,valide,termine}}}}, total, last}
-
-function reload(){ boot(); }
+function reload(){boot();}
 function boot(){
   var link=getLink();
-  if(!link){ show('setup'); return; }
+  if(!link){show('setup');return;}
   gid('status')&&(gid('status').textContent='Chargement\u2026');
   show('board');
-  gid('boardBody').innerHTML='<p class="muted">Chargement des réponses\u2026</p>';
+  gid('board').innerHTML='<div class="card"><p class="muted">Chargement\u2026</p></div>';
   var url=link+(link.indexOf('?')>=0?'&':'?')+'_cb='+Date.now();
   fetch(url,{cache:'no-store'})
-    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
-    .then(function(t){ ingest(t); buildClassSelect(); render(); })
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
+    .then(function(t){ingest(t);buildClassSelect();render();})
     .catch(function(e){
-      gid('boardBody').innerHTML='<div class="err">Impossible de lire les réponses.<br>'
-        +'Vérifie que le lien est bien le lien <b>CSV publié</b> de la feuille (Fichier → Partager → Publier sur le Web → CSV).<br>'
-        +'<span class="muted">Détail technique : '+e.message+'</span></div>'
-        +'<div class="row" style="margin-top:12px"><button class="btn ghost" onclick="changeLink()">Changer le lien</button></div>';
+      gid('board').innerHTML='<div class="card"><div class="err">Impossible de lire les réponses.'
+        +'<br>Vérifie que le lien est bien le lien <b>CSV publié</b> (Fichier → Partager → Publier sur le Web → CSV).'
+        +'<br><span class="muted">Détail : '+esc(e.message)+'</span></div>'
+        +'<div class="row" style="margin-top:12px"><button class="btn ghost" onclick="changeLink()">Changer le lien</button></div></div>';
       gid('kpi').innerHTML=''; gid('status').textContent='';
     });
 }
-
-function ingest(text){
-  var rows=parseCSV(text).filter(function(r){return r.some(function(c){return (c||'').trim()!=='';});});
-  if(!rows.length){DATA={classes:{},total:0,last:''};return;}
-  var head=rows[0];
-  var iH=findCol(head,['horodat','timestamp']);
-  var iCl=findCol(head,['classe']);
-  var iEl=findCol(head,['nom','prénom','prenom','élève','eleve']);
-  var iPa=findCol(head,['parcours','chapitre']);
-  var iSt=findCol(head,['statut']);
-  var iSc=findCol(head,['score']);
-  var iTo=findCol(head,['total']);
-  var classes={},total=0,last='';
-  for(var r=1;r<rows.length;r++){
-    var row=rows[r];
-    var classe=(iCl>=0?row[iCl]:'')||'(sans classe)';
-    var eleve =(iEl>=0?row[iEl]:'')||'(sans nom)';
-    var parc  =(iPa>=0?row[iPa]:'')||'?';
-    var stat  =(iSt>=0?row[iSt]:'')||'';
-    var score = parseInt((iSc>=0?row[iSc]:'')||'',10);
-    var hod   = iH>=0?row[iH]:'';
-    classe=classe.trim(); eleve=eleve.trim(); parc=parc.trim();
-    if(hod>last) last=hod;
-    total++;
-    classes[classe]=classes[classe]||{};
-    classes[classe][eleve]=classes[classe][eleve]||{};
-    var p=classes[classe][eleve][parc]=classes[classe][eleve][parc]||{best:null,att:0,valide:false,termine:false};
-    p.att++;
-    if(!isNaN(score)){ if(p.best===null||score>p.best) p.best=score; }
-    var s=stat.toLowerCase();
-    if(s.indexOf('valid')>=0) p.valide=true;
-    if(s.indexOf('termin')>=0) p.termine=true;
-  }
-  DATA={classes:classes,total:total,last:last};
-}
-
-function buildClassSelect(){
-  var sel=gid('classSel'); var cur=sel.value;
-  var names=Object.keys(DATA.classes).sort();
-  var html='<option value="__all">Toutes les classes</option>';
-  names.forEach(function(n){html+='<option value="'+esc(n)+'">'+esc(n)+'</option>';});
-  sel.innerHTML=html;
-  if(cur && (cur==='__all'||DATA.classes[cur])) sel.value=cur;
-}
-
-function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-function cellFor(p,note){
-  if(!p) return '<span class="none">–</span>';
-  if(note){
-    var cls=p.valide?'ok':'mid';
-    var sc=(p.best===null?'?':p.best)+'/10';
-    return '<span class="cell '+cls+'">'+sc+(p.valide?' ✅':'')+'<span class="att">'+p.att+' essai'+(p.att>1?'s':'')+'</span></span>';
-  }else{
-    if(p.termine) return '<span class="cell done">✅ Terminé</span>';
-    return '<span class="cell mid">en cours<span class="att">'+p.att+' passage'+(p.att>1?'s':'')+'</span></span>';
-  }
-}
-
-function render(){
-  if(!DATA){return;}
-  var sel=gid('classSel').value||'__all';
-  var classNames=(sel==='__all')?Object.keys(DATA.classes).sort():[sel];
-
-  // KPI
-  var nbEleves=0,nbValid=0;
-  classNames.forEach(function(cn){
-    var elv=DATA.classes[cn]||{};
-    Object.keys(elv).forEach(function(e){
-      nbEleves++;
-      Object.keys(elv[e]).forEach(function(pn){
-        var p=elv[e][pn];
-        if(p && (p.valide||(!isNote(pn)&&p.termine))) nbValid++;
-      });
-    });
-  });
-  gid('kpi').innerHTML=
-     '<div><b>'+DATA.total+'</b>réponses reçues</div>'
-    +'<div><b>'+nbEleves+'</b>élève'+(nbEleves>1?'s':'')+'</div>'
-    +'<div><b>'+nbValid+'</b>parcours validés</div>';
-  gid('status').textContent=DATA.last?('Dernière réponse : '+DATA.last):'';
-
-  // Tableau par classe
-  var out='';
-  if(!classNames.length || nbEleves===0){
-    out='<p class="muted">Aucune réponse pour le moment. Dès qu\u2019un élève termine une série, elle apparaîtra ici (clique sur Actualiser).</p>';
-    gid('boardBody').innerHTML=out; return;
-  }
-  classNames.forEach(function(cn){
-    var elv=DATA.classes[cn]||{}; var eleves=Object.keys(elv).sort();
-    if(!eleves.length) return;
-    var cols=colsForClass(elv);
-    out+='<div class="classhead">'+esc(cn)+'</div>';
-    out+='<div class="tablewrap"><table><thead><tr><th>Élève</th>';
-    cols.forEach(function(pn){out+='<th>'+esc(pn)+'</th>';});
-    out+='</tr></thead><tbody>';
-    eleves.forEach(function(e){
-      out+='<tr><td>'+esc(e)+'</td>';
-      cols.forEach(function(pn){
-        out+='<td>'+cellFor(elv[e][pn],isNote(pn))+'</td>';
-      });
-      out+='</tr>';
-    });
-    out+='</tbody></table></div>';
-  });
-  gid('boardBody').innerHTML=out;
-}
-
-/* go */
 gid('linkInput').value=getLink();
 boot();
 </script>
