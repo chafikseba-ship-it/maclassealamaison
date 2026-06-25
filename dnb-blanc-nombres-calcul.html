@@ -1422,6 +1422,231 @@ function genRelatifsFinance(){
   };
 }
 
+/* --- Générateur : Écriture scientifique --- */
+function genEcritureScientifique(){
+  var configs=[
+    {a:3.2,b:1.5,exp:3},{a:4.5,b:2.3,exp:4},{a:6.1,b:1.9,exp:2},
+    {a:2.4,b:5.3,exp:5},{a:7.2,b:1.8,exp:3}
+  ];
+  var cfg=choix(configs);
+  var a=cfg.a,b=cfg.b,exp=cfg.exp;
+  var somme=Math.round((a+b)*10)/10;
+  var puiss=Math.pow(10,exp);
+  var resultat=somme*puiss;
+  var enonceHTML='Une galaxie est à <b>'+fr(a)+'×10<sup>'+exp+'</sup> années-lumière</b>, une autre à <b>'+fr(b)+'×10<sup>'+exp+'</sup> années-lumière</b>.'
+    +'<br><b>1.</b> Calcule la somme de ces deux distances en écriture scientifique.'
+    +'<br><b>2.</b> Donne le résultat en notation décimale ordinaire.';
+  var etapes=[
+    {
+      question:'Question 1 — Somme en écriture scientifique',
+      role:'Factoriser par la même puissance de 10',
+      q:'Calcule '+fr(a)+'×10<sup>'+exp+'</sup> + '+fr(b)+'×10<sup>'+exp+'</sup>. Donne le résultat sous la forme A×10<sup>'+exp+'</sup>.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-somme)<0.05;});},
+      aide:'On factorise : ('+fr(a)+' + '+fr(b)+')×10<sup>'+exp+'</sup> = '+fr(somme)+'×10<sup>'+exp+'</sup>.',
+      solutionHTML:fr(somme)+'×10<sup>'+exp+'</sup>',
+      clavier:['+','=','×']
+    },
+    {
+      question:'Question 2 — Notation décimale',
+      role:'Développer la puissance de 10',
+      q:fr(somme)+'×10<sup>'+exp+'</sup> = ? (écriture décimale)',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-resultat)<1;});},
+      aide:'10<sup>'+exp+'</sup> = '+puiss+'. Donc '+fr(somme)+' × '+puiss+' = '+resultat+'.',
+      solutionHTML:''+resultat,
+      clavier:['×','=']
+    }
+  ];
+  return {
+    titre:'Écriture scientifique',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
+/* --- Générateur : Valeur absolue et distance --- */
+function genValeurAbsolue(){
+  var configs=[
+    {a:-7,b:3},{a:-5,b:8},{a:-12,b:4},{a:2,b:-9},{a:-6,b:6}
+  ];
+  var cfg=choix(configs);
+  var a=cfg.a,b=cfg.b;
+  var dist=Math.abs(b-a);
+  var enonceHTML='Sur la droite numérique, on place les points A de coordonnée <b>'+a+'</b> et B de coordonnée <b>'+b+'</b>.'
+    +'<br><b>1.</b> Calcule |'+b+' − ('+a+')| (valeur absolue de la différence).'
+    +'<br><b>2.</b> Que représente ce résultat sur la droite numérique ?';
+  var etapes=[
+    {
+      question:'Question 1 — Valeur absolue',
+      role:'Calculer la différence puis prendre sa valeur absolue',
+      q:'Calcule |'+b+' − ('+a+')| = |'+b+' + '+(-a)+'|.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-dist)<0.5;});},
+      aide:''+b+' − ('+a+') = '+b+' + '+(-a)+' = '+(b-a)+'. La valeur absolue de '+(b-a)+' est '+dist+'.',
+      solutionHTML:'|'+(b-a)+'| = '+dist,
+      clavier:['-','|','=']
+    },
+    {
+      question:'Question 2 — Interprétation',
+      role:'Relier valeur absolue et distance',
+      q:'Ce résultat '+dist+' est la distance entre A et B. Sur la droite, AB = '+dist+'. Écris : AB = ...',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-dist)<0.5;});},
+      aide:'|B − A| = la distance AB. Donc AB = '+dist+'.',
+      solutionHTML:'AB = '+dist,
+      clavier:['=']
+    }
+  ];
+  return {
+    titre:'Valeur absolue et distance',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
+/* --- Générateur : Encadrement d'une racine carrée --- */
+function genEncadrementRacine(){
+  var configs=[
+    {n:20,p:4,q:5},{n:50,p:7,q:8},{n:30,p:5,q:6},
+    {n:75,p:8,q:9},{n:11,p:3,q:4}
+  ];
+  var cfg=choix(configs);
+  var n=cfg.n,p=cfg.p,q=cfg.q;
+  var racine=Math.sqrt(n);
+  var enonceHTML='Encadre <b>√'+n+'</b> entre deux entiers consécutifs.'
+    +'<br><b>1.</b> Trouve les deux entiers consécutifs p et q tels que p² ≤ '+n+' < q².'
+    +'<br><b>2.</b> Déduis l\'encadrement de √'+n+'.';
+  var etapes=[
+    {
+      question:'Question 1 — Carrés parfaits voisins',
+      role:'Trouver p et q',
+      q:p+'² = '+p*p+' et '+q+'² = '+q*q+'. Lequel encadre '+n+' ? Donne p (entier inférieur).',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-p)<0.5;});},
+      aide:p+'² = '+p*p+' ≤ '+n+' < '+q*q+' = '+q+'². Donc p = '+p+'.',
+      solutionHTML:'p = '+p,
+      clavier:['²','=']
+    },
+    {
+      question:'Question 2 — Encadrement',
+      role:'Écrire l\'encadrement de la racine',
+      q:'Complète : '+p+' ≤ √'+n+' < ... (donne la valeur entière supérieure)',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-q)<0.5;});},
+      aide:'Puisque '+p+'² = '+p*p+' ≤ '+n+' < '+q*q+' = '+q+'², on a '+p+' ≤ √'+n+' < '+q+'.',
+      solutionHTML:p+' ≤ √'+n+' < '+q,
+      clavier:['≤','<','=']
+    }
+  ];
+  return {
+    titre:'Encadrement d\'une racine carrée',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
+/* --- Générateur : Développer et factoriser --- */
+function genDevelopperFactoriser(){
+  var type=rnd(2);
+  var configs=[
+    {a:3,b:2,c:5},{a:4,b:3,c:7},{a:2,b:5,c:3},{a:5,b:4,c:1},{a:6,b:1,c:4}
+  ];
+  var cfg=choix(configs);
+  var a=cfg.a,b=cfg.b,c=cfg.c;
+  var etapes;
+  var enonceHTML;
+  if(type===0){
+    var d1=a*b,d2=a*c;
+    enonceHTML='<b>Développer</b> l\'expression suivante :<br><b>'+a+'('+b+'x + '+c+')</b>';
+    etapes=[
+      {
+        question:'Question 1 — Identifier',
+        role:'Repérer le facteur commun',
+        q:'Dans '+a+'('+b+'x + '+c+'), le facteur commun est '+a+'. Calcule '+a+' × '+b+' = ?',
+        verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-d1)<0.5;});},
+        aide:''+a+' × '+b+' = '+d1+'.',
+        solutionHTML:''+d1,
+        clavier:['×','=']
+      },
+      {
+        question:'Question 2 — Développer',
+        role:'Écrire l\'expression développée',
+        q:'Calcule aussi '+a+' × '+c+' = ? puis écris la somme complète ('+d1+'x + ?).',
+        verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-d2)<0.5;});},
+        aide:''+a+' × '+c+' = '+d2+'. Résultat : '+d1+'x + '+d2+'.',
+        solutionHTML:d1+'x + '+d2,
+        clavier:['×','+','=']
+      }
+    ];
+  } else {
+    var fa=a*b,fb=a*c;
+    enonceHTML='<b>Factoriser</b> l\'expression suivante :<br><b>'+fa+'x + '+fb+'</b>';
+    etapes=[
+      {
+        question:'Question 1 — Trouver le facteur commun',
+        role:'Identifier le PGCD des coefficients',
+        q:'Quel est le plus grand facteur commun à '+fa+' et '+fb+' ?',
+        verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-a)<0.5;});},
+        aide:''+fa+' = '+a+' × '+b+' et '+fb+' = '+a+' × '+c+'. Le facteur commun est '+a+'.',
+        solutionHTML:''+a,
+        clavier:['=']
+      },
+      {
+        question:'Question 2 — Factoriser',
+        role:'Écrire la forme factorisée',
+        q:'Écris '+fa+'x + '+fb+' = '+a+'('+b+'x + ?)',
+        verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-c)<0.5;});},
+        aide:''+fa+'x + '+fb+' = '+a+'('+b+'x + '+c+').',
+        solutionHTML:a+'('+b+'x + '+c+')',
+        clavier:['×','+','=']
+      }
+    ];
+  }
+  return {
+    titre:'Développer et factoriser',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
+/* --- Générateur : Suite arithmétique --- */
+function genSuiteArithmetique(){
+  var configs=[
+    {u0:3,r:4},{u0:7,r:5},{u0:10,r:3},{u0:2,r:7},{u0:5,r:6}
+  ];
+  var cfg=choix(configs);
+  var u0=cfg.u0,r=cfg.r;
+  var u1=u0+r,u2=u0+2*r,u3=u0+3*r,u4=u0+4*r;
+  var enonceHTML='Une suite arithmétique commence par : <b>'+u0+' ; '+u1+' ; '+u2+' ; ...</b>'
+    +'<br><b>1.</b> Quelle est la raison de cette suite ?'
+    +'<br><b>2.</b> Calcule le 4ème terme (rang 3) et le 5ème terme (rang 4).';
+  var etapes=[
+    {
+      question:'Question 1 — La raison',
+      role:'Calculer la différence entre deux termes consécutifs',
+      q:'Calcule '+u1+' − '+u0+' = ? (raison de la suite)',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-r)<0.5;});},
+      aide:''+u1+' − '+u0+' = '+r+'. La raison est '+r+'.',
+      solutionHTML:'r = '+r,
+      clavier:['-','=']
+    },
+    {
+      question:'Question 2 — Termes suivants',
+      role:'Ajouter la raison pour trouver les termes suivants',
+      q:'Le terme après '+u2+' est '+u2+' + '+r+' = ? Puis le suivant ?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-u3)<0.5;})&&nbs(inp).some(function(x){return Math.abs(x-u4)<0.5;});},
+      aide:''+u2+' + '+r+' = '+u3+' ; '+u3+' + '+r+' = '+u4+'.',
+      solutionHTML:u3+' puis '+u4,
+      clavier:['+','=']
+    }
+  ];
+  return {
+    titre:'Suite arithmétique',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
 /* ===== BANQUE ===== */
 var BANQUE=[
   {notion:'boulangerie', gen:genBoulangerie},
@@ -1439,7 +1664,12 @@ var BANQUE=[
   {notion:'fractionsOp',   gen:genFractionsOp},
   {notion:'puissancesEnt', gen:genPuissancesEntières},
   {notion:'racinesCarrees',gen:genRacinesCarrees},
-  {notion:'priorites',     gen:genPriorites}
+  {notion:'priorites',     gen:genPriorites},
+  {notion:'ecritureScientifique', gen:genEcritureScientifique},
+  {notion:'valeurAbsolue',        gen:genValeurAbsolue},
+  {notion:'encadrementRacine',    gen:genEncadrementRacine},
+  {notion:'developperFactoriser', gen:genDevelopperFactoriser},
+  {notion:'suiteArithmetique',    gen:genSuiteArithmetique}
 ];
 
 var SUJET=[],ecrans=[],ecranActuel=0;

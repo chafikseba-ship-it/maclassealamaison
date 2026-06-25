@@ -1196,6 +1196,374 @@ function genMasseVolumiqueID(){
   };
 }
 
+/* ===== GÉNÉRATEUR 13 : Poids et masse ===== */
+function genPoidsEtMasse(){
+  var configs=[
+    {objet:'un sac à dos',m:5,P:50,cherche:'masse',g:10},
+    {objet:'un vélo',m:12,P:120,cherche:'masse',g:10},
+    {objet:'un livre',m:0.4,P:4,cherche:'masse',g:10},
+    {objet:'une valise',m:20,P:200,cherche:'poids',g:10},
+    {objet:'un haltère',m:8,P:80,cherche:'poids',g:10},
+    {objet:'un téléphone',m:0.2,P:2,cherche:'poids',g:10}
+  ];
+  var cfg=choix(configs);
+  var repVal=cfg.cherche==='masse'?cfg.m:cfg.P;
+  var repUnite=cfg.cherche==='masse'?'kg':'N';
+  var etapes=[
+    {
+      question:'Q1 — Formule (2 pts)',
+      role:'Rappeler la formule',
+      clavier:['P','=','m','×','g'],
+      q:'Rappelle la formule reliant le poids P (en N), la masse m (en kg) et l\'intensité de la pesanteur g = 10 N/kg.',
+      verif:function(inp){var t=norm(inp);return t.includes('p')&&t.includes('m')&&t.includes('g')&&t.includes('=');},
+      aide:'P = m × g',
+      solutionHTML:'P = m × g'
+    },
+    {
+      question:'Q2 — Isoler la grandeur cherchée (2 pts)',
+      role:'Isoler',
+      clavier:['P','=','m','×','g','÷'],
+      q:cfg.cherche==='masse'?'Isole m dans P = m × g.':'Exprime P en fonction de m et g.',
+      verif:function(inp){var t=norm(inp);return t.includes('=');},
+      aide:cfg.cherche==='masse'?'m = P ÷ g':'P = m × g',
+      solutionHTML:cfg.cherche==='masse'?'m = P ÷ g':'P = m × g'
+    },
+    {
+      question:'Q3 — Application numérique (3 pts)',
+      role:'Calculer avec unité',
+      clavier:['×','÷','='],
+      q:cfg.cherche==='masse'?'Calcule m = '+cfg.P+' ÷ 10. Donne le résultat en kg.':'Calcule P = '+cfg.m+' × 10. Donne le résultat en N.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-repVal)<=repVal*0.05+0.05;});},
+      aide:cfg.cherche==='masse'?'m = '+cfg.P+' ÷ 10 = '+cfg.m+' kg':'P = '+cfg.m+' × 10 = '+cfg.P+' N',
+      solutionHTML:cfg.cherche==='masse'?'m = '+cfg.P+' ÷ 10 = '+cfg.m+' kg':'P = '+cfg.m+' × 10 = '+cfg.P+' N'
+    }
+  ];
+  return {
+    titre:'Poids et masse — P = m × g',
+    enonceHTML:'On s\'intéresse à <b>'+cfg.objet+'</b>. '+(cfg.cherche==='masse'?'Son <b>poids P = '+cfg.P+' N</b>. Calcule sa <b>masse m</b>.':'Sa <b>masse m = '+cfg.m+' kg</b>. Calcule son <b>poids P</b>.')+'<br><i>Rappel : P = m × g &nbsp;|&nbsp; g = 10 N/kg</i>',
+    dessiner:function(id){
+      var svg='<svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">';
+      svg+='<rect x="0" y="0" width="380" height="180" fill="#EEF8FF" rx="10"/>';
+      svg+='<rect x="155" y="110" width="70" height="50" rx="6" fill="#C8A96E" stroke="#5A4A2F" stroke-width="2"/>';
+      svg+='<line x1="190" y1="110" x2="190" y2="60" stroke="#5A4A2F" stroke-width="2.5"/>';
+      svg+='<polygon points="185,60 195,60 190,48" fill="#5A4A2F"/>';
+      svg+=svgTxt(190,135,'m = '+fr(cfg.m)+' kg',12,'#fff');
+      svg+=svgTxt(90,70,'P = m × g',13,'#E07A1F');
+      svg+=svgTxt(90,90,'g = 10 N/kg',13,'#2A7AB0');
+      svg+=svgTxt(290,70,'P = '+cfg.P+' N',13,'#6FA52A');
+      svg+=svgTxt(190,168,'Figure non à l\'échelle',11,'#A08B6E');
+      svg+='</svg>';
+      document.getElementById(id).innerHTML=svg;
+    },
+    etapes:etapes
+  };
+}
+
+/* ===== GÉNÉRATEUR 14 : Mouvement accéléré ===== */
+function genMouvementAccelere(){
+  var configs=[
+    {objet:'une voiture de course',a:3,v0:0,t:8,vf:24,d:96,unite_v:'m/s',unite_d:'m'},
+    {objet:'un cycliste',a:2,v0:0,t:5,vf:10,d:25,unite_v:'m/s',unite_d:'m'},
+    {objet:'un train au démarrage',a:1,v0:0,t:20,vf:20,d:200,unite_v:'m/s',unite_d:'m'},
+    {objet:'une bille sur plan incliné',a:4,v0:0,t:3,vf:12,d:18,unite_v:'m/s',unite_d:'m'}
+  ];
+  var cfg=choix(configs);
+  var etapes=[
+    {
+      question:'Q1 — Lire l\'accélération sur le graphique (2 pts)',
+      role:'Lire une accélération',
+      q:'Sur le graphique v = f(t), la vitesse augmente de 0 à '+cfg.vf+' m/s en '+cfg.t+' s. Calcule l\'accélération a = Δv ÷ Δt.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-cfg.a)<=0.2;});},
+      aide:'a = ('+cfg.vf+' − 0) ÷ '+cfg.t+' = '+cfg.a+' m/s²',
+      solutionHTML:'a = Δv ÷ Δt = '+cfg.vf+' ÷ '+cfg.t+' = '+cfg.a+' m/s²'
+    },
+    {
+      question:'Q2 — Qualifier le mouvement (2 pts)',
+      role:'Qualifier le mouvement',
+      q:'La vitesse augmente de façon régulière. Comment appelle-t-on ce type de mouvement ?',
+      verif:function(inp){var t=norm(inp);return t.includes('acceler')||t.includes('unifor');},
+      aide:'Un mouvement dont la vitesse augmente de façon régulière est un mouvement uniformément accéléré.',
+      solutionHTML:'Mouvement uniformément accéléré (vitesse croissante et régulière).'
+    },
+    {
+      question:'Q3 — Calculer la distance parcourue (3 pts)',
+      role:'Calculer une distance',
+      q:'Pour un mouvement uniformément accéléré depuis v₀ = 0, la distance est d = ½ × a × t². Calcule d = ½ × '+cfg.a+' × '+cfg.t+'².',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-cfg.d)<=cfg.d*0.05+0.5;});},
+      aide:'d = ½ × '+cfg.a+' × '+cfg.t*cfg.t+' = '+cfg.d+' m',
+      solutionHTML:'d = ½ × '+cfg.a+' × '+cfg.t+'² = ½ × '+cfg.a+' × '+cfg.t*cfg.t+' = '+cfg.d+' m'
+    }
+  ];
+  return {
+    titre:'Mouvement accéléré — graphique v = f(t)',
+    enonceHTML:'On étudie le mouvement de <b>'+cfg.objet+'</b> qui part de l\'arrêt (v₀ = 0).<br>Sa vitesse atteint <b>v = '+cfg.vf+' m/s en t = '+cfg.t+' s</b> de façon régulière.<br><i>Rappel : a = Δv ÷ Δt &nbsp;|&nbsp; d = ½ × a × t²</i>',
+    dessiner:function(id){
+      var svg='<svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">';
+      svg+='<rect x="0" y="0" width="380" height="180" fill="#F5F5FF" rx="10"/>';
+      svg+='<line x1="40" y1="150" x2="360" y2="150" stroke="#5A4A2F" stroke-width="2"/>';
+      svg+='<line x1="40" y1="20" x2="40" y2="150" stroke="#5A4A2F" stroke-width="2"/>';
+      svg+='<polygon points="355,145 365,150 355,155" fill="#5A4A2F"/>';
+      svg+='<polygon points="35,25 40,15 45,25" fill="#5A4A2F"/>';
+      svg+='<line x1="40" y1="150" x2="360" y2="30" stroke="#E07A1F" stroke-width="2.5"/>';
+      svg+=svgTxt(200,168,'t (s)',12,'#5A4A2F');
+      svg+=svgTxt(20,85,'v (m/s)',11,'#5A4A2F');
+      svg+=svgTxt(50,155,'0',11,'#5A4A2F');
+      svg+=svgTxt(360,165,''+cfg.t,11,'#5A4A2F');
+      svg+=svgTxt(28,32,''+cfg.vf,11,'#5A4A2F');
+      svg+=svgTxt(260,60,'v = a × t',12,'#E07A1F');
+      svg+='</svg>';
+      document.getElementById(id).innerHTML=svg;
+    },
+    etapes:etapes
+  };
+}
+
+/* ===== GÉNÉRATEUR 15 : Pression P = F/S ===== */
+function genPression(){
+  var configs=[
+    {contexte:'une armoire posée sur le sol',F:800,S:0.4,P:2000,unite_S:'m²',unite_P:'Pa'},
+    {contexte:'un clou enfoncé dans du bois',F:50,S:0.0001,P:500000,unite_S:'m²',unite_P:'Pa',note:'Remarque : plus la surface est petite, plus la pression est grande.'},
+    {contexte:'un livre posé sur une table',F:20,S:0.04,P:500,unite_S:'m²',unite_P:'Pa'},
+    {contexte:'un pied de chaise sur le sol',F:150,S:0.002,P:75000,unite_S:'m²',unite_P:'Pa'}
+  ];
+  var cfg=choix(configs);
+  var P_hPa=cfg.P/100;
+  var etapes=[
+    {
+      question:'Q1 — Formule de la pression (2 pts)',
+      role:'Rappeler la formule',
+      clavier:['P','=','F','÷','S'],
+      q:'Rappelle la formule de la pression P (en Pa) en fonction de la force F (en N) et de la surface S (en m²).',
+      verif:function(inp){var t=norm(inp);return t.includes('p')&&t.includes('f')&&t.includes('s')&&t.includes('=');},
+      aide:'P = F ÷ S',
+      solutionHTML:'P = F ÷ S'
+    },
+    {
+      question:'Q2 — Application numérique (3 pts)',
+      role:'Calculer la pression',
+      clavier:['÷','='],
+      q:'Calcule P = '+cfg.F+' ÷ '+cfg.S+'. Donne le résultat en Pa.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-cfg.P)<=cfg.P*0.05+1;});},
+      aide:'P = '+cfg.F+' ÷ '+cfg.S+' = '+cfg.P+' Pa',
+      solutionHTML:'P = '+cfg.F+' ÷ '+cfg.S+' = '+cfg.P+' Pa'
+    },
+    {
+      question:'Q3 — Pression atmosphérique (2 pts)',
+      role:'Comparer à la pression atmosphérique',
+      q:'La pression atmosphérique normale est de 101 325 Pa, soit environ 1 013 hPa. Calcule P = '+cfg.P+' Pa en hPa, puis compare à la pression atmosphérique.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-P_hPa)<=P_hPa*0.1+1;})||norm(inp).includes('inferi')||norm(inp).includes('superi')||norm(inp).includes('plus');},
+      aide:'1 hPa = 100 Pa. P = '+cfg.P+' ÷ 100 = '+P_hPa+' hPa. Pression atmosphérique ≈ 1 013 hPa.',
+      solutionHTML:'P = '+cfg.P+' ÷ 100 = '+P_hPa+' hPa. '+(P_hPa<1013?'P < 1 013 hPa : inférieure à la pression atmosphérique.':'P > 1 013 hPa : supérieure à la pression atmosphérique.')
+    }
+  ];
+  return {
+    titre:'Pression — P = F ÷ S',
+    enonceHTML:'On s\'intéresse à <b>'+cfg.contexte+'</b>.<br><b>Force exercée : F = '+cfg.F+' N</b> &nbsp;|&nbsp; <b>Surface de contact : S = '+cfg.S+' m²</b><br>'+
+      (cfg.note?'<i>'+cfg.note+'</i><br>':'')+'<i>Rappel : P = F ÷ S &nbsp;|&nbsp; 1 hPa = 100 Pa &nbsp;|&nbsp; Pression atmosphérique ≈ 101 325 Pa</i>',
+    dessiner:function(id){
+      var svg='<svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">';
+      svg+='<rect x="0" y="0" width="380" height="180" fill="#FFF6E6" rx="10"/>';
+      svg+='<rect x="120" y="70" width="140" height="60" rx="6" fill="#D4C5A9" stroke="#5A4A2F" stroke-width="2"/>';
+      svg+='<line x1="100" y1="140" x2="280" y2="140" stroke="#5A4A2F" stroke-width="3"/>';
+      svg+='<polygon points="185,68 195,68 190,48" fill="#E07A1F"/>';
+      svg+='<line x1="190" y1="48" x2="190" y2="25" stroke="#E07A1F" stroke-width="2"/>';
+      svg+=svgTxt(190,100,'F = '+cfg.F+' N',13,'#5A4A2F');
+      svg+=svgTxt(190,18,'F',12,'#E07A1F');
+      svg+=svgTxt(310,100,'S = '+cfg.S+' m²',12,'#2A7AB0');
+      svg+=svgTxt(310,118,'P = F ÷ S',12,'#6FA52A');
+      svg+=svgTxt(190,168,'Figure non à l\'échelle',11,'#A08B6E');
+      svg+='</svg>';
+      document.getElementById(id).innerHTML=svg;
+    },
+    etapes:etapes
+  };
+}
+
+/* ===== GÉNÉRATEUR 16 : Spectre électromagnétique ===== */
+function genSpectreEM(){
+  var questions=[
+    {
+      contexte:'Un téléphone portable émet des <b>ondes radio</b> de fréquence f = 2,4 GHz.',
+      cherche:'longueur d\'onde',
+      type:'ondes radio',
+      f_val:'2,4 GHz',
+      f_ordre:'GHz (10⁹ Hz)',
+      position:'grandes longueurs d\'onde, basses fréquences',
+      danger:'peu dangereux à faible dose',
+      zone:'ondes radio',
+      classement:'ondes radio → micro-ondes → infrarouge → visible → ultraviolet → rayons X → rayons gamma'
+    },
+    {
+      contexte:'Le Soleil émet des rayonnements <b>ultraviolets (UV)</b>.',
+      cherche:'effets biologiques',
+      type:'ultraviolet',
+      f_val:'≈ 10¹⁵ Hz',
+      f_ordre:'Hz',
+      position:'fréquences élevées, longueurs d\'onde courtes',
+      danger:'dangereux pour la peau et les yeux (coups de soleil, risque de cancer)',
+      zone:'UV',
+      classement:'ondes radio → micro-ondes → infrarouge → visible → ultraviolet → rayons X → rayons gamma'
+    },
+    {
+      contexte:'Un appareil de <b>radiographie médicale</b> utilise des rayons X.',
+      cherche:'position dans le spectre',
+      type:'rayons X',
+      f_val:'≈ 10¹⁸ Hz',
+      f_ordre:'Hz',
+      position:'très hautes fréquences, très courtes longueurs d\'onde',
+      danger:'ionisant, dangereux à forte dose (protection en plomb)',
+      zone:'rayons X',
+      classement:'ondes radio → micro-ondes → infrarouge → visible → ultraviolet → rayons X → rayons gamma'
+    },
+    {
+      contexte:'Une télécommande utilise des rayonnements <b>infrarouges (IR)</b>.',
+      cherche:'position dans le spectre',
+      type:'infrarouge',
+      f_val:'≈ 10¹³ Hz',
+      f_ordre:'Hz',
+      position:'juste en dessous du visible, longues longueurs d\'onde',
+      danger:'inoffensif à faible puissance, ressenti comme chaleur',
+      zone:'IR',
+      classement:'ondes radio → micro-ondes → infrarouge → visible → ultraviolet → rayons X → rayons gamma'
+    }
+  ];
+  var cfg=choix(questions);
+  var etapes=[
+    {
+      question:'Q1 — Classer dans le spectre (3 pts)',
+      role:'Classer le rayonnement',
+      q:'Voici des types de rayonnements : ondes radio, micro-ondes, infrarouge, lumière visible, ultraviolet, rayons X, rayons gamma. Place les <b>'+cfg.type+'</b> dans cet ordre croissant de fréquence.',
+      verif:function(inp){var t=norm(inp);return t.includes(cfg.zone.toLowerCase().substring(0,4))||t.includes('radio')||t.includes('visib')||t.includes('gamma');},
+      aide:'Ordre croissant de fréquence : '+cfg.classement,
+      solutionHTML:'Ordre croissant de fréquence : '+cfg.classement+'.<br>Les '+cfg.type+' se situent à '+cfg.position+'.'
+    },
+    {
+      question:'Q2 — Relation fréquence / longueur d\'onde (2 pts)',
+      role:'Relation f et λ',
+      q:'Quand la fréquence augmente, que devient la longueur d\'onde ? Justifie à partir de la relation c = f × λ avec c = 3 × 10⁸ m/s.',
+      verif:function(inp){var t=norm(inp);return (t.includes('diminue')||t.includes('inverse')||t.includes('decroit')||t.includes('petit'));},
+      aide:'c = f × λ → λ = c ÷ f. Quand f augmente, λ diminue (relation inverse).',
+      solutionHTML:'λ = c ÷ f. Quand f augmente, λ diminue : relation de proportionnalité inverse.'
+    },
+    {
+      question:'Q3 — Effets biologiques (2 pts)',
+      role:'Citer les effets biologiques',
+      q:'Les <b>'+cfg.type+'</b> sont-ils dangereux pour la santé ? Justifie.',
+      verif:function(inp){var t=norm(inp);return t.length>5;},
+      aide:cfg.danger,
+      solutionHTML:cfg.danger+'.'
+    }
+  ];
+  return {
+    titre:'Spectre électromagnétique — '+cfg.type,
+    enonceHTML:cfg.contexte+'<br>Fréquence : <b>f ≈ '+cfg.f_val+'</b>.<br><i>Rappel : spectre EM croissant en fréquence : ondes radio → IR → visible → UV → rayons X → gamma</i>',
+    dessiner:function(id){
+      var svg='<svg viewBox="0 0 420 160" xmlns="http://www.w3.org/2000/svg">';
+      svg+='<rect x="0" y="0" width="420" height="160" fill="#F5F5FF" rx="10"/>';
+      var zones=[
+        {nom:'Radio',x:10,w:60,col:'#4444FF'},
+        {nom:'IR',x:70,w:50,col:'#FF6600'},
+        {nom:'Visible',x:120,w:60,col:'#9FD356'},
+        {nom:'UV',x:180,w:50,col:'#9932CC'},
+        {nom:'Rayons X',x:230,w:70,col:'#E07A1F'},
+        {nom:'Gamma',x:300,w:60,col:'#CC2222'}
+      ];
+      zones.forEach(function(z){
+        var isActive=(cfg.zone===z.nom||cfg.zone.toLowerCase().includes(z.nom.toLowerCase().substring(0,3)));
+        svg+='<rect x="'+z.x+'" y="50" width="'+z.w+'" height="40" fill="'+z.col+'" opacity="'+(isActive?'0.9':'0.25')+'" rx="4"/>';
+        svg+=svgTxt(z.x+z.w/2,70,z.nom,9,'#fff');
+      });
+      svg+=svgTxt(190,30,'← grandes λ          fréquence croissante →          petites λ →',10,'#5A4A2F');
+      svg+=svgTxt(190,110,'Spectre électromagnétique',12,'#5A4A2F');
+      svg+=svgTxt(190,148,'Figure non à l\'échelle',11,'#A08B6E');
+      svg+='</svg>';
+      document.getElementById(id).innerHTML=svg;
+    },
+    etapes:etapes
+  };
+}
+
+/* ===== GÉNÉRATEUR 17 : Centre de gravité et équilibre ===== */
+function genEquilibre(){
+  var configs=[
+    {
+      objet:'une règle posée sur un support',
+      masse:0.1,
+      contexte:'Une règle homogène de <b>masse m = 100 g</b> et de longueur <b>L = 30 cm</b> est posée en équilibre sur un pivot.',
+      condition:'Son centre de gravité G doit être situé directement au-dessus du point d\'appui.',
+      position_G:'au milieu de la règle, à 15 cm de chaque extrémité',
+      choix_pos:['à 15 cm (milieu)', 'à 5 cm du bord', 'à 25 cm du bord'],
+      bonne_pos:'à 15 cm (milieu)'
+    },
+    {
+      objet:'une bouteille posée debout',
+      masse:0.5,
+      contexte:'Une bouteille pleine de <b>masse m = 500 g</b> est posée debout sur une table.',
+      condition:'L\'objet est en équilibre si son centre de gravité G est au-dessus de sa base d\'appui.',
+      position_G:'au centre de masse, environ au tiers inférieur de la bouteille pleine',
+      choix_pos:['au bas de la bouteille', 'au milieu de la bouteille', 'en haut de la bouteille'],
+      bonne_pos:'au milieu de la bouteille'
+    },
+    {
+      objet:'un cube homogène',
+      masse:0.3,
+      contexte:'Un cube homogène de <b>masse m = 300 g</b> et d\'arête <b>a = 10 cm</b> repose sur une table.',
+      condition:'Le centre de gravité d\'un objet homogène est en son centre géométrique.',
+      position_G:'au centre géométrique du cube, à 5 cm de chaque face',
+      choix_pos:['au centre géométrique', 'à un coin du cube', 'sur la face du dessus'],
+      bonne_pos:'au centre géométrique'
+    }
+  ];
+  var cfg=choix(configs);
+  var etapes=[
+    {
+      question:'Q1 — Définir le centre de gravité (2 pts)',
+      role:'Définir',
+      q:'Qu\'est-ce que le centre de gravité G d\'un objet ? À quoi sert-il dans l\'étude de l\'équilibre ?',
+      verif:function(inp){var t=norm(inp);return t.includes('point')&&(t.includes('gravit')||t.includes('poids')||t.includes('masse')||t.includes('equil'));},
+      aide:'Le centre de gravité est le point d\'application du poids de l\'objet. Un objet est en équilibre si son centre de gravité est au-dessus de sa base d\'appui.',
+      solutionHTML:'Le centre de gravité G est le point où s\'applique le poids de l\'objet. Condition d\'équilibre : G doit se trouver au-dessus de la base d\'appui.'
+    },
+    {
+      question:'Q2 — Localiser le centre de gravité (3 pts)',
+      role:'Localiser G',
+      q:'Pour '+cfg.contexte.toLowerCase()+', où se trouve le centre de gravité G ?',
+      verif:function(inp){var t=norm(inp);return t.includes('centre')||t.includes('milieu')||t.includes('moiti')||t.includes('symétri')||t.includes('geometr');},
+      aide:cfg.position_G,
+      solutionHTML:'G se situe '+cfg.position_G+'. '+cfg.condition
+    },
+    {
+      question:'Q3 — Condition d\'équilibre (2 pts)',
+      role:'Énoncer la condition',
+      q:'Un objet posé sur un support bascule si son centre de gravité G dépasse la limite de la base d\'appui. Explique pourquoi un objet à base large et centre de gravité bas est plus stable.',
+      verif:function(inp){var t=norm(inp);return t.includes('base')||t.includes('stable')||t.includes('bas')||t.includes('large')||t.includes('appui');},
+      aide:'Base large → le centre de gravité reste plus facilement au-dessus de l\'appui. Centre de gravité bas → l\'objet revient à sa position d\'équilibre si on l\'incline légèrement.',
+      solutionHTML:'Base large : G reste plus facilement au-dessus de la base d\'appui. Centre de gravité bas : l\'objet oppose une résistance au basculement.'
+    }
+  ];
+  return {
+    titre:'Centre de gravité et équilibre',
+    enonceHTML:cfg.contexte+'<br><i>Rappel : un objet est en équilibre si son centre de gravité G est situé au-dessus de sa base d\'appui.</i>',
+    dessiner:function(id){
+      var svg='<svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">';
+      svg+='<rect x="0" y="0" width="380" height="180" fill="#FFF6E6" rx="10"/>';
+      svg+='<rect x="130" y="80" width="120" height="60" rx="6" fill="#C8A96E" stroke="#5A4A2F" stroke-width="2"/>';
+      svg+='<circle cx="190" cy="110" r="7" fill="#E07A1F" stroke="#fff" stroke-width="2"/>';
+      svg+=svgTxt(190,110,'G',10,'#fff');
+      svg+='<line x1="80" y1="145" x2="300" y2="145" stroke="#5A4A2F" stroke-width="3"/>';
+      svg+='<line x1="190" y1="145" x2="190" y2="170" stroke="#E07A1F" stroke-width="2"/>';
+      svg+='<polygon points="185,170 195,170 190,180" fill="#E07A1F"/>';
+      svg+=svgTxt(240,170,'Poids P',12,'#E07A1F');
+      svg+=svgTxt(80,60,'Centre de gravité G',12,'#E07A1F');
+      svg+=svgTxt(290,60,'m = '+fr(cfg.masse)+' kg',12,'#2A7AB0');
+      svg+=svgTxt(190,155,'Figure non à l\'échelle',11,'#A08B6E');
+      svg+='</svg>';
+      document.getElementById(id).innerHTML=svg;
+    },
+    etapes:etapes
+  };
+}
+
 /* ===== BANQUE ===== */
 var BANQUE=[
   {notion:'flottaison', gen:genFlottaison},
@@ -1209,7 +1577,12 @@ var BANQUE=[
   {notion:'ohmSimple', gen:genOhmSimple},
   {notion:'puissanceElec', gen:genPuissanceElec},
   {notion:'energieElec', gen:genEnergieElec},
-  {notion:'masseVolumiqueID', gen:genMasseVolumiqueID}
+  {notion:'masseVolumiqueID', gen:genMasseVolumiqueID},
+  {notion:'poidsEtMasse', gen:genPoidsEtMasse},
+  {notion:'mouvementAccelere', gen:genMouvementAccelere},
+  {notion:'pression', gen:genPression},
+  {notion:'spectreEM', gen:genSpectreEM},
+  {notion:'equilibre', gen:genEquilibre}
 ];
 
 var SUJET=[],ecrans=[],ecranActuel=0;

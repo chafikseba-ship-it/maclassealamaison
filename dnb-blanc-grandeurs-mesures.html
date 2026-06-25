@@ -1541,6 +1541,231 @@ function genDurees(){
   };
 }
 
+/* --- Générateur : Calcul d'échelle (agrandissement/réduction) --- */
+function genEchelleAgrandissement(){
+  var configs=[
+    {distCarte:4.5,echelle:50000,unite:'cm',context:'deux villes'},
+    {distCarte:3.2,echelle:25000,unite:'cm',context:'un lac et un village'},
+    {distCarte:6.0,echelle:100000,unite:'cm',context:'deux villages'},
+    {distCarte:2.8,echelle:50000,unite:'cm',context:'une forêt et un bourg'},
+    {distCarte:5.5,echelle:20000,unite:'cm',context:'deux routes'}
+  ];
+  var cfg=choix(configs);
+  var distCarte=cfg.distCarte,ech=cfg.echelle;
+  var distReelle=distCarte*ech/100;
+  var distKm=Math.round(distReelle)/1000;
+  var enonceHTML='Sur une carte au <b>1/'+ech+'</b>, la distance entre '+cfg.context+' mesure <b>'+fr(distCarte)+' cm</b>.'
+    +'<br><b>1.</b> Calcule la distance réelle en cm.'
+    +'<br><b>2.</b> Convertis en km.';
+  var etapes=[
+    {
+      question:'Question 1 — Distance réelle en cm',
+      role:'Multiplier par le dénominateur de l\'échelle',
+      q:'Distance réelle = '+fr(distCarte)+' cm × '+ech+' = ? cm',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-distReelle)<10;});},
+      aide:''+fr(distCarte)+' × '+ech+' = '+distReelle+' cm.',
+      solutionHTML:distReelle+' cm',
+      clavier:['×','=']
+    },
+    {
+      question:'Question 2 — Conversion en km',
+      role:'Diviser par 100 000 pour obtenir des km',
+      q:''+distReelle+' cm = ? km (1 km = 100 000 cm)',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-distKm)<0.05;});},
+      aide:''+distReelle+' ÷ 100 000 = '+fr(distKm)+' km.',
+      solutionHTML:fr(distKm)+' km',
+      clavier:['÷','=']
+    }
+  ];
+  return {
+    titre:'Calcul d\'échelle',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
+/* --- Générateur : Conversion de débit (L/min → m³/h) --- */
+function genConversionDebit(){
+  var configs=[
+    {debit:40,contexte:'une fontaine'},{debit:25,contexte:'une douche'},
+    {debit:60,contexte:'un robinet industriel'},{debit:15,contexte:'un tuyau d\'arrosage'},
+    {debit:50,contexte:'un bassin de piscine'}
+  ];
+  var cfg=choix(configs);
+  var debitLmin=cfg.debit;
+  var debitM3h=Math.round(debitLmin*60/1000*100)/100;
+  var enonceHTML=cfg.contexte.charAt(0).toUpperCase()+cfg.contexte.slice(1)+' a un débit de <b>'+debitLmin+' L/min</b>.'
+    +'<br><b>1.</b> Combien de litres par heure cela représente-t-il ?'
+    +'<br><b>2.</b> Convertis en m³/h (1 m³ = 1 000 L).';
+  var debitLh=debitLmin*60;
+  var etapes=[
+    {
+      question:'Question 1 — Litres par heure',
+      role:'Multiplier par 60 (1 heure = 60 min)',
+      q:debitLmin+' L/min × 60 = ? L/h',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-debitLh)<1;});},
+      aide:''+debitLmin+' × 60 = '+debitLh+' L/h.',
+      solutionHTML:debitLh+' L/h',
+      clavier:['×','=']
+    },
+    {
+      question:'Question 2 — m³/h',
+      role:'Diviser par 1 000 pour convertir en m³',
+      q:''+debitLh+' L/h ÷ 1 000 = ? m³/h',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-debitM3h)<0.01;});},
+      aide:''+debitLh+' ÷ 1 000 = '+fr(debitM3h)+' m³/h.',
+      solutionHTML:fr(debitM3h)+' m³/h',
+      clavier:['÷','=']
+    }
+  ];
+  return {
+    titre:'Conversion de débit',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
+/* --- Générateur : Volume d'un réservoir et durée de remplissage --- */
+function genReservoirDuree(){
+  var configs=[
+    {r:0.5,h:2,debit:200,contexte:'une citerne cylindrique'},
+    {r:0.8,h:3,debit:500,contexte:'un château d\'eau'},
+    {r:0.4,h:1.5,debit:100,contexte:'un bac à eau'},
+    {r:1.0,h:4,debit:800,contexte:'une cuve agricole'},
+    {r:0.6,h:2.5,debit:300,contexte:'un réservoir'}
+  ];
+  var cfg=choix(configs);
+  var r=cfg.r,h=cfg.h,debit=cfg.debit;
+  var vol=Math.round(Math.PI*r*r*h*100)/100;
+  var volL=Math.round(vol*1000);
+  var dureeMin=Math.round(volL/debit);
+  var enonceHTML='On remplit '+cfg.contexte+' de rayon <b>'+fr(r)+' m</b> et de hauteur <b>'+fr(h)+' m</b> avec un débit de <b>'+debit+' L/min</b>.'
+    +'<br><b>1.</b> Calcule le volume du réservoir en m³ (V = π × r² × h). Donne la valeur arrondie au centième.'
+    +'<br><b>2.</b> Combien de minutes faut-il pour le remplir ? (1 m³ = 1 000 L)';
+  var etapes=[
+    {
+      question:'Question 1 — Volume en m³',
+      role:'Appliquer la formule du cylindre',
+      q:'V = π × '+fr(r)+'² × '+fr(h)+' = ? m³ (arrondi au centième)',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-vol)<0.05;});},
+      aide:'π × '+fr(r*r)+' × '+fr(h)+' ≈ '+fr(vol)+' m³.',
+      solutionHTML:'V ≈ '+fr(vol)+' m³',
+      clavier:['×','π','²','=']
+    },
+    {
+      question:'Question 2 — Durée de remplissage',
+      role:'Diviser le volume (en L) par le débit',
+      q:'Volume en L : '+vol+' × 1 000 = '+volL+' L. Durée = '+volL+' ÷ '+debit+' = ? min',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-dureeMin)<2;});},
+      aide:''+volL+' ÷ '+debit+' ≈ '+dureeMin+' min.',
+      solutionHTML:'≈ '+dureeMin+' min',
+      clavier:['÷','×','=']
+    }
+  ];
+  return {
+    titre:'Volume et durée de remplissage',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
+/* --- Générateur : Effet d'un agrandissement de rapport k sur le périmètre et l'aire --- */
+function genEffetAgrandissement(){
+  var configs=[
+    {L:5,l:3,k:2,forme:'rectangle'},{L:6,l:4,k:3,forme:'rectangle'},
+    {L:8,l:5,k:2,forme:'rectangle'},{L:4,l:4,k:3,forme:'carré'},
+    {L:7,l:2,k:4,forme:'rectangle'}
+  ];
+  var cfg=choix(configs);
+  var L=cfg.L,l=cfg.l,k=cfg.k;
+  var peri0=2*(L+l);
+  var aire0=L*l;
+  var peri1=k*peri0;
+  var aire1=k*k*aire0;
+  var enonceHTML='Un <b>'+cfg.forme+'</b> de dimensions <b>'+L+' cm × '+l+' cm</b> est agrandi avec un rapport <b>k = '+k+'</b>.'
+    +'<br><b>1.</b> Calcule le périmètre du rectangle agrandi.'
+    +'<br><b>2.</b> Calcule l\'aire du rectangle agrandi.';
+  var etapes=[
+    {
+      question:'Question 1 — Périmètre agrandi',
+      role:'Le périmètre est multiplié par k',
+      q:'Périmètre initial = 2×('+L+'+'+l+') = '+peri0+' cm. Périmètre agrandi = '+peri0+' × '+k+' = ?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-peri1)<0.5;});},
+      aide:''+peri0+' × '+k+' = '+peri1+' cm.',
+      solutionHTML:peri1+' cm',
+      clavier:['×','=','+']
+    },
+    {
+      question:'Question 2 — Aire agrandie',
+      role:'L\'aire est multipliée par k²',
+      q:'Aire initiale = '+L+' × '+l+' = '+aire0+' cm². Aire agrandie = '+aire0+' × k² = '+aire0+' × '+k+'² = ?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-aire1)<0.5;});},
+      aide:'k² = '+k*k+'. Aire agrandie = '+aire0+' × '+k*k+' = '+aire1+' cm².',
+      solutionHTML:aire1+' cm²',
+      clavier:['×','²','=']
+    }
+  ];
+  return {
+    titre:'Effet d\'un agrandissement sur les mesures',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
+/* --- Générateur : Angles en degrés et minutes --- */
+function genAnglesDegresMinutes(){
+  var configs=[
+    {deg:34,min:45},{deg:62,min:30},{deg:18,min:15},
+    {deg:47,min:50},{deg:53,min:20}
+  ];
+  var cfg=choix(configs);
+  var deg=cfg.deg,min=cfg.min;
+  var totalMin=deg*60+min;
+  var deg2=choix([12,25,36,40,55]);
+  var min2=choix([10,15,20,25,30]);
+  var sommeDeg=deg+deg2;
+  var sommeMin=min+min2;
+  var sommeMin2=sommeMin%60;
+  var retenue=Math.floor(sommeMin/60);
+  var sommeDegFinal=sommeDeg+retenue;
+  var enonceHTML='Dans un problème de géométrie, un angle mesure <b>'+deg+'° '+min+'\'</b> ('+deg+' degrés et '+min+' minutes).'
+    +'<br><b>1.</b> Convertis '+deg+'° '+min+'\' en minutes.'
+    +'<br><b>2.</b> Calcule la somme des angles '+deg+'° '+min+'\' + '+deg2+'° '+min2+'\' en degrés et minutes.';
+  var etapes=[
+    {
+      question:'Question 1 — Conversion en minutes',
+      role:'Multiplier les degrés par 60 et ajouter les minutes',
+      q:deg+' × 60 + '+min+' = ? minutes',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-totalMin)<0.5;});},
+      aide:''+deg+' × 60 = '+deg*60+'. '+deg*60+' + '+min+' = '+totalMin+' min.',
+      solutionHTML:totalMin+' minutes',
+      clavier:['×','+','=']
+    },
+    {
+      question:'Question 2 — Somme en degrés et minutes',
+      role:'Additionner puis regrouper (60 min = 1°)',
+      q:'('+deg+'° '+min+'\') + ('+deg2+'° '+min2+'\') = ('+sommeDeg+'°) + ('+sommeMin+'\'). Donne le résultat final en degrés et minutes.',
+      verif:function(inp){
+        var ns=nbs(inp);
+        return ns.some(function(x){return Math.abs(x-sommeDegFinal)<0.5;})&&ns.some(function(x){return Math.abs(x-sommeMin2)<0.5;});
+      },
+      aide:''+sommeMin+'\' = '+retenue+'° '+sommeMin2+'\'. Donc '+(sommeDeg+retenue)+'° '+sommeMin2+'\'.',
+      solutionHTML:sommeDegFinal+'° '+sommeMin2+'\'',
+      clavier:['°','\'','+','=']
+    }
+  ];
+  return {
+    titre:'Angles en degrés et minutes',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
 /* ===== BANQUE ===== */
 var BANQUE=[
   {notion:'cylindre',gen:genReservoirCylindre},
@@ -1558,7 +1783,12 @@ var BANQUE=[
   {notion:'conversionsComposees',gen:genConversionsComposees},
   {notion:'vdt',gen:genVDT},
   {notion:'proportionMesures',gen:genProportionMesures},
-  {notion:'durees',gen:genDurees}
+  {notion:'durees',gen:genDurees},
+  {notion:'echelleAgrandissement', gen:genEchelleAgrandissement},
+  {notion:'conversionDebit',       gen:genConversionDebit},
+  {notion:'reservoirDuree',        gen:genReservoirDuree},
+  {notion:'effetAgrandissement',   gen:genEffetAgrandissement},
+  {notion:'anglesDegresMinutes',   gen:genAnglesDegresMinutes}
 ];
 
 var SUJET=[],ecrans=[],ecranActuel=0;

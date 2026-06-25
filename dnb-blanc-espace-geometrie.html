@@ -1799,6 +1799,400 @@ function genVolumeSolide(){
   }
 }
 
+/* --- Générateur : Trigonométrie — trouver un angle --- */
+function genAngleTrigono(){
+  const configs=[
+    {type:'arctan',opp:3,adj:4},{type:'arctan',opp:5,adj:12},
+    {type:'arcsin',opp:6,hyp:10},{type:'arcsin',opp:7,hyp:25},
+    {type:'arccos',adj:8,hyp:17}
+  ];
+  const cfg=choix(configs);
+  let angleDeg,enonce,q1texte,q1aide,q1sol;
+  if(cfg.type==='arctan'){
+    angleDeg=Math.round(atand(cfg.opp/cfg.adj)*10)/10;
+    enonce=`Dans un triangle rectangle, le côté opposé à l'angle A mesure <b>${cfg.opp} cm</b> et le côté adjacent mesure <b>${cfg.adj} cm</b>.<br><b>1.</b> Écris le rapport tan(A) = côté opposé ÷ côté adjacent.<br><b>2.</b> Calcule l'angle A en degrés (arrondi au dixième).`;
+    q1texte=`tan(A) = ${cfg.opp} ÷ ${cfg.adj} = ?`;
+    q1aide=`tan(A) = ${fr(cfg.opp/cfg.adj)}.`;
+    q1sol=fr(Math.round(cfg.opp/cfg.adj*1000)/1000);
+    return {
+      titre:'Trouver un angle par la tangente',
+      enonceHTML:enonce,
+      dessiner:(id)=>{},
+      etapes:[
+        {
+          question:'Question 1 — Rapport tan(A)',
+          role:'Écrire le rapport trigonométrique',
+          q:q1texte,
+          verif:(inp)=>nbs(inp).some(x=>Math.abs(x-cfg.opp/cfg.adj)<0.01),
+          aide:q1aide,
+          solutionHTML:q1sol,
+          clavier:['÷','=']
+        },
+        {
+          question:'Question 2 — Valeur de l\'angle A',
+          role:'Appliquer arctan pour trouver l\'angle',
+          q:`A = arctan(${fr(Math.round(cfg.opp/cfg.adj*1000)/1000)}) = ? ° (utilise tan⁻¹ sur la calculatrice)`,
+          verif:(inp)=>nbs(inp).some(x=>Math.abs(x-angleDeg)<0.5),
+          aide:`arctan(${fr(Math.round(cfg.opp/cfg.adj*1000)/1000)}) ≈ ${fr(angleDeg)}°.`,
+          solutionHTML:`A ≈ ${fr(angleDeg)}°`,
+          clavier:['=','°']
+        }
+      ]
+    };
+  } else if(cfg.type==='arcsin'){
+    angleDeg=Math.round(asind(cfg.opp/cfg.hyp)*10)/10;
+    enonce=`Dans un triangle rectangle, le côté opposé à l'angle A mesure <b>${cfg.opp} cm</b> et l'hypoténuse mesure <b>${cfg.hyp} cm</b>.<br><b>1.</b> Écris le rapport sin(A) = côté opposé ÷ hypoténuse.<br><b>2.</b> Calcule l'angle A en degrés (arrondi au dixième).`;
+    return {
+      titre:'Trouver un angle par le sinus',
+      enonceHTML:enonce,
+      dessiner:(id)=>{},
+      etapes:[
+        {
+          question:'Question 1 — Rapport sin(A)',
+          role:'Écrire le rapport trigonométrique',
+          q:`sin(A) = ${cfg.opp} ÷ ${cfg.hyp} = ?`,
+          verif:(inp)=>nbs(inp).some(x=>Math.abs(x-cfg.opp/cfg.hyp)<0.01),
+          aide:`sin(A) = ${fr(Math.round(cfg.opp/cfg.hyp*1000)/1000)}.`,
+          solutionHTML:fr(Math.round(cfg.opp/cfg.hyp*1000)/1000),
+          clavier:['÷','=']
+        },
+        {
+          question:'Question 2 — Valeur de l\'angle A',
+          role:'Appliquer arcsin pour trouver l\'angle',
+          q:`A = arcsin(${fr(Math.round(cfg.opp/cfg.hyp*1000)/1000)}) = ? °`,
+          verif:(inp)=>nbs(inp).some(x=>Math.abs(x-angleDeg)<0.5),
+          aide:`arcsin(${fr(Math.round(cfg.opp/cfg.hyp*1000)/1000)}) ≈ ${fr(angleDeg)}°.`,
+          solutionHTML:`A ≈ ${fr(angleDeg)}°`,
+          clavier:['=','°']
+        }
+      ]
+    };
+  } else {
+    angleDeg=Math.round(acosd(cfg.adj/cfg.hyp)*10)/10;
+    enonce=`Dans un triangle rectangle, le côté adjacent à l'angle A mesure <b>${cfg.adj} cm</b> et l'hypoténuse mesure <b>${cfg.hyp} cm</b>.<br><b>1.</b> Écris le rapport cos(A) = côté adjacent ÷ hypoténuse.<br><b>2.</b> Calcule l'angle A en degrés (arrondi au dixième).`;
+    return {
+      titre:'Trouver un angle par le cosinus',
+      enonceHTML:enonce,
+      dessiner:(id)=>{},
+      etapes:[
+        {
+          question:'Question 1 — Rapport cos(A)',
+          role:'Écrire le rapport trigonométrique',
+          q:`cos(A) = ${cfg.adj} ÷ ${cfg.hyp} = ?`,
+          verif:(inp)=>nbs(inp).some(x=>Math.abs(x-cfg.adj/cfg.hyp)<0.01),
+          aide:`cos(A) = ${fr(Math.round(cfg.adj/cfg.hyp*1000)/1000)}.`,
+          solutionHTML:fr(Math.round(cfg.adj/cfg.hyp*1000)/1000),
+          clavier:['÷','=']
+        },
+        {
+          question:'Question 2 — Valeur de l\'angle A',
+          role:'Appliquer arccos pour trouver l\'angle',
+          q:`A = arccos(${fr(Math.round(cfg.adj/cfg.hyp*1000)/1000)}) = ? °`,
+          verif:(inp)=>nbs(inp).some(x=>Math.abs(x-angleDeg)<0.5),
+          aide:`arccos(${fr(Math.round(cfg.adj/cfg.hyp*1000)/1000)}) ≈ ${fr(angleDeg)}°.`,
+          solutionHTML:`A ≈ ${fr(angleDeg)}°`,
+          clavier:['=','°']
+        }
+      ]
+    };
+  }
+}
+
+/* --- Générateur : Symétrie axiale — coordonnées du symétrique --- */
+function genSymetrieAxiale(){
+  const configs=[
+    {axe:'x',val:3,Ax:2,Ay:5},{axe:'x',val:0,Ax:-1,Ay:4},
+    {axe:'y',val:2,Ax:5,Ay:3},{axe:'y',val:0,Ax:4,Ay:-2},
+    {axe:'x',val:1,Ax:3,Ay:-2}
+  ];
+  const cfg=choix(configs);
+  let AxSym,AySym,axeLabel,q2text;
+  if(cfg.axe==='x'){
+    axeLabel='y = '+cfg.val;
+    AxSym=cfg.Ax;
+    AySym=2*cfg.val-cfg.Ay;
+    q2text=`Le symétrique de A(${cfg.Ax} ; ${cfg.Ay}) par rapport à la droite y = ${cfg.val} a la même abscisse. L'ordonnée : 2×${cfg.val} − ${cfg.Ay} = ?`;
+  } else {
+    axeLabel='x = '+cfg.val;
+    AxSym=2*cfg.val-cfg.Ax;
+    AySym=cfg.Ay;
+    q2text=`Le symétrique de A(${cfg.Ax} ; ${cfg.Ay}) par rapport à la droite x = ${cfg.val} a la même ordonnée. L'abscisse : 2×${cfg.val} − ${cfg.Ax} = ?`;
+  }
+  const enonceHTML=`Dans un repère, on place le point A(${cfg.Ax} ; ${cfg.Ay}).<br>On cherche son symétrique A' par rapport à la droite d'équation <b>${axeLabel}</b>.<br><b>1.</b> Quelle coordonnée reste inchangée lors de cette symétrie ?<br><b>2.</b> Calcule la coordonnée modifiée.`;
+  return {
+    titre:'Symétrie axiale et coordonnées',
+    enonceHTML,
+    dessiner:(id)=>{
+      const W=340,H=280,ox=170,oy=140,scale=28;
+      const line=(x1,y1,x2,y2,col,w)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="${w||1.5}"/>`;
+      let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+      svg+=line(10,oy,W-10,oy,'#ccc',1)+line(ox,10,ox,H-10,'#ccc',1);
+      for(let i=-5;i<=5;i++){
+        if(i!==0){
+          svg+=`<line x1="${ox+i*scale}" y1="${oy-4}" x2="${ox+i*scale}" y2="${oy+4}" stroke="#bbb" stroke-width="1"/>`;
+          svg+=`<line x1="${ox-4}" y1="${oy-i*scale}" x2="${ox+4}" y2="${oy-i*scale}" stroke="#bbb" stroke-width="1"/>`;
+        }
+      }
+      if(cfg.axe==='x'){
+        const yAxe=oy-cfg.val*scale;
+        svg+=line(10,yAxe,W-10,yAxe,'#4FA3D1',2.5);
+        svg+=svgTxt(W-30,yAxe-10,'y='+cfg.val,12,'#4FA3D1');
+      } else {
+        const xAxe=ox+cfg.val*scale;
+        svg+=line(xAxe,10,xAxe,H-10,'#4FA3D1',2.5);
+        svg+=svgTxt(xAxe+18,20,'x='+cfg.val,12,'#4FA3D1');
+      }
+      const pAx=ox+cfg.Ax*scale,pAy=oy-cfg.Ay*scale;
+      svg+=`<circle cx="${pAx}" cy="${pAy}" r="5" fill="#E07A1F"/>`;
+      svg+=svgTxt(pAx+14,pAy-8,'A('+cfg.Ax+';'+cfg.Ay+')',12,'#E07A1F');
+      const pSx=ox+AxSym*scale,pSy=oy-AySym*scale;
+      svg+=`<circle cx="${pSx}" cy="${pSy}" r="5" fill="#6FA52A" opacity="0.5"/>`;
+      svg+=svgTxt(pSx+14,pSy-8,"A'(?)",12,'#6FA52A');
+      svg+=svgNonEchelle(W,H);
+      svg+='</svg>';
+      document.getElementById(id).innerHTML=svg;
+    },
+    etapes:[
+      {
+        question:'Question 1 — Coordonnée inchangée',
+        role:'Identifier l\'axe de symétrie',
+        q:cfg.axe==='x'
+          ?`La droite ${axeLabel} est horizontale. Quelle coordonnée reste inchangée : l'abscisse ou l'ordonnée ? Donne la valeur inchangée.`
+          :`La droite ${axeLabel} est verticale. Quelle coordonnée reste inchangée : l'abscisse ou l'ordonnée ? Donne la valeur inchangée.`,
+        verif:(inp)=>nbs(inp).some(x=>Math.abs(x-(cfg.axe==='x'?cfg.Ax:cfg.Ay))<0.5),
+        aide:cfg.axe==='x'?`L'abscisse reste ${cfg.Ax}.`:`L'ordonnée reste ${cfg.Ay}.`,
+        solutionHTML:cfg.axe==='x'?`Abscisse inchangée : ${cfg.Ax}`:`Ordonnée inchangée : ${cfg.Ay}`,
+        clavier:['=']
+      },
+      {
+        question:'Question 2 — Coordonnée du symétrique',
+        role:'Calculer la coordonnée modifiée',
+        q:q2text,
+        verif:(inp)=>nbs(inp).some(x=>Math.abs(x-(cfg.axe==='x'?AySym:AxSym))<0.5),
+        aide:cfg.axe==='x'
+          ?`2 × ${cfg.val} − (${cfg.Ay}) = ${2*cfg.val} − ${cfg.Ay} = ${AySym}.`
+          :`2 × ${cfg.val} − (${cfg.Ax}) = ${2*cfg.val} − ${cfg.Ax} = ${AxSym}.`,
+        solutionHTML:`A'(${AxSym} ; ${AySym})`,
+        clavier:['×','-','=']
+      }
+    ]
+  };
+}
+
+/* --- Générateur : Droites parallèles et angles --- */
+function genDroitesParalleles(){
+  const configs=[
+    {angle:55,type:'correspondants'},{angle:72,type:'correspondants'},
+    {angle:38,type:'alternes-internes'},{angle:64,type:'alternes-internes'},
+    {angle:120,type:'correspondants'}
+  ];
+  const cfg=choix(configs);
+  const alpha=cfg.angle;
+  const beta=cfg.type==='correspondants'?alpha:(180-alpha);
+  const enonceHTML=`Deux droites <b>d₁</b> et <b>d₂</b> sont parallèles, coupées par une sécante. L'angle α (formé par la sécante et d₁) mesure <b>${alpha}°</b>.<br><b>1.</b> Quels sont les angles ${cfg.type==='correspondants'?'correspondants':'alternes-internes'} à α ?<br><b>2.</b> Calcule la valeur de l'angle β situé du côté de d₂.`;
+  return {
+    titre:'Droites parallèles et angles',
+    enonceHTML,
+    dessiner:(id)=>{
+      const W=360,H=240;
+      const alphaRad=alpha*Math.PI/180;
+      const midY1=80,midY2=170,midX=180;
+      const dx=120*Math.cos(alphaRad),dy=120*Math.sin(alphaRad);
+      let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+      svg+=`<line x1="20" y1="${midY1}" x2="${W-20}" y2="${midY1}" stroke="#4FA3D1" stroke-width="2.5"/>`;
+      svg+=`<line x1="20" y1="${midY2}" x2="${W-20}" y2="${midY2}" stroke="#4FA3D1" stroke-width="2.5"/>`;
+      svg+=svgTxt(W-30,midY1-12,'d₁',14,'#4FA3D1');
+      svg+=svgTxt(W-30,midY2-12,'d₂',14,'#4FA3D1');
+      svg+=`<line x1="${midX-dx}" y1="${midY1-dy}" x2="${midX+dx}" y2="${midY1+dy}" stroke="#E07A1F" stroke-width="2"/>`;
+      svg+=`<line x1="${midX-dx}" y1="${midY2-dy}" x2="${midX+dx}" y2="${midY2+dy}" stroke="#E07A1F" stroke-width="2"/>`;
+      svg+=svgTxt(midX+40,midY1-20,'α = '+alpha+'°',13,'#E07A1F');
+      svg+=svgTxt(midX+40,midY2+24,'β = ?',13,'#6FA52A');
+      svg+=svgNonEchelle(W,H);
+      svg+='</svg>';
+      document.getElementById(id).innerHTML=svg;
+    },
+    etapes:[
+      {
+        question:'Question 1 — Identifier le type d\'angles',
+        role:'Nommer la propriété des angles',
+        q:cfg.type==='correspondants'
+          ?`Les angles correspondants sont du même côté de la sécante, l'un sur d₁ l'autre sur d₂. Si les droites sont parallèles, ils sont... (égaux ou supplémentaires ?)`
+          :`Les angles alternes-internes sont de part et d'autre de la sécante, entre d₁ et d₂. Si les droites sont parallèles, ils sont... (égaux ou supplémentaires ?)`,
+        verif:(inp)=>norm(inp).includes('egaux')||norm(inp).includes('egal')||norm(inp).includes('='),
+        aide:cfg.type==='correspondants'
+          ?'Les angles correspondants sont égaux quand les droites sont parallèles.'
+          :'Les angles alternes-internes sont égaux quand les droites sont parallèles.',
+        solutionHTML:'Ils sont égaux.',
+        clavier:['=']
+      },
+      {
+        question:'Question 2 — Valeur de β',
+        role:'Calculer l\'angle β',
+        q:cfg.type==='correspondants'
+          ?`β est l'angle correspondant à α = ${alpha}°. Quelle est la valeur de β ?`
+          :`β est l'angle alterne-interne de α = ${alpha}°. Quelle est la valeur de β ? (rappel : ils sont supplémentaires ici car α est obtus)`,
+        verif:(inp)=>nbs(inp).some(x=>Math.abs(x-beta)<0.5),
+        aide:cfg.type==='correspondants'
+          ?`β = α = ${beta}°.`
+          :`β = 180° − ${alpha}° = ${beta}°.`,
+        solutionHTML:`β = ${beta}°`,
+        clavier:['-','=','°']
+      }
+    ]
+  };
+}
+
+/* --- Générateur : Pythagore — 3 configurations --- */
+function genPythagoreConfigs(){
+  const typeEx=rnd(3);
+  let a,b,c,titre,enonce,etapes;
+  if(typeEx===0){
+    const configs=[{a:6,b:8},{a:5,b:12},{a:9,b:12},{a:8,b:15}];
+    const cfg=choix(configs);
+    a=cfg.a;b=cfg.b;
+    c=Math.round(Math.sqrt(a*a+b*b)*100)/100;
+    titre='Pythagore — calculer l\'hypoténuse';
+    enonce=`Dans un triangle rectangle, les deux côtés de l'angle droit mesurent <b>${a} cm</b> et <b>${b} cm</b>.<br><b>1.</b> Écris la relation de Pythagore pour ce triangle.<br><b>2.</b> Calcule l'hypoténuse (arrondie au centième).`;
+    etapes=[
+      {
+        question:'Question 1 — Relation de Pythagore',
+        role:'Écrire l\'égalité de Pythagore',
+        q:`Complète : hyp² = ${a}² + ${b}² = ?`,
+        verif:(inp)=>nbs(inp).some(x=>Math.abs(x-(a*a+b*b))<0.5),
+        aide:`${a}² = ${a*a} ; ${b}² = ${b*b}. Somme = ${a*a+b*b}.`,
+        solutionHTML:`hyp² = ${a*a+b*b}`,
+        clavier:['²','+','=']
+      },
+      {
+        question:'Question 2 — Longueur de l\'hypoténuse',
+        role:'Extraire la racine carrée',
+        q:`hyp = √${a*a+b*b} = ? cm`,
+        verif:(inp)=>nbs(inp).some(x=>Math.abs(x-c)<0.05),
+        aide:`√${a*a+b*b} ≈ ${fr(c)} cm.`,
+        solutionHTML:`hyp ≈ ${fr(c)} cm`,
+        clavier:['√','=']
+      }
+    ];
+  } else if(typeEx===1){
+    const configs=[{hyp:13,a:5},{hyp:17,a:8},{hyp:25,a:7},{hyp:15,a:9}];
+    const cfg=choix(configs);
+    c=cfg.hyp;a=cfg.a;
+    b=Math.round(Math.sqrt(c*c-a*a)*100)/100;
+    titre='Pythagore — calculer un côté de l\'angle droit';
+    enonce=`Dans un triangle rectangle, l'hypoténuse mesure <b>${c} cm</b> et un côté de l'angle droit mesure <b>${a} cm</b>.<br><b>1.</b> Applique Pythagore pour isoler le côté inconnu.<br><b>2.</b> Calcule sa longueur (arrondie au centième si besoin).`;
+    etapes=[
+      {
+        question:'Question 1 — Isoler le côté inconnu',
+        role:'Réarranger la relation de Pythagore',
+        q:`côté² = ${c}² − ${a}² = ${c*c} − ${a*a} = ?`,
+        verif:(inp)=>nbs(inp).some(x=>Math.abs(x-(c*c-a*a))<0.5),
+        aide:`${c*c} − ${a*a} = ${c*c-a*a}.`,
+        solutionHTML:`côté² = ${c*c-a*a}`,
+        clavier:['²','-','=']
+      },
+      {
+        question:'Question 2 — Longueur du côté',
+        role:'Extraire la racine carrée',
+        q:`côté = √${c*c-a*a} = ? cm`,
+        verif:(inp)=>nbs(inp).some(x=>Math.abs(x-b)<0.05),
+        aide:`√${c*c-a*a} ≈ ${fr(b)} cm.`,
+        solutionHTML:`côté ≈ ${fr(b)} cm`,
+        clavier:['√','=']
+      }
+    ];
+  } else {
+    const configs=[{a:3,b:4,hyp:5},{a:6,b:8,hyp:10},{a:5,b:12,hyp:13}];
+    const cfg=choix(configs);
+    a=cfg.a;b=cfg.b;c=cfg.hyp;
+    titre='Pythagore — vérifier un triangle rectangle';
+    enonce=`Un triangle a pour côtés <b>${a} cm</b>, <b>${b} cm</b> et <b>${c} cm</b>.<br><b>1.</b> Calcule ${a}² + ${b}² et compare à ${c}².<br><b>2.</b> Ce triangle est-il rectangle ?`;
+    etapes=[
+      {
+        question:'Question 1 — Calcul des carrés',
+        role:'Comparer la somme des carrés des petits côtés au carré du grand',
+        q:`${a}² + ${b}² = ${a*a} + ${b*b} = ? et ${c}² = ?`,
+        verif:(inp)=>nbs(inp).some(x=>Math.abs(x-(a*a+b*b))<0.5)&&nbs(inp).some(x=>Math.abs(x-c*c)<0.5),
+        aide:`${a*a} + ${b*b} = ${a*a+b*b} et ${c}² = ${c*c}.`,
+        solutionHTML:`${a*a+b*b} = ${c*c}`,
+        clavier:['²','+','=']
+      },
+      {
+        question:'Question 2 — Conclusion',
+        role:'Appliquer la réciproque du théorème de Pythagore',
+        q:`Puisque ${a*a+b*b} ${a*a+b*b===c*c?'=':'≠'} ${c*c}, ce triangle est-il rectangle ?`,
+        verif:(inp)=>a*a+b*b===c*c
+          ?(norm(inp).includes('oui')||norm(inp).includes('rect'))
+          :(norm(inp).includes('non')||norm(inp).includes('pas')),
+        aide:a*a+b*b===c*c
+          ?`${a*a+b*b} = ${c*c} donc oui, le triangle est rectangle.`
+          :`${a*a+b*b} ≠ ${c*c} donc non, le triangle n'est pas rectangle.`,
+        solutionHTML:a*a+b*b===c*c?'Oui, il est rectangle.':'Non, il n\'est pas rectangle.',
+        clavier:['=']
+      }
+    ];
+  }
+  return {titre,enonceHTML:enonce,dessiner:(id)=>{},etapes};
+}
+
+/* --- Générateur : Section d'un solide par un plan --- */
+function genSectionSolide(){
+  const configs=[
+    {
+      solide:'cylindre',
+      plans:[
+        {plan:'perpendiculaire à l\'axe',section:'un disque (cercle)',rep:['disque','cercle']},
+        {plan:'parallèle à l\'axe',section:'un rectangle',rep:['rectangle']}
+      ]
+    },
+    {
+      solide:'cône',
+      plans:[
+        {plan:'perpendiculaire à l\'axe (à mi-hauteur)',section:'un disque (cercle)',rep:['disque','cercle']},
+        {plan:'passant par le sommet et la base',section:'un triangle isocèle',rep:['triangle']}
+      ]
+    },
+    {
+      solide:'cube',
+      plans:[
+        {plan:'parallèle à une face',section:'un carré',rep:['carre','carré']},
+        {plan:'passant par 4 arêtes opposées',section:'un rectangle',rep:['rectangle']}
+      ]
+    }
+  ];
+  const cfg=choix(configs);
+  const planCfg=choix(cfg.plans);
+  const enonceHTML=`On coupe un <b>${cfg.solide}</b> par un plan <b>${planCfg.plan}</b>.<br><b>1.</b> Quelle forme a la section obtenue ?<br><b>2.</b> Explique brièvement pourquoi.`;
+  return {
+    titre:'Section d\'un solide par un plan',
+    enonceHTML,
+    dessiner:(id)=>{},
+    etapes:[
+      {
+        question:'Question 1 — Forme de la section',
+        role:'Identifier la section plane',
+        q:`En coupant ce ${cfg.solide} par un plan ${planCfg.plan}, quelle forme géométrique obtient-on ?`,
+        verif:(inp)=>planCfg.rep.some(r=>norm(inp).includes(r)),
+        aide:`La section est ${planCfg.section}.`,
+        solutionHTML:planCfg.section,
+        clavier:[]
+      },
+      {
+        question:'Question 2 — Justification',
+        role:'Expliquer en s\'appuyant sur la forme du solide',
+        q:`Pourquoi la section est-elle ${planCfg.section} ? (une phrase suffit)`,
+        verif:(inp)=>norm(inp).length>5,
+        aide:cfg.solide==='cylindre'
+          ?'Un cylindre a une base circulaire — un plan perpendiculaire coupe un disque, parallèle coupe un rectangle.'
+          :cfg.solide==='cône'
+          ?'Un cône se rétrécit vers le sommet — coupe perpendiculaire → disque, coupe axiale → triangle.'
+          :'Les faces d\'un cube sont des carrés — un plan parallèle donne toujours un carré.',
+        solutionHTML:`La section est ${planCfg.section} car la forme du ${cfg.solide} l'impose.`,
+        clavier:[]
+      }
+    ]
+  };
+}
+
 /* ===== BANQUE ===== */
 const BANQUE=[
   {notion:'rampe',gen:genRampe},
@@ -1818,7 +2212,12 @@ const BANQUE=[
   {notion:'pythagoreCoté',gen:genPythagoreCoté},
   {notion:'thalesLongueur',gen:genThalesLongueur},
   {notion:'aireDisque',gen:genAireDisque},
-  {notion:'volumeSolide',gen:genVolumeSolide}
+  {notion:'volumeSolide',gen:genVolumeSolide},
+  {notion:'angleTrigono',     gen:genAngleTrigono},
+  {notion:'symetrieAxiale',   gen:genSymetrieAxiale},
+  {notion:'droitesParalleles',gen:genDroitesParalleles},
+  {notion:'pythagoreConfigs', gen:genPythagoreConfigs},
+  {notion:'sectionSolide',    gen:genSectionSolide}
 ];
 
 let SUJET=[],ecrans=[],ecranActuel=0;

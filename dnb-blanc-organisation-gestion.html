@@ -1593,6 +1593,233 @@ function genRepartition(){
   return {titre:'Repartition proportionnelle',enonceHTML:enonceHTML,dessiner:dessiner,etapes:etapes};
 }
 
+/* --- Générateur : Indice de prix (base 100) --- */
+function genIndicePrix(){
+  var configs=[
+    {annee0:2018,prix0:120,anneeN:2023,prixN:138,produit:'un panier alimentaire'},
+    {annee0:2015,prix0:80,anneeN:2022,prixN:92,produit:'un abonnement internet'},
+    {annee0:2019,prix0:200,anneeN:2024,prixN:240,produit:'un billet de train'},
+    {annee0:2017,prix0:150,anneeN:2023,prixN:165,produit:'une place de cinéma'},
+    {annee0:2016,prix0:100,anneeN:2022,prixN:115,produit:'un carburant'}
+  ];
+  var cfg=choix(configs);
+  var p0=cfg.prix0,pN=cfg.prixN,a0=cfg.annee0,aN=cfg.anneeN;
+  var indice=Math.round(pN/p0*100*10)/10;
+  var evol=Math.round((pN-p0)/p0*100*10)/10;
+  var enonceHTML='En '+a0+', le prix de '+cfg.produit+' était <b>'+p0+' €</b>. En '+aN+', il est de <b>'+pN+' €</b>.'
+    +'<br><b>1.</b> Calcule l\'indice de prix en '+aN+' (base 100 en '+a0+').'
+    +'<br><b>2.</b> Calcule l\'évolution en pourcentage entre '+a0+' et '+aN+'.';
+  var etapes=[
+    {
+      question:'Question 1 — Indice de prix',
+      role:'Appliquer la formule : (prix nouveau ÷ prix base) × 100',
+      q:'Indice = ('+pN+' ÷ '+p0+') × 100 = ?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-indice)<0.2;});},
+      aide:''+pN+' ÷ '+p0+' = '+fr(pN/p0)+'. × 100 = '+fr(indice)+'.',
+      solutionHTML:'Indice = '+fr(indice),
+      clavier:['÷','×','=']
+    },
+    {
+      question:'Question 2 — Évolution en %',
+      role:'Calculer la variation relative',
+      q:'Évolution = ('+pN+' − '+p0+') ÷ '+p0+' × 100 = ? %',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-evol)<0.2;});},
+      aide:'('+(pN-p0)+') ÷ '+p0+' × 100 = '+fr(evol)+' %.',
+      solutionHTML:fr(evol)+' %',
+      clavier:['-','÷','×','=','%']
+    }
+  ];
+  return {
+    titre:'Indice de prix',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
+/* --- Générateur : Diagramme circulaire --- */
+function genDiagrammeCirculaire(){
+  var configs=[
+    {labels:['Sport','Culture','Sorties','Autre'],angles:[120,90,72,78]},
+    {labels:['Transport','Nourriture','Loisirs','Épargne'],angles:[108,126,72,54]},
+    {labels:['Maths','Français','Sciences','Arts'],angles:[90,108,90,72]},
+    {labels:['Vélo','Bus','Voiture','À pied'],angles:[72,108,120,60]},
+    {labels:['Musique','Cinéma','Lecture','Jeux'],angles:[126,90,54,90]}
+  ];
+  var cfg=choix(configs);
+  var labels=cfg.labels,angles=cfg.angles;
+  var idx=rnd(4);
+  var angleChoisi=angles[idx];
+  var freq=Math.round(angleChoisi/360*100*10)/10;
+  var enonceHTML='Un sondage de 360 élèves est représenté par un diagramme circulaire. Le secteur "<b>'+labels[idx]+'</b>" a un angle de <b>'+angleChoisi+'°</b>.'
+    +'<br><b>1.</b> Quelle est la fréquence (en %) de la catégorie "'+labels[idx]+'" ?'
+    +'<br><b>2.</b> Combien d\'élèves sont dans cette catégorie ?';
+  var nbEleves=Math.round(360*angleChoisi/360);
+  var etapes=[
+    {
+      question:'Question 1 — Fréquence en %',
+      role:'Proportion de l\'angle sur 360°',
+      q:'Fréquence = ('+angleChoisi+' ÷ 360) × 100 = ? %',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-freq)<0.2;});},
+      aide:''+angleChoisi+' ÷ 360 × 100 = '+fr(freq)+' %.',
+      solutionHTML:fr(freq)+' %',
+      clavier:['÷','×','=']
+    },
+    {
+      question:'Question 2 — Nombre d\'élèves',
+      role:'Appliquer la fréquence à l\'effectif total',
+      q:''+fr(freq)+' % de 360 élèves = '+fr(freq/100)+' × 360 = ?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-nbEleves)<1;});},
+      aide:''+fr(freq/100)+' × 360 = '+nbEleves+' élèves.',
+      solutionHTML:nbEleves+' élèves',
+      clavier:['×','÷','=','%']
+    }
+  ];
+  return {
+    titre:'Diagramme circulaire',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
+/* --- Générateur : Moyenne pondérée --- */
+function genMoyennePonderee(){
+  var configs=[
+    {matieres:['Maths','Français','Histoire'],notes:[14,12,10],coefs:[4,3,2]},
+    {matieres:['Sciences','EPS','Arts'],notes:[16,18,8],coefs:[3,2,1]},
+    {matieres:['Maths','Physique','Anglais'],notes:[11,13,15],coefs:[5,3,2]},
+    {matieres:['Français','Histoire','Géo'],notes:[13,10,12],coefs:[4,2,2]},
+    {matieres:['Maths','Anglais','EPS'],notes:[9,14,17],coefs:[4,3,1]}
+  ];
+  var cfg=choix(configs);
+  var m=cfg.matieres,n=cfg.notes,c=cfg.coefs;
+  var sumCoef=c[0]+c[1]+c[2];
+  var sumPond=n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+  var moy=Math.round(sumPond/sumCoef*100)/100;
+  var enonceHTML='Un élève a obtenu les notes suivantes :'
+    +'<br>'+m[0]+' : <b>'+n[0]+'/20</b> (coeff. '+c[0]+'), '+m[1]+' : <b>'+n[1]+'/20</b> (coeff. '+c[1]+'), '+m[2]+' : <b>'+n[2]+'/20</b> (coeff. '+c[2]+').'
+    +'<br><b>1.</b> Calcule la somme des produits note × coefficient.'
+    +'<br><b>2.</b> Calcule la moyenne pondérée.';
+  var etapes=[
+    {
+      question:'Question 1 — Somme pondérée',
+      role:'Multiplier chaque note par son coefficient et additionner',
+      q:''+n[0]+' × '+c[0]+' + '+n[1]+' × '+c[1]+' + '+n[2]+' × '+c[2]+' = ?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-sumPond)<0.5;});},
+      aide:''+n[0]*c[0]+' + '+n[1]*c[1]+' + '+n[2]*c[2]+' = '+sumPond+'.',
+      solutionHTML:''+sumPond,
+      clavier:['×','+','=']
+    },
+    {
+      question:'Question 2 — Moyenne pondérée',
+      role:'Diviser par la somme des coefficients',
+      q:'Somme des coefficients = '+c[0]+' + '+c[1]+' + '+c[2]+' = '+sumCoef+'. Moyenne = '+sumPond+' ÷ '+sumCoef+' = ?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-moy)<0.1;});},
+      aide:''+sumPond+' ÷ '+sumCoef+' = '+fr(moy)+'.',
+      solutionHTML:fr(moy)+'/20',
+      clavier:['÷','+','=']
+    }
+  ];
+  return {
+    titre:'Moyenne pondérée',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
+/* --- Générateur : Intérêts simples --- */
+function genInteretsSimples(){
+  var configs=[
+    {capital:2000,taux:3,duree:4,contexte:'un compte épargne'},
+    {capital:5000,taux:2,duree:3,contexte:'un livret bancaire'},
+    {capital:1500,taux:4,duree:2,contexte:'un placement'},
+    {capital:3000,taux:5,duree:2,contexte:'un prêt familial'},
+    {capital:800,taux:3,duree:5,contexte:'une caisse d\'épargne'}
+  ];
+  var cfg=choix(configs);
+  var C=cfg.capital,t=cfg.taux,d=cfg.duree;
+  var interetsAnnuels=Math.round(C*t/100*100)/100;
+  var interetsTotal=Math.round(interetsAnnuels*d*100)/100;
+  var capitalFinal=C+interetsTotal;
+  var enonceHTML='On place <b>'+C+' €</b> dans '+cfg.contexte+' avec un taux annuel de <b>'+t+' %</b>.'
+    +'<br><b>1.</b> Calcule les intérêts produits par an (formule : Capital × taux ÷ 100).'
+    +'<br><b>2.</b> Calcule le capital total après <b>'+d+' ans</b>.';
+  var etapes=[
+    {
+      question:'Question 1 — Intérêts annuels',
+      role:'Appliquer la formule des intérêts simples',
+      q:C+' × '+t+' ÷ 100 = ? €/an',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-interetsAnnuels)<0.5;});},
+      aide:''+C+' × '+t+' = '+(C*t)+'. ÷ 100 = '+fr(interetsAnnuels)+' €/an.',
+      solutionHTML:fr(interetsAnnuels)+' €/an',
+      clavier:['×','÷','=']
+    },
+    {
+      question:'Question 2 — Capital après '+d+' ans',
+      role:'Multiplier les intérêts annuels par la durée et ajouter au capital',
+      q:'Intérêts sur '+d+' ans : '+fr(interetsAnnuels)+' × '+d+' = '+fr(interetsTotal)+' €. Capital final = ?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-capitalFinal)<0.5;});},
+      aide:''+C+' + '+fr(interetsTotal)+' = '+fr(capitalFinal)+' €.',
+      solutionHTML:fr(capitalFinal)+' €',
+      clavier:['×','+','=']
+    }
+  ];
+  return {
+    titre:'Intérêts simples',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
+/* --- Générateur : Partage en proportions non entières --- */
+function genPartageProportions(){
+  var configs=[
+    {parts:[3,5],total:400,noms:['Alice','Bruno'],unite:'€'},
+    {parts:[2,3],total:250,noms:['Camille','David'],unite:'€'},
+    {parts:[1,4],total:150,noms:['Emma','François'],unite:'€'},
+    {parts:[3,7],total:500,noms:['Gabrielle','Hugo'],unite:'€'},
+    {parts:[5,3],total:320,noms:['Inès','Jules'],unite:'€'}
+  ];
+  var cfg=choix(configs);
+  var p=cfg.parts,tot=cfg.total,noms=cfg.noms;
+  var somme=p[0]+p[1];
+  var unitePart=Math.round(tot/somme*100)/100;
+  var val0=Math.round(unitePart*p[0]*100)/100;
+  var val1=Math.round(unitePart*p[1]*100)/100;
+  var enonceHTML='Un héritage de <b>'+tot+' €</b> est partagé entre '+noms[0]+' et '+noms[1]+' dans la proportion <b>'+p[0]+' : '+p[1]+'</b>.'
+    +'<br><b>1.</b> Combien de parts y a-t-il au total ? Quelle est la valeur d\'une part ?'
+    +'<br><b>2.</b> Calcule la part de chacun.';
+  var etapes=[
+    {
+      question:'Question 1 — Valeur d\'une part',
+      role:'Diviser le total par le nombre de parts',
+      q:'Total des parts = '+p[0]+' + '+p[1]+' = '+somme+'. Valeur d\'une part = '+tot+' ÷ '+somme+' = ?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-unitePart)<0.1;});},
+      aide:''+tot+' ÷ '+somme+' = '+fr(unitePart)+' €/part.',
+      solutionHTML:fr(unitePart)+' € par part',
+      clavier:['÷','+','=']
+    },
+    {
+      question:'Question 2 — Part de chacun',
+      role:'Multiplier la part unitaire par le coefficient de chaque personne',
+      q:noms[0]+' (×'+p[0]+') = ? € et '+noms[1]+' (×'+p[1]+') = ?',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-val0)<0.5;})&&nbs(inp).some(function(x){return Math.abs(x-val1)<0.5;});},
+      aide:''+noms[0]+' : '+fr(unitePart)+' × '+p[0]+' = '+fr(val0)+' €. '+noms[1]+' : '+fr(unitePart)+' × '+p[1]+' = '+fr(val1)+' €.',
+      solutionHTML:noms[0]+' : '+fr(val0)+' € ; '+noms[1]+' : '+fr(val1)+' €',
+      clavier:['×','=']
+    }
+  ];
+  return {
+    titre:'Partage proportionnel',
+    enonceHTML:enonceHTML,
+    dessiner:function(id){},
+    etapes:etapes
+  };
+}
+
 /* ===== BANQUE ===== */
 var BANQUE=[
   {notion:'moyenne',gen:genMoyenne},
@@ -1611,7 +1838,12 @@ var BANQUE=[
   {notion:'tableauProportion',gen:genTableauProportion},
   {notion:'pourcentagesEvol',gen:genPourcentagesEvol},
   {notion:'ttcht',gen:genTTCHT},
-  {notion:'repartition',gen:genRepartition}
+  {notion:'repartition',gen:genRepartition},
+  {notion:'indicePrix',          gen:genIndicePrix},
+  {notion:'diagrammeCirculaire', gen:genDiagrammeCirculaire},
+  {notion:'moyennePonderee',     gen:genMoyennePonderee},
+  {notion:'interetsSimples',     gen:genInteretsSimples},
+  {notion:'partageProportions',  gen:genPartageProportions}
 ];
 
 var SUJET=[],ecrans=[],ecranActuel=0;

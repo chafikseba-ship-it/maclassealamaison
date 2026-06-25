@@ -1158,6 +1158,433 @@ function genFormuleChimique(){
   };
 }
 
+/* ===== GÉNÉRATEUR 13 : Réaction acide-base ===== */
+function genAcideBase(){
+  var configs=[
+    {
+      acide:'acide chlorhydrique (HCl)',
+      base:'soude (NaOH)',
+      formule_acide:'HCl',
+      formule_base:'NaOH',
+      sel:'chlorure de sodium (NaCl)',
+      ph_avant_acide:1,
+      ph_avant_base:13,
+      volume_acide:20,
+      volume_base:20,
+      concentration:0.1
+    },
+    {
+      acide:'acide sulfurique (H₂SO₄)',
+      base:'hydroxyde de potassium (KOH)',
+      formule_acide:'H₂SO₄',
+      formule_base:'KOH',
+      sel:'sulfate de potassium (K₂SO₄)',
+      ph_avant_acide:1,
+      ph_avant_base:14,
+      volume_acide:10,
+      volume_base:20,
+      concentration:0.05
+    },
+    {
+      acide:'vinaigre (acide acétique, CH₃COOH)',
+      base:'bicarbonate de soude (NaHCO₃)',
+      formule_acide:'CH₃COOH',
+      formule_base:'NaHCO₃',
+      sel:'acétate de sodium',
+      ph_avant_acide:3,
+      ph_avant_base:8,
+      volume_acide:50,
+      volume_base:50,
+      concentration:0.1
+    }
+  ];
+  var cfg=choix(configs);
+  var etapes=[
+    {
+      question:'Q1 — Équation de neutralisation (3 pts)',
+      role:'Écrire l\'équation simplifiée',
+      clavier:['H⁺','OH⁻','H₂O','→','+'],
+      q:'Écris l\'équation ionique simplifiée de la neutralisation entre un acide et une base.',
+      verif:function(inp){var t=norm(inp);return (t.includes('h')&&t.includes('oh'))||(t.includes('h2o')||t.includes('eau'));},
+      aide:'H⁺ + OH⁻ → H₂O',
+      solutionHTML:'H⁺ + OH⁻ → H₂O'
+    },
+    {
+      question:'Q2 — pH à l\'équivalence (2 pts)',
+      role:'Connaître le pH à l\'équivalence',
+      q:'On mélange '+cfg.volume_acide+' mL de '+cfg.acide+' et '+cfg.volume_base+' mL de '+cfg.base+' en quantités égales. Que vaut le pH à l\'équivalence ? Justifie.',
+      verif:function(inp){return nbs(inp).some(function(x){return Math.abs(x-7)<=0.5;})||norm(inp).includes('neutr');},
+      aide:'À l\'équivalence, ni acide ni base n\'est en excès : la solution est neutre, pH = 7.',
+      solutionHTML:'À l\'équivalence : la solution est neutre → pH = 7.'
+    },
+    {
+      question:'Q3 — Produit de réaction (2 pts)',
+      role:'Identifier le sel formé',
+      q:'En plus de l\'eau, quelle substance est formée lors de la neutralisation de '+cfg.formule_acide+' par '+cfg.formule_base+' ? Comment s\'appelle ce type de substance ?',
+      verif:function(inp){var t=norm(inp);return t.includes('sel')||t.includes('chlor')||t.includes('sulfat')||t.includes('acetat')||t.includes('sodium')||t.includes('potass');},
+      aide:'La neutralisation produit de l\'eau et un sel. Ici : '+cfg.sel+'.',
+      solutionHTML:'Il se forme du '+cfg.sel+' (un sel). Neutralisation : acide + base → sel + eau.'
+    }
+  ];
+  return {
+    titre:'Réaction acide-base — neutralisation',
+    enonceHTML:'On mélange <b>'+cfg.acide+'</b> (pH = '+cfg.ph_avant_acide+') avec <b>'+cfg.base+'</b> (pH = '+cfg.ph_avant_base+').<br>'+
+      '<i>Rappel : H⁺ + OH⁻ → H₂O &nbsp;|&nbsp; pH = 7 à l\'équivalence</i>',
+    dessiner:function(id){
+      var svg='<svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">';
+      svg+='<rect x="0" y="0" width="380" height="180" fill="#FFF6E6" rx="10"/>';
+      svg+='<rect x="20" y="70" width="80" height="80" rx="8" fill="#FFFACD" stroke="#E07A1F" stroke-width="2"/>';
+      svg+=svgTxt(60,100,'Acide',12,'#E07A1F');
+      svg+=svgTxt(60,120,'pH = '+cfg.ph_avant_acide,11,'#E07A1F');
+      svg+='<rect x="280" y="70" width="80" height="80" rx="8" fill="#E8F4F0" stroke="#2A7AB0" stroke-width="2"/>';
+      svg+=svgTxt(320,100,'Base',12,'#2A7AB0');
+      svg+=svgTxt(320,120,'pH = '+cfg.ph_avant_base,11,'#2A7AB0');
+      svg+='<rect x="140" y="90" width="100" height="60" rx="8" fill="#d8edf8" stroke="#6FA52A" stroke-width="2"/>';
+      svg+=svgTxt(190,112,'Neutralisation',11,'#6FA52A');
+      svg+=svgTxt(190,130,'pH = 7',13,'#6FA52A');
+      svg+='<line x1="100" y1="110" x2="140" y2="110" stroke="#5A4A2F" stroke-width="1.5" stroke-dasharray="4"/>';
+      svg+='<line x1="240" y1="110" x2="280" y2="110" stroke="#5A4A2F" stroke-width="1.5" stroke-dasharray="4"/>';
+      svg+=svgTxt(190,168,'Figure non à l\'échelle',11,'#A08B6E');
+      svg+='</svg>';
+      document.getElementById(id).innerHTML=svg;
+    },
+    etapes:etapes
+  };
+}
+
+/* ===== GÉNÉRATEUR 14 : Combustion complète et incomplète ===== */
+function genCombustionComplete(){
+  var configs=[
+    {
+      combustible:'méthane',
+      formule:'CH₄',
+      reactifs:'CH₄ + 2 O₂',
+      produits_complets:'CO₂ + 2 H₂O',
+      produits_incomplets:'CO + H₂O (+ suie)',
+      contexte:'On brûle du méthane (gaz naturel) dans une chaudière.',
+      O2_suffisant:true
+    },
+    {
+      combustible:'butane',
+      formule:'C₄H₁₀',
+      reactifs:'2 C₄H₁₀ + 13 O₂',
+      produits_complets:'8 CO₂ + 10 H₂O',
+      produits_incomplets:'CO + H₂O + suie',
+      contexte:'On brûle du butane (camping-gaz) dans un brûleur.',
+      O2_suffisant:false
+    },
+    {
+      combustible:'éthanol',
+      formule:'C₂H₅OH',
+      reactifs:'C₂H₅OH + 3 O₂',
+      produits_complets:'2 CO₂ + 3 H₂O',
+      produits_incomplets:'CO + H₂O (+ suie)',
+      contexte:'On brûle de l\'éthanol (alcool à brûler) dans une lampe à alcool.',
+      O2_suffisant:true
+    }
+  ];
+  var cfg=choix(configs);
+  var etapes=[
+    {
+      question:'Q1 — Produits de la combustion complète (3 pts)',
+      role:'Identifier les produits',
+      clavier:['CO₂','H₂O','+','→'],
+      q:'Lors de la combustion <b>complète</b> d\'un combustible contenant du carbone (C) et de l\'hydrogène (H), quels sont les produits formés ?',
+      verif:function(inp){var t=norm(inp);return (t.includes('co2')||t.includes('dioxyde'))&&(t.includes('h2o')||t.includes('eau'));},
+      aide:'Combustion complète : tout le carbone → CO₂, tout l\'hydrogène → H₂O.',
+      solutionHTML:'Combustion complète : C → CO₂ (dioxyde de carbone) et H → H₂O (eau).'
+    },
+    {
+      question:'Q2 — Combustion incomplète (2 pts)',
+      role:'Identifier CO',
+      q:'Quand le dioxygène manque, la combustion est incomplète. Quel gaz dangereux est alors produit à la place de CO₂ ?',
+      verif:function(inp){var t=norm(inp);return t.includes('co')||t.includes('monoxyde')||t.includes('carbone');},
+      aide:'La combustion incomplète produit du monoxyde de carbone CO, gaz inodore et très toxique.',
+      solutionHTML:'Le monoxyde de carbone (CO) est produit. C\'est un gaz inodore, incolore et très toxique (risque d\'intoxication).'
+    },
+    {
+      question:'Q3 — Bilan carbone (2 pts)',
+      role:'Réaliser le bilan',
+      q:'La combustion du '+cfg.combustible+' ('+cfg.formule+') s\'écrit : '+cfg.reactifs+' → '+cfg.produits_complets+'.<br>Identifie les réactifs et les produits. Vérifie la conservation des atomes.',
+      verif:function(inp){var t=norm(inp);return t.includes('reactif')||t.includes('produit')||t.includes('conserv')||t.includes('co2')||t.includes('h2o');},
+      aide:'Réactifs : '+cfg.formule+' et O₂. Produits : CO₂ et H₂O. La masse totale est conservée.',
+      solutionHTML:'Réactifs : '+cfg.combustible+' ('+cfg.formule+') et dioxygène (O₂).<br>Produits : dioxyde de carbone (CO₂) et eau (H₂O).<br>Équation : '+cfg.reactifs+' → '+cfg.produits_complets
+    }
+  ];
+  return {
+    titre:'Combustion complète et incomplète',
+    enonceHTML:cfg.contexte+'<br>Formule du combustible : <b>'+cfg.formule+'</b>.<br>'+
+      '<i>Rappel : combustion complète → CO₂ + H₂O &nbsp;|&nbsp; manque O₂ → CO (toxique)</i>',
+    dessiner:function(id){
+      var svg='<svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">';
+      svg+='<rect x="0" y="0" width="380" height="180" fill="#FFF0E6" rx="10"/>';
+      svg+='<ellipse cx="190" cy="100" rx="30" ry="45" fill="#FF6600" opacity="0.7"/>';
+      svg+='<ellipse cx="190" cy="115" rx="18" ry="25" fill="#FFD700" opacity="0.8"/>';
+      svg+='<rect x="160" y="140" width="60" height="20" rx="4" fill="#C8A96E" stroke="#5A4A2F" stroke-width="1.5"/>';
+      svg+=svgTxt(190,152,cfg.formule,12,'#5A4A2F');
+      svg+=svgTxt(60,60,cfg.formule+' + O₂',12,'#E07A1F');
+      svg+=svgTxt(60,78,'(réactifs)',10,'#5A4A2F');
+      svg+=svgTxt(310,60,'CO₂ + H₂O',12,'#6FA52A');
+      svg+=svgTxt(310,78,'(produits)',10,'#5A4A2F');
+      svg+='<line x1="120" y1="65" x2="160" y2="90" stroke="#E07A1F" stroke-width="1.5" stroke-dasharray="4"/>';
+      svg+='<line x1="220" y1="90" x2="260" y2="65" stroke="#6FA52A" stroke-width="1.5" stroke-dasharray="4"/>';
+      svg+=svgTxt(190,168,'Figure non à l\'échelle',11,'#A08B6E');
+      svg+='</svg>';
+      document.getElementById(id).innerHTML=svg;
+    },
+    etapes:etapes
+  };
+}
+
+/* ===== GÉNÉRATEUR 15 : Oxydation du fer — rouille ===== */
+function genOxydationFer(){
+  var scenarios=[
+    {
+      objet:'un clou en fer laissé dehors sous la pluie',
+      condition_eau:true,
+      condition_O2:true,
+      rouille:true,
+      explication:'Le clou est en contact avec l\'eau et le dioxygène de l\'air : la rouille se forme.'
+    },
+    {
+      objet:'un clou en fer plongé dans de l\'eau distillée dégazée (sans O₂)',
+      condition_eau:true,
+      condition_O2:false,
+      rouille:false,
+      explication:'Sans dioxygène, la rouille ne se forme pas malgré la présence d\'eau.'
+    },
+    {
+      objet:'un clou en fer dans de l\'air complètement sec',
+      condition_eau:false,
+      condition_O2:true,
+      rouille:false,
+      explication:'Sans eau, la rouille ne se forme pas malgré la présence de dioxygène.'
+    }
+  ];
+  var cfg=choix(scenarios);
+  var etapes=[
+    {
+      question:'Q1 — Conditions de la rouille (3 pts)',
+      role:'Énoncer les conditions',
+      q:'Quelles sont les deux conditions nécessaires pour que le fer rouille ? Donne l\'équation symbolique de l\'oxydation du fer.',
+      verif:function(inp){var t=norm(inp);return (t.includes('eau')||t.includes('humidi'))&&(t.includes('o2')||t.includes('dioxygene')||t.includes('oxygen'));},
+      aide:'Conditions : eau (H₂O) ET dioxygène (O₂). Équation : 4 Fe + 3 O₂ + 6 H₂O → 2 Fe₂O₃ · 3H₂O (rouille).',
+      solutionHTML:'Conditions nécessaires : présence d\'<b>eau</b> ET de <b>dioxygène</b>.<br>Équation simplifiée : Fe + O₂ + H₂O → rouille (oxyde de fer hydraté).'
+    },
+    {
+      question:'Q2 — Prévoir si la rouille se forme (2 pts)',
+      role:'Appliquer les conditions',
+      q:'Pour '+cfg.objet+', la rouille se forme-t-elle ? Justifie en citant les conditions présentes ou absentes.',
+      verif:function(inp){var t=norm(inp);return cfg.rouille?(t.includes('oui')||t.includes('forme')||t.includes('rouille')):(t.includes('non')||t.includes('pas')||t.includes('absent')||t.includes('manque'));},
+      aide:cfg.explication,
+      solutionHTML:cfg.explication+(cfg.rouille?' → la rouille se forme.':' → la rouille ne se forme pas.')
+    },
+    {
+      question:'Q3 — Protéger le fer (2 pts)',
+      role:'Citer des protections',
+      q:'Propose deux méthodes pour protéger le fer contre la rouille. Explique sur quel principe repose chaque méthode.',
+      verif:function(inp){var t=norm(inp);return t.includes('peintur')||t.includes('galvan')||t.includes('inox')||t.includes('chrome')||t.includes('huile')||t.includes('prote');},
+      aide:'Peinture ou vernis : forme une barrière contre l\'eau et l\'O₂. Galvanisation (couche de zinc) : protège en sacrifiant le zinc. Utiliser de l\'acier inoxydable (contient du chrome).',
+      solutionHTML:'1. Peinture / vernis : isole le fer de l\'eau et de l\'O₂.<br>2. Galvanisation (zinc) : le zinc s\'oxyde à la place du fer.<br>3. Acier inoxydable : alliage résistant à l\'oxydation.'
+    }
+  ];
+  return {
+    titre:'Oxydation du fer — la rouille',
+    enonceHTML:'On observe <b>'+cfg.objet+'</b>.<br>'+
+      '<i>Rappel : le fer rouille uniquement en présence d\'eau ET de dioxygène simultanément.</i>',
+    dessiner:function(id){
+      var svg='<svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">';
+      svg+='<rect x="0" y="0" width="380" height="180" fill="#FFF6E6" rx="10"/>';
+      svg+='<rect x="160" y="60" width="60" height="100" rx="4" fill="'+(cfg.rouille?'#8B4513':'#A0A0A0')+'" stroke="#5A4A2F" stroke-width="2"/>';
+      svg+=svgTxt(190,110,(cfg.rouille?'Rouille':'Pas de rouille'),11,'#fff');
+      if(cfg.condition_eau){svg+='<text x="60" y="90" font-family="Fredoka" font-size="28" fill="#2A7AB0" text-anchor="middle">💧</text>';}
+      if(cfg.condition_O2){svg+='<text x="310" y="90" font-family="Fredoka" font-size="28" fill="#6FA52A" text-anchor="middle">O₂</text>';}
+      if(!cfg.condition_eau){svg+=svgTxt(60,90,'Pas d\'eau',11,'#CC2222');}
+      if(!cfg.condition_O2){svg+=svgTxt(310,90,'Pas d\'O₂',11,'#CC2222');}
+      svg+=svgTxt(60,110,'Eau',11,'#2A7AB0');
+      svg+=svgTxt(310,110,'Dioxygène',11,'#6FA52A');
+      svg+='<polygon points="95,90 145,90 145,87 160,90 145,93 145,90" fill="#5A4A2F"/>';
+      svg+='<polygon points="285,90 235,90 235,87 220,90 235,93 235,90" fill="#5A4A2F"/>';
+      svg+=svgTxt(190,168,'Figure non à l\'échelle',11,'#A08B6E');
+      svg+='</svg>';
+      document.getElementById(id).innerHTML=svg;
+    },
+    etapes:etapes
+  };
+}
+
+/* ===== GÉNÉRATEUR 16 : Identification des ions en solution ===== */
+function genIonsEnSolution(){
+  var tests=[
+    {
+      ion:'ions cuivre (Cu²⁺)',
+      couleur_solution:'bleu',
+      reactif:'soude (NaOH)',
+      precipite:'précipité bleu de Cu(OH)₂',
+      symbole:'Cu²⁺',
+      couleur_code:'#4444FF',
+      description:'La solution est bleue. Ajout de soude → précipité bleu.'
+    },
+    {
+      ion:'ions fer II (Fe²⁺)',
+      couleur_solution:'vert pâle',
+      reactif:'soude (NaOH)',
+      precipite:'précipité vert de Fe(OH)₂',
+      symbole:'Fe²⁺',
+      couleur_code:'#6FA52A',
+      description:'La solution est vert pâle. Ajout de soude → précipité vert.'
+    },
+    {
+      ion:'ions fer III (Fe³⁺)',
+      couleur_solution:'rouille (orangé)',
+      reactif:'soude (NaOH)',
+      precipite:'précipité rouille de Fe(OH)₃',
+      symbole:'Fe³⁺',
+      couleur_code:'#CC5500',
+      description:'La solution est orangée. Ajout de soude → précipité rouille.'
+    },
+    {
+      ion:'ions chlorure (Cl⁻)',
+      couleur_solution:'incolore',
+      reactif:'nitrate d\'argent (AgNO₃)',
+      precipite:'précipité blanc de AgCl',
+      symbole:'Cl⁻',
+      couleur_code:'#CCCCCC',
+      description:'Solution incolore. Ajout de nitrate d\'argent → précipité blanc (AgCl).'
+    }
+  ];
+  var cfg=choix(tests);
+  var etapes=[
+    {
+      question:'Q1 — Identifier le test (2 pts)',
+      role:'Décrire le test',
+      q:'Pour identifier les <b>'+cfg.ion+'</b> dans une solution, quel réactif utilise-t-on ? Que doit-on observer pour confirmer leur présence ?',
+      verif:function(inp){var t=norm(inp);return t.includes('precipit')||t.includes(cfg.reactif.substring(0,4).toLowerCase())||t.includes('blanc')||t.includes('vert')||t.includes('bleu')||t.includes('rouille');},
+      aide:'Réactif : '+cfg.reactif+'. Observation : '+cfg.precipite+'.',
+      solutionHTML:'Réactif ajouté : '+cfg.reactif+'.<br>Observation : '+cfg.precipite+' → confirme la présence de '+cfg.symbole+'.'
+    },
+    {
+      question:'Q2 — Tableau des ions (3 pts)',
+      role:'Compléter le tableau',
+      q:'Complète : ion cuivre Cu²⁺ → couleur de la solution : ___. Ion fer II Fe²⁺ → ___. Ion fer III Fe³⁺ → ___. Ions chlorure Cl⁻ → réactif : ___.',
+      verif:function(inp){var t=norm(inp);return t.includes('bleu')||t.includes('vert')||t.includes('chlor')||t.includes('argent')||t.includes('agno');},
+      aide:'Cu²⁺ → bleu | Fe²⁺ → vert | Fe³⁺ → rouille/orangé | Cl⁻ → précipité blanc avec AgNO₃.',
+      solutionHTML:'Cu²⁺ : solution bleue | Fe²⁺ : solution verte | Fe³⁺ : solution orangée | Cl⁻ : précipité blanc avec AgNO₃.'
+    },
+    {
+      question:'Q3 — Interpréter une observation (2 pts)',
+      role:'Interpréter',
+      q:cfg.description+' Quelle conclusion peut-on tirer sur la composition de la solution ?',
+      verif:function(inp){var t=norm(inp);return t.includes(cfg.symbole.toLowerCase().substring(0,2))||t.includes(cfg.ion.substring(0,4).toLowerCase())||t.includes('contient')||t.includes('present');},
+      aide:'La solution contient des '+cfg.ion+'.',
+      solutionHTML:'La solution contient des <b>'+cfg.ion+' ('+cfg.symbole+')</b>. Le test est positif.'
+    }
+  ];
+  return {
+    titre:'Identification des ions en solution',
+    enonceHTML:'On analyse une solution dont la couleur est <b>'+cfg.couleur_solution+'</b>.<br>'+
+      '<i>Rappel : Cu²⁺ → bleu | Fe²⁺ → vert | Fe³⁺ → orangé | Cl⁻ + AgNO₃ → précipité blanc</i>',
+    dessiner:function(id){
+      var svg='<svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">';
+      svg+='<rect x="0" y="0" width="380" height="180" fill="#F5F5FF" rx="10"/>';
+      var coulFill=cfg.couleur_solution==='incolore'?'#d8edf8':(cfg.couleur_solution==='bleu'?'#4444FF':(cfg.couleur_solution==='vert pâle'?'#9FD356':'#CC5500'));
+      svg+='<ellipse cx="190" cy="105" rx="60" ry="50" fill="'+coulFill+'" opacity="0.4" stroke="#5A4A2F" stroke-width="1.5"/>';
+      svg+='<rect x="155" y="60" width="70" height="90" rx="6" fill="'+coulFill+'" opacity="0.6" stroke="#5A4A2F" stroke-width="1.5"/>';
+      svg+=svgTxt(190,105,cfg.symbole,16,'#5A4A2F');
+      svg+=svgTxt(190,128,cfg.couleur_solution,11,'#5A4A2F');
+      svg+=svgTxt(60,60,'Réactif :',11,'#E07A1F');
+      svg+=svgTxt(60,78,cfg.reactif.substring(0,12),10,'#E07A1F');
+      svg+=svgTxt(310,60,'Résultat :',11,'#6FA52A');
+      svg+=svgTxt(310,78,cfg.precipite.substring(0,12),10,'#6FA52A');
+      svg+=svgTxt(190,168,'Figure non à l\'échelle',11,'#A08B6E');
+      svg+='</svg>';
+      document.getElementById(id).innerHTML=svg;
+    },
+    etapes:etapes
+  };
+}
+
+/* ===== GÉNÉRATEUR 17 : Électrolyse de l'eau ===== */
+function genElectrolyseEau(){
+  var questions=[
+    {
+      cherche:'cathode',
+      gaz:'dihydrogène (H₂)',
+      electrode:'cathode (pôle −)',
+      test:'bûchette enflammée',
+      resultat_test:'détonation (pop)',
+      volume:2,
+      autre_gaz:'dioxygène (O₂)',
+      autre_electrode:'anode (pôle +)',
+      autre_volume:1
+    },
+    {
+      cherche:'anode',
+      gaz:'dioxygène (O₂)',
+      electrode:'anode (pôle +)',
+      test:'bûchette incandescente',
+      resultat_test:'la bûchette se rallume',
+      volume:1,
+      autre_gaz:'dihydrogène (H₂)',
+      autre_electrode:'cathode (pôle −)',
+      autre_volume:2
+    }
+  ];
+  var cfg=choix(questions);
+  var etapes=[
+    {
+      question:'Q1 — Produits de l\'électrolyse (3 pts)',
+      role:'Identifier les gaz produits',
+      clavier:['H₂','O₂','cathode','anode','+','−'],
+      q:'Lors de l\'électrolyse de l\'eau, quels gaz sont produits ? À quelle électrode chaque gaz apparaît-il ?',
+      verif:function(inp){var t=norm(inp);return (t.includes('h2')||t.includes('hydrogene')||t.includes('hydrogen'))&&(t.includes('o2')||t.includes('oxygen')||t.includes('dioxygene'));},
+      aide:'Cathode (−) → H₂ (dihydrogène). Anode (+) → O₂ (dioxygène). Équation : 2 H₂O → 2 H₂ + O₂.',
+      solutionHTML:'Cathode (pôle −) → H₂ (dihydrogène).<br>Anode (pôle +) → O₂ (dioxygène).<br>Équation : 2 H₂O → 2 H₂ + O₂.'
+    },
+    {
+      question:'Q2 — Rapport de volumes (2 pts)',
+      role:'Donner le rapport volumique',
+      q:'On collecte les gaz produits. Le volume de H₂ est toujours le double du volume de O₂. Explique ce rapport 2:1 à partir de l\'équation 2 H₂O → 2 H₂ + O₂.',
+      verif:function(inp){var t=norm(inp);return t.includes('2')&&(t.includes('h2')||t.includes('rapport')||t.includes('double')||t.includes('double'));},
+      aide:'Selon l\'équation : 2 molécules d\'eau donnent 2 molécules de H₂ mais seulement 1 de O₂. Ratio V(H₂)/V(O₂) = 2/1.',
+      solutionHTML:'L\'équation 2 H₂O → 2 H₂ + O₂ montre que pour 2 molécules de H₂ produites, il y a 1 molécule de O₂ → rapport 2:1.'
+    },
+    {
+      question:'Q3 — Test d\'identification (2 pts)',
+      role:'Décrire le test',
+      q:'On recueille le gaz à '+cfg.electrode+'. Quel test réalise-t-on pour l\'identifier ? Que doit-on observer ?',
+      verif:function(inp){var t=norm(inp);return t.includes('buchette')||t.includes('flamme')||t.includes('pop')||t.includes('rallume')||t.includes('detonation')||t.includes('incandesc');},
+      aide:'Test du '+cfg.gaz+' : '+cfg.test+' → '+cfg.resultat_test+'.',
+      solutionHTML:'Test : '+cfg.test+'. Résultat attendu : '+cfg.resultat_test+'. → confirme la présence de '+cfg.gaz+'.'
+    }
+  ];
+  return {
+    titre:'Électrolyse de l\'eau',
+    enonceHTML:'On réalise l\'électrolyse de l\'eau. Du courant électrique décompose l\'eau en deux gaz.<br>'+
+      '<i>Rappel : 2 H₂O → 2 H₂ + O₂ &nbsp;|&nbsp; Cathode (−) → H₂ &nbsp;|&nbsp; Anode (+) → O₂ &nbsp;|&nbsp; V(H₂) = 2 × V(O₂)</i>',
+    dessiner:function(id){
+      var svg='<svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">';
+      svg+='<rect x="0" y="0" width="380" height="180" fill="#EEF8FF" rx="10"/>';
+      svg+='<rect x="80" y="60" width="220" height="80" rx="8" fill="#d8edf8" stroke="#2A7AB0" stroke-width="2"/>';
+      svg+=svgTxt(190,110,'H₂O',20,'#2A7AB0');
+      svg+='<rect x="100" y="30" width="40" height="40" rx="4" fill="#5A4A2F" opacity="0.7"/>';
+      svg+=svgTxt(120,52,'H₂',14,'#fff');
+      svg+='<rect x="240" y="30" width="40" height="40" rx="4" fill="#5A4A2F" opacity="0.7"/>';
+      svg+=svgTxt(260,52,'O₂',14,'#fff');
+      svg+='<line x1="120" y1="60" x2="120" y2="70" stroke="#5A4A2F" stroke-width="2"/>';
+      svg+='<line x1="260" y1="60" x2="260" y2="70" stroke="#5A4A2F" stroke-width="2"/>';
+      svg+=svgTxt(120,145,'Cathode (−)',11,'#E07A1F');
+      svg+=svgTxt(260,145,'Anode (+)',11,'#6FA52A');
+      svg+=svgTxt(120,158,'H₂',11,'#E07A1F');
+      svg+=svgTxt(260,158,'O₂',11,'#6FA52A');
+      svg+=svgTxt(190,170,'V(H₂) = 2 × V(O₂)',11,'#5A4A2F');
+      svg+='</svg>';
+      document.getElementById(id).innerHTML=svg;
+    },
+    etapes:etapes
+  };
+}
+
 /* ===== BANQUE ===== */
 var BANQUE=[
   {notion:'vitesse', gen:genVitesse},
@@ -1171,7 +1598,12 @@ var BANQUE=[
   {notion:'concentrationMassique', gen:genConcentrationMassique},
   {notion:'conservationMasseReaction', gen:genConservationMasseReaction},
   {notion:'pH', gen:genPH},
-  {notion:'formuleChimique', gen:genFormuleChimique}
+  {notion:'formuleChimique', gen:genFormuleChimique},
+  {notion:'acideBase', gen:genAcideBase},
+  {notion:'combustionComplete', gen:genCombustionComplete},
+  {notion:'oxydationFer', gen:genOxydationFer},
+  {notion:'ionsEnSolution', gen:genIonsEnSolution},
+  {notion:'electrolyseEau', gen:genElectrolyseEau}
 ];
 
 var SUJET=[],ecrans=[],ecranActuel=0;
