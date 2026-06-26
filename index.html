@@ -172,6 +172,8 @@ var MATHS=[
   {emoji:'📊',titre:'Organisation & Gestion', soustitre:'DNB blanc — 2 exercices tirés aléatoirement', niveau:'3ème',couleur:'violet',fichier:'dnb-blanc-organisation-gestion.html', type:'dnb'},
   {emoji:'📐',titre:'Espace & Géométrie',     soustitre:'DNB blanc — 2 exercices tirés aléatoirement', niveau:'3ème',couleur:'teal',  fichier:'dnb-blanc-espace-geometrie.html',     type:'dnb'},
   {emoji:'📏',titre:'Grandeurs & Mesures',    soustitre:'DNB blanc — 2 exercices tirés aléatoirement', niveau:'3ème',couleur:'orange',fichier:'dnb-blanc-grandeurs-mesures.html',    type:'dnb'},
+  /* --- 4ème maths --- */
+  {emoji:'📐²',titre:'Pythagore',          soustitre:'Hypoténuse, côtés, réciproque, problèmes',          niveau:'4ème',couleur:'teal',  fichier:'parcours-pythagore-4eme.html'},
   /* --- 5ème --- */
   {emoji:'🌡️',titre:'Nombres relatifs',     soustitre:'Repérer, comparer, additionner, soustraire',     niveau:'5ème',couleur:'bleu',  fichier:'parcours-nombres-relatifs-5eme.html'},
   {emoji:'⬡', titre:'Parallélogramme',       soustitre:'Définir, côtés, angles, cas particuliers',      niveau:'5ème',couleur:'teal',  fichier:'parcours-parallelogramme-5eme.html'},
@@ -274,9 +276,10 @@ function makeSep(){var s=document.createElement('span');s.className='bc-sep';s.t
 /* ======================================================
    ÉTAPE 1 — Choix du niveau
    ====================================================== */
-var LEVELS_ORDER=['3ème','5ème','6ème','2nde'];
+var LEVELS_ORDER=['3ème','4ème','5ème','6ème','2nde'];
 var LEVEL_META={
   '3ème':{emoji:'🎓',couleur:'teal'},
+  '4ème':{emoji:'📐',couleur:'orange'},
   '5ème':{emoji:'📘',couleur:'violet'},
   '6ème':{emoji:'📗',couleur:'vert'},
   '2nde':{emoji:'🚀',couleur:'rouge'}

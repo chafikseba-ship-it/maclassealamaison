@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><script>try{if(!localStorage.getItem('kc_eleve')||!localStorage.getItem('kc_classe'))location.replace('index.html');}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Théorème de Pythagore — 4ème</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#FFC93C; --or-bas:#E0A41E; --vert:#8BC34A; --vert-bas:#5E9426;
+  --orange:#FF8A4C; --orange-bas:#E0672E; --teal:#46BECB; --teal-bas:#2E8A98;
+  --violet:#A78BC4; --violet-bas:#7E61A1; --rouge:#EF5D60; --rouge-bas:#c43e41;
+  --bleu:#4FA3D1; --bleu-bas:#2f7ba8;
+  --bois:#5C3D2E; --bois-clair:#8a6650; --creme:#FFF4DC; --blanc:#FFFDF6;
+  --ombre:0 8px 0 rgba(92,61,46,.18), 0 14px 22px rgba(92,61,46,.12);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--bois);
+  background:linear-gradient(160deg,#FFF7E2 0%,#FFE6BC 55%,#FFD9A0 100%);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.fr{font-family:'Fredoka',sans-serif;font-weight:700}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 90px;position:relative;z-index:1}
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.5;z-index:0}
+.b1{width:180px;height:180px;background:#FFE08A;top:-40px;left:-50px}
+.b2{width:140px;height:140px;background:#FFC1A0;bottom:40px;right:-40px}
+.b3{width:120px;height:120px;background:#BCE29A;top:40%;left:-50px}
+.screen{display:none;animation:pop .35s ease}
+.screen.active{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;border:none;border-radius:18px;
+  padding:14px 22px;cursor:pointer;background:var(--or);box-shadow:0 6px 0 var(--or-bas);
+  transition:transform .08s, box-shadow .08s;display:inline-flex;align-items:center;gap:8px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--or-bas)}
+.btn.vert{background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)}
+.btn.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)}
+.btn.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)}
+.btn.violet{background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)}
+.btn.bleu{background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)}
+.btn.fant{background:var(--blanc);color:var(--bois);box-shadow:0 6px 0 #e7d3a8}
+.btn:focus-visible{outline:4px solid #2e8a98aa;outline-offset:3px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.back{background:var(--blanc);color:var(--bois);border:none;border-radius:14px;width:48px;height:48px;
+  font-size:1.5rem;cursor:pointer;box-shadow:0 5px 0 #e7d3a8;font-family:'Fredoka'}
+.back:active{transform:translateY(4px);box-shadow:0 1px 0 #e7d3a8}
+.card{background:var(--blanc);border-radius:26px;padding:22px;box-shadow:var(--ombre);margin:16px 0}
+.tag{display:inline-block;font-family:'Fredoka';font-weight:600;color:#fff;padding:5px 14px;border-radius:30px;font-size:.85rem;margin-bottom:8px}
+.hero{text-align:center;padding:26px 16px 8px}
+.hero h1{font-size:2.5rem;line-height:1.05;margin:.1em 0;color:var(--bois)}
+.hero .sub{font-size:1.1rem;color:var(--bois-clair);font-weight:700;max-width:560px;margin:6px auto 0}
+.coin{font-size:3.4rem;line-height:1;filter:drop-shadow(0 6px 0 rgba(92,61,46,.15))}
+.map{display:grid;gap:16px;margin-top:8px}
+.etape{display:flex;align-items:center;gap:16px;background:var(--blanc);border-radius:24px;padding:16px 18px;
+  box-shadow:var(--ombre);cursor:pointer;border:4px solid transparent;transition:transform .12s}
+.etape:hover{transform:translateY(-3px)}
+.etape:active{transform:translateY(1px)}
+.etape.lock{opacity:.6;filter:grayscale(.35)}
+.etape .num{flex:0 0 60px;height:60px;border-radius:18px;display:grid;place-items:center;font-family:'Fredoka';font-weight:700;font-size:1.7rem;color:#fff}
+.etape .txt h3{margin:0 0 2px;font-size:1.16rem}
+.etape .txt p{margin:0;color:var(--bois-clair);font-weight:700;font-size:.92rem}
+.etape .status{margin-left:auto;font-size:1.5rem}
+.e1 .num{background:var(--violet);box-shadow:0 5px 0 var(--violet-bas)}
+.e2 .num{background:var(--teal);box-shadow:0 5px 0 var(--teal-bas)}
+.e3 .num{background:var(--orange);box-shadow:0 5px 0 var(--orange-bas)}
+.e4 .num{background:var(--vert);box-shadow:0 5px 0 var(--vert-bas)}
+.e5 .num{background:var(--bleu);box-shadow:0 5px 0 var(--bleu-bas)}
+.lead{font-size:1.08rem;color:var(--bois);font-weight:700;line-height:1.5}
+.mid{text-align:center;margin:16px 0}
+.formule{display:inline-block;background:var(--creme);border:3px dashed var(--or-bas);border-radius:18px;
+  padding:12px 22px;font-family:'Fredoka';font-weight:700;font-size:1.25rem;color:var(--bois)}
+.note{font-size:.95rem;color:var(--bois-clair);font-weight:700;text-align:center;margin-top:10px}
+.exemple{font-size:.96rem;color:var(--bois-clair);font-weight:700;line-height:1.45;margin:8px 0 0}
+.exemple b{color:var(--bois)}
+/* quiz */
+.scorebar{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:4px 0 14px;font-family:'Fredoka';font-weight:700}
+.scorebar .pill{background:var(--creme);border-radius:16px;padding:8px 16px;box-shadow:0 4px 0 #e7d3a8}
+.qcard{text-align:center}
+.prog{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:10px;min-height:1.3em;font-size:1.05rem}
+.qcat{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);margin-bottom:4px}
+.question{font-family:'Fredoka';font-weight:700;font-size:1.32rem;margin:8px 0 4px;line-height:1.45}
+.helpnote{font-size:.95rem;color:var(--bois-clair);font-weight:700;margin:6px 0 4px}
+.ansrow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0}
+.ansrow input{font-family:'Fredoka';font-weight:700;font-size:1.4rem;text-align:center;border:3px solid #f0dca8;border-radius:16px;padding:12px;width:160px;color:var(--bois)}
+.ansrow input:focus{outline:3px solid var(--or-bas);outline-offset:2px;border-color:var(--or-bas)}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.opt{font-family:'Fredoka';font-weight:700;font-size:1.1rem;border:3px solid #e7d3a8;background:var(--blanc);color:var(--bois);
+  border-radius:16px;padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 #e7d3a8}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.opt.good{background:var(--vert);color:#fff;border-color:var(--vert-bas);box-shadow:0 5px 0 var(--vert-bas)}
+.opt.bad{background:var(--orange);color:#fff;border-color:var(--orange-bas);box-shadow:0 5px 0 var(--orange-bas)}
+.feedback{min-height:2.2em;font-family:'Fredoka';font-weight:700;font-size:1.1rem;margin-top:6px;line-height:1.4}
+.feedback.ok{color:var(--vert-bas)}
+.feedback.no{color:var(--orange-bas)}
+.feedlab{font-family:'Nunito';font-weight:800;font-size:.92rem;color:var(--bois-clair);margin-top:6px}
+.stars{font-size:1.5rem;letter-spacing:3px;margin-top:8px;min-height:1.6em}
+.catgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:6px}
+@media(min-width:640px){.catgrid{grid-template-columns:repeat(3,1fr)}}
+.cat{border:none;border-radius:20px;padding:16px 8px;cursor:pointer;color:#fff;font-family:'Fredoka';font-weight:700;font-size:1rem;line-height:1.2;text-align:center}
+.cat .ic{font-size:1.6rem;display:block;margin-bottom:4px}
+.conf{position:fixed;width:12px;height:12px;top:-20px;z-index:50;border-radius:3px;pointer-events:none}
+.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+button,input{touch-action:manipulation}
+@media(max-width:480px){
+  .wrap{padding:14px 12px 80px}
+  .hero{padding:18px 10px 4px}
+  .hero h1{font-size:2rem}.hero .sub{font-size:1rem}.coin{font-size:2.8rem}
+  .card{padding:16px;border-radius:20px}
+  .topbar h2{font-size:1.2rem}
+  .etape{gap:12px;padding:13px 14px}
+  .etape .num{flex:0 0 50px;height:50px;font-size:1.4rem;border-radius:14px}
+  .etape .txt h3{font-size:1.02rem}.etape .txt p{font-size:.82rem}
+  .formule{font-size:1rem;padding:10px 14px;white-space:normal}
+  .lead{font-size:1rem}.question{font-size:1.18rem}
+  .ansrow input{width:60%;max-width:200px}
+  .btn{font-size:1rem;padding:13px 18px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ===================== RÉDACTION GUIDÉE (cascade) ===================== */
+.cascade{margin:6px 0 2px;text-align:left}
+.cstep{display:none;background:var(--creme);border-radius:16px;padding:14px 16px;margin:10px 0;animation:pop .3s ease}
+.cstep.on{display:block}
+.cprompt{font-family:'Fredoka';font-weight:700;color:var(--bois);font-size:1.05rem;margin-bottom:10px;line-height:1.35}
+.cbody{display:flex;flex-direction:column;gap:8px}
+.chint{font-family:'Fredoka';font-weight:700;color:var(--bois-clair,#8a6650);font-size:.98rem;margin-bottom:4px;background:#fff;border-radius:10px;padding:8px 10px;line-height:1.35}
+.cfeed{font-family:'Nunito';font-weight:800;font-size:.92rem;margin-top:8px;min-height:1em;line-height:1.35}
+.cfeed.ok{color:var(--vert-bas)} .cfeed.no{color:var(--orange-bas)}
+.cline{font-family:'Fredoka';font-weight:700;font-size:1.12rem;color:var(--bois);line-height:2.1;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.cblank{font-family:'Fredoka';font-weight:700;font-size:1.05rem;text-align:center;border:none;border-bottom:3px solid var(--or-bas);background:#fff;border-radius:8px 8px 0 0;padding:6px;color:var(--bois)}
+.cblank:focus{outline:3px solid var(--or-bas);outline-offset:1px;border-bottom-color:var(--teal-bas,#2f9aa6);background:#fffdf3}
+.cblank.cbok{border-bottom-color:var(--vert-bas);background:#eef8e3;color:var(--vert-bas)}
+.cblank.cbno{border-bottom-color:var(--orange-bas);background:#fff0e2;color:var(--orange-bas)}
+.cverify{margin-top:10px}
+.cfrac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 5px}
+.cfnum,.cfden{display:block;text-align:center;padding:2px 6px}
+.cfbar{height:3px;background:var(--bois);align-self:stretch;border-radius:2px;margin:2px 0}
+.cblank.mini{font-size:1rem;width:54px}
+/* ===================== CALCULATRICE COLLÈGE ===================== */
+.kc-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border:none;border-radius:50%;
+  background:#1e2328;color:#9aab7e;font-size:1.5rem;cursor:pointer;box-shadow:0 6px 0 #0a0c0e,0 10px 18px rgba(0,0,0,.35);transition:transform .1s;border:2px solid #383e47}
+.kc-fab:active{transform:translateY(4px)}
+.kc-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(440px,calc(100vw - 16px));
+  background:#1e2328;border-radius:12px;padding:0 0 10px;box-shadow:0 14px 0 #0a0c0e,0 20px 40px rgba(0,0,0,.55);animation:kcpop .2s ease;border:2px solid #383e47}
+.kc-panel[hidden]{display:none}
+@keyframes kcpop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.kc-solar{height:8px;background:linear-gradient(90deg,#1a3a1a 0%,#2d5a2d 30%,#1a3a1a 60%,#0d200d 100%);border-radius:10px 10px 0 0;border-bottom:1px solid #0a1a0a}
+.kc-brand{display:flex;align-items:center;padding:6px 10px 4px;border-bottom:1px solid #2d3440}
+.kc-ti{font-family:Georgia,serif;font-weight:700;font-size:1.1rem;color:#fff;letter-spacing:.05em;margin-right:6px}
+.kc-model{font-family:Arial,sans-serif;font-size:.62rem;color:#8a9aaa;flex:1;letter-spacing:.04em;text-transform:uppercase}
+.kc-x{border:none;background:#2d3440;color:#8a9aaa;width:26px;height:26px;border-radius:6px;font-size:.85rem;cursor:pointer;font-family:Arial,sans-serif}
+.kc-x:active{background:#383e47}
+.kc-screen{background:#9aab7e;margin:8px 10px 6px;border-radius:6px;padding:8px 10px;text-align:right;min-height:62px;display:flex;flex-direction:column;justify-content:center;border:2px inset #6a8060;box-shadow:inset 0 2px 6px rgba(0,0,0,.25)}
+.kc-expr{font-family:'Courier New',monospace;font-weight:400;color:#1e2328;font-size:.85rem;min-height:1.1em;word-break:break-all;opacity:.75}
+.kc-res{font-family:'Courier New',monospace;font-weight:700;color:#1e2328;font-size:1.5rem;line-height:1.1;margin-top:2px}
+.kc-keys{padding:6px 8px 0;display:flex;flex-direction:column;gap:5px}
+.kc-row{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.kc-key{border:none;border-radius:5px;padding:10px 0;font-family:Arial,sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;background:#505762;color:#e8eaf0;box-shadow:0 3px 0 #282d35;transition:transform .08s}
+.kc-key:active{transform:translateY(2px);box-shadow:0 1px 0 #282d35}
+.kc-key.wide2{grid-column:span 2}
+.kc-key.op{background:#383e47;color:#b8cce0}
+.kc-key.fn{background:#2d3440;color:#9ab8d0;font-size:.85rem}
+.kc-key.act{background:#8b1a1a;color:#ffcccc;box-shadow:0 3px 0 #4a0a0a}
+.kc-key.nde{background:#2d3440;color:#f5c542;font-size:.8rem}
+.kc-key.nde-hi{background:#1a4a2a;color:#b8f0c8;font-style:italic}
+.kc-key.eq{background:#003280;color:#fff;box-shadow:0 3px 0 #001840}
+/* ===== figures Pythagore ===== */
+.figbox{margin:8px auto 4px;text-align:center}
+.fig{width:100%;max-width:340px;height:auto;display:inline-block}
+.fig .seg{stroke:var(--bois);stroke-width:3;fill:none;stroke-linecap:round}
+.fig text.vlbl{font-family:'Fredoka',sans-serif;font-weight:700;font-size:17px;fill:var(--bois);stroke:#fff;stroke-width:4;paint-order:stroke;stroke-linejoin:round}
+.fig text.vlbl.q{fill:var(--rouge)}
+.fig text.plbl{font-family:'Fredoka',sans-serif;font-weight:700;font-size:16px;fill:var(--orange-bas);stroke:#fff;stroke-width:3.5;paint-order:stroke;stroke-linejoin:round}
+.formule{display:inline-block;background:var(--creme);border:2px dashed var(--teal-bas);border-radius:12px;padding:8px 14px;font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois);font-size:1.15rem;margin:6px 0}
+.steps{list-style:none;padding:0;margin:8px 0;counter-reset:st}
+.steps li{position:relative;padding:8px 8px 8px 42px;margin:6px 0;background:var(--blanc);border-radius:12px;box-shadow:0 3px 0 rgba(92,61,46,.1);font-weight:700;color:var(--bois)}
+.steps li::before{counter-increment:st;content:counter(st);position:absolute;left:8px;top:8px;width:26px;height:26px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-family:'Fredoka'}
+/* ===== nouveau moteur : UI ===== */
+.home{background:var(--creme);border:none;min-width:42px;height:42px;border-radius:50%;font-size:1.15rem;cursor:pointer;box-shadow:0 3px 0 rgba(92,61,46,.16)}
+.home:active{transform:translateY(1px)}
+.serieprog{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--bois-clair);text-align:center;margin-bottom:8px;font-size:1.05rem}
+.result{text-align:center}
+.result .big{font-family:'Fredoka',sans-serif;font-weight:700;font-size:3.2rem;line-height:1;margin:6px 0}
+.result .big.ok{color:var(--vert-bas)} .result .big.no{color:var(--orange-bas)}
+.result .msg{font-weight:700;color:var(--bois);margin:10px auto;max-width:430px;line-height:1.5}
+.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.menulink{display:inline-flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;color:var(--bois-clair);background:var(--blanc);border:none;border-radius:30px;padding:7px 14px;box-shadow:0 3px 0 rgba(92,61,46,.14);cursor:pointer;margin-bottom:6px}
+.brouillon-lab{font-family:'Fredoka';font-weight:700;color:var(--bois-clair);font-size:.88rem;text-align:left;margin:12px 0 4px}
+.brouillon{width:100%;box-sizing:border-box;min-height:96px;resize:vertical;border:3px dashed #e7d3a8;border-radius:16px;padding:10px 14px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.15rem;line-height:1.9;color:var(--bois);background:var(--blanc)}
+.brouillon:focus{outline:none;border-color:var(--orange-bas)}
+.mathpad{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;max-width:360px;margin:12px auto 0}
+.mkey{border:none;border-radius:13px;padding:13px 0;font-family:'Fredoka';font-weight:700;font-size:1.18rem;cursor:pointer;background:var(--blanc);color:var(--bois);box-shadow:0 4px 0 #e7d3a8}
+.mkey:active{transform:translateY(3px);box-shadow:0 1px 0 #e7d3a8}
+.mkey.op{background:var(--creme);color:var(--orange-bas)}
+.mkey.fn{background:#eef6f8;color:var(--teal-bas)}
+.mkey.act{background:var(--rouge);color:#fff;box-shadow:0 4px 0 var(--rouge-bas);font-size:1rem}
+.mkey.nl{background:var(--violet);color:#fff;box-shadow:0 4px 0 var(--violet-bas);font-size:.82rem}
+/* lecon par etapes */
+.lex-step{display:none}
+.lex-step.active{display:block;animation:pop .3s ease}
+.lex-bubble{background:var(--creme);border:3px solid var(--or-bas);border-radius:20px;padding:14px 18px;margin:10px 0;font-family:'Fredoka';font-weight:700;font-size:1.08rem;color:var(--bois);line-height:1.65}
+.lex-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.lex-pill{background:var(--creme);border-radius:14px;padding:9px 15px;font-family:'Fredoka';font-weight:700;font-size:1rem;color:var(--bois);border:2px solid #e7d3a8;text-align:center}
+.lex-pill.accent{background:var(--bleu);color:#fff;border-color:var(--bleu-bas)}
+.lex-pill.lvert{background:var(--vert);color:#fff;border-color:var(--vert-bas)}
+.lex-pill.lorange{background:var(--orange);color:#fff;border-color:var(--orange-bas)}
+.lex-pill.lviolet{background:var(--violet);color:#fff;border-color:var(--violet-bas)}
+.lex-pill.lteal{background:var(--teal);color:#fff;border-color:var(--teal-bas)}
+.lex-pill.rouge{background:var(--rouge);color:#fff;border-color:var(--rouge-bas)}
+.calc-steps{display:flex;flex-direction:column;gap:6px;margin:10px 0;font-family:'Fredoka';font-weight:700;font-size:1.05rem;color:var(--bois)}
+.calc-line{background:var(--blanc);border-radius:12px;padding:9px 16px;box-shadow:0 3px 0 rgba(92,61,46,.08);line-height:1.4}
+.calc-line.hl{background:#e8f5e9;color:var(--vert-bas);box-shadow:0 3px 0 rgba(94,148,38,.15)}
+.calc-line.hno{background:#fff0e2;color:var(--orange-bas);box-shadow:0 3px 0 rgba(224,103,46,.15)}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="wrap">
+
+<section id="accueil" class="screen active">
+  <div class="mid"><button class="menulink" onclick="location.href='index.html'">🏠 Menu principal</button></div>
+  <div class="hero">
+    <div class="coin">📐²</div>
+    <h1>Théorème de Pythagore</h1>
+    <p class="sub">Comprendre la formule, calculer l'hypoténuse, trouver un côté de l'angle droit, utiliser la réciproque et résoudre des problèmes. Il faut 4/5 pour valider chaque entraînement guidé !</p>
+  </div>
+  <div class="map">
+    <div class="etape e1" id="mapComprendre" onclick="tapTheme('comprendre')">
+      <div class="num">🔎</div><div class="txt"><h3>1 · Comprendre Pythagore</h3><p>Formule, hypoténuse, conditions</p></div><div class="status">▶</div>
+    </div>
+    <div class="etape e2" id="mapHypotenuse" onclick="tapTheme('hypotenuse')">
+      <div class="num">📐</div><div class="txt"><h3>2 · Calculer l'hypoténuse</h3><p>AB² = BC² + CA², puis AB = √(AB²)</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e3" id="mapCoteAD" onclick="tapTheme('coteAD')">
+      <div class="num">📏</div><div class="txt"><h3>3 · Côté de l'angle droit</h3><p>BC² = AB² − CA² (ou l'inverse), puis racine</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e4" id="mapReciproque" onclick="tapTheme('reciproque')">
+      <div class="num">↔️</div><div class="txt"><h3>4 · La réciproque</h3><p>Ce triangle est-il rectangle ?</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e5" id="mapProblemes" onclick="tapTheme('problemes')">
+      <div class="num">🧩</div><div class="txt"><h3>5 · Problèmes</h3><p>Échelles, diagonales, situations réelles</p></div><div class="status">🔒</div>
+    </div>
+    <div class="etape e5" id="mapArene" onclick="tapArene()">
+      <div class="num" style="background:var(--rouge);box-shadow:0 5px 0 var(--rouge-bas)">⚔️</div><div class="txt"><h3>Arène finale</h3><p>Tout, au choix (entraînement libre)</p></div><div class="status">🔒</div>
+    </div>
+  </div>
+</section>
+
+<section id="expComprendre" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>📐 Comprendre Pythagore</h2></div>
+
+  <div id="co_step0" class="lex-step active">
+    <div class="card">
+      <span class="tag" style="background:var(--violet)">La leçon — étape 1 sur 3</span>
+      <div class="lex-bubble">
+        📐 Dans un triangle <b>rectangle</b>, un des angles est <b>droit (90°)</b>.<br>Le côté <b>en face</b> de cet angle s'appelle l'<b>hypoténuse</b> — c'est toujours le plus long côté !
+      </div>
+      <div class="figbox" id="lex_fig_comp0"></div>
+      <div class="lex-row">
+        <span class="lex-pill rouge">Angle droit = 90° en C</span>
+        <span class="lex-pill lteal">AB = hypoténuse (face à l'angle droit)</span>
+        <span class="lex-pill">BC et CA = côtés de l'angle droit</span>
+      </div>
+    </div>
+    <div class="mid"><button class="btn violet" onclick="lexNext('co',1)">Suivant →</button></div>
+  </div>
+
+  <div id="co_step1" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--teal)">La leçon — étape 2 sur 3</span>
+      <div class="lex-bubble">
+        🔲 L'aire d'un carré = côté × côté = côté².<br><br>
+        Pythagore a découvert quelque chose de magique : dans un triangle rectangle, si on construit un carré sur chaque côté…<br><br>
+        <b style="color:var(--teal-bas)">aire du petit carré</b> + <b style="color:var(--orange-bas)">aire du moyen carré</b> = <b style="color:var(--violet-bas)">aire du grand carré</b> !
+      </div>
+      <div class="figbox" id="lex_fig_squares"></div>
+      <div class="lex-bubble" style="margin-top:6px">
+        En notation mathématique, ça donne :<br>
+        <div style="text-align:center;font-size:1.4rem;margin:8px 0">BC² + CA² = AB²</div>
+        Connaître deux côtés suffit donc pour trouver le troisième ! 🎯
+      </div>
+    </div>
+    <div class="mid"><button class="btn teal" onclick="lexNext('co',2)">Voir un exemple →</button></div>
+  </div>
+
+  <div id="co_step2" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--orange)">La leçon — étape 3 sur 3</span>
+      <div class="lex-bubble">🎯 Exemple : BC = 4 cm et CA = 3 cm. Quelle est l'hypoténuse AB ?</div>
+      <div class="figbox" id="lex_fig_comp2"></div>
+      <div class="calc-steps">
+        <div class="calc-line">AB² = BC² + CA²</div>
+        <div class="calc-line">AB² = 4² + 3²</div>
+        <div class="calc-line">AB² = 16 + 9</div>
+        <div class="calc-line">AB² = 25</div>
+        <div class="calc-line hl">AB = √25 = <b>5 cm</b> ✅</div>
+      </div>
+      <p class="note">Le triplet (3, 4, 5) est le plus célèbre des triplets de Pythagore — trois entiers qui forment un triangle rectangle !</p>
+    </div>
+    <div class="mid"><button class="btn orange" onclick="startTrain('comprendre')">🚀 Je m'entraîne !</button></div>
+  </div>
+</section>
+
+<section id="expHypotenuse" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>📐 L'hypoténuse</h2></div>
+
+  <div id="hy_step0" class="lex-step active">
+    <div class="card">
+      <span class="tag" style="background:var(--teal)">La leçon — étape 1 sur 3</span>
+      <div class="lex-bubble">
+        📐 On connaît les <b>deux côtés de l'angle droit</b> (BC et CA) et on cherche l'<b>hypoténuse AB</b>.<br><br>
+        On utilise directement : <b>AB² = BC² + CA²</b><br>
+        On calcule chaque carré, on additionne, puis on prend la <b>racine carrée</b>. 🖩
+      </div>
+      <div class="figbox" id="lex_fig_hyp0"></div>
+    </div>
+    <div class="mid"><button class="btn teal" onclick="lexNext('hy',1)">Voir un exemple →</button></div>
+  </div>
+
+  <div id="hy_step1" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--orange)">La leçon — étape 2 sur 3</span>
+      <div class="lex-bubble">🎯 Exemple : BC = 12 cm, CA = 5 cm → trouver l'hypoténuse AB</div>
+      <div class="figbox" id="lex_fig_hyp1"></div>
+      <div class="calc-steps">
+        <div class="calc-line">AB² = BC² + CA²</div>
+        <div class="calc-line">AB² = 12² + 5²</div>
+        <div class="calc-line">AB² = 144 + 25</div>
+        <div class="calc-line">AB² = 169</div>
+        <div class="calc-line hl">AB = √169 = <b>13 cm</b> ✅</div>
+      </div>
+      <p class="note">🖩 Utilise la calculatrice (bouton en bas à droite) pour calculer les carrés et la racine carrée !</p>
+    </div>
+    <div class="mid"><button class="btn orange" onclick="lexNext('hy',2)">Suivant →</button></div>
+  </div>
+
+  <div id="hy_step2" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--vert)">La leçon — étape 3 sur 3</span>
+      <div class="lex-bubble">💡 Rappel de la méthode en 3 étapes :</div>
+      <div class="calc-steps">
+        <div class="calc-line">① Calcule BC² et CA² (les carrés des deux côtés connus)</div>
+        <div class="calc-line">② Additionne → AB² = BC² + CA²</div>
+        <div class="calc-line hl">③ Prends la racine carrée → AB = √(AB²) 🖩</div>
+      </div>
+    </div>
+    <div class="mid"><button class="btn vert" onclick="startTrain('hypotenuse')">🚀 Je m'entraîne !</button></div>
+  </div>
+</section>
+
+<section id="expCoteAD" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>📏 Côté de l'angle droit</h2></div>
+
+  <div id="ca_step0" class="lex-step active">
+    <div class="card">
+      <span class="tag" style="background:var(--orange)">La leçon — étape 1 sur 3</span>
+      <div class="lex-bubble">
+        🤔 Cette fois, <b>l'hypoténuse est connue</b> et c'est <b>un côté de l'angle droit</b> qui est inconnu.<br><br>
+        On part toujours de AB² = BC² + CA², mais on va <b>isoler</b> le côté cherché.
+      </div>
+      <div class="figbox" id="lex_fig_cad0"></div>
+      <div class="lex-row">
+        <span class="lex-pill lorange">AB = hypoténuse (connue)</span>
+        <span class="lex-pill rouge">BC ou CA = côté inconnu (?)</span>
+        <span class="lex-pill">l'autre côté de l'angle droit = connu</span>
+      </div>
+    </div>
+    <div class="mid"><button class="btn orange" onclick="lexNext('ca',1)">Suivant →</button></div>
+  </div>
+
+  <div id="ca_step1" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--violet)">La leçon — étape 2 sur 3</span>
+      <div class="lex-bubble">
+        ✂️ On isole le côté cherché en <b>soustrayant</b> l'autre côté au carré :
+        <div style="text-align:center;margin:12px 0;font-size:1.1rem;line-height:2">
+          AB² = BC² + CA²<br>
+          <span style="font-size:1.3rem">↓</span><br>
+          BC² = AB² <b style="color:var(--rouge-bas)">−</b> CA² (si on cherche BC)
+        </div>
+        ⚠️ C'est une <b style="color:var(--rouge-bas)">soustraction</b>, pas une addition !
+      </div>
+      <div class="lex-row">
+        <span class="lex-pill rouge">⚠️ BC² = AB² − CA² (pas AB² + CA²)</span>
+      </div>
+    </div>
+    <div class="mid"><button class="btn violet" onclick="lexNext('ca',2)">Voir un exemple →</button></div>
+  </div>
+
+  <div id="ca_step2" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--vert)">La leçon — étape 3 sur 3</span>
+      <div class="lex-bubble">🎯 Exemple : AB = 5 cm, BC = 4 cm → trouver CA (côté de l'angle droit)</div>
+      <div class="calc-steps">
+        <div class="calc-line">CA² = AB² − BC²</div>
+        <div class="calc-line">CA² = 5² − 4²</div>
+        <div class="calc-line">CA² = 25 − 16</div>
+        <div class="calc-line">CA² = 9</div>
+        <div class="calc-line hl">CA = √9 = <b>3 cm</b> ✅</div>
+      </div>
+    </div>
+    <div class="mid"><button class="btn vert" onclick="startTrain('coteAD')">🚀 Je m'entraîne !</button></div>
+  </div>
+</section>
+
+<section id="expReciproque" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>↔️ La réciproque</h2></div>
+
+  <div id="re_step0" class="lex-step active">
+    <div class="card">
+      <span class="tag" style="background:var(--vert)">La leçon — étape 1 sur 3</span>
+      <div class="lex-bubble">
+        ❓ La <b>réciproque</b> de Pythagore répond à une nouvelle question :
+        <div style="text-align:center;font-size:1.15rem;margin:10px 0;background:var(--blanc);border-radius:12px;padding:10px">
+          « Ce triangle est-il rectangle ? »
+        </div>
+        On ne calcule plus un côté — on <b>vérifie</b> si la relation AB² = BC² + CA² est vraie !
+      </div>
+    </div>
+    <div class="mid"><button class="btn vert" onclick="lexNext('re',1)">La méthode →</button></div>
+  </div>
+
+  <div id="re_step1" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--bleu)">La leçon — étape 2 sur 3</span>
+      <div class="lex-bubble">🔍 Méthode en 4 étapes :</div>
+      <div class="calc-steps">
+        <div class="calc-line">① Repère le <b>plus grand côté</b> → il joue le rôle de c</div>
+        <div class="calc-line">② Calcule <b>a² + b²</b> (somme des carrés des deux autres)</div>
+        <div class="calc-line">③ Calcule <b>c²</b> (carré du plus grand)</div>
+        <div class="calc-line hl">④ Si a² + b² = c² → <b>rectangle ✅</b> | Sinon → <b>pas rectangle ❌</b></div>
+      </div>
+    </div>
+    <div class="mid"><button class="btn bleu" onclick="lexNext('re',2)">Voir des exemples →</button></div>
+  </div>
+
+  <div id="re_step2" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--orange)">La leçon — étape 3 sur 3</span>
+      <div class="lex-bubble">✅ Côtés 3, 4, 5 — est-ce un triangle rectangle ?</div>
+      <div class="calc-steps">
+        <div class="calc-line">a² + b² = 3² + 4² = 9 + 16 = 25</div>
+        <div class="calc-line">c² = 5² = 25</div>
+        <div class="calc-line hl">25 = 25 → <b>OUI, c'est un triangle rectangle ✅</b></div>
+      </div>
+      <div class="lex-bubble" style="margin-top:14px">❌ Côtés 3, 4, 6 — est-ce un triangle rectangle ?</div>
+      <div class="calc-steps">
+        <div class="calc-line">a² + b² = 3² + 4² = 9 + 16 = 25</div>
+        <div class="calc-line">c² = 6² = 36</div>
+        <div class="calc-line hno">25 ≠ 36 → <b>NON, pas rectangle ❌</b></div>
+      </div>
+    </div>
+    <div class="mid"><button class="btn orange" onclick="startTrain('reciproque')">🚀 Je m'entraîne !</button></div>
+  </div>
+</section>
+
+<section id="expProblemes" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>🧩 Problèmes</h2></div>
+
+  <div id="pr_step0" class="lex-step active">
+    <div class="card">
+      <span class="tag" style="background:var(--bleu)">La leçon — étape 1 sur 3</span>
+      <div class="lex-bubble">
+        🕵️ Dans un problème, Pythagore se cache dans la situation réelle.<br><br>
+        La 1ère étape : <b>identifier le triangle rectangle</b> et reconnaître l'hypoténuse.
+      </div>
+      <div class="lex-row">
+        <span class="lex-pill lteal">🪜 Échelle contre un mur</span>
+        <span class="lex-pill lviolet">🔲 Diagonale d'un rectangle</span>
+        <span class="lex-pill lorange">📍 Distance à vol d'oiseau</span>
+      </div>
+      <p class="note">Dans chaque situation, un triangle rectangle se cache dans la figure !</p>
+    </div>
+    <div class="mid"><button class="btn bleu" onclick="lexNext('pr',1)">Exemple 1 : l'échelle →</button></div>
+  </div>
+
+  <div id="pr_step1" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--teal)">La leçon — étape 2 sur 3</span>
+      <div class="lex-bubble">🪜 Une échelle de <b>5 m</b> est appuyée contre un mur. Son pied est à <b>3 m</b> du mur. À quelle hauteur touche-t-elle le mur ?</div>
+      <div class="figbox" id="lex_fig_prob1"></div>
+      <div class="calc-steps">
+        <div class="calc-line">L'échelle = hypoténuse → h² = c² − d²</div>
+        <div class="calc-line">h² = 5² − 3²</div>
+        <div class="calc-line">h² = 25 − 9 = 16</div>
+        <div class="calc-line hl">h = √16 = <b>4 m</b> ✅</div>
+      </div>
+    </div>
+    <div class="mid"><button class="btn teal" onclick="lexNext('pr',2)">Exemple 2 : le rectangle →</button></div>
+  </div>
+
+  <div id="pr_step2" class="lex-step">
+    <div class="card">
+      <span class="tag" style="background:var(--orange)">La leçon — étape 3 sur 3</span>
+      <div class="lex-bubble">🔲 Un rectangle <b>4 cm × 3 cm</b>. Quelle est la longueur de sa diagonale ?</div>
+      <div class="figbox" id="lex_fig_prob2"></div>
+      <div class="calc-steps">
+        <div class="calc-line">La diagonale = hypoténuse → d² = a² + b²</div>
+        <div class="calc-line">d² = 4² + 3²</div>
+        <div class="calc-line">d² = 16 + 9 = 25</div>
+        <div class="calc-line hl">d = √25 = <b>5 cm</b> ✅</div>
+      </div>
+    </div>
+    <div class="mid"><button class="btn orange" onclick="startTrain('problemes')">🚀 Je m'entraîne !</button></div>
+  </div>
+</section>
+
+<section id="ecranTrain" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go(EXP[currentTheme]||'accueil')">←</button><h2 id="trainTitle">Entraînement</h2></div>
+  <div class="card" id="tq_card">
+    <div class="serieprog" id="tq_prog"></div>
+    <div class="helpnote" id="tq_help"></div>
+    <div class="qcard">
+      <div class="qcat" id="tq_cat"></div>
+      <div class="figbox" id="tq_viz" style="display:none"></div>
+      <div class="question" id="tq_text"></div>
+      <div class="opts" id="tq_opts" style="display:none"></div>
+      <div class="ansrow" id="tq_ansrow">
+        <input id="tq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="tq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="tq_casc" style="display:none"></div>
+      <div id="tq_work">
+        <div class="mathpad" id="tq_pad"></div>
+        <div class="brouillon-lab">✏️ Brouillon — pose tes calculs ligne par ligne (facultatif)</div>
+        <textarea id="tq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici, une par ligne…"></textarea>
+      </div>
+      <div class="feedback" id="tq_feed"></div>
+      <div class="stars" id="tq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="tq_next" style="display:none" onclick="quizNext()">Suivant ➜</button></div>
+    </div>
+  </div>
+  <div class="card result" id="tq_result" style="display:none">
+    <div class="big" id="tq_rbig">0 / 5</div>
+    <div class="msg" id="tq_rmsg"></div>
+    <div class="rbtns" id="tq_rbtns"></div>
+  </div>
+</section>
+
+<section id="arene" class="screen">
+  <div class="topbar"><button class="back" aria-label="Retour au menu" onclick="go('accueil')">←</button><h2>L'arène de Pythagore</h2></div>
+  <div class="card" id="areneMenu">
+    <p class="lead" style="text-align:center">Bravo, séquence terminée ! Entraînement libre, sans note.</p>
+    <div class="catgrid">
+      <button class="cat" style="background:var(--violet);box-shadow:0 6px 0 var(--violet-bas)" onclick="startArene('comprendre')"><span class="ic">🔎</span>Comprendre</button>
+      <button class="cat" style="background:var(--teal);box-shadow:0 6px 0 var(--teal-bas)" onclick="startArene('hypotenuse')"><span class="ic">📐</span>Hypoténuse</button>
+      <button class="cat" style="background:var(--orange);box-shadow:0 6px 0 var(--orange-bas)" onclick="startArene('coteAD')"><span class="ic">📏</span>Côté angle droit</button>
+      <button class="cat" style="background:var(--vert);box-shadow:0 6px 0 var(--vert-bas)" onclick="startArene('reciproque')"><span class="ic">↔️</span>Réciproque</button>
+      <button class="cat" style="background:var(--bleu);box-shadow:0 6px 0 var(--bleu-bas)" onclick="startArene('problemes')"><span class="ic">🧩</span>Problèmes</button>
+    </div>
+    <div class="mid" style="margin-top:18px"><button class="btn" style="background:var(--rouge);box-shadow:0 6px 0 var(--rouge-bas)" onclick="startArene('mix')">🎲 Mode mélangé (tout)</button></div>
+  </div>
+  <div class="card" id="areneJeu" style="display:none">
+    <div class="scorebar"><span class="pill">⭐ <span id="aq_score">0</span></span><span class="pill">🔥 <span id="aq_streak">0</span></span><span class="pill">🎯 <span id="aq_corr">0</span>/<span id="aq_tot">0</span></span></div>
+    <div class="qcard">
+      <div class="qcat" id="aq_cat"></div>
+      <div class="figbox" id="aq_viz" style="display:none"></div>
+      <div class="question" id="aq_text"></div>
+      <div class="opts" id="aq_opts" style="display:none"></div>
+      <div class="ansrow" id="aq_ansrow">
+        <input id="aq_input" inputmode="decimal" placeholder="ta réponse" autocomplete="off">
+        <button class="btn vert" id="aq_valid" onclick="quizValidate()">Valider</button>
+      </div>
+      <div class="cascade" id="aq_casc" style="display:none"></div>
+      <div id="aq_work">
+        <div class="mathpad" id="aq_pad"></div>
+        <div class="brouillon-lab">✏️ Brouillon — pose tes calculs ligne par ligne (facultatif)</div>
+        <textarea id="aq_brouillon" class="brouillon" rows="3" placeholder="Écris tes étapes ici, une par ligne…"></textarea>
+      </div>
+      <div class="feedback" id="aq_feed"></div>
+      <div class="stars" id="aq_stars"></div>
+      <div class="mid" style="margin-top:14px"><button class="btn orange" id="aq_next" style="display:none" onclick="quizNext()">Suivant ➜</button> <button class="btn fant" onclick="finArene()">Changer</button></div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<button class="kc-fab" onclick="kcToggle()" aria-label="Calculatrice">🖩</button>
+<div class="kc-panel" id="kcPanel" hidden>
+  <iframe src="calculatrice-college.html" id="kcFrame" style="width:100%;height:590px;border:none;border-radius:10px;display:block" title="Calculatrice"></iframe>
+</div>
+
+<script>
+/* ===== SUIVI ===== */
+var SUIVI={url:'https://docs.google.com/forms/d/e/1FAIpQLSeQlar3Raf4exyvvOEVt4iszwhz_L_9v4Be_a2RdYbHmcPlNw/formResponse',f:{classe:'entry.1138929909',eleve:'entry.1204022914',parcours:'entry.666753399',statut:'entry.35147014',score:'entry.504264542',total:'entry.80923322'},nom:'Pythagore'};
+function suiviEnvoi(statut,score,total){try{var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom);b.append(SUIVI.f.statut,statut);b.append(SUIVI.f.score,String(score));b.append(SUIVI.f.total,String(total));fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+var SSDONE={};
+function suiviSousSection(label){try{if(SSDONE[label])return;SSDONE[label]=true;var e=localStorage.getItem('kc_eleve')||'?',c=localStorage.getItem('kc_classe')||'?';var co=(localStorage.getItem('kc_college')||'').trim();if(co)c=co+' · '+c;var b=new URLSearchParams();b.append(SUIVI.f.classe,c);b.append(SUIVI.f.eleve,e);b.append(SUIVI.f.parcours,SUIVI.nom+' \u203a '+label);b.append(SUIVI.f.statut,'Termin\u00e9');b.append(SUIVI.f.score,'');b.append(SUIVI.f.total,'');fetch(SUIVI.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()});}catch(_){}}
+
+/* ===== PARCOURS ===== */
+const ORDER=['comprendre','hypotenuse','coteAD','reciproque','problemes'];
+const EXP={comprendre:'expComprendre',hypotenuse:'expHypotenuse',coteAD:'expCoteAD',reciproque:'expReciproque',problemes:'expProblemes'};
+const MAPID={comprendre:'mapComprendre',hypotenuse:'mapHypotenuse',coteAD:'mapCoteAD',reciproque:'mapReciproque',problemes:'mapProblemes'};
+const TITLE={comprendre:'Comprendre Pythagore',hypotenuse:'L\'hypoténuse',coteAD:'Côté de l\'angle droit',reciproque:'La réciproque',problemes:'Problèmes'};
+const unlocked={comprendre:true,hypotenuse:true,coteAD:true,reciproque:true,problemes:true,arene:true};
+const themeDone={comprendre:false,hypotenuse:false,coteAD:false,reciproque:false,problemes:false};
+let currentTheme='comprendre'; const REQUIRED=5;
+const SERIE=10, SEUIL=8;
+const CASCADE_THEMES={hypotenuse:true,coteAD:true,problemes:true};
+function serieLen(){return CASCADE_THEMES[currentTheme]?5:SERIE;}
+function seuilFor(){return CASCADE_THEMES[currentTheme]?4:SEUIL;}
+const CATNOM={comprendre:'Comprendre',comprendre2:'Comprendre',hypotenuse:'Hypoténuse',coteAD:'Côté de l\'angle droit',reciproque:'Réciproque',problemes:'Problèmes',problemes2:'Problèmes'};
+const THEME_CATS={comprendre:['comprendre','comprendre2'],hypotenuse:['hypotenuse'],coteAD:['coteAD'],reciproque:['reciproque'],problemes:['problemes','problemes2']};
+const HELP={
+  comprendre:'Pythagore : AB² = BC² + CA², AB = hypoténuse (angle droit en C). Ne s\'applique qu\'aux triangles rectangles.',
+  hypotenuse:'On pose AB² = BC² + CA², on additionne les carrés, puis AB = √(AB²).',
+  coteAD:'On isole : BC² = AB² − CA² (ou CA² = AB² − BC²), puis racine carrée. Soustraction, pas addition !',
+  reciproque:'Compare BC² + CA² et AB² (AB = plus grand côté). Égaux → rectangle ; différents → pas rectangle.',
+  problemes:'Identifie le triangle rectangle, reconnais l\'hypoténuse AB, puis AB² = BC² + CA² ou côté² = AB² − autre côté².'
+};
+
+/* ===== utilitaires navigation ===== */
+function gid(x){return document.getElementById(x);}
+function go(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid(id).classList.add('active');window.scrollTo(0,0);if(id==='arene')finArene();if(id!=='accueil'){try{history.pushState({screen:id},'','');}catch(_){}}}
+window.addEventListener('popstate',function(){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});gid('accueil').classList.add('active');window.scrollTo(0,0);});
+function wiggle(id){var el=gid(id);el.classList.add('shake');setTimeout(function(){el.classList.remove('shake');},400);}
+function tapTheme(t){if(unlocked[t]||themeDone[t])openTheme(t);else wiggle(MAPID[t]);}
+function tapArene(){if(unlocked.arene)go('arene');else wiggle('mapArene');}
+function openTheme(t){currentTheme=t;go(EXP[t]);}
+function updateMap(){ORDER.forEach(function(t){var c=gid(MAPID[t]);c.classList.toggle('lock',!(unlocked[t]||themeDone[t]));c.querySelector('.status').textContent=themeDone[t]?'✅':(unlocked[t]?'▶':'🔒');});
+  var ar=gid('mapArene');ar.classList.toggle('lock',!unlocked.arene);ar.querySelector('.status').textContent=unlocked.arene?'▶':'🔒';}
+
+/* ===== utilitaires calcul ===== */
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function rint(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function fmtDec(v){if(!isFinite(v))return '?';return (Math.round(v*100)/100).toString().replace('.',',');}
+function svg(c,vb){return '<svg class="fig" viewBox="'+vb+'" xmlns="http://www.w3.org/2000/svg">'+c+'</svg>';}
+function qcm(cat,t,opts,ci,e,viz){var o=shuffle(opts);return {type:'qcm',cat:cat,text:t,options:o,correct:o.indexOf(opts[ci]),explain:e,viz:viz};}
+
+/* ===== figures Pythagore ===== */
+/* TRIPS : [legA, legB, hyp] avec legA >= legB, triplets de Pythagore */
+var TRIPS=[[4,3,5],[12,5,13],[8,6,10],[15,8,17],[12,9,15],[24,7,25]];
+
+function figTriRect(legA,legB,hyp,showSide){
+  /* showSide : 'hyp' | 'legA' | 'legB' | null (tous affichés) */
+  var sc=Math.min(160/Math.max(legA,1),120/Math.max(legB,1));
+  var px=legA*sc, py=legB*sc;
+  var Cx=60,Cy=60+py,Ax=60,Ay=60,Bx=60+px,By=60+py;
+  var sq=11;
+  var s='';
+  /* côtés */
+  s+='<line x1="'+Ax.toFixed(1)+'" y1="'+Ay.toFixed(1)+'" x2="'+Bx.toFixed(1)+'" y2="'+By.toFixed(1)+'" class="seg"/>'; /* hypoténuse AB */
+  s+='<line x1="'+Cx.toFixed(1)+'" y1="'+Cy.toFixed(1)+'" x2="'+Ax.toFixed(1)+'" y2="'+Ay.toFixed(1)+'" class="seg"/>'; /* jambe CA verticale */
+  s+='<line x1="'+Cx.toFixed(1)+'" y1="'+Cy.toFixed(1)+'" x2="'+Bx.toFixed(1)+'" y2="'+By.toFixed(1)+'" class="seg"/>'; /* jambe CB horizontale */
+  /* carré angle droit en C */
+  s+='<polyline points="'+(Cx+sq).toFixed(1)+','+Cy.toFixed(1)+' '+(Cx+sq).toFixed(1)+','+(Cy-sq).toFixed(1)+' '+Cx.toFixed(1)+','+(Cy-sq).toFixed(1)+'" stroke="#5C3D2E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+  /* étiquettes sommets */
+  s+='<text x="'+(Ax-16).toFixed(1)+'" y="'+(Ay+6).toFixed(1)+'" text-anchor="middle" class="plbl">A</text>';
+  s+='<text x="'+(Bx+16).toFixed(1)+'" y="'+(By+6).toFixed(1)+'" text-anchor="middle" class="plbl">B</text>';
+  s+='<text x="'+(Cx-16).toFixed(1)+'" y="'+(Cy+6).toFixed(1)+'" text-anchor="middle" class="plbl">C</text>';
+  /* étiquettes côtés */
+  var lA=(showSide==='legA')?'?':(legA+' cm');
+  var lB=(showSide==='legB')?'?':(legB+' cm');
+  var lH=(showSide==='hyp')?'?':(hyp+' cm');
+  var qA=(showSide==='legA')?' q':'', qB=(showSide==='legB')?' q':'', qH=(showSide==='hyp')?' q':'';
+  /* BC bas (legA horizontal) */
+  s+='<text x="'+((Cx+Bx)/2).toFixed(1)+'" y="'+(Cy+22).toFixed(1)+'" text-anchor="middle" class="vlbl'+qA+'">'+lA+'</text>';
+  /* CA gauche (legB vertical) */
+  s+='<text x="'+(Cx-30).toFixed(1)+'" y="'+((Cy+Ay)/2+6).toFixed(1)+'" text-anchor="middle" class="vlbl'+qB+'">'+lB+'</text>';
+  /* AB hypoténuse (offset haut-droit) */
+  var hmx=((Ax+Bx)/2+20).toFixed(1), hmy=((Ay+By)/2-14).toFixed(1);
+  s+='<text x="'+hmx+'" y="'+hmy+'" text-anchor="start" class="vlbl'+qH+'">'+lH+'</text>';
+  var vbW=Math.round(px+110), vbH=Math.round(py+100);
+  return svg(s,'0 0 '+vbW+' '+vbH);
+}
+
+function figRectDiag(a,b){
+  /* a >= b : longueur et largeur du rectangle */
+  if(b>a){var tmp=a;a=b;b=tmp;}
+  var sc=Math.min(150/Math.max(a,1),90/Math.max(b,1));
+  var pw=a*sc, ph=b*sc;
+  var x0=50,y0=40;
+  var s='';
+  s+='<rect x="'+x0.toFixed(1)+'" y="'+y0.toFixed(1)+'" width="'+pw.toFixed(1)+'" height="'+ph.toFixed(1)+'" fill="#FFF4DC" stroke="#5C3D2E" stroke-width="3" rx="4"/>';
+  s+='<line x1="'+x0.toFixed(1)+'" y1="'+y0.toFixed(1)+'" x2="'+(x0+pw).toFixed(1)+'" y2="'+(y0+ph).toFixed(1)+'" stroke="#E0672E" stroke-width="2.5" stroke-dasharray="7 4"/>';
+  s+='<text x="'+((x0+x0+pw)/2).toFixed(1)+'" y="'+(y0+ph+22).toFixed(1)+'" text-anchor="middle" class="vlbl">'+a+' cm</text>';
+  s+='<text x="'+(x0-25).toFixed(1)+'" y="'+((y0+y0+ph)/2+6).toFixed(1)+'" text-anchor="middle" class="vlbl">'+b+' cm</text>';
+  s+='<text x="'+((x0+x0+pw)/2+16).toFixed(1)+'" y="'+((y0+y0+ph)/2-10).toFixed(1)+'" text-anchor="start" class="vlbl q">?</text>';
+  var vbW=Math.round(pw+110), vbH=Math.round(ph+75);
+  return svg(s,'0 0 '+vbW+' '+vbH);
+}
+
+function figPythagoreCarre(){
+  /* Triangle 3-4-5 × 20 px : C(80,180) angle droit, B(160,180), A(80,120)
+     BC = 4 cm horizontal, CA = 3 cm vertical, AB = 5 cm hypoténuse
+     BC²(teal) s'étend vers le bas, CA²(orange) vers la gauche,
+     AB²(violet) se prolonge en haut à droite (rotation CW de AB : vecteur (60,-80)) */
+  var s='';
+  /* BC² (teal) : C(80,180) B(160,180) (160,260) (80,260) */
+  s+='<polygon points="80,180 160,180 160,260 80,260" fill="#46BECB" fill-opacity=".32" stroke="#2E8A98" stroke-width="2.5" stroke-linejoin="round"/>';
+  s+='<text x="120" y="228" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="16" fill="#2E8A98" stroke="#fff" stroke-width="3" paint-order="stroke">BC²</text>';
+  /* CA² (orange) : A(80,120) C(80,180) (20,180) (20,120) */
+  s+='<polygon points="80,120 80,180 20,180 20,120" fill="#FF8A4C" fill-opacity=".32" stroke="#E0672E" stroke-width="2.5" stroke-linejoin="round"/>';
+  s+='<text x="50" y="153" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="16" fill="#E0672E" stroke="#fff" stroke-width="3" paint-order="stroke">CA²</text>';
+  /* AB² (violet) : A(80,120) B(160,180) B+(60,-80)=(220,100) A+(60,-80)=(140,40) */
+  s+='<polygon points="80,120 160,180 220,100 140,40" fill="#A78BC4" fill-opacity=".32" stroke="#7E61A1" stroke-width="2.5" stroke-linejoin="round"/>';
+  s+='<text x="155" y="115" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="16" fill="#7E61A1" stroke="#fff" stroke-width="3" paint-order="stroke">AB²</text>';
+  /* Triangle par-dessus */
+  s+='<polygon points="80,120 160,180 80,180" fill="#FFF4DC" fill-opacity=".92" stroke="#5C3D2E" stroke-width="3" stroke-linejoin="round"/>';
+  /* Carré angle droit en C */
+  s+='<polyline points="92,180 92,168 80,168" stroke="#5C3D2E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+  /* Étiquettes sommets */
+  s+='<text x="66" y="114" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="15" fill="#E0672E" stroke="#fff" stroke-width="3" paint-order="stroke">A</text>';
+  s+='<text x="173" y="188" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="15" fill="#E0672E" stroke="#fff" stroke-width="3" paint-order="stroke">B</text>';
+  s+='<text x="94" y="197" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="15" fill="#E0672E" stroke="#fff" stroke-width="3" paint-order="stroke">C</text>';
+  return svg(s,'10 30 225 242');
+}
+
+/* ===== générateurs ===== */
+function genComprendre(){
+  var pool=[
+    ['À quoi sert le théorème de Pythagore ?',
+     ['Calculer un côté d\'un triangle rectangle','Calculer un angle','Calculer une aire'],
+     0,'Pythagore calcule un côté manquant dans un triangle rectangle.'],
+    ['Qu\'appelle-t-on l\'hypoténuse ?',
+     ['Le côté en face de l\'angle droit','Un côté adjacent à l\'angle droit','Le plus petit côté'],
+     0,'L\'hypoténuse est le côté opposé à l\'angle droit — toujours le plus long.'],
+    ['Dans c² = a² + b², que représente c ?',
+     ['L\'hypoténuse','Un côté de l\'angle droit','Le périmètre'],
+     0,'c désigne l\'hypoténuse ; a et b désignent les côtés de l\'angle droit.'],
+    ['Pour appliquer le théorème de Pythagore, le triangle doit être…',
+     ['rectangle','isocèle','équilatéral'],
+     0,'Le théorème de Pythagore ne s\'applique qu\'aux triangles rectangles.'],
+    ['L\'hypoténuse est…',
+     ['le côté le plus long du triangle rectangle','le côté le plus court','l\'un quelconque des trois côtés'],
+     0,'L\'hypoténuse est toujours le plus long côté (face à l\'angle droit).'],
+    ['Quel angle caractérise le triangle rectangle ?',
+     ['Un angle de 90°','Un angle de 45°','Un angle de 60°'],
+     0,'Un triangle rectangle possède exactement un angle droit (90°).'],
+    ['Si a = 3 cm et b = 4 cm, quelle est la valeur de c² ?',
+     ['25','7','1'],
+     0,'c² = 3² + 4² = 9 + 16 = 25.'],
+    ['Peut-on appliquer Pythagore à un triangle quelconque (non rectangle) ?',
+     ['Non, seulement aux triangles rectangles','Oui, toujours','Oui, si on connaît deux côtés'],
+     0,'Le théorème de Pythagore ne s\'applique qu\'aux triangles rectangles.'],
+    ['Dans un triangle ABC rectangle en C, quelle est l\'hypoténuse ?',
+     ['AB','AC','BC'],
+     0,'L\'hypoténuse est le côté opposé à l\'angle droit en C, soit AB.'],
+    ['Pythagore permet-il de trouver un angle dans un triangle rectangle ?',
+     ['Non, il calcule des longueurs','Oui, directement','Oui, avec la formule c = a + b'],
+     0,'Pythagore calcule des longueurs, pas des angles (pour les angles : trigonométrie).']
+  ];
+  var q=pick(pool);
+  return qcm('comprendre',q[0],q[1],q[2],q[3],null);
+}
+
+function genComprendre2(){
+  var pool=[
+    ['L\'hypoténuse est-elle toujours le côté le plus long d\'un triangle rectangle ?',
+     ['Oui, toujours','Non, cela dépend','Oui, seulement si le triangle est isocèle'],
+     0,'Dans un triangle rectangle, l\'hypoténuse (face à l\'angle droit) est toujours le plus long côté.'],
+    ['Laquelle de ces formules est correcte pour un triangle rectangle ?',
+     ['c² = a² + b²','c² = a² − b²','c = a + b'],
+     0,'La bonne formule est c² = a² + b² où c est l\'hypoténuse.'],
+    ['Les carrés des côtés de l\'angle droit valent 9 et 16. Quelle est la longueur de l\'hypoténuse ?',
+     ['5','7','25'],
+     0,'c² = 9 + 16 = 25 donc c = √25 = 5.'],
+    ['La réciproque de Pythagore sert à…',
+     ['vérifier si un triangle est rectangle','calculer un côté manquant','calculer une aire'],
+     0,'La réciproque permet de vérifier si un triangle est rectangle en comparant a²+b² et c².'],
+    ['Dans un triangle ABC rectangle en A, quelle est la relation de Pythagore ?',
+     ['BC² = AB² + AC²','AB² = BC² + AC²','AC² = AB² + BC²'],
+     0,'L\'angle droit est en A, donc BC est l\'hypoténuse : BC² = AB² + AC².'],
+    ['Si c = 10 cm, a = 6 cm, quelle est la valeur de b² (b est l\'autre côté de l\'angle droit) ?',
+     ['64','4','136'],
+     0,'b² = c² − a² = 100 − 36 = 64.'],
+    ['Lequel est un triplet de Pythagore (triangle rectangle entier) ?',
+     ['(3, 4, 5)','(2, 3, 4)','(4, 5, 6)'],
+     0,'3²+4² = 9+16 = 25 = 5² : c\'est bien un triplet de Pythagore.']
+  ];
+  var q=pick(pool);
+  return qcm('comprendre',q[0],q[1],q[2],q[3],null);
+}
+
+function genHypotenuse(){
+  var t=pick(TRIPS);
+  var legA=t[0],legB=t[1],hyp=t[2];
+  var steps=[
+    {prompt:'Étape 1 — Applique AB² = BC² + CA² (remplace BC et CA par leurs valeurs).',
+     aide:'BC² = '+legA+'² = '+legA*legA+' et CA² = '+legB+'² = '+legB*legB+'.',
+     parts:['AB² = ',{b:1,kind:'num',ans:legA*legA,show:''+legA*legA,w:58,mini:true},' + ',{b:1,kind:'num',ans:legB*legB,show:''+legB*legB,w:58,mini:true}]},
+    {prompt:'Étape 2 — Additionne '+(legA*legA)+' + '+(legB*legB)+'.',
+     aide:legA*legA+' + '+legB*legB+' = '+hyp*hyp+'.',
+     parts:['AB² = ',{b:1,kind:'num',ans:hyp*hyp,show:''+hyp*hyp,w:68}]},
+    {prompt:'Étape 3 — Prends la racine carrée de '+hyp*hyp+' et conclus.',
+     aide:'√'+hyp*hyp+' = '+hyp+'.',
+     parts:['Donc AB = \u221a'+hyp*hyp+' = ',{b:1,kind:'num',ans:hyp,show:''+hyp,w:62},' cm.']}
+  ];
+  return {type:'cascade',cat:'hypotenuse',
+    sig:'HYP'+legA+'_'+legB,
+    text:'Dans le triangle rectangle ABC (angle droit en C), BC = '+legA+' cm et CA = '+legB+' cm. Calcule AB, l\'hypoténuse.',
+    viz:figTriRect(legA,legB,hyp,'hyp'),
+    steps:steps};
+}
+
+function genCoteAD(){
+  var t=pick(TRIPS);
+  var legA=t[0],legB=t[1],hyp=t[2];
+  var hideA=Math.random()<0.5;
+  var knownLeg=hideA?legB:legA;
+  var unknownLeg=hideA?legA:legB;
+  var showSide=hideA?'legA':'legB';
+  var knownSide=hideA?'CA':'BC';
+  var unknownSide=hideA?'BC':'CA';
+  var steps=[
+    {prompt:'Étape 1 — Isole '+unknownSide+'² : '+unknownSide+'² = AB² \u2212 '+knownSide+'².',
+     aide:'AB = '+hyp+' cm, '+knownSide+' = '+knownLeg+' cm (côté connu). AB² = '+hyp*hyp+', '+knownSide+'² = '+knownLeg*knownLeg+'.',
+     parts:[unknownSide+'² = ',{b:1,kind:'num',ans:hyp*hyp,show:''+hyp*hyp,w:58,mini:true},' \u2212 ',{b:1,kind:'num',ans:knownLeg*knownLeg,show:''+knownLeg*knownLeg,w:58,mini:true}]},
+    {prompt:'Étape 2 — Calcule '+(hyp*hyp)+' \u2212 '+(knownLeg*knownLeg)+'.',
+     aide:hyp*hyp+' \u2212 '+knownLeg*knownLeg+' = '+unknownLeg*unknownLeg+'.',
+     parts:[unknownSide+'² = ',{b:1,kind:'num',ans:unknownLeg*unknownLeg,show:''+unknownLeg*unknownLeg,w:68}]},
+    {prompt:'Étape 3 — Prends la racine carrée de '+unknownLeg*unknownLeg+' et conclus.',
+     aide:'\u221a'+unknownLeg*unknownLeg+' = '+unknownLeg+'.',
+     parts:['Donc '+unknownSide+' = \u221a'+unknownLeg*unknownLeg+' = ',{b:1,kind:'num',ans:unknownLeg,show:''+unknownLeg,w:62},' cm.']}
+  ];
+  return {type:'cascade',cat:'coteAD',
+    sig:'CAD'+legA+'_'+legB+'_'+(hideA?1:0),
+    text:'Dans le triangle rectangle ABC (angle droit en C), AB = '+hyp+' cm et '+knownSide+' = '+knownLeg+' cm. Calcule '+unknownSide+'.',
+    viz:figTriRect(legA,legB,hyp,showSide),
+    steps:steps};
+}
+
+function genReciproque(){
+  var t=pick(TRIPS);
+  var a=t[0],b=t[1],c=t[2];
+  var isRect=Math.random()<0.5;
+  var cGiven=isRect?c:c+pick([1,2]);
+  var sumAB=a*a+b*b;
+  var cSq=cGiven*cGiven;
+  return qcm('reciproque',
+    'Un triangle a des côtés de '+a+' cm, '+b+' cm et '+cGiven+' cm. Est-ce un triangle rectangle ?',
+    ['Oui, c\'est un triangle rectangle','Non, ce n\'est pas un triangle rectangle'],
+    isRect?0:1,
+    a+'² + '+b+'² = '+sumAB+(isRect?' = '+cGiven+'² \u2192 triangle rectangle.':' \u2260 '+cSq+' = '+cGiven+'² \u2192 pas rectangle.'),
+    null);
+}
+
+function genProblemes(){
+  /* Échelle contre un mur */
+  var t=pick(TRIPS);
+  var base=t[1], height=t[0], ladder=t[2]; /* base=petit côté, height=grand côté, ladder=hyp */
+  var steps=[
+    {prompt:'Étape 1 — L\'échelle (hypoténuse), le mur et le sol forment un triangle rectangle. Isole h².',
+     aide:'c = '+ladder+' m (échelle), d = '+base+' m (distance au mur). h² = c² \u2212 d² = '+ladder*ladder+' \u2212 '+base*base+'.',
+     parts:['h² = ',{b:1,kind:'num',ans:ladder*ladder,show:''+ladder*ladder,w:58,mini:true},' \u2212 ',{b:1,kind:'num',ans:base*base,show:''+base*base,w:58,mini:true}]},
+    {prompt:'Étape 2 — Calcule '+(ladder*ladder)+' \u2212 '+(base*base)+'.',
+     aide:ladder*ladder+' \u2212 '+base*base+' = '+height*height+'.',
+     parts:['h² = ',{b:1,kind:'num',ans:height*height,show:''+height*height,w:68}]},
+    {prompt:'Étape 3 — Prends la racine carrée et conclus.',
+     aide:'\u221a'+height*height+' = '+height+'.',
+     parts:['Donc h = ',{b:1,kind:'num',ans:height,show:''+height,w:62},' m.']}
+  ];
+  return {type:'cascade',cat:'problemes',
+    sig:'PL'+base+'_'+height+'_'+ladder,
+    text:'Une échelle de '+ladder+' m est appuyée contre un mur. Son pied est à '+base+' m du mur. À quelle hauteur atteint-elle le mur ?',
+    viz:figTriRect(base,height,ladder,'legB'),
+    steps:steps};
+}
+
+function genProblemes2(){
+  /* Diagonale d'un rectangle */
+  var t=pick(TRIPS);
+  var a=t[0],b=t[1],c=t[2];
+  var steps=[
+    {prompt:'Étape 1 — La diagonale d\'un rectangle est l\'hypoténuse du triangle rectangle. Applique d² = longueur² + largeur².',
+     aide:'a = '+a+' cm (longueur), b = '+b+' cm (largeur). a² = '+a*a+', b² = '+b*b+'.',
+     parts:['d² = ',{b:1,kind:'num',ans:a*a,show:''+a*a,w:58,mini:true},' + ',{b:1,kind:'num',ans:b*b,show:''+b*b,w:58,mini:true}]},
+    {prompt:'Étape 2 — Calcule '+(a*a)+' + '+(b*b)+'.',
+     aide:a*a+' + '+b*b+' = '+c*c+'.',
+     parts:['d² = ',{b:1,kind:'num',ans:c*c,show:''+c*c,w:68}]},
+    {prompt:'Étape 3 — Conclus.',
+     aide:'\u221a'+c*c+' = '+c+'.',
+     parts:['Donc d = ',{b:1,kind:'num',ans:c,show:''+c,w:62},' cm.']}
+  ];
+  return {type:'cascade',cat:'problemes',
+    sig:'PR2'+a+'_'+b,
+    text:'Un rectangle a une longueur de '+a+' cm et une largeur de '+b+' cm. Calcule la longueur de sa diagonale.',
+    viz:figRectDiag(a,b),
+    steps:steps};
+}
+
+var GEN={comprendre:genComprendre,comprendre2:genComprendre2,hypotenuse:genHypotenuse,coteAD:genCoteAD,reciproque:genReciproque,problemes:genProblemes,problemes2:genProblemes2};
+
+/* ===== moteur de quiz (série notée) ===== */
+function confettis(){var cols=['#FFC93C','#8BC34A','#FF8A4C','#46BECB','#A78BC4','#EF5D60'];for(var i=0;i<22;i++){var d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=pick(cols);d.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(d);var fall=2000+Math.random()*1200;d.animate([{top:'-20px',opacity:1},{top:'100vh',opacity:.9}],{duration:fall,easing:'ease-in'});setTimeout((function(el){return function(){el.remove();};})(d),fall);}}
+function parseNum(s){s=String(s).trim().replace(/\u2212/g,'-').replace(/\s/g,'').replace(',','.');if(s==='')return null;if(s.indexOf('/')>=0){var p=s.split('/');if(p.length!==2)return null;var a=parseFloat(p[0]),b=parseFloat(p[1]);if(!isFinite(a)||!isFinite(b)||b===0)return null;return a/b;}var v=parseFloat(s);return isFinite(v)?v:null;}
+var Q={cats:[],guided:false,els:null,score:0,answered:0,correct:0,streak:0,locked:false,cur:null,lastText:'',timer:0};
+function elsTrain(){return {prog:gid('tq_prog'),help:gid('tq_help'),cat:gid('tq_cat'),viz:gid('tq_viz'),text:gid('tq_text'),opts:gid('tq_opts'),ansrow:gid('tq_ansrow'),input:gid('tq_input'),valid:gid('tq_valid'),feed:gid('tq_feed'),stars:gid('tq_stars'),next:gid('tq_next'),casc:gid('tq_casc'),work:gid('tq_work'),card:gid('tq_card'),result:gid('tq_result'),rbig:gid('tq_rbig'),rmsg:gid('tq_rmsg'),rbtns:gid('tq_rbtns')};}
+function elsArene(){return {score:gid('aq_score'),streak:gid('aq_streak'),corr:gid('aq_corr'),tot:gid('aq_tot'),cat:gid('aq_cat'),viz:gid('aq_viz'),text:gid('aq_text'),opts:gid('aq_opts'),ansrow:gid('aq_ansrow'),input:gid('aq_input'),valid:gid('aq_valid'),feed:gid('aq_feed'),stars:gid('aq_stars'),next:gid('aq_next'),casc:gid('aq_casc'),work:gid('aq_work')};}
+function quizStart(cats,guided,els){Q.cats=cats;Q.guided=guided;Q.els=els;Q.score=0;Q.answered=0;Q.correct=0;Q.streak=0;Q.locked=false;Q.lastText='';
+  if(els.result)els.result.style.display='none';if(els.card)els.card.style.display='block';
+  quizScore();quizNext();}
+function quizScore(){var e=Q.els;if(e.score)e.score.textContent=Q.score;if(e.streak)e.streak.textContent=Q.streak;if(e.corr)e.corr.textContent=Q.correct;if(e.tot)e.tot.textContent=Q.answered;
+  if(Q.guided&&e.prog)e.prog.innerHTML='Question <b>'+Math.min(Q.answered+1,serieLen())+'</b> / '+serieLen()+'  \u00b7  \u2705 '+Q.correct;}
+function quizNext(){clearTimeout(Q.timer);
+  if(Q.guided&&Q.answered>=serieLen()){return quizResult();}
+  Q.locked=false;var e=Q.els;e.feed.textContent='';e.feed.className='feedback';if(e.stars)e.stars.textContent='';if(e.next)e.next.style.display='none';
+  if(e.casc){e.casc.style.display='none';e.casc.innerHTML='';}
+  var cat,cur,tries=0;do{cat=pick(Q.cats);cur=GEN[cat]();tries++;}while((cur.sig||cur.text)===Q.lastText&&tries<8);
+  Q.cur=cur;Q.lastText=(cur.sig||cur.text);e.cat.textContent=CATNOM[cat];e.text.textContent=cur.text;
+  if(e.viz){if(cur.viz){e.viz.innerHTML=cur.viz;e.viz.style.display='block';}else{e.viz.innerHTML='';e.viz.style.display='none';}}
+  if(cur.type==='qcm'){if(e.work)e.work.style.display='block';e.ansrow.style.display='none';e.opts.style.display='flex';e.opts.innerHTML='';cur.options.forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=function(){quizPick(i);};e.opts.appendChild(b);});}
+  else if(cur.type==='cascade'){if(e.work)e.work.style.display='none';e.opts.style.display='none';e.ansrow.style.display='none';cascStart(cur,e);}
+  else{if(e.work)e.work.style.display='block';e.opts.style.display='none';e.ansrow.style.display='flex';e.input.value='';e.input.disabled=false;e.valid.disabled=false;e.input.focus();}
+  quizScore();}
+function quizValidate(){if(Q.locked||!Q.cur||Q.cur.type!=='num')return;var e=Q.els;if(!e.input.value.trim()){e.feed.className='feedback no';e.feed.textContent='Écris ta réponse d\'abord !';return;}var v=parseNum(e.input.value);if(v===null){e.feed.className='feedback no';e.feed.textContent='Écris un nombre valide.';return;}e.input.disabled=true;e.valid.disabled=true;var tol=Q.cur.tol||0.01;quizResolve(Math.abs(v-Q.cur.answer)<tol,'La réponse est '+Q.cur.disp+'.');}
+function quizPick(i){if(Q.locked||!Q.cur||Q.cur.type!=='qcm')return;var e=Q.els;var btns=[].slice.call(e.opts.children);btns.forEach(function(b,j){if(j===Q.cur.correct)b.classList.add('good');});if(i!==Q.cur.correct)btns[i].classList.add('bad');quizResolve(i===Q.cur.correct,'La bonne réponse : '+Q.cur.options[Q.cur.correct]+'.');}
+function quizResolve(ok,correctTxt){Q.locked=true;Q.answered++;var e=Q.els;
+  if(ok){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';e.feed.innerHTML='\u2705 Bravo !<div class="feedlab">'+Q.cur.explain+'</div>';if(e.stars)e.stars.textContent='\u2b50'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback no';e.feed.innerHTML='\u274c '+correctTxt+'<div class="feedlab">'+Q.cur.explain+'</div>';if(Q.cur.type==='num'){e.input.classList.add('shake');setTimeout(function(){e.input.classList.remove('shake');},400);}}
+  quizScore();
+  var last=Q.guided&&Q.answered>=serieLen();
+  if(last){resumeClear();}else if(Q.guided){resumeSave();}
+  if(ok&&!last){Q.timer=setTimeout(quizNext,1500);}
+  else{if(e.next){e.next.textContent=last?'Voir mon résultat \u279c':'Suivant \u279c';e.next.style.display='inline-flex';}}}
+function quizResult(){var e=Q.els;if(!e.result)return;e.card.style.display='none';e.result.style.display='block';
+  var SL=serieLen(),SE=seuilFor();
+  var sc=Q.correct,ok=sc>=SE;try{suiviEnvoi(ok?'Valid\u00e9':'Échou\u00e9',sc,SL);}catch(_){}
+  e.rbig.textContent=sc+' / '+SL;e.rbig.className='big '+(ok?'ok':'no');
+  e.rmsg.innerHTML=ok?'Parcours valid\u00e9\u00a0! Tu as obtenu <b>'+sc+'/'+SL+'</b>. Bravo\u00a0\ud83d\udc4f':'Il faut <b>'+SE+'/'+SL+'</b> pour valider, et tu as eu '+sc+'/'+SL+'. Tu peux recommencer avec une nouvelle s\u00e9rie, ou passer \u00e0 la suite si tu pr\u00e9f\u00e8res.';
+  e.rbtns.innerHTML='';
+  if(ok){var b=document.createElement('button');b.className='btn vert';b.textContent='Continuer \u279c';b.onclick=trainDone;e.rbtns.appendChild(b);}
+  else{var b1=document.createElement('button');b1.className='btn orange';b1.textContent='Nouvelle s\u00e9rie \ud83d\udd04';b1.onclick=function(){startTrain(currentTheme);};e.rbtns.appendChild(b1);
+       var b2=document.createElement('button');b2.className='btn fant';b2.textContent='Passer \u00e0 la suite \u279c';b2.onclick=trainDone;e.rbtns.appendChild(b2);}}
+
+/* ===== rédaction guidée (cascade) ===== */
+function cscEl(sel){return Q.casc.box.querySelector(sel);}
+function cascStart(cur,e){
+  Q.casc={q:cur,clean:true,box:e.casc};
+  e.casc.style.display='block';
+  var html='';
+  cur.steps.forEach(function(st,idx){
+    html+='<div class="cstep'+(idx===0?' on':'')+'" id="cstep'+idx+'">'
+        +'<div class="cprompt">'+st.prompt+'</div>'
+        +'<div class="cbody" id="cbody'+idx+'"></div>'
+        +'<div class="cfeed" id="cfeed'+idx+'"></div></div>';
+  });
+  e.casc.innerHTML=html;
+  cascRender(e,0);
+}
+function cascMkBlank(p,e,idx){
+  var inp=document.createElement('input');inp.className='cblank'+(p.mini?' mini':'');
+  inp.setAttribute('inputmode',p.kind==='num'?'decimal':'text');inp.autocomplete='off';
+  if(p.ph)inp.placeholder=p.ph;if(p.w)inp.style.width=p.w+'px';
+  inp.addEventListener('focus',function(){MATHTARGET=this;});inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();cascVerify(e,idx);}});
+  Q.casc.q.steps[idx]._blanks.push({bk:p,el:inp});return inp;
+}
+function cascRenderParts(parent,arr,e,idx){
+  arr.forEach(function(p){
+    if(typeof p==='string'){var sp=document.createElement('span');sp.textContent=p;parent.appendChild(sp);}
+    else if(p.frac){var f=document.createElement('span');f.className='cfrac';
+      var nu=document.createElement('span');nu.className='cfnum';cascRenderParts(nu,p.frac[0],e,idx);
+      var ba=document.createElement('span');ba.className='cfbar';
+      var de=document.createElement('span');de.className='cfden';cascRenderParts(de,p.frac[1],e,idx);
+      f.appendChild(nu);f.appendChild(ba);f.appendChild(de);parent.appendChild(f);}
+    else{parent.appendChild(cascMkBlank(p,e,idx));}
+  });
+}
+function cascRender(e,idx){
+  var st=Q.casc.q.steps[idx],body=cscEl('#cbody'+idx);body.innerHTML='';st._tries=0;st._done=false;st._blanks=[];
+  var line=document.createElement('div');line.className='cline';
+  cascRenderParts(line,st.parts,e,idx);
+  body.appendChild(line);
+  var row=document.createElement('div');row.className='cverify';
+  var btn=document.createElement('button');btn.className='btn vert';btn.textContent='Vérifier';btn.onclick=function(){cascVerify(e,idx);};
+  row.appendChild(btn);body.appendChild(row);
+  var f=st._blanks[0];if(f)setTimeout(function(){try{f.el.focus();}catch(_){}},60);
+}
+function normTxt(s){return String(s).toLowerCase().trim().replace(/\s+/g,'').replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ïî]/g,'i').replace(/[ôö]/g,'o').replace(/[ûü]/g,'u').replace(/['']/g,'').replace(/\u207b\u00b9/g,'-1');}
+function sortLetters(s){return s.split('').sort().join('');}
+function blankOK(bk,raw){
+  if(bk.kind==='num'){var v=parseNum(raw);return v!==null&&Math.abs(v-bk.ans)<(bk.tol||0.001);}
+  var n=normTxt(raw);if(n==='')return false;
+  if(bk.kind==='seg')return bk.accept.indexOf(sortLetters(n))>=0;
+  if(bk.mode==='contains')return bk.accept.some(function(a){return n.indexOf(a)>=0;});
+  return bk.accept.indexOf(n)>=0;
+}
+function cascVerify(e,idx){
+  var st=Q.casc.q.steps[idx];if(st._done)return;var fb=cscEl('#cfeed'+idx);
+  if(st._blanks.some(function(z){return z.el.value.trim()==='';})){fb.className='cfeed no';fb.textContent='Complète toutes les cases.';return;}
+  var allOK=true,txtWrong=false;
+  st._blanks.forEach(function(z){var ok=blankOK(z.bk,z.el.value);z.el.classList.remove('cbok','cbno');z.el.classList.add(ok?'cbok':'cbno');if(!ok){allOK=false;if(z.bk.kind==='text'||z.bk.kind==='seg')txtWrong=true;}});
+  if(allOK){st._done=true;st._blanks.forEach(function(z){z.el.disabled=true;});fb.className='cfeed ok';fb.textContent='\u2705 Bien rédigé.';cascAdvance(e,idx);return;}
+  st._tries++;
+  if(st._tries>=3){Q.casc.clean=false;st._done=true;
+    st._blanks.forEach(function(z){z.el.value=z.bk.show;z.el.disabled=true;z.el.classList.remove('cbno');z.el.classList.add('cbok');});
+    fb.className='cfeed no';fb.textContent='Voici la bonne écriture \u2014 observe-la bien avant de continuer.';cascAdvance(e,idx);}
+  else if(st._tries===2){fb.className='cfeed no';fb.innerHTML='\ud83d\udca1 '+(st.aide||'Reprends doucement et corrige les cases en orange.')+(txtWrong?' <span style="opacity:.85">(l\'orthographe peut être approximative)</span>':'');}
+  else{fb.className='cfeed no';fb.textContent='Pas tout à fait : corrige les cases en orange.';}
+}
+function cascAdvance(e,idx){
+  var nx=idx+1;
+  if(nx<Q.casc.q.steps.length){var blk=cscEl('#cstep'+nx);blk.classList.add('on');cascRender(e,nx);
+    setTimeout(function(){blk.scrollIntoView({behavior:'smooth',block:'center'});},140);}
+  else{cascDone(e);}
+}
+function cascDone(e){
+  Q.locked=true;Q.answered++;
+  if(Q.casc.clean){Q.correct++;Q.streak++;Q.score+=10+Math.min(Q.streak,5)*2;e.feed.className='feedback ok';
+    e.feed.innerHTML='\u2705 Rédaction complète, sans erreur. Bravo\u00a0!';if(e.stars)e.stars.textContent='\u2b50'.repeat(Math.min(Q.streak,5));confettis();}
+  else{Q.streak=0;e.feed.className='feedback ok';e.feed.innerHTML='\ud83d\udc4d Rédaction terminée. Vise zéro erreur pour gagner les étoiles\u00a0!';if(e.stars)e.stars.textContent='';}
+  quizScore();
+  var last=Q.guided&&Q.answered>=serieLen();
+  if(last){resumeClear();}else if(Q.guided){resumeSave();}
+  if(e.next){e.next.textContent=last?'Voir mon résultat \u279c':'Suivant \u279c';e.next.style.display='inline-flex';}
+}
+
+/* ===== reprise de session ===== */
+function _resumeKey(t){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;return 'resume_'+e+'_'+nom+'_'+t;}
+function resumeSave(){if(!Q.guided)return;try{localStorage.setItem(_resumeKey(currentTheme),JSON.stringify({a:Q.answered,c:Q.correct,s:Q.score}));}catch(_){}}
+function resumeClear(t){try{localStorage.removeItem(_resumeKey(t||currentTheme));}catch(_){}}
+function startTrain(t){
+  currentTheme=t;gid('trainTitle').textContent='Entra\u00eenement \u2014 '+TITLE[t];go('ecranTrain');
+  var els=elsTrain();els.help.textContent=HELP[t];
+  var saved=null;try{var _rs=localStorage.getItem(_resumeKey(t));if(_rs)saved=JSON.parse(_rs);}catch(_){}
+  var sl=(typeof serieLen==='function')?serieLen():8;
+  if(saved&&saved.a>0&&saved.a<sl){
+    els.card.style.display='block';if(els.result)els.result.style.display='none';
+    els.prog.innerHTML='Tu avais fait <b>'+saved.a+'\u00a0/\u00a0'+sl+'</b> questions \u00b7 \u2705 '+saved.c+' correctes.';
+    els.text.innerHTML='<div style="text-align:center;padding:8px 0;font-size:1.05rem"><b>Reprendre o\u00f9 tu t\u2019\u00e9tais arr\u00eat\u00e9\u00a0?</b></div>';
+    els.opts.innerHTML='';els.opts.style.display='flex';els.ansrow.style.display='none';
+    if(els.work)els.work.style.display='none';els.feed.textContent='';if(els.stars)els.stars.textContent='';if(els.next)els.next.style.display='none';
+    if(els.casc){els.casc.style.display='none';els.casc.innerHTML='';}
+    Q.locked=true;Q.cur=null;Q.cats=[];Q.guided=true;Q.els=els;
+    var b1=document.createElement('button');b1.className='opt';b1.innerHTML='\u25b6\ufe0f Reprendre (question '+(saved.a+1)+'\u00a0/\u00a0'+sl+')';
+    b1.onclick=function(){quizStart(THEME_CATS[t],true,els);Q.answered=saved.a;Q.correct=saved.c;Q.score=saved.s;quizScore();quizNext();};
+    els.opts.appendChild(b1);
+    var b2=document.createElement('button');b2.className='opt';b2.innerHTML='\ud83d\udd04 Nouvelle s\u00e9rie (repartir de z\u00e9ro)';
+    b2.onclick=function(){resumeClear(t);quizStart(THEME_CATS[t],true,els);};
+    els.opts.appendChild(b2);
+  }else{resumeClear(t);quizStart(THEME_CATS[t],true,els);}
+}
+function trainDone(){var t=currentTheme;themeDone[t]=true;try{suiviSousSection(TITLE[t]);}catch(_){}var idx=ORDER.indexOf(t);if(idx<ORDER.length-1){var nx=ORDER[idx+1];unlocked[nx]=true;updateMap();openTheme(nx);}else{unlocked.arene=true;updateMap();go('arene');}}
+function startArene(cat){gid('areneMenu').style.display='none';gid('areneJeu').style.display='block';var cats=cat==='mix'?ORDER.slice():[cat];quizStart(cats,false,elsArene());}
+function finArene(){gid('areneMenu').style.display='block';gid('areneJeu').style.display='none';}
+
+/* ===== raccourcis clavier ===== */
+document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(!gid('kcPanel').hidden)return;
+  var onT=gid('ecranTrain').classList.contains('active');var onA=gid('arene').classList.contains('active')&&gid('areneJeu').style.display!=='none';
+  if(!(onT||onA))return;var nx=onT?gid('tq_next'):gid('aq_next');
+  if(nx&&nx.style.display!=='none'){quizNext();return;}
+  if(!Q.locked&&Q.cur&&Q.cur.type==='num')quizValidate();});
+
+/* ===== calculatrice ===== */
+function kcToggle(){var p=gid('kcPanel');p.hidden=!p.hidden;}
+window.addEventListener('message',function(e){
+  if(!e.data||e.data.type!=='kc-send')return;
+  var val=String(e.data.value);
+  var inp=document.querySelector('.screen.active #tq_input')||
+          document.querySelector('.screen.active #aq_input')||
+          document.querySelector('#tq_input')||document.querySelector('#aq_input');
+  if(inp){inp.value=val;inp.dispatchEvent(new Event('input'));}
+  gid('kcPanel').hidden=true;
+});
+
+/* ===== navigation leçons par étapes ===== */
+function lexNext(prefix,n){
+  var steps=document.querySelectorAll('[id^="'+prefix+'_step"]');
+  steps.forEach(function(s){s.classList.remove('active');});
+  gid(prefix+'_step'+n).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ===== figures des leçons ===== */
+gid('lex_fig_comp0').innerHTML=figTriRect(4,3,5,null);
+gid('lex_fig_squares').innerHTML=figPythagoreCarre();
+gid('lex_fig_comp2').innerHTML=figTriRect(4,3,5,'hyp');
+gid('lex_fig_hyp0').innerHTML=figTriRect(4,3,5,'hyp');
+gid('lex_fig_hyp1').innerHTML=figTriRect(12,5,13,'hyp');
+gid('lex_fig_cad0').innerHTML=figTriRect(4,3,5,'legB');
+gid('lex_fig_prob1').innerHTML=figTriRect(3,4,5,'legB');
+gid('lex_fig_prob2').innerHTML=figRectDiag(4,3);
+updateMap();
+</script>
+
+<script>
+/* ===== clavier maths + brouillon ===== */
+var MATHTARGET=null;
+function _isVis(el){return !!(el&&(el.offsetWidth||el.offsetHeight||el.getClientRects().length));}
+function _activeInput(){var t=gid('tq_input'),a=gid('aq_input');if(_isVis(t))return t;if(_isVis(a))return a;return t||a;}
+function insertAtCursor(el,txt){if(!el)return;el.focus();var s=el.selectionStart,e=el.selectionEnd,v=el.value;if(typeof s==='number'){el.value=v.slice(0,s)+txt+v.slice(e);var p=s+txt.length;el.selectionStart=el.selectionEnd=p;}else{el.value=v+txt;}}
+function mathBack(el){if(!el)return;el.focus();var s=el.selectionStart,e=el.selectionEnd,v=el.value;if(typeof s!=='number'){el.value=v.slice(0,-1);return;}if(s!==e){el.value=v.slice(0,s)+v.slice(e);el.selectionStart=el.selectionEnd=s;}else if(s>0){el.value=v.slice(0,s-1)+v.slice(s);el.selectionStart=el.selectionEnd=s-1;}}
+function mathAction(a){var t=MATHTARGET||_activeInput();if(!t)return;if(a==='BACK')mathBack(t);else if(a==='CLR'){t.value='';t.focus();}else if(a==='NL')insertAtCursor(t,'\n');else insertAtCursor(t,a);}
+var PADKEYS=[
+ {l:'7',a:'7'},{l:'8',a:'8'},{l:'9',a:'9'},{l:'\u232b',a:'BACK',c:'act'},{l:'C',a:'CLR',c:'act'},
+ {l:'4',a:'4'},{l:'5',a:'5'},{l:'6',a:'6'},{l:'(',a:'(',c:'op'},{l:')',a:')',c:'op'},
+ {l:'1',a:'1'},{l:'2',a:'2'},{l:'3',a:'3'},{l:'x',a:'x',c:'fn'},{l:'x\u00b2',a:'x\u00b2',c:'fn'},
+ {l:'0',a:'0'},{l:',',a:','},{l:'^',a:'^',c:'fn'},{l:'+',a:'+',c:'op'},{l:'\u2212',a:'\u2212',c:'op'},
+ {l:'/',a:'/',c:'op'},{l:'\u00d7',a:'\u00d7',c:'op'},{l:'\u00f7',a:'\u00f7',c:'op'},{l:'=',a:'=',c:'op'},{l:'\u23ce',a:'NL',c:'nl'}
+];
+function buildMathPad(padId){var box=gid(padId);if(!box)return;box.innerHTML='';PADKEYS.forEach(function(k){var b=document.createElement('button');b.type='button';b.className='mkey'+(k.c?' '+k.c:'');b.textContent=k.l;b.addEventListener('mousedown',function(ev){ev.preventDefault();});b.onclick=function(){mathAction(k.a);};box.appendChild(b);});}
+function afterQuizNext(){['tq','aq'].forEach(function(pfx){var ans=gid(pfx+'_ansrow'),work=gid(pfx+'_work'),inp=gid(pfx+'_input'),brou=gid(pfx+'_brouillon');if(!ans||!work)return;var answering=(ans.style.display!=='none')&&_isVis(ans);work.style.display=answering?'block':'none';if(answering){if(brou)brou.value='';if(inp){try{inp.inputMode='none';}catch(_){}}MATHTARGET=inp;}});}
+if(typeof quizNext==='function'){var _qnOrig=quizNext;quizNext=function(){var r=_qnOrig.apply(this,arguments);try{afterQuizNext();}catch(_){}return r;};}
+buildMathPad('tq_pad');buildMathPad('aq_pad');
+['tq_input','aq_input','tq_brouillon','aq_brouillon'].forEach(function(id){var el=gid(id);if(el)el.addEventListener('focus',function(){MATHTARGET=el;});});
+['tq_brouillon','aq_brouillon'].forEach(function(id){var el=gid(id);if(el)el.addEventListener('keydown',function(ev){ev.stopPropagation();});});
+</script>
+
+<script>
+/* ===== sauvegarde progression ===== */
+function _progKey(){var e='';try{e=localStorage.getItem('kc_eleve')||'';}catch(_){}
+  var nom=(typeof SUIVI!=='undefined'&&SUIVI&&SUIVI.nom)?SUIVI.nom:document.title;
+  return 'prog_'+e+'_'+nom;}
+function progSave(){try{localStorage.setItem(_progKey(),JSON.stringify({d:themeDone}));}catch(_){}}
+function progLoad(){try{var s=localStorage.getItem(_progKey());if(!s)return;var o=JSON.parse(s);
+  if(o&&o.d)Object.keys(o.d).forEach(function(k){if(k in themeDone)themeDone[k]=o.d[k];});
+  }catch(_){}}
+if(typeof updateMap==='function'){var _um=updateMap;updateMap=function(){var r=_um.apply(this,arguments);try{progSave();}catch(_){}return r;};}
+try{progLoad();if(typeof updateMap==='function')updateMap();}catch(_){}
+Object.keys(unlocked).forEach(function(k){unlocked[k]=true;});if(typeof updateMap==='function')updateMap();
+</script>
+</body>
+</html>
